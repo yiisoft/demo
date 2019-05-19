@@ -1,0 +1,30 @@
+# IDE & OS files
+.*.swp
+.DS_Store
+.buildpath
+.idea
+.project
+.settings
+Thumbs.db
+nbproject
+
+# Binaries
+chkipper.phar
+composer.phar
+ocular.phar
+php-cs-fixer.phar
+phpstan.phar
+phpunit-skelgen.phar
+phpunit.phar
+
+# local config
+/.env
+/docker-compose.yml
+
+# evolving files
+/.docker/nginx/var/log/nginx/access.log
+/.docker/nginx/var/log/nginx/error.log
+/.docker/php/var/log/php/php.log
+/vendor
+/composer.lock
+/node_modules

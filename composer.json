@@ -1,0 +1,98 @@
+{
+    "name": "yiisoft/yii-demo",
+    "type": "project",
+    "description": "Yii Framework Project Template",
+    "keywords": [
+        "yii",
+        "app",
+        "project",
+        "template"
+    ],
+    "homepage": "https://github.com/yiisoft/yii-demo",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/yiisoft/yii-demo",
+        "issues": "https://github.com/yiisoft/yii-demo/issues",
+        "wiki": "https://github.com/yiisoft/yii-demo/wiki",
+        "forum": "http://www.yiiframework.com/forum/"
+    },
+    "authors": [
+        {
+            "name": "Qiang Xue",
+            "role": "Founder and project lead",
+            "email": "qiang.xue@gmail.com",
+            "homepage": "http://www.yiiframework.com/"
+        },
+        {
+            "name": "Alexander Makarov",
+            "role": "Core framework development",
+            "email": "sam@rmcreative.ru",
+            "homepage": "http://rmcreative.ru/"
+        },
+        {
+            "name": "Carsten Brandt",
+            "role": "Core framework development",
+            "email": "mail@cebe.cc",
+            "homepage": "http://cebe.cc/"
+        },
+        {
+            "name": "Dmitry Naumenko",
+            "role": "Core framework development",
+            "email": "d.naumenko.a@gmail.com"
+        },
+        {
+            "name": "Andrii Vasyliev",
+            "email": "sol@hiqdev.com",
+            "homepage": "http://hipanel.com/"
+        },
+        {
+            "name": "Mehdi Achour",
+            "email": "machour@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2",
+        "yiisoft/yii-base-web": "^3.0@dev",
+        "yiisoft/yii-dataview": "^3.0@dev",
+        "yiisoft/yii-bootstrap4": "^3.0@dev",
+        "yiisoft/yii-jquery": "^3.0@dev",
+        "yiisoft/yii-console": "^3.0@dev",
+        "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/cache": "^3.0@dev",
+        "yiisoft/di": "^3.0@dev",
+        "yiisoft/log": "^3.0@dev",
+        "yiisoft/log-target-file": "^3.0@dev",
+        "yiisoft/rbac": "^3.0@dev",
+        "yiisoft/view": "^3.0@dev",
+        "foxy/foxy": "^1.0"
+    },
+    "require-dev": {
+        "yiisoft/yii-debug": "^3.0@dev",
+        "hiqdev/composer-config-plugin": "^1.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yiisoft\\Yii\\Demo\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        },
+        "config-plugin": {
+            "common": "config/common.php",
+            "params": "config/params.php"
+        }
+    },
+    "config": {
+        "foxy": {
+            "enable-packages": {
+                "*": true
+            }
+        },
+        "fxp-asset": {
+            "enabled": false
+        }
+    }
+}

@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  php:
+    image: yiisoftware/yii2-php:7.2-apache
+    working_dir: /app
+    volumes:
+      - ./:/app
+      # TODO: temporary workaround for public web-root
+      - ./public:/app/web
+      # host-volume for composer cache
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+    ports:
+      - '30080:80'
