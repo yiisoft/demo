@@ -53,22 +53,29 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^7.2",
-        "yiisoft/yii-base-web": "^3.0@dev",
-        "yiisoft/yii-dataview": "^3.0@dev",
-        "yiisoft/yii-bootstrap4": "^3.0@dev",
-        "yiisoft/yii-jquery": "^3.0@dev",
-        "yiisoft/yii-console": "^3.0@dev",
-        "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/active-record": "^3.0@dev",
+        "yiisoft/arrays": "^3.0@dev",
         "yiisoft/cache": "^3.0@dev",
+        "yiisoft/db": "^3.0@dev",
+        "yiisoft/db-mysql": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/log": "^3.0@dev",
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/rbac": "^3.0@dev",
+        "yiisoft/strings": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
-        "foxy/foxy": "^1.0"
+        "yiisoft/yii-base-web": "^3.0@dev",
+        "yiisoft/yii-bootstrap4": "^3.0@dev",
+        "yiisoft/yii-console": "^3.0@dev",
+        "yiisoft/yii-core": "^3.0@dev",
+        "yiisoft/yii-dataview": "^3.0@dev",
+        "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/yii-jquery": "^3.0@dev",
+        "yiisoft/yii-web": "^3.0@dev",
+        "foxy/foxy": "^1.0",
+        "cebe/markdown": "^1.2@dev"
     },
     "require-dev": {
-        "yiisoft/yii-debug": "^3.0@dev",
         "hiqdev/composer-config-plugin": "^1.0@dev"
     },
     "autoload": {
