@@ -89,7 +89,8 @@
         },
         "config-plugin": {
             "common": "config/common.php",
-            "params": "config/params.php"
+            "params": "config/params.php",
+            "web": "config/web.php"
         }
     },
     "config": {
