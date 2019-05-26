@@ -1,6 +1,6 @@
 <?php
 
-namespace Yiisoft\Yii\Demo\controllers;
+namespace Yiisoft\Yii\Demo\Controllers;
 
 use app\helpers\DocHelper;
 use Psr\Log\LoggerInterface;
@@ -11,21 +11,12 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use Yiisoft\Arrays\ArrayHelper;
 
-class SiteController extends Controller
+class DemoController extends Controller
 {
     /**
      * @var LoggerInterface
      */
     private $logger;
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                '__class' => \yii\web\ErrorAction::class,
-            ],
-        ];
-    }
 
     public function __construct($id, $module, LoggerInterface $logger)
     {
@@ -35,8 +26,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        //$articles = $this->db->createCommand('SELECT count(*) FROM article')->queryScalar();
-        $readme = DocHelper::doc($this->app->getAlias('@app/README.md'));
         return $this->render('index', [
             'readme' => $readme,
         ]);

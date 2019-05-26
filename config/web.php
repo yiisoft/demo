@@ -4,11 +4,10 @@ return [
     'app' => [
         'name' => 'Yii Demo',
         'bootstrap' => ['debug' => 'debug'],
-        'controllerNamespace' => \Yiisoft\Yii\Demo\Controllers::class,
-        'aliases' => [
-            '@webroot'  => dirname(__DIR__) . '/public',
-            '@doc'      => dirname(__DIR__) . '/docs',
-            '@npm'      => dirname(__DIR__) . '/node_modules',
+        'modules' => [
+            'demo' => [
+                '__class' => \Yiisoft\Yii\Demo\Module::class,
+            ],
         ],
     ],
     'assetManager' => [
