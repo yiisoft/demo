@@ -16,40 +16,6 @@
         "wiki": "https://github.com/yiisoft/yii-demo/wiki",
         "forum": "http://www.yiiframework.com/forum/"
     },
-    "authors": [
-        {
-            "name": "Qiang Xue",
-            "role": "Founder and project lead",
-            "email": "qiang.xue@gmail.com",
-            "homepage": "http://www.yiiframework.com/"
-        },
-        {
-            "name": "Alexander Makarov",
-            "role": "Core framework development",
-            "email": "sam@rmcreative.ru",
-            "homepage": "http://rmcreative.ru/"
-        },
-        {
-            "name": "Carsten Brandt",
-            "role": "Core framework development",
-            "email": "mail@cebe.cc",
-            "homepage": "http://cebe.cc/"
-        },
-        {
-            "name": "Dmitry Naumenko",
-            "role": "Core framework development",
-            "email": "d.naumenko.a@gmail.com"
-        },
-        {
-            "name": "Andrii Vasyliev",
-            "email": "sol@hiqdev.com",
-            "homepage": "http://hipanel.com/"
-        },
-        {
-            "name": "Mehdi Achour",
-            "email": "machour@gmail.com"
-        }
-    ],
     "minimum-stability": "dev",
     "require": {
         "php": "^7.2",
@@ -59,11 +25,12 @@
         "yiisoft/db": "^3.0@dev",
         "yiisoft/db-mysql": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
-        "yiisoft/docs": "^3.0@dev",
         "yiisoft/log": "^3.0@dev",
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/strings": "^3.0@dev",
+        "yiisoft/var-dumper": "^3.0@dev",
+        "yiisoft/access": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
         "yiisoft/yii-base-web": "^3.0@dev",
         "yiisoft/yii-bootstrap4": "^3.0@dev",
@@ -74,8 +41,8 @@
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-jquery": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
-        "foxy/foxy": "^1.0",
-        "cebe/markdown": "^1.2@dev"
+        "cebe/markdown": "^1.2@dev",
+        "nyholm/psr7": "^1.0"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"
@@ -93,16 +60,6 @@
             "common": "config/common.php",
             "params": "config/params.php",
             "web": "config/web.php"
-        }
-    },
-    "config": {
-        "foxy": {
-            "enable-packages": {
-                "*": true
-            }
-        },
-        "fxp-asset": {
-            "enabled": false
         }
     }
 }
