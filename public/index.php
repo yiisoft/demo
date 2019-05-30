@@ -2,16 +2,16 @@
 
 use hiqdev\composer\config\Builder;
 use yii\di\Container;
-use yii\helpers\Yii;
 
+require dirname(__DIR__) . '/vendor/autoload.php';
 require dirname(__DIR__) . '/src/globals.php';
 
-(function () {
-    require_once dirname(__DIR__, 4) . '/vendor/autoload.php';
+// $config = require Builder::path('web');
+$config = require dirname(__DIR__) . '/config/container.php';
+$container = new Container($config);
 
-    $container = new Container(require Builder::path('web'));
-
-    Yii::setContainer($container);
-
-    $container->get('app')->run();
-})();
+(new \yii\web\Application(
+    $container->get(\yii\web\ServerRequestFactory::class),
+    $container->get(\yii\web\MiddlewareDispatcher::class),
+    $container->get(\yii\web\emitter\EmitterInterface::class)
+))->run();
