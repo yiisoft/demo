@@ -38,4 +38,9 @@ class MiddlewareDispatcherFactory
             new Router($router),
         ], $responseFactory);
     }
+
+    public static function __set_state($state)
+    {
+        return new self();
+    }
 }
