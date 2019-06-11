@@ -18,6 +18,8 @@ use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
 use Yiisoft\Yii\Demo\MiddlewareDispatcherFactory;
 
+$routes = require 'routes.php';
+
 return [
     // PSR-17 factories:
     RequestFactoryInterface::class => Psr17Factory::class,
