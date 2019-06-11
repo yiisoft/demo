@@ -8,9 +8,10 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use yii\di\Reference;
-use yii\web\emitter\EmitterInterface;
-use yii\web\emitter\SapiEmitter;
-use yii\web\MiddlewareDispatcher;
+use Yiisoft\Web\Emitter\EmitterInterface;
+use Yiisoft\Web\Emitter\SapiEmitter;
+use Yiisoft\Web\MiddlewareDispatcher;
+use Yiisoft\Router\RouterFactory;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
@@ -28,7 +29,7 @@ return [
 
     // custom stuff
     EmitterInterface::class => SapiEmitter::class,
-    RouterInterface::class => new FastRouteFactory(),
+    RouterInterface::class => new RouterFactory(new FastRouteFactory(), $routes),
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),

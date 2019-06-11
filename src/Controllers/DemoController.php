@@ -6,9 +6,9 @@ use app\helpers\DocHelper;
 use Psr\Log\LoggerInterface;
 use yii\exceptions\InvalidConfigException;
 use yii\helpers\Json;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\web\Response;
+use Yiisoft\Web\Controller;
+use Yiisoft\Web\NotFoundHttpException;
+use Yiisoft\Web\Response;
 use Yiisoft\Arrays\ArrayHelper;
 
 class DemoController extends Controller
@@ -103,7 +103,7 @@ class DemoController extends Controller
         foreach ($dependencies as $dep) {
             echo $dep['source'] . '@' . $dep['target'] . "\n";
         }
-        
+
     }
 
 }

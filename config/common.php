@@ -40,7 +40,7 @@ return [
         ]);
     },
     'user' => [
-        '__class' => yii\web\User::class,
+        '__class' => Yiisoft\Web\User::class,
         'identityClass' => \app\models\User::class,
     ],
 ];

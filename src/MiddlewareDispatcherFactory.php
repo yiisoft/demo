@@ -5,7 +5,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use yii\di\Container;
-use yii\web\MiddlewareDispatcher;
+use Yiisoft\Web\MiddlewareDispatcher;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouterInterface;
