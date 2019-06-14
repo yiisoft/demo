@@ -12,6 +12,12 @@ use yii\di\Container;
 
     $container = new Container(require Builder::path('web'));
 
+    /* @var \yii\base\Aliases $aliases */
+    $aliases = $container->get(\yii\base\Aliases::class);
+    $aliases->set('@web', __DIR__);
+    $aliases->set('@base', dirname(__DIR__));
+    $aliases->set('@views', dirname(__DIR__) . '/views');
+
     //Yii::setContainer($container);
 
     $container->get('app')->run();

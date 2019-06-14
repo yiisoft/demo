@@ -16,7 +16,7 @@ use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Demo\Factory\MiddlewareDispatcherFactory;
 use Yiisoft\Yii\Demo\Factory\AppRouterFactory;
 
-$basePath = dirname(__DIR__, 2);
+$basePath = dirname(__DIR__);
 
 return [
     // PSR-17 factories:
