@@ -1,5 +1,4 @@
 <?php
-
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -17,6 +16,8 @@ use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Demo\Factory\MiddlewareDispatcherFactory;
 use Yiisoft\Yii\Demo\Factory\AppRouterFactory;
 
+$basePath = dirname(__DIR__);
+
 return [
     // PSR-17 factories:
     RequestFactoryInterface::class => Psr17Factory::class,
@@ -32,6 +33,13 @@ return [
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
+
+    // event dispatcher
+    \Psr\EventDispatcher\ListenerProviderInterface::class => \Yiisoft\EventDispatcher\Provider\Provider::class,
+    \Psr\EventDispatcher\EventDispatcherInterface::class => \Yiisoft\EventDispatcher\Dispatcher::class,
+
+    // view
+    \Yiisoft\View\WebView::class => new \Yiisoft\Yii\Demo\Factory\ViewFactory($basePath . '/views'),
 
     'app' => [
         'name' => 'Yii Demo',
