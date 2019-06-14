@@ -44,7 +44,8 @@
         "yiisoft/yii-web": "^3.0@dev",
         "cebe/markdown": "^1.2@dev",
         "nyholm/psr7": "^1.0",
-        "yiisoft/yii-swiftmailer": "dev-master"
+        "yiisoft/yii-swiftmailer": "dev-master",
+        "yiisoft/injector": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"

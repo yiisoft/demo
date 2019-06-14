@@ -2,27 +2,23 @@
 namespace Yiisoft\Yii\Demo\Factory;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
-use Yiisoft\Web\MiddlewareDispatcher;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Router\RouterInterface;
+use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Web\MiddlewareDispatcher;
 
 class MiddlewareDispatcherFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        /* @var ResponseFactoryInterface $responseFactory */
-            $responseFactory = $container->get(ResponseFactoryInterface::class);
+        /* @var UrlMatcherInterface $router */
+        $router = $container->get(UrlMatcherInterface::class);
 
-            /* @var Router $router */
-            $router = $container->get(RouterInterface::class);
-
-            return new MiddlewareDispatcher([
-                new Router($router),
-            ], $responseFactory);
+        return new MiddlewareDispatcher([
+            new Router($router),
+        ], $container);
     }
 
-    public static function __set_state($state)
+    public static function __set_state(array $state): self
     {
         return new self();
     }

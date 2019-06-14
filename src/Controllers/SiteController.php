@@ -1,11 +1,9 @@
 <?php
-
 namespace Yiisoft\Yii\Demo\Controllers;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
 class SiteController
 {
@@ -23,7 +21,7 @@ class SiteController
         return $response;
     }
 
-    public function testParameter(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
+    public function testParameter(ServerRequestInterface $request): ResponseInterface
     {
         $id = $request->getAttribute('id');
 
