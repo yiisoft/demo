@@ -11,14 +11,11 @@ use yii\di\Reference;
 use Yiisoft\Web\Emitter\EmitterInterface;
 use Yiisoft\Web\Emitter\SapiEmitter;
 use Yiisoft\Web\MiddlewareDispatcher;
-use Yiisoft\Router\RouterFactory;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
-use Yiisoft\Router\FastRoute\FastRouteFactory;
-use Yiisoft\Yii\Demo\MiddlewareDispatcherFactory;
-
-$routes = require 'routes.php';
+use Yiisoft\Yii\Demo\Factory\MiddlewareDispatcherFactory;
+use Yiisoft\Yii\Demo\Factory\AppRouterFactory;
 
 return [
     // PSR-17 factories:
@@ -31,7 +28,7 @@ return [
 
     // custom stuff
     EmitterInterface::class => SapiEmitter::class,
-    RouterInterface::class => new RouterFactory(new FastRouteFactory(), $routes),
+    RouterInterface::class => new AppRouterFactory(),
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
