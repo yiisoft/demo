@@ -4,6 +4,7 @@ namespace Yiisoft\Yii\Demo\Controllers;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\View\WebView;
 
 class SiteController
 {
@@ -14,10 +15,13 @@ class SiteController
         $this->responseFactory = $responseFactory;
     }
 
-    public function index(): ResponseInterface
+    public function index(WebView $view): ResponseInterface
     {
         $response = $this->responseFactory->createResponse();
-        $response->getBody()->write('You are at homepage.');
+
+        $output = $view->render('index');
+
+        $response->getBody()->write($output);
         return $response;
     }
 
