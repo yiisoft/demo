@@ -1,5 +1,5 @@
 <?php
-namespace Yiisoft\Yii\Demo\Factory;
+namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

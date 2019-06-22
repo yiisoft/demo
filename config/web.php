@@ -13,8 +13,8 @@ use Yiisoft\Web\MiddlewareDispatcher;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
-use Yiisoft\Yii\Demo\Factory\MiddlewareDispatcherFactory;
-use Yiisoft\Yii\Demo\Factory\AppRouterFactory;
+use App\Factory\MiddlewareDispatcherFactory;
+use App\Factory\AppRouterFactory;
 
 $basePath = dirname(__DIR__);
 
@@ -39,14 +39,14 @@ return [
     \Psr\EventDispatcher\EventDispatcherInterface::class => \Yiisoft\EventDispatcher\Dispatcher::class,
 
     // view
-    \Yiisoft\View\WebView::class => new \Yiisoft\Yii\Demo\Factory\ViewFactory($basePath . '/views'),
+    \Yiisoft\View\WebView::class => new \App\Factory\ViewFactory($basePath . '/views'),
 
     'app' => [
         'name' => 'Yii Demo',
         'bootstrap' => ['debug' => 'debug'],
         'modules' => [
             'demo' => [
-                '__class' => \Yiisoft\Yii\Demo\Module::class,
+                '__class' => \App\Module::class,
             ],
         ],
     ],

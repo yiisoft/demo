@@ -1,6 +1,6 @@
 <?php
 
-namespace Yiisoft\Yii\Demo;
+namespace App;
 
 class Module extends \yii\base\Module
 {

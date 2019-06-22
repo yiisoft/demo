@@ -1,6 +1,6 @@
 <?php
 
-namespace Yiisoft\Yii\Demo\Controllers;
+namespace App\Controller;
 
 use app\helpers\DocHelper;
 use Psr\Log\LoggerInterface;

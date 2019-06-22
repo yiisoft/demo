@@ -1,5 +1,5 @@
 <?php
-namespace Yiisoft\Yii\Demo\Controllers;
+namespace App\Controller;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
