@@ -7,9 +7,9 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use yii\di\Reference;
-use Yiisoft\Web\Emitter\EmitterInterface;
-use Yiisoft\Web\Emitter\SapiEmitter;
-use Yiisoft\Web\MiddlewareDispatcher;
+use Yiisoft\Yii\Web\Emitter\EmitterInterface;
+use Yiisoft\Yii\Web\Emitter\SapiEmitter;
+use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
@@ -40,30 +40,4 @@ return [
 
     // view
     \Yiisoft\View\WebView::class => new \App\Factory\ViewFactory($basePath . '/views'),
-
-    'app' => [
-        'name' => 'Yii Demo',
-        'bootstrap' => ['debug' => 'debug'],
-        'modules' => [
-            'demo' => [
-                '__class' => \App\Module::class,
-            ],
-        ],
-    ],
-    'assetManager' => [
-        'appendTimestamp' => true,
-        'linkAssets' => true,
-        'bundles' => [
-        \Yiisoft\Yii\Bootstrap4\BootstrapAsset::class => [
-                'css' => [],
-            ]
-        ]
-    ],
-    'urlManager' => [
-        'enablePrettyUrl' => true,
-        'showScriptName' => false,
-        'rules' => [
-            'site/packages/<package:[-\w]+>' => 'site/package',
-        ],
-    ],
 ];

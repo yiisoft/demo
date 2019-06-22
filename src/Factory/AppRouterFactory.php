@@ -5,7 +5,7 @@ use Psr\Container\ContainerInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouterFactory;
-use Yiisoft\Web\Middleware\Controller;
+use Yiisoft\Yii\Web\Middleware\Controller;
 use App\Controller\SiteController;
 
 class AppRouterFactory

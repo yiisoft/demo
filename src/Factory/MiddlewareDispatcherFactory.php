@@ -4,7 +4,7 @@ namespace App\Factory;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlMatcherInterface;
-use Yiisoft\Web\MiddlewareDispatcher;
+use Yiisoft\Yii\Web\MiddlewareDispatcher;
 
 class MiddlewareDispatcherFactory
 {

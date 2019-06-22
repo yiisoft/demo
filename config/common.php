@@ -39,8 +39,4 @@ return [
             'file' => $fileTarget->setCategories(['application']),
         ]);
     },
-    'user' => [
-        '__class' => Yiisoft\Web\User::class,
-        'identityClass' => \app\models\User::class,
-    ],
 ];
