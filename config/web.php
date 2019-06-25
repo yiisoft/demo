@@ -1,12 +1,19 @@
 <?php
+
+use App\Factory\ViewFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-use yii\di\Reference;
+use Yiisoft\EventDispatcher\Dispatcher;
+use Yiisoft\EventDispatcher\Provider\Provider;
+use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Emitter\EmitterInterface;
 use Yiisoft\Yii\Web\Emitter\SapiEmitter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
@@ -35,9 +42,9 @@ return [
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
 
     // event dispatcher
-    \Psr\EventDispatcher\ListenerProviderInterface::class => \Yiisoft\EventDispatcher\Provider\Provider::class,
-    \Psr\EventDispatcher\EventDispatcherInterface::class => \Yiisoft\EventDispatcher\Dispatcher::class,
+    ListenerProviderInterface::class => Provider::class,
+    EventDispatcherInterface::class => Dispatcher::class,
 
     // view
-    \Yiisoft\View\WebView::class => new \App\Factory\ViewFactory($basePath . '/views'),
+    WebView::class => new ViewFactory($basePath . '/views'),
 ];
