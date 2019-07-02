@@ -45,7 +45,8 @@
         "nyholm/psr7": "^1.0",
         "yiisoft/yii-swiftmailer": "dev-master",
         "yiisoft/injector": "^3.0@dev",
-        "yiisoft/factory": "^3.0@dev"
+        "yiisoft/factory": "^3.0@dev",
+        "middlewares/http-authentication": "^1.1"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"

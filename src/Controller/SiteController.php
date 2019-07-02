@@ -40,6 +40,13 @@ class SiteController implements ViewContextInterface
         return $response;
     }
 
+    public function auth(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = $this->responseFactory->createResponse();
+        $response->getBody()->write('Hi ' . $request->getAttribute('username'));
+        return $response;
+    }
+
     private function render(string $view, array $parameters = []): string
     {
         return $this->view->render($view, $parameters, $this);

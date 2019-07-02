@@ -22,6 +22,8 @@ use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
+use Middlewares\BasicAuthentication;
+use Middlewares\DigestAuthentication;
 
 $basePath = dirname(__DIR__);
 
@@ -40,6 +42,28 @@ return [
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
+
+    // middlewares
+    BasicAuthentication::class => [
+        '__class' => BasicAuthentication::class,
+        '__construct()' => [
+            'users' => [
+                'foo' => 'bar',
+            ],
+        ],
+        'realm()' => ['Access to the staging site via basic auth'],
+        'attribute()' => ['username'],
+    ],
+    DigestAuthentication::class => [
+        '__class' => DigestAuthentication::class,
+        '__construct()' => [
+            'users' => [
+                'fzz' => 'baz',
+            ],
+        ],
+        'realm()' => ['Access to the staging site via digest auth'],
+        'attribute()' => ['username'],
+    ],
 
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
