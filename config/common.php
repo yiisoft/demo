@@ -7,7 +7,6 @@ use Yiisoft\Cache\Cache;
 use Yiisoft\Db\Connection;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Log\FileRotator;
-use Yiisoft\Log\Logger;
 
 $params = $params ?? [];
 
@@ -44,7 +43,7 @@ return [
 
         $fileTarget = new Yiisoft\Log\FileTarget($aliases->get('@runtime/logs/app.log'),  $container->get('file-rotator'));
 
-        return new Logger([
+        return new \Yiisoft\Log\Logger([
             'file' => $fileTarget->setCategories(['application']),
         ]);
     },
