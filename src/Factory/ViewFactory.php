@@ -23,9 +23,4 @@ class ViewFactory
         $eventDispatcher = $container->get(EventDispatcherInterface::class);
         return new WebView($this->basePath, $theme, $eventDispatcher, $logger);
     }
-
-    public static function __set_state(array $state): self
-    {
-        return new self($state['basePath']);
-    }
 }

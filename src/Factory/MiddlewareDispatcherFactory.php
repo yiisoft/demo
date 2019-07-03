@@ -17,9 +17,4 @@ class MiddlewareDispatcherFactory
             new Router($router),
         ], $container);
     }
-
-    public static function __set_state(array $state): self
-    {
-        return new self();
-    }
 }

@@ -19,9 +19,4 @@ class AppRouterFactory
 
         return (new RouterFactory(new FastRouteFactory(), $routes))($container);
     }
-
-    public static function __set_state(array $state): self
-    {
-        return new self();
-    }
 }
