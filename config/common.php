@@ -43,7 +43,7 @@ return [
 
         $fileTarget = new Yiisoft\Log\FileTarget($aliases->get('@runtime/logs/app.log'),  $container->get('file-rotator'));
 
-        return new Yiisoft\Log\Logger([
+        return new \Yiisoft\Log\Logger([
             'file' => $fileTarget->setCategories(['application']),
         ]);
     },
