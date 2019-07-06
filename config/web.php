@@ -13,6 +13,7 @@ use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Router\Middleware\Router;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Emitter\EmitterInterface;
 use Yiisoft\Yii\Web\Emitter\SapiEmitter;
@@ -20,7 +21,6 @@ use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
-use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
 
 $basePath = dirname(__DIR__);
@@ -39,7 +39,8 @@ return [
     RouterInterface::class => new AppRouterFactory(),
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
-    MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
+    Router::class => Router::class,
+    MiddlewareDispatcher::class => MiddlewareDispatcher::class,
 
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
