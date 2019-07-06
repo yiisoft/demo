@@ -1,7 +1,7 @@
 <?php
-
 use hiqdev\composer\config\Builder;
-use yii\di\Container;
+use Yiisoft\Di\Container;
+
 //use yii\helpers\Yii;
 
 (function () {

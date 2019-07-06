@@ -1,10 +1,9 @@
 <?php
-
 use yii\base\Aliases;
-use yii\di\Container;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Db\Connection;
+use Yiisoft\Di\Container;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Log\FileRotator;
 
