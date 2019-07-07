@@ -3,18 +3,14 @@ namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 
 class MiddlewareDispatcherFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        /* @var UrlMatcherInterface $router */
-        $router = $container->get(UrlMatcherInterface::class);
+        $router = $container->get(Router::class);
 
-        return new MiddlewareDispatcher([
-            new Router($router),
-        ], $container);
+        return new MiddlewareDispatcher([$router], $container);
     }
 }
