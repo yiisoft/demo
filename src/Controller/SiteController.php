@@ -20,7 +20,7 @@ class SiteController implements ViewContextInterface
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
         $this->view = $view;
-        $this->layout = $aliases->get('@views') . '/layout/main.php';
+        $this->layout = $aliases->get('@views') . '/layout/main';
     }
 
     public function index(): ResponseInterface
@@ -50,8 +50,9 @@ class SiteController implements ViewContextInterface
 
     private function renderContent($content): string
     {
-        if ($this->layout !== null) {
-            return $this->view->renderFile($this->layout, ['content' => $content], $this);
+        $layout = $this->findLayoutFile($this->layout);
+        if ($layout !== null) {
+            return $this->view->renderFile($layout, ['content' => $content], $this);
         }
 
         return $content;
@@ -63,5 +64,18 @@ class SiteController implements ViewContextInterface
     public function getViewPath(): string
     {
         return $this->aliases->get('@views') . '/site';
+    }
+
+    private function findLayoutFile(?string $file): string
+    {
+        if ($file === null) {
+            return null;
+        }
+
+        if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
+            return $file;
+        }
+
+        return $file . '.' . $this->view->defaultExtension;
     }
 }
