@@ -13,12 +13,14 @@ class SiteController implements ViewContextInterface
     private $responseFactory;
     private $aliases;
     private $view;
+    private $layout;
 
     public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view)
     {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
         $this->view = $view;
+        $this->layout = $aliases->get('@views') . '/layout/main.php';
     }
 
     public function index(): ResponseInterface
@@ -42,7 +44,17 @@ class SiteController implements ViewContextInterface
 
     private function render(string $view, array $parameters = []): string
     {
-        return $this->view->render($view, $parameters, $this);
+        $content = $this->view->render($view, $parameters, $this);
+        return $this->renderContent($content);
+    }
+
+    private function renderContent($content): string
+    {
+        if ($this->layout !== null) {
+            return $this->view->renderFile($this->layout, ['content' => $content], $this);
+        }
+
+        return $content;
     }
 
     /**
