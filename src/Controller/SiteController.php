@@ -66,7 +66,7 @@ class SiteController implements ViewContextInterface
         return $this->aliases->get('@views') . '/site';
     }
 
-    private function findLayoutFile(?string $file): string
+    private function findLayoutFile(?string $file): ?string
     {
         if ($file === null) {
             return null;
