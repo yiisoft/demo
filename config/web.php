@@ -26,6 +26,10 @@ use App\Factory\AppRouterFactory;
 $basePath = dirname(__DIR__);
 
 return [
+    \Psr\Container\ContainerInterface::class => function (\Psr\Container\ContainerInterface $container) {
+        return $container;
+    },
+
     // PSR-17 factories:
     RequestFactoryInterface::class => Psr17Factory::class,
     ServerRequestFactoryInterface::class => Psr17Factory::class,
