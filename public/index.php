@@ -9,11 +9,5 @@ use Yiisoft\Di\Container;
     Builder::rebuild();
 
     $container = new Container(require Builder::path('web'));
-
-    $aliases = $container->get(\Yiisoft\Aliases\Aliases::class);
-    $aliases->set('@web', __DIR__);
-    $aliases->set('@base', dirname(__DIR__));
-    $aliases->set('@views', dirname(__DIR__) . '/views');
-
     $container->get('app')->run();
 })();

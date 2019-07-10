@@ -1,5 +1,5 @@
 <?php
-use yii\base\Aliases;
+use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Db\Connection;
@@ -46,4 +46,9 @@ return [
             'file' => $fileTarget->setCategories(['application']),
         ]);
     },
+
+    Aliases::class => [
+        '@root'     => dirname(__DIR__),
+        '@views' => '@root/views',
+    ],
 ];
