@@ -1,8 +1,10 @@
 <?php
+
+use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
-use Yiisoft\Db\Connection;
+use Yiisoft\Cache\CacheInterface;
 use Yiisoft\Di\Container;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Log\FileRotator;
@@ -13,7 +15,7 @@ return [
     'array-cache' => [
         '__class' => ArrayCache::class,
     ],
-    'cache' => [
+    CacheInterface::class => [
         '__class' => Cache::class,
         '__construct()' => [
             0 => Reference::to('array-cache'),
@@ -22,24 +24,17 @@ return [
             '__class' => ArrayCache::class,
         ],
     ],
-    'db' => [
-        '__class'   => Connection::class,
-        'dsn'       => 'sqlite:dbname=' . $params['db.name']
-            . (!empty($params['db.host']) ? (';host=' . $params['db.host']) : '')
-            . (!empty($params['db.port']) ? (';port=' . $params['db.port']) : ''),
-        'username'  => $params['db.user'],
-        'password'  => $params['db.password'],
-    ],
     'file-rotator' => [
         '__class' => FileRotator::class,
         '__construct()' => [
             10
         ]
     ],
-    'logger' => static function (Container $container) {
+
+    LoggerInterface::class => static function (Container $container) {
         $aliases = $container->get(\Yiisoft\Aliases\Aliases::class);
 
-        $fileTarget = new Yiisoft\Log\FileTarget($aliases->get('@runtime/logs/app.log'),  $container->get('file-rotator'));
+        $fileTarget = new Yiisoft\Log\FileTarget($aliases->get('@runtime/logs/app.log'), $container->get('file-rotator'));
 
         return new \Yiisoft\Log\Logger([
             'file' => $fileTarget->setCategories(['application']),
