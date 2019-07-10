@@ -37,8 +37,7 @@ return [
         ]
     ],
     'logger' => static function (Container $container) {
-        /** @var Aliases $aliases */
-        $aliases = $container->get('aliases');
+        $aliases = $container->get(\Yiisoft\Aliases\Aliases::class);
 
         $fileTarget = new Yiisoft\Log\FileTarget($aliases->get('@runtime/logs/app.log'),  $container->get('file-rotator'));
 
