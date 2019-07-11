@@ -32,7 +32,6 @@
         "yiisoft/view": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
-        "yiisoft/yii-base-web": "^3.0@dev",
         "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-captcha": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
