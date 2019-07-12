@@ -1,6 +1,7 @@
 <?php
 use hiqdev\composer\config\Builder;
 use Yiisoft\Di\Container;
+use Yiisoft\Yii\Web\Application;
 
 (function () {
     require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -9,5 +10,5 @@ use Yiisoft\Di\Container;
     Builder::rebuild();
 
     $container = new Container(require Builder::path('web'));
-    $container->get('app')->run();
+    $container->get(Application::class)->run();
 })();
