@@ -23,8 +23,6 @@ use Yiisoft\Router\UrlMatcherInterface;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
 
-$basePath = dirname(__DIR__);
-
 return [
     \Psr\Container\ContainerInterface::class => function (\Psr\Container\ContainerInterface $container) {
         return $container;
@@ -50,5 +48,5 @@ return [
     EventDispatcherInterface::class => Dispatcher::class,
 
     // view
-    WebView::class => new ViewFactory($basePath . '/views'),
+    WebView::class => new ViewFactory(),
 ];

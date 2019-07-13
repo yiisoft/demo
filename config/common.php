@@ -42,7 +42,7 @@ return [
     },
 
     Aliases::class => [
-        '@root'     => dirname(__DIR__),
+        '@root' => dirname(__DIR__),
         '@views' => '@root/views',
     ],
 ];
