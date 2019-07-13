@@ -28,5 +28,4 @@ return [
             10
         ]
     ],
-    LoggerInterface::class => new LoggerFactory(),
 ];
