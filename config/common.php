@@ -22,6 +22,7 @@ return [
             '__class' => ArrayCache::class,
         ],
     ],
+    LoggerInterface::class => new LoggerFactory(),
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,
         '__construct()' => [
