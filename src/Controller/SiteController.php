@@ -1,12 +1,15 @@
 <?php
 namespace App\Controller;
 
+use Psr\Log\LoggerInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
+use Yiisoft\Mailer\MailerInterface;
 
 class SiteController implements ViewContextInterface
 {
@@ -14,13 +17,29 @@ class SiteController implements ViewContextInterface
     private $aliases;
     private $view;
     private $layout;
+    /**
+     * @var LoggerInterface $logger
+     */
+    private $logger;
+    /**
+     * @var MailerInterface $mailer
+     */
+    private $mailer;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view)
+    public function __construct(
+        ResponseFactoryInterface $responseFactory, 
+        Aliases $aliases, 
+        WebView $view, 
+        LoggerInterface $logger,
+        MailerInterface $mailer
+    )
     {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
         $this->view = $view;
         $this->layout = $aliases->get('@views') . '/layout/main';
+        $this->logger = $logger;
+        $this->mailer = $mailer;
     }
 
     public function index(): ResponseInterface
@@ -28,6 +47,55 @@ class SiteController implements ViewContextInterface
         $response = $this->responseFactory->createResponse();
 
         $output = $this->render('index');
+
+        $response->getBody()->write($output);
+        return $response;
+    }
+
+    public function contact(RequestInterface $request): ResponseInterface
+    {
+        $parameters = [];
+        if ($request->getMethod() === 'POST') {
+            $config = array_merge(
+                require $this->aliases->get('@root/config/params.php'),
+                require $this->aliases->get('@root/config/params-local.php'),
+            );
+            $sent = false;
+            $error = '';
+            try {
+                foreach (['subject', 'name', 'email', 'content'] as $name) {
+                    if (empty($_POST[$name])) {
+                        throw new \InvalidArgumentException(ucfirst($name). ' is required');
+                    }
+                }
+                $message = $this->mailer->compose('contact', [
+                        'name' => $_POST['name'],
+                        'email' => $_POST['email'],
+                        'content' => $_POST['content']
+                    ])
+                    ->setSubject($_POST['subject'])
+                    ->setTo($config['supportEmail'])
+                    ->setFrom($config['mailer.username']);
+
+                if (!empty($_FILES['file']['tmp_name'])) {
+                    $file = $_FILES['file'];
+                    $message->attach($file['tmp_name'], ['fileName' => $file['name'], 'contentType' => $file['type']]);
+                }
+
+                $message->send();
+                $sent = true;
+            } catch (\Throwable $e) {
+                $this->logger->error($e);
+                $error = $e->getMessage();
+            }
+            $parameters['sent'] = $sent;
+            $parameters['error'] = $error;
+        }
+
+        $response = $this->responseFactory->createResponse();
+
+        // $this->layout = null;
+        $output = $this->render('contact', $parameters);
 
         $response->getBody()->write($output);
         return $response;

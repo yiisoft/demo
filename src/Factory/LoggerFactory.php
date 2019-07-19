@@ -7,6 +7,7 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Log\FileRotatorInterface;
 use Yiisoft\Log\FileTarget;
 use Yiisoft\Log\Logger;
+use Psr\Log\LogLevel;
 
 class LoggerFactory
 {
@@ -18,9 +19,10 @@ class LoggerFactory
             $aliases->get('@runtime/logs/app.log'),
             $fileRotator
         );
+        $fileTarget->setLevels([LogLevel::EMERGENCY, LogLevel::ERROR, LogLevel::WARNING, LogLevel::INFO, LogLevel::DEBUG]);
 
         return new Logger([
-            'file' => $fileTarget->setCategories(['application']),
+            'file' => $fileTarget,
         ]);
     }
 }

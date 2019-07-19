@@ -14,6 +14,7 @@
         "wiki": "https://github.com/yiisoft/yii-demo/wiki",
         "forum": "http://www.yiiframework.com/forum/"
     },
+    "minimum-stability": "dev",
     "require": {
         "php": "^7.2",
         "yiisoft/active-record": "^3.0@dev",
@@ -41,10 +42,10 @@
         "yiisoft/yii-web": "^3.0@dev",
         "cebe/markdown": "^1.2@dev",
         "nyholm/psr7": "^1.0",
-        "yiisoft/yii-swiftmailer": "dev-master",
         "yiisoft/injector": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
-        "yiisoft/aliases": "^3.0@dev"
+        "yiisoft/aliases": "^3.0@dev",
+        "yiisoft/mailer-swiftmailer": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"
@@ -60,7 +61,10 @@
         },
         "config-plugin": {
             "common": "config/common.php",
-            "params": "config/params.php",
+            "params": [
+                "config/params.php",
+                "?config/params-local.php"
+            ],
             "web": "config/web.php"
         }
     }
