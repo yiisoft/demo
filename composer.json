@@ -15,6 +15,7 @@
         "forum": "http://www.yiiframework.com/forum/"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.2",
         "yiisoft/active-record": "^3.0@dev",
