@@ -56,13 +56,15 @@ class SiteController implements ViewContextInterface
 
     public function contact(ServerRequestInterface $request): ResponseInterface
     {
-        $parameters = [];
+        $body = $request->getParsedBody();
+        $parameters = [
+            'body' => $body,
+        ];
         if ($request->getMethod() === Method::POST) {
             $config = require Builder::path('params');
             $sent = false;
             $error = '';
             try {
-                $body = $request->getParsedBody();
                 foreach (['subject', 'name', 'email', 'content'] as $name) {
                     if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name). ' is required');
