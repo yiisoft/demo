@@ -1,15 +1,17 @@
 <?php
 namespace App\Controller;
 
+use hiqdev\composer\config\Builder;
 use Psr\Log\LoggerInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Router\Method;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Mailer\MailerInterface;
 
 class SiteController implements ViewContextInterface
 {
@@ -52,34 +54,34 @@ class SiteController implements ViewContextInterface
         return $response;
     }
 
-    public function contact(RequestInterface $request): ResponseInterface
+    public function contact(ServerRequestInterface $request): ResponseInterface
     {
         $parameters = [];
-        if ($request->getMethod() === 'POST') {
-            $config = array_merge(
-                require $this->aliases->get('@root/config/params.php'),
-                require $this->aliases->get('@root/config/params-local.php'),
-            );
+        if ($request->getMethod() === Method::POST) {
+            $config = require Builder::path('params');
             $sent = false;
             $error = '';
             try {
+                $body = $request->getParsedBody();
                 foreach (['subject', 'name', 'email', 'content'] as $name) {
-                    if (empty($_POST[$name])) {
+                    if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name). ' is required');
                     }
                 }
                 $message = $this->mailer->compose('contact', [
-                        'name' => $_POST['name'],
-                        'email' => $_POST['email'],
-                        'content' => $_POST['content']
+                        'name' => $body['name'],
+                        'email' => $body['email'],
+                        'content' => $body['content']
                     ])
-                    ->setSubject($_POST['subject'])
+                    ->setSubject($body['subject'])
                     ->setTo($config['supportEmail'])
                     ->setFrom($config['mailer.username']);
 
-                if (!empty($_FILES['file']['tmp_name'])) {
-                    $file = $_FILES['file'];
-                    $message->attach($file['tmp_name'], ['fileName' => $file['name'], 'contentType' => $file['type']]);
+                /** @var UploadedFileInterface[] $files */
+                $files = $request->getUploadedFiles();
+                if (!empty($files['file']) && $files['file']->getError() === UPLOAD_ERR_OK) {
+                    $file = $files['file'];
+                    $message->attachContent($file->getStream()->__toString(), ['fileName' => $file->getClientFilename(), 'contentType' => $file->getClientMediaType()]);
                 }
 
                 $message->send();

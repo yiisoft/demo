@@ -5,7 +5,7 @@
 </div>
 <?php else: ?>
 <div class="alert alert-danger" role="alert">
-  <?= $error ?>
+  <?= htmlspecialchars($error) ?>
 </div>
 <?php endif; ?>
 <?php endif; ?>
