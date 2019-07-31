@@ -47,6 +47,7 @@
         "yiisoft/injector": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/aliases": "^3.0@dev",
+        "yiisoft/mailer": "^3.0@dev",
         "yiisoft/mailer-swiftmailer": "^3.0@dev"
     },
     "require-dev": {
