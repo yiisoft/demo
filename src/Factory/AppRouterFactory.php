@@ -7,6 +7,7 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\RouterFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
 use App\Controller\SiteController;
+use App\Controller\ContactController;
 
 class AppRouterFactory
 {
@@ -14,7 +15,7 @@ class AppRouterFactory
     {
         $routes = [
             Route::get('/')->to(new ActionCaller(SiteController::class, 'index', $container)),
-            Route::anyMethod('/contact')->to(new ActionCaller(SiteController::class, 'contact', $container)),
+            Route::anyMethod('/contact')->to(new ActionCaller(ContactController::class, 'contact', $container)),
             Route::get('/test/{id:\w+}')->to(new ActionCaller(SiteController::class, 'testParameter', $container))
         ];
 
