@@ -11,4 +11,10 @@ return [
     'db.port' => 3306,
     'db.user' => 'user',
     'db.password' => 'password',
+    'mailer.host' => 'smtp.example.com',
+    'mailer.port' => 25,
+    'mailer.encryption' => null,
+    'mailer.username' => 'admin@example.com',
+    'mailer.password' => '',
+    'supportEmail' => 'support@example.com',
 ];

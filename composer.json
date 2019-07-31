@@ -18,6 +18,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.2",
+        "psr/log": "^1.1",
         "yiisoft/active-record": "^3.0@dev",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/cache": "^3.0@dev",
@@ -45,7 +46,8 @@
         "nyholm/psr7": "^1.0",
         "yiisoft/injector": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
-        "yiisoft/aliases": "^3.0@dev"
+        "yiisoft/aliases": "^3.0@dev",
+        "yiisoft/mailer-swiftmailer": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"
@@ -61,7 +63,10 @@
         },
         "config-plugin": {
             "common": "config/common.php",
-            "params": "config/params.php",
+            "params": [
+                "config/params.php",
+                "?config/params-local.php"
+            ],
             "web": "config/web.php"
         }
     }

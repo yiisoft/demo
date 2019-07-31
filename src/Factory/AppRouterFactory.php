@@ -14,6 +14,7 @@ class AppRouterFactory
     {
         $routes = [
             Route::get('/')->to(new ActionCaller(SiteController::class, 'index', $container)),
+            Route::anyMethod('/contact')->to(new ActionCaller(SiteController::class, 'contact', $container)),
             Route::get('/test/{id:\w+}')->to(new ActionCaller(SiteController::class, 'testParameter', $container))
         ];
 
