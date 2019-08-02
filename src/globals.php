@@ -1,4 +1,10 @@
 <?php
-function dd($variable) {
-    \Yiisoft\VarDumper\VarDumper::dump($variable, 10, true);
+if (!function_exists('dd')) {
+   function dd(...$variables) {
+       foreach ($variables as $dumpVariable) {
+           \Yiisoft\VarDumper\VarDumper::dump($dumpVariable, 10, true);
+       }
+
+       die;
+   }
 }
