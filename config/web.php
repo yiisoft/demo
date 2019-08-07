@@ -22,6 +22,8 @@ use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
+use Yiisoft\Yii\Web\Session\Session;
+use Yiisoft\Yii\Web\Session\SessionInterface;
 
 return [
     \Psr\Container\ContainerInterface::class => function (\Psr\Container\ContainerInterface $container) {
@@ -42,6 +44,12 @@ return [
     UrlMatcherInterface::class => Reference::to(RouterInterface::class),
     UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
+    SessionInterface::class => [
+        '__class' => Session::class,
+        '__construct()' => [
+            ['cookie_secure' => 0]
+        ],
+    ],
 
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
