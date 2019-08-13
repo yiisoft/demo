@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
+use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
@@ -12,13 +13,15 @@ abstract class Controller implements ViewContextInterface
     private $aliases;
     private $view;
     private $layout;
+    protected $user;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view)
+    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, User $user)
     {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
         $this->view = $view;
         $this->layout = $aliases->get('@views') . '/layout/main';
+        $this->user = $user;
     }
 
     protected function render(string $view, array $parameters = []): string
@@ -29,9 +32,18 @@ abstract class Controller implements ViewContextInterface
 
     private function renderContent($content): string
     {
+        $user = $this->user->getIdentity();
+
         $layout = $this->findLayoutFile($this->layout);
         if ($layout !== null) {
-            return $this->view->renderFile($layout, ['content' => $content], $this);
+            return $this->view->renderFile(
+                $layout,
+                [
+                    'content' => $content,
+                    'user' => $user,
+                ],
+                $this
+            );
         }
 
         return $content;

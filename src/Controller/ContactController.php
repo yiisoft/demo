@@ -12,17 +12,18 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Router\Method;
 use Yiisoft\View\WebView;
+use Yiisoft\Yii\Web\User\User;
 
 class ContactController extends Controller
 {
     private $mailer;
     private $logger;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, MailerInterface $mailer, LoggerInterface $logger)
+    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, User $user, MailerInterface $mailer, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        parent::__construct($responseFactory, $aliases, $view);
+        parent::__construct($responseFactory, $aliases, $view, $user);
     }
 
     protected function getId(): string

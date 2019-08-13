@@ -57,4 +57,15 @@ return [
 
     // view
     WebView::class => new ViewFactory(),
+
+    // user
+    \Yiisoft\Yii\Web\User\IdentityRepositoryInterface::class => \App\Repository\UserRepository::class,
+    \Yiisoft\Yii\Web\User\User::class => function (\Psr\Container\ContainerInterface $container) {
+        $session = $container->get(SessionInterface::class);
+        $identityRepository = $container->get(\Yiisoft\Yii\Web\User\IdentityRepositoryInterface::class);
+        $eventDispatcher = $container->get(EventDispatcherInterface::class);
+        $user = new Yiisoft\Yii\Web\User\User($identityRepository, $eventDispatcher);
+        $user->setSession($session);
+        return $user;
+    },
 ];
