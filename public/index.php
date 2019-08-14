@@ -2,13 +2,14 @@
 use hiqdev\composer\config\Builder;
 use Yiisoft\Di\Container;
 use Yiisoft\Yii\Web\Application;
+use Yiisoft\Yii\Web\ServerRequestFactory;
 
-(function () {
-    require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-    // Don't do it in production, assembling takes it's time
-    Builder::rebuild();
+// Don't do it in production, assembling takes it's time
+Builder::rebuild();
 
-    $container = new Container(require Builder::path('web'));
-    $container->get(Application::class)->run();
-})();
+$container = new Container(require Builder::path('web'));
+
+$request = $container->get(ServerRequestFactory::class)->createFromGlobals();
+$container->get(Application::class)->handle($request);
