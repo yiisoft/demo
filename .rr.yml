@@ -1,0 +1,9 @@
+http:
+  address: ":8080"
+  workers:
+    command: "php psr-worker.php"
+    pool:
+      numWorkers: 1
+static:
+  dir:   "public"
+  forbid: [".php", ".htaccess"]
