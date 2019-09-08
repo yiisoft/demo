@@ -1,7 +1,9 @@
 <?php
 
+use App\Factory\CycleOrmFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
+use Cycle\ORM\ORMInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
@@ -19,6 +21,7 @@ return [
         '@views' => '@root/views',
         '@resources' => '@root/resources',
         '@src' => '@root/src',
+        '@runtime' => '@root/runtime',
     ],
     CacheInterface::class => [
         '__class' => Cache::class,
@@ -45,4 +48,7 @@ return [
         'setPassword()' => [$params['mailer.password']],
     ],
     MailerInterface::class => new MailerFactory(),
+
+    // Cycle ORM
+    ORMInterface::class => new CycleOrmFactory(),
 ];

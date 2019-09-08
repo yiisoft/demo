@@ -42,10 +42,10 @@ class CreateUser extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $id = $input->getArgument('id');
-        $token = $input->getArgument('token');
-        $login = $input->getArgument('login');
-        $password = $input->getArgument('password');
+        $id = $input->getOption('id');
+        $token = $input->getOption('token');
+        $login = $input->getOption('login');
+        $password = $input->getOption('password');
 
         $user = new User($id, $login);
         $user->setPassword($password);
