@@ -2,6 +2,7 @@
 namespace App\Factory;
 
 use App\Controller\AuthController;
+use App\Controller\CycleController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
 use Yiisoft\Router\Method;
@@ -22,6 +23,8 @@ class AppRouterFactory
 
             Route::methods([Method::GET, Method::POST], '/login')->to(new ActionCaller(AuthController::class, 'login', $container)),
             Route::get('/logout')->to(new ActionCaller(AuthController::class, 'logout', $container)),
+
+            Route::get('/cycle/testConnection')->to(new ActionCaller(CycleController::class, 'testConnection', $container)),
         ];
 
         return (new RouterFactory(new FastRouteFactory(), $routes))($container);

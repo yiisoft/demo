@@ -18,6 +18,7 @@ return [
         '@root' => dirname(__DIR__),
         '@views' => '@root/views',
         '@resources' => '@root/resources',
+        '@src' => '@root/src',
     ],
     CacheInterface::class => [
         '__class' => Cache::class,
