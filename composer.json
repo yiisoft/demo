@@ -19,15 +19,11 @@
     "require": {
         "php": "^7.2",
         "psr/log": "^1.1",
-        "yiisoft/active-record": "^3.0@dev",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/cache": "^3.0@dev",
-        "yiisoft/db": "^3.0@dev",
-        "yiisoft/db-mysql": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/log": "^3.0@dev",
         "yiisoft/log-target-file": "^3.0@dev",
-        "yiisoft/rbac": "^3.0@dev",
         "yiisoft/strings": "^3.0@dev",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/access": "^3.0@dev",
@@ -35,11 +31,7 @@
         "yiisoft/view": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
-        "yiisoft/yii-base-web": "^3.0@dev",
-        "yiisoft/yii-bootstrap4": "^3.0@dev",
-        "yiisoft/yii-captcha": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
-        "yiisoft/yii-jquery": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
         "cebe/markdown": "^1.2@dev",
         "nyholm/psr7": "^1.0",
@@ -70,7 +62,10 @@
                 "config/params.php",
                 "?config/params-local.php"
             ],
-            "web": "config/web.php"
+            "web": [
+                "$common",
+                "config/web.php"
+            ]
         }
     }
 }
