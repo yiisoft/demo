@@ -10,8 +10,6 @@
 
 It's intended to show and test all yii features.
 
-[Yii Framework]: https://github.com/yiisoft/yii-core
-
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii-demo/v/stable.png)](https://packagist.org/packages/yiisoft/yii-demo)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii-demo/downloads.png)](https://packagist.org/packages/yiisoft/yii-demo)
 [![Build Status](https://travis-ci.com/yiisoft/yii-demo.svg?branch=master)](https://travis-ci.com/yiisoft/yii-demo)
