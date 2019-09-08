@@ -39,7 +39,6 @@
         "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-captcha": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
-        "yiisoft/yii-core": "^3.0@dev",
         "yiisoft/yii-jquery": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
         "cebe/markdown": "^1.2@dev",
