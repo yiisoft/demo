@@ -65,6 +65,10 @@
             "web": [
                 "$common",
                 "config/web.php"
+            ],
+            "console": [
+                "$common",
+                "config/console.php"
             ]
         }
     }
