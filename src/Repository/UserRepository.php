@@ -3,38 +3,22 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use Cycle\ORM\ORMInterface;
 use Yiisoft\Yii\Web\User\IdentityInterface;
 use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
 
 class UserRepository implements IdentityRepositoryInterface
 {
-    private const IDENTITIES = [
-        [
-            'id' => '1',
-            'token' => 'test1',
-            'login' => 'samdark',
-            'password' => 'qwerty',
-        ],
-        [
-            'id' => '2',
-            'token' => 'test2',
-            'login' => 'hiqsol',
-            'password' => 'qwerty',
-        ],
-    ];
+    private $orm;
+
+    public function __construct(ORMInterface $orm)
+    {
+        $this->orm = $orm;
+    }
 
     private function findIdentityBy(string $field, string $value): ?IdentityInterface
     {
-        foreach (self::IDENTITIES as $identity) {
-            if ($identity[$field] === $value) {
-                $user = new User($identity['id'], $identity['login']);
-                $user->setToken($identity['token']);
-                $user->setPassword($identity['password']);
-                return $user;
-            }
-        }
-
-        return null;
+        return $this->orm->getRepository(User::class)->findOne([$field => $value]);
     }
 
     public function findIdentity(string $id): ?IdentityInterface

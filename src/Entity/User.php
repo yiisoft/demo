@@ -1,14 +1,39 @@
 <?php
+
 namespace App\Entity;
 
+use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Entity;
 use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Yii\Web\User\IdentityInterface;
 
+/**
+ * @Entity
+ */
 class User implements IdentityInterface
 {
+    /**
+     * @Column(type="primary")
+     * @var int
+     */
     private $id;
+
+    /**
+     * @Column(type="string")
+     * @var string
+     */
     private $token;
+
+    /**
+     * @Column(type="string")
+     * @var string
+     */
     private $login;
+
+    /**
+     * @Column(type="string")
+     * @var string
+     */
     private $passwordHash;
 
     public function __construct(string $id, string $login)

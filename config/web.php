@@ -1,6 +1,9 @@
 <?php
 
+use App\Factory\CycleOrmFactory;
 use App\Factory\ViewFactory;
+use Cycle\ORM\ORM;
+use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
@@ -10,6 +13,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Spiral\Database\DatabaseProviderInterface;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
@@ -68,4 +72,7 @@ return [
         $user->setSession($session);
         return $user;
     },
+
+    // Cycle ORM
+    ORMInterface::class => new CycleOrmFactory(),
 ];
