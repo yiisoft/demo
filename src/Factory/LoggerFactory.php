@@ -4,10 +4,10 @@ namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Log\FileRotatorInterface;
-use Yiisoft\Log\FileTarget;
 use Yiisoft\Log\Logger;
 use Psr\Log\LogLevel;
+use Yiisoft\Log\Target\File\FileRotatorInterface;
+use Yiisoft\Log\Target\File\FileTarget;
 
 class LoggerFactory
 {

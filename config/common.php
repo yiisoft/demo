@@ -7,8 +7,8 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\CacheInterface;
-use Yiisoft\Log\FileRotator;
-use Yiisoft\Log\FileRotatorInterface;
+use Yiisoft\Log\Target\File\FileRotator;
+use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
 
 $params = $params ?? [];
