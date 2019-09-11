@@ -28,3 +28,6 @@ phpunit.phar
 /vendor
 /composer.lock
 /node_modules
+
+# roadrunner
+/rr.exe
