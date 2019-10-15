@@ -2,6 +2,7 @@
 
 use App\Console\Command\CreateUser;
 use App\Console\Command\MigrateGenerate;
+use App\Console\Command\MigrateUp;
 
 return [
     'mailer.host' => 'smtp.example.com',
@@ -15,5 +16,6 @@ return [
     'commands' => [
         'user/create'      => CreateUser::class,
         'migrate/generate' => MigrateGenerate::class,
+        'migrate/up'       => MigrateUp::class,
     ],
 ];
