@@ -43,7 +43,8 @@
         "yiisoft/html": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",
         "cycle/orm": "^1.1",
-        "cycle/annotated": "^2.0"
+        "cycle/annotated": "^2.0",
+        "cycle/migrations": "^1.0"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"

@@ -1,10 +1,13 @@
 <?php
 
+use App\Factory\CycleDbalFactory;
 use App\Factory\CycleOrmFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use Cycle\ORM\ORMInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Spiral\Database\DatabaseManager;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
@@ -49,6 +52,19 @@ return [
     ],
     MailerInterface::class => new MailerFactory(),
 
+
+    // Cycle DBAL
+    DatabaseManager::class => new CycleDbalFactory(),
     // Cycle ORM
     ORMInterface::class => new CycleOrmFactory(),
+
+    // Entity dir #todo: replace to class object
+    'CycleEntityPaths' => function (ContainerInterface $container) {
+        $aliases = $container->get(Aliases::class);
+        return [
+            $aliases->get('@src/Entity')
+        ];
+    },
+    ContainerInterface::class => function (ContainerInterface $c) { return $c; },
+
 ];

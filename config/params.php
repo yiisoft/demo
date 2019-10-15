@@ -1,6 +1,7 @@
 <?php
 
-use App\ConsoleCommand\CreateUser;
+use App\Console\Command\CreateUser;
+use App\Console\Command\MigrateGenerate;
 
 return [
     'mailer.host' => 'smtp.example.com',
@@ -12,6 +13,7 @@ return [
     'supportEmail' => 'support@example.com',
 
     'commands' => [
-        'user/create' => CreateUser::class,
+        'user/create'      => CreateUser::class,
+        'migrate/generate' => MigrateGenerate::class,
     ],
 ];

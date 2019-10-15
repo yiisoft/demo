@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ConsoleCommand;
+namespace App\Console\Command;
 
 
 use App\Entity\User;

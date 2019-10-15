@@ -18,41 +18,16 @@ use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Psr\Container\ContainerInterface;
-use Spiral\Database\Config\DatabaseConfig;
 use Spiral\Database\DatabaseManager;
-use Spiral\Database\Driver\SQLite\SQLiteDriver;
 use Spiral\Tokenizer\ClassLocator;
 use Symfony\Component\Finder\Finder;
-use Yiisoft\Aliases\Aliases;
 
 class CycleOrmFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $aliases = $container->get(Aliases::class);
-
-        $entityPaths = [
-            $aliases->get('@src/Entity')
-        ];
-
-        $databasePath = $aliases->get('@runtime/database.db');
-
-        $dbal = new DatabaseManager(
-            new DatabaseConfig([
-                'default' => 'default',
-                'databases' => [
-                    'default' => ['connection' => 'sqlite']
-                ],
-                'connections' => [
-                    'sqlite' => [
-                        'driver' => SQLiteDriver::class,
-                        'connection' => 'sqlite:' . $databasePath,
-                        'username' => '',
-                        'password' => '',
-                    ]
-                ]
-            ])
-        );
+        $entityPaths = $container->get('CycleEntityPaths');
+        $dbal = $container->get(DatabaseManager::class);
 
         // autoload annotations
         AnnotationRegistry::registerLoader('class_exists');
