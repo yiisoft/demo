@@ -67,6 +67,8 @@ return [
         ];
     },
     # needed for \App\Console\Command\MigrateGenerate  #todo: remove with `CycleEntityPaths`
-    ContainerInterface::class => function (ContainerInterface $c) { return $c; },
+    ContainerInterface::class => function (ContainerInterface $c) {
+        return $c;
+    },
 
 ];

@@ -44,7 +44,9 @@ class MigrateUp extends Command
         try {
             do {
                 $migration = $this->migrator->run();
-                if (!$migration instanceof MigrationInterface) break;
+                if (!$migration instanceof MigrationInterface) {
+                    break;
+                }
 
                 $state = $migration->getState();
                 $status = $state->getStatus();

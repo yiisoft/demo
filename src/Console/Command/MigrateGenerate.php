@@ -35,12 +35,6 @@ class MigrateGenerate extends Command
     /** @var MigrationConfig */
     private $config;
 
-    // public function __construct(ContainerInterface $container) {
-    //     parent::__construct();
-    //     var_dump($container);
-    //     die;
-    // }
-
     public function __construct(Migrator $migrator, Database\DatabaseManager $dbal, MigrationConfig $conf, ContainerInterface $container)
     {
         parent::__construct();
@@ -81,5 +75,4 @@ class MigrateGenerate extends Command
             new GenerateTypecast(),                                   # typecast non string columns
         ]);
     }
-
 }

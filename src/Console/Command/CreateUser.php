@@ -3,7 +3,6 @@
 
 namespace App\Console\Command;
 
-
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;

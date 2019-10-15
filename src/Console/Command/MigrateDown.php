@@ -42,8 +42,9 @@ class MigrateDown extends Command
         $statuses = [-1 => 'undefined', 0 => 'pending', 1 => 'executed'];
         try {
             $migration = $this->migrator->rollback();
-            if (!$migration instanceof MigrationInterface)
+            if (!$migration instanceof MigrationInterface) {
                 throw new \Exception('Migration not found');
+            }
 
             $state = $migration->getState();
             $status = $state->getStatus();
