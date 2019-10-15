@@ -1,7 +1,6 @@
 <?php
 namespace App\Console\Command;
 
-use Spiral\Database;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\MigrationInterface;
 use Spiral\Migrations\Migrator;
@@ -13,8 +12,6 @@ class MigrateUp extends Command
 {
     protected static $defaultName = 'migrate/up';
 
-    /** @var Database\DatabaseManager $dbal */
-    protected $dbal;
     /** @var MigrationConfig */
     private $config;
     /** @var Migrator */
@@ -22,15 +19,19 @@ class MigrateUp extends Command
     /**
      * MigrateGenerateCommand constructor.
      * @param Migrator                 $migrator
-     * @param Database\DatabaseManager $dbal
      * @param MigrationConfig   $conf
      */
-    public function __construct(Migrator $migrator, Database\DatabaseManager $dbal, MigrationConfig $conf)
+    public function __construct(Migrator $migrator, MigrationConfig $conf)
     {
-        $this->dbal = $dbal;
+        parent::__construct();
         $this->config = $conf;
         $this->migrator = $migrator;
-        parent::__construct();
+    }
+
+    public function configure(): void
+    {
+        $this
+            ->setDescription('Execute all new migrations');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

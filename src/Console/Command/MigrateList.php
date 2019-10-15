@@ -1,9 +1,7 @@
 <?php
 namespace App\Console\Command;
 
-use Spiral\Database;
 use Spiral\Migrations\Config\MigrationConfig;
-use Spiral\Migrations\MigrationInterface;
 use Spiral\Migrations\Migrator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +25,12 @@ class MigrateList extends Command
         $this->config = $conf;
         $this->migrator = $migrator;
         parent::__construct();
+    }
+
+    public function configure(): void
+    {
+        $this
+            ->setDescription('Print list of all migrations');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

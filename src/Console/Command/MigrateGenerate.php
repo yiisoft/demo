@@ -19,9 +19,7 @@ use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Tokenizer\ClassLocator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
 class MigrateGenerate extends Command

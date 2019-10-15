@@ -39,9 +39,9 @@ return [
             10
         ]
     ],
-    \Swift_Transport::class => \Swift_SmtpTransport::class,
-    \Swift_SmtpTransport::class => [
-        '__class' => \Swift_SmtpTransport::class,
+    Swift_Transport::class => Swift_SmtpTransport::class,
+    Swift_SmtpTransport::class => [
+        '__class' => Swift_SmtpTransport::class,
         '__construct()' => [
             'host' => $params['mailer.host'],
             'port' => $params['mailer.port'],
@@ -58,13 +58,15 @@ return [
     // Cycle ORM
     ORMInterface::class => new CycleOrmFactory(),
 
-    // Entity dir #todo: replace to class object
+    // Entity dir
+    # todo: replace to class object
     'CycleEntityPaths' => function (ContainerInterface $container) {
         $aliases = $container->get(Aliases::class);
         return [
             $aliases->get('@src/Entity')
         ];
     },
+    # needed for \App\Console\Command\MigrateGenerate  #todo: remove with `CycleEntityPaths`
     ContainerInterface::class => function (ContainerInterface $c) { return $c; },
 
 ];

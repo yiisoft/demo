@@ -1,7 +1,6 @@
 <?php
 namespace App\Console\Command;
 
-use Spiral\Database;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\MigrationInterface;
 use Spiral\Migrations\Migrator;
@@ -13,8 +12,6 @@ class MigrateDown extends Command
 {
     protected static $defaultName = 'migrate/down';
 
-    /** @var Database\DatabaseManager $dbal */
-    protected $dbal;
     /** @var MigrationConfig */
     private $config;
     /** @var Migrator */
@@ -22,15 +19,19 @@ class MigrateDown extends Command
     /**
      * MigrateGenerateCommand constructor.
      * @param Migrator                 $migrator
-     * @param Database\DatabaseManager $dbal
      * @param MigrationConfig   $conf
      */
-    public function __construct(Migrator $migrator, Database\DatabaseManager $dbal, MigrationConfig $conf)
+    public function __construct(Migrator $migrator, MigrationConfig $conf)
     {
-        $this->dbal = $dbal;
+        parent::__construct();
         $this->config = $conf;
         $this->migrator = $migrator;
-        parent::__construct();
+    }
+
+    public function configure(): void
+    {
+        $this
+            ->setDescription('Rollback last migration');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,7 +39,6 @@ class MigrateDown extends Command
         $list = $this->migrator->getMigrations();
         $output->writeln(count($list) . ' migrations found in ' . $this->config->getDirectory());
 
-        $limit = PHP_INT_MAX;
         $statuses = [-1 => 'undefined', 0 => 'pending', 1 => 'executed'];
         try {
             $migration = $this->migrator->rollback();
