@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Command\CreateUser;
+use App\Console\Command\MigrateDown;
 use App\Console\Command\MigrateGenerate;
 use App\Console\Command\MigrateUp;
 
@@ -17,5 +18,6 @@ return [
         'user/create'      => CreateUser::class,
         'migrate/generate' => MigrateGenerate::class,
         'migrate/up'       => MigrateUp::class,
+        'migrate/down'     => MigrateDown::class,
     ],
 ];
