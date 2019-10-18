@@ -4,9 +4,8 @@ use App\Factory\CycleDbalFactory;
 use App\Factory\CycleOrmFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
-use App\Helper\EntityFinderHelper;
+use App\Helper\CycleOrmHelper;
 use Cycle\ORM\ORMInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Spiral\Database\DatabaseManager;
 use Yiisoft\Aliases\Aliases;
@@ -20,19 +19,15 @@ use Yiisoft\Mailer\MailerInterface;
 $params = $params ?? [];
 
 return [
-    Aliases::class => [
+    Aliases::class             => [
         '@root' => dirname(__DIR__),
         '@views' => '@root/views',
         '@resources' => '@root/resources',
         '@src' => '@root/src',
         '@runtime' => '@root/runtime',
     ],
-    CacheInterface::class => [
-        '__class' => Cache::class,
-        'handler' => [
-            '__class' => ArrayCache::class,
-        ],
-    ],
+    Psr\SimpleCache\CacheInterface::class => ArrayCache::class,
+    CacheInterface::class => Cache::class,
     LoggerInterface::class => new LoggerFactory(),
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,
@@ -51,17 +46,17 @@ return [
         'setUsername()' => [$params['mailer.username']],
         'setPassword()' => [$params['mailer.password']],
     ],
-    MailerInterface::class => new MailerFactory(),
+    MailerInterface::class     => new MailerFactory(),
 
 
     // Cycle DBAL
-    DatabaseManager::class => new CycleDbalFactory(),
+    DatabaseManager::class     => new CycleDbalFactory(),
     // Cycle ORM
-    ORMInterface::class => new CycleOrmFactory(),
+    ORMInterface::class        => new CycleOrmFactory(),
     // Cycle Entity Finder
-    EntityFinderHelper::class => [
-        '__class' => EntityFinderHelper::class,
-        'addPaths()' => [
+    CycleOrmHelper::class      => [
+        '__class' => CycleOrmHelper::class,
+        'addEntityPaths()' => [
             'paths' => $params['entityPaths'],
         ],
     ],
