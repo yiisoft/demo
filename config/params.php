@@ -22,4 +22,8 @@ return [
         'migrate/down'     => MigrateDown::class,
         'migrate/list'     => MigrateList::class,
     ],
+
+    'entityPaths' => [
+        '@src/Entity'
+    ]
 ];

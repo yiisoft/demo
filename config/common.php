@@ -4,6 +4,7 @@ use App\Factory\CycleDbalFactory;
 use App\Factory\CycleOrmFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
+use App\Helper\EntityFinderHelper;
 use Cycle\ORM\ORMInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -57,18 +58,12 @@ return [
     DatabaseManager::class => new CycleDbalFactory(),
     // Cycle ORM
     ORMInterface::class => new CycleOrmFactory(),
-
-    // Entity dir
-    # todo: replace to class object
-    'CycleEntityPaths' => function (ContainerInterface $container) {
-        $aliases = $container->get(Aliases::class);
-        return [
-            $aliases->get('@src/Entity')
-        ];
-    },
-    # needed for \App\Console\Command\MigrateGenerate  #todo: remove with `CycleEntityPaths`
-    ContainerInterface::class => function (ContainerInterface $c) {
-        return $c;
-    },
+    // Cycle Entity Finder
+    EntityFinderHelper::class => [
+        '__class' => EntityFinderHelper::class,
+        'addPaths()' => [
+            'paths' => $params['entityPaths'],
+        ],
+    ],
 
 ];
