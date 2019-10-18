@@ -66,7 +66,7 @@ class CycleOrmHelper
             new ValidateEntities(),                    // make sure all entity schemas are correct
             new RenderTables(),                        // declare table schemas
             new RenderRelations(),                     // declare relation keys and indexes
-            new GenerateMigrations($migrator->getRepository(),$config), // generate migrations
+            new GenerateMigrations($migrator->getRepository(), $config), // generate migrations
             new GenerateTypecast(),                    // typecast non string columns
         ]);
     }
