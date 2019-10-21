@@ -22,8 +22,8 @@ return [
         return new MigrationConfig([
             'directory' => $aliases->get('@src/Console/Migration'),
             'namespace' => 'App\Console\Migration',
-            'table'     => 'migration',
-            'safe'      => false,
+            'table' => 'migration',
+            'safe' => false,
         ]);
     }
 ];
