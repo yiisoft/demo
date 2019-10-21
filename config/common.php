@@ -19,7 +19,7 @@ use Yiisoft\Mailer\MailerInterface;
 $params = $params ?? [];
 
 return [
-    Aliases::class             => [
+    Aliases::class => [
         '@root' => dirname(__DIR__),
         '@views' => '@root/views',
         '@resources' => '@root/resources',
@@ -46,15 +46,15 @@ return [
         'setUsername()' => [$params['mailer.username']],
         'setPassword()' => [$params['mailer.password']],
     ],
-    MailerInterface::class     => new MailerFactory(),
+    MailerInterface::class => new MailerFactory(),
 
 
     // Cycle DBAL
-    DatabaseManager::class     => new CycleDbalFactory(),
+    DatabaseManager::class => new CycleDbalFactory(),
     // Cycle ORM
-    ORMInterface::class        => new CycleOrmFactory(),
+    ORMInterface::class => new CycleOrmFactory(),
     // Cycle Entity Finder
-    CycleOrmHelper::class      => [
+    CycleOrmHelper::class => [
         '__class' => CycleOrmHelper::class,
         'addEntityPaths()' => [
             'paths' => $params['entityPaths'],
