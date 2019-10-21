@@ -16,11 +16,11 @@ return [
     'supportEmail' => 'support@example.com',
 
     'commands' => [
-        'user/create'      => CreateUser::class,
+        'user/create' => CreateUser::class,
         'migrate/generate' => MigrateGenerate::class,
-        'migrate/up'       => MigrateUp::class,
-        'migrate/down'     => MigrateDown::class,
-        'migrate/list'     => MigrateList::class,
+        'migrate/up' => MigrateUp::class,
+        'migrate/down' => MigrateDown::class,
+        'migrate/list' => MigrateList::class,
     ],
 
     'entityPaths' => [
