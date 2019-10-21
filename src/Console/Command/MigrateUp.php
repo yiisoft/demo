@@ -5,6 +5,7 @@ use App\Helper\CycleOrmHelper;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\MigrationInterface;
 use Spiral\Migrations\Migrator;
+use Spiral\Migrations\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -48,10 +49,14 @@ class MigrateUp extends Command
         $this->cycleOrmHelper->dropCurrentSchemaCache();
 
         $list = $this->migrator->getMigrations();
-        $output->writeln(count($list) . ' migrations found in ' . $this->config->getDirectory());
+        $output->writeln('<fg=green>' . count($list) . ' migrations found in ' . $this->config->getDirectory() . '</fg=green>');
 
         $limit = PHP_INT_MAX;
-        $statuses = [-1 => 'undefined', 0 => 'pending', 1 => 'executed'];
+        $statuses = [
+            State::STATUS_UNDEFINED => 'undefined',
+            State::STATUS_PENDING => 'pending',
+            State::STATUS_EXECUTED => 'executed',
+        ];
         try {
             do {
                 $migration = $this->migrator->run();

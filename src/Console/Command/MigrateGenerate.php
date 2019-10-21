@@ -4,6 +4,7 @@ namespace App\Console\Command;
 use App\Helper\CycleOrmHelper;
 use Spiral\Migrations\Migrator;
 use Spiral\Migrations\Config\MigrationConfig;
+use Spiral\Migrations\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,8 +15,10 @@ class MigrateGenerate extends Command
 
     /** @var Migrator */
     private $migrator;
+
     /** @var CycleOrmHelper */
     private $cycleHelper;
+
     /** @var MigrationConfig */
     private $config;
 
@@ -35,8 +38,17 @@ class MigrateGenerate extends Command
         $this->setDescription('Generates a migration');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        // check existing unapplied migrations
+        $list = $this->migrator->getMigrations();
+        foreach ($list as $migration) {
+            if ($migration->getState()->getStatus() !== State::STATUS_EXECUTED) {
+                $output->writeln('<fg=red>Outstanding migrations found, run `migrate/up` first.</fg=red>');
+                return;
+            }
+        }
+
         $this->cycleHelper->generateMigration($this->migrator, $this->config);
     }
 }

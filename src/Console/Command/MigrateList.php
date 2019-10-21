@@ -3,6 +3,7 @@ namespace App\Console\Command;
 
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\Migrator;
+use Spiral\Migrations\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,14 +37,18 @@ class MigrateList extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $list = $this->migrator->getMigrations();
-        $output->writeln(count($list) . ' migrations found in ' . $this->config->getDirectory() . ':');
+        $output->writeln('<fg=green>' . count($list) . ' migrations found in ' . $this->config->getDirectory() . ':</fg=green>');
 
-        $statuses = [-1 => 'undefined', 0 => 'pending', 1 => 'executed'];
+        $statuses = [
+            State::STATUS_UNDEFINED => 'undefined',
+            State::STATUS_PENDING => 'pending',
+            State::STATUS_EXECUTED => 'executed',
+        ];
         $list = $this->migrator->getMigrations();
 
         foreach ($list as $migration) {
             $state = $migration->getState();
-            $output->writeln($state->getName() . ' [' . ($statuses[$state->getStatus()] ?? '?') . ']');
+            $output->writeln($state->getName() . ' <fg=yellow>[' . ($statuses[$state->getStatus()] ?? '?') . ']</fg=yellow>');
         }
     }
 }

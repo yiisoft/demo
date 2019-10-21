@@ -88,7 +88,6 @@ class CycleOrmHelper
     public function getCurrentSchemaArray($fromCache = true): array
     {
         $getSchemaArray = function () {
-
             $classLocator = $this->getEntityClassLocator();
             // autoload annotations
             AnnotationRegistry::registerLoader('class_exists');
@@ -113,7 +112,6 @@ class CycleOrmHelper
             $this->cache->set($this->cacheKey, $schema);
             return $schema;
         }
-
     }
 
     private function getEntityClassLocator(): ClassLocator
