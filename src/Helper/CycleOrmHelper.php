@@ -43,7 +43,7 @@ class CycleOrmHelper
     /**
      * @param string|string[] $paths
      */
-    public function addEntityPaths($paths)
+    public function addEntityPaths($paths): void
     {
         $paths = (array)$paths;
         foreach ($paths as $path) {
@@ -51,7 +51,7 @@ class CycleOrmHelper
         }
     }
 
-    public function generateMigration(Migrator $migrator, MigrationConfig $config)
+    public function generateMigration(Migrator $migrator, MigrationConfig $config): void
     {
         $classLocator = $this->getEntityClassLocator();
 
