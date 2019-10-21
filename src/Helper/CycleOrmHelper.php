@@ -20,6 +20,7 @@ use Spiral\Migrations\Migrator;
 use Spiral\Tokenizer\ClassLocator;
 use Symfony\Component\Finder\Finder;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Cache\CacheInterface;
 
 class CycleOrmHelper
 {
@@ -29,15 +30,23 @@ class CycleOrmHelper
     /** @var Aliases */
     private $aliases;
 
+    /** @var CacheInterface */
+    private $cache;
+
+    /** @var string */
+    private $cacheKey = 'Cycle-ORM-Schema';
+
     /** @var string[] */
     private $entityPaths = [];
 
+    /** @var int */
     private $tableNaming = Annotated\Entities::TABLE_NAMING_SINGULAR;
 
-    public function __construct(Database\DatabaseManager $dbal, Aliases $aliases)
+    public function __construct(Database\DatabaseManager $dbal, Aliases $aliases, CacheInterface $cache)
     {
         $this->aliases = $aliases;
         $this->dbal = $dbal;
+        $this->cache = $cache;
     }
 
     /**
@@ -49,6 +58,11 @@ class CycleOrmHelper
         foreach ($paths as $path) {
             $this->entityPaths[] = $path;
         }
+    }
+
+    public function dropCurrentSchemaCache(): void
+    {
+        $this->cache->delete($this->cacheKey);
     }
 
     public function generateMigration(Migrator $migrator, MigrationConfig $config): void
@@ -71,24 +85,35 @@ class CycleOrmHelper
         ]);
     }
 
-    public function getCurrentSchemaArray(): array
+    public function getCurrentSchemaArray($fromCache = true): array
     {
-        $classLocator = $this->getEntityClassLocator();
+        $getSchemaArray = function () {
 
-        // autoload annotations
-        AnnotationRegistry::registerLoader('class_exists');
+            $classLocator = $this->getEntityClassLocator();
+            // autoload annotations
+            AnnotationRegistry::registerLoader('class_exists');
 
-        return (new Compiler())->compile(new Registry($this->dbal), [
-            new Annotated\Embeddings($classLocator),    // register embeddable entities
-            new Annotated\Entities($classLocator, null, $this->tableNaming), // register annotated entities
-            new ResetTables(),                          // re-declared table schemas (remove columns)
-            new GenerateRelations(),                    // generate entity relations
-            new ValidateEntities(),                     // make sure all entity schemas are correct
-            new RenderTables(),                         // declare table schemas
-            new RenderRelations(),                      // declare relation keys and indexes
-            new SyncTables(),                           // sync table changes to database
-            new GenerateTypecast(),                     // typecast non string columns
-        ]);
+            return (new Compiler())->compile(new Registry($this->dbal), [
+                new Annotated\Embeddings($classLocator),    // register embeddable entities
+                new Annotated\Entities($classLocator, null, $this->tableNaming), // register annotated entities
+                new ResetTables(),                          // re-declared table schemas (remove columns)
+                new GenerateRelations(),                    // generate entity relations
+                new ValidateEntities(),                     // make sure all entity schemas are correct
+                new RenderTables(),                         // declare table schemas
+                new RenderRelations(),                      // declare relation keys and indexes
+                new SyncTables(),                           // sync table changes to database
+                new GenerateTypecast(),                     // typecast non string columns
+            ]);
+        };
+
+        if ($fromCache) {
+            return $this->cache->getOrSet($this->cacheKey, $getSchemaArray);
+        } else {
+            $schema = $getSchemaArray();
+            $this->cache->set($this->cacheKey, $schema);
+            return $schema;
+        }
+
     }
 
     private function getEntityClassLocator(): ClassLocator

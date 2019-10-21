@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Command;
 
+use App\Helper\CycleOrmHelper;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\MigrationInterface;
 use Spiral\Migrations\Migrator;
@@ -14,18 +15,25 @@ class MigrateDown extends Command
 
     /** @var MigrationConfig */
     private $config;
+
     /** @var Migrator */
     private $migrator;
+
+    /** @var CycleOrmHelper */
+    private $cycleOrmHelper;
+
     /**
      * MigrateGenerateCommand constructor.
-     * @param Migrator                 $migrator
-     * @param MigrationConfig   $conf
+     * @param Migrator        $migrator
+     * @param MigrationConfig $conf
+     * @param CycleOrmHelper  $cycleOrmHelper
      */
-    public function __construct(Migrator $migrator, MigrationConfig $conf)
+    public function __construct(Migrator $migrator, MigrationConfig $conf, CycleOrmHelper $cycleOrmHelper)
     {
         parent::__construct();
         $this->config = $conf;
         $this->migrator = $migrator;
+        $this->cycleOrmHelper = $cycleOrmHelper;
     }
 
     public function configure(): void
@@ -36,6 +44,9 @@ class MigrateDown extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // drop cached schema
+        $this->cycleOrmHelper->dropCurrentSchemaCache();
+
         $list = $this->migrator->getMigrations();
         $output->writeln(count($list) . ' migrations found in ' . $this->config->getDirectory());
 
