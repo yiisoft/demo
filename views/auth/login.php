@@ -1,5 +1,6 @@
 <?php
 use Yiisoft\Html\Html;
+
 $error = $error ?? null;
 ?>
 
@@ -26,4 +27,3 @@ $error = $error ?? null;
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-

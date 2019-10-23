@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\ConsoleCommand;
-
 
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;

@@ -1,5 +1,5 @@
 <?php if (isset($sent)): ?>
-<?php if($sent): ?>
+<?php if ($sent): ?>
 <div class="alert alert-success" role="alert">
   Thanks to contact us, we'll get in touch with you as soon as possible.
 </div>
