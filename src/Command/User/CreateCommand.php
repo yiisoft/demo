@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ConsoleCommand;
+namespace App\Command\User;
 
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateUser extends Command
+class CreateCommand extends Command
 {
     private const EXIT_CODE_FAILED_TO_PERSIST = 1;
 

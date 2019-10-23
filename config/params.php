@@ -1,6 +1,6 @@
 <?php
 
-use App\ConsoleCommand\CreateUser;
+use App\Command\User\CreateCommand;
 
 return [
     'mailer.host' => 'smtp.example.com',
@@ -12,7 +12,7 @@ return [
     'supportEmail' => 'support@example.com',
 
     'commands' => [
-        'user/create' => CreateUser::class,
+        'user/create' => CreateCommand::class,
     ],
 
     // cycle DBAL config
