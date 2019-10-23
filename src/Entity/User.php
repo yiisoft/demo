@@ -8,7 +8,7 @@ use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Yii\Web\User\IdentityInterface;
 
 /**
- * @Entity
+ * @Entity(repository="App\Repository\UserRepository")
  */
 class User implements IdentityInterface
 {

@@ -23,12 +23,8 @@ return [
         '@src' => '@root/src',
         '@runtime' => '@root/runtime',
     ],
-    CacheInterface::class => [
-        '__class' => Cache::class,
-        'handler' => [
-            '__class' => ArrayCache::class,
-        ],
-    ],
+    Psr\SimpleCache\CacheInterface::class => ArrayCache::class,
+    CacheInterface::class => Cache::class,
     LoggerInterface::class => new LoggerFactory(),
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,
@@ -48,7 +44,4 @@ return [
         'setPassword()' => [$params['mailer.password']],
     ],
     MailerInterface::class => new MailerFactory(),
-
-    // Cycle ORM
-    ORMInterface::class => new CycleOrmFactory(),
 ];
