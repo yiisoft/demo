@@ -4,11 +4,20 @@ namespace App\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Table;
+use Cycle\Annotated\Annotation\Table\Index;
 use Yiisoft\Security\PasswordHasher;
+use Yiisoft\Security\Random;
 use Yiisoft\Yii\Web\User\IdentityInterface;
 
 /**
  * @Entity(repository="App\Repository\UserRepository")
+ * @Table(
+ *     indexes={
+ *         @Index(columns={"login"}, unique=true),
+ *         @Index(columns={"token"}, unique=true)
+ *     }
+ * )
  */
 class User implements IdentityInterface
 {
@@ -19,13 +28,13 @@ class User implements IdentityInterface
     private $id;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string(128)")
      * @var string
      */
     private $token;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string(48)")
      * @var string
      */
     private $login;
@@ -36,10 +45,11 @@ class User implements IdentityInterface
      */
     private $passwordHash;
 
-    public function __construct(string $id, string $login)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->login = $login;
+        if (!isset($this->token)) {
+            $this->resetToken();
+        }
     }
 
     public function getId(): ?string
@@ -52,14 +62,19 @@ class User implements IdentityInterface
         return $this->token;
     }
 
-    public function setToken(string $token): void
+    public function resetToken(): void
     {
-        $this->token = $token;
+        $this->token = Random::string(128);
     }
 
     public function getLogin(): string
     {
         return $this->login;
+    }
+
+    public function setLogin(string $login): void
+    {
+        $this->login = $login;
     }
 
     public function validatePassword(string $password): bool

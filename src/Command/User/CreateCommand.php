@@ -6,6 +6,7 @@ use App\Entity\User;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,31 +30,27 @@ class CreateCommand extends Command
     {
         $this
             ->setDescription('Creates a user')
-            ->setHelp('.')
-            ->addOption('id', 'id', InputOption::VALUE_REQUIRED, 'ID')
-            ->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Token')
-            ->addOption('login', 'l', InputOption::VALUE_REQUIRED, 'Login')
-            ->addOption('password', 'p', InputOption::VALUE_REQUIRED, 'Password');
+            ->setHelp('This command allows you to create a user')
+            ->addArgument('login', InputArgument::REQUIRED, 'Login')
+            ->addArgument('password', InputArgument::REQUIRED, 'Password');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
-        $id = $input->getOption('id');
-        $token = $input->getOption('token');
-        $login = $input->getOption('login');
-        $password = $input->getOption('password');
+        $login = $input->getArgument('login');
+        $password = $input->getArgument('password');
 
-        $user = new User($id, $login);
+        $user = new User();
+        $user->setLogin($login);
         $user->setPassword($password);
-        $user->setToken($token);
-
-        $transaction = new Transaction($this->orm);
-        $transaction->persist($user);
 
         try {
+            $transaction = new Transaction($this->orm);
+            $transaction->persist($user);
             $transaction->run();
+            $io->success('User created');
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
             return self::EXIT_CODE_FAILED_TO_PERSIST;
