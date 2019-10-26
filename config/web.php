@@ -1,7 +1,9 @@
 <?php
 
 use App\Factory\ViewFactory;
+use App\Repository\UserRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -24,9 +26,15 @@ use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
+use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Yii\Web\User\User;
+
+/**
+ * @var array $params
+ */
 
 return [
-    \Psr\Container\ContainerInterface::class => function (\Psr\Container\ContainerInterface $container) {
+    ContainerInterface::class => static function (ContainerInterface $container) {
         return $container;
     },
 
@@ -47,7 +55,8 @@ return [
     SessionInterface::class => [
         '__class' => Session::class,
         '__construct()' => [
-            ['cookie_secure' => 0]
+            $params['session']['options'] ?? [],
+            $params['session']['handler'] ?? null,
         ],
     ],
 
@@ -59,10 +68,10 @@ return [
     WebView::class => new ViewFactory(),
 
     // user
-    \Yiisoft\Yii\Web\User\IdentityRepositoryInterface::class => \App\Repository\UserRepository::class,
-    \Yiisoft\Yii\Web\User\User::class => function (\Psr\Container\ContainerInterface $container) {
+    IdentityRepositoryInterface::class => UserRepository::class,
+    User::class => static function (ContainerInterface $container) {
         $session = $container->get(SessionInterface::class);
-        $identityRepository = $container->get(\Yiisoft\Yii\Web\User\IdentityRepositoryInterface::class);
+        $identityRepository = $container->get(IdentityRepositoryInterface::class);
         $eventDispatcher = $container->get(EventDispatcherInterface::class);
         $user = new Yiisoft\Yii\Web\User\User($identityRepository, $eventDispatcher);
         $user->setSession($session);
