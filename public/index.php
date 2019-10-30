@@ -11,5 +11,7 @@ Builder::rebuild();
 
 $container = new Container(require Builder::path('web'));
 
+require dirname(__DIR__) . '/src/globals.php';
+
 $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
 $container->get(Application::class)->handle($request);

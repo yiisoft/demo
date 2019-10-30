@@ -49,8 +49,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src"
-        },
-        "files": ["src/globals.php"]
+        }
     },
     "extra": {
         "branch-alias": {
