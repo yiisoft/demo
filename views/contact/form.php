@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * @var $this \Yiisoft\View\View
+ * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
+ */
+
+?>
 <?php if (isset($sent)): ?>
 <?php if($sent): ?>
 <div class="alert alert-success" role="alert">
@@ -10,7 +18,7 @@
 <?php endif; ?>
 <?php endif; ?>
 
-<form id="contactForm" method="POST" action="/contact" enctype="multipart/form-data">
+<form id="contactForm" method="POST" action="<?= $urlGenerator->generate('site/contact') ?>" enctype="multipart/form-data">
   <div class="form-group">
     <label for="subject">Subject</label>
     <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="<?= $body['subject'] ?? '' ?>" required>
