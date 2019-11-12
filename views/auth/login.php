@@ -1,5 +1,12 @@
 <?php
+
 use Yiisoft\Html\Html;
+
+/**
+ * @var $this \Yiisoft\View\View
+ * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
+ */
+
 $error = $error ?? null;
 ?>
 
@@ -9,7 +16,7 @@ $error = $error ?? null;
 </div>
 <?php endif ?>
 
-<form id="loginForm" method="POST" action="/login" enctype="multipart/form-data">
+<form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
   <div class="form-group">
     <label for="subject">Login</label>
       <?= Html::textInput('login', $body['login'] ?? '', [
