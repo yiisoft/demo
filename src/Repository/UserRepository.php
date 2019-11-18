@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Yiisoft\Yii\Web\User\IdentityInterface;
-use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 
 class UserRepository implements IdentityRepositoryInterface
 {

@@ -26,7 +26,7 @@ use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\AppRouterFactory;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
-use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 /**

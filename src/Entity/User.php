@@ -2,7 +2,7 @@
 namespace App\Entity;
 
 use Yiisoft\Security\PasswordHasher;
-use Yiisoft\Yii\Web\User\IdentityInterface;
+use Yiisoft\Auth\IdentityInterface;
 
 class User implements IdentityInterface
 {
