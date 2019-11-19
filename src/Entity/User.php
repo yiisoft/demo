@@ -8,7 +8,7 @@ use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Security\Random;
-use Yiisoft\Yii\Web\User\IdentityInterface;
+use Yiisoft\Auth\IdentityInterface;
 
 /**
  * @Entity(repository="App\Repository\UserRepository")

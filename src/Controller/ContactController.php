@@ -54,7 +54,7 @@ class ContactController extends Controller
                 ])
                     ->setSubject($body['subject'])
                     ->setTo($config['supportEmail'])
-                    ->setFrom($config['mailer.username']);
+                    ->setFrom($config['mailer']['username']);
 
                 /** @var UploadedFileInterface[] $files */
                 $files = $request->getUploadedFiles();

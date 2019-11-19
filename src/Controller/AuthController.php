@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Router\Method;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 class AuthController extends Controller
