@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
-use Yiisoft\Yii\Web\User\IdentityInterface;
-use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 
 class UserRepository extends Select\Repository implements IdentityRepositoryInterface
 {
