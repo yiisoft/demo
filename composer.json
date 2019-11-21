@@ -16,6 +16,9 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.2",
         "psr/log": "^1.1",
@@ -42,7 +45,8 @@
         "yiisoft/mailer-swiftmailer": "^3.0@dev",
         "yiisoft/html": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",
-        "yiisoft/auth": "^3.0@dev"
+        "yiisoft/auth": "^3.0@dev",
+        "yiisoft/yii-cycle": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"

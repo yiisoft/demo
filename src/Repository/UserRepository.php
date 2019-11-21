@@ -3,43 +3,26 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use Cycle\ORM\ORMInterface;
+use Cycle\ORM\Select;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
-class UserRepository implements IdentityRepositoryInterface
+class UserRepository extends Select\Repository implements IdentityRepositoryInterface
 {
-    private const IDENTITIES = [
-        [
-            'id' => '1',
-            'token' => 'test1',
-            'login' => 'samdark',
-            'password' => 'qwerty',
-        ],
-        [
-            'id' => '2',
-            'token' => 'test2',
-            'login' => 'hiqsol',
-            'password' => 'qwerty',
-        ],
-    ];
+    public function __construct(ORMInterface $orm, $role = User::class)
+    {
+        parent::__construct(new Select($orm, $role));
+    }
 
     private function findIdentityBy(string $field, string $value): ?IdentityInterface
     {
-        foreach (self::IDENTITIES as $identity) {
-            if ($identity[$field] === $value) {
-                $user = new User($identity['id'], $identity['login']);
-                $user->setToken($identity['token']);
-                $user->setPassword($identity['password']);
-                return $user;
-            }
-        }
-
-        return null;
+        return $this->findOne([$field => $value]);
     }
 
     public function findIdentity(string $id): ?IdentityInterface
     {
-        return $this->findIdentityBy('id', $id);
+        return $this->findByPK($id);
     }
 
     public function findIdentityByToken(string $token, string $type): ?IdentityInterface
@@ -47,7 +30,7 @@ class UserRepository implements IdentityRepositoryInterface
         return $this->findIdentityBy('token', $token);
     }
 
-    public function findByLogin(string $login): ?User
+    public function findByLogin(string $login): ?IdentityInterface
     {
         return $this->findIdentityBy('login', $login);
     }
