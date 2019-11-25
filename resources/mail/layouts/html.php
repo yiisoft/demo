@@ -12,7 +12,7 @@
 
 <footer style="margin-top: 5em">
 -- <br>
-APP_NAME
+Mailed by Yii
 </footer>
 
 </body>
