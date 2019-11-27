@@ -64,7 +64,7 @@ abstract class Controller implements ViewContextInterface
             return $file;
         }
 
-        return $file . '.' . $this->view->defaultExtension;
+        return $file . '.' . $this->view->getDefaultExtension();
     }
 
     abstract protected function getId(): string;

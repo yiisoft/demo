@@ -42,7 +42,8 @@
         "yiisoft/mailer-swiftmailer": "^3.0@dev",
         "yiisoft/html": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",
-        "spiral/roadrunner": "^1.4"
+        "spiral/roadrunner": "^1.4",
+        "yiisoft/auth": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev"
@@ -50,8 +51,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src"
-        },
-        "files": ["src/globals.php"]
+        }
     },
     "extra": {
         "branch-alias": {
