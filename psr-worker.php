@@ -19,6 +19,8 @@ Builder::rebuild();
 
 $container = new Container(require Builder::path('web'));
 
+require dirname(__DIR__) . '/src/globals.php';
+
 $container->set(Spiral\RoadRunner\PSR7Client::class, $psr7);
 $container->set(\Yiisoft\Yii\Web\Emitter\EmitterInterface::class, \App\Emitter\RoadrunnerEmitter::class);
 
@@ -28,4 +30,5 @@ while ($request = $psr7->acceptRequest()) {
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string)$e);
     }
+    gc_collect_cycles();
 }
