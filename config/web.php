@@ -60,6 +60,11 @@ return [
         ],
     ],
 
+    \Yiisoft\Router\Middleware\SubFolderMiddleware::class => [
+        '__construct()' => [Reference::to(UrlGeneratorInterface::class)],
+        // 'prefix' => '',
+    ],
+
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
     EventDispatcherInterface::class => Dispatcher::class,
