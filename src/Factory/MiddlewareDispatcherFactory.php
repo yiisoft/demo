@@ -3,7 +3,7 @@ namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Yii\Web\Middleware\ErrorCatcher;
+use Yiisoft\Yii\Web\ErrorHandler\ErrorCatcher;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\SessionMiddleware;
 
