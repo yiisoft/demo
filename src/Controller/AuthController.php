@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Router\Method;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Yii\Web\User\User;
@@ -15,10 +16,20 @@ use Yiisoft\Yii\Web\User\User;
 class AuthController extends Controller
 {
     private $logger;
+    /** @var UrlGeneratorInterface */
+    private $urlGenerator;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, User $user, LoggerInterface $logger)
+    public function __construct(
+        ResponseFactoryInterface $responseFactory,
+        Aliases $aliases,
+        WebView $view,
+        User $user,
+        LoggerInterface $logger,
+        UrlGeneratorInterface $urlGenerator
+    )
     {
         $this->logger = $logger;
+        $this->urlGenerator = $urlGenerator;
         parent::__construct($responseFactory, $aliases, $view, $user);
     }
 
@@ -51,7 +62,8 @@ class AuthController extends Controller
                 }
 
                 if ($this->user->login($identity)) {
-                    return $this->responseFactory->createResponse(302)->withHeader('Location', '/');
+                    return $this->responseFactory->createResponse(302)
+                                                 ->withHeader('Location', $this->urlGenerator->generate('site/index'));
                 }
 
                 throw new \InvalidArgumentException('Unable to login');
@@ -75,6 +87,7 @@ class AuthController extends Controller
     public function logout(ServerRequestInterface $request): ResponseInterface
     {
         $this->user->logout();
-        return $this->responseFactory->createResponse(302)->withHeader('Location', '/');
+        return $this->responseFactory->createResponse(302)
+                                     ->withHeader('Location', $this->urlGenerator->generate('site/index'));
     }
 }
