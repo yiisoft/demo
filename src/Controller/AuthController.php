@@ -26,8 +26,7 @@ class AuthController extends Controller
         User $user,
         LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
         parent::__construct($responseFactory, $aliases, $view, $user);
