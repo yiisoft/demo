@@ -61,4 +61,3 @@ $this->endBody();
 </html>
 <?php
 $this->endPage(true);
-?>
