@@ -23,7 +23,7 @@ $this->beginPage();
     <?php $this->head() ?>
 </head>
 <body>
-<?
+<?php
 $this->beginBody();
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light container">
@@ -54,7 +54,7 @@ $this->beginBody();
 <main role="main" class="container">
     <?= $content ?>
 </main>
-<?
+<?php
 $this->endBody();
 ?>
 </body>
