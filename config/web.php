@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Yiisoft\Aliases\Aliases;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
@@ -58,6 +59,11 @@ return [
             $params['session']['options'] ?? [],
             $params['session']['handler'] ?? null,
         ],
+    ],
+
+    \Yiisoft\Yii\Web\Middleware\SubFolderMiddleware::class => [
+        '__construct()' => [Reference::to(UrlGeneratorInterface::class), Reference::to(Aliases::class)],
+        // 'prefix' => '',
     ],
 
     // event dispatcher
