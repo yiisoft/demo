@@ -7,9 +7,12 @@
 
 #todo: escape strings
 ?>
-Users count: <?php echo count($items) ?>
+<p>Users count: <?php echo count($items) ?></p>
 
 <?php
 foreach ($items as $item) {
-    echo '<span class="badge badge-pill">' . $item->getLogin() . '</span>';
+    ?>
+    <a class="btn btn-link"
+       href="<?php echo $urlGenerator->generate('user/profile', ['login' => $item->getLogin()]) ?>"
+    ><?php echo $item->getLogin() ?></a><?php
 }

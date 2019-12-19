@@ -21,7 +21,7 @@ class PostRepository extends Select\Repository
                     ->orderBy('published_at', 'DESC')
                     ->offset($start)
                     ->limit($limit)
-                    ->with('user')
+                    ->load('user')
                     ->getIterator();
     }
 
@@ -29,7 +29,7 @@ class PostRepository extends Select\Repository
     {
         return $this->select()
                     ->where(['slug' => $slug])
-                    ->with('user')
+                    ->load('user')
                     ->fetchOne();
     }
 }

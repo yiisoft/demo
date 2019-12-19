@@ -47,11 +47,13 @@ class Post
     protected $content;
 
     /**
+     * @Column(type="datetime")
      * @var DateTimeImmutable
      */
     protected $createdAt;
 
     /**
+     * @Column(type="datetime")
      * @var DateTimeImmutable
      */
     protected $updatedAt;
@@ -63,13 +65,14 @@ class Post
     protected $publishedAt;
 
     /**
+     * @Column(type="datetime", nullable=true)
      * @var DateTimeImmutable|null
      */
     protected $deletedAt;
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false)
-     * @var \Cycle\ORM\Promise\Reference
+     * @var User|\Cycle\ORM\Promise\Reference
      */
     protected $user;
 
@@ -145,7 +148,7 @@ class Post
         $this->user = $user;
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }

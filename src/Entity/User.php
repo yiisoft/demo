@@ -49,11 +49,13 @@ class User implements IdentityInterface
     protected $passwordHash;
 
     /**
+     * @Column(type="datetime")
      * @var DateTimeImmutable
      */
     protected $createdAt;
 
     /**
+     * @Column(type="datetime")
      * @var DateTimeImmutable
      */
     protected $updatedAt;
@@ -125,8 +127,8 @@ class User implements IdentityInterface
         return $this->posts;
     }
 
-    public function addPost(Post $p): void
+    public function addPost(Post $post): void
     {
-        $this->posts->add($p);
+        $this->posts->add($post);
     }
 }

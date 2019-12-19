@@ -32,9 +32,13 @@ class AppRouterFactory
                 ->to(new ActionCaller(BlogController::class, 'page', $container))
                 ->name('blog/page')
             ,
-            Route::get('/user/index')
+            Route::get('/user/')
                  ->to(new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index')
+            ,
+            Route::get('/user/{login}')
+                 ->to(new ActionCaller(UserController::class, 'profile', $container))
+                 ->name('user/profile')
             ,
 
             Route::methods([Method::GET, Method::POST], '/contact')

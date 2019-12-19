@@ -11,8 +11,9 @@
 
 <h1><?php echo $item->getTitle() ?></h1>
 <div class="">
-<!--    <span class="text-left"> --><?php //echo $item->getUser()->getLogin() ?><!--</span>-->
-    <span class="text-left"> <?php print_r($item->getUser()) ?></span>
-    <span class="text-right"><?php echo $item->getPublishedAt()->format('r') ?></span>
+    <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
+    <a href="<?php echo $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]) ?>">
+        <?php echo $item->getUser()->getLogin() ?>
+    </a>
 </div>
 <article><?php echo $item->getContent() ?></article>

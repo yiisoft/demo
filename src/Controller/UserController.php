@@ -4,8 +4,8 @@ namespace App\Controller;
 use App\Controller;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class UserController extends Controller
 {
@@ -14,7 +14,7 @@ class UserController extends Controller
         return 'user';
     }
 
-    public function index(UserRepository $repository): ResponseInterface
+    public function index(UserRepository $repository): Response
     {
         $response = $this->responseFactory->createResponse();
 
@@ -25,6 +25,26 @@ class UserController extends Controller
         $output = $this->render('index', $data);
 
         $response->getBody()->write($output);
+        return $response;
+    }
+
+    public function profile(Request $request, UserRepository $repository): Response
+    {
+        $login = $request->getAttribute('login', null);
+
+        $item = $repository->findByLogin($login);
+        if ($item === null) {
+            return $this->responseFactory->createResponse(404);
+        }
+
+        $data = [
+            'item' => $item,
+        ];
+        $response = $this->responseFactory->createResponse();
+
+        $output = $this->render('profile', $data);
+        $response->getBody()->write($output);
+
         return $response;
     }
 }
