@@ -2,10 +2,14 @@
 namespace App\Factory;
 
 use App\Controller\AuthController;
+use App\Controller\BlogController;
+use App\Controller\UserController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
+use Yiisoft\Router\Group;
 use Yiisoft\Router\Method;
 use Yiisoft\Router\Route;
+use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
 use App\Controller\SiteController;
@@ -20,6 +24,15 @@ class AppRouterFactory
                 ->to(new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index')
             ,
+            Route::get('/blog/')
+                ->to(new ActionCaller(BlogController::class, 'index', $container))
+                ->name('blog/index')
+            ,
+            Route::get('/user/index')
+                 ->to(new ActionCaller(UserController::class, 'index', $container))
+                 ->name('user/index')
+            ,
+
             Route::methods([Method::GET, Method::POST], '/contact')
                 ->to(new ActionCaller(ContactController::class, 'contact', $container))
                 ->name('site/contact')
@@ -39,6 +52,17 @@ class AppRouterFactory
             ,
         ];
 
-        return (new RouterFactory(new FastRouteFactory(), $routes))($container);
+        $router = (new RouterFactory(new FastRouteFactory(), $routes))($container);
+
+        // $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
+        //     $r->addRoute(
+        //         Route::get('/')
+        //              ->to(new ActionCaller(BlogController::class, 'index', $container))
+        //              ->name('blog/index')
+        //     );
+        // });
+
+
+        return $router;
     }
 }

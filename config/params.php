@@ -1,5 +1,6 @@
 <?php
 
+use App\Command\Fixture\AddCommand;
 use App\Command\User\CreateCommand;
 
 return [
@@ -26,6 +27,7 @@ return [
 
     'commands' => [
         'user/create' => CreateCommand::class,
+        'fixture/add' => AddCommand::class,
     ],
 
     // cycle DBAL config

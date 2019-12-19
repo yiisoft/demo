@@ -9,7 +9,6 @@ use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
-use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Security\Random;
 
 /**
@@ -34,6 +33,12 @@ class Post
      * @var string
      */
     protected $title;
+
+    /**
+     * @Column(type="bool", default="false")
+     * @var bool
+     */
+    protected $public;
 
     /**
      * @Column(type="text")
@@ -68,8 +73,9 @@ class Post
      */
     protected $user;
 
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->user = $user;
         if (!isset($this->slug)) {
             $this->resetSlug();
         }
@@ -108,6 +114,16 @@ class Post
     public function setContent(string $content): void
     {
         $this->content = $content;
+    }
+
+    public function isPublic(): bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): void
+    {
+        $this->public = $public;
     }
 
     public function getCreatedAt(): DateTimeImmutable

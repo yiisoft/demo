@@ -8,15 +8,13 @@ use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Yiisoft\Yii\Console\ExitCode;
 
 class CreateCommand extends Command
 {
-    private const EXIT_CODE_FAILED_TO_PERSIST = 1;
-
-    private $orm;
+    private ORMInterface $orm;
 
     protected static $defaultName = 'user/create';
 
@@ -35,7 +33,7 @@ class CreateCommand extends Command
             ->addArgument('password', InputArgument::REQUIRED, 'Password');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -53,7 +51,8 @@ class CreateCommand extends Command
             $io->success('User created');
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
-            return self::EXIT_CODE_FAILED_TO_PERSIST;
+            return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
+        return ExitCode::OK;
     }
 }

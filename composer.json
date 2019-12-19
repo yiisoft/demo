@@ -49,6 +49,7 @@
         "yiisoft/yii-cycle": "^3.0@dev"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.9",
         "hiqdev/composer-config-plugin": "^1.0@dev"
     },
     "autoload": {
@@ -75,8 +76,5 @@
                 "config/console.php"
             ]
         }
-    },
-    "config": {
-        "sort-packages": true
     }
 }

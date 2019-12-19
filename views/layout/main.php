@@ -21,12 +21,18 @@ $this->beginPage();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yii Demo</title>
     <?php $this->head() ?>
+    <style>
+        body {
+            background-color: #1b1e21;
+            color: #9fcdff;
+        }
+    </style>
 </head>
 <body>
 <?php
 $this->beginBody();
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light container">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark container">
     <a class="navbar-brand" href="<?= $urlGenerator->generate('site/index') ?>">Yii Demo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +41,12 @@ $this->beginBody();
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $urlGenerator->generate('blog/index') ?>">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $urlGenerator->generate('user/index') ?>">Users</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= $urlGenerator->generate('site/contact') ?>">Contact</a>
             </li>
