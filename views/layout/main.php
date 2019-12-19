@@ -21,12 +21,6 @@ $this->beginPage();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yii Demo</title>
     <?php $this->head() ?>
-    <style>
-        body {
-            background-color: #1b1e21;
-            color: #9fcdff;
-        }
-    </style>
 </head>
 <body>
 <?php

@@ -28,6 +28,10 @@ class AppRouterFactory
                 ->to(new ActionCaller(BlogController::class, 'index', $container))
                 ->name('blog/index')
             ,
+            Route::get('/blog/page/{slug}')
+                ->to(new ActionCaller(BlogController::class, 'page', $container))
+                ->name('blog/page')
+            ,
             Route::get('/user/index')
                  ->to(new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index')

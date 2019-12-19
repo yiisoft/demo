@@ -124,4 +124,9 @@ class User implements IdentityInterface
     {
         return $this->posts;
     }
+
+    public function addPost(Post $p): void
+    {
+        $this->posts->add($p);
+    }
 }

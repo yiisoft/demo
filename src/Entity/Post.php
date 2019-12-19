@@ -69,13 +69,12 @@ class Post
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false)
-     * @var User
+     * @var \Cycle\ORM\Promise\Reference
      */
     protected $user;
 
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
         if (!isset($this->slug)) {
             $this->resetSlug();
         }
@@ -141,7 +140,12 @@ class Post
         return $this->deletedAt;
     }
 
-    public function getUser(): User
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getUser()
     {
         return $this->user;
     }
@@ -157,10 +161,5 @@ class Post
     public function setPublishedAt(?DateTimeImmutable $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
-    }
-
-    public function isPublished(): bool
-    {
-        return $this->publishedAt && $this->publishedAt->diff(new \DateTime())->s < 0;
     }
 }

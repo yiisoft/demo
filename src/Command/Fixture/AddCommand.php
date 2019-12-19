@@ -53,11 +53,16 @@ class AddCommand extends Command
         for ($i = 0; $i <= $count; ++$i) {
             /** @var User $user */
             $user = $users[array_rand($users)];
-            $post = new Post($user);
-            $user->getPosts()->add($post);
-            $post->setTitle($faker->text(250));
+            $post = new Post();
+            $post->setUser($user);
+            $user->addPost($post);
+            $post->setTitle($faker->text(64));
             $post->setContent($faker->realText(4000));
-            $post->setPublic((bool)rand(0, 1));
+            $public = (bool)rand(0, 1);
+            $post->setPublic($public);
+            if ($public) {
+                $post->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
+            }
         }
 
         try {
