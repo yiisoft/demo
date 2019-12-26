@@ -26,7 +26,7 @@ $this->beginPage();
 <?php
 $this->beginBody();
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-dark container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light container">
     <a class="navbar-brand" href="<?= $urlGenerator->generate('site/index') ?>">Yii Demo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@ $this->beginBody();
         </ul>
     </div>
 </nav>
-<main role="main" class="container">
+<main role="main" class="container py-4">
     <?= $content ?>
 </main>
 <?php

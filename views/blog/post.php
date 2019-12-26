@@ -5,6 +5,7 @@
  * @var \Yiisoft\View\WebView $this
  */
 
+use Yiisoft\Html\Html;
 
 #todo: escape strings
 ?>
@@ -12,8 +13,11 @@
 <h1><?php echo $item->getTitle() ?></h1>
 <div class="">
     <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
-    <a href="<?php echo $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]) ?>">
-        <?php echo $item->getUser()->getLogin() ?>
-    </a>
+    <?php
+    echo Html::a(
+        Html::encode($item->getUser()->getLogin()),
+        $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
+    );
+    ?>
 </div>
-<article><?php echo $item->getContent() ?></article>
+<?php echo Html::tag('article', $item->getContent()) ?>

@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
+use Faker\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +40,11 @@ class AddCommand extends Command
 
         $count = $input->getArgument('count');
         // get faker
-        $faker = \Faker\Factory::create();
+        if (!class_exists(Factory::class)) {
+            $io->error('Faker should be installed. Run `composer install --dev`');
+            return ExitCode::UNSPECIFIED_ERROR;
+        }
+        $faker = Factory::create();
 
         // users
         $users = [];

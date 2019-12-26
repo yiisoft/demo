@@ -5,11 +5,10 @@
  * @var \Yiisoft\View\WebView $this
  */
 
+use Yiisoft\Html\Html;
 
-#todo: escape strings
+echo Html::tag('h1', Html::encode($item->getLogin()));
 ?>
-
-<h1><?php echo $item->getLogin() ?></h1>
 <div class="">
     <span class="text-muted">Created at <?php echo $item->getCreatedAt()->format('H:i:s d.m.Y') ?></span>
 </div>

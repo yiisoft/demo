@@ -24,14 +24,6 @@ class AppRouterFactory
                 ->to(new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index')
             ,
-            Route::get('/blog/')
-                ->to(new ActionCaller(BlogController::class, 'index', $container))
-                ->name('blog/index')
-            ,
-            Route::get('/blog/page/{slug}')
-                ->to(new ActionCaller(BlogController::class, 'page', $container))
-                ->name('blog/page')
-            ,
             Route::get('/user/')
                  ->to(new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index')
@@ -62,14 +54,18 @@ class AppRouterFactory
 
         $router = (new RouterFactory(new FastRouteFactory(), $routes))($container);
 
-        // $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
-        //     $r->addRoute(
-        //         Route::get('/')
-        //              ->to(new ActionCaller(BlogController::class, 'index', $container))
-        //              ->name('blog/index')
-        //     );
-        // });
-
+        $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
+            $r->addRoute(
+                Route::get('/')
+                     ->to(new ActionCaller(BlogController::class, 'index', $container))
+                     ->name('blog/index')
+            );
+            $r->addRoute(
+                Route::get('/page/{slug}')
+                     ->to(new ActionCaller(BlogController::class, 'page', $container))
+                     ->name('blog/page')
+            );
+        });
 
         return $router;
     }

@@ -19,6 +19,7 @@ class BlogController extends Controller
 
         $data = [
             'items' => $repository->findLastPublic(),
+            'archive' => $repository->getArchive(),
         ];
 
         $output = $this->render('index', $data);

@@ -5,7 +5,6 @@ namespace App\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
-use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
@@ -13,6 +12,12 @@ use Yiisoft\Security\Random;
 
 /**
  * @Entity(repository="App\Repository\PostRepository", mapper="App\Mapper\PostMapper")
+ * @Table(
+ *     indexes={
+ *         @Index(columns={"updatedAt"}),
+ *         @Index(columns={"public"})
+ *     }
+ * )
  */
 class Post
 {

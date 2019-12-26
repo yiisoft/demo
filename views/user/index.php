@@ -5,14 +5,14 @@
  * @var \Yiisoft\View\WebView $this
  */
 
-#todo: escape strings
-?>
-<p>Users count: <?php echo count($items) ?></p>
+use Yiisoft\Html\Html;
 
-<?php
+echo Html::tag('p', 'Users count: ' . count($items));
+
 foreach ($items as $item) {
-    ?>
-    <a class="btn btn-link"
-       href="<?php echo $urlGenerator->generate('user/profile', ['login' => $item->getLogin()]) ?>"
-    ><?php echo $item->getLogin() ?></a><?php
+    echo Html::a(
+        Html::encode($item->getLogin()),
+        $urlGenerator->generate('user/profile', ['login' => $item->getLogin()]),
+        ['class' => 'btn btn-link']
+    );
 }
