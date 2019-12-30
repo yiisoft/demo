@@ -61,10 +61,10 @@ return [
         ],
     ],
 
-    \Yiisoft\Yii\Web\Middleware\SubFolderMiddleware::class => [
-        '__construct()' => [Reference::to(UrlGeneratorInterface::class), Reference::to(Aliases::class)],
-        // 'prefix' => '',
-    ],
+    // here you can configure custom prefix of the web path
+    // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
+    //     'prefix' => '',
+    // ],
 
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
