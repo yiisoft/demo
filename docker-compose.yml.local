@@ -2,41 +2,14 @@ version: '3'
 
 services:
 
-  #PHP Service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: yiisoftware/yii3-php
-    container_name: yii-app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
+  php:
+    image: yiisoftware/yii-php:7.4-apache
+    working_dir: /app
     volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - yii-network
-
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: yii-webserver
-    restart: unless-stopped
-    tty: true
+      - ./:/app
+      # TODO: temporary workaround for public web-root
+      - ./public:/app/web
+      # host-volume for composer cache
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
     ports:
-      - "8080:80"
-      - "4043:443"
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    networks:
-      - yii-network
-
-#Docker Networks
-networks:
-  yii-network:
-    driver: bridge
+      - '30080:80'
