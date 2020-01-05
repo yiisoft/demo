@@ -10,7 +10,12 @@ use Yiisoft\Html\Html;
  * @var string $content
  */
 
-AppAsset::register($this);
+$assetManager->register([
+    AppAsset::class
+]);
+
+$this->setCssFiles($assetManager->getCssFiles());
+$this->setJsFiles($assetManager->getJsFiles());
 
 $this->beginPage();
 ?><!DOCTYPE html>
