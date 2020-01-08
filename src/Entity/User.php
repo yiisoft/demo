@@ -6,10 +6,10 @@ use Yiisoft\Auth\IdentityInterface;
 
 class User implements IdentityInterface
 {
-    private $id;
-    private $token;
-    private $login;
-    private $passwordHash;
+    private string $id;
+    private string $token;
+    private string $login;
+    private string $passwordHash;
 
     public function __construct(string $id, string $login)
     {

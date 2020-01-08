@@ -9,19 +9,24 @@ use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected $responseFactory;
-    private $aliases;
-    private $view;
-    private $layout;
-    protected $user;
+    protected ResponseFactoryInterface $responseFactory;
+    protected User $user;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, User $user)
-    {
+    private Aliases $aliases;
+    private WebView $view;
+    private string $layout;
+
+    public function __construct(
+        ResponseFactoryInterface $responseFactory,
+        User $user,
+        Aliases $aliases,
+        WebView $view
+    ) {
         $this->responseFactory = $responseFactory;
+        $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
         $this->layout = $aliases->get('@views') . '/layout/main';
-        $this->user = $user;
     }
 
     protected function render(string $view, array $parameters = []): string
