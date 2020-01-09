@@ -6,10 +6,10 @@ use Yiisoft\Auth\IdentityInterface;
 
 class User implements IdentityInterface
 {
-    private $id;
-    private $token;
-    private $login;
-    private $passwordHash;
+    private string $id;
+    private ?string $token = null;
+    private string $login;
+    private ?string $passwordHash = null;
 
     public function __construct(string $id, string $login)
     {
@@ -39,6 +39,9 @@ class User implements IdentityInterface
 
     public function validatePassword(string $password): bool
     {
+        if ($this->passwordHash === null) {
+            return false;
+        }
         return (new PasswordHasher())->validate($password, $this->passwordHash);
     }
 

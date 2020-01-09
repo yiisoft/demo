@@ -16,14 +16,20 @@ use Yiisoft\Yii\Web\User\User;
 
 class ContactController extends Controller
 {
-    private $mailer;
-    private $logger;
+    private MailerInterface $mailer;
+    private LoggerInterface $logger;
 
-    public function __construct(ResponseFactoryInterface $responseFactory, Aliases $aliases, WebView $view, User $user, MailerInterface $mailer, LoggerInterface $logger)
-    {
+    public function __construct(
+        ResponseFactoryInterface $responseFactory,
+        Aliases $aliases,
+        WebView $view,
+        User $user,
+        MailerInterface $mailer,
+        LoggerInterface $logger
+    ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        parent::__construct($responseFactory, $aliases, $view, $user);
+        parent::__construct($responseFactory, $user, $aliases, $view);
     }
 
     protected function getId(): string
