@@ -47,7 +47,7 @@ class UserRepository implements IdentityRepositoryInterface
         return $this->findIdentityBy('token', $token);
     }
 
-    public function findByLogin(string $login): ?IdentityInterface
+    public function findByLogin(string $login): ?User
     {
         return $this->findIdentityBy('login', $login);
     }
