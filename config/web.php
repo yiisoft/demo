@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
@@ -61,10 +60,10 @@ return [
         ],
     ],
 
-    \Yiisoft\Yii\Web\Middleware\SubFolderMiddleware::class => [
-        '__construct()' => [Reference::to(UrlGeneratorInterface::class), Reference::to(Aliases::class)],
-        // 'prefix' => '',
-    ],
+    // here you can configure custom prefix of the web path
+    // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
+    //     'prefix' => '',
+    // ],
 
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,

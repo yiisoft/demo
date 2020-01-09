@@ -2,7 +2,9 @@
 namespace App\Factory;
 
 use App\Controller\AuthController;
+use App\Controller\ContactController;
 use App\Controller\BlogController;
+use App\Controller\SiteController;
 use App\Controller\UserController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
@@ -12,8 +14,6 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
-use App\Controller\SiteController;
-use App\Controller\ContactController;
 
 class AppRouterFactory
 {
@@ -22,34 +22,26 @@ class AppRouterFactory
         $routes = [
             Route::get('/')
                 ->to(new ActionCaller(SiteController::class, 'index', $container))
-                ->name('site/index')
-            ,
-            Route::get('/user/')
-                 ->to(new ActionCaller(UserController::class, 'index', $container))
-                 ->name('user/index')
-            ,
-            Route::get('/user/{login}')
-                 ->to(new ActionCaller(UserController::class, 'profile', $container))
-                 ->name('user/profile')
-            ,
-
+                ->name('site/index'),
             Route::methods([Method::GET, Method::POST], '/contact')
                 ->to(new ActionCaller(ContactController::class, 'contact', $container))
-                ->name('site/contact')
-            ,
+                ->name('site/contact'),
             Route::get('/test/{id:\w+}')
                 ->to(new ActionCaller(SiteController::class, 'testParameter', $container))
-                ->name('site/test')
-            ,
-
+                ->name('site/test'),
             Route::methods([Method::GET, Method::POST], '/login')
                 ->to(new ActionCaller(AuthController::class, 'login', $container))
-                ->name('site/login')
-            ,
+                ->name('site/login'),
             Route::get('/logout')
                 ->to(new ActionCaller(AuthController::class, 'logout', $container))
-                ->name('site/logout')
-            ,
+                ->name('site/logout'),
+
+            Route::get('/user/')
+                 ->to(new ActionCaller(UserController::class, 'index', $container))
+                 ->name('user/index'),
+            Route::get('/user/{login}')
+                 ->to(new ActionCaller(UserController::class, 'profile', $container))
+                 ->name('user/profile'),
         ];
 
         $router = (new RouterFactory(new FastRouteFactory(), $routes))($container);

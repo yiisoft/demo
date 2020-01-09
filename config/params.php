@@ -2,6 +2,7 @@
 
 use App\Command\Fixture\AddCommand;
 use App\Command\User\CreateCommand;
+use Cycle\Schema\Generator;
 
 return [
     'mailer' => [
@@ -50,6 +51,11 @@ return [
     'cycle.common' => [
         'entityPaths' => [
             '@src/Entity'
+        ],
+        'cacheKey' => 'Cycle-ORM-Schema',
+        'generators' => [
+            // sync table changes to database
+            Generator\SyncTables::class,
         ],
     ],
     // cycle migration config
