@@ -3,7 +3,9 @@
 namespace App\Command\Fixture;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\User;
+use App\Repository\TagRepository;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Faker\Factory;
@@ -54,6 +56,14 @@ class AddCommand extends Command
             $user->setPassword($faker->password);
             $users[] = $user;
         }
+        // tags
+        /** @var TagRepository $tagRepository */
+        $tagRepository = $this->orm->getRepository(Tag::class);
+        $tags = [];
+        for ($i = 0; $i <= $count; ++$i) {
+            $tag = $tagRepository->getOrCreate($faker->word());
+            $tags[] = $tag;
+        }
         // posts
         for ($i = 0; $i <= $count; ++$i) {
             /** @var User $user */
@@ -67,6 +77,10 @@ class AddCommand extends Command
             $post->setPublic($public);
             if ($public) {
                 $post->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
+            }
+            $postTags = (array)array_rand($tags, rand(1, count($tags)));
+            foreach ($postTags as $tagId) {
+                $post->addTag($tags[$tagId]);
             }
         }
 

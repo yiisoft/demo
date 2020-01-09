@@ -16,22 +16,22 @@ class PostRepository extends Select\Repository
         parent::__construct(new Select($orm, $role));
     }
 
-    public function findLastPublic(int $limit = 50, int $start = 0): Iterator
+    public function findLastPublic(array $load = [], int $start = 0, int $limit = 50): Iterator
     {
         return $this->select()
                     ->where(['public' => true])
                     ->orderBy('published_at', 'DESC')
                     ->offset($start)
                     ->limit($limit)
-                    ->load('user')
+                    ->load($load)
                     ->getIterator();
     }
 
-    public function findBySlug(string $slug): ?Post
+    public function findBySlug(string $slug, array $load = []): ?Post
     {
         return $this->select()
                     ->where(['slug' => $slug])
-                    ->load('user')
+                    ->load($load)
                     ->fetchOne();
     }
 

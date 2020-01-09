@@ -5,9 +5,11 @@ namespace App\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
+use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\Random;
 
 /**
@@ -81,8 +83,15 @@ class Post
      */
     protected $user;
 
+    /**
+     * @ManyToMany(target="App\Entity\Tag", though="PostTag", fkAction="CASCADE")
+     * @var ArrayCollection
+     */
+    protected $tags;
+
     public function __construct()
     {
+        $this->tags = new ArrayCollection();
         if (!isset($this->slug)) {
             $this->resetSlug();
         }
@@ -169,5 +178,18 @@ class Post
     public function setPublishedAt(?DateTimeImmutable $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
+    }
+
+    /**
+     * @return ArrayCollection|Tag[]
+     */
+    public function getTags(): ArrayCollection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $post): void
+    {
+        $this->tags->add($post);
     }
 }

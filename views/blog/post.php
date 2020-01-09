@@ -7,10 +7,8 @@
 
 use Yiisoft\Html\Html;
 
-#todo: escape strings
 ?>
-
-<h1><?php echo $item->getTitle() ?></h1>
+<h1><?php echo Html::encode($item->getTitle()) ?></h1>
 <div class="">
     <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
     <?php
@@ -20,4 +18,18 @@ use Yiisoft\Html\Html;
     );
     ?>
 </div>
-<?php echo Html::tag('article', $item->getContent()) ?>
+<?php
+
+echo Html::tag('article', Html::encode($item->getContent()));
+
+if ($item->getTags()->count()) {
+    echo Html::beginTag('div', ['class' => 'mt-3']);
+    foreach ($item->getTags() as $tag) {
+        echo Html::a(
+            Html::encode($tag->getLabel()),
+            $urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
+            ['class' => 'btn btn-outline-secondary btn-sm mx-1']
+        );
+    }
+    echo Html::endTag('div');
+}

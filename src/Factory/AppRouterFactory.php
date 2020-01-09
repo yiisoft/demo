@@ -57,6 +57,11 @@ class AppRouterFactory
                      ->to(new ActionCaller(BlogController::class, 'page', $container))
                      ->name('blog/page')
             );
+            $r->addRoute(
+                Route::get('/tag/{label}')
+                     ->to(new ActionCaller(BlogController::class, 'tag', $container))
+                     ->name('blog/tag')
+            );
         });
 
         return $router;
