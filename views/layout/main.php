@@ -31,7 +31,7 @@ $this->beginPage();
 <?php
 $this->beginBody();
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light container">
+<nav class="navbar navbar-expand-sm navbar-light bg-light container">
     <a class="navbar-brand" href="<?= $urlGenerator->generate('site/index') ?>">Yii Demo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,16 +49,20 @@ $this->beginBody();
             <li class="nav-item">
                 <a class="nav-link" href="<?= $urlGenerator->generate('site/contact') ?>">Contact</a>
             </li>
+        </ul>
+
+        <ul class="navbar-nav">
             <?php if ($user->getId() !== null): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= $urlGenerator->generate('site/logout') ?>">Logout (<?= Html::encode($user->getLogin()) ?>)</a>
+                    <a class="nav-link" href="<?= $urlGenerator->generate('site/logout') ?>">
+                        Logout (<?= Html::encode($user->getLogin()) ?>)
+                    </a>
                 </li>
             <?php else: ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('site/login') ?>">Login</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $urlGenerator->generate('site/login') ?>">Login</a>
+                </li>
             <?php endif ?>
-
         </ul>
     </div>
 </nav>

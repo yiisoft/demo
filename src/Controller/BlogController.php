@@ -14,13 +14,14 @@ class BlogController extends Controller
         return 'blog';
     }
 
-    public function index(PostRepository $repository): Response
+    public function index(PostRepository $repository, TagRepository $tagRepository): Response
     {
         $response = $this->responseFactory->createResponse();
 
         $data = [
             'items' => $repository->findLastPublic(['user', 'tags']),
             'archive' => $repository->getArchive(),
+            'tags' => $tagRepository->getTagMentions(10),
         ];
 
         $output = $this->render('index', $data);

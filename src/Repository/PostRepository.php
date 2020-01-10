@@ -44,14 +44,14 @@ class PostRepository extends Select\Repository
         $select = $this->select();
         $data = $select
             ->columns([
-                'count(post.id) Count',
-                new Fragment('extract(month from post.published_at) Month'),
-                new Fragment('extract(year from post.published_at) Year'),
+                'count(post.id) count',
+                new Fragment('extract(month from post.published_at) month'),
+                new Fragment('extract(year from post.published_at) year'),
             ])
             ->where(['public' => true])
-            ->orderBy(new Fragment('Year'), 'DESC')
-            ->orderBy(new Fragment('Month'), 'DESC')
-            ->groupBy(new Fragment('Year, Month'))
+            ->orderBy(new Fragment('year'), 'DESC')
+            ->orderBy(new Fragment('month'), 'DESC')
+            ->groupBy(new Fragment('year, month'))
             ->run()->fetchAll();
         return $data;
     }
