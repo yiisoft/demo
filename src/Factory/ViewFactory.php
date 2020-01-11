@@ -6,7 +6,7 @@ use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Asset\AssetManager;
+use Yiisoft\Assets\AssetManager;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\Theme;
 use Yiisoft\View\WebView;
@@ -19,15 +19,15 @@ class ViewFactory
         $theme = $container->get(Theme::class);
         $logger = $container->get(LoggerInterface::class);
         $eventDispatcher = $container->get(EventDispatcherInterface::class);
-        $assetManager = $container->get(AssetManager::class);
 
         $webView = new WebView($aliases->get('@views'), $theme, $eventDispatcher, $logger);
-        $webView->setAssetManager($assetManager);
 
         /**
-         * Passes {{@see UrlGeneratorInterface}} to view files. It will be available as $urlGenerator in view or layout.
+         * Passes {{@see UrlGeneratorInterface}} {{@see AssetManager}} to view files.
+         * It will be available as $urlGenerator, $assetManager in view or layout.
          */
         $webView->setDefaultParameters([
+            'assetManager' => $container->get(AssetManager::class),
             'urlGenerator' => $container->get(UrlGeneratorInterface::class),
         ]);
 

@@ -2,11 +2,11 @@
 /* @var \Psr\Container\ContainerInterface $container */
 
 if (!function_exists('dd')) {
-   function dd(...$variables) {
-       foreach ($variables as $dumpVariable) {
-           \Yiisoft\VarDumper\VarDumper::dump($dumpVariable, 10, true);
-       }
-
-       die();
-   }
+    function dd(...$variables)
+    {
+        foreach ($variables as $variable) {
+            \Yiisoft\VarDumper\VarDumper::dump($variable, 10, true);
+        }
+        die();
+    }
 }
