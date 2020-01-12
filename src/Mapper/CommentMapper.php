@@ -21,7 +21,7 @@ use Cycle\ORM\Mapper\Mapper;
  *      }
  * )
  */
-class PostMapper extends Mapper
+class CommentMapper extends Mapper
 {
     public function queueCreate($entity, Node $node, State $state): ContextCarrierInterface
     {

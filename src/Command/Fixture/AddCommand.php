@@ -2,6 +2,7 @@
 
 namespace App\Command\Fixture;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -18,7 +19,7 @@ use Yiisoft\Yii\Console\ExitCode;
 
 class AddCommand extends Command
 {
-    private $orm;
+    private ORMInterface $orm;
 
     protected static $defaultName = 'fixture/add';
 
@@ -66,21 +67,36 @@ class AddCommand extends Command
         }
         // posts
         for ($i = 0; $i <= $count; ++$i) {
-            /** @var User $user */
-            $user = $users[array_rand($users)];
+            /** @var User $postUser */
+            $postUser = $users[array_rand($users)];
             $post = new Post();
-            $post->setUser($user);
-            $user->addPost($post);
+            $post->setUser($postUser);
+            $postUser->addPost($post);
             $post->setTitle($faker->text(64));
             $post->setContent($faker->realText(4000));
-            $public = (bool)rand(0, 1);
+            $public = rand(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
                 $post->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
             }
+            // tags
             $postTags = (array)array_rand($tags, rand(1, count($tags)));
             foreach ($postTags as $tagId) {
                 $post->addTag($tags[$tagId]);
+            }
+            // comments
+            $commentsCount = rand(0, $count);
+            for ($j = 0; $j <= $commentsCount; ++$j) {
+                $comment = new Comment();
+                $comment->setContent($faker->realText(500));
+                $commentPublic = rand(0, 3) > 0;
+                $comment->setPublic($commentPublic);
+                if ($commentPublic) {
+                    $comment->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
+                }
+                $commentUser = $users[array_rand($users)];
+                $comment->setUser($commentUser);
+                $post->addComment($comment);
             }
         }
 

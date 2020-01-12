@@ -66,12 +66,19 @@ class User implements IdentityInterface
      */
     protected $posts;
 
+    /**
+     * @HasMany(target="App\Entity\Comment")
+     * @var ArrayCollection
+     */
+    protected $comments;
+
     public function __construct()
     {
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         if (!isset($this->token)) {
             $this->resetToken();
         }
-        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -130,5 +137,18 @@ class User implements IdentityInterface
     public function addPost(Post $post): void
     {
         $this->posts->add($post);
+    }
+
+    /**
+     * @return ArrayCollection|Comment[]
+     */
+    public function getComments(): ArrayCollection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $post): void
+    {
+        $this->comments->add($post);
     }
 }

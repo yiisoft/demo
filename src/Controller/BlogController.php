@@ -34,7 +34,13 @@ class BlogController extends Controller
     {
         $slug = $request->getAttribute('slug', null);
 
-        $item = $repository->findBySlug($slug, ['user', 'tags']);
+        $item = $repository->findBySlug($slug, [
+            'user',
+            'tags',
+            'comments' => [
+                'where' => ['public' => '1']
+            ],
+        ]);
 
         if ($item === null) {
             return $this->responseFactory->createResponse(404);

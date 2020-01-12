@@ -5,42 +5,25 @@ namespace App\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
-use Cycle\Annotated\Annotation\Relation\HasMany;
-use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Yiisoft\Security\Random;
 
 /**
- * @Entity(repository="App\Repository\PostRepository", mapper="App\Mapper\PostMapper")
+ * @Entity(mapper="App\Mapper\CommentMapper")
  * @Table(
  *     indexes={
- *         @Index(columns={"publishedAt"}),
  *         @Index(columns={"public"})
  *     }
  * )
  */
-class Post
+class Comment
 {
     /**
      * @Column(type="primary")
      * @var int
      */
     protected $id;
-
-    /**
-     * @Column(type="string(128)")
-     * @var string
-     */
-    protected $slug;
-
-    /**
-     * @Column(type="string(255)")
-     * @var string
-     */
-    protected $title;
 
     /**
      * @Column(type="bool", default="false")
@@ -85,49 +68,14 @@ class Post
     protected $user;
 
     /**
-     * @ManyToMany(target="App\Entity\Tag", though="PostTag", fkAction="CASCADE")
-     * @var ArrayCollection
+     * @BelongsTo(target="App\Entity\Post", nullable=false)
+     * @var Post|\Cycle\ORM\Promise\Reference
      */
-    protected $tags;
-
-    /**
-     * @HasMany(target="App\Entity\Comment")
-     * @var ArrayCollection
-     */
-    protected $comments;
-
-    public function __construct()
-    {
-        $this->tags = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        if (!isset($this->slug)) {
-            $this->resetSlug();
-        }
-    }
+    protected $post;
 
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function resetSlug(): void
-    {
-        $this->slug = Random::string(128);
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
     }
 
     public function getContent(): string
@@ -175,6 +123,16 @@ class Post
         return $this->user;
     }
 
+    public function setPost(Post $post)
+    {
+        $this->post = $post;
+    }
+
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
     public function getPublishedAt(): ?DateTimeImmutable
     {
         return $this->publishedAt;
@@ -183,31 +141,5 @@ class Post
     public function setPublishedAt(?DateTimeImmutable $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
-    }
-
-    /**
-     * @return ArrayCollection|Comment[]
-     */
-    public function getComments(): ArrayCollection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $post): void
-    {
-        $this->comments->add($post);
-    }
-
-    /**
-     * @return ArrayCollection|Tag[]
-     */
-    public function getTags(): ArrayCollection
-    {
-        return $this->tags;
-    }
-
-    public function addTag(Tag $post): void
-    {
-        $this->tags->add($post);
     }
 }
