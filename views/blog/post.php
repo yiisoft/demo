@@ -42,7 +42,10 @@ if ($item->getComments()->count()) {
         <div class="media mt-4">
             <div class="media-body">
                 <div>
-                    <b><?php echo Html::encode('@username') ?></b>
+                    <?php echo Html::a(
+                        Html::encode($comment->getUser()->getLogin()),
+                        $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
+                    ) ?>
                     <span class="text-muted"> at <?php echo $comment->getCreatedAt()->format('H:i:s d.m.Y') ?></span>
                 </div>
                 <div class="mt-1 text-justify">

@@ -40,6 +40,7 @@ class BlogController extends Controller
             'comments' => [
                 'where' => ['public' => '1']
             ],
+            'comments.user',
         ]);
 
         if ($item === null) {
