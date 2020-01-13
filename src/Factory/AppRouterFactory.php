@@ -53,6 +53,11 @@ class AppRouterFactory
                      ->name('blog/index')
             );
             $r->addRoute(
+                Route::get('/archive/{year:\d+}-{month:\d+}[/page{page:\d+}]')
+                     ->to(new ActionCaller(BlogController::class, 'index', $container))
+                     ->name('blog/archive')
+            );
+            $r->addRoute(
                 Route::get('/page/{slug}')
                      ->to(new ActionCaller(BlogController::class, 'page', $container))
                      ->name('blog/page')

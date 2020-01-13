@@ -34,7 +34,10 @@ use Yiisoft\Html\Html;
             // Print month name
             echo Html::a(
                 Date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
-                '?',
+                $urlGenerator->generate('blog/archive', [
+                    'year' => $year,
+                    'month' => $month,
+                ]),
                 ['class' => 'text-muted']
             ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
             echo Html::endTag('div');

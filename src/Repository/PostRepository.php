@@ -16,12 +16,24 @@ class PostRepository extends Select\Repository
         parent::__construct(new Select($orm, $role));
     }
 
-    public function findLastPublic(array $load = []): PaginableInterface
+    public function findLastPublic(): PaginableInterface
     {
         return $this->select()
                     ->where(['public' => true])
                     ->orderBy('published_at', 'DESC')
-                    ->load($load);
+                    ->load(['user', 'tags']);
+    }
+
+    public function findArchivedPublic(int $year, int $month): PaginableInterface
+    {
+        $begin = (new \DateTimeImmutable)->setDate($year, $month, 1)->setTime(0, 0, 0);
+        $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
+
+        return $this->select()
+                    ->where('public', true)
+                    ->andWhere('published_at', 'between', $begin, $end)
+                    ->orderBy('published_at', 'DESC')
+                    ->load(['user', 'tags']);
     }
 
     public function findBySlug(string $slug, array $load = []): ?Post
@@ -37,9 +49,8 @@ class PostRepository extends Select\Repository
      */
     public function getArchive(): array
     {
-        /** @var Select|SelectQuery|Select\QueryBuilder $select */
-        $select = $this->select();
-        $data = $select
+        return $this->select()
+            ->buildQuery()
             ->columns([
                 'count(post.id) count',
                 new Fragment('extract(month from post.published_at) month'),
@@ -50,6 +61,5 @@ class PostRepository extends Select\Repository
             ->orderBy(new Fragment('month'), 'DESC')
             ->groupBy(new Fragment('year, month'))
             ->run()->fetchAll();
-        return $data;
     }
 }

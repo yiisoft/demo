@@ -7,6 +7,7 @@ use App\Repository\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Spiral\Pagination\Paginator;
+use Yiisoft\Router\UrlGeneratorInterface;
 
 class BlogController extends Controller
 {
@@ -17,24 +18,39 @@ class BlogController extends Controller
         return 'blog';
     }
 
-    public function index(Request $request, PostRepository $repository, TagRepository $tagRepository): Response
+    public function index(
+        Request $request,
+        PostRepository $repository,
+        TagRepository $tagRepository,
+        UrlGeneratorInterface $urlGenerator
+    ): Response
     {
-        $response = $this->responseFactory->createResponse();
-
         $pageNum = (int)$request->getAttribute('page', 1);
+        $year = $request->getAttribute('year', null);
+        $month = $request->getAttribute('month', null);
+        $isArchive = $year !== null && $month !== null;
 
-        $postsQuery = $repository->findLastPublic(['user', 'tags']);
+        $postsQuery = $isArchive
+            ? $repository->findArchivedPublic($year, $month)
+            : $repository->findLastPublic();
         $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
 
         $data = [
             'items' => $postsQuery->fetchAll(),
             'paginator' => $paginator,
+            'pageUrlGenerator' => $isArchive
+                ? fn($page) => $urlGenerator->generate(
+                    'blog/archive',
+                    ['year' => $year, 'month' => $month, 'page' => $page]
+                )
+                : fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]),
             'archive' => $repository->getArchive(),
             'tags' => $tagRepository->getTagMentions(10),
         ];
 
         $output = $this->render('index', $data);
 
+        $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);
         return $response;
     }

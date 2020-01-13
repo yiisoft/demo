@@ -4,6 +4,7 @@
  * @var string[][] $tags
  * @var \App\Entity\Post[] $items
  * @var \Spiral\Pagination\Paginator $paginator
+ * @var \Closure $pageUrlGenerator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -58,7 +59,7 @@ use Yiisoft\Html\Html;
             '_pagination',
             [
                 'paginator' => $paginator,
-                'pageUrlGenerator' => fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]),
+                'pageUrlGenerator' => $pageUrlGenerator,
             ]
         )
         ?>

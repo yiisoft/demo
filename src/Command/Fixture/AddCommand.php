@@ -61,8 +61,19 @@ class AddCommand extends Command
         /** @var TagRepository $tagRepository */
         $tagRepository = $this->orm->getRepository(Tag::class);
         $tags = [];
-        for ($i = 0; $i <= $count; ++$i) {
-            $tag = $tagRepository->getOrCreate($faker->word());
+        $tagWords = [];
+        for ($i = 0, $fails = 0; $i <= $count; ++$i) {
+            $word = $faker->word();
+            if (in_array($word, $tagWords, true)) {
+                --$i;
+                ++$fails;
+                if ($fails >= $count) {
+                    break;
+                }
+                continue;
+            }
+            $tagWords[] = $word;
+            $tag = $tagRepository->getOrCreate($word);
             $tags[] = $tag;
         }
         // posts
