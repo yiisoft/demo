@@ -18,9 +18,28 @@ $next = $paginator->nextPage();
             <?php echo Html::a('Previous', $prev ? $pageUrlGenerator($prev) : null, ['class' => 'page-link']) ?>
         </li>
         <?php
-        for ($page = 1, $current = $paginator->getPage(), $pages = $paginator->countPages(); $page <= $pages; ++$page) {
-            echo Html::beginTag('li', ['class' => $current === $page ? 'page-item disabled' : 'page-item']);
-            echo Html::a($page, $pageUrlGenerator($page), ['class' => 'page-link']);
+        $current = $paginator->getPage();
+        $pagesCount = $paginator->countPages();
+        if ($pagesCount > 9) {
+            if ($current <= 4) {
+                $pages = [...range(1, 5), null, ...range($pagesCount - 2, $pagesCount)];
+            } elseif ($pagesCount - $current <= 4) {
+                $pages = [1, 2, null, ...range($pagesCount - 5, $pagesCount)];
+            } else {
+                $pages = [1, 2, null, $current - 1, $current, $current + 1, null, $pagesCount - 1, $pagesCount];
+            }
+        } else {
+            $pages = range(1, $pagesCount);
+        }
+
+        foreach ($pages as $page) {
+            $isDisabled = $current === $page || $page === null;
+            echo Html::beginTag('li', ['class' => $isDisabled ? 'page-item disabled' : 'page-item']);
+            if ($page === null) {
+                echo Html::tag('span', '…', ['class' => 'page-link']);
+            } else {
+                echo Html::a($page, $pageUrlGenerator($page), ['class' => 'page-link']);
+            }
             echo Html::endTag('li');
         }
         ?>
