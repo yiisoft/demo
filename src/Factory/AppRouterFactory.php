@@ -36,7 +36,7 @@ class AppRouterFactory
                 ->to(new ActionCaller(AuthController::class, 'logout', $container))
                 ->name('site/logout'),
 
-            Route::get('/user/')
+            Route::get('/user')
                  ->to(new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index'),
             Route::get('/user/{login}')
@@ -48,7 +48,7 @@ class AppRouterFactory
 
         $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
             $r->addRoute(
-                Route::get('/')
+                Route::get('[/page{page:\d+}]')
                      ->to(new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/index')
             );

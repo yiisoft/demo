@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use Cycle\ORM\Iterator;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Spiral\Database\Injection\Fragment;
 use Spiral\Database\Query\SelectQuery;
+use Spiral\Pagination\PaginableInterface;
 
 class PostRepository extends Select\Repository
 {
@@ -16,15 +16,12 @@ class PostRepository extends Select\Repository
         parent::__construct(new Select($orm, $role));
     }
 
-    public function findLastPublic(array $load = [], int $start = 0, int $limit = 50): Iterator
+    public function findLastPublic(array $load = []): PaginableInterface
     {
         return $this->select()
                     ->where(['public' => true])
                     ->orderBy('published_at', 'DESC')
-                    ->offset($start)
-                    ->limit($limit)
-                    ->load($load)
-                    ->getIterator();
+                    ->load($load);
     }
 
     public function findBySlug(string $slug, array $load = []): ?Post

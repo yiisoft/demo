@@ -2,7 +2,8 @@
 /**
  * @var string[][] $archive
  * @var string[][] $tags
- * @var \Cycle\ORM\Iterator|\App\Entity\Post[] $items
+ * @var \App\Entity\Post[] $items
+ * @var \Spiral\Pagination\Paginator $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -53,6 +54,13 @@ use Yiisoft\Html\Html;
             </div>
             <?php
         }
+        echo $this->render(
+            '_pagination',
+            [
+                'paginator' => $paginator,
+                'pageUrlGenerator' => fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]),
+            ]
+        )
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">

@@ -6,20 +6,29 @@ use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Spiral\Pagination\Paginator;
 
 class BlogController extends Controller
 {
+    private const POSTS_PER_PAGE = 3;
+
     protected function getId(): string
     {
         return 'blog';
     }
 
-    public function index(PostRepository $repository, TagRepository $tagRepository): Response
+    public function index(Request $request, PostRepository $repository, TagRepository $tagRepository): Response
     {
         $response = $this->responseFactory->createResponse();
 
+        $pageNum = (int)$request->getAttribute('page', 1);
+
+        $postsQuery = $repository->findLastPublic(['user', 'tags']);
+        $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
+
         $data = [
-            'items' => $repository->findLastPublic(['user', 'tags']),
+            'items' => $postsQuery->fetchAll(),
+            'paginator' => $paginator,
             'archive' => $repository->getArchive(),
             'tags' => $tagRepository->getTagMentions(10),
         ];
