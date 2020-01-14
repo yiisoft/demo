@@ -39,14 +39,28 @@ echo Html::beginTag('div', ['class' => 'mt-3']);
 if ($item->getComments()->count()) {
     foreach ($item->getComments() as $comment) {
         ?>
-        <div class="media mt-4">
+        <div class="media mt-4 shadow p-3 rounded">
             <div class="media-body">
                 <div>
                     <?php echo Html::a(
                         Html::encode($comment->getUser()->getLogin()),
                         $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
                     ) ?>
-                    <span class="text-muted"> at <?php echo $comment->getCreatedAt()->format('H:i:s d.m.Y') ?></span>
+                    <span class="text-muted">
+                        <i>created at</i> <?php echo $comment->getCreatedAt()->format('H:i d.m.Y') ?>
+                    </span>
+                    <?php if ($comment->isPublic()) { ?>
+                        <span class="text-muted">
+                            <i>published at</i> <?php echo $comment->getPublishedAt()->format('d.m.Y') ?>
+                        </span>
+                    <?php } ?>
+                    <span><?php echo $comment->isPublic()
+                            ? ''
+                            : Html::tag(
+                                'span',
+                                'hidden',
+                                ['class' => 'border border-info rounded px-2 text-muted']
+                            ) ?></span>
                 </div>
                 <div class="mt-1 text-justify">
                     <?php echo Html::encode($comment->getContent()) ?>

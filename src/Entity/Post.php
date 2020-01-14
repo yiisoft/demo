@@ -188,7 +188,7 @@ class Post
     /**
      * @return ArrayCollection|Comment[]
      */
-    public function getComments(): ArrayCollection
+    public function getComments()
     {
         return $this->comments;
     }
@@ -201,7 +201,7 @@ class Post
     /**
      * @return ArrayCollection|Tag[]
      */
-    public function getTags(): ArrayCollection
+    public function getTags()
     {
         return $this->tags;
     }

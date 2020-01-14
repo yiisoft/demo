@@ -11,7 +11,7 @@ use Yiisoft\Router\UrlGeneratorInterface;
 
 class BlogController extends Controller
 {
-    private const POSTS_PER_PAGE = 3;
+    private const POSTS_PER_PAGE = 10;
 
     protected function getId(): string
     {
@@ -47,7 +47,6 @@ class BlogController extends Controller
             'archive' => $repository->getArchive(),
             'tags' => $tagRepository->getTagMentions(10),
         ];
-
         $output = $this->render('index', $data);
 
         $response = $this->responseFactory->createResponse();
@@ -59,14 +58,7 @@ class BlogController extends Controller
     {
         $slug = $request->getAttribute('slug', null);
 
-        $item = $repository->findBySlug($slug, [
-            'user',
-            'tags',
-            'comments' => [
-                'where' => ['public' => '1']
-            ],
-            'comments.user',
-        ]);
+        $item = $repository->fullPostPage($slug, $this->user->isGuest() ? null : $this->user->getId());
 
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
@@ -82,7 +74,7 @@ class BlogController extends Controller
             }
             $response = $this->responseFactory->createResponse();
 
-            // todo: hidden post
+            // todo: hidden post page
             $output = $this->render('post', $data);
         } else {
             $response = $this->responseFactory->createResponse();
@@ -93,23 +85,36 @@ class BlogController extends Controller
         return $response;
     }
 
-    public function tag(Request $request, TagRepository $repository): Response
+    public function tag(
+        Request $request,
+        TagRepository $tagRepo,
+        PostRepository $postRepo,
+        UrlGeneratorInterface $urlGenerator
+    ): Response
     {
         $label = $request->getAttribute('label', null);
+        $pageNum = (int)$request->getAttribute('page', 1);
 
-        $item = $repository->findByLabel($label, ['posts' => [
-            'where' => ['public' => '1'],
-        ]]);
+        $item = $tagRepo->findByLabel($label);
 
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }
+        // preloading of posts
+        $postsQuery = $postRepo->findByTag($item->getId());
+        $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
 
         $data = [
             'item' => $item,
+            'posts' => $postsQuery->fetchAll(),
+            'paginator' => $paginator,
+            'pageUrlGenerator' => fn($page) => $urlGenerator->generate(
+                'blog/tag',
+                ['label' => $label, 'page' => $page]
+            ),
         ];
-
         $output = $this->render('tag', $data);
+
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);
         return $response;

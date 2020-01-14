@@ -63,7 +63,7 @@ class AppRouterFactory
                      ->name('blog/page')
             );
             $r->addRoute(
-                Route::get('/tag/{label}')
+                Route::get('/tag/{label}[/page{page:\d+}]')
                      ->to(new ActionCaller(BlogController::class, 'tag', $container))
                      ->name('blog/tag')
             );

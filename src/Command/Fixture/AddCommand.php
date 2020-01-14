@@ -53,8 +53,8 @@ class AddCommand extends Command
         $users = [];
         for ($i = 0; $i <= $count; ++$i) {
             $user = new User();
-            $user->setLogin($faker->firstName . rand(0, 9999));
-            $user->setPassword($faker->password);
+            $user->setLogin($login = $faker->firstName . rand(0, 9999));
+            $user->setPassword($login);
             $users[] = $user;
         }
         // tags
