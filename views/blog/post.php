@@ -28,7 +28,7 @@ if ($item->getTags()->count()) {
         echo Html::a(
             Html::encode($tag->getLabel()),
             $urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
-            ['class' => 'btn btn-outline-secondary btn-sm mx-1']
+            ['class' => 'btn btn-outline-secondary btn-sm m-1']
         );
     }
     echo Html::endTag('div');

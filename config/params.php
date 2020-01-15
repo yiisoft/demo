@@ -57,6 +57,7 @@ return [
             // sync table changes to database
             Generator\SyncTables::class,
         ],
+        // 'promiseFactory' => \Cycle\ORM\Promise\ProxyFactory::class,
     ],
     // cycle migration config
     'cycle.migrations' => [

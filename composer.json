@@ -19,6 +19,7 @@
     "require": {
         "php": "^7.4",
         "cebe/markdown": "^1.2@dev",
+        "cycle/proxy-factory": "^1.2",
         "hiqdev/composer-config-plugin": "^1.0@dev",
         "nyholm/psr7": "^1.0",
         "psr/log": "^1.1",

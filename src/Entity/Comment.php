@@ -10,7 +10,10 @@ use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
 
 /**
- * @Entity(mapper="App\Mapper\CommentMapper")
+ * @Entity(
+ *     mapper="App\Mapper\CommentMapper",
+ *     constrain="App\Constrain\CommentDefault"
+ * )
  * @Table(
  *     indexes={
  *         @Index(columns={"public"})
@@ -62,7 +65,7 @@ class Comment
     protected $deletedAt;
 
     /**
-     * @BelongsTo(target="App\Entity\User", nullable=false)
+     * @BelongsTo(target="App\Entity\User", nullable=false, load="eager")
      * @var User|\Cycle\ORM\Promise\Reference
      */
     protected $user;

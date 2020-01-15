@@ -14,7 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\Random;
 
 /**
- * @Entity(repository="App\Repository\PostRepository", mapper="App\Mapper\PostMapper")
+ * @Entity(
+ *     repository="App\Repository\PostRepository",
+ *     mapper="App\Mapper\PostMapper",
+ *     constrain="App\Constrain\PostDefault"
+ * )
  * @Table(
  *     indexes={
  *         @Index(columns={"publishedAt"}),

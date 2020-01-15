@@ -2,13 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Comment;
+use App\Constrain\PostDefault;
 use App\Entity\Post;
 use Cycle\ORM\ORMInterface;
-use Cycle\ORM\RepositoryInterface;
 use Cycle\ORM\Select;
 use Spiral\Database\Injection\Fragment;
-use Spiral\Database\Query\SelectQuery;
 use Spiral\Pagination\PaginableInterface;
 
 class PostRepository extends Select\Repository
@@ -24,8 +22,7 @@ class PostRepository extends Select\Repository
     public function findLastPublic(): PaginableInterface
     {
         return $this->select()
-                    ->where(['public' => true])
-                    ->orderBy('published_at', 'DESC')
+                    ->constrain(new PostDefault())
                     ->load(['user', 'tags']);
     }
 
@@ -35,52 +32,34 @@ class PostRepository extends Select\Repository
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
 
         return $this->select()
-                    ->where('public', true)
+                    ->constrain(new PostDefault())
                     ->andWhere('published_at', 'between', $begin, $end)
-                    ->orderBy('published_at', 'DESC')
                     ->load(['user', 'tags']);
     }
 
     public function findByTag($tagId): PaginableInterface
     {
         return $this->select()
-                    ->distinct()
+                    ->constrain(new PostDefault())
                     ->where(['tags.id' => $tagId])
-                    ->where(['public' => true])
-                    ->orderBy('published_at', 'DESC')
                     ->load(['user']);
     }
-
-    public function findBySlug(string $slug, array $load = []): ?Post
-    {
-        return $this->select()
-                    ->where(['slug' => $slug])
-                    ->load($load)
-                    ->fetchOne();
-    }
-
 
     public function fullPostPage(string $slug, $userId = null): ?Post
     {
         $query = $this->select()
-                     ->where(['slug' => $slug])
-                     ->load('user', [
-                         'method' => Select::SINGLE_QUERY,
-                     ])
-                     ->load('tags', [
-                         'method' => Select::OUTER_QUERY,
-                     ])
-                     ->load('comments.user')
-                     ->load('comments', [
-                         'method' => Select::OUTER_QUERY,
-                         'load' => fn (Select\QueryBuilder $qb) =>
-                             $qb->where(
-                                 $userId !== null
-                                     ? ['@or' => [['public' => 1], ['user.id' => $userId]]]
-                                     : ['public' => 1]
-                             )->orderBy('published_at', 'DESC')
-                         ,
-                     ]);
+                      ->constrain(new PostDefault())
+                      ->where(['slug' => $slug])
+                      ->load('user', [
+                          'method' => Select::SINGLE_QUERY,
+                      ])
+                      ->load('tags', [
+                          'method' => Select::OUTER_QUERY,
+                      ])
+                      // ->load('comments.user') // eager loading
+                      ->load('comments', [
+                          'method' => Select::OUTER_QUERY,
+                      ]);
         /** @var null|Post $post */
         $post = $query->fetchOne();
         // /** @var Select\Repository $commentRepo */
