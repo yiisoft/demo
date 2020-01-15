@@ -73,7 +73,9 @@ return [
     WebView::class => new ViewFactory(),
 
     // user
-    IdentityRepositoryInterface::class => UserRepository::class,
+    IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
+        return $container->get(\Cycle\ORM\ORMInterface::class)->getRepository(\App\Entity\User::class);
+    },
     User::class => static function (ContainerInterface $container) {
         $session = $container->get(SessionInterface::class);
         $identityRepository = $container->get(IdentityRepositoryInterface::class);

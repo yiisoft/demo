@@ -2,8 +2,9 @@
 namespace App\Controller;
 
 use App\Controller;
-use App\Repository\PostRepository;
-use App\Repository\TagRepository;
+use App\Entity\Post;
+use App\Entity\Tag;
+use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Spiral\Pagination\Paginator;
@@ -12,6 +13,7 @@ use Yiisoft\Router\UrlGeneratorInterface;
 class BlogController extends Controller
 {
     private const POSTS_PER_PAGE = 10;
+    private const POPULAR_TAGS_COUNT = 10;
 
     protected function getId(): string
     {
@@ -20,19 +22,21 @@ class BlogController extends Controller
 
     public function index(
         Request $request,
-        PostRepository $repository,
-        TagRepository $tagRepository,
+        ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator
     ): Response
     {
+        $postRepo = $orm->getRepository(Post::class);
+        $tagRepo = $orm->getRepository(Tag::class);
+
         $pageNum = (int)$request->getAttribute('page', 1);
         $year = $request->getAttribute('year', null);
         $month = $request->getAttribute('month', null);
         $isArchive = $year !== null && $month !== null;
 
         $postsQuery = $isArchive
-            ? $repository->findArchivedPublic($year, $month)
-            : $repository->findLastPublic();
+            ? $postRepo->findArchivedPublic($year, $month)
+            : $postRepo->findLastPublic();
         $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
 
         $data = [
@@ -44,8 +48,8 @@ class BlogController extends Controller
                     ['year' => $year, 'month' => $month, 'page' => $page]
                 )
                 : fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]),
-            'archive' => $repository->getArchive(),
-            'tags' => $tagRepository->getTagMentions(10),
+            'archive' => $postRepo->getArchive(),
+            'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
         $output = $this->render('index', $data);
 
@@ -54,12 +58,12 @@ class BlogController extends Controller
         return $response;
     }
 
-    public function page(Request $request, PostRepository $repository): Response
+    public function page(Request $request, ORMInterface $orm): Response
     {
+        $postRepo = $orm->getRepository(Post::class);
         $slug = $request->getAttribute('slug', null);
 
-        $item = $repository->fullPostPage($slug, $this->user->isGuest() ? null : $this->user->getId());
-
+        $item = $postRepo->fullPostPage($slug, $this->user->isGuest() ? null : $this->user->getId());
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }
@@ -67,31 +71,21 @@ class BlogController extends Controller
         $data = [
             'item' => $item,
         ];
+        $output = $this->render('post', $data);
 
-        if (!$item->isPublic()) {
-            if ($item->getPublishedAt() == null) {
-                return $this->responseFactory->createResponse(404);
-            }
-            $response = $this->responseFactory->createResponse();
-
-            // todo: hidden post page
-            $output = $this->render('post', $data);
-        } else {
-            $response = $this->responseFactory->createResponse();
-
-            $output = $this->render('post', $data);
-        }
+        $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);
         return $response;
     }
 
     public function tag(
         Request $request,
-        TagRepository $tagRepo,
-        PostRepository $postRepo,
+        ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator
     ): Response
     {
+        $tagRepo = $orm->getRepository(Tag::class);
+        $postRepo = $orm->getRepository(Post::class);
         $label = $request->getAttribute('label', null);
         $pageNum = (int)$request->getAttribute('page', 1);
 

@@ -2,28 +2,18 @@
 
 namespace App\Repository;
 
-use App\Constrain\PostDefault;
 use App\Entity\Post;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Spiral\Database\Injection\Fragment;
 use Spiral\Pagination\PaginableInterface;
 
 class PostRepository extends Select\Repository
 {
-    private ORMInterface $orm;
-
-    public function __construct(ORMInterface $orm, $role = Post::class)
-    {
-        parent::__construct(new Select($orm, $role));
-        $this->orm = $orm;
-    }
-
     public function findLastPublic(): PaginableInterface
-    {
+    {;
         return $this->select()
-                    ->constrain(new PostDefault())
-                    ->load(['user', 'tags']);
+                    ->load(['user', 'tags'])
+                    ->orderBy('published_at', 'DESC');
     }
 
     public function findArchivedPublic(int $year, int $month): PaginableInterface
@@ -32,23 +22,22 @@ class PostRepository extends Select\Repository
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
 
         return $this->select()
-                    ->constrain(new PostDefault())
                     ->andWhere('published_at', 'between', $begin, $end)
+                    ->orderBy('published_at', 'DESC')
                     ->load(['user', 'tags']);
     }
 
     public function findByTag($tagId): PaginableInterface
     {
         return $this->select()
-                    ->constrain(new PostDefault())
                     ->where(['tags.id' => $tagId])
+                    ->orderBy('published_at', 'DESC')
                     ->load(['user']);
     }
 
-    public function fullPostPage(string $slug, $userId = null): ?Post
+    public function fullPostPage(string $slug, ?string $userId = null): ?Post
     {
         $query = $this->select()
-                      ->constrain(new PostDefault())
                       ->where(['slug' => $slug])
                       ->load('user', [
                           'method' => Select::SINGLE_QUERY,
@@ -79,7 +68,6 @@ class PostRepository extends Select\Repository
                 new Fragment('extract(month from post.published_at) month'),
                 new Fragment('extract(year from post.published_at) year'),
             ])
-            ->where(['public' => true])
             ->orderBy(new Fragment('year'), 'DESC')
             ->orderBy(new Fragment('month'), 'DESC')
             ->groupBy(new Fragment('year, month'))

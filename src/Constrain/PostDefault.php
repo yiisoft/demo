@@ -10,7 +10,6 @@ class PostDefault implements ConstrainInterface
 
     public function apply(QueryBuilder $query): void
     {
-        $query->where(['deleted_at' => null, 'public' => true])
-              ->orderBy('published_at', 'DESC');
+        $query->where(['deleted_at' => null, 'public' => true]);
     }
 }

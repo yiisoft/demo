@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 use App\Controller;
-use App\Repository\PostRepository;
-use App\Repository\UserRepository;
+use App\Entity\User;
+use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -14,8 +14,9 @@ class UserController extends Controller
         return 'user';
     }
 
-    public function index(UserRepository $repository): Response
+    public function index(ORMInterface $orm): Response
     {
+        $repository = $orm->getRepository(User::class);
         $response = $this->responseFactory->createResponse();
 
         $data = [
@@ -28,11 +29,12 @@ class UserController extends Controller
         return $response;
     }
 
-    public function profile(Request $request, UserRepository $repository): Response
+    public function profile(Request $request, ORMInterface $orm): Response
     {
+        $userRepo = $orm->getRepository(User::class);
         $login = $request->getAttribute('login', null);
 
-        $item = $repository->findByLogin($login);
+        $item = $userRepo->findByLogin($login);
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }

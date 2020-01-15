@@ -13,9 +13,9 @@ class TagRepository extends Repository
 {
     private ORMInterface $orm;
 
-    public function __construct(ORMInterface $orm, $role = Tag::class)
+    public function __construct(Select $select, ORMInterface $orm)
     {
-        parent::__construct(new Select($orm, $role));
+        parent::__construct($select);
         $this->orm = $orm;
     }
 
@@ -45,6 +45,7 @@ class TagRepository extends Repository
     {
         /** @var Repository $postTagRepo */
         $postTagRepo = $this->orm->getRepository(PostTag::class);
+
         $data = $postTagRepo
             ->select()
             ->buildQuery()
