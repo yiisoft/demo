@@ -2,6 +2,7 @@
 
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
+use App\Parameters;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
@@ -15,6 +16,9 @@ use Yiisoft\Mailer\MailerInterface;
  */
 
 return [
+    Parameters::class => static function () use ($params) {
+        return new Parameters($params);
+    },
     CacheInterface::class => [
         '__class' => Cache::class,
         'handler' => [
