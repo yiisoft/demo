@@ -79,6 +79,9 @@ class User implements IdentityInterface
 
     public function validatePassword(string $password): bool
     {
+        if ($this->passwordHash === null) {
+            return false;
+        }
         return (new PasswordHasher())->validate($password, $this->passwordHash);
     }
 

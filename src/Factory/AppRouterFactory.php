@@ -2,14 +2,14 @@
 namespace App\Factory;
 
 use App\Controller\AuthController;
+use App\Controller\ContactController;
+use App\Controller\SiteController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
-use Yiisoft\Router\Method;
+use Yiisoft\Http\Method;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouterFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
-use App\Controller\SiteController;
-use App\Controller\ContactController;
 
 class AppRouterFactory
 {

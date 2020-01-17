@@ -2,8 +2,8 @@
 
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
+use App\Parameters;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\CacheInterface;
@@ -19,6 +19,15 @@ return [
     Aliases::class => $params['aliases'],
     Psr\SimpleCache\CacheInterface::class => ArrayCache::class,
     CacheInterface::class => Cache::class,
+    Parameters::class => static function () use ($params) {
+        return new Parameters($params);
+    },
+    CacheInterface::class => [
+        '__class' => Cache::class,
+        'handler' => [
+            '__class' => ArrayCache::class,
+        ],
+    ],
     LoggerInterface::class => new LoggerFactory(),
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,

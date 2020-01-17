@@ -60,6 +60,11 @@ return [
         ],
     ],
 
+    // here you can configure custom prefix of the web path
+    // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
+    //     'prefix' => '',
+    // ],
+
     // event dispatcher
     ListenerProviderInterface::class => Provider::class,
     EventDispatcherInterface::class => Dispatcher::class,
