@@ -18,7 +18,6 @@ $this->setCssFiles($assetManager->getCssFiles());
 $this->setJsFiles($assetManager->getJsFiles());
 
 $this->beginPage();
-
 ?><!DOCTYPE html>
 <html lang="">
 <head>

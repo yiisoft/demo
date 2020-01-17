@@ -18,25 +18,20 @@ class AppRouterFactory
         $routes = [
             Route::get('/')
                 ->to(new ActionCaller(SiteController::class, 'index', $container))
-                ->name('site/index')
-            ,
+                ->name('site/index'),
             Route::methods([Method::GET, Method::POST], '/contact')
                 ->to(new ActionCaller(ContactController::class, 'contact', $container))
-                ->name('site/contact')
-            ,
+                ->name('site/contact'),
             Route::get('/test/{id:\w+}')
                 ->to(new ActionCaller(SiteController::class, 'testParameter', $container))
-                ->name('site/test')
-            ,
+                ->name('site/test'),
 
             Route::methods([Method::GET, Method::POST], '/login')
                 ->to(new ActionCaller(AuthController::class, 'login', $container))
-                ->name('site/login')
-            ,
+                ->name('site/login'),
             Route::get('/logout')
                 ->to(new ActionCaller(AuthController::class, 'logout', $container))
-                ->name('site/logout')
-            ,
+                ->name('site/logout'),
         ];
 
         return (new RouterFactory(new FastRouteFactory(), $routes))($container);
