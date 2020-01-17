@@ -4,6 +4,7 @@ use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Parameters;
 use Psr\Log\LoggerInterface;
+use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\CacheInterface;
