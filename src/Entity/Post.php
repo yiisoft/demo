@@ -9,6 +9,7 @@ use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Relation\Pivoted\PivotedCollection;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\Random;
@@ -90,7 +91,7 @@ class Post
 
     /**
      * @ManyToMany(target="App\Entity\Tag", though="PostTag", fkAction="CASCADE")
-     * @var ArrayCollection
+     * @var PivotedCollection
      */
     protected $tags;
 
@@ -102,7 +103,7 @@ class Post
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
+        $this->tags = new PivotedCollection();
         $this->comments = new ArrayCollection();
         if (!isset($this->slug)) {
             $this->resetSlug();

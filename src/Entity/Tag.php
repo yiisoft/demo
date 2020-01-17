@@ -7,6 +7,7 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Relation\Pivoted\PivotedCollection;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -40,13 +41,13 @@ class Tag
 
     /**
      * @ManyToMany(target="App\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
-     * @var ArrayCollection
+     * @var PivotedCollection
      */
     protected $posts;
 
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
+        $this->posts = new PivotedCollection();
     }
 
     public function getId(): ?string

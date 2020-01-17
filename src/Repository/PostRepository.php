@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Constrain\CommentDefault;
 use App\Entity\Post;
 use Cycle\ORM\Select;
 use Spiral\Database\Injection\Fragment;
@@ -48,6 +49,8 @@ class PostRepository extends Select\Repository
                       // ->load('comments.user') // eager loading
                       ->load('comments', [
                           'method' => Select::OUTER_QUERY,
+                          // not works:
+                          'load' => new CommentDefault($userId === null ? null : ['user_id' => $userId]),
                       ]);
         /** @var null|Post $post */
         $post = $query->fetchOne();

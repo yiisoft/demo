@@ -46,18 +46,35 @@ class TagRepository extends Repository
         /** @var Repository $postTagRepo */
         $postTagRepo = $this->orm->getRepository(PostTag::class);
 
-        $data = $postTagRepo
+        $case1 = $postTagRepo
             ->select()
             ->buildQuery()
             ->columns(['t.label', 'count(*) count'])
             ->innerJoin('post', 'p')->on('p.id', 'postTag.post_id')
-                                    ->onWhere('p.public', true)
+                                    ->onWhere(['p.public' => true, 'deleted_at' => null])
             ->innerJoin('tag', 't')->on('t.id', 'postTag.tag_id')
             ->orderBy(new Fragment('count'), 'DESC')
             ->groupBy('tag_id')
-            ->limit($limit)
-            ->fetchAll();
+            ->limit($limit);
 
-        return $data;
+        $case2 = $this
+            ->select()
+            ->with('posts')
+            ->buildQuery()
+            ->columns(['label', 'count(*) count'])
+            ->orderBy('count', 'DESC')
+            ->groupBy('tag.id')
+            ->limit($limit);
+
+        // best way
+        $case3 = $this
+            ->select()
+            ->groupBy('posts.@.tag_id') // relation posts -> pivot (@) -> column
+            ->buildQuery()
+            ->columns(['label', 'count(*) count'])
+            ->orderBy('count', 'DESC')
+            ->limit($limit);
+
+        return $case3->fetchAll();
     }
 }

@@ -25,14 +25,14 @@ class CommentDefault implements ConstrainInterface
         $query->where('deleted_at', '=', null);
         // public or...
         if ($this->publicOrCondition !== null) {
-            $query->andWhere([
+            $query->where([
                 '@or' => [
                     ['public' => true],
                     $this->publicOrCondition,
                 ]
             ]);
         } else {
-            $query->where('public', '=', true);
+            $query->andWhere('public', '=', true);
         }
         // sort
         $query->orderBy('published_at', 'DESC');

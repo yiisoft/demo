@@ -63,7 +63,7 @@ class BlogController extends Controller
         $postRepo = $orm->getRepository(Post::class);
         $slug = $request->getAttribute('slug', null);
 
-        $item = $postRepo->fullPostPage($slug, $this->user->isGuest() ? null : $this->user->getId());
+        $item = $postRepo->fullPostPage($slug, $this->user->getId());
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }
