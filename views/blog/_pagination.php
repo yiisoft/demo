@@ -8,7 +8,7 @@
 use Yiisoft\Html\Html;
 
 $current = $paginator->getCurrentPage();
-$pagesCount = $paginator->getPagesCount();
+$pagesCount = $paginator->getTotalPages();
 $prev = $current === 1 ? null : $current - 1;
 $next = $current === $pagesCount ? null : $current + 1;
 

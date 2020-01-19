@@ -7,11 +7,12 @@ use Yiisoft\Data\Paginator\PaginatorInterface;
 
 interface DataPaginatorInterface extends PaginatorInterface
 {
-    public function withTokenGenerator(Closure $closure): self;
-    public function withPage(int $num): self;
-    public function getCount(): int;
     public function getCurrentPage(): int;
-    public function getPagesCount(): int;
+    public function getItemsCount(): int;
+    public function getOffset(): int;
     public function getPageSize(): int;
     public function getPageToken(int $page): ?string;
+    public function getTotalPages(): int;
+    public function withCurrentPage(int $num): self;
+    public function withTokenGenerator(Closure $closure): self;
 }

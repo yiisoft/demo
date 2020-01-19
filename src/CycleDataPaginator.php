@@ -47,20 +47,15 @@ class CycleDataPaginator implements DataPaginatorInterface
     }
     public function getCurrentPageSize(): int
     {
-        if ($this->currentPage < $this->pagesCount) {
-            return $this->limit;
-        }
-        if ($this->pagesCount === 1 && $this->count > 0) {
+        if ($this->pagesCount === 1) {
             return $this->count;
         }
-        if ($this->dataQuery instanceof Countable) {
-            $this->paginate();
-            return $this->dataQuery->count();
+        if ($this->currentPage === $this->pagesCount) {
+            return $this->count - ($this->currentPage - 1) * $this->limit;
         }
-        // ????
-        return -1;
+        return $this->limit;
     }
-    public function getCount(): int
+    public function getItemsCount(): int
     {
         return $this->count;
     }
@@ -108,7 +103,7 @@ class CycleDataPaginator implements DataPaginatorInterface
     {
         return $this->getPageToken($this->currentPage + 1);
     }
-    public function withPage(int $num): self
+    public function withCurrentPage(int $num): self
     {
         $paginator = clone $this;
         $paginator->currentPage = max(1, min($num, $this->pagesCount));
@@ -129,9 +124,13 @@ class CycleDataPaginator implements DataPaginatorInterface
     {
         return $this->currentPage;
     }
-    public function getPagesCount(): int
+    public function getTotalPages(): int
     {
         return $this->pagesCount;
+    }
+    public function getOffset(): int
+    {
+        return ($this->currentPage - 1) * $this->limit;
     }
 
     private function calcPages(): self
@@ -144,7 +143,7 @@ class CycleDataPaginator implements DataPaginatorInterface
     private function paginate(): self
     {
         $this->dataQuery = clone $this->dataQuery;
-        $offset = ($this->currentPage - 1) * $this->limit;
+        $offset = $this->getOffset();
         if ($this->dataQuery instanceof PaginableInterface) {
             $this->dataQuery->limit($this->limit);
             $this->dataQuery->offset($offset);

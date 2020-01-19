@@ -47,7 +47,7 @@ class BlogController extends Controller
 
         $paginator = $paginator
             ->withPageSize(self::POSTS_PER_PAGE)
-            ->withPage($pageNum);
+            ->withCurrentPage($pageNum);
 
         $data = [
             'paginator' => $paginator,
@@ -108,7 +108,7 @@ class BlogController extends Controller
                 ['label' => $label, 'page' => $page]
             ))
             ->withPageSize(self::POSTS_PER_PAGE)
-            ->withPage($pageNum);
+            ->withCurrentPage($pageNum);
 
         $data = [
             'item' => $item,
