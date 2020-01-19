@@ -4,15 +4,16 @@ namespace App\Controller;
 use App\Controller;
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Repository\PostRepository;
+use App\StdoutQueryLogger;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Spiral\Pagination\Paginator;
 use Yiisoft\Router\UrlGeneratorInterface;
 
 class BlogController extends Controller
 {
-    private const POSTS_PER_PAGE = 10;
+    private const POSTS_PER_PAGE = 3;
     private const POPULAR_TAGS_COUNT = 10;
 
     protected function getId(): string
@@ -26,6 +27,7 @@ class BlogController extends Controller
         UrlGeneratorInterface $urlGenerator
     ): Response
     {
+        /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
         $tagRepo = $orm->getRepository(Tag::class);
 
@@ -34,20 +36,21 @@ class BlogController extends Controller
         $month = $request->getAttribute('month', null);
         $isArchive = $year !== null && $month !== null;
 
-        $postsQuery = $isArchive
+        $paginator = $isArchive
             ? $postRepo->findArchivedPublic($year, $month)
-            : $postRepo->findLastPublic();
-        $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
+                       ->withTokenGenerator(fn($page) => $urlGenerator->generate(
+                           'blog/archive',
+                           ['year' => $year, 'month' => $month, 'page' => $page]
+                       ))
+            : $postRepo->findLastPublic()
+                       ->withTokenGenerator(fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]));
+
+        $paginator = $paginator
+            ->withPageSize(self::POSTS_PER_PAGE)
+            ->withPage($pageNum);
 
         $data = [
-            'items' => $postsQuery->fetchAll(),
             'paginator' => $paginator,
-            'pageUrlGenerator' => $isArchive
-                ? fn($page) => $urlGenerator->generate(
-                    'blog/archive',
-                    ['year' => $year, 'month' => $month, 'page' => $page]
-                )
-                : fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]),
             'archive' => $postRepo->getArchive(),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
@@ -58,8 +61,10 @@ class BlogController extends Controller
         return $response;
     }
 
-    public function page(Request $request, ORMInterface $orm): Response
+    public function page(Request $request, ORMInterface $orm, StdoutQueryLogger $logger): Response
     {
+        $logger->display();
+
         $postRepo = $orm->getRepository(Post::class);
         $slug = $request->getAttribute('slug', null);
 
@@ -85,6 +90,7 @@ class BlogController extends Controller
     ): Response
     {
         $tagRepo = $orm->getRepository(Tag::class);
+        /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
         $label = $request->getAttribute('label', null);
         $pageNum = (int)$request->getAttribute('page', 1);
@@ -95,17 +101,18 @@ class BlogController extends Controller
             return $this->responseFactory->createResponse(404);
         }
         // preloading of posts
-        $postsQuery = $postRepo->findByTag($item->getId());
-        $paginator = (new Paginator(self::POSTS_PER_PAGE))->withPage($pageNum)->paginate($postsQuery);
+        $paginator = $postRepo
+            ->findByTag($item->getId())
+            ->withTokenGenerator(fn($page) => $urlGenerator->generate(
+                'blog/tag',
+                ['label' => $label, 'page' => $page]
+            ))
+            ->withPageSize(self::POSTS_PER_PAGE)
+            ->withPage($pageNum);
 
         $data = [
             'item' => $item,
-            'posts' => $postsQuery->fetchAll(),
             'paginator' => $paginator,
-            'pageUrlGenerator' => fn($page) => $urlGenerator->generate(
-                'blog/tag',
-                ['label' => $label, 'page' => $page]
-            ),
         ];
         $output = $this->render('tag', $data);
 

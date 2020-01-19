@@ -3,37 +3,41 @@
 namespace App\Repository;
 
 use App\Constrain\CommentDefault;
+use App\CycleDataPaginator;
+use App\DataPaginatorInterface;
 use App\Entity\Post;
 use Cycle\ORM\Select;
 use Spiral\Database\Injection\Fragment;
-use Spiral\Pagination\PaginableInterface;
 
 class PostRepository extends Select\Repository
 {
-    public function findLastPublic(): PaginableInterface
-    {;
-        return $this->select()
-                    ->load(['user', 'tags'])
-                    ->orderBy('published_at', 'DESC');
+    public function findLastPublic(): DataPaginatorInterface
+    {
+        $query = $this->select()
+                ->load(['user', 'tags'])
+                ->orderBy('published_at', 'DESC');
+        return new CycleDataPaginator($query);
     }
 
-    public function findArchivedPublic(int $year, int $month): PaginableInterface
+    public function findArchivedPublic(int $year, int $month): DataPaginatorInterface
     {
         $begin = (new \DateTimeImmutable)->setDate($year, $month, 1)->setTime(0, 0, 0);
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
 
-        return $this->select()
+        $query = $this->select()
                     ->andWhere('published_at', 'between', $begin, $end)
                     ->orderBy('published_at', 'DESC')
                     ->load(['user', 'tags']);
+        return new CycleDataPaginator($query);
     }
 
-    public function findByTag($tagId): PaginableInterface
+    public function findByTag($tagId): DataPaginatorInterface
     {
-        return $this->select()
+        $query = $this->select()
                     ->where(['tags.id' => $tagId])
                     ->orderBy('published_at', 'DESC')
                     ->load(['user']);
+        return new CycleDataPaginator($query);
     }
 
     public function fullPostPage(string $slug, ?string $userId = null): ?Post

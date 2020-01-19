@@ -1,9 +1,7 @@
 <?php
 /**
  * @var \App\Entity\Tag $item
- * @var \App\Entity\Post[] $posts
- * @var \Spiral\Pagination\Paginator $paginator
- * @var \Closure $pageUrlGenerator
+ * @var \App\DataPaginatorInterface $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -14,7 +12,8 @@ use Yiisoft\Html\Html;
 <h1><?php echo Html::encode($item->getLabel()) ?></h1>
 <?php
 echo Html::beginTag('ul');
-foreach ($posts as $post) {
+/** @var \App\Entity\Post $post */
+foreach ($paginator->read() as $post) {
     echo Html::beginTag('li', ['class' => 'text-muted']);
     echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/page', ['slug' => $post->getSlug()]));
     echo ' by ';
@@ -26,11 +25,5 @@ foreach ($posts as $post) {
 }
 echo Html::endTag('ul');
 
-echo $this->render(
-    '_pagination',
-    [
-        'paginator' => $paginator,
-        'pageUrlGenerator' => $pageUrlGenerator,
-    ]
-);
+echo $this->render('_pagination', ['paginator' => $paginator]);
 

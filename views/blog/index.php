@@ -2,9 +2,7 @@
 /**
  * @var string[][] $archive
  * @var string[][] $tags
- * @var \App\Entity\Post[] $items
- * @var \Spiral\Pagination\Paginator $paginator
- * @var \Closure $pageUrlGenerator
+ * @var \App\DataPaginatorInterface $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -15,7 +13,8 @@ use Yiisoft\Html\Html;
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
-        foreach ($items as $item) {
+        /** @var \App\Entity\Post $item */
+        foreach ($paginator->read() as $item) {
             $url = $urlGenerator->generate('blog/page', ['slug' => $item->getSlug()]);
             ?>
             <div class="card mb-4">
@@ -55,13 +54,7 @@ use Yiisoft\Html\Html;
             </div>
             <?php
         }
-        echo $this->render(
-            '_pagination',
-            [
-                'paginator' => $paginator,
-                'pageUrlGenerator' => $pageUrlGenerator,
-            ]
-        )
+        echo $this->render('_pagination', ['paginator' => $paginator]);
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">
