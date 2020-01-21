@@ -7,7 +7,8 @@
 
 use Yiisoft\Html\Html;
 
-echo Html::tag('p', 'Users count: ' . count($items));
+echo Html::tag('h1', 'Users');
+echo Html::tag('p', 'Total users: ' . count($items), ['class' => 'text-muted']);
 
 foreach ($items as $item) {
     echo Html::a(

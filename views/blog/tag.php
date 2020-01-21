@@ -8,8 +8,7 @@
 
 use Yiisoft\Html\Html;
 ?>
-
-<h1><?php echo Html::encode($item->getLabel()) ?></h1>
+<h1>Tag <?php echo Html::encode($item->getLabel()) ?></h1>
 <?php
 echo Html::beginTag('ul');
 /** @var \App\Entity\Post $post */
@@ -25,5 +24,7 @@ foreach ($paginator->read() as $post) {
 }
 echo Html::endTag('ul');
 
-echo $this->render('_pagination', ['paginator' => $paginator]);
+if ($paginator->getTotalPages() > 1) {
+    echo $this->render('_pagination', ['paginator' => $paginator]);
+}
 

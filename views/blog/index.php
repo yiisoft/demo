@@ -10,9 +10,20 @@
 use Yiisoft\Html\Html;
 
 ?>
+<h1>Blog</h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
+        $pageSize = $paginator->getCurrentPageSize();
+        if ($pageSize > 0) {
+            echo Html::tag(
+                'p',
+                sprintf('Showing %s out of %s posts', $paginator->getCurrentPageSize(), $paginator->getItemsCount()),
+                ['class' => 'text-muted']
+            );
+        } else {
+            echo Html::tag('p', 'No records');
+        }
         /** @var \App\Entity\Post $item */
         foreach ($paginator->read() as $item) {
             $url = $urlGenerator->generate('blog/page', ['slug' => $item->getSlug()]);
@@ -54,7 +65,9 @@ use Yiisoft\Html\Html;
             </div>
             <?php
         }
-        echo $this->render('_pagination', ['paginator' => $paginator]);
+        if ($paginator->getTotalPages() > 1) {
+            echo $this->render('_pagination', ['paginator' => $paginator]);
+        }
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">

@@ -18,6 +18,7 @@ class CycleDataPaginator implements DataPaginatorInterface
     private array $pageTokens = [];
     private ?Closure $tokenGenerator = null;
     private object $dataQuery;
+    private ?iterable $dataCache = null;
 
     /**
      * CycleDataPaginator constructor.
@@ -36,17 +37,27 @@ class CycleDataPaginator implements DataPaginatorInterface
         $this->limit = max($limit, 1);
         $this->calcPages();
     }
+    public function __clone()
+    {
+        $this->dataCache = null;
+    }
 
     public function read(): iterable
     {
-        $this->paginate();
-        if ($this->dataQuery instanceof IteratorAggregate) {
-            return $this->dataQuery->getIterator();
+        if ($this->dataCache !== null) {
+            return $this->dataCache;
         }
-        return $this->dataQuery->fetchAll();
+        $this->paginate();
+        // if ($this->dataQuery instanceof IteratorAggregate) {
+        //     return $this->dataQuery->getIterator();
+        // }
+        return $this->dataCache = $this->dataQuery->fetchAll();
     }
     public function getCurrentPageSize(): int
     {
+        if ($this->dataCache instanceof Countable) {
+            return $this->dataCache->count();
+        }
         if ($this->pagesCount === 1) {
             return $this->count;
         }
