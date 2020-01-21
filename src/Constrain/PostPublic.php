@@ -5,11 +5,12 @@ namespace App\Constrain;
 use Cycle\ORM\Select\ConstrainInterface;
 use Cycle\ORM\Select\QueryBuilder;
 
-class PostDefault implements ConstrainInterface
+class PostPublic implements ConstrainInterface
 {
 
     public function apply(QueryBuilder $query): void
     {
-        $query->where(['deleted_at' => null, 'public' => true]);
+        // public only
+        $query->where(['public' => true]);
     }
 }

@@ -18,12 +18,11 @@ use Yiisoft\Security\Random;
  * @Entity(
  *     repository="App\Repository\PostRepository",
  *     mapper="App\Mapper\PostMapper",
- *     constrain="App\Constrain\PostDefault"
+ *     constrain="App\Constrain\PostPublic"
  * )
  * @Table(
  *     indexes={
- *         @Index(columns={"publishedAt"}),
- *         @Index(columns={"public"})
+ *         @Index(columns={"public","publishedAt"}),
  *     }
  * )
  */

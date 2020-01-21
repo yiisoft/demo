@@ -12,11 +12,11 @@ use DateTimeImmutable;
 /**
  * @Entity(
  *     mapper="App\Mapper\CommentMapper",
- *     constrain="App\Constrain\CommentDefault"
+ *     constrain="App\Constrain\CommentPublic"
  * )
  * @Table(
  *     indexes={
- *         @Index(columns={"public"})
+ *         @Index(columns={"public","publishedAt"})
  *     }
  * )
  */

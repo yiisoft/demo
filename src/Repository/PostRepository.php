@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Constrain\CommentDefault;
+use App\Constrain\CommentPublic;
 use App\CycleDataPaginator;
 use App\DataPaginatorInterface;
 use App\Entity\Post;
@@ -53,8 +53,8 @@ class PostRepository extends Select\Repository
                       // ->load('comments.user') // eager loading
                       ->load('comments', [
                           'method' => Select::OUTER_QUERY,
-                          // not works:
-                          'load' => new CommentDefault($userId === null ? null : ['user_id' => $userId]),
+                          // not works (default Constrain would not be replaced):
+                          'load' => new CommentPublic($userId === null ? null : ['user_id' => $userId]),
                       ]);
         /** @var null|Post $post */
         $post = $query->fetchOne();

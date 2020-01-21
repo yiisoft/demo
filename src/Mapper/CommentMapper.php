@@ -2,6 +2,7 @@
 
 namespace App\Mapper;
 
+use App\Entity\Comment;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\ORM\Command\ContextCarrierInterface;
@@ -23,30 +24,56 @@ use Cycle\ORM\Mapper\Mapper;
  */
 class CommentMapper extends Mapper
 {
+    /**
+     * @param Comment $entity
+     * @param Node $node
+     * @param State $state
+     * @return ContextCarrierInterface
+     * @throws \Exception
+     */
     public function queueCreate($entity, Node $node, State $state): ContextCarrierInterface
     {
         $command = parent::queueCreate($entity, $node, $state);
+        $now = new \DateTimeImmutable();
 
-        $state->register('created_at', new \DateTimeImmutable(), true);
-        $command->register('created_at', new \DateTimeImmutable(), true);
+        $state->register('created_at', $now, true);
+        $command->register('created_at', $now, true);
 
-        $state->register('updated_at', new \DateTimeImmutable(), true);
-        $command->register('updated_at', new \DateTimeImmutable(), true);
+        $state->register('updated_at', $now, true);
+        $command->register('updated_at', $now, true);
+
+        $this->touch($entity, $node, $state, $command);
 
         return $command;
     }
-
+    /**
+     * @param Comment $entity
+     * @param Node $node
+     * @param State $state
+     * @return ContextCarrierInterface
+     * @throws \Exception
+     */
     public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
     {
         /** @var Update $command */
         $command = parent::queueUpdate($entity, $node, $state);
 
-        $state->register('updated_at', new \DateTimeImmutable(), true);
-        $command->registerAppendix('updated_at', new \DateTimeImmutable());
+        $now = new \DateTimeImmutable();
+
+        $state->register('updated_at', $now, true);
+        $command->registerAppendix('updated_at', $now);
+
+        $this->touch($entity, $node, $state, $command);
 
         return $command;
     }
-
+    /**
+     * @param Comment $entity
+     * @param Node $node
+     * @param State $state
+     * @return CommandInterface
+     * @throws \Exception
+     */
     public function queueDelete($entity, Node $node, State $state): CommandInterface
     {
         // identify entity as being "deleted"
@@ -56,7 +83,10 @@ class CommentMapper extends Mapper
         $command = new Update(
             $this->source->getDatabase(),
             $this->source->getTable(),
-            ['deleted_at' => new \DateTimeImmutable()]
+            [
+                'deleted_at' => new \DateTimeImmutable(),
+                'public' => false,
+            ]
         );
 
         // forward primaryKey value from entity state
@@ -72,5 +102,15 @@ class CommentMapper extends Mapper
         );
 
         return $command;
+    }
+
+    private function touch(Comment $entity, Node $node, State $state, ContextCarrierInterface $command)
+    {
+        $now = new \DateTimeImmutable();
+
+        if ($entity->isPublic() && $entity->getPublishedAt() === null) {
+            $state->register('published_at', $now, true);
+            $command->register('published_at', $now, true);
+        }
     }
 }

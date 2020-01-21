@@ -10,7 +10,7 @@ use Cycle\ORM\Select\QueryBuilder;
  * Public with condition
  * Sorted
  */
-class CommentDefault implements ConstrainInterface
+class CommentPublic implements ConstrainInterface
 {
     private ?array $publicOrCondition;
 
@@ -21,8 +21,6 @@ class CommentDefault implements ConstrainInterface
 
     public function apply(QueryBuilder $query): void
     {
-        // not deleted
-        $query->where('deleted_at', '=', null);
         // public or...
         if ($this->publicOrCondition !== null) {
             $query->where([
