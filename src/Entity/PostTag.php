@@ -14,5 +14,5 @@ class PostTag
      * @Column(type="primary")
      * @var int
      */
-    protected $id;
+    private $id;
 }

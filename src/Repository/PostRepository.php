@@ -7,6 +7,8 @@ use App\CycleDataPaginator;
 use App\DataPaginatorInterface;
 use App\Entity\Post;
 use Cycle\ORM\Select;
+use Spiral\Database\DatabaseInterface;
+use Spiral\Database\Driver\DriverInterface;
 use Spiral\Database\Injection\Fragment;
 
 class PostRepository extends Select\Repository
@@ -68,16 +70,42 @@ class PostRepository extends Select\Repository
      */
     public function getArchive(): array
     {
-        return $this->select()
-            ->buildQuery()
-            ->columns([
-                'count(post.id) count',
-                new Fragment('extract(month from post.published_at) month'),
-                new Fragment('extract(year from post.published_at) year'),
-            ])
-            ->orderBy(new Fragment('year'), 'DESC')
-            ->orderBy(new Fragment('month'), 'DESC')
-            ->groupBy(new Fragment('year, month'))
-            ->run()->fetchAll();
+        try {
+            if ($this->getDriver() instanceof \Spiral\Database\Driver\SQLite\SQLiteDriver) {
+                return $this->select()
+                            ->buildQuery()
+                            ->columns(
+                                [
+                                    'count(post.id) count',
+                                    new Fragment('strftime(\'%m\', post.published_at) month'),
+                                    new Fragment('strftime(\'%Y\', post.published_at) year'),
+                                ]
+                            )
+                            ->orderBy('year', 'DESC')
+                            ->orderBy('month', 'DESC')
+                            ->groupBy('year, month')
+                            ->fetchAll();
+            }
+            return $this->select()
+                        ->buildQuery()
+                        ->columns(
+                            [
+                                'count(post.id) count',
+                                new Fragment('extract(month from post.published_at) month'),
+                                new Fragment('extract(year from post.published_at) year'),
+                            ]
+                        )
+                        ->orderBy('year', 'DESC')
+                        ->orderBy('month', 'DESC')
+                        ->groupBy('year, month')
+                        ->fetchAll();
+        } catch (\Spiral\Database\Exception\StatementException $d) {
+            return [];
+        }
+    }
+
+    private function getDriver(): DriverInterface
+    {
+        return $this->select()->getBuilder()->getLoader()->getSource()->getDatabase()->getDriver(DatabaseInterface::READ);
     }
 }

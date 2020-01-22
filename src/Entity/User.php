@@ -28,49 +28,49 @@ class User implements IdentityInterface
      * @Column(type="primary")
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @Column(type="string(128)")
      * @var string
      */
-    protected $token;
+    private $token;
 
     /**
      * @Column(type="string(48)")
      * @var string
      */
-    protected $login;
+    private $login;
 
     /**
      * @Column(type="string")
      * @var string
      */
-    protected $passwordHash;
+    private $passwordHash;
 
     /**
      * @Column(type="datetime")
      * @var DateTimeImmutable
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
      * @Column(type="datetime")
      * @var DateTimeImmutable
      */
-    protected $updatedAt;
+    private $updatedAt;
 
     /**
      * @HasMany(target="App\Entity\Post")
      * @var ArrayCollection
      */
-    protected $posts;
+    private $posts;
 
     /**
      * @HasMany(target="App\Entity\Comment")
      * @var ArrayCollection
      */
-    protected $comments;
+    private $comments;
 
     public function __construct()
     {

@@ -26,55 +26,55 @@ class Comment
      * @Column(type="primary")
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @Column(type="bool", default="false")
      * @var bool
      */
-    protected $public;
+    private $public;
 
     /**
      * @Column(type="text")
      * @var string
      */
-    protected $content;
+    private $content;
 
     /**
      * @Column(type="datetime")
      * @var DateTimeImmutable
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
      * @Column(type="datetime")
      * @var DateTimeImmutable
      */
-    protected $updatedAt;
+    private $updatedAt;
 
     /**
      * @Column(type="datetime", nullable=true)
      * @var DateTimeImmutable|null
      */
-    protected $publishedAt;
+    private $publishedAt;
 
     /**
      * @Column(type="datetime", nullable=true)
      * @var DateTimeImmutable|null
      */
-    protected $deletedAt;
+    private $deletedAt;
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false, load="eager")
      * @var User|\Cycle\ORM\Promise\Reference
      */
-    protected $user;
+    private $user;
 
     /**
      * @BelongsTo(target="App\Entity\Post", nullable=false)
      * @var Post|\Cycle\ORM\Promise\Reference
      */
-    protected $post;
+    private $post;
 
     public function getId(): ?string
     {

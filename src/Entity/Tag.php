@@ -25,25 +25,25 @@ class Tag
      * @Column(type="primary")
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @Column(type="string(255)")
      * @var string
      */
-    protected $label;
+    private $label;
 
     /**
      * @Column(type="datetime")
      * @var DateTimeImmutable
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
      * @ManyToMany(target="App\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
      * @var PivotedCollection
      */
-    protected $posts;
+    private $posts;
 
     public function __construct()
     {
