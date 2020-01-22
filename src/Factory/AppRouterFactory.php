@@ -25,6 +25,7 @@ class AppRouterFactory
             Route::get('/test/{id:\w+}')
                 ->to(new ActionCaller(SiteController::class, 'testParameter', $container))
                 ->name('site/test'),
+
             Route::methods([Method::GET, Method::POST], '/login')
                 ->to(new ActionCaller(AuthController::class, 'login', $container))
                 ->name('site/login'),
