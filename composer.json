@@ -44,7 +44,8 @@
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
-        "yiisoft/yii-web": "^3.0@dev"
+        "yiisoft/yii-web": "^3.0@dev",
+        "yiisoft/yii-cycle": "^3.0@dev"
     },
     "require-dev": {
     },
