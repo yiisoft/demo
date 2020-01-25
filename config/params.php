@@ -23,9 +23,11 @@ return [
     'session' => [
         'options' => ['cookie_secure' => 0],
     ],
-    
-    'commands' => [
-        'user/create' => CreateCommand::class,
+
+    'console' => [
+        'commands' => [
+            'user/create' => CreateCommand::class,
+        ],
     ],
 
     // cycle DBAL config
