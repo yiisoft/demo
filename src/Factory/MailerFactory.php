@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
@@ -27,6 +28,7 @@ class MailerFactory
 
         $mailer = new Mailer($messageFactory, $composer, $eventDispatcher, $logger, $transport);
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin(new Logger($logger)));
+
         return $mailer;
     }
 }

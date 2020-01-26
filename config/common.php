@@ -19,7 +19,6 @@ use Yiisoft\Mailer\MailerInterface;
 return [
     Aliases::class => $params['aliases'],
     Psr\SimpleCache\CacheInterface::class => ArrayCache::class,
-    CacheInterface::class => Cache::class,
     Parameters::class => static function () use ($params) {
         return new Parameters($params);
     },
@@ -33,12 +32,12 @@ return [
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,
         '__construct()' => [
-            10
-        ]
+            10,
+        ],
     ],
-    \Swift_Transport::class => \Swift_SmtpTransport::class,
-    \Swift_SmtpTransport::class => [
-        '__class' => \Swift_SmtpTransport::class,
+    Swift_Transport::class => Swift_SmtpTransport::class,
+    Swift_SmtpTransport::class => [
+        '__class' => Swift_SmtpTransport::class,
         '__construct()' => [
             'host' => $params['mailer']['host'],
             'port' => $params['mailer']['port'],

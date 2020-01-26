@@ -1,16 +1,17 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller;
-use hiqdev\composer\config\Builder;
+use App\Parameters;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Http\Method;
+use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
 
@@ -18,6 +19,7 @@ class ContactController extends Controller
 {
     private MailerInterface $mailer;
     private LoggerInterface $logger;
+    private Parameters $parameters;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -25,11 +27,13 @@ class ContactController extends Controller
         WebView $view,
         User $user,
         MailerInterface $mailer,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Parameters $parameters
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
         parent::__construct($responseFactory, $user, $aliases, $view);
+        $this->parameters = $parameters;
     }
 
     protected function getId(): string
@@ -44,29 +48,38 @@ class ContactController extends Controller
             'body' => $body,
         ];
         if ($request->getMethod() === Method::POST) {
-            $config = require Builder::path('params');
             $sent = false;
             $error = '';
+
             try {
                 foreach (['subject', 'name', 'email', 'content'] as $name) {
                     if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name) . ' is required');
                     }
                 }
-                $message = $this->mailer->compose('contact', [
-                    'name' => $body['name'],
-                    'email' => $body['email'],
-                    'content' => $body['content']
-                ])
+                $message = $this->mailer->compose(
+                    'contact',
+                    [
+                        'name' => $body['name'],
+                        'email' => $body['email'],
+                        'content' => $body['content'],
+                    ]
+                )
                     ->setSubject($body['subject'])
-                    ->setTo($config['supportEmail'])
-                    ->setFrom($config['mailer']['username']);
+                    ->setTo($this->parameters->get('supportEmail'))
+                    ->setFrom($this->parameters->get('mailer.username'));
 
                 /** @var UploadedFileInterface[] $files */
                 $files = $request->getUploadedFiles();
                 if (!empty($files['file']) && $files['file']->getError() === UPLOAD_ERR_OK) {
                     $file = $files['file'];
-                    $message->attachContent((string)$file->getStream(), ['fileName' => $file->getClientFilename(), 'contentType' => $file->getClientMediaType()]);
+                    $message->attachContent(
+                        (string)$file->getStream(),
+                        [
+                            'fileName' => $file->getClientFilename(),
+                            'contentType' => $file->getClientMediaType(),
+                        ]
+                    );
                 }
 
                 $message->send();
@@ -81,10 +94,10 @@ class ContactController extends Controller
 
         $response = $this->responseFactory->createResponse();
 
-        // $this->layout = null;
         $output = $this->render('form', $parameters);
 
         $response->getBody()->write($output);
+
         return $response;
     }
 }
