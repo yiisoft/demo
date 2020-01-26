@@ -1,6 +1,7 @@
 <?php
 
-use App\Asset\AppAsset;use Yiisoft\Html\Html;
+use App\Asset\AppAsset;
+use Yiisoft\Html\Html;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
