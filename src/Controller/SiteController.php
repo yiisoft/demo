@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller;
-use App\Parameters;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,6 +20,7 @@ class SiteController extends Controller
         $output = $this->render('index');
 
         $response->getBody()->write($output);
+
         return $response;
     }
 
@@ -29,6 +30,7 @@ class SiteController extends Controller
 
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write('You are at test with param ' . $id);
+
         return $response;
     }
 }

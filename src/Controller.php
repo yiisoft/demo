@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -32,6 +33,7 @@ abstract class Controller implements ViewContextInterface
     protected function render(string $view, array $parameters = []): string
     {
         $content = $this->view->render($view, $parameters, $this);
+
         return $this->renderContent($content);
     }
 
