@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use function array_key_exists;
@@ -12,6 +14,7 @@ use function explode;
  * In order to use in a handler or any other place supporting auto-wired injection:
  *
  * ```php
+ *
  * $params = [
  *      'admin' => [
  *          'email' => 'demo@example.com'
@@ -41,7 +44,9 @@ class Parameters
     {
         if (strpos($key, $this->glue) !== false) {
             $keys = explode($this->glue, $key);
-            return $this->hasNesting($keys) ? $this->getNesting($keys) : $default;
+            if ($this->hasNesting($keys)) {
+                return $this->getNesting($keys);
+            }
         }
 
         return $this->has($key) ? $this->parameters[$key] : $default;
@@ -49,8 +54,8 @@ class Parameters
 
     public function has(string $key): bool
     {
-        if (strpos($key, $this->glue) !== false) {
-            return $this->hasNesting(explode($this->glue, $key));
+        if (strpos($key, $this->glue) !== false && $this->hasNesting(explode($this->glue, $key))) {
+            return true;
         }
 
         return array_key_exists($key, $this->parameters);
@@ -70,7 +75,7 @@ class Parameters
             }
             $ref = $ref[$key];
         }
-
+        
         return true;
     }
 
@@ -83,7 +88,7 @@ class Parameters
             }
             $data = $data[$key];
         }
-
+        
         return $data;
     }
 }
