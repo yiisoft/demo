@@ -5,7 +5,6 @@ use App\Controller;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Repository\PostRepository;
-use App\StdoutQueryLogger;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -61,10 +60,8 @@ class BlogController extends Controller
         return $response;
     }
 
-    public function page(Request $request, ORMInterface $orm, StdoutQueryLogger $logger): Response
+    public function page(Request $request, ORMInterface $orm): Response
     {
-        $logger->display();
-
         $postRepo = $orm->getRepository(Post::class);
         $slug = $request->getAttribute('slug', null);
 

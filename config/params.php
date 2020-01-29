@@ -26,9 +26,11 @@ return [
         'options' => ['cookie_secure' => 0],
     ],
 
-    'commands' => [
-        'user/create' => CreateCommand::class,
-        'fixture/add' => AddCommand::class,
+    'console' => [
+        'commands' => [
+            'user/create' => CreateCommand::class,
+            'fixture/add' => AddCommand::class,
+        ],
     ],
 
     // cycle DBAL config
@@ -52,12 +54,14 @@ return [
         'entityPaths' => [
             '@src/Entity'
         ],
+        'cacheEnabled' => true,
         'cacheKey' => 'Cycle-ORM-Schema',
         'generators' => [
             // sync table changes to database
             Generator\SyncTables::class,
         ],
         // 'promiseFactory' => \Cycle\ORM\Promise\ProxyFactory::class,
+        'queryLogger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
     ],
     // cycle migration config
     'cycle.migrations' => [

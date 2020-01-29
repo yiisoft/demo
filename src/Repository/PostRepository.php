@@ -52,7 +52,8 @@ class PostRepository extends Select\Repository
                       ->load('tags', [
                           'method' => Select::OUTER_QUERY,
                       ])
-                      // ->load('comments.user') // eager loading
+                      // force loading in single query with comments
+                      ->load('comments.user', ['method' => Select::SINGLE_QUERY])
                       ->load('comments', [
                           'method' => Select::OUTER_QUERY,
                           // not works (default Constrain would not be replaced):
@@ -100,6 +101,7 @@ class PostRepository extends Select\Repository
                         ->groupBy('year, month')
                         ->fetchAll();
         } catch (\Spiral\Database\Exception\StatementException $d) {
+
             return [];
         }
     }

@@ -1,6 +1,10 @@
 <?php
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\EventDispatcher\Dispatcher;
+use Yiisoft\EventDispatcher\Provider\Provider;
 
 /**
  * @var array $params
@@ -8,4 +12,7 @@ use Yiisoft\Aliases\Aliases;
 
 return [
     Aliases::class => $params['aliases'],
+    // event dispatcher
+    ListenerProviderInterface::class => Provider::class,
+    EventDispatcherInterface::class => Dispatcher::class,
 ];
