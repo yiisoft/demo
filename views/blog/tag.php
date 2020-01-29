@@ -8,6 +8,7 @@
  */
 
 use Yiisoft\Html\Html;
+
 ?>
 <h1>Tag <?php echo Html::encode($item->getLabel()) ?></h1>
 <?php

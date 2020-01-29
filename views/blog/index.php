@@ -7,6 +7,7 @@
  * @var \Yiisoft\View\WebView $this
  */
 
+use App\Entity\Post;
 use Yiisoft\Html\Html;
 
 ?>
@@ -24,46 +25,45 @@ use Yiisoft\Html\Html;
         } else {
             echo Html::tag('p', 'No records');
         }
-        /** @var \App\Entity\Post $item */
+        /** @var Post $item */
         foreach ($paginator->read() as $item) {
             $url = $urlGenerator->generate('blog/page', ['slug' => $item->getSlug()]);
-            ?>
-            <div class="card mb-4">
-                <div class="card-body d-flex flex-column align-items-start">
-                    <?php
+
+            echo Html::beginTag('div', ['class' => 'card mb-4']);
+            echo Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start']);
+
+            echo Html::a(
+                Html::encode($item->getTitle()),
+                $url,
+                ['class' => 'mb-0 h4 text-decoration-none'] // stretched-link
+            );
+            echo Html::tag(
+                'div',
+                $item->getPublishedAt()->format('M, d') . ' by ' . Html::a(
+                    Html::encode($item->getUser()->getLogin()),
+                    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
+                ),
+                ['class' => 'mb-1 text-muted']
+            );
+            echo Html::tag(
+                'p',
+                Html::encode(mb_substr($item->getContent(), 0, 400)) . (mb_strlen($item->getContent()) > 400 ? '…' : ''),
+                ['class' => 'card-text mb-auto']
+            );
+            if ($item->getTags()->count()) {
+                echo Html::beginTag('div', ['class' => 'mt-3']);
+                foreach ($item->getTags() as $tag) {
                     echo Html::a(
-                        Html::encode($item->getTitle()),
-                        $url,
-                        ['class' => 'mb-0 h4 text-decoration-none'] // stretched-link
+                        Html::encode($tag->getLabel()),
+                        $urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
+                        ['class' => 'btn btn-outline-secondary btn-sm mx-1 mt-1']
                     );
-                    echo Html::tag(
-                        'div',
-                        $item->getPublishedAt()->format('M, d') . ' by ' . Html::a(
-                            Html::encode($item->getUser()->getLogin()),
-                            $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
-                        ),
-                        ['class' => 'mb-1 text-muted']
-                    );
-                    echo Html::tag(
-                        'p',
-                        Html::encode(mb_substr($item->getContent(), 0, 400)) . (mb_strlen($item->getContent()) > 400 ? '…' : ''),
-                        ['class' => 'card-text mb-auto']
-                    );
-                    if ($item->getTags()->count()) {
-                        echo Html::beginTag('div', ['class' => 'mt-3']);
-                        foreach ($item->getTags() as $tag) {
-                            echo Html::a(
-                                Html::encode($tag->getLabel()),
-                                $urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
-                                ['class' => 'btn btn-outline-secondary btn-sm mx-1 mt-1']
-                            );
-                        }
-                        echo Html::endTag('div');
-                    }
-                    ?>
-                </div>
-            </div>
-            <?php
+                }
+                echo Html::endTag('div');
+            }
+
+            echo Html::endTag('div'); # .card-body
+            echo Html::endTag('div'); # .card
         }
         if ($paginator->getTotalPages() > 1) {
             echo $this->render('_pagination', ['paginator' => $paginator]);
