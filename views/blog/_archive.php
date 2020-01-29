@@ -20,7 +20,7 @@ use Yiisoft\Html\Html;
     );
     $blockEnd = Html::endTag('li');
     if (count($archive)) {
-        foreach ($archive as $aValue):
+        foreach ($archive as $aValue) {
             $year = $aValue['year'];
             $month = $aValue['month'];
             $count = $aValue['count'];
@@ -42,7 +42,7 @@ use Yiisoft\Html\Html;
             ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
             echo Html::endTag('div');
             $currentYear = $year;
-        endforeach;
+        }
         echo $blockEnd;
     } else {
         echo $blockBegin, 'No records', $blockEnd;

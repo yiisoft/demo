@@ -23,7 +23,7 @@ class PostRepository extends Select\Repository
 
     public function findArchivedPublic(int $year, int $month): DataPaginatorInterface
     {
-        $begin = (new \DateTimeImmutable)->setDate($year, $month, 1)->setTime(0, 0, 0);
+        $begin = (new \DateTimeImmutable())->setDate($year, $month, 1)->setTime(0, 0, 0);
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
 
         $query = $this->select()
@@ -101,7 +101,6 @@ class PostRepository extends Select\Repository
                         ->groupBy('year, month')
                         ->fetchAll();
         } catch (\Spiral\Database\Exception\StatementException $d) {
-
             return [];
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller;
@@ -24,8 +25,7 @@ class BlogController extends Controller
         Request $request,
         ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator
-    ): Response
-    {
+    ): Response {
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
         $tagRepo = $orm->getRepository(Tag::class);
@@ -37,7 +37,7 @@ class BlogController extends Controller
 
         $paginator = $isArchive
             ? $postRepo->findArchivedPublic($year, $month)
-                       ->withTokenGenerator(fn($page) => $urlGenerator->generate(
+                       ->withTokenGenerator(fn ($page) => $urlGenerator->generate(
                            'blog/archive',
                            ['year' => $year, 'month' => $month, 'page' => $page]
                        ))
@@ -84,8 +84,7 @@ class BlogController extends Controller
         Request $request,
         ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator
-    ): Response
-    {
+    ): Response {
         $tagRepo = $orm->getRepository(Tag::class);
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
@@ -100,7 +99,7 @@ class BlogController extends Controller
         // preloading of posts
         $paginator = $postRepo
             ->findByTag($item->getId())
-            ->withTokenGenerator(fn($page) => $urlGenerator->generate(
+            ->withTokenGenerator(fn ($page) => $urlGenerator->generate(
                 'blog/tag',
                 ['label' => $label, 'page' => $page]
             ))

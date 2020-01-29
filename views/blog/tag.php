@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\Entity\Tag $item
  * @var \App\DataPaginatorInterface $paginator
@@ -27,4 +28,3 @@ echo Html::endTag('ul');
 if ($paginator->getTotalPages() > 1) {
     echo $this->render('_pagination', ['paginator' => $paginator]);
 }
-

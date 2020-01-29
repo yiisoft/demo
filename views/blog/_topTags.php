@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var string[][] $tags
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -20,7 +21,7 @@ use Yiisoft\Html\Html;
     $blockEnd = Html::endTag('li');
     echo $blockBegin;
     if (count($tags)) {
-        foreach ($tags as $tagValue):
+        foreach ($tags as $tagValue) {
             $label = $tagValue['label'];
             $count = $tagValue['count'];
 
@@ -31,7 +32,7 @@ use Yiisoft\Html\Html;
                 ['class' => 'text-muted overflow-hidden']
             ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
             echo Html::endTag('div');
-        endforeach;
+        }
     } else {
         echo 'tags not found';
     }

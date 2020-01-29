@@ -7,7 +7,6 @@ use Cycle\ORM\Select\QueryBuilder;
 
 class PostPublic implements ConstrainInterface
 {
-
     public function apply(QueryBuilder $query): void
     {
         // public only
