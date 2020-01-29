@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\Entity\User $item
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator

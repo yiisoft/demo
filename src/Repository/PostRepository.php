@@ -107,6 +107,11 @@ class PostRepository extends Select\Repository
 
     private function getDriver(): DriverInterface
     {
-        return $this->select()->getBuilder()->getLoader()->getSource()->getDatabase()->getDriver(DatabaseInterface::READ);
+        return $this->select()
+                    ->getBuilder()
+                    ->getLoader()
+                    ->getSource()
+                    ->getDatabase()
+                    ->getDriver(DatabaseInterface::READ);
     }
 }

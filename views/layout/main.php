@@ -53,17 +53,17 @@ $this->beginBody();
         </ul>
 
         <ul class="navbar-nav">
-            <?php if ($user->getId() !== null): ?>
+            <?php if ($user->getId() !== null) { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $urlGenerator->generate('site/logout') ?>">
                         Logout (<?= Html::encode($user->getLogin()) ?>)
                     </a>
                 </li>
-            <?php else: ?>
+            <?php } else { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $urlGenerator->generate('site/login') ?>">Login</a>
                 </li>
-            <?php endif ?>
+            <?php } ?>
         </ul>
     </div>
 </nav>

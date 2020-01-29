@@ -25,7 +25,8 @@ use function explode;
  * ```php
  * public function actionIndex(Parameters $parameters)
  * {
- *     $adminEmail = $parameters->get('admin.email', 'admin@example.com'); // return demo@example.com or admin@example.com if search key not exists in parameters
+ *     // $adminEmail will contain "demo@example.com" or "admin@example.com" if search key not exists in parameters
+ *     $adminEmail = $parameters->get('admin.email', 'admin@example.com');
  * }
  * ```
  */
@@ -75,7 +76,7 @@ class Parameters
             }
             $ref = $ref[$key];
         }
-        
+
         return true;
     }
 
@@ -88,7 +89,7 @@ class Parameters
             }
             $data = $data[$key];
         }
-        
+
         return $data;
     }
 }

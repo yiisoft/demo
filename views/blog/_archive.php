@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var string[][] $archive
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator

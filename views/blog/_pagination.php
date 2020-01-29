@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\DataPaginatorInterface $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator

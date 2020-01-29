@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var string[][] $archive
  * @var string[][] $tags
@@ -47,7 +48,8 @@ use Yiisoft\Html\Html;
             );
             echo Html::tag(
                 'p',
-                Html::encode(mb_substr($item->getContent(), 0, 400)) . (mb_strlen($item->getContent()) > 400 ? '…' : ''),
+                Html::encode(mb_substr($item->getContent(), 0, 400))
+                    . (mb_strlen($item->getContent()) > 400 ? '…' : ''),
                 ['class' => 'card-text mb-auto']
             );
             if ($item->getTags()->count()) {
