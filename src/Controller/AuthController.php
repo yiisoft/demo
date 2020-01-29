@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller;
@@ -7,10 +8,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 class AuthController extends Controller
@@ -36,8 +37,10 @@ class AuthController extends Controller
         return 'auth';
     }
 
-    public function login(ServerRequestInterface $request, IdentityRepositoryInterface $identityRepository): ResponseInterface
-    {
+    public function login(
+        ServerRequestInterface $request,
+        IdentityRepositoryInterface $identityRepository
+    ): ResponseInterface {
         $body = $request->getParsedBody();
         $error = null;
 
@@ -77,18 +80,23 @@ class AuthController extends Controller
 
         $response = $this->responseFactory->createResponse();
 
-        $output = $this->render('login', [
-            'body' => $body,
-            'error' => $error,
-        ]);
+        $output = $this->render(
+            'login',
+            [
+                'body' => $body,
+                'error' => $error,
+            ]
+        );
 
         $response->getBody()->write($output);
+
         return $response;
     }
 
-    public function logout(ServerRequestInterface $request): ResponseInterface
+    public function logout(): ResponseInterface
     {
         $this->user->logout();
+
         return $this->responseFactory
             ->createResponse(302)
             ->withHeader(

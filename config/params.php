@@ -1,7 +1,6 @@
 <?php
 
-use App\Command\Fixture\AddCommand;
-use App\Command\User\CreateCommand;
+use App\Command;
 use Cycle\Schema\Generator;
 
 return [
@@ -28,8 +27,8 @@ return [
 
     'console' => [
         'commands' => [
-            'user/create' => CreateCommand::class,
-            'fixture/add' => AddCommand::class,
+            'user/create' => Command\User\CreateCommand::class,
+            'fixture/add' => Command\Fixture\AddCommand::class,
         ],
     ],
 
@@ -38,7 +37,7 @@ return [
         'default' => 'default',
         'aliases' => [],
         'databases' => [
-            'default' => ['connection' => 'sqlite']
+            'default' => ['connection' => 'sqlite'],
         ],
         'connections' => [
             'sqlite' => [
@@ -46,13 +45,13 @@ return [
                 'connection' => 'sqlite:@runtime/database.db',
                 'username' => '',
                 'password' => '',
-            ]
+            ],
         ],
     ],
     // cycle common config
     'cycle.common' => [
         'entityPaths' => [
-            '@src/Entity'
+            '@src/Entity',
         ],
         'cacheEnabled' => true,
         'cacheKey' => 'Cycle-ORM-Schema',
