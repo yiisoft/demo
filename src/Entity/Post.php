@@ -18,7 +18,7 @@ use Yiisoft\Security\Random;
  * @Entity(
  *     repository="App\Repository\PostRepository",
  *     mapper="App\Mapper\PostMapper",
- *     constrain="App\Constrain\PostPublic"
+ *     constrain="App\Constraint\PostPublic"
  * )
  * @Table(
  *     indexes={

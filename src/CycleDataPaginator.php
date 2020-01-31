@@ -5,7 +5,6 @@ namespace App;
 use Closure;
 use Countable;
 use Cycle\ORM\Select;
-use IteratorAggregate;
 use Spiral\Database\Query\QueryInterface;
 use Spiral\Pagination\PaginableInterface;
 
@@ -48,9 +47,6 @@ class CycleDataPaginator implements DataPaginatorInterface
             return $this->dataCache;
         }
         $this->paginate();
-        // if ($this->dataQuery instanceof IteratorAggregate) {
-        //     return $this->dataQuery->getIterator();
-        // }
         return $this->dataCache = $this->dataQuery->fetchAll();
     }
     public function getCurrentPageSize(): int

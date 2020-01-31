@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constrain;
+namespace App\Constraint;
 
 use Cycle\ORM\Select\ConstrainInterface;
 use Cycle\ORM\Select\QueryBuilder;

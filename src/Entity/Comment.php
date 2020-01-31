@@ -12,7 +12,7 @@ use DateTimeImmutable;
 /**
  * @Entity(
  *     mapper="App\Mapper\CommentMapper",
- *     constrain="App\Constrain\CommentPublic"
+ *     constrain="App\Constraint\CommentPublic"
  * )
  * @Table(
  *     indexes={

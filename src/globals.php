@@ -8,6 +8,6 @@ if (!function_exists('dd')) {
         foreach ($variables as $variable) {
             \Yiisoft\VarDumper\VarDumper::dump($variable, 10, true);
         }
-        die;
+        die();
     }
 }
