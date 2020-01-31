@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var \App\Entity\Post $item
+ * @var \App\Blog\Entity\Post $item
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */

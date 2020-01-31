@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var \App\Entity\Tag $item
+ * @var \App\Blog\Entity\Tag $item
  * @var \App\DataPaginatorInterface $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
@@ -13,7 +13,7 @@ use Yiisoft\Html\Html;
 <h1>Tag <?php echo Html::encode($item->getLabel()) ?></h1>
 <?php
 echo Html::beginTag('ul');
-/** @var \App\Entity\Post $post */
+/** @var \App\Blog\Entity\Post $post */
 foreach ($paginator->read() as $post) {
     echo Html::beginTag('li', ['class' => 'text-muted']);
     echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/page', ['slug' => $post->getSlug()]));
@@ -27,5 +27,5 @@ foreach ($paginator->read() as $post) {
 echo Html::endTag('ul');
 
 if ($paginator->getTotalPages() > 1) {
-    echo $this->render('_pagination', ['paginator' => $paginator]);
+    echo $this->render('../_pagination', ['paginator' => $paginator]);
 }

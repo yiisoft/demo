@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Blog\Tag;
 
-use App\Entity\PostTag;
-use App\Entity\Tag;
+use App\Blog\Entity\PostTag;
+use App\Blog\Entity\Tag;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;

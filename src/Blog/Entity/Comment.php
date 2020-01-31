@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Blog\Entity;
 
+use App\Entity\User;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
@@ -11,8 +12,8 @@ use DateTimeImmutable;
 
 /**
  * @Entity(
- *     mapper="App\Mapper\CommentMapper",
- *     constrain="App\Constraint\CommentPublic"
+ *     mapper="App\Blog\Comment\CommentMapper",
+ *     constrain="App\Blog\Comment\Scope\PublicScope"
  * )
  * @Table(
  *     indexes={
@@ -71,7 +72,7 @@ class Comment
     private $user;
 
     /**
-     * @BelongsTo(target="App\Entity\Post", nullable=false)
+     * @BelongsTo(target="App\Blog\Entity\Post", nullable=false)
      * @var Post|\Cycle\ORM\Promise\Reference
      */
     private $post;

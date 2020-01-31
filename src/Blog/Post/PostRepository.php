@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Blog\Post;
 
-use App\Constraint\CommentPublic;
+use App\Blog\Comment\Scope\PublicScope;
+use App\Blog\Entity\Post;
 use App\CycleDataPaginator;
 use App\DataPaginatorInterface;
-use App\Entity\Post;
 use Cycle\ORM\Select;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\Driver\DriverInterface;
@@ -57,7 +57,7 @@ class PostRepository extends Select\Repository
                       ->load('comments', [
                           'method' => Select::OUTER_QUERY,
                           // not works (default Constraint would not be replaced):
-                          'load' => new CommentPublic($userId === null ? null : ['user_id' => $userId]),
+                          'load' => new PublicScope($userId === null ? null : ['user_id' => $userId]),
                       ]);
         /** @var null|Post $post */
         $post = $query->fetchOne();

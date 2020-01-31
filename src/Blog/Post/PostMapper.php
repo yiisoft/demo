@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Mapper;
+namespace App\Blog\Post;
 
-use App\Entity\Comment;
+use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\ORM\Command\ContextCarrierInterface;
@@ -22,10 +22,10 @@ use Cycle\ORM\Mapper\Mapper;
  *      }
  * )
  */
-class CommentMapper extends Mapper
+class PostMapper extends Mapper
 {
     /**
-     * @param Comment $entity
+     * @param Post $entity
      * @param Node $node
      * @param State $state
      * @return ContextCarrierInterface
@@ -47,7 +47,7 @@ class CommentMapper extends Mapper
         return $command;
     }
     /**
-     * @param Comment $entity
+     * @param Post $entity
      * @param Node $node
      * @param State $state
      * @return ContextCarrierInterface
@@ -68,7 +68,7 @@ class CommentMapper extends Mapper
         return $command;
     }
     /**
-     * @param Comment $entity
+     * @param Post $entity
      * @param Node $node
      * @param State $state
      * @return CommandInterface
@@ -104,7 +104,7 @@ class CommentMapper extends Mapper
         return $command;
     }
 
-    private function touch(Comment $entity, Node $node, State $state, ContextCarrierInterface $command)
+    private function touch(Post $entity, Node $node, State $state, ContextCarrierInterface $command)
     {
         $now = new \DateTimeImmutable();
 

@@ -2,11 +2,11 @@
 
 namespace App\Command\Fixture;
 
-use App\Entity\Comment;
-use App\Entity\Post;
-use App\Entity\Tag;
+use App\Blog\Entity\Comment;
+use App\Blog\Entity\Post;
+use App\Blog\Entity\Tag;
 use App\Entity\User;
-use App\Repository\TagRepository;
+use App\Blog\Tag\TagRepository;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Faker\Factory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constraint;
+namespace App\Blog\Comment\Scope;
 
 use Cycle\ORM\Select\ConstrainInterface;
 use Cycle\ORM\Select\QueryBuilder;
@@ -10,7 +10,7 @@ use Cycle\ORM\Select\QueryBuilder;
  * Public with condition
  * Sorted
  */
-class CommentPublic implements ConstrainInterface
+class PublicScope implements ConstrainInterface
 {
     private ?array $publicOrCondition;
 

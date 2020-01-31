@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Blog\Entity;
 
+use App\Entity\User;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
@@ -16,9 +17,9 @@ use Yiisoft\Security\Random;
 
 /**
  * @Entity(
- *     repository="App\Repository\PostRepository",
- *     mapper="App\Mapper\PostMapper",
- *     constrain="App\Constraint\PostPublic"
+ *     repository="App\Blog\Post\PostRepository",
+ *     mapper="App\Blog\Post\PostMapper",
+ *     constrain="App\Blog\Post\Scope\PublicScope"
  * )
  * @Table(
  *     indexes={
@@ -89,14 +90,14 @@ class Post
     private $user;
 
     /**
-     * @ManyToMany(target="App\Entity\Tag", though="PostTag", fkAction="CASCADE")
-     * @var PivotedCollection
+     * @ManyToMany(target="App\Blog\Entity\Tag", though="PostTag", fkAction="CASCADE")
+     * @var Tag[]|PivotedCollection
      */
     private $tags;
 
     /**
-     * @HasMany(target="App\Entity\Comment")
-     * @var ArrayCollection
+     * @HasMany(target="App\Blog\Entity\Comment")
+     * @var Comment|ArrayCollection
      */
     private $comments;
 

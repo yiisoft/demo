@@ -2,9 +2,11 @@
 
 namespace App\Factory;
 
+use App\Blog\BlogController;
+use App\Blog\Post\PostController;
+use App\Blog\Tag\TagController;
 use App\Controller\AuthController;
 use App\Controller\ContactController;
-use App\Controller\BlogController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use Psr\Container\ContainerInterface;
@@ -60,12 +62,12 @@ class AppRouterFactory
             );
             $r->addRoute(
                 Route::get('/page/{slug}')
-                     ->to(new ActionCaller(BlogController::class, 'page', $container))
+                     ->to(new ActionCaller(PostController::class, 'index', $container))
                      ->name('blog/page')
             );
             $r->addRoute(
                 Route::get('/tag/{label}[/page{page:\d+}]')
-                     ->to(new ActionCaller(BlogController::class, 'tag', $container))
+                     ->to(new ActionCaller(TagController::class, 'index', $container))
                      ->name('blog/tag')
             );
         });

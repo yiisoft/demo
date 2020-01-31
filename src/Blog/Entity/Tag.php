@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Blog\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity(repository="App\Repository\TagRepository", mapper="App\Mapper\TagMapper")
+ * @Entity(repository="App\Blog\Tag\TagRepository", mapper="App\Blog\Tag\TagMapper")
  * @Table(
  *     indexes={
  *         @Index(columns={"label"}, unique=true)
@@ -40,7 +40,7 @@ class Tag
     private $createdAt;
 
     /**
-     * @ManyToMany(target="App\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
+     * @ManyToMany(target="App\Blog\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
      * @var PivotedCollection
      */
     private $posts;

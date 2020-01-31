@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Blog\Entity\Comment;
+use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
@@ -61,13 +63,13 @@ class User implements IdentityInterface
     private $updatedAt;
 
     /**
-     * @HasMany(target="App\Entity\Post")
-     * @var ArrayCollection
+     * @HasMany(target="App\Blog\Entity\Post")
+     * @var Post[]|ArrayCollection
      */
     private $posts;
 
     /**
-     * @HasMany(target="App\Entity\Comment")
+     * @HasMany(target="App\Blog\Entity\Comment")
      * @var ArrayCollection
      */
     private $comments;

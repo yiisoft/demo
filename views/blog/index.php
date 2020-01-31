@@ -8,7 +8,7 @@
  * @var \Yiisoft\View\WebView $this
  */
 
-use App\Entity\Post;
+use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
 ?>

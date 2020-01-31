@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mapper;
+namespace App\Blog\Tag;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table;
