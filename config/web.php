@@ -1,5 +1,7 @@
 <?php
 
+use App\Factory\AppRouterFactory;
+use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
 use App\Repository\UserRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -12,21 +14,19 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Router\RouterInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Emitter\EmitterInterface;
 use Yiisoft\Yii\Web\Emitter\SapiEmitter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
-use Yiisoft\Router\RouterInterface;
-use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Router\UrlMatcherInterface;
-use App\Factory\MiddlewareDispatcherFactory;
-use App\Factory\AppRouterFactory;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 /**
@@ -80,6 +80,7 @@ return [
         $eventDispatcher = $container->get(EventDispatcherInterface::class);
         $user = new Yiisoft\Yii\Web\User\User($identityRepository, $eventDispatcher);
         $user->setSession($session);
+
         return $user;
     },
 ];

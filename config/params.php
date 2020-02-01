@@ -35,7 +35,7 @@ return [
         'default' => 'default',
         'aliases' => [],
         'databases' => [
-            'default' => ['connection' => 'sqlite']
+            'default' => ['connection' => 'sqlite'],
         ],
         'connections' => [
             'sqlite' => [
@@ -43,13 +43,13 @@ return [
                 'connection' => 'sqlite:@runtime/database.db',
                 'username' => '',
                 'password' => '',
-            ]
+            ],
         ],
     ],
     // cycle common config
     'cycle.common' => [
         'entityPaths' => [
-            '@src/Entity'
+            '@src/Entity',
         ],
     ],
     // cycle migration config

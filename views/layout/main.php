@@ -7,6 +7,7 @@ use Yiisoft\Html\Html;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  * @var \App\Entity\User $user
+ * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
  */
 
