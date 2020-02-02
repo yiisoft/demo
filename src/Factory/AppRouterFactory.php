@@ -23,27 +23,20 @@ class AppRouterFactory
     public function __invoke(ContainerInterface $container)
     {
         $routes = [
-            Route::get('/')
-                ->to(new ActionCaller(SiteController::class, 'index', $container))
+            Route::get('/', new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index'),
-            Route::methods([Method::GET, Method::POST], '/contact')
-                ->to(new ActionCaller(ContactController::class, 'contact', $container))
+            Route::methods([Method::GET, Method::POST], '/contact', new ActionCaller(ContactController::class, 'contact', $container))
                 ->name('site/contact'),
-            Route::get('/test/{id:\w+}')
-                ->to(new ActionCaller(SiteController::class, 'testParameter', $container))
+            Route::get('/test/{id:\w+}', new ActionCaller(SiteController::class, 'testParameter', $container))
                 ->name('site/test'),
-            Route::methods([Method::GET, Method::POST], '/login')
-                ->to(new ActionCaller(AuthController::class, 'login', $container))
+            Route::methods([Method::GET, Method::POST], '/login', new ActionCaller(AuthController::class, 'login', $container))
                 ->name('site/login'),
-            Route::get('/logout')
-                ->to(new ActionCaller(AuthController::class, 'logout', $container))
+            Route::get('/logout', new ActionCaller(AuthController::class, 'logout', $container))
                 ->name('site/logout'),
 
-            Route::get('/user')
-                 ->to(new ActionCaller(UserController::class, 'index', $container))
+            Route::get('/user', new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index'),
-            Route::get('/user/{login}')
-                 ->to(new ActionCaller(UserController::class, 'profile', $container))
+            Route::get('/user/{login}', new ActionCaller(UserController::class, 'profile', $container))
                  ->name('user/profile'),
         ];
 
@@ -51,23 +44,19 @@ class AppRouterFactory
 
         $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
             $r->addRoute(
-                Route::get('[/page{page:\d+}]')
-                     ->to(new ActionCaller(BlogController::class, 'index', $container))
+                Route::get('[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/index')
             );
             $r->addRoute(
-                Route::get('/archive/{year:\d+}-{month:\d+}[/page{page:\d+}]')
-                     ->to(new ActionCaller(BlogController::class, 'index', $container))
+                Route::get('/archive/{year:\d+}-{month:\d+}[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/archive')
             );
             $r->addRoute(
-                Route::get('/page/{slug}')
-                     ->to(new ActionCaller(PostController::class, 'index', $container))
+                Route::get('/page/{slug}', new ActionCaller(PostController::class, 'index', $container))
                      ->name('blog/page')
             );
             $r->addRoute(
-                Route::get('/tag/{label}[/page{page:\d+}]')
-                     ->to(new ActionCaller(TagController::class, 'index', $container))
+                Route::get('/tag/{label}[/page{page:\d+}]', new ActionCaller(TagController::class, 'index', $container))
                      ->name('blog/tag')
             );
         });
