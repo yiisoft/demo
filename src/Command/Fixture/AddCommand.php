@@ -10,6 +10,7 @@ use App\Blog\Tag\TagRepository;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Faker\Factory;
+use Faker\Generator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,9 +20,16 @@ use Yiisoft\Yii\Console\ExitCode;
 
 class AddCommand extends Command
 {
-    private ORMInterface $orm;
-
     protected static $defaultName = 'fixture/add';
+
+    private ORMInterface $orm;
+    private Generator $faker;
+    /** @var User[] */
+    private array $users = [];
+    /** @var Tag[] */
+    private array $tags = [];
+
+    private const DEFAULT_COUNT = 10;
 
     public function __construct(ORMInterface $orm)
     {
@@ -34,36 +42,62 @@ class AddCommand extends Command
         $this
             ->setDescription('Add fixtures')
             ->setHelp('This command adds random content')
-            ->addArgument('count', InputArgument::OPTIONAL, 'Count', 10);
+            ->addArgument('count', InputArgument::OPTIONAL, 'Count', self::DEFAULT_COUNT);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $count = $input->getArgument('count');
+        $count = (int)$input->getArgument('count');
         // get faker
         if (!class_exists(Factory::class)) {
             $io->error('Faker should be installed. Run `composer install --dev`');
             return ExitCode::UNSPECIFIED_ERROR;
         }
-        $faker = Factory::create();
+        $this->faker = Factory::create();
 
-        // users
-        $users = [];
+        try {
+            $this->addUsers($count);
+            $this->addTags($count);
+            $this->addPosts($count);
+
+            $this->saveEntities();
+        } catch (\Throwable $t) {
+            $io->error($t->getMessage());
+            return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
+        }
+        $io->success('Done');
+        return ExitCode::OK;
+    }
+
+    private function saveEntities():void
+    {
+        $transaction = new Transaction($this->orm);
+        foreach ($this->users as $user) {
+            $transaction->persist($user);
+        }
+        $transaction->run();
+    }
+
+    private function addUsers(int $count = self::DEFAULT_COUNT): void
+    {
         for ($i = 0; $i <= $count; ++$i) {
             $user = new User();
-            $user->setLogin($login = $faker->firstName . rand(0, 9999));
+            $user->setLogin($login = $this->faker->firstName . rand(0, 9999));
             $user->setPassword($login);
-            $users[] = $user;
+            $this->users[] = $user;
         }
-        // tags
+    }
+
+    private function addTags(int $count = self::DEFAULT_COUNT): void
+    {
         /** @var TagRepository $tagRepository */
         $tagRepository = $this->orm->getRepository(Tag::class);
-        $tags = [];
+        $this->tags = [];
         $tagWords = [];
         for ($i = 0, $fails = 0; $i <= $count; ++$i) {
-            $word = $faker->word();
+            $word = $this->faker->word();
             if (in_array($word, $tagWords, true)) {
                 --$i;
                 ++$fails;
@@ -74,55 +108,47 @@ class AddCommand extends Command
             }
             $tagWords[] = $word;
             $tag = $tagRepository->getOrCreate($word);
-            $tags[] = $tag;
+            $this->tags[] = $tag;
         }
-        // posts
+    }
+
+    private function addPosts(int $count = self::DEFAULT_COUNT): void
+    {
+        if (count($this->users) === 0) {
+            throw new \Exception('No users');
+        }
         for ($i = 0; $i <= $count; ++$i) {
             /** @var User $postUser */
-            $postUser = $users[array_rand($users)];
+            $postUser = $this->users[array_rand($this->users)];
             $post = new Post();
             $post->setUser($postUser);
             $postUser->addPost($post);
-            $post->setTitle($faker->text(64));
-            $post->setContent($faker->realText(4000));
+            $post->setTitle($this->faker->text(64));
+            $post->setContent($this->faker->realText(4000));
             $public = rand(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
                 $post->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
             }
-            // tags
-            $postTags = (array)array_rand($tags, rand(1, count($tags)));
+            // link tags
+            $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
             foreach ($postTags as $tagId) {
-                $post->addTag($tags[$tagId]);
+                $post->addTag($this->tags[$tagId]);
             }
-            // comments
+            // add comments
             $commentsCount = rand(0, $count);
             for ($j = 0; $j <= $commentsCount; ++$j) {
                 $comment = new Comment();
-                $comment->setContent($faker->realText(500));
+                $comment->setContent($this->faker->realText(500));
                 $commentPublic = rand(0, 3) > 0;
                 $comment->setPublic($commentPublic);
                 if ($commentPublic) {
                     $comment->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
                 }
-                $commentUser = $users[array_rand($users)];
+                $commentUser = $this->users[array_rand($this->users)];
                 $comment->setUser($commentUser);
                 $post->addComment($comment);
             }
         }
-
-        try {
-            $transaction = new Transaction($this->orm);
-            foreach ($users as $user) {
-                $transaction->persist($user);
-            }
-            $transaction->run();
-            $io->success('Done');
-        } catch (\Throwable $t) {
-            $io->error($t->getMessage());
-            return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
-        }
-
-        return ExitCode::OK;
     }
 }

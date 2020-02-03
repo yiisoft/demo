@@ -3,7 +3,7 @@
 /**
  * @var string[][] $archive
  * @var string[][] $tags
- * @var \App\DataPaginatorInterface $paginator
+ * @var \App\Pagination\PaginationSet $paginationSet;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -16,18 +16,18 @@ use Yiisoft\Html\Html;
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
-        $pageSize = $paginator->getCurrentPageSize();
+        $pageSize = $paginationSet->getPaginator()->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::tag(
                 'p',
-                sprintf('Showing %s out of %s posts', $paginator->getCurrentPageSize(), $paginator->getItemsCount()),
+                sprintf('Showing %s out of %s posts', $pageSize, $paginationSet->getPaginator()->getTotalItems()),
                 ['class' => 'text-muted']
             );
         } else {
             echo Html::tag('p', 'No records');
         }
         /** @var Post $item */
-        foreach ($paginator->read() as $item) {
+        foreach ($paginationSet->getPaginator()->read() as $item) {
             $url = $urlGenerator->generate('blog/page', ['slug' => $item->getSlug()]);
 
             echo Html::beginTag('div', ['class' => 'card mb-4']);
@@ -67,8 +67,8 @@ use Yiisoft\Html\Html;
             echo Html::endTag('div'); # .card-body
             echo Html::endTag('div'); # .card
         }
-        if ($paginator->getTotalPages() > 1) {
-            echo $this->render('_pagination', ['paginator' => $paginator]);
+        if ($paginationSet->needToPaginate()) {
+            echo $this->render('_pagination', ['paginationSet' => $paginationSet]);
         }
         ?>
     </div>

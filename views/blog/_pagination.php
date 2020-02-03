@@ -1,23 +1,27 @@
 <?php
 
 /**
- * @var \App\DataPaginatorInterface $paginator
+ * @var \App\Pagination\PaginationSet $paginationSet;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
 
 use Yiisoft\Html\Html;
 
-$current = $paginator->getCurrentPage();
-$pagesCount = $paginator->getTotalPages();
+$current = $paginationSet->getPaginator()->getCurrentPage();
+$pagesCount = $paginationSet->getPaginator()->getTotalPages();
+
 $prev = $current === 1 ? null : $current - 1;
 $next = $current === $pagesCount ? null : $current + 1;
+
+$prevUrl = $prev === null ? null : $paginationSet->getPageUrl($prev);
+$nextUrl = $next === null ? null : $paginationSet->getPageUrl($next);
 
 ?>
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <li class="page-item <?php echo $prev === null ? 'disabled' : '' ?>">
-            <?php echo Html::a('Previous', $paginator->getPreviousPageToken(), ['class' => 'page-link']) ?>
+            <?php echo Html::a('Previous', $prevUrl, ['class' => 'page-link']) ?>
         </li>
         <?php
         if ($pagesCount > 9) {
@@ -38,13 +42,13 @@ $next = $current === $pagesCount ? null : $current + 1;
             if ($page === null) {
                 echo Html::tag('span', '…', ['class' => 'page-link']);
             } else {
-                echo Html::a($page, $paginator->getPageToken($page), ['class' => 'page-link']);
+                echo Html::a($page, $paginationSet->getPageUrl($page), ['class' => 'page-link']);
             }
             echo Html::endTag('li');
         }
         ?>
         <li class="page-item <?php echo $next === null ? 'disabled' : '' ?>">
-            <?php echo Html::a('Next', $paginator->getNextPageToken(), ['class' => 'page-link']) ?>
+            <?php echo Html::a('Next', $nextUrl, ['class' => 'page-link']) ?>
         </li>
     </ul>
 </nav>

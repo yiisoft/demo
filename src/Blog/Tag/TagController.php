@@ -6,6 +6,7 @@ use App\Controller;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Post\PostRepository;
+use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -41,16 +42,16 @@ class TagController extends Controller
         // preloading of posts
         $paginator = $postRepo
             ->findByTag($item->getId())
-            ->withTokenGenerator(fn ($page) => $urlGenerator->generate(
-                'blog/tag',
-                ['label' => $label, 'page' => $page]
-            ))
             ->withPageSize(self::POSTS_PER_PAGE)
             ->withCurrentPage($pageNum);
+        $pageUrlGenerator = fn ($page) => $urlGenerator->generate(
+            'blog/tag',
+            ['label' => $label, 'page' => $page]
+        );
 
         $data = [
             'item' => $item,
-            'paginator' => $paginator,
+            'paginationSet' => new PaginationSet($paginator, $pageUrlGenerator),
         ];
         $output = $this->render(__FUNCTION__, $data);
 

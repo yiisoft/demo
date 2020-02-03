@@ -6,6 +6,7 @@ use App\Controller;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Post\PostRepository;
+use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -35,21 +36,24 @@ class BlogController extends Controller
         $month = $request->getAttribute('month', null);
         $isArchive = $year !== null && $month !== null;
 
-        $paginator = $isArchive
-            ? $postRepo->findArchivedPublic($year, $month)
-                       ->withTokenGenerator(fn ($page) => $urlGenerator->generate(
-                           'blog/archive',
-                           ['year' => $year, 'month' => $month, 'page' => $page]
-                       ))
-            : $postRepo->findLastPublic()
-                       ->withTokenGenerator(fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]));
+        if ($isArchive) {
+            $paginator = $postRepo->findArchivedPublic($year, $month);
+            $pageUrlGenerator = fn ($page) => $urlGenerator->generate(
+                'blog/archive',
+                ['year' => $year, 'month' => $month, 'page' => $page]
+            );
+        } else {
+            $paginator = $postRepo->findLastPublic();
+            $pageUrlGenerator = fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]);
+        }
 
-        $paginator = $paginator
-            ->withPageSize(self::POSTS_PER_PAGE)
-            ->withCurrentPage($pageNum);
+        $paginationSet = new PaginationSet(
+            $paginator->withPageSize(self::POSTS_PER_PAGE)->withCurrentPage($pageNum),
+            $pageUrlGenerator
+        );
 
         $data = [
-            'paginator' => $paginator,
+            'paginationSet' => $paginationSet,
             'archive' => $postRepo->getArchive(),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
