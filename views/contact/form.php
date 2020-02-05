@@ -3,6 +3,7 @@
 /**
  * @var $this \Yiisoft\View\View
  * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
+ * @var $body array
  */
 
 ?>
@@ -41,4 +42,3 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-

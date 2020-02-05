@@ -10,12 +10,13 @@ use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\UrlGeneratorInterface;
 
 class TagController extends Controller
 {
     private const POSTS_PER_PAGE = 10;
-    private const POPULAR_TAGS_COUNT = 10;
 
     protected function getId(): string
     {
@@ -40,8 +41,10 @@ class TagController extends Controller
             return $this->responseFactory->createResponse(404);
         }
         // preloading of posts
-        $paginator = $postRepo
-            ->findByTag($item->getId())
+        $paginator = (new OffsetPaginator(
+            $postRepo->findByTag($item->getId())
+                     ->withSort((new Sort([]))->withOrder(['published_at' => 'desc']))
+        ))
             ->withPageSize(self::POSTS_PER_PAGE)
             ->withCurrentPage($pageNum);
         $pageUrlGenerator = fn ($page) => $urlGenerator->generate(

@@ -4,46 +4,38 @@ namespace App\Blog\Post;
 
 use App\Blog\Comment\Scope\PublicScope;
 use App\Blog\Entity\Post;
-use App\Pagination\CycleDataReader;
 use Cycle\ORM\Select;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\Driver\DriverInterface;
 use Spiral\Database\Injection\Fragment;
-use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Data\Paginator\OffsetPaginatorInterface;
+use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
 
 class PostRepository extends Select\Repository
 {
-    public function findLastPublic(): OffsetPaginatorInterface
+    public function findAllPreloaded(): SelectDataReader
     {
         $query = $this->select()
-                ->load(['user', 'tags'])
-                ->orderBy('published_at', 'DESC');
-        // return new CycleDataPaginator($query);
-        return new OffsetPaginator(new CycleDataReader($query));
+                ->load(['user', 'tags']);
+        return new SelectDataReader($query);
     }
 
-    public function findArchivedPublic(int $year, int $month): OffsetPaginatorInterface
+    public function findArchivedPublic(int $year, int $month): SelectDataReader
     {
         $begin = (new \DateTimeImmutable())->setDate($year, $month, 1)->setTime(0, 0, 0);
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
 
         $query = $this->select()
                     ->andWhere('published_at', 'between', $begin, $end)
-                    ->orderBy('published_at', 'DESC')
                     ->load(['user', 'tags']);
-        // return new CycleDataPaginator($query);
-        return new OffsetPaginator(new CycleDataReader($query));
+        return new SelectDataReader($query);
     }
 
-    public function findByTag($tagId): OffsetPaginatorInterface
+    public function findByTag($tagId): SelectDataReader
     {
         $query = $this->select()
                     ->where(['tags.id' => $tagId])
-                    ->orderBy('published_at', 'DESC')
                     ->load(['user']);
-        // return new CycleDataPaginator($query);
-        return new OffsetPaginator(new CycleDataReader($query));
+        return new SelectDataReader($query);
     }
 
     public function fullPostPage(string $slug, ?string $userId = null): ?Post

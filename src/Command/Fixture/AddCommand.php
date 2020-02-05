@@ -71,7 +71,7 @@ class AddCommand extends Command
         return ExitCode::OK;
     }
 
-    private function saveEntities():void
+    private function saveEntities(): void
     {
         $transaction = new Transaction($this->orm);
         foreach ($this->users as $user) {

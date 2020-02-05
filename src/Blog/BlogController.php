@@ -10,6 +10,8 @@ use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\UrlGeneratorInterface;
 
 class BlogController extends Controller
@@ -37,18 +39,20 @@ class BlogController extends Controller
         $isArchive = $year !== null && $month !== null;
 
         if ($isArchive) {
-            $paginator = $postRepo->findArchivedPublic($year, $month);
+            $dataReader = $postRepo->findArchivedPublic($year, $month);
             $pageUrlGenerator = fn ($page) => $urlGenerator->generate(
                 'blog/archive',
                 ['year' => $year, 'month' => $month, 'page' => $page]
             );
         } else {
-            $paginator = $postRepo->findLastPublic();
+            $dataReader = $postRepo->findAllPreloaded();
             $pageUrlGenerator = fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]);
         }
 
         $paginationSet = new PaginationSet(
-            $paginator->withPageSize(self::POSTS_PER_PAGE)->withCurrentPage($pageNum),
+            (new OffsetPaginator($dataReader->withSort((new Sort([]))->withOrder(['published_at' => 'desc']))))
+                ->withPageSize(self::POSTS_PER_PAGE)
+                ->withCurrentPage($pageNum),
             $pageUrlGenerator
         );
 

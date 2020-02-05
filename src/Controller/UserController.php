@@ -4,27 +4,45 @@ namespace App\Controller;
 
 use App\Controller;
 use App\Entity\User;
+use App\Pagination\PaginationSet;
+use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\Sort;
+use Yiisoft\Router\UrlGeneratorInterface;
 
 class UserController extends Controller
 {
+    private const PAGINATION_INDEX = 5;
+
     protected function getId(): string
     {
         return 'user';
     }
 
-    public function index(ORMInterface $orm): Response
-    {
-        $repository = $orm->getRepository(User::class);
+    public function index(
+        Request $request,
+        ORMInterface $orm,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        $pageNum = (int)$request->getAttribute('page', 1);
         $response = $this->responseFactory->createResponse();
+        /** @var UserRepository $repository */
+        $repository = $orm->getRepository(User::class);
+
+        $dataReader = $repository->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $paginationSet = new PaginationSet(
+            (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX)->withCurrentPage($pageNum),
+            fn ($page) => $urlGenerator->generate('user/index', ['page' => $page])
+        );
 
         $data = [
-            'items' => $repository->findAll(),
+            'paginationSet' => $paginationSet,
         ];
 
-        $output = $this->render('index', $data);
+        $output = $this->render(__FUNCTION__, $data);
 
         $response->getBody()->write($output);
         return $response;

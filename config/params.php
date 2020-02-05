@@ -52,6 +52,7 @@ return [
     'cycle.common' => [
         'entityPaths' => [
             '@src/Entity',
+            '@src/Blog/Entity',
         ],
         'cacheEnabled' => true,
         'cacheKey' => 'Cycle-ORM-Schema',

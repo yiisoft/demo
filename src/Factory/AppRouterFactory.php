@@ -34,7 +34,7 @@ class AppRouterFactory
             Route::get('/logout', new ActionCaller(AuthController::class, 'logout', $container))
                 ->name('site/logout'),
 
-            Route::get('/user', new ActionCaller(UserController::class, 'index', $container))
+            Route::get('/user[/page-{page:\d+}]', new ActionCaller(UserController::class, 'index', $container))
                  ->name('user/index'),
             Route::get('/user/{login}', new ActionCaller(UserController::class, 'profile', $container))
                  ->name('user/profile'),

@@ -3,15 +3,18 @@
 namespace App\Pagination;
 
 use Closure;
-use Yiisoft\Data\Paginator\OffsetPaginatorInterface;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 
+/**
+ * @deprecated Should be replaced to a Pagination Widget
+ */
 class PaginationSet
 {
-    private OffsetPaginatorInterface $paginator;
+    private OffsetPaginator $paginator;
     private Closure $pageUrlGenerator;
 
     public function __construct(
-        OffsetPaginatorInterface $paginator,
+        OffsetPaginator $paginator,
         Closure $pageUrlGenerator
     ) {
         $this->paginator = $paginator;
@@ -23,7 +26,7 @@ class PaginationSet
         return ($this->pageUrlGenerator)($page);
     }
 
-    public function getPaginator(): OffsetPaginatorInterface
+    public function getPaginator(): OffsetPaginator
     {
         return $this->paginator;
     }
