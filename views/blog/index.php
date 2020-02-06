@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @var string[][] $archive
- * @var string[][] $tags
+ * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
+ * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
  * @var \App\Pagination\PaginationSet $paginationSet;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this

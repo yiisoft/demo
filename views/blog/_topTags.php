@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var string[][] $tags
+ * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -21,7 +21,7 @@ use Yiisoft\Html\Html;
     $blockEnd = Html::endTag('li');
     echo $blockBegin;
     if (count($tags)) {
-        foreach ($tags as $tagValue) {
+        foreach ($tags->read() as $tagValue) {
             $label = $tagValue['label'];
             $count = $tagValue['count'];
 

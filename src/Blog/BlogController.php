@@ -6,12 +6,12 @@ use App\Controller;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Post\PostRepository;
+use App\Blog\Tag\TagRepository;
 use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\UrlGeneratorInterface;
 
 class BlogController extends Controller
@@ -31,6 +31,7 @@ class BlogController extends Controller
     ): Response {
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
+        /** @var TagRepository $postRepo */
         $tagRepo = $orm->getRepository(Tag::class);
 
         $pageNum = (int)$request->getAttribute('page', 1);
@@ -50,7 +51,7 @@ class BlogController extends Controller
         }
 
         $paginationSet = new PaginationSet(
-            (new OffsetPaginator($dataReader->withSort((new Sort([]))->withOrder(['published_at' => 'desc']))))
+            (new OffsetPaginator($dataReader))
                 ->withPageSize(self::POSTS_PER_PAGE)
                 ->withCurrentPage($pageNum),
             $pageUrlGenerator
@@ -58,10 +59,10 @@ class BlogController extends Controller
 
         $data = [
             'paginationSet' => $paginationSet,
-            'archive' => $postRepo->getArchive(),
+            'archive' => $postRepo->getArchive()->withLimit(12),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
-        $output = $this->render('index', $data);
+        $output = $this->render(__FUNCTION__, $data);
 
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);

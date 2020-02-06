@@ -7,19 +7,32 @@ use App\Blog\Entity\Post;
 use Cycle\ORM\Select;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\Driver\DriverInterface;
+use Spiral\Database\Driver\SQLite\SQLiteDriver;
 use Spiral\Database\Injection\Fragment;
+use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
 
 class PostRepository extends Select\Repository
 {
-    public function findAllPreloaded(): SelectDataReader
+    /**
+     * Get posts without filter with preloaded Users and Tags
+     * @return SelectDataReader
+     */
+    public function findAllPreloaded(): DataReaderInterface
     {
         $query = $this->select()
                 ->load(['user', 'tags']);
-        return new SelectDataReader($query);
+        return $this->prepareDataReader($query);
     }
 
-    public function findArchivedPublic(int $year, int $month): SelectDataReader
+    /**
+     * @param int $year
+     * @param int $month
+     * @return SelectDataReader
+     * @throws \Exception
+     */
+    public function findArchivedPublic(int $year, int $month): DataReaderInterface
     {
         $begin = (new \DateTimeImmutable())->setDate($year, $month, 1)->setTime(0, 0, 0);
         $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
@@ -27,15 +40,19 @@ class PostRepository extends Select\Repository
         $query = $this->select()
                     ->andWhere('published_at', 'between', $begin, $end)
                     ->load(['user', 'tags']);
-        return new SelectDataReader($query);
+        return $this->prepareDataReader($query);
     }
 
-    public function findByTag($tagId): SelectDataReader
+    /**
+     * @param int|string $tagId
+     * @return SelectDataReader
+     */
+    public function findByTag($tagId): DataReaderInterface
     {
         $query = $this->select()
                     ->where(['tags.id' => $tagId])
                     ->load(['user']);
-        return new SelectDataReader($query);
+        return $this->prepareDataReader($query);
     }
 
     public function fullPostPage(string $slug, ?string $userId = null): ?Post
@@ -62,43 +79,33 @@ class PostRepository extends Select\Repository
         // $commentRepo->select()->load('user')->where('post_id', $post->getId())->fetchAll();
         return $post;
     }
+
     /**
-     * @return array Array of Array('Count' => '123', 'Month' => '8', 'Year' => '2019')
+     * @return SelectDataReader Collection of Array('Count' => '123', 'Month' => '8', 'Year' => '2019')
      */
-    public function getArchive(): array
+    public function getArchive(): DataReaderInterface
     {
-        try {
-            if ($this->getDriver() instanceof \Spiral\Database\Driver\SQLite\SQLiteDriver) {
-                return $this->select()
-                            ->buildQuery()
-                            ->columns(
-                                [
-                                    'count(post.id) count',
-                                    new Fragment('strftime(\'%m\', post.published_at) month'),
-                                    new Fragment('strftime(\'%Y\', post.published_at) year'),
-                                ]
-                            )
-                            ->orderBy('year', 'DESC')
-                            ->orderBy('month', 'DESC')
-                            ->groupBy('year, month')
-                            ->fetchAll();
-            }
-            return $this->select()
-                        ->buildQuery()
-                        ->columns(
-                            [
-                                'count(post.id) count',
-                                new Fragment('extract(month from post.published_at) month'),
-                                new Fragment('extract(year from post.published_at) year'),
-                            ]
-                        )
-                        ->orderBy('year', 'DESC')
-                        ->orderBy('month', 'DESC')
-                        ->groupBy('year, month')
-                        ->fetchAll();
-        } catch (\Spiral\Database\Exception\StatementException $d) {
-            return [];
-        }
+        $sort = (new Sort([]))->withOrder(['year' => 'desc', 'month' => 'desc']);
+
+        $query = $this
+            ->select()
+            ->buildQuery()
+            ->columns(
+                $this->getDriver() instanceof SQLiteDriver
+                    ? [
+                        'count(post.id) count',
+                        new Fragment('strftime(\'%m\', post.published_at) month'),
+                        new Fragment('strftime(\'%Y\', post.published_at) year'),
+                    ]
+                    : [
+                        'count(post.id) count',
+                        new Fragment('extract(month from post.published_at) month'),
+                        new Fragment('extract(year from post.published_at) year'),
+                    ]
+            )
+            ->groupBy('year, month');
+
+        return (new SelectDataReader($query))->withSort($sort);
     }
 
     private function getDriver(): DriverInterface
@@ -109,5 +116,10 @@ class PostRepository extends Select\Repository
                     ->getSource()
                     ->getDatabase()
                     ->getDriver(DatabaseInterface::READ);
+    }
+
+    private function prepareDataReader($query): SelectDataReader
+    {
+        return (new SelectDataReader($query))->withSort((new Sort([]))->withOrder(['published_at' => 'desc']));
     }
 }

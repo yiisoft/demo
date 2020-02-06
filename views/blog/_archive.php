@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var string[][] $archive
+ * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -21,7 +21,7 @@ use Yiisoft\Html\Html;
     );
     $blockEnd = Html::endTag('li');
     if (count($archive)) {
-        foreach ($archive as $aValue) {
+        foreach ($archive->read() as $aValue) {
             $year = $aValue['year'];
             $month = $aValue['month'];
             $count = $aValue['count'];
