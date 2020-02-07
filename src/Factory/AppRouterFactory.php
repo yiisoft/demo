@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Factory;
 
 use App\Controller\AuthController;

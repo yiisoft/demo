@@ -1,4 +1,5 @@
 <?php
+
 use hiqdev\composer\config\Builder;
 use Yiisoft\Di\Container;
 use Yiisoft\Yii\Web\Application;
