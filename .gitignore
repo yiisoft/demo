@@ -16,7 +16,6 @@ php-cs-fixer.phar
 phpstan.phar
 phpunit-skelgen.phar
 phpunit.phar
-rr.exe
 
 # local config
 /.env

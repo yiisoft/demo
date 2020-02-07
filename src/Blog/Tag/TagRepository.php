@@ -27,8 +27,7 @@ class TagRepository extends Repository
     {
         $tag = $this->findByLabel($label);
         if ($tag === null) {
-            $tag = new Tag();
-            $tag->setLabel($label);
+            $tag = new Tag($label);
         }
         return $tag;
     }

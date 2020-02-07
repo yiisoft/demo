@@ -17,7 +17,7 @@ use DateTimeImmutable;
  * )
  * @Table(
  *     indexes={
- *         @Index(columns={"public","publishedAt"})
+ *         @Index(columns={"public","published_at"})
  *     }
  * )
  */
@@ -25,45 +25,38 @@ class Comment
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Column(type="bool", default="false")
-     * @var bool
      */
-    private $public;
+    private bool $public = false;
 
     /**
      * @Column(type="text")
-     * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * @Column(type="datetime")
-     * @var DateTimeImmutable
      */
-    private $createdAt;
+    private DateTimeImmutable $created_at;
 
     /**
      * @Column(type="datetime")
-     * @var DateTimeImmutable
      */
-    private $updatedAt;
+    private DateTimeImmutable $updated_at;
 
     /**
      * @Column(type="datetime", nullable=true)
-     * @var DateTimeImmutable|null
      */
-    private $publishedAt;
+    private ?DateTimeImmutable $published_at = null;
 
     /**
      * @Column(type="datetime", nullable=true)
-     * @var DateTimeImmutable|null
      */
-    private $deletedAt;
+    private ?DateTimeImmutable $deleted_at = null;
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false, load="eager")
@@ -76,6 +69,13 @@ class Comment
      * @var Post|\Cycle\ORM\Promise\Reference
      */
     private $post;
+
+    public function __construct(string $content)
+    {
+        $this->content = $content;
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
+    }
 
     public function getId(): ?string
     {
@@ -104,17 +104,17 @@ class Comment
 
     public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     public function getUpdatedAt(): DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     public function getDeletedAt(): ?DateTimeImmutable
     {
-        return $this->deletedAt;
+        return $this->deleted_at;
     }
 
     public function setUser(User $user)
@@ -139,11 +139,11 @@ class Comment
 
     public function getPublishedAt(): ?DateTimeImmutable
     {
-        return $this->publishedAt;
+        return $this->published_at;
     }
 
-    public function setPublishedAt(?DateTimeImmutable $publishedAt): void
+    public function setPublishedAt(?DateTimeImmutable $published_at): void
     {
-        $this->publishedAt = $publishedAt;
+        $this->published_at = $published_at;
     }
 }

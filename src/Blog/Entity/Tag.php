@@ -23,30 +23,29 @@ class Tag
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Column(type="string(255)")
-     * @var string
      */
-    private $label;
+    private string $label;
 
     /**
      * @Column(type="datetime")
-     * @var DateTimeImmutable
      */
-    private $createdAt;
+    private DateTimeImmutable $created_at;
 
     /**
      * @ManyToMany(target="App\Blog\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
-     * @var PivotedCollection
+     * @var Post[]|PivotedCollection
      */
     private $posts;
 
-    public function __construct()
+    public function __construct(string $label)
     {
+        $this->label = $label;
+        $this->created_at = new DateTimeImmutable();
         $this->posts = new PivotedCollection();
     }
 
@@ -67,7 +66,7 @@ class Tag
 
     public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**

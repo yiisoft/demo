@@ -23,7 +23,6 @@ Some commands:
 user/create <login> <password>
 fixture/add [count]
 ```
-[yii-cycle commands](https://github.com/yiisoft/yii-cycle#commands)
 
 ## Web application
 

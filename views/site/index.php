@@ -52,11 +52,15 @@
         </div>
         <h4 class="card-title text-muted">Migrations</h4>
         <div>
-            <code><?php echo "{$binPath} migrate/create" ?></code>
+                <code><?php echo "{$binPath} migrate/create" ?></code>
             <br><code><?php echo "{$binPath} migrate/generate" ?></code>
             <br><code><?php echo "{$binPath} migrate/up" ?></code>
             <br><code><?php echo "{$binPath} migrate/down" ?></code>
             <br><code><?php echo "{$binPath} migrate/list" ?></code>
+        </div>
+        <h4 class="card-title text-muted">DB Schema</h4>
+        <div>
+            <code><?php echo "{$binPath} cycle/schema" ?></code>
         </div>
     </div>
 </div>

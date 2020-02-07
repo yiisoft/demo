@@ -12,7 +12,6 @@ class PostTag
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 }

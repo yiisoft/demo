@@ -28,39 +28,33 @@ class User implements IdentityInterface
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Column(type="string(128)")
-     * @var string
      */
-    private $token;
+    private string $token;
 
     /**
      * @Column(type="string(48)")
-     * @var string
      */
-    private $login;
+    private string $login;
 
     /**
      * @Column(type="string")
-     * @var string
      */
-    private $passwordHash;
+    private string $passwordHash;
 
     /**
-     * @Column(type="datetime")
-     * @var DateTimeImmutable
+     * Annotations for this field placed in a mapper class
      */
-    private $createdAt;
+    private DateTimeImmutable $created_at;
 
     /**
-     * @Column(type="datetime")
-     * @var DateTimeImmutable
+     * Annotations for this field placed in a mapper class
      */
-    private $updatedAt;
+    private DateTimeImmutable $updated_at;
 
     /**
      * @HasMany(target="App\Blog\Entity\Post")
@@ -70,12 +64,14 @@ class User implements IdentityInterface
 
     /**
      * @HasMany(target="App\Blog\Entity\Comment")
-     * @var ArrayCollection
+     * @var Comment[]|ArrayCollection
      */
     private $comments;
 
     public function __construct()
     {
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         if (!isset($this->token)) {
@@ -120,12 +116,12 @@ class User implements IdentityInterface
 
     public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     public function getUpdatedAt(): DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     /**

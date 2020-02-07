@@ -120,11 +120,9 @@ class AddCommand extends Command
         for ($i = 0; $i <= $count; ++$i) {
             /** @var User $postUser */
             $postUser = $this->users[array_rand($this->users)];
-            $post = new Post();
+            $post = new Post($this->faker->text(64), $this->faker->realText(rand(1000, 4000)));
             $post->setUser($postUser);
             $postUser->addPost($post);
-            $post->setTitle($this->faker->text(64));
-            $post->setContent($this->faker->realText(4000));
             $public = rand(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
@@ -138,8 +136,7 @@ class AddCommand extends Command
             // add comments
             $commentsCount = rand(0, $count);
             for ($j = 0; $j <= $commentsCount; ++$j) {
-                $comment = new Comment();
-                $comment->setContent($this->faker->realText(500));
+                $comment = new Comment($this->faker->realText(rand(100, 500)));
                 $commentPublic = rand(0, 3) > 0;
                 $comment->setPublic($commentPublic);
                 if ($commentPublic) {

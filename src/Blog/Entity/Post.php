@@ -23,7 +23,7 @@ use Yiisoft\Security\Random;
  * )
  * @Table(
  *     indexes={
- *         @Index(columns={"public","publishedAt"}),
+ *         @Index(columns={"public","published_at"}),
  *     }
  * )
  */
@@ -31,57 +31,48 @@ class Post
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Column(type="string(128)")
-     * @var string
      */
-    private $slug;
+    private string $slug;
 
     /**
-     * @Column(type="string(255)")
-     * @var string
+     * @Column(type="string(255)", default="")
      */
-    private $title;
+    private string $title = '';
 
     /**
      * @Column(type="bool", default="false")
-     * @var bool
      */
-    private $public;
+    private bool $public = false;
 
     /**
      * @Column(type="text")
-     * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * @Column(type="datetime")
-     * @var DateTimeImmutable
      */
-    private $createdAt;
+    private DateTimeImmutable $created_at;
 
     /**
      * @Column(type="datetime")
-     * @var DateTimeImmutable
      */
-    private $updatedAt;
+    private DateTimeImmutable $updated_at;
 
     /**
      * @Column(type="datetime", nullable=true)
-     * @var DateTimeImmutable|null
      */
-    private $publishedAt;
+    private ?DateTimeImmutable $published_at = null;
 
     /**
      * @Column(type="datetime", nullable=true)
-     * @var DateTimeImmutable|null
      */
-    private $deletedAt;
+    private ?DateTimeImmutable $deleted_at = null;
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false)
@@ -97,17 +88,19 @@ class Post
 
     /**
      * @HasMany(target="App\Blog\Entity\Comment")
-     * @var Comment|ArrayCollection
+     * @var Comment[]|ArrayCollection
      */
     private $comments;
 
-    public function __construct()
+    public function __construct(string $title, string $content)
     {
+        $this->title = $title;
+        $this->content = $content;
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
         $this->tags = new PivotedCollection();
         $this->comments = new ArrayCollection();
-        if (!isset($this->slug)) {
-            $this->resetSlug();
-        }
+        $this->resetSlug();
     }
 
     public function getId(): ?string
@@ -157,17 +150,17 @@ class Post
 
     public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     public function getUpdatedAt(): DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     public function getDeletedAt(): ?DateTimeImmutable
     {
-        return $this->deletedAt;
+        return $this->deleted_at;
     }
 
     public function setUser(User $user)
@@ -182,12 +175,12 @@ class Post
 
     public function getPublishedAt(): ?DateTimeImmutable
     {
-        return $this->publishedAt;
+        return $this->published_at;
     }
 
-    public function setPublishedAt(?DateTimeImmutable $publishedAt): void
+    public function setPublishedAt(?DateTimeImmutable $published_at): void
     {
-        $this->publishedAt = $publishedAt;
+        $this->published_at = $published_at;
     }
 
     /**

@@ -13,15 +13,6 @@ use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;
 use Cycle\ORM\Mapper\Mapper;
 
-/**
- * @Table(
- *      columns={
- *          "created_at": @Column(type="datetime"),
- *          "updated_at": @Column(type="datetime"),
- *          "deleted_at": @Column(type="datetime", nullable=true)
- *      }
- * )
- */
 class PostMapper extends Mapper
 {
     /**
