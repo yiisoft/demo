@@ -11,7 +11,7 @@ use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;
 use Cycle\ORM\Mapper\Mapper;
 
-class PostMapper extends Mapper
+final class PostMapper extends Mapper
 {
     /**
      * @param Post $entity

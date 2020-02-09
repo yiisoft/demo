@@ -16,7 +16,7 @@ echo Html::beginTag('ul');
 /** @var \App\Blog\Entity\Post $post */
 foreach ($paginationSet->getPaginator()->read() as $post) {
     echo Html::beginTag('li', ['class' => 'text-muted']);
-    echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/page', ['slug' => $post->getSlug()]));
+    echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/post', ['slug' => $post->getSlug()]));
     echo ' by ';
     $userLogin = $post->getUser()->getLogin();
     echo Html::a(Html::encode($userLogin), $urlGenerator->generate('user/profile', ['login' => $userLogin]));

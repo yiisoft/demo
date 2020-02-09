@@ -11,7 +11,7 @@ use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;
 use Cycle\ORM\Mapper\Mapper;
 
-class CommentMapper extends Mapper
+final class CommentMapper extends Mapper
 {
     /**
      * @param Comment $entity

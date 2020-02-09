@@ -2,6 +2,7 @@
 
 namespace App\Factory;
 
+use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\Post\PostController;
 use App\Blog\Tag\TagController;
@@ -28,12 +29,18 @@ class AppRouterFactory
         $routes = [
             Route::get('/', new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index'),
-            Route::methods([Method::GET, Method::POST], '/contact', new ActionCaller(ContactController::class, 'contact', $container))
-                ->name('site/contact'),
+            Route::methods(
+                [Method::GET, Method::POST],
+                '/contact',
+                new ActionCaller(ContactController::class, 'contact', $container)
+            )->name('site/contact'),
             Route::get('/test/{id:\w+}', new ActionCaller(SiteController::class, 'testParameter', $container))
                 ->name('site/test'),
-            Route::methods([Method::GET, Method::POST], '/login', new ActionCaller(AuthController::class, 'login', $container))
-                ->name('site/login'),
+            Route::methods(
+                [Method::GET, Method::POST],
+                '/login',
+                new ActionCaller(AuthController::class, 'login', $container)
+            )->name('site/login'),
             Route::get('/logout', new ActionCaller(AuthController::class, 'logout', $container))
                 ->name('site/logout'),
 
@@ -53,14 +60,30 @@ class AppRouterFactory
                      ->name('blog/index')
             );
             // Archive
-            $r->addRoute(
-                Route::get('/archive/{year:\d+}-{month:\d+}[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
-                     ->name('blog/archive')
-            );
+            $r->addGroup(new Group('/archive', function (RouteCollectorInterface $r) use (&$container) {
+                $r->addRoute(
+                    Route::get(
+                        '',
+                        new ActionCaller(ArchiveController::class, 'index', $container)
+                    )->name('blog/archive/index')
+                );
+                $r->addRoute(
+                    Route::get(
+                        '/{year:\d+}',
+                        new ActionCaller(ArchiveController::class, 'yearlyArchive', $container)
+                    )->name('blog/archive/year')
+                );
+                $r->addRoute(
+                    Route::get(
+                        '/{year:\d+}-{month:\d+}[/page{page:\d+}]',
+                        new ActionCaller(ArchiveController::class, 'monthlyArchive', $container)
+                    )->name('blog/archive/month')
+                );
+            }));
             // Page
             $r->addRoute(
                 Route::get('/page/{slug}', new ActionCaller(PostController::class, 'index', $container))
-                     ->name('blog/page')
+                     ->name('blog/post')
             );
             // Tag
             $r->addRoute(

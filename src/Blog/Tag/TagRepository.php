@@ -13,7 +13,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
 
-class TagRepository extends Repository
+final class TagRepository extends Repository
 {
     private ORMInterface $orm;
 
@@ -51,12 +51,12 @@ class TagRepository extends Repository
         /** @var PostRepository $postRepo */
         $postRepo = $this->orm->getRepository(Post::class);
 
+        // Examples
         $case1 = $postTagRepo
             ->select()
             ->buildQuery()
             ->columns(['t.label', 'count(*) count'])
-            ->innerJoin('post', 'p')->on('p.id', 'postTag.post_id')
-                                    ->onWhere(['p.public' => true, 'deleted_at' => null])
+            ->innerJoin('post', 'p')->on('p.id', 'postTag.post_id')->onWhere(['p.public' => true])
             ->innerJoin('tag', 't')->on('t.id', 'postTag.tag_id')
             ->groupBy('tag_id');
 

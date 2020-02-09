@@ -7,7 +7,7 @@ use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;
 use Cycle\ORM\Mapper\Mapper;
 
-class TagMapper extends Mapper
+final class TagMapper extends Mapper
 {
     public function queueCreate($entity, Node $node, State $state): ContextCarrierInterface
     {

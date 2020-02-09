@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Router\UrlGeneratorInterface;
 
-class TagController extends Controller
+final class TagController extends Controller
 {
     private const POSTS_PER_PAGE = 10;
 

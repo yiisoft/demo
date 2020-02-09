@@ -8,7 +8,7 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class PostController extends Controller
+final class PostController extends Controller
 {
     protected function getId(): string
     {
