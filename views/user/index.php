@@ -1,15 +1,20 @@
 <?php
 
 /**
+ * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \App\Pagination\PaginationSet $paginationSet;
  * @var \Yiisoft\View\WebView $this
  */
 
+use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
+$pagination = OffsetPagination::widget()
+                              ->paginator($paginator)
+                              ->urlGenerator(fn ($page) => $urlGenerator->generate('user/index', ['page' => $page]));
+
 echo Html::tag('h1', 'Users');
-echo Html::tag('p', 'Total users: ' . $paginationSet->getPaginator()->getTotalItems(), ['class' => 'text-muted']);
+echo Html::tag('p', 'Total users: ' . $paginator->getTotalItems(), ['class' => 'text-muted']);
 
 ?>
 <table class="table table-hover">
@@ -22,7 +27,7 @@ echo Html::tag('p', 'Total users: ' . $paginationSet->getPaginator()->getTotalIt
     <tbody>
 <?php
 /** @var \App\Entity\User $item */
-foreach ($paginationSet->getPaginator()->read() as $item) {
+foreach ($paginator->read() as $item) {
     echo Html::beginTag('tr');
     echo Html::beginTag('td');
     echo Html::a(
@@ -38,6 +43,6 @@ foreach ($paginationSet->getPaginator()->read() as $item) {
     </tbody>
 </table>
 <?php
-if ($paginationSet->needToPaginate()) {
-    echo $this->render('../blog/_pagination', ['paginationSet' => $paginationSet]);
+if ($pagination->isRequired()) {
+    echo $pagination;
 }

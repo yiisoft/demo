@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller;
 use App\Entity\User;
-use App\Pagination\PaginationSet;
 use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -33,13 +32,12 @@ class UserController extends Controller
         $repository = $orm->getRepository(User::class);
 
         $dataReader = $repository->findAll()->withSort((new Sort([]))->withOrderString('login'));
-        $paginationSet = new PaginationSet(
-            (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX)->withCurrentPage($pageNum),
-            fn ($page) => $urlGenerator->generate('user/index', ['page' => $page])
-        );
+        $paginator = (new OffsetPaginator($dataReader))
+            ->withPageSize(self::PAGINATION_INDEX)
+            ->withCurrentPage($pageNum);
 
         $data = [
-            'paginationSet' => $paginationSet,
+            'paginator' => $paginator,
         ];
 
         $output = $this->render(__FUNCTION__, $data);

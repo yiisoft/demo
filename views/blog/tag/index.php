@@ -1,20 +1,27 @@
 <?php
 
 /**
+ * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
  * @var \App\Blog\Entity\Tag $item
- * @var \App\Pagination\PaginationSet $paginationSet;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
 
+use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
+$pagination = OffsetPagination::widget()
+                              ->paginator($paginator)
+                              ->urlGenerator(fn ($page) => $urlGenerator->generate(
+                                  'blog/tag',
+                                  ['label' => $item->getLabel(), 'page' => $page]
+                              ));
 ?>
 <h1>Tag <?php echo Html::encode($item->getLabel()) ?></h1>
 <?php
 echo Html::beginTag('ul');
 /** @var \App\Blog\Entity\Post $post */
-foreach ($paginationSet->getPaginator()->read() as $post) {
+foreach ($paginator->read() as $post) {
     echo Html::beginTag('li', ['class' => 'text-muted']);
     echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/post', ['slug' => $post->getSlug()]));
     echo ' by ';
@@ -26,6 +33,6 @@ foreach ($paginationSet->getPaginator()->read() as $post) {
 }
 echo Html::endTag('ul');
 
-if ($paginationSet->needToPaginate()) {
-    echo $this->render('../_pagination', ['paginationSet' => $paginationSet]);
+if ($pagination->isRequired()) {
+    echo $pagination;
 }

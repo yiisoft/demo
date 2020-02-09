@@ -10,7 +10,6 @@ use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagRepository;
-use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -41,17 +40,13 @@ final class BlogController extends Controller
         $pageNum = (int)$request->getAttribute('page', 1);
 
         $dataReader = $postRepo->findAllPreloaded();
-        $pageUrlGenerator = fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]);
 
-        $paginationSet = new PaginationSet(
-            (new OffsetPaginator($dataReader))
-                ->withPageSize(self::POSTS_PER_PAGE)
-                ->withCurrentPage($pageNum),
-            $pageUrlGenerator
-        );
+        $paginator = (new OffsetPaginator($dataReader))
+            ->withPageSize(self::POSTS_PER_PAGE)
+            ->withCurrentPage($pageNum);
 
         $data = [
-            'paginationSet' => $paginationSet,
+            'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];

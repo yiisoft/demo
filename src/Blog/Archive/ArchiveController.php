@@ -5,7 +5,6 @@ namespace App\Blog\Archive;
 use App\Controller;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
-use App\Pagination\PaginationSet;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -47,22 +46,14 @@ final class ArchiveController extends Controller
         $month = $request->getAttribute('month', null);
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
-        $pageUrlGenerator = fn ($page) => $urlGenerator->generate(
-            'blog/archive/month',
-            ['year' => $year, 'month' => $month, 'page' => $page]
-        );
-
-        $paginationSet = new PaginationSet(
-            (new OffsetPaginator($dataReader))
-                ->withPageSize(self::POSTS_PER_PAGE)
-                ->withCurrentPage($pageNum),
-            $pageUrlGenerator
-        );
+        $paginator = (new OffsetPaginator($dataReader))
+            ->withPageSize(self::POSTS_PER_PAGE)
+            ->withCurrentPage($pageNum);
 
         $data = [
             'year' => $year,
             'month' => $month,
-            'paginationSet' => $paginationSet,
+            'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];

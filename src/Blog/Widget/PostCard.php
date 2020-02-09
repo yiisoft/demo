@@ -30,15 +30,16 @@ class PostCard extends Widget
 
         $this->initOptions();
 
-        $this->registerPlugin('alert', $this->options);
+        $this->registerPlugin('page-card', $this->options);
 
-        return Html::beginTag('div', $this->options) . "\n"
-            . Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start']) . "\n"
+        return "\n" . Html::beginTag('div', $this->options)
+            . "\n" . Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start'])
             . "\n" . $this->renderHead()
             . "\n" . $this->renderBody()
             . "\n" . $this->renderTags()
             . "\n" . Html::endTag('div')
-            . "\n" . Html::endTag('div');
+            . "\n" . Html::endTag('div')
+            . "\n";
     }
 
     protected function renderHead(): string

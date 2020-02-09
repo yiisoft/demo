@@ -48,9 +48,6 @@ use Yiisoft\Html\Html;
             ));
             echo Html::endTag('div');
         }
-        // if ($paginationSet->needToPaginate()) {
-        //     echo $this->render('_pagination', ['paginationSet' => $paginationSet]);
-        // }
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">
