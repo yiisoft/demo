@@ -50,8 +50,5 @@ use Yiisoft\Html\Html;
         }
         ?>
     </div>
-    <div class="col-sm-4 col-md-4 col-lg-3">
-        <?php //echo $this->render('_topTags', ['tags' => $tags]) ?>
-        <?php //echo $this->render('_archive', ['archive' => $archive]) ?>
-    </div>
+    <div class="col-sm-4 col-md-4 col-lg-3"></div>
 </div>
