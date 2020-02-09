@@ -16,12 +16,15 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterFactory;
+use Yiisoft\Widget\WidgetFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
 
 class AppRouterFactory
 {
     public function __invoke(ContainerInterface $container)
     {
+        WidgetFactory::initialize($container);
+
         $routes = [
             Route::get('/', new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index'),
@@ -42,24 +45,29 @@ class AppRouterFactory
 
         $router = (new RouterFactory(new FastRouteFactory(), $routes))($container);
 
-        $router->addGroup('/blog', static function (RouteCollectorInterface $r) use (&$container) {
+        // Blog routes
+        $router->addGroup(new Group('/blog', static function (RouteCollectorInterface $r) use (&$container) {
+            // Index
             $r->addRoute(
                 Route::get('[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/index')
             );
+            // Archive
             $r->addRoute(
                 Route::get('/archive/{year:\d+}-{month:\d+}[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/archive')
             );
+            // Page
             $r->addRoute(
                 Route::get('/page/{slug}', new ActionCaller(PostController::class, 'index', $container))
                      ->name('blog/page')
             );
+            // Tag
             $r->addRoute(
                 Route::get('/tag/{label}[/page{page:\d+}]', new ActionCaller(TagController::class, 'index', $container))
                      ->name('blog/tag')
             );
-        });
+        }));
 
         return $router;
     }

@@ -1,41 +1,27 @@
-<div id="primaryCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#primaryCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#primaryCarousel" data-slide-to="1"></li>
-        <li data-target="#primaryCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="d-block w-100 bg-info" style="height: 200px"></div>
-            <div class="carousel-caption d-none d-md-block">
-                <h5>First slide label</h5>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="d-block w-100 bg-secondary" style="height: 200px"></div>
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Second slide label</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="d-block w-100 bg-dark" style="height: 200px"></div>
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Third slide label</h5>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-            </div>
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#primaryCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#primaryCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+<?php
+
+use Yiisoft\Yii\Bootstrap4\Carousel;
+
+echo Carousel::widget()
+    ->items([
+        [
+            'content' => '<div class="d-block w-100 bg-info" style="height: 200px"></div>',
+            'caption' => '<h5>First slide label</h5><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>',
+            'captionOptions' => ['class' => ['d-none', 'd-md-block']],
+        ],
+        [
+            'content' => '<div class="d-block w-100 bg-secondary" style="height: 200px"></div>',
+            'caption' => '<h5>Second slide label</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
+            'captionOptions' => ['class' => ['d-none', 'd-md-block']],
+        ],
+        [
+            'content' => '<div class="d-block w-100 bg-dark" style="height: 200px"></div>',
+            'caption' => '<h5>Third slide label</h5><p>Praesent commodo cursus magna, vel scelerisque nisl.</p>',
+            'captionOptions' => ['class' => ['d-none', 'd-md-block']],
+        ],
+    ]);
+?>
+
 
 
 <div class="card mt-3 col-md-6">

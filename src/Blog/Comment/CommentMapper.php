@@ -3,8 +3,6 @@
 namespace App\Blog\Comment;
 
 use App\Blog\Entity\Comment;
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Command\CommandInterface;
 use Cycle\ORM\Command\Database\Update;

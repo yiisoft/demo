@@ -3,8 +3,6 @@
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Command\CommandInterface;
 use Cycle\ORM\Command\Database\Update;

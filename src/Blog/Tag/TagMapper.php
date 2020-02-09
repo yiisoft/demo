@@ -2,8 +2,6 @@
 
 namespace App\Blog\Tag;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;

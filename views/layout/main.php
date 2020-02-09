@@ -2,6 +2,8 @@
 
 use App\Asset\AppAsset;
 use Yiisoft\Html\Html;
+use Yiisoft\Yii\Bootstrap4\Nav;
+use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -9,6 +11,7 @@ use Yiisoft\Html\Html;
  * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
+ * @var null|string $currentUrl
  */
 
 $assetManager->register([
@@ -31,46 +34,49 @@ $this->beginPage();
 <body>
 <?php
 $this->beginBody();
-?>
-<nav class="navbar navbar-expand-sm navbar-light bg-light container">
-    <a class="navbar-brand" href="<?= $urlGenerator->generate('site/index') ?>">Yii Demo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('blog/index') ?>">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('user/index') ?>">Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('site/contact') ?>">Contact</a>
-            </li>
-        </ul>
+echo NavBar::begin()
+      ->brandLabel('Yii Demo')
+      ->brandUrl($urlGenerator->generate('site/index'))
+      ->options(
+          [
+              'class' => 'navbar navbar-light bg-light navbar-expand-sm text-white',
+          ]
+      )->start();
+echo Nav::widget()
+        ->currentPath($currentUrl ?? '')
+        ->items(
+            [
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
+                ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
+            ]
+        )
+        ->options(
+            [
+                'class' => 'navbar-nav mr-auto',
+            ]
+        );
+echo Nav::widget()
+        ->currentPath($currentUrl ?? '')
+        ->items(
+            [
+                $user->getId() === null
+                    ? ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')]
+                    : ['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')],
+            ]
+        )
+        ->options(
+            [
+                'class' => 'navbar-nav',
+            ]
+        );
+echo NavBar::end();
 
-        <ul class="navbar-nav">
-            <?php if ($user->getId() !== null) { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= $urlGenerator->generate('site/logout') ?>">
-                        Logout (<?= Html::encode($user->getLogin()) ?>)
-                    </a>
-                </li>
-            <?php } else { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= $urlGenerator->generate('site/login') ?>">Login</a>
-                </li>
-            <?php } ?>
-        </ul>
-    </div>
-</nav>
-<main role="main" class="container py-4">
-    <?= $content ?>
-</main>
-<?php
+echo Html::beginTag('main', ['role' => 'main', 'class' => 'container py-4']);
+echo $content;
+echo Html::endTag('main');
+
 $this->endBody();
 ?>
 </body>
