@@ -14,10 +14,7 @@ class OffsetPagination extends Widget
     private array $options = [];
 
     private ?Closure $urlGenerator = null;
-    /**
-     * @var Paginator
-     */
-    private Paginator $paginator;
+    private ?Paginator $paginator = null;
     private int $pagesCount;
     private int $currentPage;
     private array $pages;
@@ -39,7 +36,7 @@ class OffsetPagination extends Widget
 
     public function isRequired(): bool
     {
-        return !isset($this->paginator) ? false : $this->paginator->isRequired();
+        return $this->paginator === null ? false : $this->paginator->isRequired();
     }
 
     /**
@@ -56,6 +53,9 @@ class OffsetPagination extends Widget
 
     protected function run(): string
     {
+        if ($this->paginator === null) {
+            return '';
+        }
         if (!isset($this->options['id'])) {
             $this->options['id'] = "{$this->getId()}-post-card";
         }
@@ -65,12 +65,13 @@ class OffsetPagination extends Widget
 
         $this->registerPlugin('offset-pagination', $this->options);
 
-        return "\n" . Html::beginTag('nav', $this->options)
-            . "\n" . Html::beginTag('ul', ['class' => 'pagination'])
-            . "\n" . $this->renderButtons()
-            . "\n" . Html::endTag('ul')
-            . "\n" . Html::endTag('nav')
-            . "\n";
+        return implode("\n", [
+            Html::beginTag('nav', $this->options),
+            Html::beginTag('ul', ['class' => 'pagination']),
+            $this->renderButtons(),
+            Html::endTag('ul'),
+            Html::endTag('nav'),
+        ]);
     }
 
     protected function prepareButtons(): void

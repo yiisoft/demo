@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Entity;
 
 use App\Entity\User;
@@ -79,7 +81,7 @@ class Comment
 
     public function getId(): ?string
     {
-        return $this->id;
+        return (string)$this->id;
     }
 
     public function getContent(): string

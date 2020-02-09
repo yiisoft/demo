@@ -45,7 +45,7 @@ final class BlogController extends Controller
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
-        $output = $this->render(__FUNCTION__, $data);
+        $output = $this->render('index', $data);
 
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);

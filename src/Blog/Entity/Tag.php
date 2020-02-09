@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Entity;
 
 use Cycle\Annotated\Annotation\Column;
@@ -51,7 +53,7 @@ class Tag
 
     public function getId(): ?string
     {
-        return $this->id;
+        return (string)$this->id;
     }
 
     public function getLabel(): string

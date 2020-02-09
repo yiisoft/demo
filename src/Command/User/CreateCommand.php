@@ -40,10 +40,7 @@ class CreateCommand extends Command
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
 
-        $user = new User();
-        $user->setLogin($login);
-        $user->setPassword($password);
-
+        $user = new User($login, $password);
         try {
             $transaction = new Transaction($this->orm);
             $transaction->persist($user);

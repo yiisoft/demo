@@ -18,7 +18,7 @@ use Yiisoft\Html\Html;
         if (count($items) > 0) {
             echo Html::tag(
                 'p',
-                sprintf('Total %d posts', count($items), $year),
+                sprintf('Total %d posts', count($items)),
                 ['class' => 'text-muted']
             );
         } else {

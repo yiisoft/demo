@@ -19,24 +19,20 @@ final class TagRepository extends Repository
 
     public function __construct(Select $select, ORMInterface $orm)
     {
-        parent::__construct($select);
         $this->orm = $orm;
+        parent::__construct($select);
     }
 
     public function getOrCreate(string $label): Tag
     {
         $tag = $this->findByLabel($label);
-        if ($tag === null) {
-            $tag = new Tag($label);
-        }
-        return $tag;
+        return $tag ?? new Tag($label);
     }
 
-    public function findByLabel(string $label, array $load = []): ?Tag
+    public function findByLabel(string $label): ?Tag
     {
         return $this->select()
                     ->where(['label' => $label])
-                    ->load($load)
                     ->fetchOne();
     }
 

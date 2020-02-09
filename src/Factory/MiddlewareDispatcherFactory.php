@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\Middleware\Router;
+use Yiisoft\Widget\WidgetFactory;
 use Yiisoft\Yii\Web\ErrorHandler\ErrorCatcher;
 use Yiisoft\Yii\Web\Middleware\SubFolder;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
@@ -13,6 +14,8 @@ class MiddlewareDispatcherFactory
 {
     public function __invoke(ContainerInterface $container)
     {
+        WidgetFactory::initialize($container);
+
         $session = $container->get(SessionMiddleware::class);
         $router = $container->get(Router::class);
         $errorCatcher = $container->get(ErrorCatcher::class);

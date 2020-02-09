@@ -21,14 +21,12 @@ use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
  */
 final class ArchiveRepository
 {
-    private ORMInterface $orm;
     private PostRepository $postRepo;
 
     public function __construct(ORMInterface $orm)
     {
-        $this->orm = $orm;
         /** @var PostRepository $postRepo */
-        $postRepo = $this->orm->getRepository(Post::class);
+        $postRepo = $orm->getRepository(Post::class);
         $this->postRepo = $postRepo;
     }
 
@@ -53,7 +51,6 @@ final class ArchiveRepository
                     ->load(['user', 'tags']);
         return $this->prepareDataReader($query);
     }
-
 
     public function getYearlyArchive(int $year): DataReaderInterface
     {
@@ -88,7 +85,11 @@ final class ArchiveRepository
         return (new SelectDataReader($query))->withSort($sort);
     }
 
-    private function extractFromDateColumn($attr = 'year'): Fragment
+    /**
+     * @param string $attr Can be 'day', 'month' or 'year'
+     * @return Fragment
+     */
+    private function extractFromDateColumn(string $attr): Fragment
     {
         if ($this->getDriver() instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
@@ -107,6 +108,10 @@ final class ArchiveRepository
                     ->getDriver(DatabaseInterface::READ);
     }
 
+    /**
+     * @param Select|SelectQuery $query
+     * @return SelectDataReader
+     */
     private function prepareDataReader($query): SelectDataReader
     {
         return (new SelectDataReader($query))->withSort((new Sort([]))->withOrder(['published_at' => 'desc']));

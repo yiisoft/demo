@@ -40,7 +40,7 @@ class UserController extends Controller
             'paginator' => $paginator,
         ];
 
-        $output = $this->render(__FUNCTION__, $data);
+        $output = $this->render('index', $data);
 
         $response->getBody()->write($output);
         return $response;

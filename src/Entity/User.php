@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Blog\Entity\Comment;
@@ -68,20 +70,20 @@ class User implements IdentityInterface
      */
     private $comments;
 
-    public function __construct()
+    public function __construct(string $login, string $password)
     {
+        $this->login = $login;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
+        $this->setPassword($password);
+        $this->resetToken();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        if (!isset($this->token)) {
-            $this->resetToken();
-        }
     }
 
     public function getId(): ?string
     {
-        return $this->id;
+        return (string)$this->id;
     }
 
     public function getToken(): ?string

@@ -55,9 +55,6 @@ final class PostRepository extends Select\Repository
             ]);
         /** @var null|Post $post */
         $post = $query->fetchOne();
-        // /** @var Select\Repository $commentRepo */
-        // $commentRepo = $this->orm->getRepository(Comment::class);
-        // $commentRepo->select()->load('user')->where('post_id', $post->getId())->fetchAll();
         return $post;
     }
 

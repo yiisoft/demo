@@ -80,17 +80,16 @@ class AddCommand extends Command
         $transaction->run();
     }
 
-    private function addUsers(int $count = self::DEFAULT_COUNT): void
+    private function addUsers(int $count): void
     {
         for ($i = 0; $i <= $count; ++$i) {
-            $user = new User();
-            $user->setLogin($login = $this->faker->firstName . rand(0, 9999));
-            $user->setPassword($login);
+            $login = $this->faker->firstName . rand(0, 9999);
+            $user = new User($login, $login);
             $this->users[] = $user;
         }
     }
 
-    private function addTags(int $count = self::DEFAULT_COUNT): void
+    private function addTags(int $count): void
     {
         /** @var TagRepository $tagRepository */
         $tagRepository = $this->orm->getRepository(Tag::class);
@@ -112,7 +111,7 @@ class AddCommand extends Command
         }
     }
 
-    private function addPosts(int $count = self::DEFAULT_COUNT): void
+    private function addPosts(int $count): void
     {
         if (count($this->users) === 0) {
             throw new \Exception('No users');

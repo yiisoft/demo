@@ -17,15 +17,12 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterFactory;
-use Yiisoft\Widget\WidgetFactory;
 use Yiisoft\Yii\Web\Middleware\ActionCaller;
 
 class AppRouterFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        WidgetFactory::initialize($container);
-
         $routes = [
             Route::get('/', new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index'),
@@ -53,14 +50,14 @@ class AppRouterFactory
         $router = (new RouterFactory(new FastRouteFactory(), $routes))($container);
 
         // Blog routes
-        $router->addGroup(new Group('/blog', static function (RouteCollectorInterface $r) use (&$container) {
+        $router->addGroup(new Group('/blog', static function (RouteCollectorInterface $r) use ($container) {
             // Index
             $r->addRoute(
                 Route::get('[/page{page:\d+}]', new ActionCaller(BlogController::class, 'index', $container))
                      ->name('blog/index')
             );
             // Archive
-            $r->addGroup(new Group('/archive', function (RouteCollectorInterface $r) use (&$container) {
+            $r->addGroup(new Group('/archive', function (RouteCollectorInterface $r) use ($container) {
                 $r->addRoute(
                     Route::get(
                         '',

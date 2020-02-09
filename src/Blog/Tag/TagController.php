@@ -44,7 +44,7 @@ final class TagController extends Controller
             'item' => $item,
             'paginator' => $paginator,
         ];
-        $output = $this->render(__FUNCTION__, $data);
+        $output = $this->render('index', $data);
 
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);

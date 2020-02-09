@@ -25,10 +25,7 @@ final class PostController extends Controller
             return $this->responseFactory->createResponse(404);
         }
 
-        $data = [
-            'item' => $item,
-        ];
-        $output = $this->render(__FUNCTION__, $data);
+        $output = $this->render('index', ['item' => $item]);
 
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($output);
