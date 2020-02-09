@@ -21,11 +21,8 @@ final class TagController extends Controller
         return 'blog/tag';
     }
 
-    public function index(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
+    public function index(Request $request, ORMInterface $orm): Response
+    {
         /** @var TagRepository $tagRepo */
         $tagRepo = $orm->getRepository(Tag::class);
         /** @var PostRepository $postRepo */

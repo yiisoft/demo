@@ -14,7 +14,6 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Router\UrlGeneratorInterface;
 
 final class BlogController extends Controller
 {
@@ -26,12 +25,8 @@ final class BlogController extends Controller
         return 'blog';
     }
 
-    public function index(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator,
-        ArchiveRepository $archiveRepo
-    ): Response {
+    public function index(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
+    {
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
         /** @var TagRepository $postRepo */

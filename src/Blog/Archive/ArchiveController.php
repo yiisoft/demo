@@ -9,7 +9,6 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Router\UrlGeneratorInterface;
 
 final class ArchiveController extends Controller
 {
@@ -32,12 +31,8 @@ final class ArchiveController extends Controller
         return $response;
     }
 
-    public function monthlyArchive(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator,
-        ArchiveRepository $archiveRepo
-    ): Response {
+    public function monthlyArchive(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
+    {
         /** @var TagRepository $postRepo */
         $tagRepo = $orm->getRepository(Tag::class);
 
@@ -64,11 +59,8 @@ final class ArchiveController extends Controller
         return $response;
     }
 
-    public function yearlyArchive(
-        Request $request,
-        ORMInterface $orm,
-        ArchiveRepository $archiveRepo
-    ): Response {
+    public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
+    {
         $year = $request->getAttribute('year', null);
 
         $data = [
