@@ -24,7 +24,8 @@ final class ArchiveRepository
     private ORMInterface $orm;
     private PostRepository $postRepo;
 
-    public function __construct(ORMInterface $orm) {
+    public function __construct(ORMInterface $orm)
+    {
         $this->orm = $orm;
         /** @var PostRepository $postRepo */
         $postRepo = $this->orm->getRepository(Post::class);
@@ -67,7 +68,7 @@ final class ArchiveRepository
         return $this->prepareDataReader($query);
     }
 
-     /**
+    /**
      * @return SelectDataReader Collection of Array('Count' => '123', 'Month' => '8', 'Year' => '2019')
      */
     public function getFullArchive(): DataReaderInterface
