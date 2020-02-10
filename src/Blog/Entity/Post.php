@@ -80,13 +80,15 @@ class Post
      * @BelongsTo(target="App\Entity\User", nullable=false)
      * @var User|\Cycle\ORM\Promise\Reference
      */
-    private $user;
+    private $user = null;
+    private ?int $user_id = null;
 
     /**
      * @ManyToMany(target="App\Blog\Entity\Tag", though="PostTag", fkAction="CASCADE")
      * @var Tag[]|PivotedCollection
      */
     private $tags;
+    private ?int $tag_id = null;
 
     /**
      * @HasMany(target="App\Blog\Entity\Comment")
@@ -170,7 +172,7 @@ class Post
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }

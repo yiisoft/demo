@@ -64,13 +64,15 @@ class Comment
      * @BelongsTo(target="App\Entity\User", nullable=false, load="eager")
      * @var User|\Cycle\ORM\Promise\Reference
      */
-    private $user;
+    private $user = null;
+    private ?int $user_id = null;
 
     /**
      * @BelongsTo(target="App\Blog\Entity\Post", nullable=false)
      * @var Post|\Cycle\ORM\Promise\Reference
      */
-    private $post;
+    private $post = null;
+    private ?int $post_id = null;
 
     public function __construct(string $content)
     {
@@ -124,7 +126,7 @@ class Comment
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
@@ -134,7 +136,7 @@ class Comment
         $this->post = $post;
     }
 
-    public function getPost(): Post
+    public function getPost(): ?Post
     {
         return $this->post;
     }
