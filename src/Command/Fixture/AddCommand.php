@@ -130,7 +130,10 @@ class AddCommand extends Command
             // link tags
             $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
             foreach ($postTags as $tagId) {
-                $post->addTag($this->tags[$tagId]);
+                $tag = $this->tags[$tagId];
+                $post->addTag($tag);
+                // todo: uncomment when issue is resolved https://github.com/cycle/orm/issues/70
+                // $tag->addPost($post);
             }
             // add comments
             $commentsCount = rand(0, $count);
@@ -143,7 +146,9 @@ class AddCommand extends Command
                 }
                 $commentUser = $this->users[array_rand($this->users)];
                 $comment->setUser($commentUser);
+                $commentUser->addComment($comment);
                 $post->addComment($comment);
+                $comment->setPost($post);
             }
         }
     }

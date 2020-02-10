@@ -121,7 +121,7 @@ class Comment
         return $this->deleted_at;
     }
 
-    public function setUser(User $user)
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }
@@ -131,7 +131,7 @@ class Comment
         return $this->user;
     }
 
-    public function setPost(Post $post)
+    public function setPost(Post $post): void
     {
         $this->post = $post;
     }
