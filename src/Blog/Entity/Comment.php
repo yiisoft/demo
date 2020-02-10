@@ -79,9 +79,9 @@ class Comment
         $this->updated_at = new DateTimeImmutable();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
-        return (string)$this->id;
+        return $this->id;
     }
 
     public function getContent(): string

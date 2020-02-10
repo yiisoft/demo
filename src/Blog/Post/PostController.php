@@ -20,7 +20,7 @@ final class PostController extends Controller
         $postRepo = $orm->getRepository(Post::class);
         $slug = $request->getAttribute('slug', null);
 
-        $item = $postRepo->fullPostPage($slug, $this->user->getId());
+        $item = $postRepo->fullPostPage($slug);
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }

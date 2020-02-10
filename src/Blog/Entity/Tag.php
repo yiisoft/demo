@@ -51,9 +51,9 @@ class Tag
         $this->posts = new PivotedCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
-        return (string)$this->id;
+        return $this->id;
     }
 
     public function getLabel(): string

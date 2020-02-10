@@ -35,24 +35,16 @@ final class PostRepository extends Select\Repository
         return $this->prepareDataReader($query);
     }
 
-    public function fullPostPage(string $slug, ?string $userId = null): ?Post
+    public function fullPostPage(string $slug): ?Post
     {
         $query = $this
             ->select()
             ->where(['slug' => $slug])
-            ->load('user', [
-                'method' => Select::SINGLE_QUERY,
-            ])
-            ->load('tags', [
-                'method' => Select::OUTER_QUERY,
-            ])
+            ->load('user', ['method' => Select::SINGLE_QUERY])
+            ->load(['tags'])
             // force loading in single query with comments
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
-            ->load('comments', [
-                'method' => Select::OUTER_QUERY,
-                // not works (default Constraint would not be replaced):
-                'load' => new PublicScope($userId === null ? null : ['user_id' => $userId]),
-            ]);
+            ->load('comments', ['method' => Select::OUTER_QUERY]);
         /** @var null|Post $post */
         $post = $query->fetchOne();
         return $post;
