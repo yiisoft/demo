@@ -24,6 +24,8 @@ class AppRouterFactory
     public function __invoke(ContainerInterface $container)
     {
         $routes = [
+            Route::get('/stream', new ActionCaller(SiteController::class, 'stream', $container))
+                ->name('stream'),
             Route::get('/', new ActionCaller(SiteController::class, 'index', $container))
                 ->name('site/index'),
             Route::methods(
