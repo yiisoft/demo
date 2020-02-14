@@ -15,13 +15,7 @@ class SiteController extends Controller
 
     public function index(): ResponseInterface
     {
-        $response = $this->responseFactory->createResponse();
-
-        $output = $this->render('index');
-
-        $response->getBody()->write($output);
-
-        return $response;
+        return $this->render('index');
     }
 
     public function testParameter(ServerRequestInterface $request): ResponseInterface
