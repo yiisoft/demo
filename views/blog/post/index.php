@@ -10,7 +10,7 @@ use Yiisoft\Html\Html;
 
 ?>
 <h1><?php echo Html::encode($item->getTitle()) ?></h1>
-<div class="">
+<div>
     <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
     <?php
     echo Html::a(

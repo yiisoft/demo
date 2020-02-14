@@ -22,7 +22,7 @@ final class ArchiveController extends Controller
 
     public function index(ArchiveRepository $archiveRepo): Response
     {
-        $output = $this->render(__FUNCTION__, [
+        $output = $this->render('index', [
             'archive' => $archiveRepo->getFullArchive(),
         ]);
 
