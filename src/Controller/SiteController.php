@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 class SiteController extends Controller
 {

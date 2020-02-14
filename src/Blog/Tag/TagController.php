@@ -10,7 +10,6 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Router\UrlGeneratorInterface;
 
 final class TagController extends Controller
 {
