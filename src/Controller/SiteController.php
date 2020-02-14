@@ -17,14 +17,4 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-
-    public function testParameter(ServerRequestInterface $request): ResponseInterface
-    {
-        $id = $request->getAttribute('id');
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write('You are at test with param ' . $id);
-
-        return $response;
-    }
 }

@@ -31,8 +31,6 @@ class AppRouterFactory
                 '/contact',
                 new ActionCaller(ContactController::class, 'contact', $container)
             )->name('site/contact'),
-            Route::get('/test/{id:\w+}', new ActionCaller(SiteController::class, 'testParameter', $container))
-                ->name('site/test'),
             Route::methods(
                 [Method::GET, Method::POST],
                 '/login',

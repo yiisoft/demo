@@ -36,14 +36,7 @@ class UserController extends Controller
             ->withPageSize(self::PAGINATION_INDEX)
             ->withCurrentPage($pageNum);
 
-        $data = [
-            'paginator' => $paginator,
-        ];
-
-        $output = $this->render('index', $data);
-
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('index', ['paginator' => $paginator]);
     }
 
     public function profile(Request $request, ORMInterface $orm): Response
@@ -56,14 +49,6 @@ class UserController extends Controller
             return $this->responseFactory->createResponse(404);
         }
 
-        $data = [
-            'item' => $item,
-        ];
-        $response = $this->responseFactory->createResponse();
-
-        $output = $this->render('profile', $data);
-        $response->getBody()->write($output);
-
-        return $response;
+        return $this->render('profile', ['item' => $item]);
     }
 }
