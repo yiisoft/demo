@@ -3,7 +3,6 @@
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
-use App\Repository\UserRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -73,7 +72,9 @@ return [
     WebView::class => new ViewFactory(),
 
     // user
-    IdentityRepositoryInterface::class => UserRepository::class,
+    IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
+        return $container->get(\Cycle\ORM\ORMInterface::class)->getRepository(\App\Entity\User::class);
+    },
     User::class => static function (ContainerInterface $container) {
         $session = $container->get(SessionInterface::class);
         $identityRepository = $container->get(IdentityRepositoryInterface::class);

@@ -19,6 +19,7 @@
     "require": {
         "php": "^7.4",
         "cebe/markdown": "^1.2@dev",
+        "cycle/proxy-factory": "^1.2",
         "hiqdev/composer-config-plugin": "^1.0@dev",
         "nyholm/psr7": "^1.0",
         "psr/log": "^1.1",
@@ -28,6 +29,7 @@
         "yiisoft/assets": "^1.0@dev",
         "yiisoft/auth": "^3.0@dev",
         "yiisoft/cache": "^3.0@dev",
+        "yiisoft/data": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/event-dispatcher": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
@@ -43,11 +45,13 @@
         "yiisoft/strings": "^3.0@dev",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
+        "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
-        "yiisoft/yii-web": "^3.0@dev",
-        "yiisoft/yii-cycle": "^3.0@dev"
+        "yiisoft/yii-cycle": "^3.0@dev",
+        "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {

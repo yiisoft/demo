@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 class SiteController extends Controller
 {
@@ -16,15 +15,5 @@ class SiteController extends Controller
     public function index(): ResponseInterface
     {
         return $this->render('index');
-    }
-
-    public function testParameter(ServerRequestInterface $request): ResponseInterface
-    {
-        $id = $request->getAttribute('id');
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write('You are at test with param ' . $id);
-
-        return $response;
     }
 }

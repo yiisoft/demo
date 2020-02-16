@@ -1,17 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use App\Blog\Entity\Comment;
+use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Security\Random;
 use Yiisoft\Auth\IdentityInterface;
 
 /**
- * @Entity(repository="App\Repository\UserRepository")
+ * @Entity(repository="App\Repository\UserRepository", mapper="Yiisoft\Yii\Cycle\Mapper\TimestampedMapper")
  * @Table(
  *     indexes={
  *         @Index(columns={"login"}, unique=true),
@@ -23,38 +30,60 @@ class User implements IdentityInterface
 {
     /**
      * @Column(type="primary")
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Column(type="string(128)")
-     * @var string
      */
-    private $token;
+    private string $token;
 
     /**
      * @Column(type="string(48)")
-     * @var string
      */
-    private $login;
+    private string $login;
 
     /**
      * @Column(type="string")
-     * @var string
      */
-    private $passwordHash;
+    private string $passwordHash;
 
-    public function __construct()
+    /**
+     * Annotations for this field placed in a mapper class
+     */
+    private DateTimeImmutable $created_at;
+
+    /**
+     * Annotations for this field placed in a mapper class
+     */
+    private DateTimeImmutable $updated_at;
+
+    /**
+     * @HasMany(target="App\Blog\Entity\Post")
+     * @var Post[]|ArrayCollection
+     */
+    private $posts;
+
+    /**
+     * @HasMany(target="App\Blog\Entity\Comment")
+     * @var Comment[]|ArrayCollection
+     */
+    private $comments;
+
+    public function __construct(string $login, string $password)
     {
-        if (!isset($this->token)) {
-            $this->resetToken();
-        }
+        $this->login = $login;
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
+        $this->setPassword($password);
+        $this->resetToken();
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?string
     {
-        return $this->id;
+        return $this->id === null ? null : (string)$this->id;
     }
 
     public function getToken(): ?string
@@ -79,14 +108,47 @@ class User implements IdentityInterface
 
     public function validatePassword(string $password): bool
     {
-        if ($this->passwordHash === null) {
-            return false;
-        }
         return (new PasswordHasher())->validate($password, $this->passwordHash);
     }
 
     public function setPassword(string $password): void
     {
         $this->passwordHash = (new PasswordHasher())->hash($password);
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @return ArrayCollection|Post[]
+     */
+    public function getPosts(): ArrayCollection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): void
+    {
+        $this->posts->add($post);
+    }
+
+    /**
+     * @return ArrayCollection|Comment[]
+     */
+    public function getComments(): ArrayCollection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $post): void
+    {
+        $this->comments->add($post);
     }
 }
