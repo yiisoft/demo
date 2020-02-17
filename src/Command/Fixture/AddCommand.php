@@ -7,7 +7,6 @@ use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Entity\User;
 use App\Blog\Tag\TagRepository;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Faker\Factory;
 use Faker\Generator;
@@ -17,12 +16,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
+use Yiisoft\Yii\Cycle\Command\CycleDependencyPromise;
 
 class AddCommand extends Command
 {
     protected static $defaultName = 'fixture/add';
 
-    private ORMInterface $orm;
+    private CycleDependencyPromise $promise;
     private Generator $faker;
     /** @var User[] */
     private array $users = [];
@@ -31,10 +31,10 @@ class AddCommand extends Command
 
     private const DEFAULT_COUNT = 10;
 
-    public function __construct(ORMInterface $orm)
+    public function __construct(CycleDependencyPromise $promise)
     {
+        $this->promise = $promise;
         parent::__construct();
-        $this->orm = $orm;
     }
 
     public function configure(): void
@@ -73,7 +73,7 @@ class AddCommand extends Command
 
     private function saveEntities(): void
     {
-        $transaction = new Transaction($this->orm);
+        $transaction = new Transaction($this->promise->getORM());
         foreach ($this->users as $user) {
             $transaction->persist($user);
         }
@@ -92,7 +92,7 @@ class AddCommand extends Command
     private function addTags(int $count): void
     {
         /** @var TagRepository $tagRepository */
-        $tagRepository = $this->orm->getRepository(Tag::class);
+        $tagRepository = $this->promise->getORM()->getRepository(Tag::class);
         $this->tags = [];
         $tagWords = [];
         for ($i = 0, $fails = 0; $i <= $count; ++$i) {

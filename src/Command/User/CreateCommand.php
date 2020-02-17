@@ -3,7 +3,6 @@
 namespace App\Command\User;
 
 use App\Entity\User;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,17 +10,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
+use Yiisoft\Yii\Cycle\Command\CycleDependencyPromise;
 
 class CreateCommand extends Command
 {
-    private ORMInterface $orm;
+    private CycleDependencyPromise $promise;
 
     protected static $defaultName = 'user/create';
 
-    public function __construct(ORMInterface $orm)
+    public function __construct(CycleDependencyPromise $promise)
     {
+        $this->promise = $promise;
         parent::__construct();
-        $this->orm = $orm;
     }
 
     public function configure(): void
@@ -42,7 +42,7 @@ class CreateCommand extends Command
 
         $user = new User($login, $password);
         try {
-            $transaction = new Transaction($this->orm);
+            $transaction = new Transaction($this->promise->getORM());
             $transaction->persist($user);
             $transaction->run();
             $io->success('User created');

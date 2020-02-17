@@ -38,44 +38,33 @@ $this->beginBody();
 echo NavBar::begin()
       ->brandLabel('Yii Demo')
       ->brandUrl($urlGenerator->generate('site/index'))
-      ->options(
-          [
-              'class' => 'navbar navbar-light bg-light navbar-expand-sm text-white',
-          ]
-      )->start();
+      ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
+      ->start();
 echo Nav::widget()
         ->currentPath($currentUrl ?? '')
+        ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
             ]
-        )
-        ->options(
-            [
-                'class' => 'navbar-nav mr-auto',
-            ]
         );
 echo Nav::widget()
         ->currentPath($currentUrl ?? '')
+        ->options(['class' => 'navbar-nav'])
         ->items(
             [
                 $user->getId() === null
                     ? ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')]
                     : ['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')],
             ]
-        )
-        ->options(
-            [
-                'class' => 'navbar-nav',
-            ]
         );
 echo NavBar::end();
 
-echo Html::beginTag('main', ['role' => 'main', 'class' => 'container py-4']);
+?><main role="main" class="container py-4"><?php
 echo $content;
-echo Html::endTag('main');
+?></main><?php
 
 $this->endBody();
 ?>

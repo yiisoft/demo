@@ -10,7 +10,6 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Router\UrlGeneratorInterface;
 
 final class TagController extends Controller
 {
@@ -44,10 +43,6 @@ final class TagController extends Controller
             'item' => $item,
             'paginator' => $paginator,
         ];
-        $output = $this->render('index', $data);
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('index', $data);
     }
 }

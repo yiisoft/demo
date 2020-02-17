@@ -16,9 +16,7 @@ $pagination = OffsetPagination::widget()
                                   'blog/tag',
                                   ['label' => $item->getLabel(), 'page' => $page]
                               ));
-?>
-<h1>Tag <?php echo Html::encode($item->getLabel()) ?></h1>
-<?php
+echo Html::tag('h1', Html::encode($item->getLabel()));
 echo Html::beginTag('ul');
 /** @var \App\Blog\Entity\Post $post */
 foreach ($paginator->read() as $post) {

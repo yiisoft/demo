@@ -22,13 +22,7 @@ final class ArchiveController extends Controller
 
     public function index(ArchiveRepository $archiveRepo): Response
     {
-        $output = $this->render(__FUNCTION__, [
-            'archive' => $archiveRepo->getFullArchive(),
-        ]);
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 
     public function monthlyArchive(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
@@ -52,11 +46,7 @@ final class ArchiveController extends Controller
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
-        $output = $this->render('monthly-archive', $data);
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('monthly-archive', $data);
     }
 
     public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
@@ -67,10 +57,6 @@ final class ArchiveController extends Controller
             'year' => $year,
             'items' => $archiveRepo->getYearlyArchive($year),
         ];
-        $output = $this->render('yearly-archive', $data);
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('yearly-archive', $data);
     }
 }

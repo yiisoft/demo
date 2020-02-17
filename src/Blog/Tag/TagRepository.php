@@ -47,7 +47,22 @@ final class TagRepository extends Repository
         /** @var PostRepository $postRepo */
         $postRepo = $this->orm->getRepository(Post::class);
 
-        // Examples
+        // For example, below are several ways to make queries
+        // As a result, we should get a list of most used tags
+        // All SQL-queries received on mysql database. SQL-queries may vary by driver
+
+        /**
+         * Case 1 would look like:
+         *
+         * SELECT `t`.`label`, count(*) `count`
+         * FROM `post_tag` AS `postTag`
+         * INNER JOIN `post` AS `p`
+         * ON `p`.`id` = `postTag`.`post_id` AND `p`.`public` = TRUE
+         * INNER JOIN `tag` AS `t`
+         * ON `t`.`id` = `postTag`.`tag_id`
+         * GROUP BY `tag_id`
+         * ORDER BY `count` DESC
+         */
         $case1 = $postTagRepo
             ->select()
             ->buildQuery()
@@ -56,6 +71,18 @@ final class TagRepository extends Repository
             ->innerJoin('tag', 't')->on('t.id', 'postTag.tag_id')
             ->groupBy('tag_id');
 
+        /**
+         * Case 2 would look like:
+         *
+         * SELECT `label`, count(*) `count`
+         * FROM `tag` AS `tag`
+         * INNER JOIN `post_tag` AS `tag_posts_pivot`
+         * ON `tag_posts_pivot`.`tag_id` = `tag`.`id`
+         * INNER JOIN `post` AS `tag_posts`
+         * ON `tag_posts`.`id` = `tag_posts_pivot`.`post_id` AND `tag_posts`.`public` = TRUE
+         * GROUP BY `tag`.`id`
+         * ORDER BY `count` DESC
+         */
         $case2 = $this
             ->select()
             ->with('posts')
@@ -63,20 +90,43 @@ final class TagRepository extends Repository
             ->columns(['label', 'count(*) count'])
             ->groupBy('tag.id');
 
+        /**
+         * Case 3 would look like:
+         *
+         * SELECT `label`, count(*) `count`
+         * FROM `tag` AS `tag`
+         * INNER JOIN `post_tag` AS `tag_posts_pivot`
+         * ON `tag_posts_pivot`.`tag_id` = `tag`.`id`
+         * INNER JOIN `post` AS `tag_posts`
+         * ON `tag_posts`.`id` = `tag_posts_pivot`.`post_id` AND `tag_posts`.`public` = TRUE
+         * GROUP BY `tag_posts_pivot`.`tag_id`
+         * ORDER BY `count` DESC
+         */
         $case3 = $this
             ->select()
             ->groupBy('posts.@.tag_id') // relation posts -> pivot (@) -> column
             ->buildQuery()
             ->columns(['label', 'count(*) count']);
 
+        /**
+         * Case 4 would look like:
+         *
+         * SELECT `label`, count(*) `count`
+         * FROM `post` AS `post`
+         * INNER JOIN `post_tag` AS `post_tags_pivot`
+         * ON `post_tags_pivot`.`post_id` = `post`.`id`
+         * INNER JOIN `tag` AS `post_tags`
+         * ON `post_tags`.`id` = `post_tags_pivot`.`tag_id`
+         * WHERE `post`.`public` = TRUE
+         * GROUP BY `post_tags_pivot`.`tag_id`
+         */
         $case4 = $postRepo
             ->select()
             ->groupBy('tags.@.tag_id') // relation tags -> pivot (@) -> column
             ->buildQuery()
-            ->columns(['label', 'count(*) count'])
-            ;
+            ->columns(['label', 'count(*) count']);
 
         $sort = (new Sort([]))->withOrder(['count' => 'desc']);
-        return (new SelectDataReader($case4))->withSort($sort)->withLimit($limit);
+        return (new SelectDataReader($case3))->withSort($sort)->withLimit($limit);
     }
 }

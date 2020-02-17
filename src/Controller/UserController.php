@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Router\UrlGeneratorInterface;
 
 class UserController extends Controller
 {
@@ -21,33 +20,23 @@ class UserController extends Controller
         return 'user';
     }
 
-    public function index(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
+    public function index(Request $request, ORMInterface $orm): Response
+    {
         $pageNum = (int)$request->getAttribute('page', 1);
-        $response = $this->responseFactory->createResponse();
-        /** @var UserRepository $repository */
-        $repository = $orm->getRepository(User::class);
+        /** @var UserRepository $userRepo */
+        $userRepo = $orm->getRepository(User::class);
 
-        $dataReader = $repository->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $dataReader = $userRepo->findAll()->withSort((new Sort([]))->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::PAGINATION_INDEX)
             ->withCurrentPage($pageNum);
 
-        $data = [
-            'paginator' => $paginator,
-        ];
-
-        $output = $this->render('index', $data);
-
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('index', ['paginator' => $paginator]);
     }
 
     public function profile(Request $request, ORMInterface $orm): Response
     {
+        /** @var UserRepository $userRepo */
         $userRepo = $orm->getRepository(User::class);
         $login = $request->getAttribute('login', null);
 
@@ -56,14 +45,6 @@ class UserController extends Controller
             return $this->responseFactory->createResponse(404);
         }
 
-        $data = [
-            'item' => $item,
-        ];
-        $response = $this->responseFactory->createResponse();
-
-        $output = $this->render('profile', $data);
-        $response->getBody()->write($output);
-
-        return $response;
+        return $this->render('profile', ['item' => $item]);
     }
 }

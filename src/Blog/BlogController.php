@@ -19,6 +19,7 @@ final class BlogController extends Controller
 {
     private const POSTS_PER_PAGE = 3;
     private const POPULAR_TAGS_COUNT = 10;
+    private const ARCHIVE_MONTHS_COUNT = 12;
 
     protected function getId(): string
     {
@@ -29,7 +30,7 @@ final class BlogController extends Controller
     {
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
-        /** @var TagRepository $postRepo */
+        /** @var TagRepository $tagRepo */
         $tagRepo = $orm->getRepository(Tag::class);
 
         $pageNum = (int)$request->getAttribute('page', 1);
@@ -42,13 +43,9 @@ final class BlogController extends Controller
 
         $data = [
             'paginator' => $paginator,
-            'archive' => $archiveRepo->getFullArchive()->withLimit(12),
+            'archive' => $archiveRepo->getFullArchive()->withLimit(self::ARCHIVE_MONTHS_COUNT),
             'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
-        $output = $this->render('index', $data);
-
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($output);
-        return $response;
+        return $this->render('index', $data);
     }
 }

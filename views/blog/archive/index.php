@@ -6,7 +6,6 @@
  * @var \Yiisoft\View\WebView $this
  */
 
-use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
 ?>
@@ -15,30 +14,27 @@ use Yiisoft\Html\Html;
     <div class="col-sm-12">
         <?php
         $currentYear = null;
-        $yBlockBegin = Html::beginTag(
+        $sectionBegin = Html::beginTag(
             'li',
             ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
         );
-        $yBlockEnd = Html::endTag('li');
-        $mBlockBegin = Html::beginTag(
-            'div',
-            ['class' => 'd-flex flex-wrap']
-        );
-        $mBlockEnd = Html::endTag('div');
+        $sectionEnd = Html::endTag('li');
         if (count($archive)) {
-            foreach ($archive->read() as $aValue) {
-                $year = $aValue['year'];
-                $month = $aValue['month'];
-                $count = $aValue['count'];
-                $isNewBlock = $currentYear !== $year;
+            foreach ($archive->read() as $item) {
+                $year = $item['year'];
+                $month = $item['month'];
+                $count = $item['count'];
 
-                if ($isNewBlock) {
+                if ($currentYear !== $year) {
                     // print Year
-                    echo $yBlockBegin, Html::a(
+                    echo $sectionBegin, Html::a(
                         $year,
                         $urlGenerator->generate('blog/archive/year', ['year' => $year]),
                         ['class' => 'h5']
-                    ), $mBlockBegin;
+                    ), Html::beginTag(
+                        'div',
+                        ['class' => 'd-flex flex-wrap']
+                    );
                 }
                 echo Html::beginTag('div', ['class' => 'mx-2 my-1']);
                 // Print month name
@@ -53,9 +49,9 @@ use Yiisoft\Html\Html;
                 echo Html::endTag('div');
                 $currentYear = $year;
             }
-            echo $mBlockEnd, $yBlockEnd;
+            echo Html::endTag('div'), $sectionEnd;
         } else {
-            echo $yBlockBegin, 'No records', $yBlockEnd;
+            echo $sectionBegin, 'No records', $sectionEnd;
         }
         ?>
     </div>

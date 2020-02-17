@@ -9,9 +9,7 @@
 use Yiisoft\Html\Html;
 
 ?>
-<h4 class="text-muted mb-3">
-    Archive
-</h4>
+<h4 class="text-muted mb-3">Archive</h4>
 <ul class="list-group mb-3">
     <?php
     $currentYear = null;
@@ -21,13 +19,12 @@ use Yiisoft\Html\Html;
     );
     $blockEnd = Html::endTag('li');
     if (count($archive)) {
-        foreach ($archive->read() as $aValue) {
-            $year = $aValue['year'];
-            $month = $aValue['month'];
-            $count = $aValue['count'];
-            $isNewBlock = $currentYear !== $year;
+        foreach ($archive->read() as $item) {
+            $year = $item['year'];
+            $month = $item['month'];
+            $count = $item['count'];
 
-            if ($isNewBlock) {
+            if ($currentYear !== $year) {
                 // print Year
                 echo $blockBegin, Html::tag('h6', $year, ['class' => 'my-0']);
             }
