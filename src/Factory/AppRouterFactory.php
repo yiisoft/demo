@@ -18,7 +18,6 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Router\RouterFactory;
 
 class AppRouterFactory
 {
