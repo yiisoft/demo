@@ -2,17 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
 
 class UserRepository extends Select\Repository implements IdentityRepositoryInterface
 {
-    public function __construct(ORMInterface $orm, $role = User::class)
+    public function findAll(array $scope = [], array $orderBy = []): SelectDataReader
     {
-        parent::__construct(new Select($orm, $role));
+        return new SelectDataReader($this->select()->where($scope)->orderBy($orderBy));
     }
 
     private function findIdentityBy(string $field, string $value): ?IdentityInterface

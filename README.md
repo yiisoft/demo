@@ -18,6 +18,12 @@ It's intended to show and test all yii features.
 
 Console works out of the box and could be executed with `./vendor/bin/yii`.
 
+Some commands:
+```bash
+user/create <login> <password>
+fixture/add [count]
+```
+
 ## Web application
 
 In order to run web application either built-in web server could be used by running `./vendor/bin/yii serve` or a real web server could be pointed to `/public/index.php`.

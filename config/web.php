@@ -3,7 +3,6 @@
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
-use App\Repository\UserRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -18,6 +17,9 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\EventDispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Router\FastRoute\UrlGenerator;
+use Yiisoft\Router\GroupFactory;
+use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
@@ -48,9 +50,11 @@ return [
 
     // custom stuff
     EmitterInterface::class => SapiEmitter::class,
-    RouterInterface::class => new AppRouterFactory(),
-    UrlMatcherInterface::class => Reference::to(RouterInterface::class),
-    UrlGeneratorInterface::class => Reference::to(RouterInterface::class),
+
+    RouteCollectorInterface::class => new GroupFactory(),
+    UrlMatcherInterface::class => new AppRouterFactory(),
+    UrlGeneratorInterface::class => UrlGenerator::class,
+
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
     SessionInterface::class => [
         '__class' => Session::class,
@@ -73,7 +77,9 @@ return [
     WebView::class => new ViewFactory(),
 
     // user
-    IdentityRepositoryInterface::class => UserRepository::class,
+    IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
+        return $container->get(\Cycle\ORM\ORMInterface::class)->getRepository(\App\Entity\User::class);
+    },
     User::class => static function (ContainerInterface $container) {
         $session = $container->get(SessionInterface::class);
         $identityRepository = $container->get(IdentityRepositoryInterface::class);

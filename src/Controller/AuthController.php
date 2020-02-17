@@ -78,19 +78,13 @@ class AuthController extends Controller
             }
         }
 
-        $response = $this->responseFactory->createResponse();
-
-        $output = $this->render(
+        return $this->render(
             'login',
             [
                 'body' => $body,
                 'error' => $error,
             ]
         );
-
-        $response->getBody()->write($output);
-
-        return $response;
     }
 
     public function logout(): ResponseInterface
