@@ -19,6 +19,8 @@ class GeneratorStream implements StreamInterface
 
     private int $caret = 0;
 
+    private bool $started = false;
+
     public function __construct($body)
     {
         if ($body instanceof Generator) {
@@ -59,6 +61,8 @@ class GeneratorStream implements StreamInterface
         $result = $this->stream;
         unset($this->stream);
         $this->size = null;
+        $this->caret = 0;
+        $this->started = false;
         $this->readable = $this->writable = $this->seekable = false;
         return $result;
     }
@@ -102,6 +106,7 @@ class GeneratorStream implements StreamInterface
     {
         $this->stream->rewind();
         $this->caret = 0;
+        $this->started = false;
     }
 
     public function isWritable(): bool
@@ -127,11 +132,12 @@ class GeneratorStream implements StreamInterface
         if (!$this->readable) {
             throw new \RuntimeException('Cannot read from non-readable stream');
         }
-        $read = (string) $this->stream->send(null);
+        $read = $this->started ? (string)$this->stream->send(null) : (string)$this->stream->current();
         $this->caret += strlen($read);
         if ($this->eof()) {
             $this->size = $this->caret;
         }
+        $this->started = true;
         return $read;
     }
 

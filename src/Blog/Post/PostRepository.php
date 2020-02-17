@@ -18,7 +18,9 @@ final class PostRepository extends Select\Repository
     public function findAllPreloaded(): DataReaderInterface
     {
         $query = $this->select()
-                ->load(['user', 'tags']);
+                ->distinct()
+                ->load('user', ['method' => Select::SINGLE_QUERY])
+                ->load('tags');
         return $this->prepareDataReader($query);
     }
 
