@@ -13,8 +13,11 @@ use App\Controller\UserController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\FastRouteFactory;
+use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
+use Yiisoft\Router\RouteCollection;
+use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\RouterFactory;
 
 class AppRouterFactory
@@ -68,6 +71,9 @@ class AppRouterFactory
             ]),
         ];
 
-        return (new RouterFactory(new FastRouteFactory(), $routes))($container);
+        $collector =  $container->get(RouteCollectorInterface::class);
+        $collector->addGroup(Group::create(null, $routes));
+
+        return new UrlMatcher(new RouteCollection($collector));
     }
 }
