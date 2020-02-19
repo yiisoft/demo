@@ -27,4 +27,18 @@ final class PostController extends Controller
 
         return $this->render('index', ['item' => $item]);
     }
+
+
+    public function allPosts(Request $request, ORMInterface $orm)
+    {
+        /** @var PostRepository $postRepo */
+        $postRepo = $orm->getRepository(Post::class);
+
+        $dataReader = $postRepo->findAllPreloaded();
+
+        $data = [
+            'dataReader' => $dataReader,
+        ];
+        return $this->render('allPosts', $data);
+    }
 }

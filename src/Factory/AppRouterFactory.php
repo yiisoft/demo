@@ -24,10 +24,15 @@ class AppRouterFactory
     public function __invoke(ContainerInterface $container)
     {
         $routes = [
+            // streamed output
             Route::get('/streamed[/{page}]', \App\StreamedRendering\Http\StreamedController::class)
                 ->name(\App\StreamedRendering\Http\StreamedController::PAGE_ROUTE),
             Route::post('/streamed[/{action}]', \App\StreamedRendering\Http\StreamedController::class)
                 ->name(\App\StreamedRendering\Http\StreamedController::ACTION_ROUTE),
+            Route::get('/blog/allPosts', [PostController::class, 'allPosts'])
+                 ->name('blog/allPosts'),
+
+
             // Lonely pages of site
             Route::get('/', [SiteController::class, 'index'])
                 ->name('site/index'),

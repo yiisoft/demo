@@ -5,17 +5,19 @@ namespace App\StreamedRendering\Http;
 use App\Blog\Entity\Post;
 use App\Blog\Post\PostRepository;
 use App\Blog\Widget\PostCard;
+use App\StreamedRendering\View\MainLayout;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Html\Html;
-use Yiisoft\Router\FastRoute\UrlGenerator;
 
 class StreamedController extends BaseController
 {
     public const PAGE_ROUTE   = 'streamed';
     public const ACTION_ROUTE = 'streamedAction';
 
-    public function pageIndex(UrlGenerator $urlGenerator)
+    protected $pageLayout = MainLayout::class;
+
+    public function pageIndex()
     {
         foreach (get_class_methods($this) as $method) {
             $isPage = strpos($method, 'page') === 0;
@@ -23,7 +25,7 @@ class StreamedController extends BaseController
                 continue;
             }
             $page = substr($method, 4);
-            yield '<li>' . Html::a($page, $urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page])) . '</li>';
+            yield '<li>' . Html::a($page, $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page])) . '</li>';
         }
     }
 
@@ -55,14 +57,14 @@ class StreamedController extends BaseController
                 $t4 = microtime(true);
                 yield (string)$card->post($post)
                     . '<h5>Getting item time: ' . intval(1_000_000 * ($t4 - $t3)) . 'μs</h5>';
-                usleep(100_000);
+                // usleep(100_000);
                 $t3 = microtime(true);
             }
             # phpinfo
-            ob_start();
-            phpinfo();
-            $info = ob_get_clean();
-            yield '<h2>PHPINFO</h2>' . $info;
+            // ob_start();
+            // phpinfo();
+            // $info = ob_get_clean();
+            // yield '<h2>PHPINFO</h2>' . $info;
         };
         return $this->prepareResponse($generator());
     }

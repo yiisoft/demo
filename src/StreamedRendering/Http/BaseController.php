@@ -11,6 +11,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 use Yiisoft\Injector\Injector;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Widget\WidgetFactory;
 
 abstract class BaseController implements MiddlewareInterface, RequestHandlerInterface
@@ -18,8 +19,9 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
     protected ResponseFactory $responseFactory;
     protected Container $container;
     protected Request $request;
-
-    protected string $pageLayout = 'default';
+    protected UrlGeneratorInterface $urlGenerator;
+    /** @var null|mixed Layout definition with method render() */
+    protected $pageLayout = null;
 
     /**
      * baseController constructor.
@@ -30,6 +32,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
     {
         $this->container = $container;
         $this->responseFactory = $this->container->get(ResponseFactory::class);
+        $this->urlGenerator = $this->container->get(UrlGeneratorInterface::class);
         WidgetFactory::initialize($container);
     }
 
@@ -59,6 +62,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
 
     public function handle(Request $request): Response
     {
+        $this->request = $request;
         $args = $request->getAttributes();
         $method = strtoupper($request->getMethod());
         $page = $args['page'] ?? 'index';
@@ -92,6 +96,15 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
             $page = (static function (iterable $iterable) {
                 yield from $iterable;
             })($page);
+        }
+        // Add layout rendering
+        if ($this->pageLayout !== null) {
+            if (is_string($this->pageLayout)) {
+                $this->pageLayout = $this->container->get($this->pageLayout);
+            } elseif (!is_object($this->pageLayout) || !method_exists($this->pageLayout, 'render')) {
+                throw new \RuntimeException('Bad Layout definition');
+            }
+            $page = (new Injector($this->container))->invoke([$this->pageLayout, 'render'], [$page, $this->request]);
         }
         $stream = new GeneratorStream($page);
         return $this->responseFactory->createResponse()->withBody($stream);
