@@ -1,35 +1,37 @@
 <?php
 
-namespace App\Controller;
+namespace App\StreamedRendering\Http;
 
 use App\Blog\Entity\Post;
 use App\Blog\Post\PostRepository;
 use App\Blog\Widget\PostCard;
-use App\Controller;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
+use Yiisoft\Html\Html;
+use Yiisoft\Router\FastRoute\UrlGenerator;
 
-class SiteController extends Controller
+class StreamedController extends BaseController
 {
-    protected function getId(): string
-    {
-        return 'site';
-    }
+    public const PAGE_ROUTE   = 'streamed';
+    public const ACTION_ROUTE = 'streamedAction';
 
-    public function index(): ResponseInterface
+    public function pageIndex(UrlGenerator $urlGenerator)
     {
-        return $this->render('index');
+        foreach (get_class_methods($this) as $method) {
+            $isPage = strpos($method, 'page') === 0;
+            if (!$isPage || $method === __FUNCTION__) {
+                continue;
+            }
+            $page = substr($method, 4);
+            yield '<li>' . Html::a($page, $urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page])) . '</li>';
+        }
     }
 
     /**
-     * Content rendered in a stream
+     * All posts
      */
-    public function stream(ORMInterface $orm): ResponseInterface
+    public function pageAllPosts(ORMInterface $orm): ResponseInterface
     {
-        # disable output buffering
-        for ($j = ob_get_level(), $i = 0; $i < $j; ++$i) {
-            ob_end_flush();
-        }
         # disable time limit
         set_time_limit(0);
 
@@ -62,8 +64,6 @@ class SiteController extends Controller
             $info = ob_get_clean();
             yield '<h2>PHPINFO</h2>' . $info;
         };
-
-        $stream = new \App\StreamedRendering\GeneratorStream($generator());
-        return $this->responseFactory->createResponse()->withBody($stream);
+        return $this->prepareResponse($generator());
     }
 }
