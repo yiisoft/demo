@@ -1,6 +1,6 @@
 <?php
 
-namespace App\StreamedRendering\Http;
+namespace App\LazyRendering\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;

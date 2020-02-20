@@ -5,7 +5,7 @@
  * @var \Yiisoft\View\WebView $this
  */
 
-use App\StreamedRendering\Http\StreamedController;
+use App\LazyRendering\Http\StreamedController;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap4\Carousel;
 

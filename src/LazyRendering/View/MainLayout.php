@@ -1,8 +1,9 @@
 <?php
 
-namespace App\StreamedRendering\View;
+namespace App\LazyRendering\View;
 
 use App\Asset\AppAsset;
+use Generator;
 use Psr\Http\Message\RequestInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Html\Html;
@@ -35,7 +36,7 @@ class MainLayout
         ob_end_clean();
     }
 
-    protected function renderPage(iterable $content)
+    protected function renderPage(iterable $content): Generator
     {
 
         $this->assetManager->register([AppAsset::class]);

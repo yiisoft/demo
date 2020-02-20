@@ -1,6 +1,6 @@
 <?php
 
-namespace App\StreamedRendering\Http;
+namespace App\LazyRendering\Http;
 
 use Generator;
 use Psr\Http\Message\StreamInterface;

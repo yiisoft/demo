@@ -25,10 +25,10 @@ class AppRouterFactory
     {
         $routes = [
             // streamed output
-            Route::get('/streamed[/{page}]', \App\StreamedRendering\Http\StreamedController::class)
-                ->name(\App\StreamedRendering\Http\StreamedController::PAGE_ROUTE),
-            Route::post('/streamed[/{action}]', \App\StreamedRendering\Http\StreamedController::class)
-                ->name(\App\StreamedRendering\Http\StreamedController::ACTION_ROUTE),
+            Route::get('/streamed[/{page}]', \App\LazyRendering\Http\StreamedController::class)
+                ->name(\App\LazyRendering\Http\StreamedController::PAGE_ROUTE),
+            Route::post('/streamed[/{action}]', \App\LazyRendering\Http\StreamedController::class)
+                ->name(\App\LazyRendering\Http\StreamedController::ACTION_ROUTE),
             Route::get('/blog/allPosts', [PostController::class, 'allPosts'])
                  ->name('blog/allPosts'),
 

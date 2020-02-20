@@ -1,11 +1,11 @@
 <?php
 
-namespace App\StreamedRendering\Http;
+namespace App\LazyRendering\Http;
 
 use App\Blog\Entity\Post;
 use App\Blog\Post\PostRepository;
 use App\Blog\Widget\PostCard;
-use App\StreamedRendering\View\MainLayout;
+use App\LazyRendering\View\MainLayout;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
@@ -49,11 +49,15 @@ class StreamedController extends BaseController
                 <b>Lazy Mode</b> - deferred rendering pages. Page renders as it emits.
             </p>
             <p>
-                <b>Classic Mode</b> - page is rendered and buffered before the response object is sent back via pipeline.
+                <b>Classic Mode</b> (imitation) - page is rendered and buffered before the response object is sent back
+                via pipeline.
             </p>
             <p>
                 <b>Combined Mode</b> - deferred rendering pages. First yielded value will be emitted immediately,
                 the rest of the contents will be buffered and emitted in one piece
+            </p>
+            <p>
+                <a href="https://github.com/yiisoft/yii-demo/pull/58">About his on GitHub</a>
             </p>
         </div>
         <?php
