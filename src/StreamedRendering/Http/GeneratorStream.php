@@ -21,16 +21,12 @@ class GeneratorStream implements StreamInterface
 
     private bool $started = false;
 
-    public function __construct($body)
+    public function __construct(Generator $body)
     {
-        if ($body instanceof Generator) {
-            $this->stream = $body;
-            $this->seekable = false;
-            $this->readable = true;
-            $this->writable = false;
-        } else {
-            throw new \InvalidArgumentException('First argument must be a Generator.');
-        }
+        $this->stream = $body;
+        $this->seekable = false;
+        $this->readable = true;
+        $this->writable = false;
     }
 
     public function __toString(): string
@@ -132,12 +128,18 @@ class GeneratorStream implements StreamInterface
         if (!$this->readable) {
             throw new \RuntimeException('Cannot read from non-readable stream');
         }
-        $read = $this->started ? (string)$this->stream->send(null) : (string)$this->stream->current();
+        // return implode('', iterator_to_array($this->stream, false));
+        if (!$this->started) {
+            $this->started = true;
+            $read = (string)$this->stream->current();
+            $this->caret += strlen($read);
+            return $read;
+        }
+        $read = (string)$this->stream->send(null);
         $this->caret += strlen($read);
         if ($this->eof()) {
             $this->size = $this->caret;
         }
-        $this->started = true;
         return $read;
     }
 
@@ -146,8 +148,10 @@ class GeneratorStream implements StreamInterface
         if (!isset($this->stream)) {
             throw new \RuntimeException('Unable to read stream contents');
         }
-
-        return implode('', iterator_to_array($this->stream));
+        $content = implode('', iterator_to_array($this->stream, false));
+        $this->size = $this->caret = strlen($content);
+        $this->started = true;
+        return $content;
     }
 
     public function getMetadata($key = null)

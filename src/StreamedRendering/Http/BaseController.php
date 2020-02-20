@@ -7,6 +7,7 @@ use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
@@ -22,6 +23,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
     protected UrlGeneratorInterface $urlGenerator;
     /** @var null|mixed Layout definition with method render() */
     protected $pageLayout = null;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * baseController constructor.
@@ -33,6 +35,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
         $this->container = $container;
         $this->responseFactory = $this->container->get(ResponseFactory::class);
         $this->urlGenerator = $this->container->get(UrlGeneratorInterface::class);
+        $this->streamFactory = $this->container->get(StreamFactoryInterface::class);
         WidgetFactory::initialize($container);
     }
 
@@ -79,9 +82,17 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
         if (!method_exists($this, $method)) {
             throw new HttpNotFoundException($request);
         }
-        $response = (new Injector($this->container))->invoke([$this, $method], [$request]);
+        $data = (new Injector($this->container))->invoke([$this, $method]);
 
-        return $response instanceof Response ? $response : $this->prepareResponse($response);
+        $response = $data instanceof Response ? $data : $this->prepareResponse($data);
+
+        // Force Buffering (classic mode)
+        if ($this->request->getQueryParams()['forceBuffering'] ?? false) {
+            $content = $response->getBody()->getContents();
+            $stream = $this->streamFactory->createStream($content);
+            return $response->withBody($stream);
+        }
+        return $response;
     }
 
     public function isAjax(): bool

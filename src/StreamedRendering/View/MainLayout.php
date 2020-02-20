@@ -27,6 +27,17 @@ class MainLayout
 
     public function render(iterable $content, RequestInterface $request): iterable
     {
+        ob_start();
+        foreach ($this->renderPage($content) as $content) {
+            yield  ob_get_clean() . $content;
+            ob_start();
+        }
+        ob_end_clean();
+    }
+
+    protected function renderPage(iterable $content)
+    {
+
         $this->assetManager->register([AppAsset::class]);
 
         yield '<html><head>' . ($this->title !== null ? '<title>' . Html::encode($this->title) . '</title>' : '');
@@ -47,10 +58,5 @@ class MainLayout
             yield Html::script($value['url'], $value['attributes']);
         }
         yield '</body></html>';
-    }
-
-    protected function renderPage()
-    {
-
     }
 }
