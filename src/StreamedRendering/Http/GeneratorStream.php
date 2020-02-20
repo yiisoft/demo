@@ -7,6 +7,11 @@ use Psr\Http\Message\StreamInterface;
 
 class GeneratorStream implements StreamInterface
 {
+    public const READ_MODE_AS_IS = 1;
+    public const READ_MODE_FIRST_YIELD = 2;
+
+    private int $readMode = self::READ_MODE_AS_IS;
+
     private ?Generator $stream;
 
     private bool $seekable = false;
@@ -20,6 +25,7 @@ class GeneratorStream implements StreamInterface
     private int $caret = 0;
 
     private bool $started = false;
+
 
     public function __construct(Generator $body)
     {
@@ -123,17 +129,31 @@ class GeneratorStream implements StreamInterface
         return $this->readable;
     }
 
+    public function setReadMode(int $mode): void
+    {
+        $this->readMode = $mode;
+    }
+
     public function read($length): string
     {
         if (!$this->readable) {
             throw new \RuntimeException('Cannot read from non-readable stream');
         }
-        // return implode('', iterator_to_array($this->stream, false));
+        if ($this->eof()) {
+            throw new \RuntimeException('Cannot read from ended stream');
+        }
         if (!$this->started) {
             $this->started = true;
             $read = (string)$this->stream->current();
             $this->caret += strlen($read);
             return $read;
+        }
+        if ($this->readMode === self::READ_MODE_FIRST_YIELD) {
+            $content = '';
+            while (!$this->eof()) {
+                $content .= $this->stream->send(null);
+            }
+            return $content;
         }
         $read = (string)$this->stream->send(null);
         $this->caret += strlen($read);
@@ -148,9 +168,10 @@ class GeneratorStream implements StreamInterface
         if (!isset($this->stream)) {
             throw new \RuntimeException('Unable to read stream contents');
         }
-        $content = implode('', iterator_to_array($this->stream, false));
-        $this->size = $this->caret = strlen($content);
-        $this->started = true;
+        $content = '';
+        while (!$this->eof()) {
+            $content .= $this->read(PHP_INT_MAX);
+        }
         return $content;
     }
 

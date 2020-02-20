@@ -40,14 +40,14 @@ class MainLayout
 
         $this->assetManager->register([AppAsset::class]);
 
-        yield '<html><head>' . ($this->title !== null ? '<title>' . Html::encode($this->title) . '</title>' : '');
+        echo '<html><head>' . ($this->title !== null ? '<title>' . Html::encode($this->title) . '</title>' : '');
         // Meta tags
         foreach ($this->metaTags as $value) {
-            yield Html::tag('meta', '', $value);
+            echo Html::tag('meta', '', $value);
         }
         // CSS files
         foreach ($this->assetManager->getCssFiles() as $value) {
-            yield Html::cssFile($value['url'], $value['attributes']);
+            echo Html::cssFile($value['url'], $value['attributes']);
         }
         yield '</head><body><main role="main" class="container py-4">';
         // Content

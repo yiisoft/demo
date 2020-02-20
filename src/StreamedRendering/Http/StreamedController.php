@@ -33,11 +33,30 @@ class StreamedController extends BaseController
                 . Html::a('Lazy', $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page]))
                 . ' :: '
                 . Html::a(
-                    'Force Classic Mode',
+                    'Classic Mode',
                     $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page, 'forceBuffering' => 1])
+                )
+                . ' :: '
+                . Html::a(
+                    'Combined Mode',
+                    $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page, 'forceBuffering' => 2])
                 )
                 . '</li>';
         }
+        ?>
+        <div class="mt-5">
+            <p>
+                <b>Lazy Mode</b> - deferred rendering pages. Page renders as it emits.
+            </p>
+            <p>
+                <b>Classic Mode</b> - page is rendered and buffered before the response object is sent back via pipeline.
+            </p>
+            <p>
+                <b>Combined Mode</b> - deferred rendering pages. First yielded value will be emitted immediately,
+                the rest of the contents will be buffered and emitted in one piece
+            </p>
+        </div>
+        <?php
     }
 
     /**
@@ -101,9 +120,9 @@ class StreamedController extends BaseController
 
         for ($i = 1, $j = 20; $i < $j; ++$i) {
             if ($i % 2 === 0) {
-                yield "<div>{$i} - yielded </div>";
+                yield "<div>{$i} - yielded</div>";
             } else {
-                echo "<div>{$i} - printed </div>";
+                echo "<div>{$i} - <b>printed</b></div>";
             }
         }
     }
@@ -115,9 +134,9 @@ class StreamedController extends BaseController
 
             for ($i = 1, $j = 20; $i < $j; ++$i) {
                 if ($i % 2 === 0) {
-                    yield "<div>{$i} - yielded </div>";
+                    yield "<div>{$i} - yielded</div>";
                 } else {
-                    echo "<div>{$i} - printed </div>";
+                    echo "<div>{$i} - <b>printed</b></div>";
                 }
             }
         };

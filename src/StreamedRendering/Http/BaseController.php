@@ -18,12 +18,13 @@ use Yiisoft\Widget\WidgetFactory;
 abstract class BaseController implements MiddlewareInterface, RequestHandlerInterface
 {
     protected ResponseFactory $responseFactory;
-    protected Container $container;
     protected Request $request;
     protected UrlGeneratorInterface $urlGenerator;
     /** @var null|mixed Layout definition with method render() */
     protected $pageLayout = null;
     protected StreamFactoryInterface $streamFactory;
+
+    private Container $container;
 
     /**
      * baseController constructor.
@@ -87,10 +88,16 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
         $response = $data instanceof Response ? $data : $this->prepareResponse($data);
 
         // Force Buffering (classic mode)
-        if ($this->request->getQueryParams()['forceBuffering'] ?? false) {
+        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '1') {
             $content = $response->getBody()->getContents();
             $stream = $this->streamFactory->createStream($content);
             return $response->withBody($stream);
+        } elseif (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '2') {
+            $stream = $response->getBody();
+            if (!$stream instanceof GeneratorStream) {
+                throw new \Exception('Combined mode not supported');
+            }
+            $stream->setReadMode(GeneratorStream::READ_MODE_FIRST_YIELD);
         }
         return $response;
     }
