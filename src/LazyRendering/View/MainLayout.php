@@ -3,6 +3,7 @@
 namespace App\LazyRendering\View;
 
 use App\Asset\AppAsset;
+use App\Widget\PerformanceMetrics;
 use Generator;
 use Psr\Http\Message\RequestInterface;
 use Yiisoft\Assets\AssetManager;
@@ -52,10 +53,12 @@ class MainLayout
         yield '</head><body><main role="main" class="container py-4">';
         // Content
         yield from $content;
-        yield '</main>';
+        echo '</main><footer class="container py-4">';
+        echo PerformanceMetrics::widget();
+        echo '</footer>';
         // JS files
         foreach ($this->assetManager->getJsFiles() as $value) {
-            yield Html::script($value['url'], $value['attributes']);
+            echo Html::script($value['url'], $value['attributes']);
         }
         yield '</body></html>';
     }

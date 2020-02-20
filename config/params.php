@@ -61,7 +61,7 @@ return [
             Generator\SyncTables::class,
         ],
         // 'promiseFactory' => \Cycle\ORM\Promise\ProxyFactory::class,
-        'queryLogger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
+        //'queryLogger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
     ],
     // cycle migration config
     'cycle.migrations' => [

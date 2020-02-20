@@ -1,7 +1,7 @@
 <?php
 
 use App\Asset\AppAsset;
-use Yiisoft\Html\Html;
+use App\Widget\PerformanceMetrics;
 use Yiisoft\Yii\Bootstrap4\Nav;
 use Yiisoft\Yii\Bootstrap4\NavBar;
 
@@ -64,7 +64,12 @@ echo NavBar::end();
 
 ?><main role="main" class="container py-4"><?php
 echo $content;
-?></main><?php
+?></main>
+
+<footer class="container py-4">
+    <?= PerformanceMetrics::widget() ?>
+</footer>
+<?php
 
 $this->endBody();
 ?>
