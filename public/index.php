@@ -6,21 +6,30 @@ use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/src/globals.php';
 
 // Don't do it in production, assembling takes it's time
-Builder::rebuild();
+//Builder::rebuild();
+$container = new Container(require Builder::path('web'));
 
-$debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
-$container = new Container(require Builder::path('web'), [$debugProvider]);
+/**
+ * @var array $params The variable is available after requiring config files.
+ */
 
-require dirname(__DIR__) . '/src/globals.php';
+$debugEnabled = (bool)($params['debug_enabled'] ?? false) && class_exists(\Yiisoft\Yii\Debug\Debugger::class);
 
-$dispatcher = $container->get(\Psr\EventDispatcher\EventDispatcherInterface::class);
-$event = $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationStartup());
+
+if ($debugEnabled) {
+    $debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
+    $container->addProvider($debugProvider);
+
+    $dispatcher = $container->get(\Psr\EventDispatcher\EventDispatcherInterface::class);
+    $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationStartup());
+}
 
 try {
     $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
     $container->get(Application::class)->handle($request);
 } finally {
-    $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationShutdown());
+    $debugEnabled && $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationShutdown());
 }
