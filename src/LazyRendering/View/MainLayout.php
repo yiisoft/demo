@@ -38,7 +38,6 @@ class MainLayout
 
     protected function renderPage(iterable $content): Generator
     {
-
         $this->assetManager->register([AppAsset::class]);
 
         echo '<html><head>' . ($this->title !== null ? '<title>' . Html::encode($this->title) . '</title>' : '');

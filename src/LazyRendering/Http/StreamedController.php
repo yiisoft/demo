@@ -42,8 +42,7 @@ class StreamedController extends BaseController
                     $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page, 'forceBuffering' => 2])
                 )
                 . '</li>';
-        }
-        ?>
+        } ?>
         <div class="mt-5">
             <p>
                 <b>Lazy Mode</b> - deferred rendering pages. Page renders as it emits.

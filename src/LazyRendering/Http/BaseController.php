@@ -74,7 +74,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
 
         $action = $args['action'] ?? $request->getParsedBody()['action'] ?? $request->getQueryParams()['action'] ?? null;
         # find action
-        if ($action !== null OR $method === 'POST') {
+        if ($action !== null or $method === 'POST') {
             $action = $action ?? $page;
             $method = 'action' . str_replace(' ', '', ucwords($action));
         } elseif ($method === 'GET') {
