@@ -4,6 +4,7 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
+    'debug_enabled' => true,
     'mailer' => [
         'host' => 'smtp.example.com',
         'port' => 25,
