@@ -56,7 +56,7 @@ class StreamedController extends BaseController
                 the rest of the contents will be buffered and emitted in one piece
             </p>
             <p>
-                <a href="https://github.com/yiisoft/yii-demo/pull/59">About his on GitHub</a>
+                <a href="https://github.com/yiisoft/yii-demo/pull/59">About this on GitHub</a>
             </p>
         </div>
         <?php
