@@ -4,19 +4,19 @@ namespace App;
 
 final class Timer
 {
-    private array $timers = [];
+    private static array $timers = [];
 
-    public function start(string $name): void
+    public static function start(string $name): void
     {
-        $this->timers[$name] = microtime(true);
+        static::$timers[$name] = microtime(true);
     }
 
-    public function get(string $name): float
+    public static function get(string $name): float
     {
-        if (!array_key_exists($name, $this->timers)) {
+        if (!array_key_exists($name, static::$timers)) {
             throw new \InvalidArgumentException("There is no \"$name\" timer started");
         }
 
-        return microtime(true) - $this->timers[$name];
+        return microtime(true) - static::$timers[$name];
     }
 }

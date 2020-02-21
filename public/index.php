@@ -6,6 +6,7 @@ use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+\App\Timer::start('overall');
 
 // Don't do it in production, assembling takes it's time
 Builder::rebuild();
