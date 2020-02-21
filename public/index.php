@@ -18,18 +18,10 @@ $container = new Container(require Builder::path('web'));
 
 $debugEnabled = (bool)($params['debug_enabled'] ?? false) && class_exists(\Yiisoft\Yii\Debug\Debugger::class);
 
-
 if ($debugEnabled) {
     $debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
     $container->addProvider($debugProvider);
-
-    $dispatcher = $container->get(\Psr\EventDispatcher\EventDispatcherInterface::class);
-    $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationStartup());
 }
 
-try {
-    $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
-    $container->get(Application::class)->handle($request);
-} finally {
-    $debugEnabled && $dispatcher->dispatch(new \Yiisoft\Yii\Debug\Event\ApplicationShutdown());
-}
+$request = $container->get(ServerRequestFactory::class)->createFromGlobals();
+$container->get(Application::class)->handle($request);
