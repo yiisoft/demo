@@ -3,6 +3,7 @@
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Parameters;
+use App\Timer;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Log\Target\File\FileRotator;
 use Yiisoft\Log\Target\File\FileRotatorInterface;
@@ -11,6 +12,9 @@ use Yiisoft\Mailer\MailerInterface;
 /**
  * @var array $params
  */
+
+$timer = new Timer();
+$timer->start('overall');
 
 return [
     \Psr\SimpleCache\CacheInterface::class => \Yiisoft\Cache\ArrayCache::class,
@@ -37,4 +41,5 @@ return [
         'setPassword()' => [$params['mailer']['password']],
     ],
     MailerInterface::class => new MailerFactory(),
+    Timer::class => $timer,
 ];
