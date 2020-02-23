@@ -16,7 +16,7 @@ $container = new Container(require Builder::path('web'));
  * @var array $params The variable is available after requiring config files.
  */
 
-$debugEnabled = (bool)($params['debug_enabled'] ?? false) && class_exists(\Yiisoft\Yii\Debug\Debugger::class);
+$debugEnabled = (bool)($params['debugger.enabled'] ?? false) && class_exists(\Yiisoft\Yii\Debug\Debugger::class);
 
 if ($debugEnabled) {
     $debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
