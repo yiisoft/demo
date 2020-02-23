@@ -9,7 +9,8 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once dirname(__DIR__) . '/src/globals.php';
 
 // Don't do it in production, assembling takes it's time
-//Builder::rebuild();
+Builder::rebuild();
+
 $container = new Container(require Builder::path('web'));
 
 /**

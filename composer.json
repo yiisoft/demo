@@ -49,7 +49,7 @@
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
-        "yiisoft/yii-debug": "dev-rework"
+        "yiisoft/yii-debug": "^3.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9"
@@ -63,7 +63,6 @@
         "branch-alias": {
             "dev-master": "3.0.x-dev"
         },
-        "config-plugin-output-dir": "runtime/build/config",
         "config-plugin": {
             "common": "config/common.php",
             "params": [
