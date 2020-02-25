@@ -5,7 +5,7 @@ namespace App\LazyRendering\Http;
 use Generator;
 use Psr\Http\Message\StreamInterface;
 
-class GeneratorStream implements StreamInterface
+final class GeneratorStream implements StreamInterface
 {
     public const READ_MODE_AS_IS = 1;
     public const READ_MODE_FIRST_YIELD = 2;
@@ -14,11 +14,7 @@ class GeneratorStream implements StreamInterface
 
     private ?Generator $stream;
 
-    private bool $seekable = false;
-
-    private bool $readable = false;
-
-    private bool $writable = false;
+    private bool $readable;
 
     private ?int $size = null;
 
@@ -30,9 +26,7 @@ class GeneratorStream implements StreamInterface
     public function __construct(Generator $body)
     {
         $this->stream = $body;
-        $this->seekable = false;
         $this->readable = true;
-        $this->writable = false;
     }
 
     public function __toString(): string
@@ -65,7 +59,7 @@ class GeneratorStream implements StreamInterface
         $this->size = null;
         $this->caret = 0;
         $this->started = false;
-        $this->readable = $this->writable = $this->seekable = false;
+        $this->readable = false;
         return $result;
     }
 
@@ -94,12 +88,12 @@ class GeneratorStream implements StreamInterface
 
     public function isSeekable(): bool
     {
-        return $this->seekable;
+        return false;
     }
 
     public function seek($offset, $whence = \SEEK_SET): void
     {
-        if (!$this->seekable) {
+        if (!$this->isSeekable()) {
             throw new \RuntimeException('Stream is not seekable');
         }
     }
@@ -113,12 +107,12 @@ class GeneratorStream implements StreamInterface
 
     public function isWritable(): bool
     {
-        return $this->writable;
+        return false;
     }
 
     public function write($string): int
     {
-        if (!$this->writable) {
+        if (!$this->isWritable()) {
             throw new \RuntimeException('Cannot write to a non-writable stream');
         }
         return 0;
@@ -182,7 +176,7 @@ class GeneratorStream implements StreamInterface
         }
 
         $meta = [
-            'seekable' => $this->seekable,
+            'seekable' => $this->isSeekable(),
             'eof' => $this->eof(),
         ];
 

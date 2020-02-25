@@ -11,6 +11,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
+use Yiisoft\Http\Method;
 use Yiisoft\Injector\Injector;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Widget\WidgetFactory;
@@ -29,7 +30,7 @@ abstract class BaseController implements MiddlewareInterface
     /**
      * baseController constructor.
      * @param Container $container
-     * @param mixed[]   $options
+     * @param mixed[] $options
      */
     public function __construct(Container $container)
     {
@@ -41,9 +42,9 @@ abstract class BaseController implements MiddlewareInterface
     }
 
     /**
-     * @param Request  $request
+     * @param Request $request
      * @param Response $response
-     * @param array    $args
+     * @param array $args
      * @return Response
      * @throws HttpException
      * @throws Throwable
@@ -68,10 +69,10 @@ abstract class BaseController implements MiddlewareInterface
 
         $action = $args['action'] ?? $request->getParsedBody()['action'] ?? $request->getQueryParams()['action'] ?? null;
         # find action
-        if ($action !== null or $method === 'POST') {
+        if ($action !== null || $method === Method::POST) {
             $action = $action ?? $page;
             $method = 'action' . str_replace(' ', '', ucwords($action));
-        } elseif ($method === 'GET') {
+        } elseif ($method === Method::GET) {
             $method = 'page' . str_replace(' ', '', ucwords($page));
         }
         if (!method_exists($this, $method)) {
@@ -87,8 +88,9 @@ abstract class BaseController implements MiddlewareInterface
             $content = $response->getBody()->getContents();
             $stream = $this->streamFactory->createStream($content);
             return $response->withBody($stream);
-        } elseif (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '2') {
-            // Combined mode
+        }
+
+        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '2') {
             $stream = $response->getBody();
             if (!$stream instanceof GeneratorStream) {
                 throw new \Exception('Combined mode not supported');

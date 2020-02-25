@@ -30,8 +30,8 @@ class MainLayout
     public function render(iterable $content, RequestInterface $request): iterable
     {
         ob_start();
-        foreach ($this->renderPage($content) as $content) {
-            yield  ob_get_clean() . $content;
+        foreach ($this->renderPage($content) as $contentPart) {
+            yield  ob_get_clean() . $contentPart;
             ob_start();
         }
         ob_end_clean();

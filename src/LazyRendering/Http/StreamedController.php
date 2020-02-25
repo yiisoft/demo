@@ -81,7 +81,7 @@ class StreamedController extends BaseController
         foreach ($pages->getIterator() as $post) {
             $t4 = microtime(true);
             yield (string)$card->post($post)
-                . '<h5>Getting item time: ' . intval(1_000_000 * ($t4 - $t3)) . 'μs</h5>';
+                . '<h5>Getting item time: ' . (int)(1_000_000 * ($t4 - $t3)) . 'μs</h5>';
             usleep($interval);
             $t3 = microtime(true);
         }
@@ -128,7 +128,7 @@ class StreamedController extends BaseController
 
     public function pageDirectEchoWithoutBufferingBetweenYields(): ResponseInterface
     {
-        $generator = function () {
+        $generator = static function () {
             echo '<h1>Direct Echo Without Buffering Between Yields</h1>';
 
             for ($i = 1, $j = 20; $i < $j; ++$i) {
