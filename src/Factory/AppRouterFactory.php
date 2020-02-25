@@ -24,11 +24,9 @@ class AppRouterFactory
     public function __invoke(ContainerInterface $container)
     {
         $routes = [
-            // streamed output
-            Route::get('/streamed[/{page}]', \App\LazyRendering\Http\StreamedController::class)
-                ->name(\App\LazyRendering\Http\StreamedController::PAGE_ROUTE),
-            Route::post('/streamed[/{action}]', \App\LazyRendering\Http\StreamedController::class)
-                ->name(\App\LazyRendering\Http\StreamedController::ACTION_ROUTE),
+            // streaming output
+            Route::anyMethod('/streamed[/{page}]', \App\LazyRendering\Http\StreamedController::class)
+                ->name(\App\LazyRendering\Http\StreamedController::ROUTE_NAME),
             Route::get('/blog/allPosts', [PostController::class, 'allPosts'])
                  ->name('blog/allPosts'),
 

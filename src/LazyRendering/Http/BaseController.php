@@ -15,7 +15,7 @@ use Yiisoft\Injector\Injector;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Widget\WidgetFactory;
 
-abstract class BaseController implements MiddlewareInterface, RequestHandlerInterface
+abstract class BaseController implements MiddlewareInterface
 {
     protected ResponseFactory $responseFactory;
     protected Request $request;
@@ -55,16 +55,10 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
             ob_end_flush();
         }
 
-        try {
-            return $this->handle($request);
-        } catch (HttpNotFoundException $e) {
-            return $handler->handle($request);
-        } catch (Throwable $e) {
-            return $this->handleError($e);
-        }
+        return $this->handle($request) ?? $handler->handle($request);
     }
 
-    public function handle(Request $request): Response
+    public function handle(Request $request): ?Response
     {
         $this->request = $request;
         $args = $request->getAttributes();
@@ -81,7 +75,7 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
             $method = 'page' . str_replace(' ', '', ucwords($page));
         }
         if (!method_exists($this, $method)) {
-            throw new HttpNotFoundException($request);
+            return null;
         }
         $data = (new Injector($this->container))->invoke([$this, $method]);
 
@@ -89,10 +83,12 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
 
         // Force Buffering (classic mode)
         if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '1') {
+            // Buffering from generator
             $content = $response->getBody()->getContents();
             $stream = $this->streamFactory->createStream($content);
             return $response->withBody($stream);
         } elseif (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '2') {
+            // Combined mode
             $stream = $response->getBody();
             if (!$stream instanceof GeneratorStream) {
                 throw new \Exception('Combined mode not supported');
@@ -100,12 +96,6 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
             $stream->setReadMode(GeneratorStream::READ_MODE_FIRST_YIELD);
         }
         return $response;
-    }
-
-    public function isAjax(): bool
-    {
-        $headers = $this->request->getHeader('x-requested-with');
-        return in_array('XMLHttpRequest', $headers);
     }
 
     protected function prepareResponse(iterable $page): Response
@@ -126,10 +116,5 @@ abstract class BaseController implements MiddlewareInterface, RequestHandlerInte
         }
         $stream = new GeneratorStream($page);
         return $this->responseFactory->createResponse()->withBody($stream);
-    }
-
-    protected function handleError(Throwable $error): Response
-    {
-        throw $error;
     }
 }

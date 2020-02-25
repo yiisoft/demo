@@ -65,12 +65,12 @@ echo Carousel::widget()
             <div class="card-body">
                 <h2 class="card-title">Lazy page rendering</h2>
                 <p><?php
-                    echo Html::a('Index page with all Lazy rendering experiments', $urlGenerator->generate(StreamedController::PAGE_ROUTE))
+                    echo Html::a('Index page with all Lazy rendering experiments', $urlGenerator->generate(StreamedController::ROUTE_NAME))
                     ?></p>
                 <p class="lead">All post page</p>
                 <div>
                     <?php
-                    echo Html::a('Lazy', $urlGenerator->generate(StreamedController::PAGE_ROUTE, ['page' => 'allPosts']));
+                    echo Html::a('Lazy', $urlGenerator->generate(StreamedController::ROUTE_NAME, ['page' => 'allPosts']));
                     echo ' vs ';
                     echo Html::a('Full Classic', $urlGenerator->generate('blog/allPosts'))
                     ?>

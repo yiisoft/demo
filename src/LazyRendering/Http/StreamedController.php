@@ -13,8 +13,7 @@ use Yiisoft\Html\Html;
 
 class StreamedController extends BaseController
 {
-    public const PAGE_ROUTE   = 'streamed';
-    public const ACTION_ROUTE = 'streamedAction';
+    public const ROUTE_NAME = 'lazy-render';
 
     protected $pageLayout = MainLayout::class;
 
@@ -30,16 +29,16 @@ class StreamedController extends BaseController
 
             yield '<li>'
                 . "{$pageName} :: "
-                . Html::a('Lazy', $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page]))
+                . Html::a('Lazy', $this->urlGenerator->generate(static::ROUTE_NAME, ['page' => $page]))
                 . ' :: '
                 . Html::a(
                     'Classic Mode',
-                    $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page, 'forceBuffering' => 1])
+                    $this->urlGenerator->generate(static::ROUTE_NAME, ['page' => $page, 'forceBuffering' => 1])
                 )
                 . ' :: '
                 . Html::a(
                     'Combined Mode',
-                    $this->urlGenerator->generate(static::PAGE_ROUTE, ['page' => $page, 'forceBuffering' => 2])
+                    $this->urlGenerator->generate(static::ROUTE_NAME, ['page' => $page, 'forceBuffering' => 2])
                 )
                 . '</li>';
         } ?>
@@ -62,9 +61,6 @@ class StreamedController extends BaseController
         <?php
     }
 
-    /**
-     * All posts
-     */
     public function pageAllPosts(ORMInterface $orm, int $interval = 0): iterable
     {
         yield '<h1>Streamed out</h1>';
@@ -101,11 +97,11 @@ class StreamedController extends BaseController
 
     public function pageFewPostsAndError(ORMInterface $orm): iterable
     {
-        yield '<h1>Streamed out with error after 5 posts</h1>';
+        yield '<h1>Streamed out with error after 3 posts</h1>';
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
 
-        $pages = $postRepo->findAllPreloaded()->withLimit(5);
+        $pages = $postRepo->findAllPreloaded()->withLimit(3);
         yield '<h2>Total posts: ' . $pages->count() . '</h2>';
 
         $card = PostCard::widget();
