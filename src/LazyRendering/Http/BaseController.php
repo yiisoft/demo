@@ -18,6 +18,9 @@ use Yiisoft\Widget\WidgetFactory;
 
 abstract class BaseController implements MiddlewareInterface
 {
+    public const BUFFERING_ALL      = '1';
+    public const BUFFERING_COMBINED = '2';
+
     protected ResponseFactory $responseFactory;
     protected Request $request;
     protected UrlGeneratorInterface $urlGenerator;
@@ -66,14 +69,14 @@ abstract class BaseController implements MiddlewareInterface
         $response = $data instanceof Response ? $data : $this->prepareResponse($data);
 
         // Force Buffering (classic mode)
-        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '1') {
+        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === self::BUFFERING_ALL) {
             // Buffering from generator
             $content = $response->getBody()->getContents();
             $stream = $this->streamFactory->createStream($content);
             return $response->withBody($stream);
         }
 
-        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === '2') {
+        if (($this->request->getQueryParams()['forceBuffering'] ?? 0) === self::BUFFERING_COMBINED) {
             $stream = $response->getBody();
             if (!$stream instanceof GeneratorStream) {
                 throw new \Exception('Combined mode not supported');

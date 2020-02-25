@@ -19,6 +19,7 @@ class StreamedController extends BaseController
 
     public function pageIndex(): iterable
     {
+        // generate a list of all available pages from controller methods
         foreach (get_class_methods($this) as $method) {
             $isPage = strpos($method, 'page') === 0;
             if (!$isPage || $method === __FUNCTION__) {
@@ -33,12 +34,18 @@ class StreamedController extends BaseController
                 . ' :: '
                 . Html::a(
                     'Classic Mode',
-                    $this->urlGenerator->generate(static::ROUTE_NAME, ['page' => $page, 'forceBuffering' => 1])
+                    $this->urlGenerator->generate(
+                        static::ROUTE_NAME,
+                        ['page' => $page, 'forceBuffering' => self::BUFFERING_ALL]
+                    )
                 )
                 . ' :: '
                 . Html::a(
                     'Combined Mode',
-                    $this->urlGenerator->generate(static::ROUTE_NAME, ['page' => $page, 'forceBuffering' => 2])
+                    $this->urlGenerator->generate(
+                        static::ROUTE_NAME,
+                        ['page' => $page, 'forceBuffering' => self::BUFFERING_COMBINED]
+                    )
                 )
                 . '</li>';
         } ?>
