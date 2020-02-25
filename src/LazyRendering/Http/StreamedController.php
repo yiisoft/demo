@@ -24,7 +24,7 @@ class StreamedController extends BaseController
             if (!$isPage || $method === __FUNCTION__) {
                 continue;
             }
-            $page =  substr($method, 4);
+            $page = substr($method, 4);
             $pageName = ltrim(preg_replace('/([A-Z][a-z])/u', ' $1', $page));
 
             yield '<li>'
@@ -63,27 +63,29 @@ class StreamedController extends BaseController
 
     public function pageAllPosts(ORMInterface $orm, int $interval = 0): iterable
     {
-        yield '<h1>Streamed out</h1>';
-        $t1 = microtime(true);
+        yield '<h1>Streamed output</h1>';
+        $startTime = microtime(true);
+
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);
         $pages = $postRepo->findAllPreloaded();
         yield '<h2>Total posts: ' . $pages->count() . '</h2>';
-        $t2 = microtime(true);
-        yield '<h5>Time to a count query: ' . intval(1_000_000 * ($t2 - $t1)) . 'μs</h5>';
+
+        $afterCountTime = microtime(true);
+        yield '<h5>Time to a count query: ' . (int)(1_000_000 * ($afterCountTime - $startTime)) . 'μs</h5>';
 
         $card = PostCard::widget();
-        $t3 = microtime(true);
+        $previousPostTime = microtime(true);
 
         # type $stream->read() instead of $stream->getIterator()
         # to disable lazy loading and load all posts in buffer:
         /** @var Post $post */
         foreach ($pages->getIterator() as $post) {
-            $t4 = microtime(true);
+            $currentPostTime = microtime(true);
             yield (string)$card->post($post)
-                . '<h5>Getting item time: ' . (int)(1_000_000 * ($t4 - $t3)) . 'μs</h5>';
+                . '<h5>Getting item time: ' . (int)(1_000_000 * ($currentPostTime - $previousPostTime)) . 'μs</h5>';
             usleep($interval);
-            $t3 = microtime(true);
+            $previousPostTime = microtime(true);
         }
     }
 
