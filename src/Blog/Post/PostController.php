@@ -29,7 +29,7 @@ final class PostController extends Controller
     }
 
 
-    public function allPosts(Request $request, ORMInterface $orm)
+    public function allPosts(ORMInterface $orm)
     {
         /** @var PostRepository $postRepo */
         $postRepo = $orm->getRepository(Post::class);

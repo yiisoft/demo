@@ -46,39 +46,22 @@ abstract class BaseController implements MiddlewareInterface
      * @param Response $response
      * @param array $args
      * @return Response
-     * @throws HttpException
      * @throws Throwable
      */
     public function process(Request $request, RequestHandlerInterface $handler): Response
     {
-        # disable output buffering
-        for ($j = ob_get_level(), $i = 0; $i < $j; ++$i) {
-            ob_end_flush();
-        }
-
+        $this->flushAllOutputBuffers();
         return $this->handle($request) ?? $handler->handle($request);
     }
 
     public function handle(Request $request): ?Response
     {
         $this->request = $request;
-        $args = $request->getAttributes();
-        $method = strtoupper($request->getMethod());
-        $page = $args['page'] ?? 'index';
-
-
-        $action = $args['action'] ?? $request->getParsedBody()['action'] ?? $request->getQueryParams()['action'] ?? null;
-        # find action
-        if ($action !== null || $method === Method::POST) {
-            $action = $action ?? $page;
-            $method = 'action' . str_replace(' ', '', ucwords($action));
-        } elseif ($method === Method::GET) {
-            $method = 'page' . str_replace(' ', '', ucwords($page));
-        }
-        if (!method_exists($this, $method)) {
+        $actionMethod = $this->getActionMethod($request);
+        if ($actionMethod === null || !method_exists($this, $actionMethod)) {
             return null;
         }
-        $data = (new Injector($this->container))->invoke([$this, $method]);
+        $data = (new Injector($this->container))->invoke([$this, $actionMethod]);
 
         $response = $data instanceof Response ? $data : $this->prepareResponse($data);
 
@@ -118,5 +101,34 @@ abstract class BaseController implements MiddlewareInterface
         }
         $stream = new GeneratorStream($page);
         return $this->responseFactory->createResponse()->withBody($stream);
+    }
+
+    private function flushAllOutputBuffers(): void
+    {
+        for ($bufferingLevel = ob_get_level(), $i = 0; $i < $bufferingLevel; ++$i) {
+            ob_end_flush();
+        }
+    }
+
+    private function getActionMethod(Request $request): ?string
+    {
+        $method = strtoupper($request->getMethod());
+        $page = $request->getAttribute('page', 'index');
+        $action =
+            $request->getAttribute('action') ??
+            $request->getParsedBody()['action'] ??
+            $request->getQueryParams()['action'] ??
+            null;
+
+        if ($action !== null || $method === Method::POST) {
+            $action = $action ?? $page;
+            return 'action' . str_replace(' ', '', ucwords($action));
+        }
+
+        if ($method === Method::GET) {
+            return 'page' . str_replace(' ', '', ucwords($page));
+        }
+
+        return null;
     }
 }
