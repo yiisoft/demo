@@ -12,7 +12,18 @@ Builder::rebuild();
 
 $container = new Container(require Builder::path('web'));
 
-require dirname(__DIR__) . '/src/globals.php';
+/**
+ * @var array $params The variable is available after requiring config files.
+ */
+
+$debugEnabled = (bool)($params['debugger.enabled'] ?? false) && class_exists(\Yiisoft\Yii\Debug\Debugger::class);
+
+if ($debugEnabled) {
+    $debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
+    $container->addProvider($debugProvider);
+}
+
+require_once dirname(__DIR__) . '/src/globals.php';
 
 $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
 $container->get(Application::class)->handle($request);
