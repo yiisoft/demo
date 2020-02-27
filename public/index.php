@@ -21,6 +21,8 @@ $debugEnabled = (bool)($params['debugger.enabled'] ?? false) && class_exists(\Yi
 if ($debugEnabled) {
     $debugProvider = new \Yiisoft\Yii\Debug\DebugServiceProvider();
     $container->addProvider($debugProvider);
+    $debugViewerProvider = new \Yiisoft\Yii\Debug\Viewer\DebugViewerServiceProvider();
+    $container->addProvider($debugViewerProvider);
 }
 
 require_once dirname(__DIR__) . '/src/globals.php';
