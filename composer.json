@@ -49,7 +49,8 @@
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
-        "yiisoft/yii-debug": "^3.0@dev"
+        "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/yii-debug-viewer": "^3.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9"
