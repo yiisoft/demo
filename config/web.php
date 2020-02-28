@@ -22,8 +22,6 @@ use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\Emitter\EmitterInterface;
-use Yiisoft\Yii\Web\Emitter\SapiEmitter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
@@ -46,9 +44,7 @@ return [
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
 
-    // custom stuff
-    EmitterInterface::class => SapiEmitter::class,
-
+    // Router:
     RouteCollectorInterface::class => new GroupFactory(),
     UrlMatcherInterface::class => new AppRouterFactory(),
     UrlGeneratorInterface::class => UrlGenerator::class,
@@ -67,14 +63,14 @@ return [
     //     'prefix' => '',
     // ],
 
-    // event dispatcher
+    // Event dispatcher:
     ListenerProviderInterface::class => Provider::class,
     EventDispatcherInterface::class => Dispatcher::class,
 
-    // view
+    // View:
     WebView::class => new ViewFactory(),
 
-    // user
+    // User:
     IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
         return $container->get(\Cycle\ORM\ORMInterface::class)->getRepository(\App\Entity\User::class);
     },
