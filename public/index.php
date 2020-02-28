@@ -2,7 +2,9 @@
 
 use hiqdev\composer\config\Builder;
 use Yiisoft\Di\Container;
+use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
+use Yiisoft\Yii\Web\Emitter\EmitterInterface;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -25,5 +27,15 @@ if ($debugEnabled) {
 
 require_once dirname(__DIR__) . '/src/globals.php';
 
+$application = $container->get(Application::class);
+$emitter = $container->get(EmitterInterface::class);
+
 $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
-$container->get(Application::class)->handle($request);
+
+try {
+    $application->start();
+    $response = $application->handle($request);
+    $emitter->emit($response, $request->getMethod() === Method::HEAD);
+} finally {
+    $application->shutdown();
+}
