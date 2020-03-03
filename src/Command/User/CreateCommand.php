@@ -3,7 +3,6 @@
 namespace App\Command\User;
 
 use App\Entity\User;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,19 +10,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
+use Yiisoft\Yii\Cycle\Command\CycleDependencyPromise;
 
 class CreateCommand extends Command
 {
-    private const EXIT_CODE_FAILED_TO_PERSIST = 1;
-
-    private ORMInterface $orm;
+    private CycleDependencyPromise $promise;
 
     protected static $defaultName = 'user/create';
 
-    public function __construct(ORMInterface $orm)
+    public function __construct(CycleDependencyPromise $promise)
     {
+        $this->promise = $promise;
         parent::__construct();
-        $this->orm = $orm;
     }
 
     public function configure(): void
@@ -35,27 +33,23 @@ class CreateCommand extends Command
             ->addArgument('password', InputArgument::REQUIRED, 'Password');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
 
-        $user = new User();
-        $user->setLogin($login);
-        $user->setPassword($password);
-
+        $user = new User($login, $password);
         try {
-            $transaction = new Transaction($this->orm);
+            $transaction = new Transaction($this->promise->getORM());
             $transaction->persist($user);
             $transaction->run();
             $io->success('User created');
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
-            return self::EXIT_CODE_FAILED_TO_PERSIST;
+            return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
-
         return ExitCode::OK;
     }
 }

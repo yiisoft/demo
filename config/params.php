@@ -1,8 +1,10 @@
 <?php
 
-use App\Command\User\CreateCommand;
+use App\Command;
+use Cycle\Schema\Generator;
 
 return [
+    'debugger.enabled' => true,
     'mailer' => [
         'host' => 'smtp.example.com',
         'port' => 25,
@@ -26,7 +28,8 @@ return [
 
     'console' => [
         'commands' => [
-            'user/create' => CreateCommand::class,
+            'user/create' => Command\User\CreateCommand::class,
+            'fixture/add' => Command\Fixture\AddCommand::class,
         ],
     ],
 
@@ -50,7 +53,16 @@ return [
     'cycle.common' => [
         'entityPaths' => [
             '@src/Entity',
+            '@src/Blog/Entity',
         ],
+        'cacheEnabled' => true,
+        'cacheKey' => 'Cycle-ORM-Schema',
+        'generators' => [
+            // sync table changes to database
+            Generator\SyncTables::class,
+        ],
+        // 'promiseFactory' => \Cycle\ORM\Promise\ProxyFactory::class,
+        //'queryLogger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
     ],
     // cycle migration config
     'cycle.migrations' => [

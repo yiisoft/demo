@@ -9,7 +9,7 @@ use Yiisoft\Yii\Web\Middleware\SubFolder;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\SessionMiddleware;
 
-class MiddlewareDispatcherFactory
+final class MiddlewareDispatcherFactory
 {
     public function __invoke(ContainerInterface $container)
     {
@@ -18,11 +18,10 @@ class MiddlewareDispatcherFactory
         $errorCatcher = $container->get(ErrorCatcher::class);
         $subFolder = $container->get(SubFolder::class);
 
-        return new MiddlewareDispatcher([
-            $errorCatcher,
-            $session,
-            $subFolder,
-            $router,
-        ], $container);
+        return (new MiddlewareDispatcher($container))
+            ->addMiddleware($router)
+            ->addMiddleware($subFolder)
+            ->addMiddleware($session)
+            ->addMiddleware($errorCatcher);
     }
 }

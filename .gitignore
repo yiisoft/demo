@@ -19,12 +19,9 @@ phpunit.phar
 
 # local config
 /.env
-/docker-compose.yml
+/docker-compose.local.yml
 
 # evolving files
-/.docker/nginx/var/log/nginx/access.log
-/.docker/nginx/var/log/nginx/error.log
-/.docker/php/var/log/php/php.log
 /vendor
 /composer.lock
 /node_modules

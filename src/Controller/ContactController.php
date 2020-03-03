@@ -92,12 +92,6 @@ class ContactController extends Controller
             $parameters['error'] = $error;
         }
 
-        $response = $this->responseFactory->createResponse();
-
-        $output = $this->render('form', $parameters);
-
-        $response->getBody()->write($output);
-
-        return $response;
+        return $this->render('form', $parameters);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Asset\AppAsset;
-use Yiisoft\Html\Html;
+use App\Widget\PerformanceMetrics;
+use Yiisoft\Yii\Bootstrap4\Nav;
+use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -9,6 +11,7 @@ use Yiisoft\Html\Html;
  * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
+ * @var null|string $currentUrl
  */
 
 $assetManager->register([
@@ -31,36 +34,43 @@ $this->beginPage();
 <body>
 <?php
 $this->beginBody();
-?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light container">
-    <a class="navbar-brand" href="<?= $urlGenerator->generate('site/index') ?>">Yii Demo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('site/contact') ?>">Contact</a>
-            </li>
-            <?php if ($user->getId() !== null): ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= $urlGenerator->generate('site/logout') ?>">Logout (<?= Html::encode($user->getLogin()) ?>)</a>
-                </li>
-            <?php else: ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $urlGenerator->generate('site/login') ?>">Login</a>
-            </li>
-            <?php endif ?>
+echo NavBar::begin()
+      ->brandLabel('Yii Demo')
+      ->brandUrl($urlGenerator->generate('site/index'))
+      ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
+      ->start();
+echo Nav::widget()
+        ->currentPath($currentUrl ?? '')
+        ->options(['class' => 'navbar-nav mr-auto'])
+        ->items(
+            [
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
+                ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
+            ]
+        );
+echo Nav::widget()
+        ->currentPath($currentUrl ?? '')
+        ->options(['class' => 'navbar-nav'])
+        ->items(
+            [
+                $user->getId() === null
+                    ? ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')]
+                    : ['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')],
+            ]
+        );
+echo NavBar::end();
 
-        </ul>
-    </div>
-</nav>
-<main role="main" class="container">
-    <?= $content ?>
-</main>
+?><main role="main" class="container py-4"><?php
+echo $content;
+?></main>
+
+<footer class="container py-4">
+    <?= PerformanceMetrics::widget() ?>
+</footer>
 <?php
+
 $this->endBody();
 ?>
 </body>

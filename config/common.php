@@ -3,11 +3,8 @@
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Parameters;
+use App\Timer;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
-use Yiisoft\Cache\ArrayCache;
-use Yiisoft\Cache\Cache;
-use Yiisoft\Cache\CacheInterface;
 use Yiisoft\Log\Target\File\FileRotator;
 use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
@@ -16,18 +13,15 @@ use Yiisoft\Mailer\MailerInterface;
  * @var array $params
  */
 
+$timer = new Timer();
+$timer->start('overall');
+
 return [
-    Aliases::class => $params['aliases'],
-    Psr\SimpleCache\CacheInterface::class => ArrayCache::class,
+    \Psr\SimpleCache\CacheInterface::class => \Yiisoft\Cache\ArrayCache::class,
+    \Yiisoft\Cache\CacheInterface::class => \Yiisoft\Cache\Cache::class,
     Parameters::class => static function () use ($params) {
         return new Parameters($params);
     },
-    CacheInterface::class => [
-        '__class' => Cache::class,
-        'handler' => [
-            '__class' => ArrayCache::class,
-        ],
-    ],
     LoggerInterface::class => new LoggerFactory(),
     FileRotatorInterface::class => [
         '__class' => FileRotator::class,
@@ -47,4 +41,5 @@ return [
         'setPassword()' => [$params['mailer']['password']],
     ],
     MailerInterface::class => new MailerFactory(),
+    Timer::class => $timer,
 ];

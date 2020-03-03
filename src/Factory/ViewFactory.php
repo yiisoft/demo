@@ -10,11 +10,14 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\Theme;
 use Yiisoft\View\WebView;
+use Yiisoft\Widget\WidgetFactory;
 
 class ViewFactory
 {
     public function __invoke(ContainerInterface $container)
     {
+        WidgetFactory::initialize($container);
+
         $webView = new WebView(
             $container->get(Aliases::class)->get('@views'),
             $container->get(Theme::class),
