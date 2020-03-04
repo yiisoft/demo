@@ -59,6 +59,11 @@
             "App\\": "src"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "chmod -R 0777 runtime"
+         ]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0.x-dev"
