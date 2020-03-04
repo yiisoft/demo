@@ -61,7 +61,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "chmod -R 0777 runtime"
+            "php -r \"chmod('runtime',0777);\""
          ]
     },
     "extra": {
