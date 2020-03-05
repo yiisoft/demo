@@ -14,10 +14,12 @@ final class Installer
     }
 
     private static function chmodRecursive(string $path, int $mode): void
-    {
+    {\
         $dir = new \DirectoryIterator($path);
         foreach ($dir as $item) {
-            chmod($item->getPathname(), $mode);
+            if (!$item->isDot()) {
+                chmod($path, $mode);
+            }
             if ($item->isDir() && !$item->isDot()) {
                 self::chmodRecursive($item->getPathname(), $mode);
             }
