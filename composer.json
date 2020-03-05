@@ -61,8 +61,8 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php -r \"chmod('runtime',0777);\""
-         ]
+            "App\\Installer::postInstall"
+        ]
     },
     "extra": {
         "branch-alias": {
