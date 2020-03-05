@@ -11,7 +11,8 @@ class Installer
         self::rchmod('runtime', 0777);
     }
 
-    private static function rchmod(string $path, int $mode): void {
+    private static function rchmod(string $path, int $mode): void
+    {
         $dir = new \DirectoryIterator($path);
         foreach ($dir as $item) {
             chmod($item->getPathname(), $mode);
