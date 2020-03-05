@@ -18,7 +18,7 @@ final class Installer
     {
         chmod($path, $mode);
         $iterator = new RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
-        foreach($iterator as $item) {
+        foreach ($iterator as $item) {
             $filename = $item->getFileName();
             if (!($filename === '.' || $filename === '..')) {
                 chmod((string) $item, $mode);
