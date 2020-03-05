@@ -14,7 +14,7 @@ final class Installer
     }
 
     private static function chmodRecursive(string $path, int $mode): void
-    {\
+    {
         $dir = new \DirectoryIterator($path);
         foreach ($dir as $item) {
             if (!$item->isDot()) {
