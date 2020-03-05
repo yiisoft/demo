@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Composer\Script\Event;
 
-class Installer
+final class Installer
 {
-    public static function postInstall(Event $event): void
+    public static function postUpdate(Event $event = null): void
     {
-        self::rchmod('runtime', 0777);
+        self::chmodRecursive('runtime', 0777);
     }
 
-    private static function rchmod(string $path, int $mode): void
+    private static function chmodRecursive(string $path, int $mode): void
     {
         $dir = new \DirectoryIterator($path);
         foreach ($dir as $item) {
             chmod($item->getPathname(), $mode);
             if ($item->isDir() && !$item->isDot()) {
-                self::rchmod($item->getPathname(), $mode);
+                self::chmodRecursive($item->getPathname(), $mode);
             }
         }
     }
