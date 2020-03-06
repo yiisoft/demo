@@ -15,9 +15,9 @@ use Yiisoft\Html\Html;
 <ul class="list-group mb-3">
     <?php
     $blockBegin = Html::beginTag(
-        'li',
-        ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
-    );
+    'li',
+    ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
+);
     $blockEnd = Html::endTag('li');
     echo $blockBegin;
     if (count($tags)) {

@@ -14,9 +14,9 @@ use Yiisoft\Html\Html;
     <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
     <?php
     echo Html::a(
-        Html::encode($item->getUser()->getLogin()),
-        $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
-    );
+    Html::encode($item->getUser()->getLogin()),
+    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
+);
     ?>
 </div>
 <?php
@@ -44,9 +44,9 @@ if ($item->getComments()->count()) {
             <div class="media-body">
                 <div>
                     <?php echo Html::a(
-                        Html::encode($comment->getUser()->getLogin()),
-                        $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
-                    ) ?>
+            Html::encode($comment->getUser()->getLogin()),
+            $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
+        ) ?>
                     <span class="text-muted">
                         <i>created at</i> <?php echo $comment->getCreatedAt()->format('H:i d.m.Y') ?>
                     </span>
