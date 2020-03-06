@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App;
 
 use Composer\Script\Event;
-use RecursiveIteratorIterator;
+use RecursiveIteratorIterator as RIterator;
+use FilesystemIterator as FSIterator;
+use RecursiveDirectoryIterator as DirIterator;
 
 final class Installer
 {
@@ -17,12 +19,15 @@ final class Installer
     private static function chmodRecursive(string $path, int $mode): void
     {
         chmod($path, $mode);
-        $iterator = new RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new RIterator(
+            new DirIterator(
+                $path,
+                FSIterator::SKIP_DOTS | FSIterator::CURRENT_AS_PATHNAME
+            ),
+            RIterator::SELF_FIRST
+        );
         foreach ($iterator as $item) {
-            $filename = $item->getFileName();
-            if (!($filename === '.' || $filename === '..')) {
-                chmod((string) $item, $mode);
-            }
+            chmod($item, $mode);
         }
     }
 }
