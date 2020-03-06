@@ -20,10 +20,7 @@ final class Installer
     {
         chmod($path, $mode);
         $iterator = new RIterator(
-            new DirIterator(
-                $path,
-                FSIterator::SKIP_DOTS | FSIterator::CURRENT_AS_PATHNAME
-            ),
+            new DirIterator($path, FSIterator::SKIP_DOTS | FSIterator::CURRENT_AS_PATHNAME),
             RIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {
