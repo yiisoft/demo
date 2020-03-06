@@ -16,17 +16,6 @@ Builder::rebuild();
 
 $container = new Container(require Builder::path('web'));
 
-/**
- * @var array $params The variable is available after requiring config files.
- */
-
-$debugEnabled = (bool)($params['debugger.enabled'] ?? false) && class_exists(Debugger::class);
-
-if ($debugEnabled) {
-    $debugProvider = new DebugServiceProvider();
-    $container->addProvider($debugProvider);
-}
-
 require_once dirname(__DIR__) . '/src/globals.php';
 
 $application = $container->get(Application::class);
