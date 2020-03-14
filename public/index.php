@@ -1,10 +1,9 @@
 <?php
 
 use hiqdev\composer\config\Builder;
+use Psr\Container\ContainerInterface;
 use Yiisoft\Di\Container;
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\Debug\Debugger;
-use Yiisoft\Yii\Debug\DebugServiceProvider;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
@@ -14,7 +13,8 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 // Don't do it in production, assembling takes it's time
 Builder::rebuild();
 
-$container = new Container(require Builder::path('web'));
+$container = new Container(require Builder::path('web'), require Builder::path('providers'));
+$container = $container->get(ContainerInterface::class);
 
 require_once dirname(__DIR__) . '/src/globals.php';
 
