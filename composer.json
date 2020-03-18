@@ -82,7 +82,8 @@
             "console": [
                 "$common",
                 "config/console.php"
-            ]
+            ],
+            "providers": "config/providers.php"
         }
     },
     "config": {
