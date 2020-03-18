@@ -20,7 +20,7 @@ require_once dirname(__DIR__) . '/src/globals.php';
 
 $application = $container->get(Application::class);
 
-$request = $container->get(ServerRequestFactory::class)->createFromGlobals();
+$request = $container->get(\Psr\Http\Message\ServerRequestInterface::class);
 
 try {
     $application->start();
