@@ -45,6 +45,7 @@
         "yiisoft/strings": "^3.0@dev",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
+        "yiisoft/widget": "^3.0@dev",
         "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
