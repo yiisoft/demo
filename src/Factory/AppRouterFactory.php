@@ -12,7 +12,6 @@ use App\Controller\SiteController;
 use App\Controller\UserController;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\FastRoute\FastRouteFactory;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
