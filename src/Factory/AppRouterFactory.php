@@ -17,61 +17,75 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Yii\Rest\RestGroup;
 
 class AppRouterFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $routes = [
+        $collector = $container->get(RouteCollectorInterface::class);
+        $collector->addGroup(Group::create(null, $this->getRoutes()));
+        $collector->addGroup(Group::create('/api', $this->getApiRoutes($container)));
+
+        $routeCollection = new RouteCollection($collector);
+
+        return new UrlMatcher($routeCollection);
+    }
+
+    private function getApiRoutes(ContainerInterface $container): array
+    {
+        return [
+            RestGroup::create('/user', \App\Api\Controller\UserController::class, $container),
+        ];
+    }
+
+    private function getRoutes(): array
+    {
+        return [
             // Lonely pages of site
             Route::get('/', [SiteController::class, 'index'])
                 ->name('site/index'),
             Route::methods([Method::GET, Method::POST], '/contact', [ContactController::class, 'contact'])
-                 ->name('site/contact'),
+                ->name('site/contact'),
             Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
-                 ->name('site/login'),
+                ->name('site/login'),
             Route::get('/logout', [AuthController::class, 'logout'])
-                 ->name('site/logout'),
+                ->name('site/logout'),
 
             // User
             Group::create('/user', [
                 // Index
                 Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
-                     ->name('user/index'),
+                    ->name('user/index'),
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
-                     ->name('user/profile'),
+                    ->name('user/profile'),
             ]),
 
             // Blog routes
             Group::create('/blog', [
                 // Index
                 Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
-                     ->name('blog/index'),
+                    ->name('blog/index'),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
-                     ->name('blog/post'),
+                    ->name('blog/post'),
                 // Tag page
                 Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
-                     ->name('blog/tag'),
+                    ->name('blog/tag'),
                 // Archive
                 Group::create('/blog', [
                     // Index page
                     Route::get('', [ArchiveController::class, 'index'])
-                         ->name('blog/archive/index'),
+                        ->name('blog/archive/index'),
                     // Yearly page
                     Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
-                         ->name('blog/archive/year'),
+                        ->name('blog/archive/year'),
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                         ->name('blog/archive/month')
+                        ->name('blog/archive/month'),
                 ]),
             ]),
         ];
-
-        $collector =  $container->get(RouteCollectorInterface::class);
-        $collector->addGroup(Group::create(null, $routes));
-
-        return new UrlMatcher(new RouteCollection($collector));
     }
 }
