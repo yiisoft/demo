@@ -126,6 +126,6 @@ class DeferredResponse implements ResponseInterface
 
     private function convertData(): StreamInterface
     {
-        return $this->dataStream =  $this->dataConverter->convertData($this->data, $this->response);
+        return $this->dataConverter->convertData($this->data, $this->response);
     }
 }
