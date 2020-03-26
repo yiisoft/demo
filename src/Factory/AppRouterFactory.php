@@ -11,6 +11,7 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\DataConverter;
 use App\DeferredResponse;
 use App\JsonDataConverter;
 use Psr\Container\ContainerInterface;
@@ -52,18 +53,7 @@ class AppRouterFactory
             Group::create('/api/user', [
                 Route::get('/{login}', [ApiUserController::class, 'profile'])
                     ->name('api/user/profile'),
-            ], $container)->addMiddleware(function (
-                ServerRequestInterface $request,
-                RequestHandlerInterface $handler,
-                ContainerInterface $container
-            ) {
-                $response = $handler->handle($request);
-                if ($response instanceof DeferredResponse) {
-                    $response = $response->withDataConverter($container->get(JsonDataConverter::class));
-                }
-
-                return $response;
-            }),
+            ])->addMiddleware($container->get(DataConverter::class)),
 
             // Blog routes
             Group::create('/blog', [

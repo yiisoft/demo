@@ -1,5 +1,6 @@
 <?php
 
+use App\DataConverterInterface;
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
@@ -43,6 +44,7 @@ return [
     StreamFactoryInterface::class => Psr17Factory::class,
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
+    DataConverterInterface::class => \App\JsonDataConverter::class,
 
     // Router:
     RouteCollectorInterface::class => new GroupFactory(),
