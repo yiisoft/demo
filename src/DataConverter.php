@@ -12,13 +12,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class DataConverter implements MiddlewareInterface
 {
-    private ContainerInterface $container;
-
     private DataConverterInterface $dataConverter;
 
-    public function __construct(ContainerInterface $container, DataConverterInterface $dataConverter)
+    public function __construct(DataConverterInterface $dataConverter)
     {
-        $this->container = $container;
         $this->dataConverter = $dataConverter;
     }
 
