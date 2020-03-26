@@ -24,7 +24,7 @@ class ApiUserController
 
         $item = $userRepo->findByLogin($login);
         if ($item === null) {
-            return $factory->create(DeferredResponse::class, [null])->withStatus(404);
+            return $factory->create(DeferredResponse::class, ['Page not found'])->withStatus(404);
         }
 
         return  $factory->create(
