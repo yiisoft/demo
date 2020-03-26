@@ -6,13 +6,17 @@ use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\Post\PostController;
 use App\Blog\Tag\TagController;
+use App\Controller\ApiUserController;
 use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\DeferredResponse;
+use App\JsonDataConverter;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\FastRoute\FastRouteFactory;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
@@ -38,11 +42,28 @@ class AppRouterFactory
             Group::create('/user', [
                 // Index
                 Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
-                     ->name('user/index'),
+                    ->name('user/index'),
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
                      ->name('user/profile'),
             ]),
+
+            // User
+            Group::create('/api/user', [
+                Route::get('/{login}', [ApiUserController::class, 'profile'])
+                    ->name('api/user/profile'),
+            ], $container)->addMiddleware(function (
+                ServerRequestInterface $request,
+                RequestHandlerInterface $handler,
+                ContainerInterface $container
+            ) {
+                $response = $handler->handle($request);
+                if ($response instanceof DeferredResponse) {
+                    $response = $response->withDataConverter($container->get(JsonDataConverter::class));
+                }
+
+                return $response;
+            }),
 
             // Blog routes
             Group::create('/blog', [

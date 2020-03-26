@@ -1,0 +1,6 @@
+{
+    "license": "BSD-3-Clause",
+    "dependencies": {
+        "@composer-asset/yiisoft--yii-bootstrap4": "file:./vendor/foxy/composer-asset/yiisoft/yii-bootstrap4"
+    }
+}

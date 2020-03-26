@@ -35,6 +35,11 @@ foreach ($paginator->read() as $item) {
         $urlGenerator->generate('user/profile', ['login' => $item->getLogin()]),
         ['class' => 'btn btn-link']
     );
+    echo Html::a(
+        Html::encode('API Data'),
+        $urlGenerator->generate('api/user/profile', ['login' => $item->getLogin()]),
+        ['class' => 'btn btn-link']
+    );
     echo Html::endTag('td');
     echo Html::tag('td', $item->getCreatedAt()->format('r'));
     echo Html::endTag('tr');

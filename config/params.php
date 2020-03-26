@@ -4,7 +4,32 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
-    'debugger.enabled' => true,
+    'debugger.enabled' => false,
+    'debugger.trackedServices' => [
+        //\Psr\Container\ContainerInterface::class,
+        \Yiisoft\Router\UrlGeneratorInterface::class,
+        \Cycle\ORM\FactoryInterface::class,
+        \Yiisoft\Mailer\MailerInterface::class,
+        \Psr\Http\Message\ServerRequestFactoryInterface::class,
+        \Yiisoft\Yii\Web\Session\SessionInterface::class,
+        \Yiisoft\Router\RouteCollectorInterface::class,
+        \App\Controller\MyInterafce::class,
+        \Yiisoft\Router\UrlMatcherInterface::class
+    ],
+    'container.decorators' => [
+        \Yiisoft\Router\UrlGeneratorInterface::class => [
+            'getUriPrefix' => function ($result) {
+                return $result;
+            },
+            'generate' => function ($result, $name, $params = []) {
+                if ($name === 'site/contact') {
+                    return $result . '/me';
+                }
+                return $result;
+            },
+
+        ],
+    ],
     'mailer' => [
         'host' => 'smtp.example.com',
         'port' => 25,

@@ -7,6 +7,7 @@ use App\Parameters;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
@@ -23,6 +24,7 @@ class ContactController extends Controller
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
+        StreamFactoryInterface $streamFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
@@ -32,7 +34,7 @@ class ContactController extends Controller
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        parent::__construct($responseFactory, $user, $aliases, $view);
+        parent::__construct($responseFactory, $streamFactory, $user, $aliases, $view);
         $this->parameters = $parameters;
     }
 
