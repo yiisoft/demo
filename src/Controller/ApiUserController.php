@@ -29,6 +29,7 @@ class ApiUserController
 
         return  $factory->create(
             DeferredResponse::class,
-            [['login' => $item->getLogin(), 'created_at' => $item->getCreatedAt()->format('H:i:s d.m.Y')]]);
+            [['login' => $item->getLogin(), 'created_at' => $item->getCreatedAt()->format('H:i:s d.m.Y')]]
+        );
     }
 }
