@@ -2,10 +2,7 @@
 
 namespace App;
 
-use Generator;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Factory\Factory;
 use Yiisoft\Factory\FactoryInterface;
