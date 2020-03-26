@@ -7,9 +7,8 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\StreamFactoryInterface;
+use Yiisoft\Factory\Factory;
 
 class ApiUserController
 {
@@ -17,8 +16,7 @@ class ApiUserController
         Request $request,
         ORMInterface $orm,
         ContainerInterface $container,
-        ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface $streamFactory
+        Factory $factory
     ) {
         /** @var UserRepository $userRepo */
         $userRepo = $orm->getRepository(User::class);
@@ -26,13 +24,11 @@ class ApiUserController
 
         $item = $userRepo->findByLogin($login);
         if ($item === null) {
-            return $responseFactory->createResponse(404);
+            return $factory->create(DeferredResponse::class, [null])->withStatus(404);
         }
 
-        return new DeferredResponse(
-            ['login' => $item->getLogin(), 'created_at' => $item->getCreatedAt()->format('H:i:s d.m.Y')],
-            $responseFactory,
-            $streamFactory
-        );
+        return  $factory->create(
+            DeferredResponse::class,
+            [['login' => $item->getLogin(), 'created_at' => $item->getCreatedAt()->format('H:i:s d.m.Y')]]);
     }
 }
