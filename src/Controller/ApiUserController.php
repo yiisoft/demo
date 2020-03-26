@@ -15,7 +15,6 @@ class ApiUserController
     public function profile(
         Request $request,
         ORMInterface $orm,
-        ContainerInterface $container,
         Factory $factory
     ) {
         /** @var UserRepository $userRepo */

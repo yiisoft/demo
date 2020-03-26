@@ -35,11 +35,11 @@ abstract class Controller implements ViewContextInterface
     protected function render(string $view, array $parameters = []): ResponseInterface
     {
         $controller = $this;
-        $renderer = function () use ($view, $parameters, $controller) {
+        $contentRenderer = function () use ($view, $parameters, $controller) {
             return $controller->renderContent($controller->view->render($view, $parameters, $controller));
         };
 
-        return $this->factory->create(DeferredResponse::class, [$renderer]);
+        return $this->factory->create(DeferredResponse::class, [$contentRenderer]);
     }
 
     private function renderContent($content): string
