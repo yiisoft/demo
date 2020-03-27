@@ -12,11 +12,8 @@ use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\DataConverter;
-use App\DeferredResponse;
 use App\JsonDataConverter;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
@@ -50,8 +47,11 @@ class AppRouterFactory
             ]),
 
             // User
-            Group::create('/api/user', [
-                Route::get('/{login}', [ApiUserController::class, 'profile'])
+            Group::create('/api', [
+                Route::get('/user', [ApiUserController::class, 'index'])
+                    ->name('api/user/index'),
+                Route::get('/user/{login}', [ApiUserController::class, 'profile'])
+                    ->addMiddleware(new DataConverter($container->get(JsonDataConverter::class)))
                     ->name('api/user/profile'),
             ])->addMiddleware($container->get(DataConverter::class)),
 
