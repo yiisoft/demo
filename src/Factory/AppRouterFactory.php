@@ -86,7 +86,7 @@ class AppRouterFactory
         $collector =  $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
-                ->addMiddleware(new ResponseFormatter($container->get(HtmlResponseFormatter::class)))
+                ->addMiddleware(new DeferredResponseFormatter($container->get(HtmlResponseFormatter::class)))
         );
 
         return new UrlMatcher(new RouteCollection($collector));
