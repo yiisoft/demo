@@ -127,6 +127,11 @@ class DeferredResponse implements ResponseInterface
         return clone $this;
     }
 
+    public function hasResponseFormatter(): bool
+    {
+        return $this->responseFormatter !== null;
+    }
+
     public function getResponse(): ResponseInterface
     {
         return $this->response;
