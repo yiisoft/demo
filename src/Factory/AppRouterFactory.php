@@ -46,7 +46,7 @@ class AppRouterFactory
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
                      ->name('user/profile'),
-            ])->addMiddleware(new ResponseFormatter($container->get(HtmlResponseFormatter::class))),
+            ]),
 
             // User
             Group::create('/api', [
@@ -84,7 +84,10 @@ class AppRouterFactory
         ];
 
         $collector =  $container->get(RouteCollectorInterface::class);
-        $collector->addGroup(Group::create(null, $routes));
+        $collector->addGroup(
+            Group::create(null, $routes)
+                ->addMiddleware(new ResponseFormatter($container->get(HtmlResponseFormatter::class)))
+        );
 
         return new UrlMatcher(new RouteCollection($collector));
     }
