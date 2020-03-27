@@ -32,13 +32,12 @@ class DeferredResponse implements ResponseInterface
             return $this->dataStream;
         }
 
-        $data = $this->getData();
-
         if ($this->responseFormatter !== null) {
             $this->response = $this->formatResponse();
             return $this->dataStream = $this->response->getBody();
         }
 
+        $data = $this->getData();
         if (is_string($data)) {
             return $this->dataStream = $this->streamFactory->createStream($data);
         }
@@ -123,11 +122,19 @@ class DeferredResponse implements ResponseInterface
         return $response;
     }
 
-    public function withResponseFormatter(ResponseFormatterInterface $responseFormatter)
+    public function withResponseFormatter(ResponseFormatterInterface $responseFormatter): self
     {
         $response = clone $this;
         $response->responseFormatter = $responseFormatter;
         return $response;
+    }
+
+    public function withData($data): self
+    {
+        $response = clone $this;
+        $response->data = $data;
+
+        return clone $response;
     }
 
     public function hasResponseFormatter(): bool
