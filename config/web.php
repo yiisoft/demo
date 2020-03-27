@@ -1,7 +1,7 @@
 <?php
 
 use App\ResponseFormatterInterface;
-use App\XmlResponseFormatter;
+use App\HtmlResponseFormatter;
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
@@ -45,7 +45,7 @@ return [
     StreamFactoryInterface::class => Psr17Factory::class,
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
-    ResponseFormatterInterface::class => XmlResponseFormatter::class,
+    ResponseFormatterInterface::class => HtmlResponseFormatter::class,
 
     // Router:
     RouteCollectorInterface::class => new GroupFactory(),

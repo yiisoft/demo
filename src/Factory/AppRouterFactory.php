@@ -11,10 +11,10 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use App\HtmlResponseFormatter;
 use App\JsonResponseFormatter;
 use App\ResponseFormatter;
 use App\DeferredResponseFormatter;
+use App\XmlResponseFormatter;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
@@ -55,7 +55,7 @@ class AppRouterFactory
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
                     ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class)))
                     ->name('api/user/profile'),
-            ])->addMiddleware($container->get(DeferredResponseFormatter::class)),
+            ])->addMiddleware(new ResponseFormatter($container->get(XmlResponseFormatter::class))),
 
             // Blog routes
             Group::create('/blog', [
@@ -86,7 +86,7 @@ class AppRouterFactory
         $collector =  $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
-                ->addMiddleware(new DeferredResponseFormatter($container->get(HtmlResponseFormatter::class)))
+                ->addMiddleware($container->get(DeferredResponseFormatter::class))
         );
 
         return new UrlMatcher(new RouteCollection($collector));
