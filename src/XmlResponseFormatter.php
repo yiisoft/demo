@@ -8,10 +8,9 @@ use DOMException;
 use DOMText;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\StreamInterface;
 use Yiisoft\Strings\StringHelper;
 
-class XmlDataConverter implements DataConverterInterface
+class XmlResponseFormatter implements ResponseFormatterInterface
 {
     /**
      * @var string the Content-Type header for the response
@@ -50,9 +49,10 @@ class XmlDataConverter implements DataConverterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function convertData($data, ResponseInterface &$response): StreamInterface
+    public function format(DeferredResponse $response): ResponseInterface
     {
         $content = '';
+        $data = $response->getData();
         if ($data !== null) {
             $dom = new DOMDocument($this->version, $this->encoding);
             if (!empty($this->rootTag)) {
@@ -64,9 +64,10 @@ class XmlDataConverter implements DataConverterInterface
             }
             $content = $dom->saveXML();
         }
-        $response = $response->withHeader('Content-Type', $this->contentType);
+        $response = $response->getResponse();
+        $response->getBody()->write($content);
 
-        return $this->streamFactory->createStream($content);
+        return $response->withHeader('Content-Type', $this->contentType);
     }
 
     /**

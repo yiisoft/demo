@@ -6,10 +6,9 @@ namespace App;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\StreamInterface;
 use Yiisoft\Serializer\JsonSerializer;
 
-final class JsonDataConverter implements DataConverterInterface
+final class JsonResponseFormatter implements ResponseFormatterInterface
 {
     /**
      * @var string the Content-Type header for the response
@@ -28,11 +27,12 @@ final class JsonDataConverter implements DataConverterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function convertData($data, ResponseInterface &$response): StreamInterface
+    public function format(DeferredResponse $response): ResponseInterface
     {
-        $content = $this->jsonSerializer->serialize($data);
-        $response = $response->withHeader('Content-Type', $this->contentType);
+        $content = $this->jsonSerializer->serialize($response->getData());
+        $response = $response->getResponse();
+        $response->getBody()->write($content);
 
-        return $this->streamFactory->createStream($content);
+        return $response->withHeader('Content-Type', $this->contentType);
     }
 }

@@ -11,8 +11,9 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use App\DataConverter;
-use App\JsonDataConverter;
+use App\JsonResponseFormatter;
+use App\ResponseFormatter;
+use App\DeferredResponseFormatter;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
@@ -51,9 +52,9 @@ class AppRouterFactory
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-                    ->addMiddleware(new DataConverter($container->get(JsonDataConverter::class)))
+                    ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class)))
                     ->name('api/user/profile'),
-            ])->addMiddleware($container->get(DataConverter::class)),
+            ])->addMiddleware($container->get(DeferredResponseFormatter::class)),
 
             // Blog routes
             Group::create('/blog', [

@@ -17,7 +17,7 @@ class DeferredResponse implements ResponseInterface
 
     private ?StreamInterface $dataStream = null;
 
-    private ?DataConverterInterface $dataConverter = null;
+    private ?ResponseFormatterInterface $responseFormatter = null;
 
     public function __construct($data, ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory)
     {
@@ -36,8 +36,9 @@ class DeferredResponse implements ResponseInterface
             $this->data = ($this->data)();
         }
 
-        if ($this->dataConverter !== null) {
-            return $this->dataStream = $this->convertData();
+        if ($this->responseFormatter !== null) {
+            $this->response = $this->formatResponse();
+            return $this->dataStream = $this->response->getBody();
         }
 
         if (is_string($this->data)) {
@@ -118,17 +119,28 @@ class DeferredResponse implements ResponseInterface
         return clone $this;
     }
 
-    public function withDataConverter(DataConverterInterface $dataConverter)
+    public function withResponseFormatter(ResponseFormatterInterface $responseFormatter)
     {
-        if ($this->dataConverter !== null) {
+        if ($this->responseFormatter !== null) {
             return $this;
         }
-        $this->dataConverter = $dataConverter;
+        $this->responseFormatter = $responseFormatter;
+
         return clone $this;
     }
 
-    private function convertData(): StreamInterface
+    public function getResponse(): ResponseInterface
     {
-        return $this->dataConverter->convertData($this->data, $this->response);
+        return $this->response;
+    }
+
+    public function getData()
+    {
+        return is_object($this->data) ? clone $this->data : $this->data;
+    }
+
+    private function formatResponse(): ResponseInterface
+    {
+        return $this->responseFormatter->format($this);
     }
 }

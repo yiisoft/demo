@@ -8,20 +8,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class DataConverter implements MiddlewareInterface
+class ResponseFormatter implements MiddlewareInterface
 {
-    private DataConverterInterface $dataConverter;
+    private ResponseFormatterInterface $responseFormatter;
 
-    public function __construct(DataConverterInterface $dataConverter)
+    public function __construct(ResponseFormatterInterface $responseFormatter)
     {
-        $this->dataConverter = $dataConverter;
+        $this->responseFormatter = $responseFormatter;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
         if ($response instanceof DeferredResponse) {
-            $response = $response->withDataConverter($this->dataConverter);
+            $response = $this->responseFormatter->format($response);
         }
 
         return $response;
