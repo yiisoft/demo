@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ApiUserController
 {
-    public function index(Request $request, ORMInterface $orm, Factory $factory): ResponseInterface
+    public function index(ORMInterface $orm, Factory $factory): ResponseInterface
     {
         /** @var UserRepository $userRepo */
         $userRepo = $orm->getRepository(User::class);
@@ -26,7 +26,7 @@ class ApiUserController
             $items[] = ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')];
         }
 
-        return  $factory->create(DeferredResponse::class, [$items]);
+        return $factory->create(DeferredResponse::class, [$items]);
     }
 
     public function profile(Request $request, ORMInterface $orm, Factory $factory): ResponseInterface
