@@ -119,11 +119,7 @@ class DeferredResponse implements ResponseInterface
 
     public function withResponseFormatter(ResponseFormatterInterface $responseFormatter)
     {
-        if ($this->responseFormatter !== null) {
-            return $this;
-        }
         $this->responseFormatter = $responseFormatter;
-
         return clone $this;
     }
 

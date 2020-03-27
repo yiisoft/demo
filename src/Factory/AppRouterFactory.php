@@ -55,7 +55,7 @@ class AppRouterFactory
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
                     ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class)))
                     ->name('api/user/profile'),
-            ])->addMiddleware(new ResponseFormatter($container->get(XmlResponseFormatter::class))),
+            ])->addMiddleware(new DeferredResponseFormatter($container->get(XmlResponseFormatter::class))),
 
             // Blog routes
             Group::create('/blog', [
