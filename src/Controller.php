@@ -35,7 +35,7 @@ abstract class Controller implements ViewContextInterface
     protected function render(string $view, array $parameters = []): ResponseInterface
     {
         $controller = $this;
-        $contentRenderer = function () use ($view, $parameters, $controller) {
+        $contentRenderer = static function () use ($view, $parameters, $controller) {
             return $controller->renderContent($controller->view->render($view, $parameters, $controller));
         };
 

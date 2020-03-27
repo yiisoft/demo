@@ -27,10 +27,10 @@ final class JsonResponseFormatter implements ResponseFormatterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function format(DeferredResponse $response): ResponseInterface
+    public function format(DeferredResponse $deferredResponse): ResponseInterface
     {
-        $content = $this->jsonSerializer->serialize($response->getData());
-        $response = $response->getResponse();
+        $content = $this->jsonSerializer->serialize($deferredResponse->getData());
+        $response = $deferredResponse->getResponse();
         $response->getBody()->write($content);
 
         return $response->withHeader('Content-Type', $this->contentType);

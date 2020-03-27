@@ -49,10 +49,10 @@ class XmlResponseFormatter implements ResponseFormatterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function format(DeferredResponse $response): ResponseInterface
+    public function format(DeferredResponse $deferredResponse): ResponseInterface
     {
         $content = '';
-        $data = $response->getData();
+        $data = $deferredResponse->getData();
         if ($data !== null) {
             $dom = new DOMDocument($this->version, $this->encoding);
             if (!empty($this->rootTag)) {
@@ -64,7 +64,7 @@ class XmlResponseFormatter implements ResponseFormatterInterface
             }
             $content = $dom->saveXML();
         }
-        $response = $response->getResponse();
+        $response = $deferredResponse->getResponse();
         $response->getBody()->write($content);
 
         return $response->withHeader('Content-Type', $this->contentType . ';' . $this->encoding);
