@@ -32,17 +32,15 @@ class DeferredResponse implements ResponseInterface
             return $this->dataStream;
         }
 
-        if (is_callable($this->data)) {
-            $this->data = ($this->data)();
-        }
+        $data = $this->getData();
 
         if ($this->responseFormatter !== null) {
             $this->response = $this->formatResponse();
             return $this->dataStream = $this->response->getBody();
         }
 
-        if (is_string($this->data)) {
-            return $this->dataStream = $this->streamFactory->createStream($this->data);
+        if (is_string($data)) {
+            return $this->dataStream = $this->streamFactory->createStream($data);
         }
 
         throw new \RuntimeException('Data must be a string value.');
@@ -136,6 +134,9 @@ class DeferredResponse implements ResponseInterface
 
     public function getData()
     {
+        if (is_callable($this->data)) {
+            $this->data = ($this->data)();
+        }
         return is_object($this->data) ? clone $this->data : $this->data;
     }
 

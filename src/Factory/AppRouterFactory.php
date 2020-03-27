@@ -11,6 +11,7 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\HtmlResponseFormatter;
 use App\JsonResponseFormatter;
 use App\ResponseFormatter;
 use App\DeferredResponseFormatter;
@@ -45,7 +46,7 @@ class AppRouterFactory
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
                      ->name('user/profile'),
-            ]),
+            ])->addMiddleware(new ResponseFormatter($container->get(HtmlResponseFormatter::class))),
 
             // User
             Group::create('/api', [

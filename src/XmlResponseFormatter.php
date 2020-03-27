@@ -23,7 +23,7 @@ class XmlResponseFormatter implements ResponseFormatterInterface
     /**
      * @var string the XML encoding. If not set, it will use the value of [[Response::charset]].
      */
-    private string $encoding = 'utf-8';
+    private string $encoding = 'UTF-8';
     /**
      * @var string the name of the root element. If set to false, null or is empty then no root tag should be added.
      */
@@ -67,7 +67,7 @@ class XmlResponseFormatter implements ResponseFormatterInterface
         $response = $response->getResponse();
         $response->getBody()->write($content);
 
-        return $response->withHeader('Content-Type', $this->contentType);
+        return $response->withHeader('Content-Type', $this->contentType . ';' . $this->encoding);
     }
 
     /**
