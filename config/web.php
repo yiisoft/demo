@@ -27,6 +27,7 @@ use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
 use Yiisoft\Yii\Web\User\User;
+use App\XmlDataConverter;
 
 /**
  * @var array $params
@@ -44,7 +45,7 @@ return [
     StreamFactoryInterface::class => Psr17Factory::class,
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
-    DataConverterInterface::class => \App\JsonDataConverter::class,
+    DataConverterInterface::class => XmlDataConverter::class,
 
     // Router:
     RouteCollectorInterface::class => new GroupFactory(),

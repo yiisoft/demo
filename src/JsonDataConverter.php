@@ -11,7 +11,13 @@ use Yiisoft\Serializer\JsonSerializer;
 
 final class JsonDataConverter implements DataConverterInterface
 {
+    /**
+     * @var string the Content-Type header for the response
+     */
+    private string $contentType = 'application/json';
+
     private JsonSerializer $jsonSerializer;
+
     private StreamFactoryInterface $streamFactory;
 
     public function __construct(
@@ -25,12 +31,8 @@ final class JsonDataConverter implements DataConverterInterface
     public function convertData($data, ResponseInterface &$response): StreamInterface
     {
         $content = $this->jsonSerializer->serialize($data);
-        $response = $response->withHeader('Content-Type', $this->getContentType());
-        return $this->streamFactory->createStream($content);
-    }
+        $response = $response->withHeader('Content-Type', $this->contentType);
 
-    protected function getContentType(): string
-    {
-        return 'application/json';
+        return $this->streamFactory->createStream($content);
     }
 }
