@@ -120,6 +120,9 @@ class DeferredResponse implements ResponseInterface
 
     public function withDataConverter(DataConverterInterface $dataConverter)
     {
+        if ($this->dataConverter !== null) {
+            return $this;
+        }
         $this->dataConverter = $dataConverter;
         return clone $this;
     }
