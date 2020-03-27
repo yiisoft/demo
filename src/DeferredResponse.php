@@ -83,44 +83,51 @@ class DeferredResponse implements ResponseInterface
 
     public function withAddedHeader($name, $value)
     {
-        $this->response = $this->response->withAddedHeader($name, $value);
-        return clone $this;
+        $response = clone $this;
+        $response->response = $this->response->withAddedHeader($name, $value);
+        return $response;
     }
 
     public function withBody(StreamInterface $body)
     {
-        $this->dataStream = $body;
-        return clone $this;
+        $response = clone $this;
+        $response->dataStream = $body;
+        return $response;
     }
 
     public function withHeader($name, $value)
     {
-        $this->response = $this->response->withHeader($name, $value);
-        return clone $this;
+        $response = clone $this;
+        $response->response = $this->response->withHeader($name, $value);
+        return $response;
     }
 
     public function withoutHeader($name)
     {
-        $this->response = $this->response->withoutHeader($name);
-        return clone $this;
+        $response = clone $this;
+        $response->response = $this->response->withoutHeader($name);
+        return $response;
     }
 
     public function withProtocolVersion($version)
     {
-        $this->response = $this->response->withProtocolVersion($version);
-        return clone $this;
+        $response = clone $this;
+        $response->response = $this->response->withProtocolVersion($version);
+        return $response;
     }
 
     public function withStatus($code, $reasonPhrase = '')
     {
-        $this->response = $this->response->withStatus($code, $reasonPhrase);
-        return clone $this;
+        $response = clone $this;
+        $response->response = $this->response->withStatus($code, $reasonPhrase);
+        return $response;
     }
 
     public function withResponseFormatter(ResponseFormatterInterface $responseFormatter)
     {
-        $this->responseFormatter = $responseFormatter;
-        return clone $this;
+        $response = clone $this;
+        $response->responseFormatter = $responseFormatter;
+        return $response;
     }
 
     public function hasResponseFormatter(): bool
