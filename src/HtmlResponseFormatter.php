@@ -22,7 +22,7 @@ final class HtmlResponseFormatter implements ResponseFormatterInterface
     {
         $data = $deferredResponse->getData();
         $response = $deferredResponse->getResponse();
-        $response->getBody()->write($data);
+        $response->getBody()->write((string)$data);
 
         return $response->withHeader('Content-Type', $this->contentType . '; charset=' . $this->encoding);
     }
