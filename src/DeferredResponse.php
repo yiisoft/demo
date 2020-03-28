@@ -33,7 +33,7 @@ class DeferredResponse implements ResponseInterface
         }
 
         if ($this->responseFormatter !== null) {
-            $this->response = $this->formatResponse();
+            $this->response = $this->responseFormatter->format($this);
             return $this->dataStream = $this->response->getBody();
         }
 
@@ -153,10 +153,5 @@ class DeferredResponse implements ResponseInterface
             $this->data = ($this->data)();
         }
         return is_object($this->data) ? clone $this->data : $this->data;
-    }
-
-    private function formatResponse(): ResponseInterface
-    {
-        return $this->responseFormatter->format($this);
     }
 }

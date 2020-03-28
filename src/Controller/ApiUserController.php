@@ -39,17 +39,18 @@ class ApiUserController
 
     public function profile(Request $request, ORMInterface $orm, Factory $factory): ResponseInterface
     {
-        /** @var UserRepository $userRepo */
-        $userRepo = $orm->getRepository(User::class);
+        /** @var UserRepository $userRepository */
+        $userRepository = $orm->getRepository(User::class);
         $login = $request->getAttribute('login', null);
 
-        $item = $userRepo->findByLogin($login);
-        if ($item === null) {
+        /** @var User $user */
+        $user = $userRepository->findByLogin($login);
+        if ($user === null) {
             return $factory->create(DeferredResponse::class, [['error' => 'Page not found']])->withStatus(404);
         }
 
         return $this->responseFactory->createResponse()->withData(
-            ['login' => $item->getLogin(), 'created_at' => $item->getCreatedAt()->format('H:i:s d.m.Y')]
+            ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')]
         );
     }
 }

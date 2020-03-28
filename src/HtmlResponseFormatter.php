@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use Psr\Http\Message\ResponseInterface;
-use Yiisoft\Serializer\JsonSerializer;
 
 final class HtmlResponseFormatter implements ResponseFormatterInterface
 {
@@ -19,10 +18,10 @@ final class HtmlResponseFormatter implements ResponseFormatterInterface
      */
     private string $encoding = 'UTF-8';
 
-    public function format(DeferredResponse $response): ResponseInterface
+    public function format(DeferredResponse $deferredResponse): ResponseInterface
     {
-        $data = $response->getData();
-        $response = $response->getResponse();
+        $data = $deferredResponse->getData();
+        $response = $deferredResponse->getResponse();
         $response->getBody()->write($data);
 
         return $response->withHeader('Content-Type', $this->contentType . '; charset=' . $this->encoding);
