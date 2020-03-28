@@ -21,7 +21,7 @@ class ApiUserController
         $this->responseFactory = $responseFactory;
     }
 
-    public function index(ORMInterface $orm, Factory $factory): ResponseInterface
+    public function index(ORMInterface $orm): ResponseInterface
     {
         /** @var UserRepository $userRepo */
         $userRepo = $orm->getRepository(User::class);
@@ -37,7 +37,7 @@ class ApiUserController
         return $this->responseFactory->createResponse()->withData($items);
     }
 
-    public function profile(Request $request, ORMInterface $orm, Factory $factory): ResponseInterface
+    public function profile(Request $request, ORMInterface $orm): ResponseInterface
     {
         /** @var UserRepository $userRepository */
         $userRepository = $orm->getRepository(User::class);
@@ -46,7 +46,7 @@ class ApiUserController
         /** @var User $user */
         $user = $userRepository->findByLogin($login);
         if ($user === null) {
-            return $factory->create(DeferredResponse::class, [['error' => 'Page not found']])->withStatus(404);
+            return $this->responseFactory->createResponse(404, '', ['error' => 'Page not found'])->withStatus(404);
         }
 
         return $this->responseFactory->createResponse()->withData(
