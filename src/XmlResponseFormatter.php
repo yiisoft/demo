@@ -21,7 +21,7 @@ class XmlResponseFormatter implements ResponseFormatterInterface
      */
     private string $version = '1.0';
     /**
-     * @var string the XML encoding. If not set, it will use the value of [[Response::charset]].
+     * @var string the XML encoding.
      */
     private string $encoding = 'UTF-8';
     /**
@@ -68,6 +68,36 @@ class XmlResponseFormatter implements ResponseFormatterInterface
         $response->getBody()->write($content);
 
         return $response->withHeader('Content-Type', $this->contentType . ';' . $this->encoding);
+    }
+
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
+    }
+
+    public function setEncoding(string $encoding): void
+    {
+        $this->encoding = $encoding;
+    }
+
+    public function setRootTag(string $rootTag): void
+    {
+        $this->rootTag = $rootTag;
+    }
+
+    public function setItemTag(string $itemTag): void
+    {
+        $this->itemTag = $itemTag;
+    }
+
+    public function setUseTraversableAsArray(bool $useTraversableAsArray): void
+    {
+        $this->useTraversableAsArray = $useTraversableAsArray;
+    }
+
+    public function setUseObjectTags(bool $useObjectTags): void
+    {
+        $this->useObjectTags = $useObjectTags;
     }
 
     /**

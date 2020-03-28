@@ -14,7 +14,7 @@ final class HtmlResponseFormatter implements ResponseFormatterInterface
     private string $contentType = 'text/html';
 
     /**
-     * @var string the XML encoding. If not set, it will use the value of [[Response::charset]].
+     * @var string the XML encoding.
      */
     private string $encoding = 'UTF-8';
 
@@ -25,5 +25,10 @@ final class HtmlResponseFormatter implements ResponseFormatterInterface
         $response->getBody()->write($data);
 
         return $response->withHeader('Content-Type', $this->contentType . '; charset=' . $this->encoding);
+    }
+
+    public function setEncoding(string $encoding): void
+    {
+        $this->encoding = $encoding;
     }
 }
