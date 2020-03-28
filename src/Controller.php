@@ -2,11 +2,8 @@
 
 namespace App;
 
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Factory\Factory;
-use Yiisoft\Factory\FactoryInterface;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;

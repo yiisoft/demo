@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
-use App\DeferredResponse;
 use App\DeferredResponseFactory;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Factory\Factory;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiUserController

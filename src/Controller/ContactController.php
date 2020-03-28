@@ -10,7 +10,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Factory\Factory;
 use Yiisoft\Http\Method;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\View\WebView;
