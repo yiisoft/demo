@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Controller;
-use App\DeferredResponseFactory;
 use App\Parameters;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -22,7 +22,7 @@ class ContactController extends Controller
     private Parameters $parameters;
 
     public function __construct(
-        DeferredResponseFactory $responseFactory,
+        ResponseFactoryInterface $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
