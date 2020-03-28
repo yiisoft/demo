@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller;
+use App\DeferredResponseFactory;
 use App\Parameters;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,7 +23,7 @@ class ContactController extends Controller
     private Parameters $parameters;
 
     public function __construct(
-        Factory $factory,
+        DeferredResponseFactory $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
@@ -32,7 +33,7 @@ class ContactController extends Controller
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        parent::__construct($factory, $user, $aliases, $view);
+        parent::__construct($responseFactory, $user, $aliases, $view);
         $this->parameters = $parameters;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Factory\Factory;
@@ -12,7 +13,7 @@ use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected FactoryInterface $factory;
+    protected DeferredResponseFactory $responseFactory;
     protected User $user;
 
     private Aliases $aliases;
@@ -20,12 +21,12 @@ abstract class Controller implements ViewContextInterface
     private string $layout;
 
     public function __construct(
-        Factory $factory,
+        DeferredResponseFactory $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view
     ) {
-        $this->factory = $factory;
+        $this->responseFactory = $responseFactory;
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
@@ -39,7 +40,7 @@ abstract class Controller implements ViewContextInterface
             return $controller->renderContent($controller->view->render($view, $parameters, $controller));
         };
 
-        return $this->factory->create(DeferredResponse::class, [$contentRenderer]);
+        return $this->responseFactory->createResponse()->withData($contentRenderer);
     }
 
     private function renderContent($content): string
