@@ -20,7 +20,7 @@ class ResponseFormatter implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        if ($response instanceof DeferredResponse && !$response->hasResponseFormatter()) {
+        if ($response instanceof Response && !$response->hasResponseFormatter()) {
             $response = $this->responseFormatter->format($response);
         }
 

@@ -18,7 +18,7 @@ final class HtmlResponseFormatter implements ResponseFormatterInterface
      */
     private string $encoding = 'UTF-8';
 
-    public function format(DeferredResponse $deferredResponse): ResponseInterface
+    public function format(Response $deferredResponse): ResponseInterface
     {
         $data = $deferredResponse->getData();
         $response = $deferredResponse->getResponse();

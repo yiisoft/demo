@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DeferredResponseFactory;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\ResponseFactory;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
@@ -12,9 +13,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class ApiUserController
 {
-    private DeferredResponseFactory $responseFactory;
+    private ResponseFactory $responseFactory;
 
-    public function __construct(DeferredResponseFactory $responseFactory)
+    public function __construct(ResponseFactory $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }
@@ -32,7 +33,7 @@ class ApiUserController
             $items[] = ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')];
         }
 
-        return $this->responseFactory->createResponse()->withData($items);
+        return $this->responseFactory->createResponse(200, '', $items);
     }
 
     public function profile(Request $request, ORMInterface $orm): ResponseInterface
@@ -47,7 +48,9 @@ class ApiUserController
             return $this->responseFactory->createResponse(404, '', ['error' => 'Page not found'])->withStatus(404);
         }
 
-        return $this->responseFactory->createResponse()->withData(
+        return $this->responseFactory->createResponse(
+            200,
+            '',
             ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')]
         );
     }

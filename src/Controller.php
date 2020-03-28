@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
@@ -11,7 +10,7 @@ use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected ResponseFactoryInterface $responseFactory;
+    protected ResponseFactory $responseFactory;
     protected User $user;
 
     private Aliases $aliases;
@@ -19,7 +18,7 @@ abstract class Controller implements ViewContextInterface
     private string $layout;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
+        ResponseFactory $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view
@@ -38,7 +37,7 @@ abstract class Controller implements ViewContextInterface
             return $controller->renderContent($controller->view->render($view, $parameters, $controller));
         };
 
-        return $this->responseFactory->createResponse()->withData($contentRenderer);
+        return $this->responseFactory->createResponse(200, '', $contentRenderer);
     }
 
     private function renderContent($content): string

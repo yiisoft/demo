@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
-class DeferredResponse implements ResponseInterface
+class Response implements ResponseInterface
 {
     private ResponseInterface $response;
 

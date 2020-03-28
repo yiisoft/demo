@@ -49,7 +49,7 @@ class XmlResponseFormatter implements ResponseFormatterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function format(DeferredResponse $deferredResponse): ResponseInterface
+    public function format(Response $deferredResponse): ResponseInterface
     {
         $content = '';
         $data = $deferredResponse->getData();

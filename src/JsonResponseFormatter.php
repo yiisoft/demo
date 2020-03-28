@@ -27,7 +27,7 @@ final class JsonResponseFormatter implements ResponseFormatterInterface
         $this->streamFactory = $streamFactory;
     }
 
-    public function format(DeferredResponse $deferredResponse): ResponseInterface
+    public function format(Response $deferredResponse): ResponseInterface
     {
         $content = $this->jsonSerializer->serialize($deferredResponse->getData());
         $response = $deferredResponse->getResponse();

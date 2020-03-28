@@ -6,5 +6,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface ResponseFormatterInterface
 {
-    public function format(DeferredResponse $response): ResponseInterface;
+    public function format(Response $response): ResponseInterface;
 }

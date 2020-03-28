@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller;
 use App\Parameters;
-use Psr\Http\Message\ResponseFactoryInterface;
+use App\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -22,7 +22,7 @@ class ContactController extends Controller
     private Parameters $parameters;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
+        ResponseFactory $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
