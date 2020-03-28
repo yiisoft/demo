@@ -35,7 +35,7 @@ class UserController extends Controller
         return $this->render('index', ['paginator' => $paginator]);
     }
 
-    public function profile(Request $request, ORMInterface $orm, ResponseFactoryInterface $responseFactory): Response
+    public function profile(Request $request, ORMInterface $orm): Response
     {
         /** @var UserRepository $userRepo */
         $userRepo = $orm->getRepository(User::class);
@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $item = $userRepo->findByLogin($login);
         if ($item === null) {
-            return $responseFactory->createResponse(404);
+            return $this->responseFactory->createResponse(404);
         }
 
         return $this->render('profile', ['item' => $item]);

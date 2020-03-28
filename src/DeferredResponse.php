@@ -32,6 +32,10 @@ class DeferredResponse implements ResponseInterface
             return $this->dataStream;
         }
 
+        if ($this->data === null) {
+            return $this->dataStream = $this->streamFactory->createStream();
+        }
+
         if ($this->responseFormatter !== null) {
             $this->response = $this->responseFormatter->format($this);
             return $this->dataStream = $this->response->getBody();
@@ -40,10 +44,6 @@ class DeferredResponse implements ResponseInterface
         $data = $this->getData();
         if (is_string($data)) {
             return $this->dataStream = $this->streamFactory->createStream($data);
-        }
-
-        if ($data === null) {
-            return $this->dataStream = $this->streamFactory->createStream();
         }
 
         throw new \RuntimeException('Data must be a string value.');

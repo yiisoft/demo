@@ -18,7 +18,7 @@ class DeferredResponseFactory implements ResponseFactoryInterface
 
     public function createResponse(int $code = 200, string $reasonPhrase = '', $data = null): ResponseInterface
     {
-        return new DeferredResponse($data, $this->createResponseInternal(), $this->streamFactory);
+        return new DeferredResponse($data, $this->createResponseInternal($code, $reasonPhrase), $this->streamFactory);
     }
 
     private function createResponseInternal(int $code = 200, string $reasonPhrase = ''): ResponseInterface
