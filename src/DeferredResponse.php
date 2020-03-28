@@ -19,9 +19,9 @@ class DeferredResponse implements ResponseInterface
 
     private ?ResponseFormatterInterface $responseFormatter = null;
 
-    public function __construct($data, ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory)
+    public function __construct($data, ResponseInterface $response, StreamFactoryInterface $streamFactory)
     {
-        $this->response = $responseFactory->createResponse();
+        $this->response = $response;
         $this->streamFactory = $streamFactory;
         $this->data = $data;
     }

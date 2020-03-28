@@ -41,7 +41,7 @@ return [
     // PSR-17 factories:
     RequestFactoryInterface::class => Psr17Factory::class,
     ServerRequestFactoryInterface::class => Psr17Factory::class,
-    ResponseFactoryInterface::class => Psr17Factory::class,
+    ResponseFactoryInterface::class => \App\DeferredResponseFactory::class,
     StreamFactoryInterface::class => Psr17Factory::class,
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
