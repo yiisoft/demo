@@ -14,11 +14,14 @@ final class SetStreamConverter implements MiddlewareInterface
 {
     private string $converter;
     private array $params = [];
+    /** Replace existing format */
+    private bool $force;
 
-    public function __construct(string $converter, array $params = [])
+    public function __construct(string $converter, array $params = [], bool $force = false)
     {
         $this->converter = $converter;
         $this->params = $params;
+        $this->force = $force;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -26,7 +29,9 @@ final class SetStreamConverter implements MiddlewareInterface
         $response = $handler->handle($request);
         $stream = $response->getBody();
         if ($stream instanceof DataStream) {
-            $stream->setConverter($this->converter, $this->params);
+            if ($stream->getConverter() === null || $this->force) {
+                $stream->setConverter($this->converter, $this->params);
+            }
         }
         return $response;
     }

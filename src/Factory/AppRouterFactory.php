@@ -83,7 +83,6 @@ class AppRouterFactory
                             ->addMiddleware(new SetStreamConverter(XMLConverter::class))
                             ->name('blog/archive/index/xml'),
                         Route::get('/json', new ActionCaller(ArchiveController::class, 'index', $container))
-                            ->addMiddleware(new SetStreamConverter(JSONConverter::class))
                             ->name('blog/archive/index/json'),
                     ]),
                     // Yearly page
@@ -92,7 +91,7 @@ class AppRouterFactory
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
                         ->name('blog/archive/month')
-                ]),
+                ])->addMiddleware(new SetStreamConverter(JSONConverter::class)),
             ]),
         ];
 
