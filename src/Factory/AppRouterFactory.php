@@ -17,6 +17,8 @@ use App\ResponseFormatter;
 use App\DeferredResponseFormatter;
 use App\XmlResponseFormatter;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
@@ -57,9 +59,22 @@ class AppRouterFactory
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-                    ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class)))
+                    ->addMiddleware(new DeferredResponseFormatter($container->get(JsonResponseFormatter::class)))
                     ->name('api/user/profile'),
-            ])->addMiddleware(new DeferredResponseFormatter($container->get(XmlResponseFormatter::class))),
+            ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
+                $response = $handler->handle($request);
+                $data = $response->getData();
+                if ($response->getStatusCode() !== 200) {
+                    if (isset($data['error'])) {
+                        $message = $data['error'];
+                    } else {
+                        $message = 'Unknown error';
+                    }
+                    return $response->withData(['status' => 'failed', 'message' => $message]);
+                }
+
+                return $response->withData(['status' => 'success', 'data' => $data]);
+            })->addMiddleware(new DeferredResponseFormatter($container->get(XmlResponseFormatter::class))),
 
             // Blog routes
             Group::create('/blog', [
