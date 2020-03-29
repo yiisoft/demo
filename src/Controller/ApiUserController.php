@@ -45,7 +45,7 @@ class ApiUserController
         /** @var User $user */
         $user = $userRepository->findByLogin($login);
         if ($user === null) {
-            return $this->responseFactory->createResponse(404, '', ['error' => 'Page not found'])->withStatus(404);
+            return $this->responseFactory->createResponse(404, '', 'Page not found')->withStatus(404);
         }
 
         return $this->responseFactory->createResponse(

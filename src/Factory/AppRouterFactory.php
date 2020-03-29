@@ -65,12 +65,14 @@ class AppRouterFactory
                 $response = $handler->handle($request);
                 $data = $response->getData();
                 if ($response->getStatusCode() !== 200) {
-                    if (isset($data['error'])) {
-                        $message = $data['error'];
+                    if (!empty($data)) {
+                        $message = $data;
                     } else {
                         $message = 'Unknown error';
                     }
-                    return $response->withData(['status' => 'failed', 'message' => $message]);
+                    return $response->withData(
+                        ['status' => 'failed',
+                        'error' => ['message' => $message, 'status' => $response->getStatusCode()]]);
                 }
 
                 return $response->withData(['status' => 'success', 'data' => $data]);
