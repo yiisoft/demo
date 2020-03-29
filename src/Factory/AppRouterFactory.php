@@ -37,11 +37,11 @@ class AppRouterFactory
             Route::get('/', [SiteController::class, 'index'])
                 ->name('site/index'),
             Route::methods([Method::GET, Method::POST], '/contact', [ContactController::class, 'contact'])
-                 ->name('site/contact'),
+                ->name('site/contact'),
             Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
-                 ->name('site/login'),
+                ->name('site/login'),
             Route::get('/logout', [AuthController::class, 'logout'])
-                 ->name('site/logout'),
+                ->name('site/logout'),
 
             // User
             Group::create('/user', [
@@ -50,14 +50,14 @@ class AppRouterFactory
                     ->name('user/index'),
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
-                     ->name('user/profile'),
+                    ->name('user/profile'),
             ]),
 
             // User
             Group::create('/api', [
                 Route::get('/info/v1', function (ResponseFactory $responseFactory) {
                     return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiiliveext']);
-                }),
+                })->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class))),
                 Route::get('/info/v2', ApiInfo::class)
                     ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class))),
                 Route::get('/user', [ApiUserController::class, 'index'])
@@ -75,9 +75,10 @@ class AppRouterFactory
                         } else {
                             $message = 'Unknown error';
                         }
-                        return $response->withData(
-                            ['status' => 'failed',
-                                'error' => ['message' => $message, 'status' => $response->getStatusCode()]]);
+                        return $response->withData([
+                                'status' => 'failed',
+                                'error' => ['message' => $message, 'status' => $response->getStatusCode()],
+                            ]);
                     }
                     return $response->withData(['status' => 'success', 'data' => $data]);
                 }
@@ -89,29 +90,29 @@ class AppRouterFactory
             Group::create('/blog', [
                 // Index
                 Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
-                     ->name('blog/index'),
+                    ->name('blog/index'),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
-                     ->name('blog/post'),
+                    ->name('blog/post'),
                 // Tag page
                 Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
-                     ->name('blog/tag'),
+                    ->name('blog/tag'),
                 // Archive
                 Group::create('/blog', [
                     // Index page
                     Route::get('', [ArchiveController::class, 'index'])
-                         ->name('blog/archive/index'),
+                        ->name('blog/archive/index'),
                     // Yearly page
                     Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
-                         ->name('blog/archive/year'),
+                        ->name('blog/archive/year'),
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                         ->name('blog/archive/month')
+                        ->name('blog/archive/month')
                 ]),
             ]),
         ];
 
-        $collector =  $container->get(RouteCollectorInterface::class);
+        $collector = $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
                 ->addMiddleware($container->get(DeferredResponseFormatter::class))
