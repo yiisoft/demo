@@ -12,6 +12,7 @@ use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\JsonResponseFormatter;
+use App\ResponseFactory;
 use App\ResponseFormatter;
 use App\DeferredResponseFormatter;
 use App\XmlResponseFormatter;
@@ -50,6 +51,9 @@ class AppRouterFactory
 
             // User
             Group::create('/api', [
+                Route::get('/info', function (ResponseFactory $responseFactory) {
+                    return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiiliveext']);
+                }),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
