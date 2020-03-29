@@ -10,6 +10,22 @@ use Yiisoft\Html\Html;
 
 ?>
 <h1>Archive</h1>
+
+<?= Html::a(
+    'print_r()',
+    $urlGenerator->generate('blog/archive/index/print_r'),
+    ['class' => 'btn btn-link']
+) ?>
+<?= Html::a(
+    'XML',
+    $urlGenerator->generate('blog/archive/index/xml'),
+    ['class' => 'btn btn-link']
+) ?>
+<?= Html::a(
+    'JSON',
+    $urlGenerator->generate('blog/archive/index/json'),
+    ['class' => 'btn btn-link']
+) ?>
 <div class="row">
     <div class="col-sm-12">
         <?php
@@ -20,7 +36,7 @@ use Yiisoft\Html\Html;
         );
         $sectionEnd = Html::endTag('li');
         if (count($archive)) {
-            foreach ($archive->read() as $item) {
+            foreach ($archive as $item) {
                 $year = $item['year'];
                 $month = $item['month'];
                 $count = $item['count'];

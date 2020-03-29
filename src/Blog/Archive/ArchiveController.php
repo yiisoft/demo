@@ -20,9 +20,10 @@ final class ArchiveController extends Controller
         return 'blog/archive';
     }
 
-    public function index(ArchiveRepository $archiveRepo): Response
+    public function index(ArchiveRepository $archiveRepo)
     {
-        return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
+        return ['archive' => $archiveRepo->getFullArchive()->read()];
+        // return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 
     public function monthlyArchive(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response

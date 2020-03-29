@@ -10,6 +10,12 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\Middleware\ActionCaller;
+use App\Middleware\SetStreamConverter;
+use App\Stream\Data\JSONConverter;
+use App\Stream\Data\MyWebViewConverter;
+use App\Stream\Data\PrintRConverter;
+use App\Stream\Data\XMLConverter;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
@@ -27,44 +33,65 @@ class AppRouterFactory
             Route::get('/', [SiteController::class, 'index'])
                 ->name('site/index'),
             Route::methods([Method::GET, Method::POST], '/contact', [ContactController::class, 'contact'])
-                 ->name('site/contact'),
+                ->name('site/contact'),
             Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
-                 ->name('site/login'),
+                ->name('site/login'),
             Route::get('/logout', [AuthController::class, 'logout'])
-                 ->name('site/logout'),
+                ->name('site/logout'),
 
             // User
             Group::create('/user', [
                 // Index
                 Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
-                     ->name('user/index'),
+                    ->name('user/index'),
                 // Profile page
                 Route::get('/{login}', [UserController::class, 'profile'])
-                     ->name('user/profile'),
+                    ->name('user/profile'),
             ]),
 
             // Blog routes
             Group::create('/blog', [
                 // Index
                 Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
-                     ->name('blog/index'),
+                    ->name('blog/index'),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
-                     ->name('blog/post'),
+                    ->name('blog/post'),
                 // Tag page
                 Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
-                     ->name('blog/tag'),
+                    ->name('blog/tag'),
                 // Archive
-                Group::create('/blog', [
+                Group::create('/archive', [
                     // Index page
-                    Route::get('', [ArchiveController::class, 'index'])
-                         ->name('blog/archive/index'),
+                    Group::create('', [
+                        Route::get('', new ActionCaller(ArchiveController::class, 'index', $container))
+                            ->addMiddleware(
+                                new SetStreamConverter(
+                                    MyWebViewConverter::class,
+                                    [
+                                        'viewPath' => '@views/blog/archive',
+                                        'view' => 'index',
+                                        'layout' => '@views/layout/main.php',
+                                    ]
+                                )
+                            )
+                            ->name('blog/archive/index'),
+                        Route::get('/print_r', new ActionCaller(ArchiveController::class, 'index', $container))
+                            ->addMiddleware(new SetStreamConverter(PrintRConverter::class))
+                            ->name('blog/archive/index/print_r'),
+                        Route::get('/xml', new ActionCaller(ArchiveController::class, 'index', $container))
+                            ->addMiddleware(new SetStreamConverter(XMLConverter::class))
+                            ->name('blog/archive/index/xml'),
+                        Route::get('/json', new ActionCaller(ArchiveController::class, 'index', $container))
+                            ->addMiddleware(new SetStreamConverter(JSONConverter::class))
+                            ->name('blog/archive/index/json'),
+                    ]),
                     // Yearly page
                     Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
-                         ->name('blog/archive/year'),
+                        ->name('blog/archive/year'),
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                         ->name('blog/archive/month')
+                        ->name('blog/archive/month')
                 ]),
             ]),
         ];

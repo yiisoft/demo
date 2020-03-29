@@ -19,9 +19,11 @@ final class MiddlewareDispatcherFactory
         $router = $container->get(Router::class);
         $errorCatcher = $container->get(ErrorCatcher::class);
         $subFolder = $container->get(SubFolder::class);
+        $renderResponse = $container->get(\App\Middleware\RenderDataStream::class);
 
         return (new MiddlewareDispatcher($container))
             ->addMiddleware($router)
+            ->addMiddleware($renderResponse)
             ->addMiddleware($subFolder)
             ->addMiddleware($session)
             ->addMiddleware($csrf)
