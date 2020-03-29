@@ -12,12 +12,12 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use Yiisoft\Yii\Web\Formatter\JsonResponseFormatter;
-use Yiisoft\Yii\Web\Formatter\XmlResponseFormatter;
 use Yiisoft\Yii\Web\Response;
 use Yiisoft\Yii\Web\ResponseFactory;
-use Yiisoft\Yii\Web\Middleware\ResponseFormatter;
 use Yiisoft\Yii\Web\Middleware\DeferredResponseFormatter;
+use Yiisoft\Yii\Web\Middleware\JsonResponseFormatter;
+use Yiisoft\Yii\Web\Middleware\DeferredXmlResponseFormatter;
+use Yiisoft\Yii\Web\Middleware\DeferredJsonResponseFormatter;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -56,21 +56,21 @@ class AppRouterFactory
             // User
             Group::create('/api', [
                 Route::get('/info/v1', function (ResponseFactory $responseFactory) {
-                    return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiiliveext']);
-                })->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class))),
+                    return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiisoft']);
+                })->addMiddleware(JsonResponseFormatter::class),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware(new ResponseFormatter($container->get(JsonResponseFormatter::class))),
+                    ->addMiddleware(JsonResponseFormatter::class),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-                    ->addMiddleware(new DeferredResponseFormatter($container->get(JsonResponseFormatter::class)))
+                    ->addMiddleware(DeferredJsonResponseFormatter::class)
                     ->name('api/user/profile'),
             ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
                 $response = $handler->handle($request);
                 if ($response instanceof Response) {
                     $data = $response->getData();
                     if ($response->getStatusCode() !== 200) {
-                        if (!empty($data)) {
+                        if (is_string($data) && !empty($data)) {
                             $message = $data;
                         } else {
                             $message = 'Unknown error';
@@ -84,7 +84,7 @@ class AppRouterFactory
                 }
 
                 return $response;
-            })->addMiddleware(new DeferredResponseFormatter($container->get(XmlResponseFormatter::class))),
+            })->addMiddleware(DeferredXmlResponseFormatter::class),
 
             // Blog routes
             Group::create('/blog', [
@@ -115,7 +115,7 @@ class AppRouterFactory
         $collector = $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
-                ->addMiddleware($container->get(DeferredResponseFormatter::class))
+                ->addMiddleware(DeferredResponseFormatter::class)
         );
 
         return new UrlMatcher(new RouteCollection($collector));
