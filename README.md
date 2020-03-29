@@ -18,11 +18,12 @@ It's intended to show and test all Yii features.
 
 1. Clone this repository.
 2. Configure `config/params.php`. You can skip this step.
-3. Run `./vendor/bin/yii serve` or start your web-server setting up `public` directory as webroot.
-4. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
+3. Run `composer install`in your directory root folder.
+4. Run `./vendor/bin/yii serve` or start your web-server setting up `public` directory as webroot.
+5. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
   If you want to disable this behavior then comment out line with `Generator\SyncTables::class` in the `config/params.php`.
   In this case you should create migrations to sync changes of entities with DB.
- 5. Run `./vendor/bin/yii fixture/add 20` to create some random data.
+ 6. Run `./vendor/bin/yii fixture/add 20` to create some random data.
 
 ## Console
 
