@@ -17,5 +17,5 @@ interface Converter
      * @return ResponseInterface|ServerRequestInterface|RequestInterface
      */
     public function setHeaders(MessageInterface $message): MessageInterface;
-    public function convert($data, array $params = []) : string;
+    public function convert($data, array $params = []): string;
 }

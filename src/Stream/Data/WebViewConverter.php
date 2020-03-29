@@ -27,7 +27,7 @@ class WebViewConverter implements Converter, \Yiisoft\View\ViewContextInterface
     {
         return $message->withHeader('Content-Type', self::getFormat());
     }
-    public function convert($data, array $params = []) : string
+    public function convert($data, array $params = []): string
     {
         if (!array_key_exists('view', $params)) {
             throw new \InvalidArgumentException('View should be defined in the params array');

@@ -16,7 +16,7 @@ class PrintRConverter implements Converter
     {
         return $message->withHeader('Content-Type', 'text/print_r');
     }
-    public function convert($data, array $params = []) : string
+    public function convert($data, array $params = []): string
     {
         return print_r($data, true);
     }

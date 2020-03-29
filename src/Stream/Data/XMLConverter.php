@@ -16,7 +16,7 @@ class XMLConverter implements Converter
     {
         return $message->withHeader('Content-Type', static::getFormat());
     }
-    public function convert($data, array $params = []) : string
+    public function convert($data, array $params = []): string
     {
         return $this->xml_encode($data);
     }

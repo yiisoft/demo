@@ -42,4 +42,6 @@ return [
     ],
     MailerInterface::class => new MailerFactory(),
     Timer::class => $timer,
+
+    \Cycle\ORM\SchemaInterface::class => new \Yiisoft\Yii\Cycle\Factory\SchemaFromFileFactory('@runtime/schema.php'),
 ];

@@ -38,7 +38,9 @@ return [
         'default' => 'default',
         'aliases' => [],
         'databases' => [
-            'default' => ['connection' => 'sqlite'],
+            // 'default' => ['connection' => 'sqlite'],
+            'default' => ['connection' => 'mysql'],
+            // 'file' => ['connection' => 'sqlite']
         ],
         'connections' => [
             'sqlite' => [
@@ -47,6 +49,12 @@ return [
                 'username' => '',
                 'password' => '',
             ],
+            'mysql' => [
+                'driver' => \Spiral\Database\Driver\MySQL\MySQLDriver::class,
+                'connection' => 'mysql:host=127.0.0.1;dbname=ruletka_test',
+                'username' => 'ruletka_test',
+                'password' => 'ruletka_test',
+            ]
         ],
     ],
     // cycle common config
