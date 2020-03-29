@@ -1,7 +1,7 @@
 <?php
 
-use App\ResponseFormatterInterface;
-use App\HtmlResponseFormatter;
+use Yiisoft\Yii\Web\Formatter\ResponseFormatterInterface;
+use Yiisoft\Yii\Web\Formatter\HtmlResponseFormatter;
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;

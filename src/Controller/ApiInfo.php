@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\ResponseFactory;
+use Yiisoft\Yii\Web\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

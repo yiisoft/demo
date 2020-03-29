@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\DeferredResponseFactory;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\ResponseFactory;
 use Cycle\ORM\ORMInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
-use Psr\Http\Message\ResponseInterface;
+use Yiisoft\Yii\Web\ResponseFactory;
 
 class ApiUserController
 {
