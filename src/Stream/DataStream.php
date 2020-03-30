@@ -152,6 +152,10 @@ final class DataStream implements StreamInterface
         return $meta[$key] ?? null;
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
     public function render(Converter $converter): void
     {
         $this->buffer = $converter->convert($this->data, $this->converterParams);

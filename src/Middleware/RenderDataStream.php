@@ -34,10 +34,11 @@ final class RenderDataStream implements MiddlewareInterface
             # todo: get most relevant format from header
             $converterClass = PrintRConverter::class;
         }
+
         /** @var Converter $converter */
         $converter = $this->container->get($converterClass);
         $stream->render($converter);
 
-        return $converter->setHeaders($response);
+        return $response->withHeader('Content-Type', $converter::getFormat());
     }
 }

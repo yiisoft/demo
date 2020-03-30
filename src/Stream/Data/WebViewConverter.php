@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Stream\Data;
 
-use Psr\Http\Message\MessageInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\WebView;
 
@@ -22,10 +21,6 @@ class WebViewConverter implements Converter, \Yiisoft\View\ViewContextInterface
     public static function getFormat(): string
     {
         return 'text/html';
-    }
-    public function setHeaders(MessageInterface $message): MessageInterface
-    {
-        return $message->withHeader('Content-Type', self::getFormat());
     }
     public function convert($data, array $params = []): string
     {
