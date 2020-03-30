@@ -40,6 +40,10 @@ final class RenderDataStream implements MiddlewareInterface
 
         $response = $response->withBody($this->convertData($data, $converter));
 
+        if ($data->getCode() !== null) {
+            $response = $response->withStatus($data->getCode());
+        }
+
         return $this->addHeaders($response->withHeader('Content-Type', $converter::getFormat()), $data->getHeaders());
     }
 

@@ -65,6 +65,7 @@ final class ArchiveController extends Controller
     public function custom()
     {
         return (new DataResponseProvider(['hello', 'world']))
-            ->setHeaders(['My-Name' => 'Trololosha']);
+            ->setHeaders(['My-Name' => 'Trololosha'])
+            ->setCode(500);
     }
 }
