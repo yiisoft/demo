@@ -65,16 +65,7 @@ class AppRouterFactory
                     // Index page
                     Group::create('', [
                         Route::get('', new ActionCaller(ArchiveController::class, 'index', $container))
-                            ->addMiddleware(
-                                new SetFormat(
-                                    MyWebViewConverter::class,
-                                    [
-                                        'viewPath' => '@views/blog/archive',
-                                        'view' => 'index',
-                                        'layout' => '@views/layout/main.php',
-                                    ]
-                                )
-                            )
+                            ->addMiddleware(new SetFormat(MyWebViewConverter::class, null))
                             ->name('blog/archive/index'),
                         Route::get('/print_r', new ActionCaller(ArchiveController::class, 'index', $container))
                             ->addMiddleware(new SetFormat(PrintRConverter::class))

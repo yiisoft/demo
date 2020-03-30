@@ -23,7 +23,13 @@ final class ArchiveController extends Controller
 
     public function index(ArchiveRepository $archiveRepo)
     {
-        return ['archive' => $archiveRepo->getFullArchive()->read()];
+        return (new DataResponseProvider(['archive' => $archiveRepo->getFullArchive()->read()]))
+            ->setHeaders(['X-Action' => __METHOD__])
+            ->setFormat(null, [
+                'viewPath' => $this->getViewPath(),
+                'view'     => 'index',
+                'layout'   => '@views/layout/main.php',
+            ]);
         // return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 

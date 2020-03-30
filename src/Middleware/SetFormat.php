@@ -13,11 +13,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class SetFormat implements MiddlewareInterface
 {
     private string $converter;
-    private array $params = [];
+    private ?array $params;
     /** Replace existing format */
     private bool $force;
 
-    public function __construct(string $converter, array $params = [], bool $force = false)
+    public function __construct(string $converter, ?array $params = [], bool $force = false)
     {
         $this->converter = $converter;
         $this->params = $params;
