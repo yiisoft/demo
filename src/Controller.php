@@ -8,10 +8,11 @@ use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
 use Yiisoft\Yii\Web\ResponseFactory;
+use Yiisoft\Yii\Web\WebResponseFactoryInterface;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected ResponseFactory $responseFactory;
+    protected WebResponseFactoryInterface $responseFactory;
     protected User $user;
 
     private Aliases $aliases;
@@ -19,7 +20,7 @@ abstract class Controller implements ViewContextInterface
     private string $layout;
 
     public function __construct(
-        ResponseFactory $responseFactory,
+        WebResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view

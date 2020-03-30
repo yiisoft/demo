@@ -9,13 +9,13 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Web\ResponseFactory;
+use Yiisoft\Yii\Web\WebResponseFactoryInterface;
 
 class ApiUserController
 {
-    private ResponseFactory $responseFactory;
+    private WebResponseFactoryInterface $responseFactory;
 
-    public function __construct(ResponseFactory $responseFactory)
+    public function __construct(WebResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }

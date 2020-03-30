@@ -13,7 +13,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
-use Yiisoft\Yii\Web\ResponseFactory;
+use Yiisoft\Yii\Web\WebResponseFactoryInterface;
 
 class ContactController extends Controller
 {
@@ -22,7 +22,7 @@ class ContactController extends Controller
     private Parameters $parameters;
 
     public function __construct(
-        ResponseFactory $responseFactory,
+        WebResponseFactoryInterface $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,

@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use Yiisoft\Yii\Web\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Yii\Web\WebResponseFactoryInterface;
 
 class ApiInfo implements MiddlewareInterface
 {
-    private ResponseFactory $responseFactory;
+    private WebResponseFactoryInterface $responseFactory;
 
-    public function __construct(ResponseFactory $responseFactory)
+    public function __construct(WebResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }

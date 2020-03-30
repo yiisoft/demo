@@ -16,10 +16,20 @@ $pagination = OffsetPagination::widget()
 echo Html::tag('h1', 'Users');
 echo Html::tag('p', 'Total users: ' . $paginator->getTotalItems(), ['class' => 'text-muted']);
 echo Html::a(
+    'API v1 Info',
+    $urlGenerator->generate('api/info/v1'),
+    ['class' => 'btn btn-link']
+), '<br>';
+echo Html::a(
+    'API v2 Info',
+    $urlGenerator->generate('api/info/v2'),
+    ['class' => 'btn btn-link']
+), '<br>';
+echo Html::a(
     'API Users List Data',
     $urlGenerator->generate('api/user/index'),
     ['class' => 'btn btn-link']
-);
+), '<br>';
 ?>
 <table class="table table-hover">
     <thead>

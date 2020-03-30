@@ -12,8 +12,7 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use Yiisoft\Yii\Web\Response;
-use Yiisoft\Yii\Web\ResponseFactory;
+use Yiisoft\Yii\Web\WebResponse;
 use Yiisoft\Yii\Web\Middleware\DeferredResponseFormatter;
 use Yiisoft\Yii\Web\Middleware\JsonResponseFormatter;
 use Yiisoft\Yii\Web\Middleware\DeferredXmlResponseFormatter;
@@ -27,6 +26,7 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Yii\Web\WebResponseFactoryInterface;
 
 class AppRouterFactory
 {
@@ -55,11 +55,11 @@ class AppRouterFactory
 
             // User
             Group::create('/api', [
-                Route::get('/info/v1', function (ResponseFactory $responseFactory) {
+                Route::get('/info/v1', function (WebResponseFactoryInterface $responseFactory) {
                     return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiisoft']);
-                })->addMiddleware(JsonResponseFormatter::class),
+                })->addMiddleware(JsonResponseFormatter::class)->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware(JsonResponseFormatter::class),
+                    ->addMiddleware(JsonResponseFormatter::class)->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
@@ -67,7 +67,7 @@ class AppRouterFactory
                     ->name('api/user/profile'),
             ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
                 $response = $handler->handle($request);
-                if ($response instanceof Response) {
+                if ($response instanceof WebResponse) {
                     $data = $response->getData();
                     if ($response->getStatusCode() !== 200) {
                         if (is_string($data) && !empty($data)) {
