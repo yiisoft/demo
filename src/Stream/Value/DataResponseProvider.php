@@ -16,7 +16,7 @@ class DataResponseProvider
         $this->data = $data;
         $this->format = $format;
     }
-    public function getCode(): int
+    public function getCode(): ?int
     {
         return $this->code;
     }
