@@ -26,6 +26,11 @@ use Yiisoft\Html\Html;
     $urlGenerator->generate('blog/archive/index/json'),
     ['class' => 'btn btn-link']
 ) ?>
+<?= Html::a(
+    'Custom',
+    $urlGenerator->generate('blog/archive/index/custom'),
+    ['class' => 'btn btn-link']
+) ?>
 <div class="row">
     <div class="col-sm-12">
         <?php

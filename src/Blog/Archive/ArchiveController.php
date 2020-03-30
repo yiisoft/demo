@@ -5,6 +5,7 @@ namespace App\Blog\Archive;
 use App\Controller;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
+use App\Stream\Value\DataResponseProvider;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -59,5 +60,11 @@ final class ArchiveController extends Controller
             'items' => $archiveRepo->getYearlyArchive($year),
         ];
         return $this->render('yearly-archive', $data);
+    }
+
+    public function custom()
+    {
+        return (new DataResponseProvider(['hello', 'world']))
+            ->setHeaders(['My-Name' => 'Trololosha']);
     }
 }

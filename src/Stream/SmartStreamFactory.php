@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use App\Stream\Value\DataResponseProvider;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -30,10 +31,9 @@ final class SmartStreamFactory
         if ($data instanceof \Generator) {
             return new \App\Stream\GeneratorStream($data);
         }
-        if (is_array($data) || is_object($data)) {
+        if ($data instanceof DataResponseProvider) {
             return new \App\Stream\DataStream($data);
         }
-
-        throw new \InvalidArgumentException('Unsupported data type');
+        return new \App\Stream\DataStream(new DataResponseProvider($data));
     }
 }

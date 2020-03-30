@@ -11,7 +11,7 @@ use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\Middleware\ActionCaller;
-use App\Middleware\SetStreamConverter;
+use App\Middleware\SetFormat;
 use App\Stream\Data\JSONConverter;
 use App\Stream\Data\MyWebViewConverter;
 use App\Stream\Data\PrintRConverter;
@@ -66,7 +66,7 @@ class AppRouterFactory
                     Group::create('', [
                         Route::get('', new ActionCaller(ArchiveController::class, 'index', $container))
                             ->addMiddleware(
-                                new SetStreamConverter(
+                                new SetFormat(
                                     MyWebViewConverter::class,
                                     [
                                         'viewPath' => '@views/blog/archive',
@@ -77,13 +77,15 @@ class AppRouterFactory
                             )
                             ->name('blog/archive/index'),
                         Route::get('/print_r', new ActionCaller(ArchiveController::class, 'index', $container))
-                            ->addMiddleware(new SetStreamConverter(PrintRConverter::class))
+                            ->addMiddleware(new SetFormat(PrintRConverter::class))
                             ->name('blog/archive/index/print_r'),
                         Route::get('/xml', new ActionCaller(ArchiveController::class, 'index', $container))
-                            ->addMiddleware(new SetStreamConverter(XMLConverter::class))
+                            ->addMiddleware(new SetFormat(XMLConverter::class))
                             ->name('blog/archive/index/xml'),
                         Route::get('/json', new ActionCaller(ArchiveController::class, 'index', $container))
                             ->name('blog/archive/index/json'),
+                        Route::get('/custom', new ActionCaller(ArchiveController::class, 'custom', $container))
+                            ->name('blog/archive/index/custom'),
                     ]),
                     // Yearly page
                     Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
@@ -91,7 +93,7 @@ class AppRouterFactory
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
                         ->name('blog/archive/month')
-                ])->addMiddleware(new SetStreamConverter(JSONConverter::class)),
+                ])->addMiddleware(new SetFormat(JSONConverter::class)),
             ]),
         ];
 

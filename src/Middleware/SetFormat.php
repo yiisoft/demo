@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class SetStreamConverter implements MiddlewareInterface
+final class SetFormat implements MiddlewareInterface
 {
     private string $converter;
     private array $params = [];
@@ -29,8 +29,8 @@ final class SetStreamConverter implements MiddlewareInterface
         $response = $handler->handle($request);
         $stream = $response->getBody();
         if ($stream instanceof DataStream) {
-            if ($stream->getConverter() === null || $this->force) {
-                $stream->setConverter($this->converter, $this->params);
+            if ($stream->getData()->getFormat() === null || $this->force) {
+                $stream->getData()->setFormat($this->converter, $this->params);
             }
         }
         return $response;
