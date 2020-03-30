@@ -6,10 +6,6 @@ namespace App\Stream\Data;
 
 class XMLConverter implements Converter
 {
-    public static function getFormat(): string
-    {
-        return 'text/xml';
-    }
     public function convert($data, array $params = []): string
     {
         return $this->xml_encode($data);

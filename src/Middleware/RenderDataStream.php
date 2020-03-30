@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Stream\Data\Converter;
-use App\Stream\Data\PrintRConverter;
 use App\Stream\DataStream;
 use App\Stream\Value\DataResponseProvider;
 use Psr\Container\ContainerInterface;
@@ -18,6 +17,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class RenderDataStream implements MiddlewareInterface
 {
+    public string $defaultFormat = 'text/html';
+    public array $converters = [];
+
     private ContainerInterface $container;
     private StreamFactoryInterface $streamFactory;
 
@@ -36,7 +38,14 @@ final class RenderDataStream implements MiddlewareInterface
         }
 
         $data = $stream->getData();
-        $converter = $this->getConverter($data->getFormat(), $request);
+        $format = $data->getFormat() ?? $this->getRelevantType($request);
+
+        if (!array_key_exists($format, $this->converters)) {
+            dd($this->converters);
+            throw new \Exception('Undefined format ' . $format);
+        }
+
+        $converter = $this->getConverter($this->converters[$format]);
 
         $response = $response->withBody($this->convertData($data, $converter));
 
@@ -44,7 +53,7 @@ final class RenderDataStream implements MiddlewareInterface
             $response = $response->withStatus($data->getCode());
         }
 
-        return $this->addHeaders($response->withHeader('Content-Type', $converter::getFormat()), $data->getHeaders());
+        return $this->addHeaders($response->withHeader('Content-Type', $format), $data->getHeaders());
     }
 
     private function addHeaders(ResponseInterface $response, array $headers): ResponseInterface
@@ -59,14 +68,13 @@ final class RenderDataStream implements MiddlewareInterface
         $result = $converter->convert($data->getData(), $data->getParams());
         return $this->streamFactory->createStream($result);
     }
-
     private function getRelevantType(ServerRequestInterface $request): string
     {
         # todo
-        return PrintRConverter::class;
+        return $this->defaultFormat;
     }
-    private function getConverter(?string $format, ServerRequestInterface $request): Converter
+    private function getConverter(?string $format): Converter
     {
-        return $this->container->get($format ?? $this->getRelevantType($request));
+        return $this->container->get($format);
     }
 }

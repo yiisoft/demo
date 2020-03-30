@@ -6,10 +6,6 @@ namespace App\Stream\Data;
 
 final class JSONConverter implements Converter
 {
-    public static function getFormat(): string
-    {
-        return 'application/json';
-    }
     public function convert($data, array $params = []): string
     {
         // of course you can use JsonSerializer

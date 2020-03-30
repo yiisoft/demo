@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Stream\Data;
 
-use Psr\Http\Message\MessageInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Yii\Web\User\User;
 use Yiisoft\View\WebView;

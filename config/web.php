@@ -57,6 +57,17 @@ return [
             $params['session']['handler'] ?? null,
         ],
     ],
+    \App\Middleware\RenderDataStream::class => static function (ContainerInterface $c) {
+        $result = new \App\Middleware\RenderDataStream($c, $c->get(\Psr\Http\Message\StreamFactoryInterface::class));
+        $result->defaultFormat = 'text/html';
+        $result->converters = [
+            'text/html'        => \App\Stream\Data\MyWebViewConverter::class,
+            'text/xml'         => \App\Stream\Data\XMLConverter::class,
+            'text/plain'       => \App\Stream\Data\PrintRConverter::class,
+            'application/json' => \App\Stream\Data\JSONConverter::class,
+        ];
+        return $result;
+    },
 
     // here you can configure custom prefix of the web path
     // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
