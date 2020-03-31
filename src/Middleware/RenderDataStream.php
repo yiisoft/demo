@@ -18,10 +18,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class RenderDataStream implements MiddlewareInterface
 {
-    public string $defaultFormat = 'text/html';
-    public array $converters = [];
-    public bool $deferred = false;
-
+    private array $converters = [];
     private ContainerInterface $container;
     private StreamFactoryInterface $streamFactory;
 
@@ -29,6 +26,15 @@ final class RenderDataStream implements MiddlewareInterface
     {
         $this->container = $container;
         $this->streamFactory = $streamFactory;
+    }
+
+    public function defineConverter(string $className, string $format, string $mime = null, bool $deferred = false): self
+    {
+        if (!is_subclass_of($className, Converter::class, true)) {
+            throw new \InvalidArgumentException('Converter class should implement ' . Converter::class);
+        }
+        $this->converters[$format] = [$className, $mime, $deferred];
+        return $this;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -40,27 +46,26 @@ final class RenderDataStream implements MiddlewareInterface
         }
 
         $data = $stream->getData();
-        $format = $data->getFormat() ?? $this->getRelevantType($request);
 
-        if (!array_key_exists($format, $this->converters)) {
-            throw new \Exception('Undefined format ' . $format);
+        $format = $this->getRelevantFormat($data->getFormat(), $request);
+        [$className, $mime, $deferred] = $this->converters[$format];
+
+        /** @var Converter $converter */
+        $converter = $this->container->get($className);
+
+        $response = $response->withBody(
+            $deferred
+                ? new GeneratorStream((fn() => yield $this->convertData($data, $converter))())
+                : $this->convertData($data, $converter)
+        );
+
+        if ($mime !== null) {
+            $response = $response->withHeader('Content-Type', $mime);
         }
-
-        $converter = $this->getConverter($this->converters[$format]);
-
-        if ($this->deferred) {
-            $response = $response->withBody(
-                new GeneratorStream((fn () => yield $this->convertData($data, $converter))())
-            );
-        } else {
-            $response = $response->withBody($this->convertData($data, $converter));
-        }
-
         if ($data->getCode() !== null) {
             $response = $response->withStatus($data->getCode());
         }
-
-        return $this->addHeaders($response->withHeader('Content-Type', $format), $data->getHeaders());
+        return $this->addHeaders($response, $data->getHeaders());
     }
 
     private function addHeaders(ResponseInterface $response, array $headers): ResponseInterface
@@ -75,13 +80,16 @@ final class RenderDataStream implements MiddlewareInterface
         $result = $converter->convert($data->getData(), $data->getParams());
         return $this->streamFactory->createStream($result);
     }
-    private function getRelevantType(ServerRequestInterface $request): string
+    private function getRelevantFormat(?string $format, ServerRequestInterface $request): string
     {
-        # todo
-        return $this->defaultFormat;
-    }
-    private function getConverter(?string $format): Converter
-    {
-        return $this->container->get($format);
+        if ($format !== null) {
+            if (!array_key_exists($format, $this->converters)) {
+                throw new \RuntimeException('Undefined format ' . $format);
+            }
+            return $format;
+        }
+        # todo: get type from header
+
+        return array_key_first($this->converters);
     }
 }

@@ -61,13 +61,13 @@ class AppRouterFactory
                     // Index page
                     Group::create('', [
                         Route::get('', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
-                            ->addMiddleware([new SetFormat('text/html', null), 'process'])
+                            ->addMiddleware([new SetFormat('html', null), 'process'])
                             ->name('blog/archive/index'),
                         Route::get('/print_r', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
-                            ->addMiddleware([new SetFormat('text/plain'), 'process'])
+                            ->addMiddleware([new SetFormat('plain'), 'process'])
                             ->name('blog/archive/index/print_r'),
                         Route::get('/xml', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
-                            ->addMiddleware([new SetFormat('text/xml'), 'process'])
+                            ->addMiddleware([new SetFormat('xml'), 'process'])
                             ->name('blog/archive/index/xml'),
                         Route::get('/json', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
                             ->name('blog/archive/index/json'),
@@ -80,7 +80,7 @@ class AppRouterFactory
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
                         ->name('blog/archive/month')
-                ])->addMiddleware([new SetFormat('application/json'), 'process']),
+                ])->addMiddleware([new SetFormat('json'), 'process']),
             ]),
         ];
 

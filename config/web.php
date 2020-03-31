@@ -58,15 +58,11 @@ return [
         ],
     ],
     \App\Middleware\RenderDataStream::class => static function (ContainerInterface $c) {
-        $result = new \App\Middleware\RenderDataStream($c, $c->get(\Psr\Http\Message\StreamFactoryInterface::class));
-        $result->defaultFormat = 'text/html';
-        $result->converters = [
-            'text/html'        => \App\Stream\Data\MyWebViewConverter::class,
-            'text/xml'         => \App\Stream\Data\XMLConverter::class,
-            'text/plain'       => \App\Stream\Data\PrintRConverter::class,
-            'application/json' => \App\Stream\Data\JSONConverter::class,
-        ];
-        return $result;
+        return (new \App\Middleware\RenderDataStream($c, $c->get(\Psr\Http\Message\StreamFactoryInterface::class)))
+            ->defineConverter(\App\Stream\Data\MyWebViewConverter::class, 'html', 'text/html', false)
+            ->defineConverter(\App\Stream\Data\XMLConverter::class, 'xml', 'text/xml', false)
+            ->defineConverter(\App\Stream\Data\PrintRConverter::class, 'plain', 'text/plain', false)
+            ->defineConverter(\App\Stream\Data\JSONConverter::class, 'json', 'application/json', false);
     },
 
     // here you can configure custom prefix of the web path
