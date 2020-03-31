@@ -55,7 +55,7 @@ final class RenderDataStream implements MiddlewareInterface
 
         $response = $response->withBody(
             $deferred
-                ? new GeneratorStream((fn() => yield $this->convertData($data, $converter))())
+                ? new GeneratorStream((fn () => yield $this->convertData($data, $converter))())
                 : $this->convertData($data, $converter)
         );
 

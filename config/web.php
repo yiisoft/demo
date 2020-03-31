@@ -61,7 +61,7 @@ return [
         return (new \App\Middleware\RenderDataStream($c, $c->get(\Psr\Http\Message\StreamFactoryInterface::class)))
             ->defineConverter(\App\Stream\Data\MyWebViewConverter::class, 'html', 'text/html', false)
             ->defineConverter(\App\Stream\Data\XMLConverter::class, 'xml', 'text/xml', false)
-            ->defineConverter(\App\Stream\Data\PrintRConverter::class, 'plain', 'text/plain', false)
+            ->defineConverter(\App\Stream\Data\PrintRConverter::class, 'print_r', 'text/plain', false)
             ->defineConverter(\App\Stream\Data\JSONConverter::class, 'json', 'application/json', false);
     },
 

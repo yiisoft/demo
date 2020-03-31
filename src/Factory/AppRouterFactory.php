@@ -64,7 +64,7 @@ class AppRouterFactory
                             ->addMiddleware([new SetFormat('html', null), 'process'])
                             ->name('blog/archive/index'),
                         Route::get('/print_r', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
-                            ->addMiddleware([new SetFormat('plain'), 'process'])
+                            ->addMiddleware([new SetFormat('print_r'), 'process'])
                             ->name('blog/archive/index/print_r'),
                         Route::get('/xml', [new ActionCaller(ArchiveController::class, 'index', $container), 'process'])
                             ->addMiddleware([new SetFormat('xml'), 'process'])
