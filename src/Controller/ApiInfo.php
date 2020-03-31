@@ -6,13 +6,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Yii\Web\WebResponseFactoryInterface;
+use Yiisoft\Yii\Web\DataResponseFactoryInterface;
 
 class ApiInfo implements MiddlewareInterface
 {
-    private WebResponseFactoryInterface $responseFactory;
+    private DataResponseFactoryInterface $responseFactory;
 
-    public function __construct(WebResponseFactoryInterface $responseFactory)
+    public function __construct(DataResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }

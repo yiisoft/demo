@@ -2,20 +2,19 @@
 
 namespace App\Controller;
 
-use App\DeferredResponseFactory;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Web\WebResponseFactoryInterface;
+use Yiisoft\Yii\Web\DataResponseFactoryInterface;
 
 class ApiUserController
 {
-    private WebResponseFactoryInterface $responseFactory;
+    private DataResponseFactoryInterface $responseFactory;
 
-    public function __construct(WebResponseFactoryInterface $responseFactory)
+    public function __construct(DataResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }

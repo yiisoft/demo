@@ -12,10 +12,10 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use Yiisoft\Yii\Web\Middleware\FormatWebResponse;
-use Yiisoft\Yii\Web\Middleware\FormatWebResponseAsJson;
-use Yiisoft\Yii\Web\Middleware\FormatWebResponseAsXml;
-use Yiisoft\Yii\Web\WebResponse;
+use Yiisoft\Yii\Web\Middleware\FormatDataResponse;
+use Yiisoft\Yii\Web\Middleware\FormatDataResponseAsJson;
+use Yiisoft\Yii\Web\Middleware\FormatDataResponseAsXml;
+use Yiisoft\Yii\Web\DataResponse;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -25,7 +25,7 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Yii\Web\WebResponseFactoryInterface;
+use Yiisoft\Yii\Web\DataResponseFactoryInterface;
 
 class AppRouterFactory
 {
@@ -54,20 +54,20 @@ class AppRouterFactory
 
             // User
             Group::create('/api', [
-                Route::get('/info/v1', function (WebResponseFactoryInterface $responseFactory) {
+                Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
                     return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware(FormatWebResponseAsJson::class)
+                    ->addMiddleware(FormatDataResponseAsJson::class)
                     ->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-                    ->addMiddleware(FormatWebResponseAsJson::class)
+                    ->addMiddleware(FormatDataResponseAsJson::class)
                     ->name('api/user/profile'),
             ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
                 $response = $handler->handle($request);
-                if ($response instanceof WebResponse) {
+                if ($response instanceof DataResponse) {
                     $data = $response->getData();
                     if ($response->getStatusCode() !== 200) {
                         if (is_string($data) && !empty($data)) {
@@ -84,7 +84,7 @@ class AppRouterFactory
                 }
 
                 return $response;
-            })->addMiddleware(FormatWebResponseAsXml::class),
+            })->addMiddleware(FormatDataResponseAsXml::class),
 
             // Blog routes
             Group::create('/blog', [
@@ -115,7 +115,7 @@ class AppRouterFactory
         $collector = $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
-                ->addMiddleware(FormatWebResponse::class)
+                ->addMiddleware(FormatDataResponse::class)
         );
 
         return new UrlMatcher(new RouteCollection($collector));

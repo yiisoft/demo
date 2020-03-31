@@ -7,12 +7,11 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
-use Yiisoft\Yii\Web\ResponseFactory;
-use Yiisoft\Yii\Web\WebResponseFactoryInterface;
+use Yiisoft\Yii\Web\DataResponseFactoryInterface;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected WebResponseFactoryInterface $responseFactory;
+    protected DataResponseFactoryInterface $responseFactory;
     protected User $user;
 
     private Aliases $aliases;
@@ -20,7 +19,7 @@ abstract class Controller implements ViewContextInterface
     private string $layout;
 
     public function __construct(
-        WebResponseFactoryInterface $responseFactory,
+        DataResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view
