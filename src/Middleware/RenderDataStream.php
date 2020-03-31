@@ -6,6 +6,7 @@ namespace App\Middleware;
 
 use App\Stream\Data\Converter;
 use App\Stream\DataStream;
+use App\Stream\GeneratorStream;
 use App\Stream\Value\DataResponseProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,6 +20,7 @@ final class RenderDataStream implements MiddlewareInterface
 {
     public string $defaultFormat = 'text/html';
     public array $converters = [];
+    public bool $deferred = false;
 
     private ContainerInterface $container;
     private StreamFactoryInterface $streamFactory;
@@ -41,13 +43,18 @@ final class RenderDataStream implements MiddlewareInterface
         $format = $data->getFormat() ?? $this->getRelevantType($request);
 
         if (!array_key_exists($format, $this->converters)) {
-            dd($this->converters);
             throw new \Exception('Undefined format ' . $format);
         }
 
         $converter = $this->getConverter($this->converters[$format]);
 
-        $response = $response->withBody($this->convertData($data, $converter));
+        if ($this->deferred) {
+            $response = $response->withBody(
+                new GeneratorStream((fn () => yield $this->convertData($data, $converter))())
+            );
+        } else {
+            $response = $response->withBody($this->convertData($data, $converter));
+        }
 
         if ($data->getCode() !== null) {
             $response = $response->withStatus($data->getCode());
