@@ -19,6 +19,6 @@ class ApiInfo implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        return $this->responseFactory->createResponse(200, '', ['version' => '2.0', 'author' => 'yiisoft']);
+        return $this->responseFactory->createResponse(['version' => '2.0', 'author' => 'yiisoft']);
     }
 }

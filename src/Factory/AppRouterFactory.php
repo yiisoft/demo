@@ -56,7 +56,7 @@ class AppRouterFactory
             // User
             Group::create('/api', [
                 Route::get('/info/v1', function (WebResponseFactoryInterface $responseFactory) {
-                    return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiisoft']);
+                    return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
                     ->addMiddleware([new WebResponseFormatter(new JsonResponseFormatter(), true), 'process'])

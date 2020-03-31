@@ -33,7 +33,7 @@ class ApiUserController
             $items[] = ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')];
         }
 
-        return $this->responseFactory->createResponse(200, '', $items);
+        return $this->responseFactory->createResponse($items);
     }
 
     public function profile(Request $request, ORMInterface $orm): ResponseInterface
@@ -45,12 +45,10 @@ class ApiUserController
         /** @var User $user */
         $user = $userRepository->findByLogin($login);
         if ($user === null) {
-            return $this->responseFactory->createResponse(404, '', 'Page not found');
+            return $this->responseFactory->createResponse('Page not found', 404);
         }
 
         return $this->responseFactory->createResponse(
-            200,
-            '',
             ['login' => $user->getLogin(), 'created_at' => $user->getCreatedAt()->format('H:i:s d.m.Y')]
         );
     }

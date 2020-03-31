@@ -39,7 +39,7 @@ abstract class Controller implements ViewContextInterface
             return $controller->renderContent($controller->view->render($view, $parameters, $controller));
         };
 
-        return $this->responseFactory->createResponse(200, '', $contentRenderer);
+        return $this->responseFactory->createResponse($contentRenderer);
     }
 
     private function renderContent($content): string
