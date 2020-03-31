@@ -59,7 +59,8 @@ class AppRouterFactory
                     return $responseFactory->createResponse(200, '', ['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware([new WebResponseFormatter($container->get(JsonResponseFormatter::class), true), 'process'])->name('api/info/v2'),
+                    ->addMiddleware([new WebResponseFormatter(new JsonResponseFormatter(), true), 'process'])
+                    ->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
