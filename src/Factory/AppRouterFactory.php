@@ -59,6 +59,7 @@ class AppRouterFactory
                     return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
+                    ->addMiddleware(JsonWebResponseFormatter::class)
                     ->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
