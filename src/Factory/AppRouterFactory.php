@@ -12,11 +12,10 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use Yiisoft\Yii\Web\Formatter\JsonResponseFormatter;
+use Yiisoft\Yii\Web\Middleware\FormatWebResponse;
+use Yiisoft\Yii\Web\Middleware\FormatWebResponseAsJson;
+use Yiisoft\Yii\Web\Middleware\FormatWebResponseAsXml;
 use Yiisoft\Yii\Web\WebResponse;
-use Yiisoft\Yii\Web\Middleware\WebResponseFormatter;
-use Yiisoft\Yii\Web\Middleware\JsonWebResponseFormatter;
-use Yiisoft\Yii\Web\Middleware\XmlWebResponseFormatter;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -59,12 +58,12 @@ class AppRouterFactory
                     return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware(JsonWebResponseFormatter::class)
+                    ->addMiddleware(FormatWebResponseAsJson::class)
                     ->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-                    ->addMiddleware(JsonWebResponseFormatter::class)
+                    ->addMiddleware(FormatWebResponseAsJson::class)
                     ->name('api/user/profile'),
             ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
                 $response = $handler->handle($request);
@@ -85,7 +84,7 @@ class AppRouterFactory
                 }
 
                 return $response;
-            })->addMiddleware(XmlWebResponseFormatter::class),
+            })->addMiddleware(FormatWebResponseAsXml::class),
 
             // Blog routes
             Group::create('/blog', [
@@ -116,7 +115,7 @@ class AppRouterFactory
         $collector = $container->get(RouteCollectorInterface::class);
         $collector->addGroup(
             Group::create(null, $routes)
-                ->addMiddleware(WebResponseFormatter::class)
+                ->addMiddleware(FormatWebResponse::class)
         );
 
         return new UrlMatcher(new RouteCollection($collector));
