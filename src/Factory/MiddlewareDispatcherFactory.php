@@ -21,10 +21,10 @@ final class MiddlewareDispatcherFactory
         $subFolder = $container->get(SubFolder::class);
 
         return (new MiddlewareDispatcher($container))
-            ->addMiddleware($csrf)
             ->addMiddleware($router)
             ->addMiddleware($subFolder)
             ->addMiddleware($session)
+            ->addMiddleware($csrf)
             ->addMiddleware($errorCatcher);
     }
 }

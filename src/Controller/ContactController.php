@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller;
 use App\Parameters;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -14,6 +13,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 class ContactController extends Controller
 {
@@ -22,7 +22,7 @@ class ContactController extends Controller
     private Parameters $parameters;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
+        DataResponseFactoryInterface $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
@@ -91,6 +91,8 @@ class ContactController extends Controller
             $parameters['sent'] = $sent;
             $parameters['error'] = $error;
         }
+
+        $parameters['csrf'] = $request->getAttribute('csrf_token');
 
         return $this->render('form', $parameters);
     }

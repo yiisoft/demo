@@ -13,7 +13,10 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 // Don't do it in production, assembling takes it's time
 Builder::rebuild();
 
-$container = new Container(require Builder::path('web'), require Builder::path('providers'));
+$container = new Container(
+    require Builder::path('web', dirname(__DIR__)),
+    require Builder::path('providers', dirname(__DIR__))
+);
 $container = $container->get(ContainerInterface::class);
 
 require_once dirname(__DIR__) . '/src/globals.php';
@@ -27,6 +30,7 @@ try {
     $response = $application->handle($request);
     $emitter = new SapiEmitter();
     $emitter->emit($response, $request->getMethod() === Method::HEAD);
+    $application->afterEmit($response);
 } finally {
     $application->shutdown();
 }

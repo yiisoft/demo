@@ -17,7 +17,7 @@ $error = $error ?? null;
 </div>
 <?php endif ?>
 
-<form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
+<form id="signupForm" method="POST" action="<?= $urlGenerator->generate('site/signup') ?>" enctype="multipart/form-data">
   <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="form-group">
     <label for="subject">Login</label>

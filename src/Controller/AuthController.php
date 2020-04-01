@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Controller;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -12,6 +11,7 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\WebView;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 class AuthController extends Controller
@@ -20,7 +20,7 @@ class AuthController extends Controller
     private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
+        DataResponseFactoryInterface $responseFactory,
         Aliases $aliases,
         WebView $view,
         User $user,
@@ -81,6 +81,7 @@ class AuthController extends Controller
         return $this->render(
             'login',
             [
+                'csrf' => $request->getAttribute('csrf_token'),
                 'body' => $body,
                 'error' => $error,
             ]

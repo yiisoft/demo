@@ -4,6 +4,7 @@
  * @var $this \Yiisoft\View\View
  * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
  * @var $body array
+ * @var $csrf string
  */
 
 use Yiisoft\Html\Html;
@@ -24,6 +25,7 @@ if (isset($sent)) {
       action="<?= $urlGenerator->generate('site/contact') ?>"
       enctype="multipart/form-data"
 >
+    <input type="hidden" name="_csrf" value="<?= $csrf ?>">
     <div class="form-group">
         <label for="subject">Subject</label>
         <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
