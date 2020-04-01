@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use App\Controller;
 use App\Entity\User;
 use Cycle\ORM\ORMInterface;
