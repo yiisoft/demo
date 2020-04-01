@@ -92,6 +92,8 @@ class ContactController extends Controller
             $parameters['error'] = $error;
         }
 
+        $parameters['csrf'] = $request->getAttribute('csrf_token');
+
         return $this->render('form', $parameters);
     }
 }

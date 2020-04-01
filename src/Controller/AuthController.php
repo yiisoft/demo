@@ -81,6 +81,7 @@ class AuthController extends Controller
         return $this->render(
             'login',
             [
+                'csrf' => $request->getAttribute('csrf_token'),
                 'body' => $body,
                 'error' => $error,
             ]

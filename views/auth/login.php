@@ -5,6 +5,7 @@ use Yiisoft\Html\Html;
 /**
  * @var $this \Yiisoft\View\View
  * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
+ * @var $csrf string
  */
 
 $error = $error ?? null;
@@ -17,6 +18,7 @@ $error = $error ?? null;
 <?php endif ?>
 
 <form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
+  <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="form-group">
     <label for="subject">Login</label>
       <?= Html::textInput('login', $body['login'] ?? '', [
