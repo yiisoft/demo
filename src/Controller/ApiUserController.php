@@ -8,7 +8,7 @@ use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Web\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 class ApiUserController
 {

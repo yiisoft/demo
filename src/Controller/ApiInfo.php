@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Yii\Web\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 class ApiInfo implements MiddlewareInterface
 {

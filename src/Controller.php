@@ -7,7 +7,7 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\User\User;
-use Yiisoft\Yii\Web\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 abstract class Controller implements ViewContextInterface
 {

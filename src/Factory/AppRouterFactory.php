@@ -12,10 +12,10 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use Yiisoft\Yii\Web\Middleware\FormatDataResponse;
-use Yiisoft\Yii\Web\Middleware\FormatDataResponseAsJson;
-use Yiisoft\Yii\Web\Middleware\FormatDataResponseAsXml;
-use Yiisoft\Yii\Web\DataResponse;
+use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
+use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
+use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
+use Yiisoft\Yii\Web\Data\DataResponse;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -25,7 +25,7 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Yii\Web\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 class AppRouterFactory
 {
