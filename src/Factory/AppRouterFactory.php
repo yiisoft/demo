@@ -12,6 +12,7 @@ use App\Controller\AuthController;
 use App\Controller\ContactController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\Middleware\ApiDataWrapper;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
@@ -65,26 +66,7 @@ class AppRouterFactory
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
                     ->addMiddleware(FormatDataResponseAsJson::class)
                     ->name('api/user/profile'),
-            ], $container)->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
-                $response = $handler->handle($request);
-                if ($response instanceof DataResponse) {
-                    $data = $response->getData();
-                    if ($response->getStatusCode() !== 200) {
-                        if (is_string($data) && !empty($data)) {
-                            $message = $data;
-                        } else {
-                            $message = 'Unknown error';
-                        }
-                        return $response->withData([
-                                'status' => 'failed',
-                                'error' => ['message' => $message, 'status' => $response->getStatusCode()],
-                            ]);
-                    }
-                    return $response->withData(['status' => 'success', 'data' => $data]);
-                }
-
-                return $response;
-            })->addMiddleware(FormatDataResponseAsXml::class),
+            ], $container)->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
 
             // Blog routes
             Group::create('/blog', [
