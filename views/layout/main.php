@@ -54,11 +54,12 @@ echo Nav::widget()
         ->currentPath($currentUrl ?? '')
         ->options(['class' => 'navbar-nav'])
         ->items(
-            [
-                $user->getId() === null
-                    ? ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')]
-                    : ['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')],
+            $user->getId() === null
+                ? [
+                ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
+                ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
             ]
+                : [['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')]],
         );
 echo NavBar::end();
 

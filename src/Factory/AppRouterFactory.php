@@ -10,6 +10,7 @@ use App\Controller\ApiInfo;
 use App\Controller\ApiUserController;
 use App\Controller\AuthController;
 use App\Controller\ContactController;
+use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\Middleware\ApiDataWrapper;
@@ -42,6 +43,8 @@ class AppRouterFactory
                 ->name('site/login'),
             Route::get('/logout', [AuthController::class, 'logout'])
                 ->name('site/logout'),
+            Route::methods([Method::GET, Method::POST], '/signup', [SignupController::class, 'signup'])
+                ->name('site/signup'),
 
             // User
             Group::create('/user', [
