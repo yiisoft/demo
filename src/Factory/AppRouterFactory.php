@@ -17,10 +17,7 @@ use App\Middleware\ApiDataWrapper;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
-use Yiisoft\Yii\Web\Data\DataResponse;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
@@ -69,7 +66,7 @@ class AppRouterFactory
                 Route::get('/user/{login}', [ApiUserController::class, 'profile'])
                     ->addMiddleware(FormatDataResponseAsJson::class)
                     ->name('api/user/profile'),
-            ], $container)->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+            ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
 
             // Blog routes
             Group::create('/blog', [
