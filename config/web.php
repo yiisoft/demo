@@ -19,7 +19,7 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Router\FastRoute\UrlGenerator;
-use Yiisoft\Router\GroupFactory;
+use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
@@ -51,7 +51,7 @@ return [
     DataResponseFactoryInterface::class => DataResponseFactory::class,
 
     // Router:
-    RouteCollectorInterface::class => new GroupFactory(),
+    RouteCollectorInterface::class => Group::create(),
     UrlMatcherInterface::class => new AppRouterFactory(),
     UrlGeneratorInterface::class => UrlGenerator::class,
 
