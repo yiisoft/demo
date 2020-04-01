@@ -1,5 +1,7 @@
 <?php
 
+use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
+use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
 use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
@@ -22,6 +24,8 @@ use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\View\WebView;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFactory;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
@@ -43,6 +47,8 @@ return [
     StreamFactoryInterface::class => Psr17Factory::class,
     UriFactoryInterface::class => Psr17Factory::class,
     UploadedFileFactoryInterface::class => Psr17Factory::class,
+    DataResponseFormatterInterface::class => HtmlDataResponseFormatter::class,
+    DataResponseFactoryInterface::class => DataResponseFactory::class,
 
     // Router:
     RouteCollectorInterface::class => new GroupFactory(),
