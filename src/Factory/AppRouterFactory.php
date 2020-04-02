@@ -80,7 +80,7 @@ class AppRouterFactory
                 Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
                     ->name('blog/tag'),
                 // Archive
-                Group::create('/blog', [
+                Group::create('/archive', [
                     // Index page
                     Route::get('', [ArchiveController::class, 'index'])
                         ->name('blog/archive/index'),
