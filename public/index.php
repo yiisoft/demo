@@ -3,7 +3,7 @@
 use Yiisoft\Composer\Config\Builder;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Di\Container;
-use Yiisoft\EventDispatcher\EventManager;
+use Yiisoft\Yii\Web\Config\EventManager;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
