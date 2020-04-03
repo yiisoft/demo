@@ -9,7 +9,7 @@ use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
-require_once dirname(__DIR__) . '/src/globals.php';
+
 // Don't do it in production, assembling takes it's time
 Builder::rebuild();
 $startTime = microtime(true);
@@ -18,6 +18,8 @@ $container = new Container(
     require Builder::path('providers', dirname(__DIR__))
 );
 $container = $container->get(ContainerInterface::class);
+
+require_once dirname(__DIR__) . '/src/globals.php';
 
 $application = $container->get(Application::class);
 
