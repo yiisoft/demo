@@ -14,6 +14,9 @@ use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\Middleware\ApiDataWrapper;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Yii\Web\Data\Formatter\JsonDataResponseFormatter;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
@@ -59,7 +62,8 @@ class AppRouterFactory
                     return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
                 })->name('api/info/v1'),
                 Route::get('/info/v2', ApiInfo::class)
-                    ->addMiddleware(FormatDataResponseAsJson::class)
+                    ->addMiddleware(fn (ServerRequestInterface $request, RequestHandlerInterface $handler)
+                    => (new FormatDataResponse(new JsonDataResponseFormatter()))->process($request, $handler))
                     ->name('api/info/v2'),
                 Route::get('/user', [ApiUserController::class, 'index'])
                     ->name('api/user/index'),
