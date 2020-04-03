@@ -3,7 +3,7 @@
 use Yiisoft\Composer\Config\Builder;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Di\Container;
-use Yiisoft\Yii\Web\Config\EventManager;
+use Yiisoft\Yii\Web\Config\EventConfigurator;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
@@ -19,8 +19,8 @@ $container = new Container(
     require Builder::path('providers', dirname(__DIR__))
 );
 $container = $container->get(ContainerInterface::class);
-$eventManager = $container->get(EventManager::class);
-$eventManager->registerListeners(require Builder::path('events', dirname(__DIR__)));
+$eventConfigurator = $container->get(EventConfigurator::class);
+$eventConfigurator->registerListeners(require Builder::path('events', dirname(__DIR__)));
 
 $application = $container->get(Application::class);
 
