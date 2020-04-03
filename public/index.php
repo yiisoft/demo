@@ -1,11 +1,11 @@
 <?php
 
-use Yiisoft\Composer\Config\Builder;
 use Psr\Container\ContainerInterface;
+use Yiisoft\Composer\Config\Builder;
 use Yiisoft\Di\Container;
-use Yiisoft\Yii\Web\Config\EventConfigurator;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
+use Yiisoft\Yii\Web\Config\EventConfigurator;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
