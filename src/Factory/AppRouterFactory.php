@@ -14,6 +14,9 @@ use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\Middleware\ApiDataWrapper;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Yii\Web\Data\Formatter\JsonDataResponseFormatter;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
@@ -80,7 +83,7 @@ class AppRouterFactory
                 Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
                     ->name('blog/tag'),
                 // Archive
-                Group::create('/blog', [
+                Group::create('/archive', [
                     // Index page
                     Route::get('', [ArchiveController::class, 'index'])
                         ->name('blog/archive/index'),
