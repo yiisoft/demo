@@ -16,8 +16,6 @@ class ViewFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        WidgetFactory::initialize($container);
-
         $webView = new WebView(
             $container->get(Aliases::class)->get('@views'),
             $container->get(Theme::class),
