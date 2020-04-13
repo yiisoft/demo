@@ -10,7 +10,6 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\View\Theme;
 use Yiisoft\View\WebView;
-use Yiisoft\Widget\WidgetFactory;
 
 class ViewFactory
 {
