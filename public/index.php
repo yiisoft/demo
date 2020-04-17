@@ -19,8 +19,6 @@ $container = new Container(
 );
 $container = $container->get(ContainerInterface::class);
 
-require_once dirname(__DIR__) . '/src/globals.php';
-
 $application = $container->get(Application::class);
 
 $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
