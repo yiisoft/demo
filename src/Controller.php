@@ -38,7 +38,7 @@ abstract class Controller implements ViewContextInterface
         return $this->responseFactory->createResponse($contentRenderer);
     }
 
-    private function renderProxy($view, $parameters): string
+    private function renderProxy(string $view, array $parameters = []): string
     {
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
