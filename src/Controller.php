@@ -33,31 +33,31 @@ abstract class Controller implements ViewContextInterface
 
     protected function render(string $view, array $parameters = []): ResponseInterface
     {
-        $controller = $this;
-        $contentRenderer = static function () use ($view, $parameters, $controller) {
-            return $controller->renderContent($controller->view->render($view, $parameters, $controller));
+        $self = $this;
+        $contentRenderer = static function () use ($view, $parameters, $self) {
+            return $self->renderProxy($view, $parameters);
         };
 
         return $this->responseFactory->createResponse($contentRenderer);
     }
 
-    private function renderContent($content): string
+    private function renderProxy($view, $parameters): string
     {
+        $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
-
         $layout = $this->findLayoutFile($this->layout);
-        if ($layout !== null) {
-            return $this->view->renderFile(
-                $layout,
-                [
-                    'content' => $content,
-                    'user' => $user,
-                ],
-                $this
-            );
+        
+        if ($layout === null) {
+            return $content;
         }
-
-        return $content;
+        return $this->view->renderFile(
+            $layout,
+            [
+                'content' => $content,
+                'user' => $user,
+            ],
+            $this
+        );
     }
 
     public function getViewPath(): string
