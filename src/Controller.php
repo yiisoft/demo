@@ -46,7 +46,7 @@ abstract class Controller implements ViewContextInterface
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
         $layout = $this->findLayoutFile($this->layout);
-        
+
         if ($layout === null) {
             return $content;
         }
