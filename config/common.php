@@ -23,7 +23,7 @@ $timer = new Timer();
 $timer->start('overall');
 
 return [
-    CacheInterface::class => function (ContainerInterface $container) {
+    CacheInterface::class => static function (ContainerInterface $container) {
         return new FileCache($container->get(Aliases::class)->get('@runtime/cache'));
     },
     YiiCacheInterface::class => Cache::class,
