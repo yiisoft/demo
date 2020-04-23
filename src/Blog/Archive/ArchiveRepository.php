@@ -95,7 +95,7 @@ final class ArchiveRepository
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
             return new Fragment("strftime('{$str}', post.published_at) {$attr}");
         }
-        return new Fragment("extract({$attr} from post.published_at) {$attr}");
+        return new Fragment("extract({$attr} from post.published_at) \"{$attr}\"");
     }
 
     private function getDriver(): DriverInterface
