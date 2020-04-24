@@ -11,7 +11,9 @@ use Cycle\ORM\Select;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\Driver\DriverInterface;
 use Spiral\Database\Driver\SQLite\SQLiteDriver;
+use Spiral\Database\Injection\Expression;
 use Spiral\Database\Injection\Fragment;
+use Spiral\Database\Injection\FragmentInterface;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
@@ -87,15 +89,17 @@ final class ArchiveRepository
 
     /**
      * @param string $attr Can be 'day', 'month' or 'year'
-     * @return Fragment
+     * @return FragmentInterface
      */
-    private function extractFromDateColumn(string $attr): Fragment
+    private function extractFromDateColumn(string $attr): FragmentInterface
     {
-        if ($this->getDriver() instanceof SQLiteDriver) {
+        $driver = $this->getDriver();
+        $wrappedField = $driver->getQueryCompiler()->quoteIdentifier($attr);
+        if ($driver instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
-            return new Fragment("strftime('{$str}', post.published_at) {$attr}");
+            return new Fragment("strftime('{$str}', post.published_at) {$wrappedField}");
         }
-        return new Fragment("extract({$attr} from post.published_at) \"{$attr}\"");
+        return new Fragment("extract({$attr} from post.published_at) {$wrappedField}");
     }
 
     private function getDriver(): DriverInterface

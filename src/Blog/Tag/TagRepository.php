@@ -60,7 +60,7 @@ final class TagRepository extends Repository
          * ON `p`.`id` = `postTag`.`post_id` AND `p`.`public` = TRUE
          * INNER JOIN `tag` AS `t`
          * ON `t`.`id` = `postTag`.`tag_id`
-         * GROUP BY `tag_id`
+         * GROUP BY `t`.`label`, `tag_id`
          * ORDER BY `count` DESC
          */
         $case1 = $postTagRepo
@@ -80,7 +80,7 @@ final class TagRepository extends Repository
          * ON `tag_posts_pivot`.`tag_id` = `tag`.`id`
          * INNER JOIN `post` AS `tag_posts`
          * ON `tag_posts`.`id` = `tag_posts_pivot`.`post_id` AND `tag_posts`.`public` = TRUE
-         * GROUP BY `tag`.`id`
+         * GROUP BY `tag`.`label`, `tag_id`
          * ORDER BY `count` DESC
          */
         $case2 = $this
@@ -99,7 +99,7 @@ final class TagRepository extends Repository
          * ON `tag_posts_pivot`.`tag_id` = `tag`.`id`
          * INNER JOIN `post` AS `tag_posts`
          * ON `tag_posts`.`id` = `tag_posts_pivot`.`post_id` AND `tag_posts`.`public` = TRUE
-         * GROUP BY `tag_posts_pivot`.`tag_id`
+         * GROUP BY `tag_posts_pivot`.`tag_id`, `tag`.`label`
          * ORDER BY `count` DESC
          */
         $case3 = $this
@@ -119,7 +119,7 @@ final class TagRepository extends Repository
          * INNER JOIN `tag` AS `post_tags`
          * ON `post_tags`.`id` = `post_tags_pivot`.`tag_id`
          * WHERE `post`.`public` = TRUE
-         * GROUP BY `post_tags_pivot`.`tag_id`
+         * GROUP BY `post_tags_pivot`.`tag_id`, `tag`.`label`
          */
         $case4 = $postRepo
             ->select()
