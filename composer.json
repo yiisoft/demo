@@ -77,6 +77,7 @@
         },
         "config-plugin-output-dir": "runtime/build/config",
         "config-plugin": {
+            "envs": "?db.env",
             "common": "config/common.php",
             "params": [
                 "config/params.php",
