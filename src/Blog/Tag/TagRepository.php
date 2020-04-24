@@ -80,7 +80,7 @@ final class TagRepository extends Repository
          * ON `tag_posts_pivot`.`tag_id` = `tag`.`id`
          * INNER JOIN `post` AS `tag_posts`
          * ON `tag_posts`.`id` = `tag_posts_pivot`.`post_id` AND `tag_posts`.`public` = TRUE
-         * GROUP BY `tag`.`label`, `tag`.`id`
+         * GROUP BY `tag`.`label`, `tag_id`
          * ORDER BY `count` DESC
          */
         $case2 = $this
