@@ -38,17 +38,18 @@ return [
         'default' => 'default',
         'aliases' => [],
         'databases' => [
-            'default' => ['connection' => 'sqlite'],
+            'default' => ['connection' => 'sqldb'],
         ],
         'connections' => [
-            'sqlite' => [
-                'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
-                'connection' => 'sqlite:@runtime/database.db',
-                'username' => '',
-                'password' => '',
+            'sqldb' => [
+                'driver' => $_ENV['DBAL_DB_DRIVER'] ?? \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                'connection' => $_ENV['DBAL_DB_CONNECTION'] ?? 'sqlite:@runtime/database.db',
+                'username' => $_ENV['DBAL_DB_USERNAME'] ?? '',
+                'password' => $_ENV['DBAL_DB_PASSWORD'] ?? '',
             ],
         ],
     ],
+
     // cycle common config
     'cycle.common' => [
         'entityPaths' => [
