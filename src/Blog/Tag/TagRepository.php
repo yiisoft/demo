@@ -69,7 +69,7 @@ final class TagRepository extends Repository
             ->columns(['t.label', 'count(*) count'])
             ->innerJoin('post', 'p')->on('p.id', 'postTag.post_id')->onWhere(['p.public' => true])
             ->innerJoin('tag', 't')->on('t.id', 'postTag.tag_id')
-            ->groupBy('tag_id');
+            ->groupBy('t.label, tag_id');
 
         /**
          * Case 2 would look like:
@@ -88,7 +88,7 @@ final class TagRepository extends Repository
             ->with('posts')
             ->buildQuery()
             ->columns(['label', 'count(*) count'])
-            ->groupBy('tag.id');
+            ->groupBy('tag.label, tag_id');
 
         /**
          * Case 3 would look like:
@@ -105,6 +105,7 @@ final class TagRepository extends Repository
         $case3 = $this
             ->select()
             ->groupBy('posts.@.tag_id') // relation posts -> pivot (@) -> column
+            ->groupBy('label')
             ->buildQuery()
             ->columns(['label', 'count(*) count']);
 
@@ -123,6 +124,7 @@ final class TagRepository extends Repository
         $case4 = $postRepo
             ->select()
             ->groupBy('tags.@.tag_id') // relation tags -> pivot (@) -> column
+            ->groupBy('tags.label')
             ->buildQuery()
             ->columns(['label', 'count(*) count']);
 
