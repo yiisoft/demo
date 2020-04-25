@@ -5,6 +5,12 @@ use App\Factory\MailerFactory;
 use App\Parameters;
 use App\Timer;
 use Psr\Log\LoggerInterface;
+use Yiisoft\Aliases\Aliases;
+use Yiisoft\Cache\File\FileCache;
+use Psr\Container\ContainerInterface;
+use Psr\SimpleCache\CacheInterface;
+use Yiisoft\Cache\Cache;
+use Yiisoft\Cache\CacheInterface as YiiCacheInterface;
 use Yiisoft\Log\Target\File\FileRotator;
 use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
@@ -17,8 +23,10 @@ $timer = new Timer();
 $timer->start('overall');
 
 return [
-    \Psr\SimpleCache\CacheInterface::class => \Yiisoft\Cache\ArrayCache::class,
-    \Yiisoft\Cache\CacheInterface::class => \Yiisoft\Cache\Cache::class,
+    CacheInterface::class => static function (ContainerInterface $container) {
+        return new FileCache($container->get(Aliases::class)->get('@runtime/cache'));
+    },
+    YiiCacheInterface::class => Cache::class,
     Parameters::class => static function () use ($params) {
         return new Parameters($params);
     },

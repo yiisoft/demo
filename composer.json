@@ -29,6 +29,7 @@
         "yiisoft/assets": "^1.0@dev",
         "yiisoft/auth": "^3.0@dev",
         "yiisoft/cache": "^3.0@dev",
+        "yiisoft/cache-file": "^3.0@dev",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/event-dispatcher": "^3.0@dev",
@@ -59,7 +60,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     },
     "scripts": {
         "post-update-cmd": [
