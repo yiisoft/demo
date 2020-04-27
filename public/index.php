@@ -34,6 +34,6 @@ try {
     $emitter = new SapiEmitter();
     $emitter->emit($response, $request->getMethod() === Method::HEAD);
 } finally {
-    $application->afterEmit($response);
+    $application->afterEmit($response ?? null);
     $application->shutdown();
 }
