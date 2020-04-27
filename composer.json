@@ -89,7 +89,8 @@
                 "$common",
                 "config/console.php"
             ],
-            "providers": "config/providers.php"
+            "providers": "config/providers.php",
+            "events": "config/events.php"
         }
     },
     "config": {
