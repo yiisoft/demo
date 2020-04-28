@@ -1,5 +1,6 @@
 <?php
-use \Yiisoft\Html\Html;
+use Yiisoft\Html\Html;
+
 /* @var string $name */
 /* @var string $content */
 ?>

@@ -3,7 +3,6 @@
 
 namespace App\Contact;
 
-
 use Psr\Http\Message\UploadedFileInterface;
 
 class Message
