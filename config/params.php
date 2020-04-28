@@ -4,9 +4,9 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
-    'debug' => true,
     'debugger.enabled' => true,
     'mailer' => [
+        'writeToFiles' => true,
         'host' => 'smtp.example.com',
         'port' => 25,
         'encryption' => null,
