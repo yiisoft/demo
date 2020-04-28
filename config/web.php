@@ -1,5 +1,7 @@
 <?php
 
+use App\Contact\ContactMailer;
+use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
 use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
 use App\Factory\AppRouterFactory;
@@ -88,5 +90,11 @@ return [
         $user->setSession($session);
 
         return $user;
+    },
+
+    // contact form mailer
+    ContactMailer::class => static function (ContainerInterface $container) use ($params)  {
+        $mailer = $container->get(MailerInterface::class);
+        return new ContactMailer($mailer, $params['supportEmail']);
     },
 ];

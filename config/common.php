@@ -48,6 +48,6 @@ return [
         'setUsername()' => [$params['mailer']['username']],
         'setPassword()' => [$params['mailer']['password']],
     ],
-    MailerInterface::class => new MailerFactory(),
+    MailerInterface::class => new MailerFactory($params['debug']),
     Timer::class => $timer,
 ];
