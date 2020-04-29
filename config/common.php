@@ -44,6 +44,6 @@ return [
         'setUsername()' => [$params['mailer']['username']],
         'setPassword()' => [$params['mailer']['password']],
     ],
-    MailerInterface::class => new MailerFactory($params['writeToFiles']),
+    MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
 ];
