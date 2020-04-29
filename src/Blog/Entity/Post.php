@@ -188,11 +188,11 @@ class Post
     }
 
     /**
-     * @return ArrayCollection|Comment[]
+     * @return Comment[]
      */
-    public function getComments()
+    public function getComments(): array
     {
-        return $this->comments;
+        return $this->comments->toArray();
     }
 
     public function addComment(Comment $post): void
@@ -201,11 +201,11 @@ class Post
     }
 
     /**
-     * @return ArrayCollection|Tag[]
+     * @return Tag[]
      */
-    public function getTags()
+    public function getTags(): array
     {
-        return $this->tags;
+        return $this->tags->toArray();
     }
 
     public function addTag(Tag $post): void

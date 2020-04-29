@@ -72,11 +72,11 @@ class Tag
     }
 
     /**
-     * @return ArrayCollection|Post[]
+     * @return Post[]
      */
-    public function getPosts(): ArrayCollection
+    public function getPosts(): array
     {
-        return $this->posts;
+        return $this->posts->toArray();
     }
 
     public function addPost(Post $post): void
