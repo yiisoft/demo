@@ -3,7 +3,6 @@
 namespace App\Contact;
 
 use App\Controller;
-use App\Parameters;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -17,7 +16,6 @@ class ContactController extends Controller
 {
     private ContactMailer $mailer;
     private LoggerInterface $logger;
-    private Parameters $parameters;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -25,13 +23,11 @@ class ContactController extends Controller
         WebView $view,
         User $user,
         ContactMailer $mailer,
-        LoggerInterface $logger,
-        Parameters $parameters
+        LoggerInterface $logger
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
         parent::__construct($responseFactory, $user, $aliases, $view);
-        $this->parameters = $parameters;
     }
 
     protected function getId(): string
@@ -67,7 +63,6 @@ class ContactController extends Controller
 
                 $sent = true;
             } catch (\Throwable $e) {
-                throw $e;
                 $this->logger->error($e);
                 $error = $e->getMessage();
             }
