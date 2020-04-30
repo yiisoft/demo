@@ -127,11 +127,11 @@ class User implements IdentityInterface
     }
 
     /**
-     * @return ArrayCollection|Post[]
+     * @return Post[]
      */
-    public function getPosts(): ArrayCollection
+    public function getPosts(): array
     {
-        return $this->posts;
+        return $this->posts->toArray();
     }
 
     public function addPost(Post $post): void
@@ -140,11 +140,11 @@ class User implements IdentityInterface
     }
 
     /**
-     * @return ArrayCollection|Comment[]
+     * @return Comment[]
      */
-    public function getComments(): ArrayCollection
+    public function getComments(): array
     {
-        return $this->comments;
+        return $this->comments->toArray();
     }
 
     public function addComment(Comment $post): void
