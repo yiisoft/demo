@@ -21,7 +21,7 @@ $pagination = OffsetPagination::widget()
                                   ['year' => $year, 'month' => $month, 'page' => $page]
                               ));
 ?>
-<h1>Archive <small class="text-muted"><?php echo "$monthName $year" ?></small></h1>
+<h1>Archive <small class="text-muted"><?= "$monthName $year" ?></small></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
