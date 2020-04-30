@@ -75,6 +75,6 @@ final class CommentFeedReader implements FilterableDataInterface, DataReaderInte
 
     public function withFilterProcessors(FilterProcessorInterface ...$filterProcessors): void
     {
-        //skip
+        // skip
     }
 }

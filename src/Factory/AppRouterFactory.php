@@ -10,7 +10,7 @@ use App\Controller\ApiInfo;
 use App\Controller\ApiUserController;
 use App\Controller\AuthController;
 use App\Contact\ContactController;
-use App\Controller\CommentController;
+use App\Blog\CommentController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
@@ -92,11 +92,9 @@ class AppRouterFactory
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
                         ->name('blog/archive/month')
                 ]),
-            ]),
-
-            Group::create('/comment', [
-                Route::get('/[next/{next}]', [CommentController::class, 'index'])
-                    ->name('comment/index'),
+                // comments
+                Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
+                    ->name('blog/comment/index'),
             ]),
         ];
 

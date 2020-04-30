@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Blog;
 
 use App\Blog\Comment\CommentService;
 use App\Controller;
@@ -13,7 +13,7 @@ final class CommentController extends Controller
 {
     protected function getId(): string
     {
-        return 'comment';
+        return 'blog/comments';
     }
 
     public function index(Request $request, CommentService $service): Response
@@ -23,18 +23,15 @@ final class CommentController extends Controller
             $paginator = $paginator->withNextPageToken((string)$request->getAttribute('next'));
         }
 
-        if ($this->isAxaRequest($request)) {
+        if ($this->isAjaxRequest($request)) {
             return $this->renderPartial('_comments', ['data' => $paginator]);
         }
 
         return $this->render('index', ['data' => $paginator]);
     }
 
-    private function isAxaRequest(Request $request): bool
+    private function isAjaxRequest(Request $request): bool
     {
-        $params = $request->getServerParams();
-
-        return !empty($params['HTTP_X_REQUESTED_WITH']) &&
-            strtolower($params['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        return $request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
     }
 }
