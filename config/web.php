@@ -32,6 +32,10 @@ use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
 use Yiisoft\Yii\Web\User\User;
+use App\Blog\Comment\CommentService;
+use Cycle\ORM\ORMInterface;
+use App\Blog\Entity\Comment;
+use App\Blog\Comment\CommentRepository;
 
 /**
  * @var array $params
@@ -96,5 +100,14 @@ return [
     ContactMailer::class => static function (ContainerInterface $container) use ($params) {
         $mailer = $container->get(MailerInterface::class);
         return new ContactMailer($mailer, $params['supportEmail']);
+    },
+
+    CommentService::class => static function (ContainerInterface $container) {
+        /**
+         * @var CommentRepository $repository
+         */
+        $repository = $container->get(ORMInterface::class)->getRepository(Comment::class);
+
+        return new CommentService($repository);
     },
 ];
