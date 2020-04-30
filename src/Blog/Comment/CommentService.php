@@ -16,7 +16,7 @@ final class CommentService
         $this->repository = $repository;
     }
 
-    public function getFeedReader(): KeysetPaginator
+    public function getFeedPaginator(): KeysetPaginator
     {
         return (new KeysetPaginator($this->repository->getReader()))
             ->withPageSize(self::COMMENTS_FEED_PER_PAGE);

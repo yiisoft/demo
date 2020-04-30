@@ -18,7 +18,7 @@ final class CommentController extends Controller
 
     public function index(Request $request, CommentService $service): Response
     {
-        $paginator = $service->getFeedReader();
+        $paginator = $service->getFeedPaginator();
         if ($request->getAttribute('next') !== null) {
             $paginator = $paginator->withNextPageToken((string)$request->getAttribute('next'));
         }
