@@ -14,6 +14,7 @@ use DateTimeImmutable;
 
 /**
  * @Entity(
+ *     repository="App\Blog\Comment\CommentRepository",
  *     mapper="App\Blog\Comment\CommentMapper",
  *     constrain="App\Blog\Comment\Scope\PublicScope"
  * )
