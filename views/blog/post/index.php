@@ -23,7 +23,7 @@ use Yiisoft\Html\Html;
 
 echo Html::tag('article', Html::encode($item->getContent()), ['class' => 'text-justify']);
 
-if ($item->getTags()->count()) {
+if (!empty($item->getTags())) {
     echo Html::beginTag('div', ['class' => 'mt-3']);
     foreach ($item->getTags() as $tag) {
         echo Html::a(
@@ -37,7 +37,7 @@ if ($item->getTags()->count()) {
 
 echo Html::tag('h2', 'Comments', ['class' => 'mt-4 text-muted']);
 echo Html::beginTag('div', ['class' => 'mt-3']);
-if ($item->getComments()->count()) {
+if (!empty($item->getComments())) {
     foreach ($item->getComments() as $comment) {
         ?>
         <div class="media mt-4 shadow p-3 rounded">
