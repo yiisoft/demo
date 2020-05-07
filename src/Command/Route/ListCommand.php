@@ -26,14 +26,14 @@ class ListCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('List all registered routes')
             ->setHelp('This command displays a list of registered routes.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
         $io = new SymfonyStyle($input, $output);
