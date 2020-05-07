@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command\Route;
 
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
