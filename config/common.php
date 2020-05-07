@@ -1,5 +1,6 @@
 <?php
 
+use App\Factory\AppRouterFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Timer;
@@ -13,6 +14,11 @@ use Yiisoft\Cache\CacheInterface as YiiCacheInterface;
 use Yiisoft\Log\Target\File\FileRotator;
 use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Router\FastRoute\UrlGenerator;
+use Yiisoft\Router\Group;
+use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 
 /**
  * @var array $params
@@ -44,6 +50,12 @@ return [
         'setUsername()' => [$params['mailer']['username']],
         'setPassword()' => [$params['mailer']['password']],
     ],
+
+    // Router:
+    RouteCollectorInterface::class => Group::create(),
+    UrlMatcherInterface::class => new AppRouterFactory(),
+    UrlGeneratorInterface::class => UrlGenerator::class,
+
     MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
 ];

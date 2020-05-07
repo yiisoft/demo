@@ -52,11 +52,6 @@ return [
     DataResponseFormatterInterface::class => HtmlDataResponseFormatter::class,
     DataResponseFactoryInterface::class => DataResponseFactory::class,
 
-    // Router:
-    RouteCollectorInterface::class => Group::create(),
-    UrlMatcherInterface::class => new AppRouterFactory(),
-    UrlGeneratorInterface::class => UrlGenerator::class,
-
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
     SessionInterface::class => [
         '__class' => Session::class,
