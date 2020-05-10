@@ -12,7 +12,7 @@ use Yiisoft\Yii\Web\ServerRequestFactory;
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 // Don't do it in production, assembling takes it's time
-Builder::rebuild();
+Builder::rebuild(dirname(__DIR__));
 $startTime = microtime(true);
 $container = new Container(
     require Builder::path('web', dirname(__DIR__)),
