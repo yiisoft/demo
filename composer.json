@@ -90,7 +90,23 @@
                 "config/console.php"
             ],
             "providers": "config/providers.php",
-            "events": "config/events.php"
+            "providers-web": [
+                "$providers",
+                "config/providers-web.php"
+            ],
+            "providers-console": [
+                "$providers",
+                "config/providers-console.php"
+            ],
+            "events": "config/events.php",
+            "events-web":  [
+                "$events",
+                "config/events-web.php"
+            ],
+            "events-console":  [
+                "$events",
+                "config/events-console.php"
+            ]
         }
     },
     "config": {

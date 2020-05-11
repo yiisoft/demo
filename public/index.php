@@ -21,7 +21,7 @@ $container = new Container(
 $container = $container->get(ContainerInterface::class);
 
 $eventConfigurator = $container->get(EventConfigurator::class);
-$eventConfigurator->registerListeners(require Builder::path('events', dirname(__DIR__)));
+$eventConfigurator->registerListeners(require Builder::path('events-web', dirname(__DIR__)));
 
 $application = $container->get(Application::class);
 
