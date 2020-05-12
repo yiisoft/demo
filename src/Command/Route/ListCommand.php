@@ -42,7 +42,7 @@ class ListCommand extends Command
             }
         );
         $table->setHeaders(['Host', 'Methods', 'Name', 'Pattern', 'Defaults']);
-        foreach ($routes as $key => $route) {
+        foreach ($routes as $route) {
             $table->addRow(
                 [
                     $route->getHost(),
