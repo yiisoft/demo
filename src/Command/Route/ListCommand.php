@@ -9,8 +9,6 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Console\ExitCode;
 
@@ -36,9 +34,13 @@ class ListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
-        $io = new SymfonyStyle($input, $output);
-        /** @var Route[] $routes */
         $routes = $this->urlMatcher->getRouteCollection()->getRoutes();
+        uasort(
+            $routes,
+            static function ($a, $b) {
+                return ($a->getHost() <=> $b->getHost()) ?: ($a->getName() <=> $b->getName());
+            }
+        );
         $table->setHeaders(['Host', 'Methods', 'Name', 'Pattern', 'Defaults']);
         foreach ($routes as $key => $route) {
             $table->addRow(
@@ -55,12 +57,7 @@ class ListCommand extends Command
             }
         }
 
-        try {
-            $table->render();
-        } catch (\Throwable $exception) {
-            $io->error($exception->getMessage());
-            return $exception->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
-        }
+        $table->render();
         return ExitCode::OK;
     }
 }
