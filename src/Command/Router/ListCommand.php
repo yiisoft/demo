@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Route;
+namespace App\Command\Router;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -16,7 +16,7 @@ class ListCommand extends Command
 {
     private UrlMatcherInterface $urlMatcher;
 
-    protected static $defaultName = 'route/list';
+    protected static $defaultName = 'router/list';
 
     public function __construct(UrlMatcherInterface $urlMatcher)
     {

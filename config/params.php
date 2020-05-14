@@ -31,7 +31,7 @@ return [
         'commands' => [
             'user/create' => Command\User\CreateCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
-            'route/list' => Command\Route\ListCommand::class,
+            'router/list' => Command\Router\ListCommand::class,
         ],
     ],
 
