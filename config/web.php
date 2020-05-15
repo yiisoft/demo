@@ -10,7 +10,6 @@ use App\Factory\ViewFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -18,8 +17,6 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
-use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
-use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
@@ -42,10 +39,6 @@ use App\Blog\Comment\CommentRepository;
  */
 
 return [
-    ContainerInterface::class => static function (ContainerInterface $container) {
-        return $container;
-    },
-
     // PSR-17 factories:
     RequestFactoryInterface::class => Psr17Factory::class,
     ServerRequestFactoryInterface::class => Psr17Factory::class,
@@ -74,10 +67,6 @@ return [
     // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
     //     'prefix' => '',
     // ],
-
-    // Event dispatcher:
-    ListenerProviderInterface::class => Provider::class,
-    EventDispatcherInterface::class => Dispatcher::class,
 
     // View:
     WebView::class => new ViewFactory(),
