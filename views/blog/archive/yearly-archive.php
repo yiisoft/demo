@@ -11,7 +11,7 @@ use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
 ?>
-<h1>Archive <small class="text-muted">Year <?php echo $year ?></small></h1>
+<h1>Archive <small class="text-muted">Year <?= $year ?></small></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php

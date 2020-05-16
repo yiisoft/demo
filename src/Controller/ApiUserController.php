@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
@@ -35,7 +35,7 @@ class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    public function profile(Request $request, ORMInterface $orm): ResponseInterface
+    public function profile(ServerRequestInterface $request, ORMInterface $orm): ResponseInterface
     {
         /** @var UserRepository $userRepository */
         $userRepository = $orm->getRepository(User::class);

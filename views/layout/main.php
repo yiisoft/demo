@@ -1,9 +1,6 @@
 <?php
 
-use App\Asset\AppAsset;
-use App\Widget\PerformanceMetrics;
-use Yiisoft\Yii\Bootstrap4\Nav;
-use Yiisoft\Yii\Bootstrap4\NavBar;
+use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Yii\Bootstrap4\Nav;use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -46,6 +43,7 @@ echo Nav::widget()
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
             ]
