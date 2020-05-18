@@ -99,11 +99,11 @@
                 "config/providers-console.php"
             ],
             "events": "config/events.php",
-            "events-web":  [
+            "events-web": [
                 "$events",
                 "config/events-web.php"
             ],
-            "events-console":  [
+            "events-console": [
                 "$events",
                 "config/events-console.php"
             ]

@@ -3,7 +3,7 @@
 /**
  * @var int $year
  * @var int $month
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
+ * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -15,11 +15,13 @@ use Yiisoft\Html\Html;
 
 $monthName = DateTime::createFromFormat('!m', $month)->format('F');
 $pagination = OffsetPagination::widget()
-                              ->paginator($paginator)
-                              ->urlGenerator(fn ($page) => $urlGenerator->generate(
-                                  'blog/archive/month',
-                                  ['year' => $year, 'month' => $month, 'page' => $page]
-                              ));
+    ->paginator($paginator)
+    ->urlGenerator(
+        fn($page) => $urlGenerator->generate(
+            'blog/archive/month',
+            ['year' => $year, 'month' => $month, 'page' => $page]
+        )
+    );
 ?>
 <h1>Archive <small class="text-muted"><?= "$monthName $year" ?></small></h1>
 <div class="row">

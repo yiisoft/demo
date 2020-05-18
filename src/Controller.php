@@ -6,8 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\User\User;
 use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
@@ -33,7 +33,7 @@ abstract class Controller implements ViewContextInterface
 
     protected function render(string $view, array $parameters = []): ResponseInterface
     {
-        $contentRenderer = fn () => $this->renderProxy($view, $parameters);
+        $contentRenderer = fn() => $this->renderProxy($view, $parameters);
 
         return $this->responseFactory->createResponse($contentRenderer);
     }

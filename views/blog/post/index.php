@@ -9,16 +9,16 @@
 use Yiisoft\Html\Html;
 
 ?>
-<h1><?= Html::encode($item->getTitle()) ?></h1>
-<div>
-    <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
-    <?php
-    echo Html::a(
-    Html::encode($item->getUser()->getLogin()),
-    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
-);
-    ?>
-</div>
+    <h1><?= Html::encode($item->getTitle()) ?></h1>
+    <div>
+        <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
+        <?php
+        echo Html::a(
+            Html::encode($item->getUser()->getLogin()),
+            $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
+        );
+        ?>
+    </div>
 <?php
 
 echo Html::tag('article', Html::encode($item->getContent()), ['class' => 'text-justify']);
@@ -44,9 +44,9 @@ if ($item->getComments()) {
             <div class="media-body">
                 <div>
                     <?= Html::a(
-            Html::encode($comment->getUser()->getLogin()),
-            $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
-        ) ?>
+                        Html::encode($comment->getUser()->getLogin()),
+                        $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
+                    ) ?>
                     <span class="text-muted">
                         <i>created at</i> <?= $comment->getCreatedAt()->format('H:i d.m.Y') ?>
                     </span>

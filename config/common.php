@@ -1,22 +1,28 @@
 <?php
 
+use App\Factory\AppRouterFactory;
 use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Timer;
-use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
-use Yiisoft\Cache\File\FileCache;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\CacheInterface as YiiCacheInterface;
+use Yiisoft\Cache\File\FileCache;
+use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
+use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Log\Target\File\FileRotator;
 use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
-use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
-use Yiisoft\EventDispatcher\Provider\Provider;
+use Yiisoft\Router\FastRoute\UrlGenerator;
+use Yiisoft\Router\Group;
+use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 
 /**
  * @var array $params
@@ -57,6 +63,12 @@ return [
         'setUsername()' => [$params['mailer']['username']],
         'setPassword()' => [$params['mailer']['password']],
     ],
+
+    // Router:
+    RouteCollectorInterface::class => Group::create(),
+    UrlMatcherInterface::class => new AppRouterFactory(),
+    UrlGeneratorInterface::class => UrlGenerator::class,
+
     MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
 ];

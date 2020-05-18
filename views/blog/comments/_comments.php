@@ -1,9 +1,9 @@
 <?php
 
+use Yiisoft\Assets\AssetManager;
 use Yiisoft\Data\Paginator\KeysetPaginator;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Assets\AssetManager;
 
 /**
  * @var KeysetPaginator $data

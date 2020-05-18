@@ -23,7 +23,6 @@ echo Carousel::widget()
 ?>
 
 
-
 <div class="card mt-3 col-md-6">
     <div class="card-body">
         <h2 class="card-title">Console</h2>
@@ -38,7 +37,7 @@ echo Carousel::widget()
         </div>
         <h4 class="card-title text-muted">Migrations</h4>
         <div>
-                <code><?= "{$binPath} migrate/create" ?></code>
+            <code><?= "{$binPath} migrate/create" ?></code>
             <br><code><?= "{$binPath} migrate/generate" ?></code>
             <br><code><?= "{$binPath} migrate/up" ?></code>
             <br><code><?= "{$binPath} migrate/down" ?></code>

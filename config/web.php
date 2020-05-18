@@ -1,15 +1,14 @@
 <?php
 
+use App\Blog\Comment\CommentRepository;
+use App\Blog\Comment\CommentService;
+use App\Blog\Entity\Comment;
 use App\Contact\ContactMailer;
-use Yiisoft\Mailer\MailerInterface;
-use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
-use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
-use App\Factory\AppRouterFactory;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\Factory\ViewFactory;
+use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -17,22 +16,15 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
-use Yiisoft\Router\FastRoute\UrlGenerator;
-use Yiisoft\Router\Group;
-use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\Data\DataResponseFactory;
+use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
+use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
-use Yiisoft\Yii\Web\User\User;
-use App\Blog\Comment\CommentService;
-use Cycle\ORM\ORMInterface;
-use App\Blog\Entity\Comment;
-use App\Blog\Comment\CommentRepository;
 
 /**
  * @var array $params
@@ -48,11 +40,6 @@ return [
     UploadedFileFactoryInterface::class => Psr17Factory::class,
     DataResponseFormatterInterface::class => HtmlDataResponseFormatter::class,
     DataResponseFactoryInterface::class => DataResponseFactory::class,
-
-    // Router:
-    RouteCollectorInterface::class => Group::create(),
-    UrlMatcherInterface::class => new AppRouterFactory(),
-    UrlGeneratorInterface::class => UrlGenerator::class,
 
     MiddlewareDispatcher::class => new MiddlewareDispatcherFactory(),
     SessionInterface::class => [
