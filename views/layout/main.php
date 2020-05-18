@@ -1,6 +1,9 @@
 <?php
 
-use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Yii\Bootstrap4\Nav;use Yiisoft\Yii\Bootstrap4\NavBar;
+use App\Asset\AppAsset;
+use App\Widget\PerformanceMetrics;
+use Yiisoft\Yii\Bootstrap4\Nav;
+use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator

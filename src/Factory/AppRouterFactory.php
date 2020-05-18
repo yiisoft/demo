@@ -91,8 +91,7 @@ class AppRouterFactory
                     // Monthly page
                     Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
                         ->name('blog/archive/month')
-                ]
-                ),
+                ]),
                 // comments
                 Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
                     ->name('blog/comment/index'),

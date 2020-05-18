@@ -3,7 +3,7 @@
 /**
  * @var int $year
  * @var int $month
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
+ * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
