@@ -17,7 +17,7 @@ $monthName = DateTime::createFromFormat('!m', $month)->format('F');
 $pagination = OffsetPagination::widget()
     ->paginator($paginator)
     ->urlGenerator(
-        fn($page) => $urlGenerator->generate(
+        fn ($page) => $urlGenerator->generate(
             'blog/archive/month',
             ['year' => $year, 'month' => $month, 'page' => $page]
         )
