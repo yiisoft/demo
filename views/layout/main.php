@@ -46,6 +46,7 @@ echo Nav::widget()
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
             ]

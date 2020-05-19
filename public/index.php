@@ -15,13 +15,13 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 Builder::rebuild();
 $startTime = microtime(true);
 $container = new Container(
-    require Builder::path('web', dirname(__DIR__)),
-    require Builder::path('providers', dirname(__DIR__))
+    require Builder::path('web'),
+    require Builder::path('providers-web')
 );
 $container = $container->get(ContainerInterface::class);
 
 $eventConfigurator = $container->get(EventConfigurator::class);
-$eventConfigurator->registerListeners(require Builder::path('events', dirname(__DIR__)));
+$eventConfigurator->registerListeners(require Builder::path('events-web', dirname(__DIR__)));
 
 $application = $container->get(Application::class);
 

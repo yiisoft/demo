@@ -41,7 +41,7 @@ $pagination = OffsetPagination::widget()
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">
-        <?php echo $this->render('_topTags', ['tags' => $tags]) ?>
-        <?php echo $this->render('_archive', ['archive' => $archive]) ?>
+        <?= $this->render('_topTags', ['tags' => $tags]) ?>
+        <?= $this->render('_archive', ['archive' => $archive]) ?>
     </div>
 </div>
