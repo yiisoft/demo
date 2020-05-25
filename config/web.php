@@ -5,7 +5,6 @@ use App\Blog\Comment\CommentService;
 use App\Blog\Entity\Comment;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
-use App\Factory\ViewFactory;
 use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -17,7 +16,6 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Mailer\MailerInterface;
-use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Data\DataResponseFactory;
 use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
@@ -54,9 +52,6 @@ return [
     // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
     //     'prefix' => '',
     // ],
-
-    // View:
-    WebView::class => new ViewFactory(),
 
     // User:
     IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
