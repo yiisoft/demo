@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Provider;
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Di\Container;
@@ -41,7 +42,7 @@ final class LoggerProvider extends ServiceProvider
             return $fileTarget;
         });
 
-        $container->set(Logger::class, static function (ContainerInterface $container) {
+        $container->set(LoggerInterface::class, static function (ContainerInterface $container) {
             return new Logger(['file' => $container->get(FileTarget::class)]);
         });
     }
