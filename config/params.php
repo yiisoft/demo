@@ -4,7 +4,6 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
-    'debugger.enabled' => true,
     'mailer' => [
         'writeToFiles' => true,
         'host' => 'smtp.example.com',
