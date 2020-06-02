@@ -4,6 +4,9 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
+    'yiisoft/yii-debug' => [
+        // 'enabled' => false,
+    ],
     'mailer' => [
         'writeToFiles' => true,
         'host' => 'smtp.example.com',
