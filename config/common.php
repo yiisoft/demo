@@ -1,22 +1,9 @@
 <?php
 
 use App\Factory\AppRouterFactory;
-use App\Factory\LoggerFactory;
 use App\Factory\MailerFactory;
 use App\Timer;
 use Psr\Container\ContainerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
-use Psr\Log\LoggerInterface;
-use Psr\SimpleCache\CacheInterface;
-use Yiisoft\Aliases\Aliases;
-use Yiisoft\Cache\Cache;
-use Yiisoft\Cache\CacheInterface as YiiCacheInterface;
-use Yiisoft\Cache\File\FileCache;
-use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
-use Yiisoft\EventDispatcher\Provider\Provider;
-use Yiisoft\Log\Target\File\FileRotator;
-use Yiisoft\Log\Target\File\FileRotatorInterface;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
@@ -35,22 +22,7 @@ return [
     ContainerInterface::class => static function (ContainerInterface $container) {
         return $container;
     },
-    // event dispatcher
-    ListenerProviderInterface::class => Provider::class,
-    EventDispatcherInterface::class => Dispatcher::class,
-    //cache
-    CacheInterface::class => static function (ContainerInterface $container) {
-        return new FileCache($container->get(Aliases::class)->get('@runtime/cache'));
-    },
-    YiiCacheInterface::class => Cache::class,
-    LoggerInterface::class => new LoggerFactory(),
 
-    FileRotatorInterface::class => [
-        '__class' => FileRotator::class,
-        '__construct()' => [
-            10,
-        ],
-    ],
     //mail
     Swift_Transport::class => Swift_SmtpTransport::class,
     Swift_SmtpTransport::class => [
