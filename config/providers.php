@@ -13,6 +13,5 @@ return [
     'eventDispatcherProvider' => EventDispatcherProvider::class,
     'loggerProvider' => LoggerProvider::class,
     'webViewProvider' => WebViewProvider::class,
-
     ReverseBlockMerge::class => new ReverseBlockMerge(),
 ];
