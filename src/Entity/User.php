@@ -86,7 +86,7 @@ class User implements IdentityInterface
         return $this->id === null ? null : (string)$this->id;
     }
 
-    public function getToken(): ?string
+    public function getToken(): string
     {
         return $this->token;
     }
