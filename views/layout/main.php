@@ -7,6 +7,7 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
  * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
