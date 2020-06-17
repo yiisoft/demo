@@ -12,6 +12,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Di\Container;
 use Yiisoft\Di\Support\ServiceProvider;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\View\Theme;
 use Yiisoft\View\WebView;
 
@@ -29,14 +30,16 @@ final class WebViewProvider extends ServiceProvider
             );
 
             /**
-             * Passes {@see UrlGeneratorInterface} {@see AssetManager} {@see params } to view files.
+             * Passes {@see UrlGeneratorInterface} {@see UrlMatcherInterface} {@see AssetManager} {@see params } to
+             * view files.
              *
              * It will be available as $urlGenerator, $assetManager in view or layout.
              */
             $webView->setDefaultParameters(
                 [
                     'assetManager' => $container->get(AssetManager::class),
-                    'urlGenerator' => $container->get(UrlGeneratorInterface::class)
+                    'urlGenerator' => $container->get(UrlGeneratorInterface::class),
+                    'urlMatcher' => $container->get(UrlMatcherInterface::class),
                 ]
             );
 
