@@ -29,7 +29,7 @@ return [
         'options' => ['cookie_secure' => 0],
     ],
 
-    'console' => [
+    'yiisoft/yii-console' => [
         'commands' => [
             'user/create' => Command\User\CreateCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
