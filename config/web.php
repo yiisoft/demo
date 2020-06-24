@@ -85,7 +85,6 @@ return [
         $identityRepository = $container->get(IdentityRepositoryInterface::class);
         $eventDispatcher = $container->get(EventDispatcherInterface::class);
         $user = new Yiisoft\Yii\Web\User\User($identityRepository, $eventDispatcher);
-        $user->setSession($session);
 
         return $user;
     },
