@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class CommentController extends Controller
 {
+    protected static ?string $controllerName = 'blog/comments';
     public function index(Request $request, CommentService $service): Response
     {
         $paginator = $service->getFeedPaginator();
@@ -28,10 +29,5 @@ final class CommentController extends Controller
     private function isAjaxRequest(Request $request): bool
     {
         return $request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
-    }
-
-    protected function getId(): string
-    {
-        return 'blog/comments';
     }
 }
