@@ -1,13 +1,15 @@
 <?php
 
-use App\Factory\LoggerFactory;
+use App\Factory\AppRouterFactory;
 use App\Factory\MailerFactory;
-use App\Parameters;
 use App\Timer;
-use Psr\Log\LoggerInterface;
-use Yiisoft\Log\Target\File\FileRotator;
-use Yiisoft\Log\Target\File\FileRotatorInterface;
+use Psr\Container\ContainerInterface;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Router\FastRoute\UrlGenerator;
+use Yiisoft\Router\Group;
+use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 
 /**
  * @var array $params
@@ -17,18 +19,11 @@ $timer = new Timer();
 $timer->start('overall');
 
 return [
-    \Psr\SimpleCache\CacheInterface::class => \Yiisoft\Cache\ArrayCache::class,
-    \Yiisoft\Cache\CacheInterface::class => \Yiisoft\Cache\Cache::class,
-    Parameters::class => static function () use ($params) {
-        return new Parameters($params);
+    ContainerInterface::class => static function (ContainerInterface $container) {
+        return $container;
     },
-    LoggerInterface::class => new LoggerFactory(),
-    FileRotatorInterface::class => [
-        '__class' => FileRotator::class,
-        '__construct()' => [
-            10,
-        ],
-    ],
+
+    //mail
     Swift_Transport::class => Swift_SmtpTransport::class,
     Swift_SmtpTransport::class => [
         '__class' => Swift_SmtpTransport::class,
@@ -40,6 +35,12 @@ return [
         'setUsername()' => [$params['mailer']['username']],
         'setPassword()' => [$params['mailer']['password']],
     ],
-    MailerInterface::class => new MailerFactory(),
+
+    // Router:
+    RouteCollectorInterface::class => Group::create(),
+    UrlMatcherInterface::class => new AppRouterFactory(),
+    UrlGeneratorInterface::class => UrlGenerator::class,
+
+    MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
 ];

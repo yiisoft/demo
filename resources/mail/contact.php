@@ -1,4 +1,12 @@
-<p><?= htmlspecialchars($name . ' <' . $email . '>') ?>:</p>
+<?php
+use Yiisoft\Html\Html;
+
+/* @var string $name */
+/* @var string $content */
+?>
+
 <p>
-    <?= htmlspecialchars($content) ?> 
+    <?= Html::encode($content) ?>
 </p>
+
+<p><?= Html::encode($name) ?></p>

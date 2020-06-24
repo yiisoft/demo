@@ -5,6 +5,7 @@ use Yiisoft\Composer\Config\Builder;
 use Yiisoft\Di\Container;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
+use Yiisoft\Yii\Web\Config\EventConfigurator;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
@@ -14,12 +15,13 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 Builder::rebuild();
 $startTime = microtime(true);
 $container = new Container(
-    require Builder::path('web', dirname(__DIR__)),
-    require Builder::path('providers', dirname(__DIR__))
+    require Builder::path('web'),
+    require Builder::path('providers-web')
 );
 $container = $container->get(ContainerInterface::class);
 
-require_once dirname(__DIR__) . '/src/globals.php';
+$eventConfigurator = $container->get(EventConfigurator::class);
+$eventConfigurator->registerListeners(require Builder::path('events-web', dirname(__DIR__)));
 
 $application = $container->get(Application::class);
 
@@ -32,6 +34,6 @@ try {
     $emitter = new SapiEmitter();
     $emitter->emit($response, $request->getMethod() === Method::HEAD);
 } finally {
-    $application->afterEmit($response);
+    $application->afterEmit($response ?? null);
     $application->shutdown();
 }

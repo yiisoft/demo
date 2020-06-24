@@ -4,8 +4,11 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
-    'debugger.enabled' => true,
+    'yiisoft/yii-debug' => [
+        // 'enabled' => false,
+    ],
     'mailer' => [
+        'writeToFiles' => true,
         'host' => 'smtp.example.com',
         'port' => 25,
         'encryption' => null,
@@ -26,10 +29,11 @@ return [
         'options' => ['cookie_secure' => 0],
     ],
 
-    'console' => [
+    'yiisoft/yii-console' => [
         'commands' => [
             'user/create' => Command\User\CreateCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
+            'router/list' => Command\Router\ListCommand::class,
         ],
     ],
 

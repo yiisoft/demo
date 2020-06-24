@@ -7,11 +7,11 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
  * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
- * @var null|string $currentUrl
  */
 
 $assetManager->register([
@@ -46,12 +46,13 @@ echo Nav::widget()
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
             ]
         );
 echo Nav::widget()
-        ->currentPath($currentUrl ?? '')
+        ->currentPath($urlGenerator->generate($urlMatcher->getCurrentRoute()->getName()))
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
