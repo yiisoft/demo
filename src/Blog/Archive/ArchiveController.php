@@ -12,7 +12,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 
 final class ArchiveController extends Controller
 {
-    protected static ?string $controllerName = 'blog/archive';
+    protected static ?string $name = 'blog/archive';
 
     private const POSTS_PER_PAGE = 3;
     private const POPULAR_TAGS_COUNT = 10;

@@ -12,7 +12,7 @@ use Yiisoft\Yii\Web\User\User;
 
 abstract class Controller implements ViewContextInterface
 {
-    protected static ?string $controllerName = null;
+    protected static ?string $name = null;
     protected DataResponseFactoryInterface $responseFactory;
     protected User $user;
 
@@ -86,20 +86,31 @@ abstract class Controller implements ViewContextInterface
 
     /**
      * Returns the controller name. Name should be converted to "id" case.
+     * Method returns classname without `controller` on the ending.
+     * If namespace is not contain `controller` or `controllers`
+     * then returns only classname without `controller` on the ending
+     * else returns all subnamespaces from `controller` (or `controllers`) to the end
      *
      * @return string
-     * @example If class named MySiteController method will return my-site
+     * @example App\Controller\FooBar\BazController -> foo-bar/baz
+     * @example App\Controllers\FooBar\BazController -> foo-bar/baz
+     * @example Path\To\File\BlogController -> blog
      * @see Inflector::camel2id()
      */
     protected static function getName(): string
     {
-        if (static::$controllerName !== null) {
-            return static::$controllerName;
+        if (static::$name !== null) {
+            return static::$name;
         }
 
-        $name = preg_replace('/(?:.*\\\)([a-z]+)(controller)/iu', '$1', static::class);
-        $inflector = new Inflector();
+        $regexp = '/((?<=controller\\\|s\\\)(?:[\w\\\]+)|(?:[a-z]+))controller/iuU';
+        if (!preg_match($regexp, static::class, $m) || empty($m[1])) {
+            throw new \RuntimeException('Cannot detect controller name');
+        }
 
-        return $inflector->camel2id($name);
+        $inflector = new Inflector();
+        $name = str_replace('\\', '/', $m[1]);
+
+        return static::$name = $inflector->camel2id($name);
     }
 }

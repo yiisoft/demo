@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class CommentController extends Controller
 {
-    protected static ?string $controllerName = 'blog/comments';
+    protected static ?string $name = 'blog/comments';
     public function index(Request $request, CommentService $service): Response
     {
         $paginator = $service->getFeedPaginator();

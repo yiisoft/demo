@@ -13,7 +13,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 
 final class TagController extends Controller
 {
-    protected static ?string $controllerName = 'blog/tag';
+    protected static ?string $name = 'blog/tag';
     private const POSTS_PER_PAGE = 10;
 
     public function index(Request $request, ORMInterface $orm): Response

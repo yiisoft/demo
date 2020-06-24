@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class PostController extends Controller
 {
-    protected static ?string $controllerName = 'blog/post';
+    protected static ?string $name = 'blog/post';
     public function index(Request $request, ORMInterface $orm): Response
     {
         $postRepo = $orm->getRepository(Post::class);
