@@ -2,9 +2,9 @@
 
 namespace App\Blog\Archive;
 
-use App\Controller;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
+use App\Controller;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,13 +12,10 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 
 final class ArchiveController extends Controller
 {
+    protected static ?string $controllerName = 'blog/archive';
+
     private const POSTS_PER_PAGE = 3;
     private const POPULAR_TAGS_COUNT = 10;
-
-    protected function getId(): string
-    {
-        return 'blog/archive';
-    }
 
     public function index(ArchiveRepository $archiveRepo): Response
     {

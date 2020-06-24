@@ -36,11 +36,6 @@ class ContactController extends Controller
         $this->parameters = $parameters;
     }
 
-    protected function getId(): string
-    {
-        return 'contact';
-    }
-
     public function contact(ServerRequestInterface $request): ResponseInterface
     {
         $body = $request->getParsedBody();

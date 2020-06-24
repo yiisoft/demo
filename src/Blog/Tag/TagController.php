@@ -2,10 +2,10 @@
 
 namespace App\Blog\Tag;
 
-use App\Controller;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Post\PostRepository;
+use App\Controller;
 use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,12 +13,8 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 
 final class TagController extends Controller
 {
+    protected static ?string $controllerName = 'blog/tag';
     private const POSTS_PER_PAGE = 10;
-
-    protected function getId(): string
-    {
-        return 'blog/tag';
-    }
 
     public function index(Request $request, ORMInterface $orm): Response
     {
