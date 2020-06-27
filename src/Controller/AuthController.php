@@ -32,11 +32,6 @@ class AuthController extends Controller
         parent::__construct($responseFactory, $user, $aliases, $view);
     }
 
-    protected function getId(): string
-    {
-        return 'auth';
-    }
-
     public function login(
         ServerRequestInterface $request,
         IdentityRepositoryInterface $identityRepository
