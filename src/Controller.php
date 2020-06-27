@@ -68,7 +68,7 @@ abstract class Controller implements ViewContextInterface
 
     public function getViewPath(): string
     {
-        return $this->aliases->get('@views') . '/' . self::getName();
+        return $this->aliases->get('@views') . '/' . static::getName();
     }
 
     private function findLayoutFile(?string $file): ?string
