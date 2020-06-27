@@ -14,6 +14,8 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @var string $content
  */
 
+$currentUrl = (string) $urlMatcher->getLastMatchedRequest()->getUri();
+
 $assetManager->register([
     AppAsset::class
 ]);
@@ -41,7 +43,7 @@ echo NavBar::begin()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->start();
 echo Nav::widget()
-        ->currentPath($currentUrl ?? '')
+        ->currentPath($currentUrl)
         ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
@@ -52,7 +54,7 @@ echo Nav::widget()
             ]
         );
 echo Nav::widget()
-        ->currentPath($urlGenerator->generate($urlMatcher->getCurrentRoute()->getName()))
+        ->currentPath($currentUrl)
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
