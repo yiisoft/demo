@@ -62,6 +62,13 @@ final class CommentFeedReader implements FilterableDataInterface, DataReaderInte
         return $query->fetchData();
     }
 
+    public function readOne()
+    {
+        return (static function (iterable $data): \Generator {
+            yield from $data;
+        })($this->withLimit(1)->read())->current();
+    }
+
     public function withFilter(FilterInterface $filter): self
     {
         if (!$filter instanceof CompareFilter) {

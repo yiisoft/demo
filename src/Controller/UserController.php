@@ -15,11 +15,6 @@ class UserController extends Controller
 {
     private const PAGINATION_INDEX = 5;
 
-    protected function getId(): string
-    {
-        return 'user';
-    }
-
     public function index(Request $request, ORMInterface $orm): Response
     {
         $pageNum = (int)$request->getAttribute('page', 1);

@@ -30,11 +30,6 @@ class ContactController extends Controller
         parent::__construct($responseFactory, $user, $aliases, $view);
     }
 
-    protected function getId(): string
-    {
-        return 'contact';
-    }
-
     public function contact(ServerRequestInterface $request): ResponseInterface
     {
         $body = $request->getParsedBody();
