@@ -16,13 +16,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
-use Yiisoft\Yii\Cycle\Command\CycleDependencyPromise;
+use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
 class AddCommand extends Command
 {
     protected static $defaultName = 'fixture/add';
 
-    private CycleDependencyPromise $promise;
+    private CycleDependencyProxy $promise;
     private Generator $faker;
     /** @var User[] */
     private array $users = [];
@@ -31,7 +31,7 @@ class AddCommand extends Command
 
     private const DEFAULT_COUNT = 10;
 
-    public function __construct(CycleDependencyPromise $promise)
+    public function __construct(CycleDependencyProxy $promise)
     {
         $this->promise = $promise;
         parent::__construct();

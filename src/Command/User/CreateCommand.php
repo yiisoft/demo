@@ -10,15 +10,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
-use Yiisoft\Yii\Cycle\Command\CycleDependencyPromise;
+use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
 class CreateCommand extends Command
 {
-    private CycleDependencyPromise $promise;
+    private CycleDependencyProxy $promise;
 
     protected static $defaultName = 'user/create';
 
-    public function __construct(CycleDependencyPromise $promise)
+    public function __construct(CycleDependencyProxy $promise)
     {
         $this->promise = $promise;
         parent::__construct();
