@@ -21,11 +21,6 @@ final class BlogController extends Controller
     private const POPULAR_TAGS_COUNT = 10;
     private const ARCHIVE_MONTHS_COUNT = 12;
 
-    protected function getId(): string
-    {
-        return 'blog';
-    }
-
     public function index(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
     {
         /** @var PostRepository $postRepo */

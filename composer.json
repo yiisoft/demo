@@ -24,7 +24,7 @@
         "nyholm/psr7": "^1.0",
         "psr/log": "^1.1",
         "yiisoft/access": "^3.0@dev",
-        "yiisoft/aliases": "^3.0@dev",
+        "yiisoft/aliases": "^1.0",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/assets": "^1.0@dev",
         "yiisoft/auth": "^3.0@dev",
@@ -35,7 +35,7 @@
         "yiisoft/event-dispatcher": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/html": "^3.0@dev",
-        "yiisoft/injector": "^3.0@dev",
+        "yiisoft/injector": "^1.0",
         "yiisoft/log": "^3.0@dev",
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/mailer": "^3.0@dev",
@@ -90,7 +90,23 @@
                 "config/console.php"
             ],
             "providers": "config/providers.php",
-            "events": "config/events.php"
+            "providers-web": [
+                "$providers",
+                "config/providers-web.php"
+            ],
+            "providers-console": [
+                "$providers",
+                "config/providers-console.php"
+            ],
+            "events": "config/events.php",
+            "events-web": [
+                "$events",
+                "config/events-web.php"
+            ],
+            "events-console": [
+                "$events",
+                "config/events-console.php"
+            ]
         }
     },
     "config": {

@@ -4,7 +4,9 @@ use App\Command;
 use Cycle\Schema\Generator;
 
 return [
-    'debugger.enabled' => true,
+    'yiisoft/yii-debug' => [
+        // 'enabled' => false,
+    ],
     'mailer' => [
         'writeToFiles' => true,
         'host' => 'smtp.example.com',
@@ -27,49 +29,54 @@ return [
         'options' => ['cookie_secure' => 0],
     ],
 
-    'console' => [
+    'yiisoft/yii-console' => [
         'commands' => [
             'user/create' => Command\User\CreateCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
+            'router/list' => Command\Router\ListCommand::class,
         ],
     ],
 
-    // cycle DBAL config
-    'cycle.dbal' => [
-        'default' => 'default',
-        'aliases' => [],
-        'databases' => [
-            'default' => ['connection' => 'sqlite'],
+    'yiisoft/yii-cycle' => [
+        'dbal' => [
+            'default'     => 'default',
+            'aliases'     => [],
+            'databases'   => [
+                'default' => ['connection' => 'sqlite']
+            ],
+            'connections' => [
+                'sqlite' => [
+                    'driver'     => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                    'connection' => 'sqlite:@runtime/database.db',
+                    'username'   => '',
+                    'password'   => '',
+                ],
+            ],
+            // 'query-logger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
         ],
-        'connections' => [
-            'sqlite' => [
-                'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
-                'connection' => 'sqlite:@runtime/database.db',
-                'username' => '',
-                'password' => '',
+        // 'orm-promise-factory' => \Cycle\ORM\Promise\ProxyFactory::class,
+        'migrations' => [
+            'directory' => '@root/migrations',
+            'namespace' => 'App\\Migration',
+            'table' => 'migration',
+            'safe' => false,
+        ],
+        'schema-providers' => [
+            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
+                'key' => 'cycle-orm-cache-key'
+            ],
+            // \Yiisoft\Yii\Cycle\Schema\Provider\FromFileSchemaProvider::class => [
+            //     'file' => '@runtime/schema.php'
+            // ],
+            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+                'generators' => [
+                    // Generator\SyncTables::class, // sync table changes to database
+                ]
             ],
         ],
-    ],
-    // cycle common config
-    'cycle.common' => [
-        'entityPaths' => [
+        'annotated-entity-paths' => [
             '@src/Entity',
             '@src/Blog/Entity',
         ],
-        'cacheEnabled' => true,
-        'cacheKey' => 'Cycle-ORM-Schema',
-        'generators' => [
-            // sync table changes to database
-            Generator\SyncTables::class,
-        ],
-        // 'promiseFactory' => \Cycle\ORM\Promise\ProxyFactory::class,
-        //'queryLogger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
-    ],
-    // cycle migration config
-    'cycle.migrations' => [
-        'directory' => '@root/migrations',
-        'namespace' => 'App\\Migration',
-        'table' => 'migration',
-        'safe' => false,
     ],
 ];

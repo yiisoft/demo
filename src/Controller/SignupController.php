@@ -16,11 +16,6 @@ use Yiisoft\Router\UrlGeneratorInterface;
 
 final class SignupController extends Controller
 {
-    protected function getId(): string
-    {
-        return 'signup';
-    }
-
     public function signup(RequestInterface $request, IdentityRepositoryInterface $identityRepository, ORMInterface $orm, UrlGeneratorInterface $urlGenerator, LoggerInterface $logger): ResponseInterface
     {
         $body = $request->getParsedBody();
