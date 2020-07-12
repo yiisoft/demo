@@ -22,11 +22,8 @@ final class ArchiveController extends Controller
         return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 
-    public function monthlyArchive(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
+    public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
     {
-        /** @var TagRepository $postRepo */
-        $tagRepo = $orm->getRepository(Tag::class);
-
         $pageNum = (int)$request->getAttribute('page', 1);
         $year = $request->getAttribute('year', null);
         $month = $request->getAttribute('month', null);
@@ -41,7 +38,7 @@ final class ArchiveController extends Controller
             'month' => $month,
             'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
-            'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
+            'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
         return $this->render('monthly-archive', $data);
     }
