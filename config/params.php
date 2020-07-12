@@ -70,7 +70,7 @@ return [
             // ],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
-                    // Generator\SyncTables::class, // sync table changes to database
+                    Generator\SyncTables::class, // sync table changes to database
                 ]
             ],
         ],

@@ -1,7 +1,5 @@
 <?php
 
-/* @var \Psr\Container\ContainerInterface $container */
-
 if (!function_exists('dd')) {
     function dd(...$variables)
     {
