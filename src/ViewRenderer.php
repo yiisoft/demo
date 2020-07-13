@@ -19,6 +19,7 @@ final class ViewRenderer implements ViewContextInterface
     private Aliases $aliases;
     private WebView $view;
     private string $layout;
+    private ?string $viewPath = null;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -36,6 +37,10 @@ final class ViewRenderer implements ViewContextInterface
 
     public function getViewPath(): string
     {
+        if ($this->viewPath !== null) {
+            return $this->viewPath;
+        }
+
         return $this->aliases->get('@views') . '/' . $this->name;
     }
 
@@ -65,6 +70,14 @@ final class ViewRenderer implements ViewContextInterface
     {
         $new = clone $this;
         $new->name = $name;
+
+        return $new;
+    }
+
+    public function withViewPath(string $viewPath): self
+    {
+        $new = clone $this;
+        $new->viewPath = $viewPath;
 
         return $new;
     }
