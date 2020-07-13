@@ -11,7 +11,7 @@ class SiteController
 
     public function __construct(ViewRenderer $viewRenderer)
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('site');
+        $this->viewRenderer = $viewRenderer->withController($this);
     }
 
     public function index(): ResponseInterface

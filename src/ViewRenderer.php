@@ -53,6 +53,14 @@ final class ViewRenderer implements ViewContextInterface
         return $this->responseFactory->createResponse($content);
     }
 
+    public function withController(object $controller): self
+    {
+        $new = clone $this;
+        $new->name = $this->getName($controller);
+
+        return $new;
+    }
+
     public function withControllerName(string $name): self
     {
         $new = clone $this;
@@ -99,5 +107,35 @@ final class ViewRenderer implements ViewContextInterface
         }
 
         return $file . '.' . $this->view->getDefaultExtension();
+    }
+
+    /**
+     * Returns the controller name. Name should be converted to "id" case.
+     * Method returns classname without `controller` on the ending.
+     * If namespace is not contain `controller` or `controllers`
+     * then returns only classname without `controller` on the ending
+     * else returns all subnamespaces from `controller` (or `controllers`) to the end
+     *
+     * @return string
+     * @example App\Controller\FooBar\BazController -> foo-bar/baz
+     * @example App\Controllers\FooBar\BazController -> foo-bar/baz
+     * @example Path\To\File\BlogController -> blog
+     * @see Inflector::camel2id()
+     */
+    private function getName(object $controller): string
+    {
+        if ($this->name !== null) {
+            return $this->name;
+        }
+
+        $regexp = '/((?<=controller\\\|s\\\)(?:[\w\\\]+)|(?:[a-z]+))controller/iuU';
+        if (!preg_match($regexp, get_class($controller), $m) || empty($m[1])) {
+            throw new \RuntimeException('Cannot detect controller name');
+        }
+
+        $inflector = new Inflector();
+        $name = str_replace('\\', '/', $m[1]);
+
+        return $inflector->camel2id($name);
     }
 }
