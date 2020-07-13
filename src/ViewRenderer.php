@@ -33,7 +33,7 @@ final class ViewRenderer implements ViewContextInterface
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
-        $this->layout = $aliases->get('@views') . '/layout/main';
+        $this->layout = '@views/layout/main';
     }
 
     public function getViewPath(): string
@@ -43,7 +43,7 @@ final class ViewRenderer implements ViewContextInterface
         }
 
         if ($this->viewBasePath !== null) {
-            return $this->viewBasePath . '/' . $this->name;
+            return $this->aliases->get($this->viewBasePath) . '/' . $this->name;
         }
 
         return $this->aliases->get('@views') . '/' . $this->name;
@@ -107,7 +107,7 @@ final class ViewRenderer implements ViewContextInterface
     {
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
-        $layout = $this->findLayoutFile($this->layout);
+        $layout = $this->findLayoutFile($this->aliases->get($this->layout));
 
         if ($layout === null) {
             return $content;
