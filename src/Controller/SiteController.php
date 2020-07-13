@@ -2,13 +2,20 @@
 
 namespace App\Controller;
 
-use App\Controller;
 use Psr\Http\Message\ResponseInterface;
+use App\ViewRenderer;
 
-class SiteController extends Controller
+class SiteController
 {
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('site');
+    }
+
     public function index(): ResponseInterface
     {
-        return $this->render('index');
+        return $this->viewRenderer->render('index');
     }
 }

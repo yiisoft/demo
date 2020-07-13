@@ -3,8 +3,8 @@
 
 namespace App\Controller;
 
-use App\Controller;
 use App\Entity\User;
+use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Psr\Http\Message\RequestInterface;
@@ -14,8 +14,15 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 
-final class SignupController extends Controller
+final class SignupController
 {
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('signup');
+    }
+
     public function signup(RequestInterface $request, IdentityRepositoryInterface $identityRepository, ORMInterface $orm, UrlGeneratorInterface $urlGenerator, LoggerInterface $logger): ResponseInterface
     {
         $body = $request->getParsedBody();
@@ -53,7 +60,7 @@ final class SignupController extends Controller
             }
         }
 
-        return $this->render(
+        return $this->viewRenderer->render(
             'signup',
             [
                 'body' => $body,

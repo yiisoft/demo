@@ -3,16 +3,20 @@
 namespace App\Blog\Tag;
 
 use App\Blog\Post\PostRepository;
-use App\Controller;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 
-final class TagController extends Controller
+final class TagController
 {
-    protected static ?string $name = 'blog/tag';
     private const POSTS_PER_PAGE = 10;
+    private ViewRenderer $viewRenderer;
 
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('blog/tag');
+    }
     public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository): Response
     {
         $label = $request->getAttribute('label', null);
@@ -31,6 +35,6 @@ final class TagController extends Controller
             'item' => $item,
             'paginator' => $paginator,
         ];
-        return $this->render('index', $data);
+        return $this->viewRenderer->render('index', $data);
     }
 }

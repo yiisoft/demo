@@ -2,34 +2,36 @@
 
 namespace App\Controller;
 
-use App\Controller;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
-class AuthController extends Controller
+class AuthController
 {
+    private DataResponseFactoryInterface $responseFactory;
     private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
+    private ViewRenderer $viewRenderer;
+    private User $user;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
-        Aliases $aliases,
-        WebView $view,
-        User $user,
+        ViewRenderer $viewRenderer,
         LoggerInterface $logger,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        User $user
     ) {
+        $this->responseFactory = $responseFactory;
         $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
-        parent::__construct($responseFactory, $user, $aliases, $view);
+        $this->viewRenderer = $viewRenderer->withControllerName('auth');
+        $this->user = $user;
     }
 
     public function login(
@@ -73,7 +75,7 @@ class AuthController extends Controller
             }
         }
 
-        return $this->render(
+        return $this->viewRenderer->render(
             'login',
             [
                 'csrf' => $request->getAttribute('csrf_token'),

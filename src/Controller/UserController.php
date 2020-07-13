@@ -2,16 +2,23 @@
 
 namespace App\Controller;
 
-use App\Controller;
 use App\Repository\UserRepository;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 
-class UserController extends Controller
+class UserController
 {
     private const PAGINATION_INDEX = 5;
+
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('user');
+    }
 
     public function index(Request $request, UserRepository $userRepository): Response
     {
@@ -22,7 +29,7 @@ class UserController extends Controller
             ->withPageSize(self::PAGINATION_INDEX)
             ->withCurrentPage($pageNum);
 
-        return $this->render('index', ['paginator' => $paginator]);
+        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 
     public function profile(Request $request, UserRepository $userRepository): Response
@@ -33,6 +40,6 @@ class UserController extends Controller
             return $this->responseFactory->createResponse(404);
         }
 
-        return $this->render('profile', ['item' => $item]);
+        return $this->viewRenderer->render('profile', ['item' => $item]);
     }
 }

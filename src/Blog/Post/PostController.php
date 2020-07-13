@@ -2,13 +2,19 @@
 
 namespace App\Blog\Post;
 
-use App\Controller;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class PostController extends Controller
+final class PostController
 {
-    protected static ?string $name = 'blog/post';
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
+    }
+
     public function index(Request $request, PostRepository $postRepository): Response
     {
         $slug = $request->getAttribute('slug', null);
@@ -17,6 +23,6 @@ final class PostController extends Controller
             return $this->responseFactory->createResponse(404);
         }
 
-        return $this->render('index', ['item' => $item]);
+        return $this->viewRenderer->render('index', ['item' => $item]);
     }
 }
