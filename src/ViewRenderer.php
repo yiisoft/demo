@@ -19,8 +19,8 @@ final class ViewRenderer implements ViewContextInterface
     private Aliases $aliases;
     private WebView $view;
     private string $layout;
+    private ?string $viewBasePath;
     private ?string $viewPath = null;
-    private ?string $viewBasePath = null;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -29,8 +29,7 @@ final class ViewRenderer implements ViewContextInterface
         WebView $view,
         string $viewBasePath,
         string $layout
-    )
-    {
+    ) {
         $this->responseFactory = $responseFactory;
         $this->user = $user;
         $this->aliases = $aliases;
@@ -50,7 +49,7 @@ final class ViewRenderer implements ViewContextInterface
 
     public function render(string $view, array $parameters = []): ResponseInterface
     {
-        $contentRenderer = fn() => $this->renderProxy($view, $parameters);
+        $contentRenderer = fn () => $this->renderProxy($view, $parameters);
 
         return $this->responseFactory->createResponse($contentRenderer);
     }
