@@ -57,4 +57,10 @@ return [
             $container->get(CommentRepository::class)
         );
     },
+    \App\ViewRenderer::class => [
+        '__construct()' => [
+            'viewBasePath' => '@views',
+            'layout' => '@views/layout/main',
+        ],
+    ],
 ];

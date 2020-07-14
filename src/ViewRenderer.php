@@ -26,14 +26,17 @@ final class ViewRenderer implements ViewContextInterface
         DataResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
-        WebView $view
+        WebView $view,
+        string $viewBasePath,
+        string $layout
     )
     {
         $this->responseFactory = $responseFactory;
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
-        $this->layout = '@views/layout/main';
+        $this->viewBasePath = $viewBasePath;
+        $this->layout = $layout;
     }
 
     public function getViewPath(): string
@@ -42,11 +45,7 @@ final class ViewRenderer implements ViewContextInterface
             return $this->viewPath;
         }
 
-        if ($this->viewBasePath !== null) {
-            return $this->aliases->get($this->viewBasePath) . '/' . $this->name;
-        }
-
-        return $this->aliases->get('@views') . '/' . $this->name;
+        return $this->aliases->get($this->viewBasePath) . '/' . $this->name;
     }
 
     public function render(string $view, array $parameters = []): ResponseInterface
@@ -162,6 +161,6 @@ final class ViewRenderer implements ViewContextInterface
         $inflector = new Inflector();
         $name = str_replace('\\', '/', $m[1]);
 
-        return $inflector->camel2id($name);
+        return $this->name = $inflector->camel2id($name);
     }
 }
