@@ -4,6 +4,7 @@ namespace App;
 
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
@@ -16,17 +17,20 @@ final class ViewRenderer implements ViewContextInterface
     protected DataResponseFactoryInterface $responseFactory;
     protected User $user;
 
+    private UrlMatcherInterface $urlMatcher;
     private Aliases $aliases;
     private WebView $view;
     private string $layout;
     private ?string $viewBasePath;
     private ?string $viewPath = null;
+    private ?string $csrf = null;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view,
+        UrlMatcherInterface $urlMatcher,
         string $viewBasePath,
         string $layout
     ) {
@@ -34,6 +38,7 @@ final class ViewRenderer implements ViewContextInterface
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
+        $this->urlMatcher = $urlMatcher;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
     }
@@ -101,8 +106,28 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
+    public function withCsrf(): self
+    {
+        $new = clone $this;
+        $new->csrf = $this->getCsrf();
+
+        return $new;
+    }
+
     private function renderProxy(string $view, array $parameters = []): string
     {
+        $parameters = [];
+        if ($this->csrf !== null) {
+            $parameters['csrf'] = $this->csrf;
+
+            $this->view->registerMetaTag(
+                [
+                    'name' => 'csrf',
+                    'content' => $this->csrf,
+                ],
+                'csrf_meta_tags'
+            );
+        }
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
         $layout = $this->findLayoutFile($this->aliases->get($this->layout));
@@ -110,13 +135,14 @@ final class ViewRenderer implements ViewContextInterface
         if ($layout === null) {
             return $content;
         }
+
+        $parameters['content'] = $content;
+        $parameters['user'] = $user;
+
         return $this->view->renderFile(
             $layout,
-            [
-                'content' => $content,
-                'user' => $user,
-            ],
-            $this
+            $parameters,
+            $this,
         );
     }
 
@@ -161,5 +187,10 @@ final class ViewRenderer implements ViewContextInterface
         $name = str_replace('\\', '/', $m[1]);
 
         return $this->name = $inflector->camel2id($name);
+    }
+
+    private function getCsrf(): string
+    {
+        return $this->urlMatcher->getLastMatchedRequest()->getAttribute('csrf_token');
     }
 }
