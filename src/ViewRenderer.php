@@ -116,10 +116,8 @@ final class ViewRenderer implements ViewContextInterface
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = [];
         if ($this->csrf !== null) {
             $parameters['csrf'] = $this->csrf;
-
             $this->view->registerMetaTag(
                 [
                     'name' => 'csrf',
@@ -136,12 +134,12 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $parameters['content'] = $content;
-        $parameters['user'] = $user;
+        $layoutParameters['content'] = $content;
+        $layoutParameters['user'] = $user;
 
         return $this->view->renderFile(
             $layout,
-            $parameters,
+            $layoutParameters,
             $this,
         );
     }
