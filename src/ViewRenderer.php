@@ -24,6 +24,7 @@ final class ViewRenderer implements ViewContextInterface
     private ?string $viewBasePath;
     private ?string $viewPath = null;
     private ?string $csrf = null;
+    private string $csrfRequestName;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -106,10 +107,11 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function withCsrf(): self
+    public function withCsrf(string $requestTokenName = 'csrf_token'): self
     {
         $new = clone $this;
-        $new->csrf = $this->getCsrf();
+        $new->csrfRequestName = $requestTokenName;
+        $new->csrf = $new->getCsrf();
 
         return $new;
     }
@@ -189,6 +191,6 @@ final class ViewRenderer implements ViewContextInterface
 
     private function getCsrf(): string
     {
-        return $this->urlMatcher->getLastMatchedRequest()->getAttribute('csrf_token');
+        return $this->urlMatcher->getLastMatchedRequest()->getAttribute($this->csrfRequestName);
     }
 }
