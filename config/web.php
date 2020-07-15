@@ -2,9 +2,9 @@
 
 use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
-use App\Blog\Entity\Comment;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
+use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -23,6 +23,7 @@ use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
+use App\Repository\UserRepository;
 
 /**
  * @var array $params
@@ -47,29 +48,20 @@ return [
             $params['session']['handler'] ?? null,
         ],
     ],
-
-    // here you can configure custom prefix of the web path
-    // \Yiisoft\Yii\Web\Middleware\SubFolder::class => [
-    //     'prefix' => '',
-    // ],
-
-    // User:
-    IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
-        return $container->get(\Cycle\ORM\ORMInterface::class)->getRepository(\App\Entity\User::class);
-    },
-
-    // contact form mailer
+    IdentityRepositoryInterface::class => UserRepository::class,
     ContactMailer::class => static function (ContainerInterface $container) use ($params) {
         $mailer = $container->get(MailerInterface::class);
         return new ContactMailer($mailer, $params['supportEmail']);
     },
-
     CommentService::class => static function (ContainerInterface $container) {
-        /**
-         * @var CommentRepository $repository
-         */
-        $repository = $container->get(ORMInterface::class)->getRepository(Comment::class);
-
-        return new CommentService($repository);
+        return new CommentService(
+            $container->get(CommentRepository::class)
+        );
     },
+    ViewRenderer::class => [
+        '__construct()' => [
+            'viewBasePath' => '@views',
+            'layout' => '@views/layout/main',
+        ],
+    ],
 ];

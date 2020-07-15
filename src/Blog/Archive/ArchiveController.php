@@ -2,31 +2,30 @@
 
 namespace App\Blog\Archive;
 
-use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
-use App\Controller;
-use Cycle\ORM\ORMInterface;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 
-final class ArchiveController extends Controller
+final class ArchiveController
 {
-    protected static ?string $name = 'blog/archive';
-
     private const POSTS_PER_PAGE = 3;
     private const POPULAR_TAGS_COUNT = 10;
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('blog/archive');
+    }
 
     public function index(ArchiveRepository $archiveRepo): Response
     {
-        return $this->render('index', ['archive' => $archiveRepo->getFullArchive()]);
+        return $this->viewRenderer->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 
-    public function monthlyArchive(Request $request, ORMInterface $orm, ArchiveRepository $archiveRepo): Response
+    public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
     {
-        /** @var TagRepository $postRepo */
-        $tagRepo = $orm->getRepository(Tag::class);
-
         $pageNum = (int)$request->getAttribute('page', 1);
         $year = $request->getAttribute('year', null);
         $month = $request->getAttribute('month', null);
@@ -41,9 +40,9 @@ final class ArchiveController extends Controller
             'month' => $month,
             'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(12),
-            'tags' => $tagRepo->getTagMentions(self::POPULAR_TAGS_COUNT),
+            'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
-        return $this->render('monthly-archive', $data);
+        return $this->viewRenderer->render('monthly-archive', $data);
     }
 
     public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
@@ -54,6 +53,6 @@ final class ArchiveController extends Controller
             'year' => $year,
             'items' => $archiveRepo->getYearlyArchive($year),
         ];
-        return $this->render('yearly-archive', $data);
+        return $this->viewRenderer->render('yearly-archive', $data);
     }
 }

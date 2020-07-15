@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -19,12 +18,9 @@ class ApiUserController
         $this->responseFactory = $responseFactory;
     }
 
-    public function index(ORMInterface $orm): ResponseInterface
+    public function index(UserRepository $userRepository): ResponseInterface
     {
-        /** @var UserRepository $userRepo */
-        $userRepo = $orm->getRepository(User::class);
-
-        $dataReader = $userRepo->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $dataReader = $userRepository->findAll()->withSort((new Sort([]))->withOrderString('login'));
         $users = $dataReader->read();
 
         $items = [];
@@ -35,10 +31,8 @@ class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    public function profile(ServerRequestInterface $request, ORMInterface $orm): ResponseInterface
+    public function profile(ServerRequestInterface $request, UserRepository $userRepository): ResponseInterface
     {
-        /** @var UserRepository $userRepository */
-        $userRepository = $orm->getRepository(User::class);
         $login = $request->getAttribute('login', null);
 
         /** @var User $user */

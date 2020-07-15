@@ -2,25 +2,28 @@
 
 namespace App\Blog\Post;
 
-use App\Blog\Entity\Post;
-use App\Controller;
-use Cycle\ORM\ORMInterface;
+use App\ViewRenderer;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class PostController extends Controller
+final class PostController
 {
-    protected static ?string $name = 'blog/post';
-    public function index(Request $request, ORMInterface $orm): Response
-    {
-        $postRepo = $orm->getRepository(Post::class);
-        $slug = $request->getAttribute('slug', null);
+    private ViewRenderer $viewRenderer;
 
-        $item = $postRepo->fullPostPage($slug);
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
+    }
+
+    public function index(Request $request, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
+    {
+        $slug = $request->getAttribute('slug', null);
+        $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
-            return $this->responseFactory->createResponse(404);
+            return $responseFactory->createResponse(404);
         }
 
-        return $this->render('index', ['item' => $item]);
+        return $this->viewRenderer->render('index', ['item' => $item]);
     }
 }
