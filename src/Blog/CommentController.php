@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace App\Blog;
 
 use App\Blog\Comment\CommentService;
-use App\Controller;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class CommentController extends Controller
+final class CommentController
 {
-    protected static ?string $name = 'blog/comments';
+    private ViewRenderer $viewRenderer;
+
+    public function __construct(ViewRenderer $viewRenderer)
+    {
+        $this->viewRenderer = $viewRenderer->withControllerName('blog/comments');
+    }
+
     public function index(Request $request, CommentService $service): Response
     {
         $paginator = $service->getFeedPaginator();
@@ -20,10 +26,10 @@ final class CommentController extends Controller
         }
 
         if ($this->isAjaxRequest($request)) {
-            return $this->renderPartial('_comments', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_comments', ['data' => $paginator]);
         }
 
-        return $this->render('index', ['data' => $paginator]);
+        return $this->viewRenderer->render('index', ['data' => $paginator]);
     }
 
     private function isAjaxRequest(Request $request): bool

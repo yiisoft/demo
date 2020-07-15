@@ -4,6 +4,7 @@ use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
+use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -57,4 +58,10 @@ return [
             $container->get(CommentRepository::class)
         );
     },
+    ViewRenderer::class => [
+        '__construct()' => [
+            'viewBasePath' => '@views',
+            'layout' => '@views/layout/main',
+        ],
+    ],
 ];
