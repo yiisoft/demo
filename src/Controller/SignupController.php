@@ -31,8 +31,7 @@ final class SignupController
         UrlGeneratorInterface $urlGenerator,
         LoggerInterface $logger,
         ResponseFactoryInterface $responseFactory
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $body = $request->getParsedBody();
         $error = null;
 
