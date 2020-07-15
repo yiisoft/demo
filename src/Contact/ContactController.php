@@ -2,16 +2,11 @@
 
 namespace App\Contact;
 
-use App\Controller;
 use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Http\Method;
-use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\User\User;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
 class ContactController
 {
@@ -20,7 +15,6 @@ class ContactController
     private ViewRenderer $viewRenderer;
 
     public function __construct(
-        DataResponseFactoryInterface $responseFactory,
         ViewRenderer $viewRenderer,
         ContactMailer $mailer,
         LoggerInterface $logger

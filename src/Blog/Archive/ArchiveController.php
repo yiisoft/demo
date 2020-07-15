@@ -2,10 +2,8 @@
 
 namespace App\Blog\Archive;
 
-use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
 use App\ViewRenderer;
-use Cycle\ORM\ORMInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;

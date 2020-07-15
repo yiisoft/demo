@@ -3,25 +3,25 @@
 namespace App\Controller;
 
 use App\ViewRenderer;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 class AuthController
 {
-    private DataResponseFactoryInterface $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
     private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private ViewRenderer $viewRenderer;
     private User $user;
 
     public function __construct(
-        DataResponseFactoryInterface $responseFactory,
+        ResponseFactoryInterface $responseFactory,
         ViewRenderer $viewRenderer,
         LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator,

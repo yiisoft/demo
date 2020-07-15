@@ -8,6 +8,7 @@ use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
@@ -23,7 +24,14 @@ final class SignupController
         $this->viewRenderer = $viewRenderer->withControllerName('signup');
     }
 
-    public function signup(RequestInterface $request, IdentityRepositoryInterface $identityRepository, ORMInterface $orm, UrlGeneratorInterface $urlGenerator, LoggerInterface $logger): ResponseInterface
+    public function signup(
+        RequestInterface $request,
+        IdentityRepositoryInterface $identityRepository,
+        ORMInterface $orm,
+        UrlGeneratorInterface $urlGenerator,
+        LoggerInterface $logger,
+        ResponseFactoryInterface $responseFactory
+    ): ResponseInterface
     {
         $body = $request->getParsedBody();
         $error = null;
@@ -48,7 +56,7 @@ final class SignupController
                 $transaction->persist($user);
 
                 $transaction->run();
-                return $this->responseFactory
+                return $responseFactory
                     ->createResponse(302)
                     ->withHeader(
                         'Location',

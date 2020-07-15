@@ -4,6 +4,7 @@ namespace App\Blog\Tag;
 
 use App\Blog\Post\PostRepository;
 use App\ViewRenderer;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
@@ -17,14 +18,14 @@ final class TagController
     {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/tag');
     }
-    public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository): Response
+    public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
     {
         $label = $request->getAttribute('label', null);
         $pageNum = (int)$request->getAttribute('page', 1);
         $item = $tagRepository->findByLabel($label);
 
         if ($item === null) {
-            return $this->responseFactory->createResponse(404);
+            return $responseFactory->createResponse(404);
         }
         // preloading of posts
         $paginator = (new OffsetPaginator($postRepository->findByTag($item->getId())))
