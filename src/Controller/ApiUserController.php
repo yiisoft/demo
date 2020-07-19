@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
 class ApiUserController
 {
