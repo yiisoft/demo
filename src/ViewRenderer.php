@@ -9,6 +9,7 @@ use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Middleware\Csrf;
 use Yiisoft\Yii\Web\User\User;
 
 final class ViewRenderer implements ViewContextInterface
@@ -23,8 +24,8 @@ final class ViewRenderer implements ViewContextInterface
     private string $layout;
     private ?string $viewBasePath;
     private ?string $viewPath = null;
-    private ?string $csrf = null;
-    private string $csrfRequestName;
+    private ?string $csrfToken = null;
+    private string $csrfTokenRequestAttribute;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -107,23 +108,23 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function withCsrf(string $requestTokenName = 'csrf_token'): self
+    public function withCsrf(string $requestAttribute = Csrf::REQUEST_NAME): self
     {
         $new = clone $this;
-        $new->csrfRequestName = $requestTokenName;
-        $new->csrf = $new->getCsrf();
+        $new->csrfTokenRequestAttribute = $requestAttribute;
+        $new->csrfToken = $new->getCsrfToken();
 
         return $new;
     }
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        if ($this->csrf !== null) {
-            $parameters['csrf'] = $this->csrf;
+        if ($this->csrfToken !== null) {
+            $parameters['csrf'] = $this->csrfToken;
             $this->view->registerMetaTag(
                 [
                     'name' => 'csrf',
-                    'content' => $this->csrf,
+                    'content' => $this->csrfToken,
                 ],
                 'csrf_meta_tags'
             );
@@ -189,8 +190,8 @@ final class ViewRenderer implements ViewContextInterface
         return $this->name = $inflector->camel2id($name);
     }
 
-    private function getCsrf(): string
+    private function getCsrfToken(): string
     {
-        return $this->urlMatcher->getLastMatchedRequest()->getAttribute($this->csrfRequestName);
+        return $this->urlMatcher->getLastMatchedRequest()->getAttribute($this->csrfTokenRequestAttribute);
     }
 }
