@@ -8,7 +8,7 @@ use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
 final class ViewRenderer implements ViewContextInterface
