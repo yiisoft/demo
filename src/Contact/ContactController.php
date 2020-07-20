@@ -59,8 +59,6 @@ class ContactController
             $parameters['error'] = $error;
         }
 
-        $parameters['csrf'] = $request->getAttribute('csrf_token');
-
-        return $this->viewRenderer->render('form', $parameters);
+        return $this->viewRenderer->withCsrf()->render('form', $parameters);
     }
 }

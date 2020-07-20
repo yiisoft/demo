@@ -4,10 +4,12 @@ namespace App;
 
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Yii\Web\Middleware\Csrf;
 use Yiisoft\Yii\Web\User\User;
 
 final class ViewRenderer implements ViewContextInterface
@@ -16,17 +18,21 @@ final class ViewRenderer implements ViewContextInterface
     protected DataResponseFactoryInterface $responseFactory;
     protected User $user;
 
+    private UrlMatcherInterface $urlMatcher;
     private Aliases $aliases;
     private WebView $view;
     private string $layout;
     private ?string $viewBasePath;
     private ?string $viewPath = null;
+    private ?string $csrfToken = null;
+    private string $csrfTokenRequestAttribute;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
         WebView $view,
+        UrlMatcherInterface $urlMatcher,
         string $viewBasePath,
         string $layout
     ) {
@@ -34,6 +40,7 @@ final class ViewRenderer implements ViewContextInterface
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
+        $this->urlMatcher = $urlMatcher;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
     }
@@ -101,8 +108,27 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
+    public function withCsrf(string $requestAttribute = Csrf::REQUEST_NAME): self
+    {
+        $new = clone $this;
+        $new->csrfTokenRequestAttribute = $requestAttribute;
+        $new->csrfToken = $new->getCsrfToken();
+
+        return $new;
+    }
+
     private function renderProxy(string $view, array $parameters = []): string
     {
+        if ($this->csrfToken !== null) {
+            $parameters['csrf'] = $this->csrfToken;
+            $this->view->registerMetaTag(
+                [
+                    'name' => 'csrf',
+                    'content' => $this->csrfToken,
+                ],
+                'csrf_meta_tags'
+            );
+        }
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
         $layout = $this->findLayoutFile($this->aliases->get($this->layout));
@@ -110,13 +136,14 @@ final class ViewRenderer implements ViewContextInterface
         if ($layout === null) {
             return $content;
         }
+
+        $layoutParameters['content'] = $content;
+        $layoutParameters['user'] = $user;
+
         return $this->view->renderFile(
             $layout,
-            [
-                'content' => $content,
-                'user' => $user,
-            ],
-            $this
+            $layoutParameters,
+            $this,
         );
     }
 
@@ -161,5 +188,10 @@ final class ViewRenderer implements ViewContextInterface
         $name = str_replace('\\', '/', $m[1]);
 
         return $this->name = $inflector->camel2id($name);
+    }
+
+    private function getCsrfToken(): string
+    {
+        return $this->urlMatcher->getLastMatchedRequest()->getAttribute($this->csrfTokenRequestAttribute);
     }
 }
