@@ -22,10 +22,10 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
-use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponse;
-use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsJson;
-use Yiisoft\Yii\Web\Data\Middleware\FormatDataResponseAsXml;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\Middleware\FormatDataResponse;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 
 class AppRouterFactory
 {

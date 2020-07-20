@@ -2,32 +2,26 @@
 
 namespace App\Contact;
 
-use App\Controller;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Http\Method;
-use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\User\User;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
 
-class ContactController extends Controller
+class ContactController
 {
     private ContactMailer $mailer;
     private LoggerInterface $logger;
+    private ViewRenderer $viewRenderer;
 
     public function __construct(
-        DataResponseFactoryInterface $responseFactory,
-        Aliases $aliases,
-        WebView $view,
-        User $user,
+        ViewRenderer $viewRenderer,
         ContactMailer $mailer,
         LoggerInterface $logger
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        parent::__construct($responseFactory, $user, $aliases, $view);
+        $this->viewRenderer = $viewRenderer->withControllerName('contact');
     }
 
     public function contact(ServerRequestInterface $request): ResponseInterface
@@ -67,6 +61,6 @@ class ContactController extends Controller
 
         $parameters['csrf'] = $request->getAttribute('csrf_token');
 
-        return $this->render('form', $parameters);
+        return $this->viewRenderer->render('form', $parameters);
     }
 }

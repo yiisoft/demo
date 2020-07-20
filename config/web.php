@@ -4,6 +4,7 @@ use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
+use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -15,10 +16,10 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Mailer\MailerInterface;
-use Yiisoft\Yii\Web\Data\DataResponseFactory;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
-use Yiisoft\Yii\Web\Data\DataResponseFormatterInterface;
-use Yiisoft\Yii\Web\Data\Formatter\HtmlDataResponseFormatter;
+use Yiisoft\DataResponse\DataResponseFactory;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\DataResponseFormatterInterface;
+use Yiisoft\DataResponse\Formatter\HtmlDataResponseFormatter;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use Yiisoft\Yii\Web\Session\Session;
 use Yiisoft\Yii\Web\Session\SessionInterface;
@@ -57,4 +58,10 @@ return [
             $container->get(CommentRepository::class)
         );
     },
+    ViewRenderer::class => [
+        '__construct()' => [
+            'viewBasePath' => '@views',
+            'layout' => '@views/layout/main',
+        ],
+    ],
 ];

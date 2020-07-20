@@ -32,7 +32,7 @@
         "yiisoft/cache-file": "^3.0@dev",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
-        "yiisoft/event-dispatcher": "^3.0@dev",
+        "yiisoft/yii-event": "^3.0@dev",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/html": "^3.0@dev",
         "yiisoft/injector": "^1.0",
@@ -52,7 +52,8 @@
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
-        "yiisoft/serializer": "^3.0@dev"
+        "yiisoft/serializer": "^3.0@dev",
+        "yiisoft/data-response": "^3.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9"

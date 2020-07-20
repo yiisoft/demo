@@ -7,51 +7,105 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Web\Data\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\User\User;
 
-abstract class Controller implements ViewContextInterface
+final class ViewRenderer implements ViewContextInterface
 {
-    protected static ?string $name = null;
+    protected ?string $name = null;
     protected DataResponseFactoryInterface $responseFactory;
     protected User $user;
 
     private Aliases $aliases;
     private WebView $view;
     private string $layout;
+    private ?string $viewBasePath;
+    private ?string $viewPath = null;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
         User $user,
         Aliases $aliases,
-        WebView $view
+        WebView $view,
+        string $viewBasePath,
+        string $layout
     ) {
         $this->responseFactory = $responseFactory;
         $this->user = $user;
         $this->aliases = $aliases;
         $this->view = $view;
-        $this->layout = $aliases->get('@views') . '/layout/main';
+        $this->viewBasePath = $viewBasePath;
+        $this->layout = $layout;
     }
 
-    protected function render(string $view, array $parameters = []): ResponseInterface
+    public function getViewPath(): string
+    {
+        if ($this->viewPath !== null) {
+            return $this->viewPath;
+        }
+
+        return $this->aliases->get($this->viewBasePath) . '/' . $this->name;
+    }
+
+    public function render(string $view, array $parameters = []): ResponseInterface
     {
         $contentRenderer = fn () => $this->renderProxy($view, $parameters);
 
         return $this->responseFactory->createResponse($contentRenderer);
     }
 
-    protected function renderPartial(string $view, array $parameters = []): ResponseInterface
+    public function renderPartial(string $view, array $parameters = []): ResponseInterface
     {
         $content = $this->view->render($view, $parameters, $this);
 
         return $this->responseFactory->createResponse($content);
     }
 
+    public function withController(object $controller): self
+    {
+        $new = clone $this;
+        $new->name = $this->getName($controller);
+
+        return $new;
+    }
+
+    public function withControllerName(string $name): self
+    {
+        $new = clone $this;
+        $new->name = $name;
+
+        return $new;
+    }
+
+    public function withViewPath(string $viewPath): self
+    {
+        $new = clone $this;
+        $new->viewPath = $viewPath;
+
+        return $new;
+    }
+
+    public function withViewBasePath(string $viewBasePath): self
+    {
+        $new = clone $this;
+        $new->viewBasePath = $viewBasePath;
+
+        return $new;
+    }
+
+    public function withLayout(string $layout): self
+    {
+        $new = clone $this;
+        $new->layout = $layout;
+
+        return $new;
+    }
+
     private function renderProxy(string $view, array $parameters = []): string
     {
         $content = $this->view->render($view, $parameters, $this);
         $user = $this->user->getIdentity();
-        $layout = $this->findLayoutFile($this->layout);
+        $layout = $this->findLayoutFile($this->aliases->get($this->layout));
 
         if ($layout === null) {
             return $content;
@@ -64,11 +118,6 @@ abstract class Controller implements ViewContextInterface
             ],
             $this
         );
-    }
-
-    public function getViewPath(): string
-    {
-        return $this->aliases->get('@views') . '/' . static::getName();
     }
 
     private function findLayoutFile(?string $file): ?string
@@ -97,20 +146,20 @@ abstract class Controller implements ViewContextInterface
      * @example Path\To\File\BlogController -> blog
      * @see Inflector::camel2id()
      */
-    protected static function getName(): string
+    private function getName(object $controller): string
     {
-        if (static::$name !== null) {
-            return static::$name;
+        if ($this->name !== null) {
+            return $this->name;
         }
 
         $regexp = '/((?<=controller\\\|s\\\)(?:[\w\\\]+)|(?:[a-z]+))controller/iuU';
-        if (!preg_match($regexp, static::class, $m) || empty($m[1])) {
+        if (!preg_match($regexp, get_class($controller), $m) || empty($m[1])) {
             throw new \RuntimeException('Cannot detect controller name');
         }
 
         $inflector = new Inflector();
         $name = str_replace('\\', '/', $m[1]);
 
-        return static::$name = $inflector->camel2id($name);
+        return $this->name = $inflector->camel2id($name);
     }
 }
