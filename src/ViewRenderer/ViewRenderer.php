@@ -74,7 +74,7 @@ final class ViewRenderer implements ViewContextInterface
     public function withController(object $controller): self
     {
         $new = clone $this;
-        $new->name = $this->getName($controller);
+        $new->name = static::getName($controller);
 
         return $new;
     }
@@ -195,26 +195,32 @@ final class ViewRenderer implements ViewContextInterface
      * then returns only classname without `controller` on the ending
      * else returns all subnamespaces from `controller` (or `controllers`) to the end
      *
+     * @param object $controller
      * @return string
      * @example App\Controller\FooBar\BazController -> foo-bar/baz
      * @example App\Controllers\FooBar\BazController -> foo-bar/baz
      * @example Path\To\File\BlogController -> blog
      * @see Inflector::camel2id()
      */
-    private function getName(object $controller): string
+    private static function getName(object $controller): string
     {
-        if ($this->name !== null) {
-            return $this->name;
+        static $cache = [];
+
+        $class = get_class($controller);
+        if (isset($cache[$class])) {
+            return $cache[$class];
         }
 
         $regexp = '/((?<=controller\\\|s\\\)(?:[\w\\\]+)|(?:[a-z]+))controller/iuU';
-        if (!preg_match($regexp, get_class($controller), $m) || empty($m[1])) {
+        if (!preg_match($regexp, $class, $m) || empty($m[1])) {
             throw new \RuntimeException('Cannot detect controller name');
         }
 
         $inflector = new Inflector();
         $name = str_replace('\\', '/', $m[1]);
+        $name = $inflector->camel2id($name);
 
-        return $this->name = $inflector->camel2id($name);
+        $cache[$class] = $name;
+        return $name;
     }
 }
