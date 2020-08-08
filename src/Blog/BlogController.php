@@ -7,7 +7,7 @@ namespace App\Blog;
 use App\Blog\Archive\ArchiveRepository;
 use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagRepository;
-use App\ViewRenderer;
+use App\ViewRenderer\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;

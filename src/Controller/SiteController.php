@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use App\ViewRenderer;
+use App\ViewRenderer\ViewRenderer;
 
 class SiteController
 {

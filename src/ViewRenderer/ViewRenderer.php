@@ -1,48 +1,51 @@
 <?php
 
-namespace App;
+declare(strict_types=1);
 
+namespace App\ViewRenderer;
+
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Yii\Web\Middleware\Csrf;
-use Yiisoft\Yii\Web\User\User;
 
 final class ViewRenderer implements ViewContextInterface
 {
     protected ?string $name = null;
     protected DataResponseFactoryInterface $responseFactory;
-    protected User $user;
 
-    private UrlMatcherInterface $urlMatcher;
     private Aliases $aliases;
+    private ContainerInterface $container;
     private WebView $view;
     private string $layout;
     private ?string $viewBasePath;
     private ?string $viewPath = null;
-    private ?string $csrfToken = null;
-    private string $csrfTokenRequestAttribute;
+
+    private array $contentInjections;
+    private array $layoutInjections;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
-        User $user,
         Aliases $aliases,
+        ContainerInterface $container,
         WebView $view,
-        UrlMatcherInterface $urlMatcher,
         string $viewBasePath,
-        string $layout
+        string $layout,
+        array $contentInjections = [],
+        array $layoutInjections = []
     ) {
         $this->responseFactory = $responseFactory;
-        $this->user = $user;
         $this->aliases = $aliases;
+        $this->container = $container;
         $this->view = $view;
-        $this->urlMatcher = $urlMatcher;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
+        $this->contentInjections = $contentInjections;
+        $this->layoutInjections = $layoutInjections;
     }
 
     public function getViewPath(): string
@@ -56,7 +59,7 @@ final class ViewRenderer implements ViewContextInterface
 
     public function render(string $view, array $parameters = []): ResponseInterface
     {
-        $contentRenderer = fn () => $this->renderProxy($view, $parameters);
+        $contentRenderer = fn() => $this->renderProxy($view, $parameters);
 
         return $this->responseFactory->createResponse($contentRenderer);
     }
@@ -108,43 +111,67 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function withCsrf(string $requestAttribute = Csrf::REQUEST_NAME): self
+    public function withExtraContentInjections(array $injections): self
     {
         $new = clone $this;
-        $new->csrfTokenRequestAttribute = $requestAttribute;
-        $new->csrfToken = $new->getCsrfToken();
-
+        $new->contentInjections = array_merge($this->contentInjections, $injections);
         return $new;
+    }
+
+    public function withCsrf(string $requestAttribute = Csrf::REQUEST_NAME): self
+    {
+        return $this->withExtraContentInjections([
+            CsrfInjection::class => ['requestAttribute' => $requestAttribute],
+        ]);
     }
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        if ($this->csrfToken !== null) {
-            $parameters['csrf'] = $this->csrfToken;
-            $this->view->registerMetaTag(
-                [
-                    'name' => 'csrf',
-                    'content' => $this->csrfToken,
-                ],
-                'csrf_meta_tags'
-            );
-        }
+        $parameters = $this->injectParameters($parameters, $this->contentInjections);
         $content = $this->view->render($view, $parameters, $this);
-        $user = $this->user->getIdentity();
+
         $layout = $this->findLayoutFile($this->aliases->get($this->layout));
 
         if ($layout === null) {
             return $content;
         }
 
-        $layoutParameters['content'] = $content;
-        $layoutParameters['user'] = $user;
+        $layoutParameters = $this->injectParameters(['content' => $content], $this->layoutInjections);
 
         return $this->view->renderFile(
             $layout,
             $layoutParameters,
             $this,
         );
+    }
+
+    private function injectParameters(array $parameters, array $injections): array
+    {
+        foreach ($this->getInjections($injections) as $injection) {
+            $parameters = array_merge($parameters, $injection->getParams());
+        }
+        return $parameters;
+    }
+
+    /**
+     * @param array $injections
+     * @return InjectionInterface[]
+     */
+    private function getInjections(array $injections): array
+    {
+        $instances = [];
+        foreach ($injections as $key => $injection) {
+            if (is_string($injection)) {
+                $injection = $this->container->get($injection);
+            } elseif (is_array($injection) && is_string($key)) {
+                $injection = $this->container->get($key)->withConfig($injection);
+            }
+            if (!$injection instanceof InjectionInterface) {
+                throw new \RuntimeException('Injection should be instance of ViewParametersInjectionInterface.');
+            }
+            $instances[] = $injection;
+        }
+        return $instances;
     }
 
     private function findLayoutFile(?string $file): ?string
@@ -188,10 +215,5 @@ final class ViewRenderer implements ViewContextInterface
         $name = str_replace('\\', '/', $m[1]);
 
         return $this->name = $inflector->camel2id($name);
-    }
-
-    private function getCsrfToken(): string
-    {
-        return $this->urlMatcher->getLastMatchedRequest()->getAttribute($this->csrfTokenRequestAttribute);
     }
 }
