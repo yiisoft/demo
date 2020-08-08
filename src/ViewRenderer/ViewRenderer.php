@@ -130,8 +130,7 @@ final class ViewRenderer implements ViewContextInterface
         $parameters = $this->injectParameters($parameters, $this->contentInjections);
         $content = $this->view->render($view, $parameters, $this);
 
-        $layout = $this->findLayoutFile($this->aliases->get($this->layout));
-
+        $layout = $this->findLayoutFile($this->layout);
         if ($layout === null) {
             return $content;
         }
@@ -179,6 +178,8 @@ final class ViewRenderer implements ViewContextInterface
         if ($file === null) {
             return null;
         }
+
+        $file = $this->aliases->get($file);
 
         if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
             return $file;
