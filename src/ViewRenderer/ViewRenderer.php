@@ -109,17 +109,38 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function withExtraContentInjections(array $injections): self
+    public function addContentInjections(array $injections): self
     {
         $new = clone $this;
         $new->contentInjections = array_merge($this->contentInjections, $injections);
         return $new;
     }
 
+    public function withContentInjections(array $injections): self
+    {
+        $new = clone $this;
+        $new->contentInjections = $injections;
+        return $new;
+    }
+
+    public function addLayoutInjections(array $injections): self
+    {
+        $new = clone $this;
+        $new->layoutInjections = array_merge($this->layoutInjections, $injections);
+        return $new;
+    }
+
+    public function withLayoutInjections(array $injections): self
+    {
+        $new = clone $this;
+        $new->layoutInjections = $injections;
+        return $new;
+    }
+
     public function withCsrf(?string $requestAttribute = null): self
     {
         $injecton = $requestAttribute === null ? $this->csrfInjection : $this->csrfInjection->withRequestAttribute($requestAttribute);
-        return $this->withExtraContentInjections([$injecton]);
+        return $this->addContentInjections([$injecton]);
     }
 
     private function renderProxy(string $view, array $parameters = []): string

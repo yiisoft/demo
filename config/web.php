@@ -6,7 +6,6 @@ use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
-use App\ViewRenderer\UserInjection;
 use App\ViewRenderer\ViewRenderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
