@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Contact;
 
 use Psr\Http\Message\UploadedFileInterface;

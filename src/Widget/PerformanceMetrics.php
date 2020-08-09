@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Widget;
 
 use App\Timer;
