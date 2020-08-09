@@ -3,6 +3,7 @@
 use App\Command;
 use App\ViewRenderer\UserInjection;
 use Cycle\Schema\Generator;
+use Yiisoft\Factory\Definitions\Reference;
 
 return [
     'yiisoft/yii-debug' => [
@@ -40,17 +41,17 @@ return [
 
     'yiisoft/yii-cycle' => [
         'dbal' => [
-            'default'     => 'default',
-            'aliases'     => [],
-            'databases'   => [
+            'default' => 'default',
+            'aliases' => [],
+            'databases' => [
                 'default' => ['connection' => 'sqlite']
             ],
             'connections' => [
                 'sqlite' => [
-                    'driver'     => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
                     'connection' => 'sqlite:@runtime/database.db',
-                    'username'   => '',
-                    'password'   => '',
+                    'username' => '',
+                    'password' => '',
                 ],
             ],
             // 'query-logger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
@@ -86,13 +87,13 @@ return [
         'layout' => '@views/layout/main',
         'contentInjections' => [
             // Use for add Csrf parameter to all views
-            // CsrfInjection::class,
+            // Reference::to(CsrfInjection::class),
         ],
         'layoutInjections' => [
-            UserInjection::class,
-            // UserInjection::class => [
-            //    'parameter' => 'employee',
-            // ],
+            Reference::to(UserInjection::class),
+            // DynamicReference::to(function (ContainerInterface $container) {
+            //     return $container->get(UserInjection::class)->withConfig(['parameter' => 'employee']);
+            // }),
         ],
     ],
 ];

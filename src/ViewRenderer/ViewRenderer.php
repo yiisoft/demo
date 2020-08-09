@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\ViewRenderer;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Yii\Web\Middleware\Csrf;
 
 final class ViewRenderer implements ViewContextInterface
 {
@@ -19,7 +17,7 @@ final class ViewRenderer implements ViewContextInterface
     protected DataResponseFactoryInterface $responseFactory;
 
     private Aliases $aliases;
-    private ContainerInterface $container;
+    private CsrfInjection $csrfInjection;
     private WebView $view;
     private string $layout;
     private ?string $viewBasePath;
@@ -31,7 +29,7 @@ final class ViewRenderer implements ViewContextInterface
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
         Aliases $aliases,
-        ContainerInterface $container,
+        CsrfInjection $csrfInjection,
         WebView $view,
         string $viewBasePath,
         string $layout,
@@ -40,7 +38,7 @@ final class ViewRenderer implements ViewContextInterface
     ) {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
-        $this->container = $container;
+        $this->csrfInjection = $csrfInjection;
         $this->view = $view;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
@@ -118,11 +116,10 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function withCsrf(string $requestAttribute = Csrf::REQUEST_NAME): self
+    public function withCsrf(?string $requestAttribute = null): self
     {
-        return $this->withExtraContentInjections([
-            CsrfInjection::class => ['requestAttribute' => $requestAttribute],
-        ]);
+        $injecton = $requestAttribute === null ? $this->csrfInjection : $this->csrfInjection->withConfig(['requestAttribute' => $requestAttribute]);
+        return $this->withExtraContentInjections([$injecton]);
     }
 
     private function renderProxy(string $view, array $parameters = []): string
@@ -144,33 +141,17 @@ final class ViewRenderer implements ViewContextInterface
         );
     }
 
+    /**
+     * @param array $parameters
+     * @param InjectionInterface[] $injections
+     * @return array
+     */
     private function injectParameters(array $parameters, array $injections): array
     {
-        foreach ($this->getInjections($injections) as $injection) {
+        foreach ($injections as $injection) {
             $parameters = array_merge($parameters, $injection->getParams());
         }
         return $parameters;
-    }
-
-    /**
-     * @param array $injections
-     * @return InjectionInterface[]
-     */
-    private function getInjections(array $injections): array
-    {
-        $instances = [];
-        foreach ($injections as $key => $injection) {
-            if (is_string($injection)) {
-                $injection = $this->container->get($injection);
-            } elseif (is_array($injection) && is_string($key)) {
-                $injection = $this->container->get($key)->withConfig($injection);
-            }
-            if (!$injection instanceof InjectionInterface) {
-                throw new \RuntimeException('Injection should be instance of ViewParametersInjectionInterface.');
-            }
-            $instances[] = $injection;
-        }
-        return $instances;
     }
 
     private function findLayoutFile(?string $file): ?string
