@@ -6,7 +6,7 @@ namespace App\ViewRenderer;
 
 use Yiisoft\Yii\Web\User\User;
 
-class UserInjection implements InjectionInterface
+class UserInjection extends AbstractInjection
 {
     public const DEFAULT_PARAMETER = 'user';
 

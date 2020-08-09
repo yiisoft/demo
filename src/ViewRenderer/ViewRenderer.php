@@ -6,6 +6,7 @@ namespace App\ViewRenderer;
 
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Strings\Inflector;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\WebView;
@@ -145,7 +146,7 @@ final class ViewRenderer implements ViewContextInterface
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = $this->injectParameters($parameters, $this->contentInjections);
+        $parameters = $this->inject($parameters, $this->contentInjections);
         $content = $this->view->render($view, $parameters, $this);
 
         $layout = $this->findLayoutFile($this->layout);
@@ -153,7 +154,7 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $layoutParameters = $this->injectParameters(['content' => $content], $this->layoutInjections);
+        $layoutParameters = $this->inject(['content' => $content], $this->layoutInjections);
 
         return $this->view->renderFile(
             $layout,
@@ -167,10 +168,18 @@ final class ViewRenderer implements ViewContextInterface
      * @param InjectionInterface[] $injections
      * @return array
      */
-    private function injectParameters(array $parameters, array $injections): array
+    private function inject(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
             $parameters = array_merge($parameters, $injection->getParams());
+            foreach ($injection->getMetaTags() as $options) {
+                $key = ArrayHelper::remove($options, '__key');
+                $this->view->registerMetaTag($options, $key);
+            }
+            foreach ($injection->getLinkTags() as $options) {
+                $key = ArrayHelper::remove($options, '__key');
+                $this->view->registerLinkTag($options, $key);
+            }
         }
         return $parameters;
     }

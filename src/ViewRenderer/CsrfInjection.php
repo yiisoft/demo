@@ -5,27 +5,22 @@ declare(strict_types=1);
 namespace App\ViewRenderer;
 
 use Yiisoft\Router\UrlMatcherInterface;
-use Yiisoft\View\WebView;
 use Yiisoft\Yii\Web\Middleware\Csrf;
 
-class CsrfInjection implements InjectionInterface
+class CsrfInjection extends AbstractInjection
 {
     public const DEFAULT_META_ATTRIBUTE = 'csrf';
     public const DEFAULT_PARAMETER = 'csrf';
 
     private UrlMatcherInterface $urlMatcher;
-    private WebView $view;
 
     private string $requestAttribute = Csrf::REQUEST_NAME;
     private string $metaAttribute = self::DEFAULT_META_ATTRIBUTE;
     private string $parameter = self::DEFAULT_PARAMETER;
 
-    public function __construct(
-        UrlMatcherInterface $urlMatcher,
-        WebView $view
-    ) {
+    public function __construct(UrlMatcherInterface $urlMatcher)
+    {
         $this->urlMatcher = $urlMatcher;
-        $this->view = $view;
     }
 
     public function withRequestAttribute(string $requestAttribute): self
@@ -51,17 +46,18 @@ class CsrfInjection implements InjectionInterface
 
     public function getParams(): array
     {
-        $csrfToken = $this->getCsrfToken();
+        return [$this->parameter => $this->getCsrfToken()];
+    }
 
-        $this->view->registerMetaTag(
+    public function getMetaTags(): array
+    {
+        return [
             [
+                '__key' => 'csrf_meta_tags',
                 'name' => $this->metaAttribute,
-                'content' => $this->csrfToken,
-            ],
-            'csrf_meta_tags'
-        );
-
-        return [$this->parameter => $csrfToken];
+                'content' => $this->getCsrfToken(),
+            ]
+        ];
     }
 
     private ?string $csrfToken = null;
