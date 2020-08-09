@@ -1,6 +1,7 @@
 <?php
 
 use App\Command;
+use App\ViewRenderer\UserInjection;
 use Cycle\Schema\Generator;
 
 return [
@@ -77,6 +78,21 @@ return [
         'annotated-entity-paths' => [
             '@src/Entity',
             '@src/Blog/Entity',
+        ],
+    ],
+
+    'viewRenderer' => [
+        'viewBasePath' => '@views',
+        'layout' => '@views/layout/main',
+        'contentInjections' => [
+            // Use for add Csrf parameter to all views
+            // CsrfInjection::class,
+        ],
+        'layoutInjections' => [
+            UserInjection::class,
+            // UserInjection::class => [
+            //    'parameter' => 'employee',
+            // ],
         ],
     ],
 ];

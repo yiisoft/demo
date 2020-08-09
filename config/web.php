@@ -62,10 +62,10 @@ return [
     },
     ViewRenderer::class => [
         '__construct()' => [
-            'viewBasePath' => '@views',
-            'layout' => '@views/layout/main',
-            'contentInjections' => [],
-            'layoutInjections' => [UserInjection::class],
+            'viewBasePath' => $params['viewRenderer']['viewBasePath'],
+            'layout' => $params['viewRenderer']['layout'],
+            'contentInjections' => $params['viewRenderer']['contentInjections'],
+            'layoutInjections' => $params['viewRenderer']['layoutInjections'],
         ],
     ],
 ];
