@@ -118,7 +118,7 @@ final class ViewRenderer implements ViewContextInterface
 
     public function withCsrf(?string $requestAttribute = null): self
     {
-        $injecton = $requestAttribute === null ? $this->csrfInjection : $this->csrfInjection->withConfig(['requestAttribute' => $requestAttribute]);
+        $injecton = $requestAttribute === null ? $this->csrfInjection : $this->csrfInjection->withRequestAttribute($requestAttribute);
         return $this->withExtraContentInjections([$injecton]);
     }
 

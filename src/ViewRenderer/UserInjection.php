@@ -19,10 +19,10 @@ class UserInjection implements InjectionInterface
         $this->user = $user;
     }
 
-    public function withConfig(array $config): self
+    public function withParameter(string $parameter): self
     {
         $clone = clone $this;
-        $clone->parameter = $config['parameter'] ?? self::DEFAULT_PARAMETER;
+        $clone->parameter = $parameter;
         return $clone;
     }
 

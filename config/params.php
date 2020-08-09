@@ -91,8 +91,9 @@ return [
         ],
         'layoutInjections' => [
             Reference::to(UserInjection::class),
+            // Use DynamicReference for config injections
             // DynamicReference::to(function (ContainerInterface $container) {
-            //     return $container->get(UserInjection::class)->withConfig(['parameter' => 'employee']);
+            //     return $container->get(UserInjection::class)->withParameter('employee');
             // }),
         ],
     ],

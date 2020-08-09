@@ -28,12 +28,24 @@ class CsrfInjection implements InjectionInterface
         $this->view = $view;
     }
 
-    public function withConfig(array $config): self
+    public function withRequestAttribute(string $requestAttribute): self
     {
         $clone = clone $this;
-        $clone->requestAttribute = $config['requestAttribute'] ?? Csrf::REQUEST_NAME;
-        $clone->metaAttribute = $config['metaAttribute'] ?? self::DEFAULT_META_ATTRIBUTE;
-        $clone->parameter = $config['parameter'] ?? self::DEFAULT_PARAMETER;
+        $clone->requestAttribute = $requestAttribute;
+        return $clone;
+    }
+
+    public function withParameter(string $parameter): self
+    {
+        $clone = clone $this;
+        $clone->parameter = $parameter;
+        return $clone;
+    }
+
+    public function withMetaAttribute(string $metaAttribute): self
+    {
+        $clone = clone $this;
+        $clone->metaAttribute = $metaAttribute;
         return $clone;
     }
 
