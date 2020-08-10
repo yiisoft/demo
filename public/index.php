@@ -17,7 +17,8 @@ $startTime = microtime(true);
 
 $eventDispatcherProvider = new EventDispatcherProvider(require Builder::path('events-web'));
 
-$providers = array_merge([
+$providers = array_merge(
+    [
     'yiisoft/event-dispatcher/eventdispatcher' => $eventDispatcherProvider],
     require Builder::path('providers-web')
 );
