@@ -17,7 +17,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
         "yiisoft/composer-config-plugin": "^1.0@dev",
@@ -90,15 +90,6 @@
                 "$common",
                 "config/console.php"
             ],
-            "providers": "config/providers.php",
-            "providers-web": [
-                "$providers",
-                "config/providers-web.php"
-            ],
-            "providers-console": [
-                "$providers",
-                "config/providers-console.php"
-            ],
             "events": "config/events.php",
             "events-web": [
                 "$events",
@@ -107,6 +98,15 @@
             "events-console": [
                 "$events",
                 "config/events-console.php"
+            ],
+            "providers": "config/providers.php",
+            "providers-web": [
+                "$providers",
+                "config/providers-web.php"
+            ],
+            "providers-console": [
+                "$providers",
+                "config/providers-console.php"
             ]
         }
     },
