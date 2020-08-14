@@ -47,7 +47,6 @@
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
         "yiisoft/widget": "^3.0@dev",
-        "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
@@ -56,6 +55,7 @@
         "yiisoft/data-response": "^3.0@dev"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "fzaninotto/faker": "^1.9"
     },
     "autoload": {
