@@ -52,7 +52,8 @@
         "yiisoft/yii-web": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/serializer": "^3.0@dev",
-        "yiisoft/data-response": "^3.0@dev"
+        "yiisoft/data-response": "^3.0@dev",
+        "yiisoft/yii-bootstrap4": "^3.0@dev"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
