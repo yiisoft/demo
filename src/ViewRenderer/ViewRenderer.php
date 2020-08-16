@@ -52,7 +52,7 @@ final class ViewRenderer implements ViewContextInterface
 
     public function render(string $view, array $parameters = []): ResponseInterface
     {
-        $contentRenderer = fn() => $this->renderProxy($view, $parameters);
+        $contentRenderer = fn () => $this->renderProxy($view, $parameters);
 
         return $this->responseFactory->createResponse($contentRenderer);
     }
