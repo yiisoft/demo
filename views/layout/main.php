@@ -9,12 +9,14 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
- * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
+ *
+ * @see \App\ViewRenderer\ApplicationInjection
+ * @var \App\Entity\User $user
+ * @var string $currentUrl
+ * @var string $brandLabel
  */
-
-$currentUrl = (string) $urlMatcher->getLastMatchedRequest()->getUri();
 
 $assetManager->register([
     AppAsset::class
@@ -38,7 +40,7 @@ $this->beginPage();
 $this->beginBody();
 
 echo NavBar::begin()
-      ->brandLabel('Yii Demo')
+      ->brandLabel($brandLabel)
       ->brandUrl($urlGenerator->generate('site/index'))
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->start();

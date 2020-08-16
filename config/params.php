@@ -1,7 +1,7 @@
 <?php
 
 use App\Command;
-use App\ViewRenderer\UserInjection;
+use App\ViewRenderer\ApplicationInjection;
 use Cycle\Schema\Generator;
 use Yiisoft\Factory\Definitions\Reference;
 
@@ -92,7 +92,7 @@ return [
             // DynamicReference::to(function (ContainerInterface $container) {
             //     return $container->get(CsrfInjection::class)->withParameter('mycsrf');
             // }),
-            Reference::to(UserInjection::class),
+            Reference::to(ApplicationInjection::class),
         ],
     ],
 ];
