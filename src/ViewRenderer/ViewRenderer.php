@@ -137,7 +137,10 @@ final class ViewRenderer implements ViewContextInterface
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = $this->injectContent($parameters, $this->injections);
+        $this->injectMetaTags();
+        $this->injectLinkTags();
+
+        $parameters = $this->getContentParameters($parameters);
         $content = $this->view->render($view, $parameters, $this);
 
         $layout = $this->findLayoutFile($this->layout);
@@ -145,7 +148,7 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $layoutParameters = $this->injectLayout(['content' => $content], $this->injections);
+        $layoutParameters = $this->getLayoutParameters(['content' => $content]);
 
         return $this->view->renderFile(
             $layout,
@@ -154,23 +157,21 @@ final class ViewRenderer implements ViewContextInterface
         );
     }
 
-    /**
-     * @param array $parameters
-     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
-     * @return array
-     */
-    private function injectContent(array $parameters, array $injections): array
+    private function injectMetaTags(): void
     {
-        foreach ($injections as $injection) {
-            if ($injection instanceof ContentParamsInjectionInterface) {
-                $parameters = array_merge($parameters, $injection->getContentParams());
-            }
+        foreach ($this->injections as $injection) {
             if ($injection instanceof MetaTagsInjectionInterface) {
                 foreach ($injection->getMetaTags() as $options) {
                     $key = ArrayHelper::remove($options, '__key');
                     $this->view->registerMetaTag($options, $key);
                 }
             }
+        }
+    }
+
+    private function injectLinkTags(): void
+    {
+        foreach ($this->injections as $injection) {
             if ($injection instanceof LinkTagsInjectionInterface) {
                 foreach ($injection->getLinkTags() as $options) {
                     $key = ArrayHelper::remove($options, '__key');
@@ -178,17 +179,21 @@ final class ViewRenderer implements ViewContextInterface
                 }
             }
         }
+    }
+
+    private function getContentParameters(array $parameters): array
+    {
+        foreach ($this->injections as $injection) {
+            if ($injection instanceof ContentParamsInjectionInterface) {
+                $parameters = array_merge($parameters, $injection->getContentParams());
+            }
+        }
         return $parameters;
     }
 
-    /**
-     * @param array $parameters
-     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
-     * @return array
-     */
-    private function injectLayout(array $parameters, array $injections): array
+    private function getLayoutParameters(array $parameters): array
     {
-        foreach ($injections as $injection) {
+        foreach ($this->injections as $injection) {
             if ($injection instanceof LayoutParamsInjectionInterface) {
                 $parameters = array_merge($parameters, $injection->getLayoutParams());
             }
