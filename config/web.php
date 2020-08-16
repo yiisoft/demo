@@ -63,8 +63,7 @@ return [
         '__construct()' => [
             'viewBasePath' => $params['viewRenderer']['viewBasePath'],
             'layout' => $params['viewRenderer']['layout'],
-            'contentInjections' => $params['viewRenderer']['contentInjections'],
-            'layoutInjections' => $params['viewRenderer']['layoutInjections'],
+            'injections' => $params['viewRenderer']['injections'],
         ],
     ],
 ];

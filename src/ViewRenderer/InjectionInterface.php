@@ -7,7 +7,9 @@ namespace App\ViewRenderer;
 interface InjectionInterface
 {
 
-    public function getParams(): array;
+    public function getContentParams(): array;
+
+    public function getLayoutParams(): array;
 
     public function getMetaTags(): array;
 

@@ -7,7 +7,12 @@ namespace App\ViewRenderer;
 abstract class AbstractInjection implements InjectionInterface
 {
 
-    public function getParams(): array
+    public function getContentParams(): array
+    {
+        return [];
+    }
+
+    public function getLayoutParams(): array
     {
         return [];
     }

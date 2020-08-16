@@ -26,7 +26,7 @@ class UserInjection extends AbstractInjection
         return $clone;
     }
 
-    public function getParams(): array
+    public function getLayoutParams(): array
     {
         return [$this->parameter => $this->user->getIdentity()];
     }

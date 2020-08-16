@@ -24,8 +24,7 @@ final class ViewRenderer implements ViewContextInterface
     private ?string $viewBasePath;
     private ?string $viewPath = null;
 
-    private array $contentInjections;
-    private array $layoutInjections;
+    private array $injections;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
@@ -34,8 +33,7 @@ final class ViewRenderer implements ViewContextInterface
         WebView $view,
         string $viewBasePath,
         string $layout,
-        array $contentInjections = [],
-        array $layoutInjections = []
+        array $injections = []
     ) {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
@@ -43,8 +41,7 @@ final class ViewRenderer implements ViewContextInterface
         $this->view = $view;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
-        $this->contentInjections = $contentInjections;
-        $this->layoutInjections = $layoutInjections;
+        $this->injections = $injections;
     }
 
     public function getViewPath(): string
@@ -110,43 +107,36 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function addContentInjections(array $injections): self
+    /**
+     * @param InjectionInterface[] $injections
+     * @return self
+     */
+    public function addInjections(array $injections): self
     {
         $new = clone $this;
-        $new->contentInjections = array_merge($this->contentInjections, $injections);
+        $new->injections = array_merge($this->injections, $injections);
         return $new;
     }
 
-    public function withContentInjections(array $injections): self
+    public function addInjection(InjectionInterface $injection): self
     {
-        $new = clone $this;
-        $new->contentInjections = $injections;
-        return $new;
+        return $this->addInjections([$injection]);
     }
 
-    public function addLayoutInjections(array $injections): self
+    /**
+     * @param InjectionInterface[] $injections
+     * @return self
+     */
+    public function withInjections(array $injections): self
     {
         $new = clone $this;
-        $new->layoutInjections = array_merge($this->layoutInjections, $injections);
+        $new->injections = $injections;
         return $new;
-    }
-
-    public function withLayoutInjections(array $injections): self
-    {
-        $new = clone $this;
-        $new->layoutInjections = $injections;
-        return $new;
-    }
-
-    public function withCsrf(?string $requestAttribute = null): self
-    {
-        $injecton = $requestAttribute === null ? $this->csrfInjection : $this->csrfInjection->withRequestAttribute($requestAttribute);
-        return $this->addContentInjections([$injecton]);
     }
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = $this->inject($parameters, $this->contentInjections);
+        $parameters = $this->inject($parameters, $this->injections, 'content');
         $content = $this->view->render($view, $parameters, $this);
 
         $layout = $this->findLayoutFile($this->layout);
@@ -154,7 +144,7 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $layoutParameters = $this->inject(['content' => $content], $this->layoutInjections);
+        $layoutParameters = $this->inject(['content' => $content], $this->injections, 'layout');
 
         return $this->view->renderFile(
             $layout,
@@ -166,19 +156,28 @@ final class ViewRenderer implements ViewContextInterface
     /**
      * @param array $parameters
      * @param InjectionInterface[] $injections
+     * @param string $context
      * @return array
      */
-    private function inject(array $parameters, array $injections): array
+    private function inject(array $parameters, array $injections, string $context): array
     {
         foreach ($injections as $injection) {
-            $parameters = array_merge($parameters, $injection->getParams());
-            foreach ($injection->getMetaTags() as $options) {
-                $key = ArrayHelper::remove($options, '__key');
-                $this->view->registerMetaTag($options, $key);
-            }
-            foreach ($injection->getLinkTags() as $options) {
-                $key = ArrayHelper::remove($options, '__key');
-                $this->view->registerLinkTag($options, $key);
+            switch ($context) {
+                case 'content':
+                    $parameters = array_merge($parameters, $injection->getContentParams());
+                    foreach ($injection->getMetaTags() as $options) {
+                        $key = ArrayHelper::remove($options, '__key');
+                        $this->view->registerMetaTag($options, $key);
+                    }
+                    foreach ($injection->getLinkTags() as $options) {
+                        $key = ArrayHelper::remove($options, '__key');
+                        $this->view->registerLinkTag($options, $key);
+                    }
+                    break;
+
+                case 'layout':
+                    $parameters = array_merge($parameters, $injection->getLayoutParams());
+                    break;
             }
         }
         return $parameters;

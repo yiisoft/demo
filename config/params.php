@@ -85,16 +85,14 @@ return [
     'viewRenderer' => [
         'viewBasePath' => '@views',
         'layout' => '@views/layout/main',
-        'contentInjections' => [
+        'injections' => [
             // Use for add Csrf parameter to all views
             // Reference::to(CsrfInjection::class),
-        ],
-        'layoutInjections' => [
-            Reference::to(UserInjection::class),
-            // Use DynamicReference for config injections
+            // or
             // DynamicReference::to(function (ContainerInterface $container) {
-            //     return $container->get(UserInjection::class)->withParameter('employee');
+            //     return $container->get(CsrfInjection::class)->withParameter('mycsrf');
             // }),
+            Reference::to(UserInjection::class),
         ],
     ],
 ];

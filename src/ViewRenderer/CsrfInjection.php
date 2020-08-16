@@ -44,7 +44,12 @@ class CsrfInjection extends AbstractInjection
         return $clone;
     }
 
-    public function getParams(): array
+    public function getContentParams(): array
+    {
+        return [$this->parameter => $this->getCsrfToken()];
+    }
+
+    public function getLayoutParams(): array
     {
         return [$this->parameter => $this->getCsrfToken()];
     }
