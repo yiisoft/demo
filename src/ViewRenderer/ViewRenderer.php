@@ -136,7 +136,7 @@ final class ViewRenderer implements ViewContextInterface
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = $this->inject($parameters, $this->injections, 'content');
+        $parameters = $this->contentInject($parameters, $this->injections);
         $content = $this->view->render($view, $parameters, $this);
 
         $layout = $this->findLayoutFile($this->layout);
@@ -144,7 +144,7 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $layoutParameters = $this->inject(['content' => $content], $this->injections, 'layout');
+        $layoutParameters = $this->layoutInject(['content' => $content], $this->injections);
 
         return $this->view->renderFile(
             $layout,
@@ -156,29 +156,33 @@ final class ViewRenderer implements ViewContextInterface
     /**
      * @param array $parameters
      * @param InjectionInterface[] $injections
-     * @param string $context
      * @return array
      */
-    private function inject(array $parameters, array $injections, string $context): array
+    private function contentInject(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
-            switch ($context) {
-                case 'content':
-                    $parameters = array_merge($parameters, $injection->getContentParams());
-                    foreach ($injection->getMetaTags() as $options) {
-                        $key = ArrayHelper::remove($options, '__key');
-                        $this->view->registerMetaTag($options, $key);
-                    }
-                    foreach ($injection->getLinkTags() as $options) {
-                        $key = ArrayHelper::remove($options, '__key');
-                        $this->view->registerLinkTag($options, $key);
-                    }
-                    break;
-
-                case 'layout':
-                    $parameters = array_merge($parameters, $injection->getLayoutParams());
-                    break;
+            $parameters = array_merge($parameters, $injection->getContentParams());
+            foreach ($injection->getMetaTags() as $options) {
+                $key = ArrayHelper::remove($options, '__key');
+                $this->view->registerMetaTag($options, $key);
             }
+            foreach ($injection->getLinkTags() as $options) {
+                $key = ArrayHelper::remove($options, '__key');
+                $this->view->registerLinkTag($options, $key);
+            }
+        }
+        return $parameters;
+    }
+
+    /**
+     * @param array $parameters
+     * @param InjectionInterface[] $injections
+     * @return array
+     */
+    private function layoutInject(array $parameters, array $injections): array
+    {
+        foreach ($injections as $injection) {
+            $parameters = array_merge($parameters, $injection->getLayoutParams());
         }
         return $parameters;
     }
