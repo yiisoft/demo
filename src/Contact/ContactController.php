@@ -65,6 +65,6 @@ class ContactController
             $parameters['error'] = $error;
         }
 
-        return $this->viewRenderer->addInjection($this->csrfViewInjection)->render('form', $parameters);
+        return $this->viewRenderer->withAddedInjection($this->csrfViewInjection)->render('form', $parameters);
     }
 }

@@ -108,7 +108,7 @@ final class ViewRenderer implements ViewContextInterface
      * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return self
      */
-    public function addInjections(array $injections): self
+    public function withAddedInjections(array $injections): self
     {
         $new = clone $this;
         $new->injections = array_merge($this->injections, $injections);
@@ -119,9 +119,9 @@ final class ViewRenderer implements ViewContextInterface
      * @param ContentParamsInjectionInterface|LayoutParamsInjectionInterface|LinkTagsInjectionInterface|MetaTagsInjectionInterface $injection
      * @return self
      */
-    public function addInjection($injection): self
+    public function withAddedInjection($injection): self
     {
-        return $this->addInjections([$injection]);
+        return $this->withAddedInjections([$injection]);
     }
 
     /**
