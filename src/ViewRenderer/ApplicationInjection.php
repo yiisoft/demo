@@ -29,4 +29,26 @@ class ApplicationInjection extends AbstractInjection
             'brandLabel' => 'Yii Demo',
         ];
     }
+
+    public function getMetaTags(): array
+    {
+        return [
+            [
+                '__key' => 'generator',
+                'name' => 'generator',
+                'value' => 'Yii',
+            ],
+        ];
+    }
+
+    public function getLinkTags(): array
+    {
+        return [
+            [
+                '__key' => 'favicon',
+                'name' => 'icon',
+                'value' => 'favicon.ico',
+            ],
+        ];
+    }
 }
