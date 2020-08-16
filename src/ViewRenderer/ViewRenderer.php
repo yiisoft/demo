@@ -137,7 +137,7 @@ final class ViewRenderer implements ViewContextInterface
 
     private function renderProxy(string $view, array $parameters = []): string
     {
-        $parameters = $this->contentInject($parameters, $this->injections);
+        $parameters = $this->injectContent($parameters, $this->injections);
         $content = $this->view->render($view, $parameters, $this);
 
         $layout = $this->findLayoutFile($this->layout);
@@ -145,7 +145,7 @@ final class ViewRenderer implements ViewContextInterface
             return $content;
         }
 
-        $layoutParameters = $this->layoutInject(['content' => $content], $this->injections);
+        $layoutParameters = $this->injectLayout(['content' => $content], $this->injections);
 
         return $this->view->renderFile(
             $layout,
@@ -159,7 +159,7 @@ final class ViewRenderer implements ViewContextInterface
      * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return array
      */
-    private function contentInject(array $parameters, array $injections): array
+    private function injectContent(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
             if ($injection instanceof ContentParamsInjectionInterface) {
@@ -186,7 +186,7 @@ final class ViewRenderer implements ViewContextInterface
      * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return array
      */
-    private function layoutInject(array $parameters, array $injections): array
+    private function injectLayout(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
             if ($injection instanceof LayoutParamsInjectionInterface) {
@@ -241,9 +241,6 @@ final class ViewRenderer implements ViewContextInterface
 
         $inflector = new Inflector();
         $name = str_replace('\\', '/', $m[1]);
-        $name = $inflector->camel2id($name);
-
-        $cache[$class] = $name;
-        return $name;
+        return $cache[$class] = $inflector->camel2id($name);
     }
 }

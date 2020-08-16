@@ -21,6 +21,8 @@ class CsrfViewInjection implements
     private string $metaAttribute = self::DEFAULT_META_ATTRIBUTE;
     private string $parameter = self::DEFAULT_PARAMETER;
 
+    private ?string $csrfToken = null;
+
     public function __construct(UrlMatcherInterface $urlMatcher)
     {
         $this->urlMatcher = $urlMatcher;
@@ -67,8 +69,6 @@ class CsrfViewInjection implements
             ]
         ];
     }
-
-    private ?string $csrfToken = null;
 
     private function getCsrfToken(): string
     {
