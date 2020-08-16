@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
-use App\ViewRenderer\CsrfInjection;
+use App\ViewRenderer\CsrfViewInjection;
 use App\ViewRenderer\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,18 +16,18 @@ class ContactController
     private ContactMailer $mailer;
     private LoggerInterface $logger;
     private ViewRenderer $viewRenderer;
-    private CsrfInjection $csrfInjection;
+    private CsrfViewInjection $csrfViewInjection;
 
     public function __construct(
         ViewRenderer $viewRenderer,
         ContactMailer $mailer,
         LoggerInterface $logger,
-        CsrfInjection $csrfInjection
+        CsrfViewInjection $csrfViewInjection
     ) {
         $this->mailer = $mailer;
         $this->logger = $logger;
         $this->viewRenderer = $viewRenderer->withControllerName('contact');
-        $this->csrfInjection = $csrfInjection;
+        $this->csrfViewInjection = $csrfViewInjection;
     }
 
     public function contact(ServerRequestInterface $request): ResponseInterface
@@ -65,6 +65,6 @@ class ContactController
             $parameters['error'] = $error;
         }
 
-        return $this->viewRenderer->addInjection($this->csrfInjection)->render('form', $parameters);
+        return $this->viewRenderer->addInjection($this->csrfViewInjection)->render('form', $parameters);
     }
 }

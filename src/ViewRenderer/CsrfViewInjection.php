@@ -7,7 +7,10 @@ namespace App\ViewRenderer;
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Web\Middleware\Csrf;
 
-class CsrfInjection extends AbstractInjection
+class CsrfViewInjection implements
+    ContentParamsInjectionInterface,
+    LayoutParamsInjectionInterface,
+    MetaTagsInjectionInterface
 {
     public const DEFAULT_META_ATTRIBUTE = 'csrf';
     public const DEFAULT_PARAMETER = 'csrf';

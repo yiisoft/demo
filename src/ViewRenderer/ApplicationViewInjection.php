@@ -7,7 +7,10 @@ namespace App\ViewRenderer;
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\Web\User\User;
 
-class ApplicationInjection extends AbstractInjection
+class ApplicationViewInjection implements
+    LayoutParamsInjectionInterface,
+    MetaTagsInjectionInterface,
+    LinkTagsInjectionInterface
 {
 
     private User $user;

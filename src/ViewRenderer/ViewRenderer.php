@@ -18,7 +18,6 @@ final class ViewRenderer implements ViewContextInterface
     protected DataResponseFactoryInterface $responseFactory;
 
     private Aliases $aliases;
-    private CsrfInjection $csrfInjection;
     private WebView $view;
     private string $layout;
     private ?string $viewBasePath;
@@ -29,7 +28,6 @@ final class ViewRenderer implements ViewContextInterface
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
         Aliases $aliases,
-        CsrfInjection $csrfInjection,
         WebView $view,
         string $viewBasePath,
         string $layout,
@@ -37,7 +35,6 @@ final class ViewRenderer implements ViewContextInterface
     ) {
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
-        $this->csrfInjection = $csrfInjection;
         $this->view = $view;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
@@ -108,7 +105,7 @@ final class ViewRenderer implements ViewContextInterface
     }
 
     /**
-     * @param InjectionInterface[] $injections
+     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return self
      */
     public function addInjections(array $injections): self
@@ -118,13 +115,17 @@ final class ViewRenderer implements ViewContextInterface
         return $new;
     }
 
-    public function addInjection(InjectionInterface $injection): self
+    /**
+     * @param ContentParamsInjectionInterface|LayoutParamsInjectionInterface|LinkTagsInjectionInterface|MetaTagsInjectionInterface $injection
+     * @return self
+     */
+    public function addInjection($injection): self
     {
         return $this->addInjections([$injection]);
     }
 
     /**
-     * @param InjectionInterface[] $injections
+     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return self
      */
     public function withInjections(array $injections): self
@@ -155,20 +156,26 @@ final class ViewRenderer implements ViewContextInterface
 
     /**
      * @param array $parameters
-     * @param InjectionInterface[] $injections
+     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return array
      */
     private function contentInject(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
-            $parameters = array_merge($parameters, $injection->getContentParams());
-            foreach ($injection->getMetaTags() as $options) {
-                $key = ArrayHelper::remove($options, '__key');
-                $this->view->registerMetaTag($options, $key);
+            if ($injection instanceof ContentParamsInjectionInterface) {
+                $parameters = array_merge($parameters, $injection->getContentParams());
             }
-            foreach ($injection->getLinkTags() as $options) {
-                $key = ArrayHelper::remove($options, '__key');
-                $this->view->registerLinkTag($options, $key);
+            if ($injection instanceof MetaTagsInjectionInterface) {
+                foreach ($injection->getMetaTags() as $options) {
+                    $key = ArrayHelper::remove($options, '__key');
+                    $this->view->registerMetaTag($options, $key);
+                }
+            }
+            if ($injection instanceof LinkTagsInjectionInterface) {
+                foreach ($injection->getLinkTags() as $options) {
+                    $key = ArrayHelper::remove($options, '__key');
+                    $this->view->registerLinkTag($options, $key);
+                }
             }
         }
         return $parameters;
@@ -176,13 +183,15 @@ final class ViewRenderer implements ViewContextInterface
 
     /**
      * @param array $parameters
-     * @param InjectionInterface[] $injections
+     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
      * @return array
      */
     private function layoutInject(array $parameters, array $injections): array
     {
         foreach ($injections as $injection) {
-            $parameters = array_merge($parameters, $injection->getLayoutParams());
+            if ($injection instanceof LayoutParamsInjectionInterface) {
+                $parameters = array_merge($parameters, $injection->getLayoutParams());
+            }
         }
         return $parameters;
     }

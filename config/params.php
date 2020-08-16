@@ -1,7 +1,7 @@
 <?php
 
 use App\Command;
-use App\ViewRenderer\ApplicationInjection;
+use App\ViewRenderer\ApplicationViewInjection;
 use Cycle\Schema\Generator;
 use Yiisoft\Factory\Definitions\Reference;
 
@@ -87,12 +87,12 @@ return [
         'layout' => '@views/layout/main',
         'injections' => [
             // Use for add Csrf parameter to all views
-            // Reference::to(CsrfInjection::class),
+            // Reference::to(CsrfViewInjection::class),
             // or
             // DynamicReference::to(function (ContainerInterface $container) {
-            //     return $container->get(CsrfInjection::class)->withParameter('mycsrf');
+            //     return $container->get(CsrfViewInjection::class)->withParameter('mycsrf');
             // }),
-            Reference::to(ApplicationInjection::class),
+            Reference::to(ApplicationViewInjection::class),
         ],
     ],
 ];
