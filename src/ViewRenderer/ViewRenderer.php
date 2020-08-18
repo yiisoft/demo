@@ -235,7 +235,7 @@ final class ViewRenderer implements ViewContextInterface
         static $cache = [];
 
         $class = get_class($controller);
-        if (isset($cache[$class])) {
+        if (array_key_exists($class, $cache)) {
             return $cache[$class];
         }
 
