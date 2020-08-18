@@ -9,7 +9,7 @@ interface LinkTagsInjectionInterface
 
     /**
      * Returns array of link tags for register via {@see \Yiisoft\View\WebView::registerLinkTag()}.
-     * Use special key `__key` for set the key that identifies the link tag.
+     * Optionally, you may set the key that identifies the link tag via `__key`.
      *
      * For example:
      *

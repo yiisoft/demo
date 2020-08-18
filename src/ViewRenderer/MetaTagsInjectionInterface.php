@@ -9,7 +9,7 @@ interface MetaTagsInjectionInterface
 
     /**
      * Returns array of meta tags for register via {@see \Yiisoft\View\WebView::registerMetaTag()}.
-     * Use special key `__key` for set the key that identifies the meta tag.
+     * Optionally, you may set the key that identifies the meta tag via `__key`.
      *
      * For example:
      *
