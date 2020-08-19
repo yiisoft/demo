@@ -16,9 +16,12 @@ It's intended to show and test all Yii features.
 
 ## Installation
 
+You'll need PHP 7.3. Additionally, [NodeJs](https://nodejs.org/en/) is used in this repository to fetch assets so it
+should be installed.
+
 1. Clone this repository.
 2. Configure `config/params.php`. You can skip this step.
-3. Run `composer install`in your directory root folder.
+3. Run `composer install` in project root directory.
 4. Run `./vendor/bin/yii serve` or start your web-server setting up `public` directory as webroot.
 5. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
   If you want to disable this behavior then comment out line with `Generator\SyncTables::class` in the `config/params.php`.
