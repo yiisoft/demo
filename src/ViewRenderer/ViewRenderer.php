@@ -67,7 +67,7 @@ final class ViewRenderer implements ViewContextInterface
     public function withController(object $controller): self
     {
         $new = clone $this;
-        $new->name = static::getName($controller);
+        $new->name = $this->getName($controller);
 
         return $new;
     }
@@ -230,7 +230,7 @@ final class ViewRenderer implements ViewContextInterface
      * @example Path\To\File\BlogController -> blog
      * @see Inflector::camel2id()
      */
-    private static function getName(object $controller): string
+    private function getName(object $controller): string
     {
         static $cache = [];
 
