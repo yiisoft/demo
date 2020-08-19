@@ -2,7 +2,6 @@
 
 namespace App\Blog\Post;
 
-use App\Blog\Comment\Scope\PublicScope;
 use App\Blog\Entity\Post;
 use Cycle\ORM\Select;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -13,7 +12,6 @@ final class PostRepository extends Select\Repository
 {
     /**
      * Get posts without filter with preloaded Users and Tags
-     * @return SelectDataReader
      */
     public function findAllPreloaded(): DataReaderInterface
     {
@@ -22,10 +20,6 @@ final class PostRepository extends Select\Repository
         return $this->prepareDataReader($query);
     }
 
-    /**
-     * @param int|string $tagId
-     * @return SelectDataReader
-     */
     public function findByTag($tagId): DataReaderInterface
     {
         $query = $this
