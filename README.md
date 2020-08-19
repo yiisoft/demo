@@ -16,7 +16,7 @@ It's intended to show and test all Yii features.
 
 ## Installation
 
-You'll need PHP 7.4. Additionally, [NodeJs](https://nodejs.org/en/) is used in this repository to fetch assets so it
+You'll need PHP 7.4. Additionally, [NodeJs](https://nodejs.org/en/) is used in this repository to fetch assets, so it
 should be installed.
 
 1. Clone this repository.
