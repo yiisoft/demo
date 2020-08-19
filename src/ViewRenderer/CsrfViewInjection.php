@@ -10,14 +10,16 @@ use Yiisoft\Yii\Web\Middleware\Csrf;
 class CsrfViewInjection implements
     ContentParamsInjectionInterface,
     LayoutParamsInjectionInterface,
-    MetaTagsInjectionInterface
+    MetaTagsInjectionInterface,
+    CsrfViewInjectionInterface
 {
+    public const DEFAULT_REQUEST_ATTRIBUTE = Csrf::REQUEST_NAME;
     public const DEFAULT_META_ATTRIBUTE = 'csrf';
     public const DEFAULT_PARAMETER = 'csrf';
 
     private UrlMatcherInterface $urlMatcher;
 
-    private string $requestAttribute = Csrf::REQUEST_NAME;
+    private string $requestAttribute = self::DEFAULT_REQUEST_ATTRIBUTE;
     private string $metaAttribute = self::DEFAULT_META_ATTRIBUTE;
     private string $parameter = self::DEFAULT_PARAMETER;
 
@@ -28,10 +30,10 @@ class CsrfViewInjection implements
         $this->urlMatcher = $urlMatcher;
     }
 
-    public function withRequestAttribute(string $requestAttribute): self
+    public function withRequestAttribute(?string $requestAttribute = null): self
     {
         $clone = clone $this;
-        $clone->requestAttribute = $requestAttribute;
+        $clone->requestAttribute = $requestAttribute ?? self::DEFAULT_REQUEST_ATTRIBUTE;
         return $clone;
     }
 

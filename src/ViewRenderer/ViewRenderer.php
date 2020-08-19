@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\ViewRenderer;
 
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Strings\Inflector;
@@ -19,6 +20,7 @@ final class ViewRenderer implements ViewContextInterface
 
     private Aliases $aliases;
     private WebView $view;
+    private ?CsrfViewInjectionInterface $csrfViewInjection;
     private string $layout;
     private ?string $viewBasePath;
     private ?string $viewPath = null;
@@ -29,6 +31,7 @@ final class ViewRenderer implements ViewContextInterface
         DataResponseFactoryInterface $responseFactory,
         Aliases $aliases,
         WebView $view,
+        ?CsrfViewInjectionInterface $csrfViewInjection,
         string $viewBasePath,
         string $layout,
         array $injections = []
@@ -36,6 +39,7 @@ final class ViewRenderer implements ViewContextInterface
         $this->responseFactory = $responseFactory;
         $this->aliases = $aliases;
         $this->view = $view;
+        $this->csrfViewInjection = $csrfViewInjection;
         $this->viewBasePath = $viewBasePath;
         $this->layout = $layout;
         $this->injections = $injections;
@@ -105,7 +109,7 @@ final class ViewRenderer implements ViewContextInterface
     }
 
     /**
-     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
+     * @param object[] $injections
      * @return self
      */
     public function withAddedInjections(array $injections): self
@@ -116,7 +120,7 @@ final class ViewRenderer implements ViewContextInterface
     }
 
     /**
-     * @param ContentParamsInjectionInterface|LayoutParamsInjectionInterface|LinkTagsInjectionInterface|MetaTagsInjectionInterface $injection
+     * @param object $injection
      * @return self
      */
     public function withAddedInjection($injection): self
@@ -125,7 +129,7 @@ final class ViewRenderer implements ViewContextInterface
     }
 
     /**
-     * @param ContentParamsInjectionInterface[]|LayoutParamsInjectionInterface[]|LinkTagsInjectionInterface[]|MetaTagsInjectionInterface[] $injections
+     * @param object[] $injections
      * @return self
      */
     public function withInjections(array $injections): self
@@ -133,6 +137,14 @@ final class ViewRenderer implements ViewContextInterface
         $new = clone $this;
         $new->injections = $injections;
         return $new;
+    }
+
+    public function withCsrf(string $requestAttribute = null): self
+    {
+        if ($this->csrfViewInjection === null) {
+            throw new RuntimeException('No definition for CsrfViewInjectionInterface.');
+        }
+        return $this->withAddedInjection($this->csrfViewInjection->withRequestAttribute($requestAttribute));
     }
 
     private function renderProxy(string $view, array $parameters = []): string
