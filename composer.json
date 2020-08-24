@@ -23,7 +23,7 @@
         "yiisoft/composer-config-plugin": "^1.0@dev",
         "nyholm/psr7": "^1.0",
         "psr/log": "^1.1",
-        "yiisoft/access": "^3.0@dev",
+        "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^1.0",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/assets": "^1.0@dev",
