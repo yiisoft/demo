@@ -74,6 +74,9 @@ class AppRouterFactory
                 // Index
                 Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
                     ->name('blog/index'),
+                // Add Post page
+                Route::methods([Method::GET, Method::POST], '/page/add', [PostController::class, 'add'])
+                    ->name('blog/add'),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
                     ->name('blog/post'),
