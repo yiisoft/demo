@@ -40,6 +40,8 @@
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/mailer": "^3.0@dev",
         "yiisoft/mailer-swiftmailer": "^3.0@dev",
+        "yiisoft/rbac": "^3.0@dev",
+        "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",
