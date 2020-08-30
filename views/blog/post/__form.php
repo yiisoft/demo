@@ -8,9 +8,14 @@
  */
 
 use Yiisoft\Html\Html;
+
+if (isset($error)) {
+    \Yiisoft\VarDumper\VarDumper::dump($error);
+}
 ?>
 
-<h1>Add Post</h1>
+
+<h1><?= $title ?></h1>
 
 <form id="contactForm"
       method="POST"
