@@ -9,9 +9,6 @@
 
 use Yiisoft\Html\Html;
 
-if (isset($error)) {
-    \Yiisoft\VarDumper\VarDumper::dump($error);
-}
 ?>
 
 

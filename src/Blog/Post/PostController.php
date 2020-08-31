@@ -64,6 +64,7 @@ final class PostController
                 $user = $userRepo->findByPK($userComponent->getId());
 
                 $post->setUser($user);
+                $post->setPublic(true);
 
                 $transaction = new Transaction($orm);
                 $transaction->persist($post);
@@ -97,22 +98,22 @@ final class PostController
         UrlGeneratorInterface $urlGenerator,
         PostRepository $postRepository): Response
     {
-        $body = $request->getParsedBody();
-        $parameters = [
-            'body' => $body,
-        ];
+        $post = $postRepository->fullPostPage($request->getAttribute('slug', null));
+        if ($post === null) {
+            return $responseFactory->createResponse(404);
+        }
 
         if ($request->getMethod() === Method::POST) {
             try {
-                foreach (['header', 'content', 'slug'] as $name) {
+                $body = $request->getParsedBody();
+                $parameters = [
+                    'body' => $body,
+                ];
+
+                foreach (['header', 'content'] as $name) {
                     if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name) . ' is required');
                     }
-                }
-
-                $post = $postRepository->fullPostPage($body['slug']);
-                if ($post === null) {
-                    return $responseFactory->createResponse(404);
                 }
 
                 $post->setTitle($body['header']);
@@ -135,6 +136,13 @@ final class PostController
 
             $parameters['sent'] = false;
             $parameters['error'] = $error;
+        } else {
+            $parameters = [
+                'body' => [
+                    'header' => $post->getTitle(),
+                    'content' => $post->getContent()
+                ]
+            ];
         }
 
         $parameters['title'] = 'Edit post';
