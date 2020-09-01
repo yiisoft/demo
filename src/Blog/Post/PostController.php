@@ -48,7 +48,6 @@ final class PostController
         ];
 
         if ($request->getMethod() === Method::POST) {
-            $sent = false;
             $error = '';
 
             try {
@@ -71,8 +70,6 @@ final class PostController
 
                 $transaction->run();
 
-                $sent = true;
-
                 return $responseFactory
                     ->createResponse(302)
                     ->withHeader(
@@ -83,7 +80,6 @@ final class PostController
                 $error = $e->getMessage();
             }
 
-            $parameters['sent'] = $sent;
             $parameters['error'] = $error;
         }
 
@@ -134,7 +130,6 @@ final class PostController
                 $error = $e->getMessage();
             }
 
-            $parameters['sent'] = false;
             $parameters['error'] = $error;
         } else {
             $parameters = [
