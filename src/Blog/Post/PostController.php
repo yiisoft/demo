@@ -17,18 +17,20 @@ use Yiisoft\Yii\Web\User\User as UserComponent;
 final class PostController
 {
     private ViewRenderer $viewRenderer;
+    private ResponseFactoryInterface $responseFactory;
 
-    public function __construct(ViewRenderer $viewRenderer)
+    public function __construct(ViewRenderer $viewRenderer, ResponseFactoryInterface $responseFactory)
     {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
+        $this->responseFactory = $responseFactory;
     }
 
-    public function index(Request $request, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
+    public function index(Request $request, PostRepository $postRepository): Response
     {
         $slug = $request->getAttribute('slug', null);
         $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
-            return $responseFactory->createResponse(404);
+            return $this->responseFactory->createResponse(404);
         }
 
         return $this->viewRenderer->render('index', ['item' => $item]);
@@ -37,7 +39,6 @@ final class PostController
     public function add(
         Request $request,
         ORMInterface $orm,
-        ResponseFactoryInterface $responseFactory,
         UrlGeneratorInterface $urlGenerator,
         UserComponent $userComponent
     ): Response {
@@ -70,7 +71,7 @@ final class PostController
 
                 $transaction->run();
 
-                return $responseFactory
+                return $this->responseFactory
                     ->createResponse(302)
                     ->withHeader(
                         'Location',
@@ -90,14 +91,13 @@ final class PostController
     public function edit(
         Request $request,
         ORMInterface $orm,
-        ResponseFactoryInterface $responseFactory,
         UrlGeneratorInterface $urlGenerator,
         PostRepository $postRepository
     ): Response {
         $slug = $request->getAttribute('slug', null);
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
-            return $responseFactory->createResponse(404);
+            return $this->responseFactory->createResponse(404);
         }
 
         $parameters = [];
@@ -122,7 +122,7 @@ final class PostController
 
                 $transaction->run();
 
-                return $responseFactory
+                return $this->responseFactory
                     ->createResponse(302)
                     ->withHeader(
                         'Location',
