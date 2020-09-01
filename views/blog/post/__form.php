@@ -5,6 +5,7 @@
  * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
  * @var $body array
  * @var $csrf string
+ * @var $action string
  */
 
 use Yiisoft\Html\Html;
@@ -16,7 +17,7 @@ use Yiisoft\Html\Html;
 
 <form id="contactForm"
       method="POST"
-      action="<?= $urlGenerator->generate('blog/add') ?>"
+      action="<?= $urlGenerator->generate( ...$action ) ?>"
       enctype="multipart/form-data"
 >
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">

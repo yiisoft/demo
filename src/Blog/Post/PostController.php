@@ -44,6 +44,7 @@ final class PostController
         $body = $request->getParsedBody();
         $parameters = [
             'body' => $body,
+            'action' => ['blog/add']
         ];
 
         if ($request->getMethod() === Method::POST) {
@@ -93,17 +94,19 @@ final class PostController
         UrlGeneratorInterface $urlGenerator,
         PostRepository $postRepository
     ): Response {
-        $post = $postRepository->fullPostPage($request->getAttribute('slug', null));
+        $slug = $request->getAttribute('slug', null);
+        $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
             return $responseFactory->createResponse(404);
         }
 
+        $parameters = [];
+        $parameters['action'] = ['blog/edit', ['slug' => $slug]];
+
         if ($request->getMethod() === Method::POST) {
             try {
                 $body = $request->getParsedBody();
-                $parameters = [
-                    'body' => $body,
-                ];
+                $parameters['body'] = $body;
 
                 foreach (['header', 'content'] as $name) {
                     if (empty($body[$name])) {
@@ -131,11 +134,9 @@ final class PostController
 
             $parameters['error'] = $error;
         } else {
-            $parameters = [
-                'body' => [
-                    'header' => $post->getTitle(),
-                    'content' => $post->getContent()
-                ]
+            $parameters['body'] = [
+                'header' => $post->getTitle(),
+                'content' => $post->getContent(),
             ];
         }
 
