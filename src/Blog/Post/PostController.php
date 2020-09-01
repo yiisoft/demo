@@ -40,8 +40,7 @@ final class PostController
         ResponseFactoryInterface $responseFactory,
         UrlGeneratorInterface $urlGenerator,
         UserComponent $userComponent
-    ): Response
-    {
+    ): Response {
         $body = $request->getParsedBody();
         $parameters = [
             'body' => $body,
@@ -92,8 +91,8 @@ final class PostController
         ORMInterface $orm,
         ResponseFactoryInterface $responseFactory,
         UrlGeneratorInterface $urlGenerator,
-        PostRepository $postRepository): Response
-    {
+        PostRepository $postRepository
+    ): Response {
         $post = $postRepository->fullPostPage($request->getAttribute('slug', null));
         if ($post === null) {
             return $responseFactory->createResponse(404);
