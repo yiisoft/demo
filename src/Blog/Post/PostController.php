@@ -10,6 +10,7 @@ use Cycle\ORM\Transaction;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Log\LoggerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
@@ -19,16 +20,24 @@ final class PostController
 {
     private ViewRenderer $viewRenderer;
     private ResponseFactoryInterface $responseFactory;
+    private LoggerInterface $logger;
+    private UserComponent $userComponent;
 
-    public function __construct(ViewRenderer $viewRenderer, ResponseFactoryInterface $responseFactory)
-    {
+    public function __construct(
+        ViewRenderer $viewRenderer,
+        ResponseFactoryInterface $responseFactory,
+        LoggerInterface $logger,
+        UserComponent $userComponent
+    ) {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
         $this->responseFactory = $responseFactory;
+        $this->logger = $logger;
+        $this->userComponent = $userComponent;
     }
 
-    public function index(Request $request, PostRepository $postRepository, AccessCheckerInterface $accessChecker, UserComponent $userComponent): Response
+    public function index(Request $request, PostRepository $postRepository, AccessCheckerInterface $accessChecker): Response
     {
-        $userId = $userComponent->getId();
+        $userId = $this->userComponent->getId();
         $canEdit = !is_null($userId) && $accessChecker->userHasPermission($userId, 'editPost');
 
         $slug = $request->getAttribute('slug', null);
@@ -43,9 +52,12 @@ final class PostController
     public function add(
         Request $request,
         ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator,
-        UserComponent $userComponent
+        UrlGeneratorInterface $urlGenerator
     ): Response {
+        if ($this->userComponent->isGuest()) {
+            return $this->responseFactory->createResponse(403);
+        }
+
         $body = $request->getParsedBody();
         $parameters = [
             'body' => $body,
@@ -65,7 +77,7 @@ final class PostController
                 $post = new Post($body['header'], $body['content']);
 
                 $userRepo = $orm->getRepository(User::class);
-                $user = $userRepo->findByPK($userComponent->getId());
+                $user = $userRepo->findByPK($this->userComponent->getId());
 
                 $post->setUser($user);
                 $post->setPublic(true);
@@ -82,6 +94,7 @@ final class PostController
                         $urlGenerator->generate('blog/index')
                     );
             } catch (\Throwable $e) {
+                $this->logger->error($e);
                 $error = $e->getMessage();
             }
 
@@ -97,10 +110,9 @@ final class PostController
         ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator,
         PostRepository $postRepository,
-        AccessCheckerInterface $accessChecker,
-        UserComponent $userComponent
+        AccessCheckerInterface $accessChecker
     ): Response {
-        $userId = $userComponent->getId();
+        $userId = $this->userComponent->getId();
         if (is_null($userId) || !$accessChecker->userHasPermission($userId, 'editPost')) {
             return $this->responseFactory->createResponse(403);
         }
@@ -115,6 +127,8 @@ final class PostController
         $parameters['action'] = ['blog/edit', ['slug' => $slug]];
 
         if ($request->getMethod() === Method::POST) {
+            $error = '';
+
             try {
                 $body = $request->getParsedBody();
                 $parameters['body'] = $body;
@@ -140,6 +154,7 @@ final class PostController
                         $urlGenerator->generate('blog/index')
                     );
             } catch (\Throwable $e) {
+                $this->logger->error($e);
                 $error = $e->getMessage();
             }
 

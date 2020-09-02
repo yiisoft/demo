@@ -47,6 +47,7 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],

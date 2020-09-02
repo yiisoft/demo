@@ -16,10 +16,10 @@ use Yiisoft\Html\Html;
         <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
-            Html::encode($item->getUser()->getLogin()),
-            $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]),
-            ['class' => 'mr-3']
-        );
+    Html::encode($item->getUser()->getLogin()),
+    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]),
+    ['class' => 'mr-3']
+);
         if ($canEdit) {
             echo Html::a(
                 'Edit',

@@ -23,7 +23,7 @@ echo Carousel::widget()
 ?>
 
 
-<div class="card mt-3 col-md-6">
+<div class="card mt-3 col-md-8">
     <div class="card-body">
         <h2 class="card-title">Console</h2>
         <?php $binPath = strtr('./vendor/bin/yii', '/', DIRECTORY_SEPARATOR); ?>

@@ -9,15 +9,23 @@
  */
 
 use Yiisoft\Html\Html;
+use Yiisoft\Yii\Bootstrap4\Alert;
 
+if (!empty($error ?? '')) {
+    echo Alert::widget()
+        ->options(['class' => 'alert-danger'])
+        ->body(
+            Html::encode($error)
+        );
+}
 ?>
 
 
 <h1><?= $title ?></h1>
 
-<form id="contactForm"
+<form id="postForm"
       method="POST"
-      action="<?= $urlGenerator->generate( ...$action ) ?>"
+      action="<?= $urlGenerator->generate(...$action) ?>"
       enctype="multipart/form-data"
 >
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">
