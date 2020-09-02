@@ -10,6 +10,7 @@ use Cycle\ORM\Transaction;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\Web\User\User as UserComponent;
@@ -92,8 +93,15 @@ final class PostController
         Request $request,
         ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator,
-        PostRepository $postRepository
+        PostRepository $postRepository,
+        AccessCheckerInterface $accessChecker,
+        UserComponent $userComponent
     ): Response {
+        $userId = $userComponent->getId();
+        if (is_null($userId) || !$accessChecker->userHasPermission($userId, 'editPost')) {
+            return $this->responseFactory->createResponse(403);
+        }
+
         $slug = $request->getAttribute('slug', null);
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
