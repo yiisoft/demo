@@ -41,6 +41,11 @@ $pagination = OffsetPagination::widget()
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">
+        <?= Html::a(
+            'Add post',
+            $urlGenerator->generate('blog/add'),
+            ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
+        ); ?>
         <?= $this->render('_topTags', ['tags' => $tags]) ?>
         <?= $this->render('_archive', ['archive' => $archive]) ?>
     </div>

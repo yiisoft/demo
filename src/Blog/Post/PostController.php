@@ -26,15 +26,18 @@ final class PostController
         $this->responseFactory = $responseFactory;
     }
 
-    public function index(Request $request, PostRepository $postRepository): Response
+    public function index(Request $request, PostRepository $postRepository, AccessCheckerInterface $accessChecker, UserComponent $userComponent): Response
     {
+        $userId = $userComponent->getId();
+        $canEdit = !is_null($userId) && $accessChecker->userHasPermission($userId, 'editPost');
+
         $slug = $request->getAttribute('slug', null);
         $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
             return $this->responseFactory->createResponse(404);
         }
 
-        return $this->viewRenderer->render('index', ['item' => $item]);
+        return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
     public function add(

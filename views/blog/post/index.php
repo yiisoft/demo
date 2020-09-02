@@ -4,6 +4,8 @@
  * @var \App\Blog\Entity\Post $item
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
+ * @var bool $canEdit
+ * @var string $slug
  */
 
 use Yiisoft\Html\Html;
@@ -14,9 +16,17 @@ use Yiisoft\Html\Html;
         <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
-    Html::encode($item->getUser()->getLogin()),
-    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()])
-);
+            Html::encode($item->getUser()->getLogin()),
+            $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]),
+            ['class' => 'mr-3']
+        );
+        if ($canEdit) {
+            echo Html::a(
+                'Edit',
+                $urlGenerator->generate('blog/edit', ['slug' => $slug]),
+                ['class' => 'btn btn-outline-secondary btn-sm']
+            );
+        }
         ?>
     </div>
 <?php
