@@ -21,7 +21,7 @@ if (!empty($error ?? '')) {
 ?>
 
 
-<h1><?= $title ?></h1>
+<h1><?= Html::encode($title) ?></h1>
 
 <form id="postForm"
       method="POST"
@@ -30,9 +30,9 @@ if (!empty($error ?? '')) {
 >
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">
     <div class="form-group">
-        <label for="header">Header</label>
-        <input type="text" class="form-control" name="header" id="header" placeholder="Header"
-               value="<?= Html::encode($body['header'] ?? '') ?>" required>
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="Title"
+               value="<?= Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
     <div class="form-group">

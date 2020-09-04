@@ -21,23 +21,23 @@ final class PostController
     private ViewRenderer $viewRenderer;
     private ResponseFactoryInterface $responseFactory;
     private LoggerInterface $logger;
-    private UserComponent $userComponent;
+    private UserComponent $userService;
 
     public function __construct(
         ViewRenderer $viewRenderer,
         ResponseFactoryInterface $responseFactory,
         LoggerInterface $logger,
-        UserComponent $userComponent
+        UserComponent $userService
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
         $this->responseFactory = $responseFactory;
         $this->logger = $logger;
-        $this->userComponent = $userComponent;
+        $this->userService = $userService;
     }
 
     public function index(Request $request, PostRepository $postRepository, AccessCheckerInterface $accessChecker): Response
     {
-        $userId = $this->userComponent->getId();
+        $userId = $this->userService->getId();
         $canEdit = !is_null($userId) && $accessChecker->userHasPermission($userId, 'editPost');
 
         $slug = $request->getAttribute('slug', null);
@@ -54,7 +54,7 @@ final class PostController
         ORMInterface $orm,
         UrlGeneratorInterface $urlGenerator
     ): Response {
-        if ($this->userComponent->isGuest()) {
+        if ($this->userService->isGuest()) {
             return $this->responseFactory->createResponse(403);
         }
 
@@ -68,16 +68,16 @@ final class PostController
             $error = '';
 
             try {
-                foreach (['header', 'content'] as $name) {
+                foreach (['title', 'content'] as $name) {
                     if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name) . ' is required');
                     }
                 }
 
-                $post = new Post($body['header'], $body['content']);
+                $post = new Post($body['title'], $body['content']);
 
                 $userRepo = $orm->getRepository(User::class);
-                $user = $userRepo->findByPK($this->userComponent->getId());
+                $user = $userRepo->findByPK($this->userService->getId());
 
                 $post->setUser($user);
                 $post->setPublic(true);
@@ -112,7 +112,7 @@ final class PostController
         PostRepository $postRepository,
         AccessCheckerInterface $accessChecker
     ): Response {
-        $userId = $this->userComponent->getId();
+        $userId = $this->userService->getId();
         if (is_null($userId) || !$accessChecker->userHasPermission($userId, 'editPost')) {
             return $this->responseFactory->createResponse(403);
         }
@@ -133,13 +133,13 @@ final class PostController
                 $body = $request->getParsedBody();
                 $parameters['body'] = $body;
 
-                foreach (['header', 'content'] as $name) {
+                foreach (['title', 'content'] as $name) {
                     if (empty($body[$name])) {
                         throw new \InvalidArgumentException(ucfirst($name) . ' is required');
                     }
                 }
 
-                $post->setTitle($body['header']);
+                $post->setTitle($body['title']);
                 $post->setContent($body['content']);
 
                 $transaction = new Transaction($orm);
@@ -161,7 +161,7 @@ final class PostController
             $parameters['error'] = $error;
         } else {
             $parameters['body'] = [
-                'header' => $post->getTitle(),
+                'title' => $post->getTitle(),
                 'content' => $post->getContent(),
             ];
         }
