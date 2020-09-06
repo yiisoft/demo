@@ -5,6 +5,8 @@ use App\Factory\MailerFactory;
 use App\Timer;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Router\Dispatcher;
+use Yiisoft\Router\DispatcherInterface;
 use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
@@ -37,6 +39,7 @@ return [
     ],
 
     // Router:
+    DispatcherInterface::class => Dispatcher::class,
     RouteCollectorInterface::class => Group::create(),
     UrlMatcherInterface::class => new AppRouterFactory(),
     UrlGeneratorInterface::class => UrlGenerator::class,
