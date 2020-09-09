@@ -8,7 +8,7 @@ $(document).on('click', '.load-more-comment', function (event) {
 });
 
 function addTag() {
-    var input = document.getElementById('AddTag');
+    var input = document.getElementById('addTag');
     if (input.value && !document.getElementById('tag' + input.value)) {
         var tags = document.getElementById('tags');
         tags.insertAdjacentHTML('beforeend',
@@ -35,3 +35,7 @@ function addTag() {
 function removeTag(element) {
     element.parentNode.parentNode.removeChild(element.parentNode);
 }
+
+$(document).ready(function(){
+    document.getElementById("addTagButton").addEventListener('click', addTag);
+});

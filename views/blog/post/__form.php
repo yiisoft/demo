@@ -44,10 +44,10 @@ if (!empty($error ?? '')) {
 
     <div class="form-group">
         <label for="AddTag">Add tag</label>
-        <input type="text" class="form-control" id="AddTag" placeholder="Add tag" value="">
+        <input type="text" class="form-control" id="addTag" placeholder="Add tag" value="">
         <?= Html::button(
     'Add',
-    ['class' => 'btn btn-primary mt-2', 'onclick' => 'addTag()']
+    ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
 ) ?>
     </div>
 
