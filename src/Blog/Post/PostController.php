@@ -3,6 +3,7 @@
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
+use App\Blog\Entity\Tag;
 use App\Entity\User;
 use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
@@ -82,6 +83,12 @@ final class PostController
                 $post->setUser($user);
                 $post->setPublic(true);
 
+                $tagRepository = $orm->getRepository(Tag::class);
+                foreach ($body['tags'] ?? [] as $tag) {
+                    $tagEntity = $tagRepository->getOrCreate($tag);
+                    $post->addTag($tagEntity);
+                }
+
                 $transaction = new Transaction($orm);
                 $transaction->persist($post);
 
@@ -102,6 +109,7 @@ final class PostController
         }
 
         $parameters['title'] = 'Add post';
+        $parameters['tags'] = [];
         return $this->viewRenderer->withCsrf()->render('__form', $parameters);
     }
 
@@ -142,6 +150,13 @@ final class PostController
                 $post->setTitle($body['title']);
                 $post->setContent($body['content']);
 
+                $tagRepository = $orm->getRepository(Tag::class);
+                $post->resetTags();
+                foreach ($body['tags'] ?? [] as $tag) {
+                    $tagEntity = $tagRepository->getOrCreate($tag);
+                    $post->addTag($tagEntity);
+                }
+
                 $transaction = new Transaction($orm);
                 $transaction->persist($post);
 
@@ -167,6 +182,9 @@ final class PostController
         }
 
         $parameters['title'] = 'Edit post';
+        $parameters['tags'] = array_map(function (Tag $tag) {
+            return $tag->getLabel();
+        }, $post->getTags());
         return $this->viewRenderer->withCsrf()->render('__form', $parameters);
     }
 }
