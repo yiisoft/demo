@@ -22,12 +22,6 @@ if (!empty($error ?? '')) {
 }
 ?>
 
-<script>
-    function removeTag(element) {
-        element.parentNode.parentNode.removeChild(element.parentNode);
-    }
-</script>
-
 <h1><?= Html::encode($title) ?></h1>
 
 <form id="postForm"
@@ -53,41 +47,15 @@ if (!empty($error ?? '')) {
         <input type="text" class="form-control" id="AddTag" placeholder="Add tag" value="">
         <?= Html::button(
     'Add',
-    ['class' => 'btn btn-primary mt-2', 'onclick' => <<<JS
-                (function() {
-                    var input = document.getElementById('AddTag');
-                    if (input.value && !document.getElementById('tag' + input.value)) {
-                        var tags = document.getElementById('tags');
-                        tags.insertAdjacentHTML('beforeend', 
-                        `<span class="badge badge-info mr-2" id='tag` + input.value + `'>
-                            <input type="hidden" name="tags[]" value="` + input.value + `">
-                            <span>` + input.value + `</span>
-                            <svg 
-                            width="2em" 
-                            height="2em" 
-                            viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                            onclick="removeTag(this)"
-                            >
-                              <path 
-                              fill-rule="evenodd" 
-                              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 
-                              2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 
-                              5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg>
-                        </span>`);
-                        input.value = '';
-                    }
-                }());
-            JS
-            ]
+    ['class' => 'btn btn-primary mt-2', 'onclick' => 'addTag()']
 ) ?>
     </div>
 
     <div class="form-group" id="tags">
         <?php foreach ($tags as $tag): ?>
-             <span class="badge badge-info mr-2" id="tag<?= $tag ?>">
-                <input type="hidden" name="tags[]" value="<?= $tag ?>">
-                <span><?= $tag ?></span>
+             <span class="badge badge-info mr-2" id="tag<?= Html::encode($tag) ?>">
+                <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
+                <span><?= Html::encode($tag) ?></span>
                 <svg
                 width="2em"
                 height="2em"
