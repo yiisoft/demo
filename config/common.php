@@ -6,7 +6,15 @@ use App\Timer;
 use App\ViewRenderer\CsrfViewInjection;
 use App\ViewRenderer\CsrfViewInjectionInterface;
 use Psr\Container\ContainerInterface;
+use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Rbac\Manager;
+use Yiisoft\Rbac\Php\Storage;
+use Yiisoft\Rbac\RuleFactory\ClassNameRuleFactory;
+use Yiisoft\Rbac\RuleFactoryInterface;
+use Yiisoft\Rbac\StorageInterface;
+use Yiisoft\Router\Dispatcher;
+use Yiisoft\Router\DispatcherInterface;
 use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
@@ -39,6 +47,7 @@ return [
     ],
 
     // Router:
+    DispatcherInterface::class => Dispatcher::class,
     RouteCollectorInterface::class => Group::create(),
     UrlMatcherInterface::class => new AppRouterFactory(),
     UrlGeneratorInterface::class => UrlGenerator::class,
@@ -48,4 +57,18 @@ return [
 
     // ViewRenderer
     CsrfViewInjectionInterface::class => CsrfViewInjection::class,
+
+    StorageInterface::class => [
+        '__class' => Storage::class,
+        '__construct()' => [
+            'directory' => $params['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac'
+        ]
+    ],
+    RuleFactoryInterface::class => ClassNameRuleFactory::class,
+    Manager::class => static function (ContainerInterface $container) {
+        $storage = $container->get(StorageInterface::class);
+        $ruleFactory = $container->get(RuleFactoryInterface::class);
+        return new Manager($storage, $ruleFactory);
+    },
+    AccessCheckerInterface::class => Manager::class,
 ];

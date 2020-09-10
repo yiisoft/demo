@@ -212,4 +212,9 @@ class Post
     {
         $this->tags->add($post);
     }
+
+    public function resetTags(): void
+    {
+        $this->tags->clear();
+    }
 }

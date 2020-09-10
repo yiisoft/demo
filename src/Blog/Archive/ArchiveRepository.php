@@ -11,7 +11,6 @@ use Cycle\ORM\Select;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\Driver\DriverInterface;
 use Spiral\Database\Driver\SQLite\SQLiteDriver;
-use Spiral\Database\Injection\Expression;
 use Spiral\Database\Injection\Fragment;
 use Spiral\Database\Injection\FragmentInterface;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -37,12 +36,6 @@ final class ArchiveRepository
         return $this->postRepo->select();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     * @return SelectDataReader
-     * @throws \Exception
-     */
     public function getMonthlyArchive(int $year, int $month): DataReaderInterface
     {
         $begin = (new \DateTimeImmutable())->setDate($year, $month, 1)->setTime(0, 0, 0);
@@ -68,7 +61,7 @@ final class ArchiveRepository
     }
 
     /**
-     * @return SelectDataReader Collection of Array('Count' => '123', 'Month' => '8', 'Year' => '2019')
+     * @return DataReaderInterface Collection of Array('Count' => '123', 'Month' => '8', 'Year' => '2019') on read
      */
     public function getFullArchive(): DataReaderInterface
     {
