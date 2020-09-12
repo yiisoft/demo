@@ -17,17 +17,17 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
         "yiisoft/composer-config-plugin": "^1.0@dev",
         "nyholm/psr7": "^1.0",
         "psr/log": "^1.1",
-        "yiisoft/access": "^3.0@dev",
+        "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^1.0",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/assets": "^1.0@dev",
-        "yiisoft/auth": "^3.0@dev",
+        "yiisoft/auth": "^1.0",
         "yiisoft/cache": "^3.0@dev",
         "yiisoft/cache-file": "^3.0@dev",
         "yiisoft/data": "^3.0@dev",
@@ -40,22 +40,26 @@
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/mailer": "^3.0@dev",
         "yiisoft/mailer-swiftmailer": "^3.0@dev",
+        "yiisoft/rbac": "^3.0@dev",
+        "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",
-        "yiisoft/strings": "^3.0@dev",
+        "yiisoft/strings": "^1.0",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
         "yiisoft/widget": "^3.0@dev",
-        "yiisoft/yii-bootstrap4": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/serializer": "^3.0@dev",
-        "yiisoft/data-response": "^3.0@dev"
+        "yiisoft/data-response": "^3.0@dev",
+        "yiisoft/yii-bootstrap4": "^3.0@dev"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "fzaninotto/faker": "^1.9"
     },
     "autoload": {
@@ -90,15 +94,6 @@
                 "$common",
                 "config/console.php"
             ],
-            "providers": "config/providers.php",
-            "providers-web": [
-                "$providers",
-                "config/providers-web.php"
-            ],
-            "providers-console": [
-                "$providers",
-                "config/providers-console.php"
-            ],
             "events": "config/events.php",
             "events-web": [
                 "$events",
@@ -107,6 +102,15 @@
             "events-console": [
                 "$events",
                 "config/events-console.php"
+            ],
+            "providers": "config/providers.php",
+            "providers-web": [
+                "$providers",
+                "config/providers-web.php"
+            ],
+            "providers-console": [
+                "$providers",
+                "config/providers-console.php"
             ]
         }
     },

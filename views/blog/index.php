@@ -6,6 +6,7 @@
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
+ * @var bool $isGuest
  */
 
 use App\Blog\Entity\Post;
@@ -41,6 +42,14 @@ $pagination = OffsetPagination::widget()
         ?>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-3">
+        <?php
+        if (!$isGuest) {
+            echo Html::a(
+                'Add post',
+                $urlGenerator->generate('blog/add'),
+                ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
+            );
+        } ?>
         <?= $this->render('_topTags', ['tags' => $tags]) ?>
         <?= $this->render('_archive', ['archive' => $archive]) ?>
     </div>

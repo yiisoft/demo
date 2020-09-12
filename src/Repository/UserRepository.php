@@ -5,11 +5,12 @@ namespace App\Repository;
 use Cycle\ORM\Select;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
 
 class UserRepository extends Select\Repository implements IdentityRepositoryInterface
 {
-    public function findAll(array $scope = [], array $orderBy = []): SelectDataReader
+    public function findAll(array $scope = [], array $orderBy = []): DataReaderInterface
     {
         return new SelectDataReader($this->select()->where($scope)->orderBy($orderBy));
     }
@@ -24,7 +25,7 @@ class UserRepository extends Select\Repository implements IdentityRepositoryInte
         return $this->findByPK($id);
     }
 
-    public function findIdentityByToken(string $token, string $type): ?IdentityInterface
+    public function findIdentityByToken(string $token, string $type = null): ?IdentityInterface
     {
         return $this->findIdentityBy('token', $token);
     }

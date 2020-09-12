@@ -11,6 +11,7 @@ use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Yii\Web\User\User;
 
 final class BlogController
 {
@@ -29,7 +30,8 @@ final class BlogController
         Request $request,
         PostRepository $postRepository,
         TagRepository $tagRepository,
-        ArchiveRepository $archiveRepo
+        ArchiveRepository $archiveRepo,
+        User $user
     ): Response {
         $pageNum = (int)$request->getAttribute('page', 1);
         $dataReader = $postRepository->findAllPreloaded();
@@ -41,6 +43,7 @@ final class BlogController
             'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(self::ARCHIVE_MONTHS_COUNT),
             'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
+            'isGuest' => $user->isGuest()
         ];
         return $this->viewRenderer->render('index', $data);
     }

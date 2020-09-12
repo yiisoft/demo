@@ -14,7 +14,6 @@ use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\PasswordHasher;
-use Yiisoft\Security\Random;
 use Yiisoft\Auth\IdentityInterface;
 
 /**
@@ -22,7 +21,6 @@ use Yiisoft\Auth\IdentityInterface;
  * @Table(
  *     indexes={
  *         @Index(columns={"login"}, unique=true),
- *         @Index(columns={"token"}, unique=true)
  *     }
  * )
  */
@@ -32,11 +30,6 @@ class User implements IdentityInterface
      * @Column(type="primary")
      */
     private ?int $id = null;
-
-    /**
-     * @Column(type="string(128)")
-     */
-    private string $token;
 
     /**
      * @Column(type="string(48)")
@@ -76,7 +69,6 @@ class User implements IdentityInterface
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->setPassword($password);
-        $this->resetToken();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -84,16 +76,6 @@ class User implements IdentityInterface
     public function getId(): ?string
     {
         return $this->id === null ? null : (string)$this->id;
-    }
-
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-    public function resetToken(): void
-    {
-        $this->token = Random::string(128);
     }
 
     public function getLogin(): string

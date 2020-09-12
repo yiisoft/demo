@@ -23,13 +23,17 @@ echo Carousel::widget()
 ?>
 
 
-<div class="card mt-3 col-md-6">
+<div class="card mt-3 col-md-8">
     <div class="card-body">
         <h2 class="card-title">Console</h2>
         <?php $binPath = strtr('./vendor/bin/yii', '/', DIRECTORY_SEPARATOR); ?>
         <h4 class="card-title text-muted">Create new user</h4>
         <div>
-            <code><?= "{$binPath} user/create &lt;login&gt; &lt;password&gt;" ?></code>
+            <code><?= "{$binPath} user/create &lt;login&gt; &lt;password&gt; [isAdmin = 0]" ?></code>
+        </div>
+        <h4 class="card-title text-muted">Assign RBAC role to user</h4>
+        <div>
+            <code><?= "{$binPath} user/assignRole &lt;role&gt; &lt;userId&gt;" ?></code>
         </div>
         <h4 class="card-title text-muted">Add random content</h4>
         <div>

@@ -5,7 +5,6 @@ use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
 use App\ViewRenderer;
-use Cycle\ORM\ORMInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestFactoryInterface;

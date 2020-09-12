@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Contact;
 
 use Yiisoft\Mailer\MailerInterface;
