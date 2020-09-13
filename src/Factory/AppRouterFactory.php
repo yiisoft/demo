@@ -14,7 +14,7 @@ use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
-use App\Middleware\AccessUser;
+use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Auth\Middleware\Authentication;
@@ -84,7 +84,7 @@ class AppRouterFactory
                 Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
                     ->name('blog/edit')
                     ->addMiddleware(Authentication::class)
-                    ->addMiddleware(fn() => $container->get(AccessUser::class)->withPermission('editPost')),
+                    ->addMiddleware(fn() => $container->get(AccessChecker::class)->withPermission('editPost')),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
                     ->name('blog/post'),

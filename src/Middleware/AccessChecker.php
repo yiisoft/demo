@@ -12,7 +12,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
 
-final class AccessUser implements MiddlewareInterface
+final class AccessChecker implements MiddlewareInterface
 {
     private ResponseFactoryInterface $responseFactory;
     private UserService $userService;
