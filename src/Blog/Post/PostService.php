@@ -41,7 +41,7 @@ final class PostService
     public function getPostTags(Post $post): array
     {
         return array_map(
-            static fn(Tag $tag) => $tag->getLabel(),
+            static fn (Tag $tag) => $tag->getLabel(),
             $post->getTags()
         );
     }
