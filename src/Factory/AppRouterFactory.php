@@ -84,7 +84,7 @@ class AppRouterFactory
                 Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
                     ->name('blog/edit')
                     ->addMiddleware(Authentication::class)
-                    ->addMiddleware(fn() => $container->get(AccessChecker::class)->withPermission('editPost')),
+                    ->addMiddleware(fn () => $container->get(AccessChecker::class)->withPermission('editPost')),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
                     ->name('blog/post'),
