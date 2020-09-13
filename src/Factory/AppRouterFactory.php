@@ -28,7 +28,6 @@ use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
-use Yiisoft\Yii\Web\User\UserAuth;
 
 class AppRouterFactory
 {
@@ -84,7 +83,7 @@ class AppRouterFactory
                 Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
                     ->name('blog/edit')
                     ->addMiddleware(Authentication::class)
-                    ->addMiddleware(fn () => $container->get(AccessChecker::class)->withPermission('editPost')),
+                    ->addMiddleware(fn (AccessChecker $checker) => $checker->withPermission('editPost')),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
                     ->name('blog/post'),
