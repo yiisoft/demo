@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use Cycle\ORM\Select;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
@@ -20,6 +21,10 @@ class UserRepository extends Select\Repository implements IdentityRepositoryInte
         return $this->findOne([$field => $value]);
     }
 
+    /**
+     * @param string $id
+     * @return IdentityInterface|User|null
+     */
     public function findIdentity(string $id): ?IdentityInterface
     {
         return $this->findByPK($id);

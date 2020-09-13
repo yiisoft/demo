@@ -13,12 +13,10 @@
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap4\Alert;
 
-if (!empty($error ?? '')) {
-    echo Alert::widget()
-        ->options(['class' => 'alert-danger'])
-        ->body(
-            Html::encode($error)
-        );
+if (!empty($errors)) {
+    foreach ($errors as $field => $error) {
+        echo Alert::widget()->options(['class' => 'alert-danger'])->body(Html::encode($field . ':' . $error));
+    }
 }
 ?>
 
@@ -52,7 +50,7 @@ if (!empty($error ?? '')) {
     </div>
 
     <div class="form-group" id="tags">
-        <?php foreach ($tags as $tag): ?>
+        <?php foreach ($body['tags'] ?? [] as $tag): ?>
              <span class="badge badge-info mr-2" id="tag<?= Html::encode($tag) ?>">
                 <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
                 <span><?= Html::encode($tag) ?></span>
