@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Tag;
 
 use App\Blog\Post\PostRepository;
-use App\ViewRenderer;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class TagController
 {

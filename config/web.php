@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
-use App\ViewRenderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -19,9 +20,9 @@ use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\DataResponseFormatterInterface;
 use Yiisoft\DataResponse\Formatter\HtmlDataResponseFormatter;
+use Yiisoft\Session\Session;
+use Yiisoft\Session\SessionInterface;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
-use Yiisoft\Yii\Web\Session\Session;
-use Yiisoft\Yii\Web\Session\SessionInterface;
 use App\Repository\UserRepository;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Yii\Web\User\UserAuth;
