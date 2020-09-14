@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\ViewRenderer\ViewRenderer;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Yii\Web\User\User;
 
 class AuthController
@@ -77,10 +77,9 @@ class AuthController
             }
         }
 
-        return $this->viewRenderer->render(
+        return $this->viewRenderer->withCsrf()->render(
             'login',
             [
-                'csrf' => $request->getAttribute('csrf_token'),
                 'body' => $body,
                 'error' => $error,
             ]

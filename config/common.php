@@ -3,8 +3,6 @@
 use App\Factory\AppRouterFactory;
 use App\Factory\MailerFactory;
 use App\Timer;
-use App\ViewRenderer\CsrfViewInjection;
-use App\ViewRenderer\CsrfViewInjectionInterface;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Mailer\MailerInterface;
@@ -54,9 +52,6 @@ return [
 
     MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
-
-    // ViewRenderer
-    CsrfViewInjectionInterface::class => CsrfViewInjection::class,
 
     StorageInterface::class => [
         '__class' => Storage::class,

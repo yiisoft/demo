@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
-use App\ViewRenderer\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Http\Method;
+use Yiisoft\Yii\View\ViewRenderer;
 
 class ContactController
 {

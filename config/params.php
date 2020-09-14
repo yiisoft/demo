@@ -1,7 +1,9 @@
 <?php
 
+use App\ApplicationViewInjection;
 use App\Command;
 use Cycle\Schema\Generator;
+use Yiisoft\Factory\Definitions\Reference;
 
 return [
     'yiisoft/yii-debug' => [
@@ -81,8 +83,9 @@ return [
         ],
     ],
 
-    'viewRenderer' => [
-        'viewBasePath' => '@views',
-        'layout' => '@views/layout/main',
+    'yiisoft/yii-view' => [
+        'injections' => [
+            Reference::to(ApplicationViewInjection::class),
+        ],
     ],
 ];

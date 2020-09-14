@@ -12,7 +12,7 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
  *
- * @see \App\ViewRenderer\ApplicationViewInjection
+ * @see \App\ApplicationViewInjection
  * @var \App\Entity\User $user
  * @var string $currentUrl
  * @var string $brandLabel

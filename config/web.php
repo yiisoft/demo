@@ -6,8 +6,6 @@ use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
-use App\ViewRenderer\ApplicationViewInjection;
-use App\ViewRenderer\ViewRenderer;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -17,7 +15,6 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
-use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -61,19 +58,4 @@ return [
             $container->get(CommentRepository::class)
         );
     },
-    ViewRenderer::class => [
-        '__construct()' => [
-            'viewBasePath' => $params['viewRenderer']['viewBasePath'],
-            'layout' => $params['viewRenderer']['layout'],
-            'injections' => [
-                // Use for add Csrf parameter to all views
-                // Reference::to(CsrfViewInjection::class),
-                // or
-                // DynamicReference::to(function (ContainerInterface $container) {
-                //     return $container->get(CsrfViewInjection::class)->withParameter('mycsrf');
-                // }),
-                Reference::to(ApplicationViewInjection::class),
-            ],
-        ],
-    ],
 ];

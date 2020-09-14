@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\ViewRenderer;
+namespace App;
 
 use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
+use Yiisoft\Yii\View\LinkTagsInjectionInterface;
+use Yiisoft\Yii\View\MetaTagsInjectionInterface;
 use Yiisoft\Yii\Web\User\User;
 
 class ApplicationViewInjection implements
-    LayoutParamsInjectionInterface,
+    LayoutParametersInjectionInterface,
     MetaTagsInjectionInterface,
     LinkTagsInjectionInterface
 {
@@ -24,7 +27,7 @@ class ApplicationViewInjection implements
         $this->urlMatcher = $urlMatcher;
     }
 
-    public function getLayoutParams(): array
+    public function getLayoutParameters(): array
     {
         return [
             'user' => $this->user->getIdentity(),
@@ -50,7 +53,7 @@ class ApplicationViewInjection implements
             [
                 '__key' => 'favicon',
                 'name' => 'icon',
-                'value' => 'favicon.ico',
+                'value' => '/favicon.ico',
             ],
         ];
     }

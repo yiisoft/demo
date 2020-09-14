@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use App\ViewRenderer\ViewRenderer;
+use Yiisoft\Yii\View\ViewRenderer;
 
 class SiteController
 {

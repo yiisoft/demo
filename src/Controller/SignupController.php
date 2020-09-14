@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\ViewRenderer\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Psr\Http\Message\RequestInterface;
@@ -15,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
 {
@@ -68,12 +68,11 @@ final class SignupController
             }
         }
 
-        return $this->viewRenderer->render(
+        return $this->viewRenderer->withCsrf()->render(
             'signup',
             [
                 'body' => $body,
                 'error' => $error,
-                'csrf' => $request->getAttribute('csrf_token'),
             ]
         );
     }
