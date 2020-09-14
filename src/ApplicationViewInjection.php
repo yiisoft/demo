@@ -15,7 +15,6 @@ class ApplicationViewInjection implements
     MetaTagsInjectionInterface,
     LinkTagsInjectionInterface
 {
-
     private User $user;
     private UrlMatcherInterface $urlMatcher;
 
