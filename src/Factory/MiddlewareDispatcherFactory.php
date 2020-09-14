@@ -4,11 +4,11 @@ namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Yiisoft\Router\Middleware\Router;
+use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Yii\Web\ErrorHandler\ErrorCatcher;
 use Yiisoft\Yii\Web\Middleware\Csrf;
 use Yiisoft\Yii\Web\Middleware\SubFolder;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
-use Yiisoft\Yii\Web\Session\SessionMiddleware;
 
 final class MiddlewareDispatcherFactory
 {

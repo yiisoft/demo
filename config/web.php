@@ -23,9 +23,9 @@ use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\DataResponseFormatterInterface;
 use Yiisoft\DataResponse\Formatter\HtmlDataResponseFormatter;
+use Yiisoft\Session\Session;
+use Yiisoft\Session\SessionInterface;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
-use Yiisoft\Yii\Web\Session\Session;
-use Yiisoft\Yii\Web\Session\SessionInterface;
 use App\Repository\UserRepository;
 
 /**
