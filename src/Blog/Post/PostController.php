@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Entity\User;
-use App\ViewRenderer;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -15,6 +16,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Yii\Web\User\User as UserComponent;
 
 final class PostController

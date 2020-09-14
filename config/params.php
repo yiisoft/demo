@@ -1,7 +1,9 @@
 <?php
 
+use App\ApplicationViewInjection;
 use App\Command;
 use Cycle\Schema\Generator;
+use Yiisoft\Factory\Definitions\Reference;
 
 return [
     'yiisoft/yii-debug' => [
@@ -40,17 +42,17 @@ return [
 
     'yiisoft/yii-cycle' => [
         'dbal' => [
-            'default'     => 'default',
-            'aliases'     => [],
-            'databases'   => [
+            'default' => 'default',
+            'aliases' => [],
+            'databases' => [
                 'default' => ['connection' => 'sqlite']
             ],
             'connections' => [
                 'sqlite' => [
-                    'driver'     => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
                     'connection' => 'sqlite:@runtime/database.db',
-                    'username'   => '',
-                    'password'   => '',
+                    'username' => '',
+                    'password' => '',
                 ],
             ],
             // 'query-logger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
@@ -78,6 +80,12 @@ return [
         'annotated-entity-paths' => [
             '@src/Entity',
             '@src/Blog/Entity',
+        ],
+    ],
+
+    'yiisoft/yii-view' => [
+        'injections' => [
+            Reference::to(ApplicationViewInjection::class),
         ],
     ],
 ];
