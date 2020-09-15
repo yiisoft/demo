@@ -63,11 +63,5 @@ return [
             $container->get(CommentRepository::class)
         );
     },
-    ViewRenderer::class => [
-        '__construct()' => [
-            'viewBasePath' => '@views',
-            'layout' => '@views/layout/main',
-        ],
-    ],
     ValidatorFactoryInterface::class => ValidatorFactory::class
 ];
