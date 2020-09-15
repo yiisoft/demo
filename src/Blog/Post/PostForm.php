@@ -30,7 +30,7 @@ final class PostForm extends FormModel
 
     public function getTags(): array
     {
-        return (array)$this->tags;
+        return $this->tags;
     }
 
     protected function rules(): array
