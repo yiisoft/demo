@@ -6,19 +6,11 @@ namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
 use App\Service\UserService;
-use App\ViewRenderer;
 use App\Service\WebControllerService;
-use App\Blog\Entity\Tag;
-use App\Entity\User;
-use Cycle\ORM\ORMInterface;
-use Cycle\ORM\Transaction;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
-use Yiisoft\Yii\Web\User\User as UserComponent;
 
 final class PostController
 {
