@@ -11,7 +11,7 @@ final class PostForm extends FormModel
 {
     private ?string $title = null;
     private ?string $content = null;
-    private ?array $tags = [];
+    private array $tags = [];
 
     public function getTitle(): string
     {
