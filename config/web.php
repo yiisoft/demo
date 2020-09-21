@@ -24,6 +24,10 @@ use Yiisoft\Session\Session;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use App\Repository\UserRepository;
+use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Yii\Web\User\UserAuth;
+use Yiisoft\Validator\ValidatorFactoryInterface;
+use Yiisoft\Validator\ValidatorFactory;
 
 /**
  * @var array $params
@@ -49,6 +53,7 @@ return [
         ],
     ],
     IdentityRepositoryInterface::class => UserRepository::class,
+    AuthenticationMethodInterface::class => UserAuth::class,
     ContactMailer::class => static function (ContainerInterface $container) use ($params) {
         $mailer = $container->get(MailerInterface::class);
         return new ContactMailer($mailer, $params['supportEmail']);
@@ -58,4 +63,5 @@ return [
             $container->get(CommentRepository::class)
         );
     },
+    ValidatorFactoryInterface::class => ValidatorFactory::class
 ];

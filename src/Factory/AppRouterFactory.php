@@ -14,8 +14,10 @@ use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Controller\UserController;
+use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use Psr\Container\ContainerInterface;
+use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
@@ -76,10 +78,12 @@ class AppRouterFactory
                     ->name('blog/index'),
                 // Add Post page
                 Route::methods([Method::GET, Method::POST], '/page/add', [PostController::class, 'add'])
-                    ->name('blog/add'),
+                    ->name('blog/add')->addMiddleware(Authentication::class),
                 // Edit Post page
                 Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
-                    ->name('blog/edit'),
+                    ->name('blog/edit')
+                    ->addMiddleware(Authentication::class)
+                    ->addMiddleware(fn (AccessChecker $checker) => $checker->withPermission('editPost')),
                 // Post page
                 Route::get('/page/{slug}', [PostController::class, 'index'])
                     ->name('blog/post'),

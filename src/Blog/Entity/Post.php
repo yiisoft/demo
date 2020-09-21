@@ -96,10 +96,8 @@ class Post
      */
     private $comments;
 
-    public function __construct(string $title, string $content)
+    public function __construct()
     {
-        $this->title = $title;
-        $this->content = $content;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->tags = new PivotedCollection();
@@ -216,5 +214,10 @@ class Post
     public function resetTags(): void
     {
         $this->tags->clear();
+    }
+
+    public function isNewRecord(): bool
+    {
+        return $this->getId() === null;
     }
 }
