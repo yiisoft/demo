@@ -114,7 +114,8 @@
             "providers-console": [
                 "$providers",
                 "config/providers-console.php"
-            ]
+            ],
+            "routes": "config/routes.php"
         }
     },
     "config": {

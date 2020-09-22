@@ -1,23 +1,20 @@
 <?php
 
-use App\Factory\AppRouterFactory;
 use App\Factory\MailerFactory;
 use App\Timer;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
+use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Php\Storage;
 use Yiisoft\Rbac\RuleFactory\ClassNameRuleFactory;
 use Yiisoft\Rbac\RuleFactoryInterface;
 use Yiisoft\Rbac\StorageInterface;
-use Yiisoft\Router\Dispatcher;
-use Yiisoft\Router\DispatcherInterface;
-use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
-use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Router\RouteCollectionInterface;
+use Yiisoft\Router\RouteCollection;
 
 /**
  * @var array $params
@@ -44,11 +41,14 @@ return [
         'setPassword()' => [$params['mailer']['password']],
     ],
 
-    // Router:
-    DispatcherInterface::class => Dispatcher::class,
-    RouteCollectorInterface::class => Group::create(),
-    UrlMatcherInterface::class => new AppRouterFactory(),
-    UrlGeneratorInterface::class => UrlGenerator::class,
+    RouteCollectionInterface::class => function (ContainerInterface $container) {
+        $collector = $container->get(RouteCollectorInterface::class);
+        $collector->addGroup(
+            Group::create(null, require 'routes.php')->addMiddleware(FormatDataResponse::class)
+        );
+
+        return new RouteCollection($collector);
+    },
 
     MailerInterface::class => new MailerFactory($params['mailer']['writeToFiles']),
     Timer::class => $timer,
