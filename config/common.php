@@ -54,8 +54,5 @@ return [
         ]
     ],
     RuleFactoryInterface::class => ClassNameRuleFactory::class,
-    Manager::class => static function (StorageInterface $storage, RuleFactoryInterface $ruleFactory) {
-        return new Manager($storage, $ruleFactory);
-    },
     AccessCheckerInterface::class => Manager::class,
 ];
