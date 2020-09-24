@@ -2,7 +2,6 @@
 
 use App\Factory\MailerFactory;
 use App\Timer;
-use Psr\Container\ContainerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Mailer\MailerInterface;
@@ -24,10 +23,6 @@ $timer = new Timer();
 $timer->start('overall');
 
 return [
-    ContainerInterface::class => static function (ContainerInterface $container) {
-        return $container;
-    },
-
     //mail
     Swift_Transport::class => Swift_SmtpTransport::class,
     Swift_SmtpTransport::class => [
@@ -41,8 +36,7 @@ return [
         'setPassword()' => [$params['mailer']['password']],
     ],
 
-    RouteCollectionInterface::class => function (ContainerInterface $container) {
-        $collector = $container->get(RouteCollectorInterface::class);
+    RouteCollectionInterface::class => function (RouteCollectorInterface $collector) {
         $collector->addGroup(
             Group::create(null, require 'routes.php')->addMiddleware(FormatDataResponse::class)
         );
@@ -60,9 +54,7 @@ return [
         ]
     ],
     RuleFactoryInterface::class => ClassNameRuleFactory::class,
-    Manager::class => static function (ContainerInterface $container) {
-        $storage = $container->get(StorageInterface::class);
-        $ruleFactory = $container->get(RuleFactoryInterface::class);
+    Manager::class => static function (StorageInterface $storage, RuleFactoryInterface $ruleFactory) {
         return new Manager($storage, $ruleFactory);
     },
     AccessCheckerInterface::class => Manager::class,
