@@ -30,7 +30,7 @@ final class ArchiveController
     {
         $pageNum = (int)$request->getAttribute('page', 1);
         $year = (int)$request->getAttribute('year', 0);
-        $month = (int)$request->getAttribute('month', null);
+        $month = (int)$request->getAttribute('month', 0);
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
         $paginator = (new OffsetPaginator($dataReader))
