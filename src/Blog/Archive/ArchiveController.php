@@ -29,7 +29,7 @@ final class ArchiveController
     public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
     {
         $pageNum = (int)$request->getAttribute('page', 1);
-        $year = (int)$request->getAttribute('year', null);
+        $year = (int)$request->getAttribute('year', 0);
         $month = (int)$request->getAttribute('month', null);
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
