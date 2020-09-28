@@ -49,7 +49,7 @@ final class ArchiveController
 
     public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
     {
-        $year = (int)$request->getAttribute('year', null);
+        $year = (int)$request->getAttribute('year', 0);
 
         $data = [
             'year' => $year,
