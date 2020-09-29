@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\ApplicationViewInjection;
 use App\Command;
 use Cycle\Schema\Generator;
@@ -25,6 +27,14 @@ return [
         '@views' => '@root/views',
         '@resources' => '@root/resources',
         '@src' => '@root/src',
+    ],
+
+    'yiisoft/form' => [
+        'fieldConfig' => [
+            'inputCssClass()' => ['form-control input field'],
+            'labelOptions()' => [['label' => '']],
+            'errorOptions()' => [['class' => 'has-text-left has-text-danger is-italic']],
+        ],
     ],
 
     'session' => [

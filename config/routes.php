@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\CommentController;

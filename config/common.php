@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Factory\MailerFactory;
 use App\Timer;
 use Yiisoft\Access\AccessCheckerInterface;
