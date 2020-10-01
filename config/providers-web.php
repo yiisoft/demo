@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+/* @var array $params */
+
 use Yiisoft\Arrays\Modifier\ReverseBlockMerge;
 use Yiisoft\Composer\Config\Builder;
 use Yiisoft\Yii\Event\EventDispatcherProvider;

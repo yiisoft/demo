@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;

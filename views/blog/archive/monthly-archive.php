@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var int $year
  * @var int $month
@@ -13,7 +15,7 @@ use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
-$monthName = DateTime::createFromFormat('!m', $month)->format('F');
+$monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
 $pagination = OffsetPagination::widget()
     ->paginator($paginator)
     ->urlGenerator(

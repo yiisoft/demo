@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Data\Paginator\KeysetPaginator;
 use Yiisoft\Router\UrlGeneratorInterface;

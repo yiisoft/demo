@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Yii\Bootstrap4\Nav;
