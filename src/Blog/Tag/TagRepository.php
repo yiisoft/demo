@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Tag;
 
 use App\Blog\Entity\Post;

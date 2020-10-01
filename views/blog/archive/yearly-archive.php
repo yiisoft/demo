@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var int $year
  * @var Post[]|\Yiisoft\Data\Reader\DataReaderInterface $items
@@ -32,7 +34,7 @@ use Yiisoft\Html\Html;
 
             if ($currentMonth !== $month) {
                 $currentMonth = $month;
-                $monthName = DateTime::createFromFormat('!m', $month)->format('F');
+                $monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
                 echo Html::tag('div', "{$year} {$monthName}", ['class' => 'lead']);
             }
             echo Html::beginTag('div');

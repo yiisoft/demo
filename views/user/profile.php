@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var \App\Entity\User $item
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator

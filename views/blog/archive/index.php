@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
