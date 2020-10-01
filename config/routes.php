@@ -21,6 +21,8 @@ use Yiisoft\Router\Route;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
+use Yiisoft\Swagger\Middleware\SwaggerJson;
+use Yiisoft\Swagger\Middleware\SwaggerUi;
 
 return [
     // Lonely pages of site
@@ -94,5 +96,21 @@ return [
         // comments
         Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
             ->name('blog/comment/index'),
+    ]),
+
+    // Swagger routes
+    Group::create('/swagger', [
+        Route::get('')
+            ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
+        Route::get('/json-url')
+            ->addMiddleware(static function (SwaggerJson $swaggerJson) {
+                return $swaggerJson
+                    // Uncomment cache for production environment
+                    // ->withCache(60)
+                    ->withAnnotationPaths([
+                                              '@src/Controller' // Path to API controllers
+                                          ]);
+            })
+            ->addMiddleware(FormatDataResponseAsJson::class),
     ]),
 ];
