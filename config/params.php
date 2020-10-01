@@ -29,14 +29,6 @@ return [
         '@src' => '@root/src',
     ],
 
-    'yiisoft/form' => [
-        'fieldConfig' => [
-            'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']],
-            'errorOptions()' => [['class' => 'has-text-left has-text-danger is-italic']],
-        ],
-    ],
-
     'session' => [
         'options' => ['cookie_secure' => 0],
     ],
