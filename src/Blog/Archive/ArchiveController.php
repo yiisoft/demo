@@ -29,8 +29,8 @@ final class ArchiveController
     public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
     {
         $pageNum = (int)$request->getAttribute('page', 1);
-        $year = $request->getAttribute('year', null);
-        $month = $request->getAttribute('month', null);
+        $year = (int)$request->getAttribute('year', 0);
+        $month = (int)$request->getAttribute('month', 0);
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
         $paginator = (new OffsetPaginator($dataReader))
@@ -49,7 +49,7 @@ final class ArchiveController
 
     public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
     {
-        $year = (int) $request->getAttribute('year', null);
+        $year = (int)$request->getAttribute('year', 0);
 
         $data = [
             'year' => $year,
