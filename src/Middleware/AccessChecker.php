@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Status;
 
 final class AccessChecker implements MiddlewareInterface
@@ -28,11 +29,14 @@ final class AccessChecker implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $identity = $request->getAttribute(Authentication::class);
         if ($this->permission === null) {
             throw new \InvalidArgumentException('Permission not set.');
         }
-
-        if (!$this->userService->hasPermission($this->permission)) {
+        if ($identity === null) {
+            return $this->responseFactory->createResponse(Status::UNAUTHORIZED);
+        }
+        if (!$this->userService->hasPermission($this->permission, $identity)) {
             return $this->responseFactory->createResponse(Status::FORBIDDEN);
         }
 

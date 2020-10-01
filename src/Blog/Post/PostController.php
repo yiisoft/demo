@@ -9,6 +9,7 @@ use App\Service\UserService;
 use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -45,6 +46,7 @@ final class PostController
 
     public function add(Request $request, PostForm $form): Response
     {
+        $identity = $request->getAttribute(Authentication::class);
         $parameters = [
             'title' => 'Add post',
             'action' => ['blog/add'],
@@ -55,7 +57,7 @@ final class PostController
         if ($request->getMethod() === Method::POST) {
             $form->load($parameters['body']);
             if ($form->validate()) {
-                $this->postService->savePost($this->userService->getUser(), new Post(), $form);
+                $this->postService->savePost($this->userService->getUser($identity), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
@@ -67,6 +69,7 @@ final class PostController
 
     public function edit(Request $request, PostForm $form, PostRepository $postRepository): Response
     {
+        $identity = $request->getAttribute(Authentication::class);
         $slug = $request->getAttribute('slug', null);
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
@@ -88,7 +91,7 @@ final class PostController
             $body = $request->getParsedBody();
             $form->load($body);
             if ($form->validate()) {
-                $this->postService->savePost($this->userService->getUser(), $post, $form);
+                $this->postService->savePost($this->userService->getUser($identity), $post, $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
 

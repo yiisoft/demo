@@ -36,32 +36,42 @@ return [
         ->name('site/signup'),
 
     // User
-    Group::create('/user', [
-        // Index
-        Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
-            ->name('user/index'),
-        // Profile page
-        Route::get('/{login}', [UserController::class, 'profile'])
-            ->name('user/profile'),
-    ]),
+    Group::create(
+        '/user',
+        [
+            // Index
+            Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
+                ->name('user/index'),
+            // Profile page
+            Route::get('/{login}', [UserController::class, 'profile'])
+                ->name('user/profile'),
+        ]
+    ),
 
     // User
-    Group::create('/api', [
-        Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
-            return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
-        })->name('api/info/v1'),
-        Route::get('/info/v2', ApiInfo::class)
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/info/v2'),
-        Route::get('/user', [ApiUserController::class, 'index'])
-            ->name('api/user/index'),
-        Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/user/profile'),
-    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+    Group::create(
+        '/api',
+        [
+            Route::get(
+                '/info/v1',
+                function (DataResponseFactoryInterface $responseFactory) {
+                    return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
+                }
+            )->name('api/info/v1'),
+            Route::get('/info/v2', ApiInfo::class)
+                ->addMiddleware(FormatDataResponseAsJson::class)
+                ->name('api/info/v2'),
+            Route::get('/user', [ApiUserController::class, 'index'])
+                ->name('api/user/index'),
+            Route::get('/user/{login}', [ApiUserController::class, 'profile'])
+                ->addMiddleware(FormatDataResponseAsJson::class)
+                ->name('api/user/profile'),
+        ]
+    )->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
 
     // Blog routes
-    Group::create('/blog', [
+    Group::create(
+        '/blog', [
         // Index
         Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
             ->name('blog/index'),
@@ -71,8 +81,8 @@ return [
         // Edit Post page
         Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
             ->name('blog/edit')
-            ->addMiddleware(Authentication::class)
-            ->addMiddleware(fn (AccessChecker $checker) => $checker->withPermission('editPost')),
+            ->addMiddleware(fn(AccessChecker $checker) => $checker->withPermission('editPost'))
+            ->addMiddleware(Authentication::class),
         // Post page
         Route::get('/page/{slug}', [PostController::class, 'index'])
             ->name('blog/post'),
@@ -80,17 +90,20 @@ return [
         Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
             ->name('blog/tag'),
         // Archive
-        Group::create('/archive', [
-            // Index page
-            Route::get('', [ArchiveController::class, 'index'])
-                ->name('blog/archive/index'),
-            // Yearly page
-            Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
-                ->name('blog/archive/year'),
-            // Monthly page
-            Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                ->name('blog/archive/month')
-        ]),
+        Group::create(
+            '/archive',
+            [
+                // Index page
+                Route::get('', [ArchiveController::class, 'index'])
+                    ->name('blog/archive/index'),
+                // Yearly page
+                Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
+                    ->name('blog/archive/year'),
+                // Monthly page
+                Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
+                    ->name('blog/archive/month')
+            ]
+        ),
         // comments
         Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
             ->name('blog/comment/index'),

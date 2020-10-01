@@ -7,29 +7,27 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Yiisoft\Access\AccessCheckerInterface;
-use Yiisoft\Yii\Web\User\User as UserComponent;
+use Yiisoft\Auth\IdentityInterface;
 
 final class UserService
 {
-    private UserComponent $user;
     private UserRepository $repository;
     private AccessCheckerInterface $accessChecker;
 
-    public function __construct(UserComponent $user, UserRepository $repository, AccessCheckerInterface $accessChecker)
+    public function __construct(UserRepository $repository, AccessCheckerInterface $accessChecker)
     {
-        $this->user = $user;
         $this->repository = $repository;
         $this->accessChecker = $accessChecker;
     }
 
-    public function getUser(): ?User
+    public function getUser(IdentityInterface $identity): ?User
     {
-        return $this->repository->findIdentity($this->user->getId());
+        return $this->repository->findIdentity($identity->getId());
     }
 
-    public function hasPermission(string $permission): bool
+    public function hasPermission(string $permission, IdentityInterface $identity): bool
     {
-        $userId = $this->user->getId();
+        $userId = $identity->getId();
         return !is_null($userId) && $this->accessChecker->userHasPermission($userId, $permission);
     }
 }
