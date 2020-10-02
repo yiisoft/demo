@@ -10,6 +10,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
+/**
+ * @OA\Info(title="Yii demo API", version="2.0")
+ */
 class ApiInfo implements MiddlewareInterface
 {
     private DataResponseFactoryInterface $responseFactory;
@@ -19,6 +22,12 @@ class ApiInfo implements MiddlewareInterface
         $this->responseFactory = $responseFactory;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/info/v2",
+     *     @OA\Response(response="200", description="Get api version")
+     * )
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->responseFactory->createResponse(['version' => '2.0', 'author' => 'yiisoft']);

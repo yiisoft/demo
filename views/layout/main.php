@@ -55,6 +55,7 @@ echo Nav::widget()
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
 echo Nav::widget()
