@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-use App\ApplicationViewInjection;
 use App\Command;
+use App\ViewInjection\ContentViewInjection;
+use App\ViewInjection\LayoutViewInjection;
+use App\ViewInjection\LinkTagsViewInjection;
+use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
 use Yiisoft\Factory\Definitions\Reference;
 
@@ -87,7 +90,17 @@ return [
 
     'yiisoft/yii-view' => [
         'injections' => [
-            Reference::to(ApplicationViewInjection::class),
+            Reference::to(ContentViewInjection::class),
+            Reference::to(LayoutViewInjection::class),
+            Reference::to(LinkTagsViewInjection::class),
+            Reference::to(MetaTagsViewInjection::class)
+        ],
+    ],
+
+    'yiisoft/form' => [
+        'fieldConfig' => [
+            'inputCssClass()' => ['form-control input field'],
+            'labelOptions()' => [['label' => '']],
         ],
     ],
 ];
