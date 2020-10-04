@@ -33,9 +33,7 @@ class ContactController
 
     public function contact(ServerRequestInterface $request, ContactForm $form): ResponseInterface
     {
-        $body = $request->getParsedBody();
         $parameters = [
-            'body' => $body,
             'form' => $form
         ];
         $sent = false;
@@ -43,7 +41,7 @@ class ContactController
         if (($request->getMethod() === Method::POST)) {
             $sent = true;
 
-            if ($form->load($body) && $form->validate()) {
+            if ($form->load($request->getParsedBody()) && $form->validate()) {
                 $this->mailer->send($form, $request);
             }
 

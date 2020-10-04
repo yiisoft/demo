@@ -3,9 +3,6 @@
 declare(strict_types=1);
 
 /**
- * @var $this \Yiisoft\View\View
- * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
- * @var $body array
  * @var $csrf string
  * @var $form Yiisoft\Form\FormModel
  * @var $url \Yiisoft\Router\UrlGeneratorInterface
@@ -26,6 +23,7 @@ if (isset($sent)) {
               );
 }
 ?>
+
 <div>
 
     <?= Form::begin()
@@ -40,7 +38,7 @@ if (isset($sent)) {
         ->start() ?>
 
     <?= $field->config($form, 'username') ?>
-    <?= $field->config($form, 'email') ?>
+    <?= $field->config($form, 'email')->input('email') ?>
     <?= $field->config($form, 'subject') ?>
     <?= $field->config($form, 'body')
         ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
