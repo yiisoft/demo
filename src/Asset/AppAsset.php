@@ -10,7 +10,7 @@ class AppAsset extends AssetBundle
 {
     public ?string $basePath = '@public';
 
-    public ?string $baseUrl = '@web';
+    public ?string $baseUrl = '@baseUrl';
 
     public array $css = [];
 
