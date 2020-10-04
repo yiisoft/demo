@@ -26,8 +26,6 @@ use Yiisoft\Yii\Web\MiddlewareDispatcher;
 use App\Repository\UserRepository;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Yii\Web\User\UserAuth;
-use Yiisoft\Validator\ValidatorFactoryInterface;
-use Yiisoft\Validator\ValidatorFactory;
 
 /**
  * @var array $params
@@ -63,5 +61,4 @@ return [
             $container->get(CommentRepository::class)
         );
     },
-    ValidatorFactoryInterface::class => ValidatorFactory::class
 ];
