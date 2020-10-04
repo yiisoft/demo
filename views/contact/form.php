@@ -50,11 +50,11 @@ if (isset($sent)) {
         ) ?>
 
     <?= Html::submitButton(
-        'Submit',
-        [
+            'Submit',
+            [
             'class' => 'btn btn-primary'
         ]
-    ) ?>
+        ) ?>
 
     <?= Form::end() ?>
 
