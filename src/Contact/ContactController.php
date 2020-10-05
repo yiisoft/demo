@@ -15,20 +15,14 @@ use Yiisoft\Yii\View\ViewRenderer;
 class ContactController
 {
     private ContactMailer $mailer;
-    private LoggerInterface $logger;
     private ViewRenderer $viewRenderer;
-    private ResponseFactoryInterface $responseFactory;
 
     public function __construct(
         ViewRenderer $viewRenderer,
-        ContactMailer $mailer,
-        LoggerInterface $logger,
-        ResponseFactoryInterface $responseFactory
+        ContactMailer $mailer
     ) {
         $this->mailer = $mailer;
-        $this->logger = $logger;
         $this->viewRenderer = $viewRenderer->withControllerName('contact');
-        $this->responseFactory = $responseFactory;
     }
 
     public function contact(ServerRequestInterface $request, ContactForm $form): ResponseInterface
@@ -36,7 +30,6 @@ class ContactController
         $parameters = [
             'form' => $form
         ];
-        $sent = false;
 
         if (($request->getMethod() === Method::POST)) {
             $sent = true;
