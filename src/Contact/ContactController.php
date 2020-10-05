@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
+use App\Form\ContactForm;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -13,52 +15,30 @@ use Yiisoft\Yii\View\ViewRenderer;
 class ContactController
 {
     private ContactMailer $mailer;
-    private LoggerInterface $logger;
     private ViewRenderer $viewRenderer;
 
     public function __construct(
         ViewRenderer $viewRenderer,
-        ContactMailer $mailer,
-        LoggerInterface $logger
+        ContactMailer $mailer
     ) {
         $this->mailer = $mailer;
-        $this->logger = $logger;
         $this->viewRenderer = $viewRenderer->withControllerName('contact');
     }
 
-    public function contact(ServerRequestInterface $request): ResponseInterface
+    public function contact(ServerRequestInterface $request, ContactForm $form): ResponseInterface
     {
-        $body = $request->getParsedBody();
         $parameters = [
-            'body' => $body,
+            'form' => $form
         ];
-        if ($request->getMethod() === Method::POST) {
-            $sent = false;
-            $error = '';
 
-            try {
-                foreach (['subject', 'name', 'email', 'content'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new \InvalidArgumentException(ucfirst($name) . ' is required');
-                    }
-                }
+        if (($request->getMethod() === Method::POST)) {
+            $sent = true;
 
-                $message = new Message($body['name'], $body['email'], $body['subject'], $body['content']);
-
-                $files = $request->getUploadedFiles();
-                if (!empty($files['file']) && $files['file']->getError() === UPLOAD_ERR_OK) {
-                    $message->addFile($files['file']);
-                }
-
-                $this->mailer->send($message);
-
-                $sent = true;
-            } catch (\Throwable $e) {
-                $this->logger->error($e);
-                $error = $e->getMessage();
+            if ($form->load($request->getParsedBody()) && $form->validate()) {
+                $this->mailer->send($form, $request);
             }
+
             $parameters['sent'] = $sent;
-            $parameters['error'] = $error;
         }
 
         return $this->viewRenderer->withCsrf()->render('form', $parameters);
