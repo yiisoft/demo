@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Blog\Widget;
 
 use App\Blog\Entity\Post;
+use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Yii\Bootstrap4\Html;
 use Yiisoft\Yii\Bootstrap4\Widget;
 
 class PostCard extends Widget
