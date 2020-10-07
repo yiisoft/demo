@@ -6,7 +6,7 @@ namespace App\Widget;
 
 use Closure;
 use Yiisoft\Data\Paginator\OffsetPaginator as Paginator;
-use Yiisoft\Yii\Bootstrap4\Html;
+use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap4\Widget;
 
 class OffsetPagination extends Widget
