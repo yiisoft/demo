@@ -20,7 +20,7 @@
         "php": "^7.4|^8.0",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
-        "nyholm/psr7": "^1.0",
+        "httpsoft/http-message": "^1.0",
         "psr/log": "^1.1",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^1.0",
