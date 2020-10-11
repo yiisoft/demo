@@ -6,7 +6,12 @@ use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Contact\ContactMailer;
 use App\Factory\MiddlewareDispatcherFactory;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use HttpSoft\Message\RequestFactory;
+use HttpSoft\Message\ResponseFactory;
+use HttpSoft\Message\ServerRequestFactory;
+use HttpSoft\Message\StreamFactory;
+use HttpSoft\Message\UploadedFileFactory;
+use HttpSoft\Message\UriFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -33,12 +38,12 @@ use Yiisoft\Yii\Web\User\UserAuth;
 
 return [
     // PSR-17 factories:
-    RequestFactoryInterface::class => Psr17Factory::class,
-    ServerRequestFactoryInterface::class => Psr17Factory::class,
-    ResponseFactoryInterface::class => Psr17Factory::class,
-    StreamFactoryInterface::class => Psr17Factory::class,
-    UriFactoryInterface::class => Psr17Factory::class,
-    UploadedFileFactoryInterface::class => Psr17Factory::class,
+    RequestFactoryInterface::class => RequestFactory::class,
+    ServerRequestFactoryInterface::class => ServerRequestFactory::class,
+    ResponseFactoryInterface::class => ResponseFactory::class,
+    StreamFactoryInterface::class => StreamFactory::class,
+    UriFactoryInterface::class => UriFactory::class,
+    UploadedFileFactoryInterface::class => UploadedFileFActory::class,
     DataResponseFormatterInterface::class => HtmlDataResponseFormatter::class,
     DataResponseFactoryInterface::class => DataResponseFactory::class,
 
