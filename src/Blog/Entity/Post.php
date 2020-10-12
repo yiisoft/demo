@@ -54,7 +54,7 @@ class Post
     /**
      * @Column(type="text")
      */
-    private string $content;
+    private string $content = '';
 
     /**
      * @Column(type="datetime")
@@ -96,8 +96,10 @@ class Post
      */
     private $comments;
 
-    public function __construct()
+    public function __construct(?string $title = null, ?string $content = null)
     {
+        $this->title = $title ?? '';
+        $this->content = $content ?? '';
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->tags = new PivotedCollection();
