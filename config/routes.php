@@ -49,7 +49,9 @@ return [
             ->name('user/profile'),
     ]),
 
-    // User
+    // API group.
+    // By default it responds with XML regardless of content-type.
+    // Individual sub-routes are responding with JSON.
     Group::create('/api', [
         Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
             return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
@@ -62,7 +64,7 @@ return [
         Route::get('/user/{login}', [ApiUserController::class, 'profile'])
             ->addMiddleware(FormatDataResponseAsJson::class)
             ->name('api/user/profile'),
-    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsJson::class),
+    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
 
     // Blog routes
     Group::create('/blog', [
