@@ -62,7 +62,7 @@ return [
         Route::get('/user/{login}', [ApiUserController::class, 'profile'])
             ->addMiddleware(FormatDataResponseAsJson::class)
             ->name('api/user/profile'),
-    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsJson::class),
 
     // Blog routes
     Group::create('/blog', [
