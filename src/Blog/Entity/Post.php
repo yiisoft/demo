@@ -96,10 +96,10 @@ class Post
      */
     private $comments;
 
-    public function __construct(?string $title = null, ?string $content = null)
+    public function __construct(string $title = '', string $content = '')
     {
-        $this->title = $title ?? '';
-        $this->content = $content ?? '';
+        $this->title = $title;
+        $this->content = $content;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->tags = new PivotedCollection();
