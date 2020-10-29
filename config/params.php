@@ -8,12 +8,16 @@ use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
+use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 
 return [
     'yiisoft/yii-debug' => [
         // 'enabled' => false,
     ],
+
     'mailer' => [
         'writeToFiles' => true,
         'host' => 'smtp.example.com',
@@ -23,8 +27,6 @@ return [
         'password' => '',
     ],
 
-    'supportEmail' => 'support@example.com',
-
     'aliases' => [
         '@root' => dirname(__DIR__),
         '@views' => '@root/views',
@@ -32,8 +34,30 @@ return [
         '@src' => '@root/src',
     ],
 
-    'session' => [
-        'options' => ['cookie_secure' => 0],
+    'mailer' => [
+        'adminEmail' => 'admin@example.com'
+    ],
+
+    'yiisoft/form' => [
+        'fieldConfig' => [
+            'inputCssClass()' => ['form-control input field'],
+            'labelOptions()' => [['label' => '']]
+        ]
+    ],
+
+    'yiisoft/session' => [
+        'session' => [
+            'options' => ['cookie_secure' => 0]
+        ]
+    ],
+
+    'yiisoft/view' => [
+        'basePath' => '@views',
+        'defaultParameters' => [
+            'assetManager' => Reference::to(AssetManager::class),
+            'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
+            'urlMatcher' => Reference::to(UrlMatcherInterface::class)
+        ]
     ],
 
     'yiisoft/yii-console' => [
@@ -41,8 +65,8 @@ return [
             'user/create' => Command\User\CreateCommand::class,
             'user/assignRole' => Command\User\AssignRoleCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
-            'router/list' => Command\Router\ListCommand::class,
-        ],
+            'router/list' => Command\Router\ListCommand::class
+        ]
     ],
 
     'yiisoft/yii-cycle' => [
@@ -84,8 +108,8 @@ return [
         ],
         'annotated-entity-paths' => [
             '@src/Entity',
-            '@src/Blog/Entity',
-        ],
+            '@src/Blog/Entity'
+        ]
     ],
 
     'yiisoft/yii-view' => [
@@ -94,13 +118,6 @@ return [
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
             Reference::to(MetaTagsViewInjection::class)
-        ],
-    ],
-
-    'yiisoft/form' => [
-        'fieldConfig' => [
-            'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']],
-        ],
-    ],
+        ]
+    ]
 ];

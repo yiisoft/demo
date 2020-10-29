@@ -106,6 +106,7 @@ final class ArchiveRepository
     }
 
     /**
+     * @psalm-suppress UndefinedDocblockClass
      * @param Select|SelectQuery $query
      * @return SelectDataReader
      */
