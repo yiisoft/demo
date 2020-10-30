@@ -29,6 +29,7 @@ final class RepositoryProvider extends ServiceProvider
     {
         $orm = $container->get(ORMInterface::class);
         foreach (self::REPOSITORIES as $entity => $repository) {
+            /** @psalm-suppress InaccessibleMethod */
             $container->set($repository, $orm->getRepository($entity));
         }
     }

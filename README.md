@@ -12,7 +12,10 @@ It's intended to show and test all Yii features.
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii-demo/v/stable.png)](https://packagist.org/packages/yiisoft/yii-demo)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii-demo/downloads.png)](https://packagist.org/packages/yiisoft/yii-demo)
-[![Build Status](https://travis-ci.com/yiisoft/yii-demo.svg?branch=master)](https://travis-ci.com/yiisoft/yii-demo)
+[![build](https://github.com/yiisoft/yii-demo/workflows/build/badge.svg)](https://github.com/yiisoft/yii-demo/actions)
+[![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/yii-demo/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/yii-demo/?branch=master)
+[![static analysis](https://github.com/yiisoft/yii-demo/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/yii-demo/actions?query=workflow%3A%22static+analysis%22)
+[![type-coverage](https://shepherd.dev/github/yiisoft/yii-demo/coverage.svg)](https://shepherd.dev/github/yiisoft/yii-demo)
 
 ## Installation
 
