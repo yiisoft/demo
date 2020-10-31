@@ -46,7 +46,7 @@
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
-        "yiisoft/security": "^3.0@dev",
+        "yiisoft/security": "^1.0",
         "yiisoft/serializer": "^3.0@dev",
         "yiisoft/strings": "^1.0",
         "yiisoft/var-dumper": "^3.0@dev",
