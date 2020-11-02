@@ -9,18 +9,18 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Router\RouteCollectionInterface;
 use Yiisoft\Yii\Console\ExitCode;
 
 class ListCommand extends Command
 {
-    private UrlMatcherInterface $urlMatcher;
+    private RouteCollectionInterface $routeCollection;
 
     protected static $defaultName = 'router/list';
 
-    public function __construct(UrlMatcherInterface $urlMatcher)
+    public function __construct(RouteCollectionInterface $routeCollection)
     {
-        $this->urlMatcher = $urlMatcher;
+        $this->routeCollection = $routeCollection;
         parent::__construct();
     }
 
@@ -34,7 +34,7 @@ class ListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
-        $routes = $this->urlMatcher->getRouteCollection()->getRoutes();
+        $routes = $this->routeCollection->getRoutes();
         uasort(
             $routes,
             static function ($a, $b) {
