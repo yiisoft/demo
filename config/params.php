@@ -27,13 +27,15 @@ return [
         'password' => '',
     ],
 
-    'aliases' => [
-        '@root' => dirname(__DIR__),
-        '@views' => '@root/views',
-        '@resources' => '@root/resources',
-        '@src' => '@root/src',
-        '@assets' => '@public/assets',
-        '@assetsUrl' => '@baseUrl/assets'
+    'yiisoft/aliases' => [
+        'aliases' => [
+            '@root' => dirname(__DIR__),
+            '@views' => '@root/views',
+            '@resources' => '@root/resources',
+            '@src' => '@root/src',
+            '@assets' => '@public/assets',
+            '@assetsUrl' => '@baseUrl/assets'
+        ],
     ],
 
     'mailer' => [
