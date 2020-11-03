@@ -32,6 +32,8 @@ return [
         '@views' => '@root/views',
         '@resources' => '@root/resources',
         '@src' => '@root/src',
+        '@assets' => '@public/assets',
+        '@assetsUrl' => '@baseUrl/assets'
     ],
 
     'mailer' => [
