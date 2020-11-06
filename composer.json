@@ -34,6 +34,7 @@
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
+        "yiisoft/error-handler": "@dev",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
         "yiisoft/html": "^3.0@dev",
