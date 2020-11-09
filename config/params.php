@@ -18,15 +18,6 @@ return [
         // 'enabled' => false,
     ],
 
-    'mailer' => [
-        'writeToFiles' => true,
-        'host' => 'smtp.example.com',
-        'port' => 25,
-        'encryption' => null,
-        'username' => 'admin@example.com',
-        'password' => '',
-    ],
-
     'yiisoft/aliases' => [
         'aliases' => [
             '@root' => dirname(__DIR__),
