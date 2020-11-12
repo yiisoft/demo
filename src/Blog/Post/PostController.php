@@ -1,172 +1,101 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
-use App\Entity\User;
-use App\ViewRenderer;
-use Cycle\ORM\ORMInterface;
-use Cycle\ORM\Transaction;
-use Psr\Http\Message\ResponseFactoryInterface;
+use App\Service\UserService;
+use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Log\LoggerInterface;
-use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Yii\Web\User\User as UserComponent;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class PostController
 {
     private ViewRenderer $viewRenderer;
-    private ResponseFactoryInterface $responseFactory;
-    private LoggerInterface $logger;
-    private UserComponent $userService;
+    private WebControllerService $webService;
+    private PostService $postService;
+    private UserService $userService;
 
     public function __construct(
         ViewRenderer $viewRenderer,
-        ResponseFactoryInterface $responseFactory,
-        LoggerInterface $logger,
-        UserComponent $userService
+        WebControllerService $webService,
+        PostService $postService,
+        UserService $userService
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
-        $this->responseFactory = $responseFactory;
-        $this->logger = $logger;
+        $this->webService = $webService;
+        $this->postService = $postService;
         $this->userService = $userService;
     }
 
-    public function index(Request $request, PostRepository $postRepository, AccessCheckerInterface $accessChecker): Response
+    public function index(Request $request, PostRepository $postRepository): Response
     {
-        $userId = $this->userService->getId();
-        $canEdit = !is_null($userId) && $accessChecker->userHasPermission($userId, 'editPost');
-
+        $canEdit = $this->userService->hasPermission('editPost');
         $slug = $request->getAttribute('slug', null);
         $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
-            return $this->responseFactory->createResponse(404);
+            return $this->webService->getNotFoundResponse();
         }
 
         return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
-    public function add(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
-        if ($this->userService->isGuest()) {
-            return $this->responseFactory->createResponse(403);
-        }
-
-        $body = $request->getParsedBody();
+    public function add(Request $request, PostForm $form): Response
+    {
         $parameters = [
-            'body' => $body,
-            'action' => ['blog/add']
+            'title' => 'Add post',
+            'action' => ['blog/add'],
+            'errors' => [],
+            'body' => $request->getParsedBody(),
         ];
 
         if ($request->getMethod() === Method::POST) {
-            $error = '';
-
-            try {
-                foreach (['title', 'content'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new \InvalidArgumentException(ucfirst($name) . ' is required');
-                    }
-                }
-
-                $post = new Post($body['title'], $body['content']);
-
-                $userRepo = $orm->getRepository(User::class);
-                $user = $userRepo->findByPK($this->userService->getId());
-
-                $post->setUser($user);
-                $post->setPublic(true);
-
-                $transaction = new Transaction($orm);
-                $transaction->persist($post);
-
-                $transaction->run();
-
-                return $this->responseFactory
-                    ->createResponse(302)
-                    ->withHeader(
-                        'Location',
-                        $urlGenerator->generate('blog/index')
-                    );
-            } catch (\Throwable $e) {
-                $this->logger->error($e);
-                $error = $e->getMessage();
+            $form->load($parameters['body']);
+            if ($form->validate()) {
+                $this->postService->savePost($this->userService->getUser(), new Post(), $form);
+                return $this->webService->getRedirectResponse('blog/index');
             }
 
-            $parameters['error'] = $error;
+            $parameters['errors'] = $form->firstErrors();
         }
 
-        $parameters['title'] = 'Add post';
         return $this->viewRenderer->withCsrf()->render('__form', $parameters);
     }
 
-    public function edit(
-        Request $request,
-        ORMInterface $orm,
-        UrlGeneratorInterface $urlGenerator,
-        PostRepository $postRepository,
-        AccessCheckerInterface $accessChecker
-    ): Response {
-        $userId = $this->userService->getId();
-        if (is_null($userId) || !$accessChecker->userHasPermission($userId, 'editPost')) {
-            return $this->responseFactory->createResponse(403);
-        }
-
+    public function edit(Request $request, PostForm $form, PostRepository $postRepository): Response
+    {
         $slug = $request->getAttribute('slug', null);
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
-            return $this->responseFactory->createResponse(404);
+            return $this->webService->getNotFoundResponse();
         }
 
-        $parameters = [];
-        $parameters['action'] = ['blog/edit', ['slug' => $slug]];
-
-        if ($request->getMethod() === Method::POST) {
-            $error = '';
-
-            try {
-                $body = $request->getParsedBody();
-                $parameters['body'] = $body;
-
-                foreach (['title', 'content'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new \InvalidArgumentException(ucfirst($name) . ' is required');
-                    }
-                }
-
-                $post->setTitle($body['title']);
-                $post->setContent($body['content']);
-
-                $transaction = new Transaction($orm);
-                $transaction->persist($post);
-
-                $transaction->run();
-
-                return $this->responseFactory
-                    ->createResponse(302)
-                    ->withHeader(
-                        'Location',
-                        $urlGenerator->generate('blog/index')
-                    );
-            } catch (\Throwable $e) {
-                $this->logger->error($e);
-                $error = $e->getMessage();
-            }
-
-            $parameters['error'] = $error;
-        } else {
-            $parameters['body'] = [
+        $parameters = [
+            'title' => 'Edit post',
+            'action' => ['blog/edit', ['slug' => $slug]],
+            'errors' => [],
+            'body' => [
                 'title' => $post->getTitle(),
                 'content' => $post->getContent(),
-            ];
+                'tags' => $this->postService->getPostTags($post)
+            ]
+        ];
+
+        if ($request->getMethod() === Method::POST) {
+            $body = $request->getParsedBody();
+            $form->load($body);
+            if ($form->validate()) {
+                $this->postService->savePost($this->userService->getUser(), $post, $form);
+                return $this->webService->getRedirectResponse('blog/index');
+            }
+
+            $parameters['body'] = $body;
+            $parameters['errors'] = $form->firstErrors();
         }
 
-        $parameters['title'] = 'Edit post';
         return $this->viewRenderer->withCsrf()->render('__form', $parameters);
     }
 }

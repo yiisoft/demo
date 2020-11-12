@@ -1,32 +1,58 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Command;
+use App\ViewInjection\ContentViewInjection;
+use App\ViewInjection\LayoutViewInjection;
+use App\ViewInjection\LinkTagsViewInjection;
+use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
+use Yiisoft\Assets\AssetManager;
+use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Router\UrlMatcherInterface;
 
 return [
     'yiisoft/yii-debug' => [
         // 'enabled' => false,
     ],
+
+    'yiisoft/aliases' => [
+        'aliases' => [
+            '@root' => dirname(__DIR__),
+            '@views' => '@root/views',
+            '@resources' => '@root/resources',
+            '@src' => '@root/src',
+            '@assets' => '@public/assets',
+            '@assetsUrl' => '@baseUrl/assets'
+        ],
+    ],
+
     'mailer' => [
-        'writeToFiles' => true,
-        'host' => 'smtp.example.com',
-        'port' => 25,
-        'encryption' => null,
-        'username' => 'admin@example.com',
-        'password' => '',
+        'adminEmail' => 'admin@example.com'
     ],
 
-    'supportEmail' => 'support@example.com',
-
-    'aliases' => [
-        '@root' => dirname(__DIR__),
-        '@views' => '@root/views',
-        '@resources' => '@root/resources',
-        '@src' => '@root/src',
+    'yiisoft/form' => [
+        'fieldConfig' => [
+            'inputCssClass()' => ['form-control input field'],
+            'labelOptions()' => [['label' => '']]
+        ]
     ],
 
-    'session' => [
-        'options' => ['cookie_secure' => 0],
+    'yiisoft/session' => [
+        'session' => [
+            'options' => ['cookie_secure' => 0]
+        ]
+    ],
+
+    'yiisoft/view' => [
+        'basePath' => '@views',
+        'defaultParameters' => [
+            'assetManager' => Reference::to(AssetManager::class),
+            'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
+            'urlMatcher' => Reference::to(UrlMatcherInterface::class)
+        ]
     ],
 
     'yiisoft/yii-console' => [
@@ -34,23 +60,23 @@ return [
             'user/create' => Command\User\CreateCommand::class,
             'user/assignRole' => Command\User\AssignRoleCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
-            'router/list' => Command\Router\ListCommand::class,
-        ],
+            'router/list' => Command\Router\ListCommand::class
+        ]
     ],
 
     'yiisoft/yii-cycle' => [
         'dbal' => [
-            'default'     => 'default',
-            'aliases'     => [],
-            'databases'   => [
+            'default' => 'default',
+            'aliases' => [],
+            'databases' => [
                 'default' => ['connection' => 'sqlite']
             ],
             'connections' => [
                 'sqlite' => [
-                    'driver'     => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
                     'connection' => 'sqlite:@runtime/database.db',
-                    'username'   => '',
-                    'password'   => '',
+                    'username' => '',
+                    'password' => '',
                 ],
             ],
             // 'query-logger' => \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class,
@@ -77,7 +103,16 @@ return [
         ],
         'annotated-entity-paths' => [
             '@src/Entity',
-            '@src/Blog/Entity',
-        ],
+            '@src/Blog/Entity'
+        ]
     ],
+
+    'yiisoft/yii-view' => [
+        'injections' => [
+            Reference::to(ContentViewInjection::class),
+            Reference::to(LayoutViewInjection::class),
+            Reference::to(LinkTagsViewInjection::class),
+            Reference::to(MetaTagsViewInjection::class)
+        ]
+    ]
 ];

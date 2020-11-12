@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Data\Paginator\KeysetPaginator;
 use Yiisoft\Html\Html;
@@ -14,12 +16,12 @@ use Yiisoft\Router\UrlGeneratorInterface;
 ?>
 
 <?php foreach ($data->read() as $comment) { ?>
-    <div class="card mb-3" data-id="<?= $comment['id']; ?>">
+    <div class="card mb-3" data-id="<?= $comment->getId(); ?>">
         <div class="card-header">
-            #<?= $comment['id'] ?> <?= $comment['created_at']->format('Y.m.d') ?>
+            #<?= $comment->getId() ?> <?= $comment->getCreatedAt()->format('Y.m.d') ?>
         </div>
         <div class="card-body">
-            <p class="card-text"><?= Html::encode($comment['content']) ?></p>
+            <p class="card-text"><?= Html::encode($comment->getContent()) ?></p>
         </div>
     </div>
 <?php } ?>

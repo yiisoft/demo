@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
  * @var \App\Blog\Entity\Tag $item

@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contact;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Mailer\MailerInterface;
 
 /**
@@ -18,28 +22,32 @@ class ContactMailer
         $this->to = $to;
     }
 
-    public function send(Message $contactMessage)
+    public function send(FormModelinterface $form, ServerRequestInterface $request)
     {
         $message = $this->mailer->compose(
             'contact',
             [
-                'name' => $contactMessage->getName(),
-                'content' => $contactMessage->getContent(),
+                'name' => $form->getAttributeValue('username'),
+                'content' => $form->getAttributeValue('body'),
             ]
         )
-            ->setSubject($contactMessage->getSubject())
-            ->setFrom($contactMessage->getEmail())
+            ->setSubject($form->getAttributeValue('subject'))
+            ->setFrom($form->getAttributeValue('email'))
             ->setTo($this->to);
 
-        $files = $contactMessage->getFiles();
-        foreach ($files as $file) {
-            $message->attachContent(
-                (string)$file->getStream(),
-                [
-                    'fileName' => $file->getClientFilename(),
-                    'contentType' => $file->getClientMediaType(),
-                ]
-            );
+        $attachFiles = $request->getUploadedFiles();
+        foreach ($attachFiles as $attachFile) {
+            foreach ($attachFile as $file) {
+                if ($file->getError() === UPLOAD_ERR_OK) {
+                    $message->attachContent(
+                        (string) $file->getStream(),
+                        [
+                            'fileName' => $file->getClientFilename(),
+                            'contentType' => $file->getClientMediaType(),
+                        ]
+                    );
+                }
+            }
         }
 
         $message->send();

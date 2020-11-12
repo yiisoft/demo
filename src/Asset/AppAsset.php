@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Asset;
 
 use Yiisoft\Assets\AssetBundle;
@@ -8,7 +10,7 @@ class AppAsset extends AssetBundle
 {
     public ?string $basePath = '@public';
 
-    public ?string $baseUrl = '@web';
+    public ?string $baseUrl = '@baseUrl';
 
     public array $css = [];
 

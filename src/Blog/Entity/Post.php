@@ -54,7 +54,7 @@ class Post
     /**
      * @Column(type="text")
      */
-    private string $content;
+    private string $content = '';
 
     /**
      * @Column(type="datetime")
@@ -96,7 +96,7 @@ class Post
      */
     private $comments;
 
-    public function __construct(string $title, string $content)
+    public function __construct(string $title = '', string $content = '')
     {
         $this->title = $title;
         $this->content = $content;
@@ -211,5 +211,15 @@ class Post
     public function addTag(Tag $post): void
     {
         $this->tags->add($post);
+    }
+
+    public function resetTags(): void
+    {
+        $this->tags->clear();
+    }
+
+    public function isNewRecord(): bool
+    {
+        return $this->getId() === null;
     }
 }

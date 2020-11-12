@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Yii\Bootstrap4\Nav;
@@ -9,12 +11,14 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
- * @var \App\Entity\User $user
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
+ *
+ * @see \App\ApplicationViewInjection
+ * @var \App\Entity\User $user
+ * @var string $currentUrl
+ * @var string $brandLabel
  */
-
-$currentUrl = (string) $urlMatcher->getLastMatchedRequest()->getUri();
 
 $assetManager->register([
     AppAsset::class
@@ -38,7 +42,7 @@ $this->beginPage();
 $this->beginBody();
 
 echo NavBar::begin()
-      ->brandLabel('Yii Demo')
+      ->brandLabel($brandLabel)
       ->brandUrl($urlGenerator->generate('site/index'))
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->start();
@@ -51,6 +55,7 @@ echo Nav::widget()
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
 echo Nav::widget()
