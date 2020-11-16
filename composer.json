@@ -84,6 +84,9 @@
     "scripts": {
         "post-update-cmd": [
             "App\\Installer::postUpdate"
+        ],
+        "test": [
+            "phpunit --colors --no-interaction"
         ]
     },
     "extra": {
