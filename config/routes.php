@@ -17,12 +17,13 @@ use App\Controller\UserController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use Yiisoft\Auth\Middleware\Authentication;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
-use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 
@@ -106,6 +107,7 @@ return [
     Group::create('/swagger', [
         Route::get('')
             ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+            ->addMiddleware(FormatDataResponseAsHtml::class)
             ->name('swagger/index'),
         Route::get('/json-url')
             ->addMiddleware(static function (SwaggerJson $swaggerJson) {
