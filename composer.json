@@ -20,7 +20,7 @@
         "php": "^7.4|^8.0",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
-        "httpsoft/http-message": "^1.0",
+        "httpsoft/http-message": "^1.0.5",
         "psr/log": "^1.1",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^1.1.0",
@@ -57,7 +57,6 @@
         "yiisoft/yii-console": "^3.0@dev",
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
-        "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^3.0@dev",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
@@ -71,7 +70,7 @@
         "fzaninotto/faker": "^1.9",
         "phpunit/phpunit": "^9.4",
         "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.1"
     },
     "autoload": {
         "psr-4": {
