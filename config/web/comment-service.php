@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Blog\Comment\CommentRepository;
 use App\Blog\Comment\CommentService;
 use App\Blog\Entity\Comment;

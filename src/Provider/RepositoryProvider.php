@@ -22,7 +22,7 @@ final class RepositoryProvider extends ServiceProvider
         User::class => UserRepository::class,
         Tag::class => TagRepository::class,
         Comment::class => CommentRepository::class,
-        Post::class => PostRepository::class
+        Post::class => PostRepository::class,
     ];
 
     public function register(Container $container): void

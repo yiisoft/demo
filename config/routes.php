@@ -96,7 +96,7 @@ return [
                 ->name('blog/archive/year'),
             // Monthly page
             Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                ->name('blog/archive/month')
+                ->name('blog/archive/month'),
         ]),
         // comments
         Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
@@ -115,7 +115,7 @@ return [
                     // Uncomment cache for production environment
                     // ->withCache(60)
                     ->withAnnotationPaths([
-                        '@src/Controller' // Path to API controllers
+                        '@src/Controller', // Path to API controllers
                     ]);
             })
             ->addMiddleware(FormatDataResponseAsJson::class),

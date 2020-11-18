@@ -25,25 +25,25 @@ return [
             '@resources' => '@root/resources',
             '@src' => '@root/src',
             '@assets' => '@public/assets',
-            '@assetsUrl' => '@baseUrl/assets'
+            '@assetsUrl' => '@baseUrl/assets',
         ],
     ],
 
     'mailer' => [
-        'adminEmail' => 'admin@example.com'
+        'adminEmail' => 'admin@example.com',
     ],
 
     'yiisoft/form' => [
         'fieldConfig' => [
             'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']]
-        ]
+            'labelOptions()' => [['label' => '']],
+        ],
     ],
 
     'yiisoft/session' => [
         'session' => [
-            'options' => ['cookie_secure' => 0]
-        ]
+            'options' => ['cookie_secure' => 0],
+        ],
     ],
 
     'yiisoft/view' => [
@@ -51,8 +51,8 @@ return [
         'defaultParameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'urlMatcher' => Reference::to(UrlMatcherInterface::class)
-        ]
+            'urlMatcher' => Reference::to(UrlMatcherInterface::class),
+        ],
     ],
 
     'yiisoft/yii-console' => [
@@ -60,8 +60,8 @@ return [
             'user/create' => Command\User\CreateCommand::class,
             'user/assignRole' => Command\User\AssignRoleCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
-            'router/list' => Command\Router\ListCommand::class
-        ]
+            'router/list' => Command\Router\ListCommand::class,
+        ],
     ],
 
     'yiisoft/yii-cycle' => [
@@ -69,7 +69,7 @@ return [
             'default' => 'default',
             'aliases' => [],
             'databases' => [
-                'default' => ['connection' => 'sqlite']
+                'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
                 'sqlite' => [
@@ -90,7 +90,7 @@ return [
         ],
         'schema-providers' => [
             \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
-                'key' => 'cycle-orm-cache-key'
+                'key' => 'cycle-orm-cache-key',
             ],
             // \Yiisoft\Yii\Cycle\Schema\Provider\FromFileSchemaProvider::class => [
             //     'file' => '@runtime/schema.php'
@@ -98,13 +98,13 @@ return [
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Generator\SyncTables::class, // sync table changes to database
-                ]
+                ],
             ],
         ],
         'annotated-entity-paths' => [
             '@src/Entity',
-            '@src/Blog/Entity'
-        ]
+            '@src/Blog/Entity',
+        ],
     ],
 
     'yiisoft/yii-view' => [
@@ -112,7 +112,7 @@ return [
             Reference::to(ContentViewInjection::class),
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
-            Reference::to(MetaTagsViewInjection::class)
-        ]
-    ]
+            Reference::to(MetaTagsViewInjection::class),
+        ],
+    ],
 ];

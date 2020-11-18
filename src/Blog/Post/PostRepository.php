@@ -8,10 +8,10 @@ use App\Blog\Entity\Post;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Cycle\ORM\Transaction;
+use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
-use Throwable;
 
 final class PostRepository extends Select\Repository
 {
@@ -52,13 +52,11 @@ final class PostRepository extends Select\Repository
             // force loading in single query with comments
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
             ->load('comments', ['method' => Select::OUTER_QUERY]);
-        /** @var null|Post $post */
-        $post = $query->fetchOne();
-        return $post;
+        /** @var Post|null $post */
+        return $query->fetchOne();
     }
 
     /**
-     * @param Post $post
      * @throws Throwable
      */
     public function save(Post $post): void

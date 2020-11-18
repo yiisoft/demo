@@ -49,7 +49,7 @@ class ListCommand extends Command
                     implode(',', $route->getMethods()),
                     $route->getName(),
                     $route->getPattern(),
-                    implode(',', $route->getDefaults())
+                    implode(',', $route->getDefaults()),
                 ]
             );
             if (next($routes) !== false) {

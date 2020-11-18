@@ -24,7 +24,6 @@ class UserRepository extends Select\Repository implements IdentityRepositoryInte
     }
 
     /**
-     * @param string $id
      * @return IdentityInterface|User|null
      */
     public function findIdentity(string $id): ?IdentityInterface

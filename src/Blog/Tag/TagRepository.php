@@ -39,7 +39,6 @@ final class TagRepository extends Repository
     }
 
     /**
-     * @param int $limit
      * @return DataReaderInterface Collection of Array('label' => 'Tag Label', 'count' => '8')
      */
     public function getTagMentions(int $limit = 0): DataReaderInterface
