@@ -31,27 +31,27 @@ echo Carousel::widget()
         <?php $binPath = strtr('./vendor/bin/yii', '/', DIRECTORY_SEPARATOR); ?>
         <h4 class="card-title text-muted">Create new user</h4>
         <div>
-            <code><?= "{$binPath} user/create &lt;login&gt; &lt;password&gt; [isAdmin = 0]" ?></code>
+            <code><?php echo "{$binPath} user/create &lt;login&gt; &lt;password&gt; [isAdmin = 0]" ?></code>
         </div>
         <h4 class="card-title text-muted">Assign RBAC role to user</h4>
         <div>
-            <code><?= "{$binPath} user/assignRole &lt;role&gt; &lt;userId&gt;" ?></code>
+            <code><?php echo "{$binPath} user/assignRole &lt;role&gt; &lt;userId&gt;" ?></code>
         </div>
         <h4 class="card-title text-muted">Add random content</h4>
         <div>
-            <code><?= "{$binPath} fixture/add [count = 10]" ?></code>
+            <code><?php echo "{$binPath} fixture/add [count = 10]" ?></code>
         </div>
         <h4 class="card-title text-muted">Migrations</h4>
         <div>
-            <code><?= "{$binPath} migrate/create" ?></code>
-            <br><code><?= "{$binPath} migrate/generate" ?></code>
-            <br><code><?= "{$binPath} migrate/up" ?></code>
-            <br><code><?= "{$binPath} migrate/down" ?></code>
-            <br><code><?= "{$binPath} migrate/list" ?></code>
+            <code><?php echo "{$binPath} migrate/create" ?></code>
+            <br><code><?php echo "{$binPath} migrate/generate" ?></code>
+            <br><code><?php echo "{$binPath} migrate/up" ?></code>
+            <br><code><?php echo "{$binPath} migrate/down" ?></code>
+            <br><code><?php echo "{$binPath} migrate/list" ?></code>
         </div>
         <h4 class="card-title text-muted">DB Schema</h4>
         <div>
-            <code><?= "{$binPath} cycle/schema" ?></code>
+            <code><?php echo "{$binPath} cycle/schema" ?></code>
         </div>
     </div>
 </div>

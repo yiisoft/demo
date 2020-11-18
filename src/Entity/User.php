@@ -13,8 +13,8 @@ use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Auth\IdentityInterface;
+use Yiisoft\Security\PasswordHasher;
 
 /**
  * @Entity(repository="App\Repository\UserRepository", mapper="Yiisoft\Yii\Cycle\Mapper\TimestampedMapper")
@@ -42,24 +42,26 @@ class User implements IdentityInterface
     private string $passwordHash;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * Annotations for this field placed in a mapper class.
      */
     private DateTimeImmutable $created_at;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * Annotations for this field placed in a mapper class.
      */
     private DateTimeImmutable $updated_at;
 
     /**
      * @HasMany(target="App\Blog\Entity\Post")
-     * @var Post[]|ArrayCollection
+     *
+     * @var ArrayCollection|Post[]
      */
     private $posts;
 
     /**
      * @HasMany(target="App\Blog\Entity\Comment")
-     * @var Comment[]|ArrayCollection
+     *
+     * @var ArrayCollection|Comment[]
      */
     private $comments;
 

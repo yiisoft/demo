@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
+ * @var string[][]|\Yiisoft\Data\Reader\DataReaderInterface $archive
+ * @var string[][]|\Yiisoft\Data\Reader\DataReaderInterface $tags
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  * @var bool $isGuest
@@ -52,7 +52,7 @@ $pagination = OffsetPagination::widget()
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );
         } ?>
-        <?= $this->render('_topTags', ['tags' => $tags]) ?>
-        <?= $this->render('_archive', ['archive' => $archive]) ?>
+        <?php echo $this->render('_topTags', ['tags' => $tags]) ?>
+        <?php echo $this->render('_archive', ['archive' => $archive]) ?>
     </div>
 </div>

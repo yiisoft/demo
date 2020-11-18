@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 /* @var string $name */
@@ -6,7 +6,7 @@ use Yiisoft\Html\Html;
 ?>
 
 <p>
-    <?= Html::encode($content) ?>
+    <?php echo Html::encode($content) ?>
 </p>
 
-<p><?= Html::encode($name) ?></p>
+<p><?php echo Html::encode($name) ?></p>

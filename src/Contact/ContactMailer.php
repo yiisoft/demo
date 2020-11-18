@@ -9,7 +9,7 @@ use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Mailer\MailerInterface;
 
 /**
- * ContactMailer sends an email from the contact form
+ * ContactMailer sends an email from the contact form.
  */
 class ContactMailer
 {

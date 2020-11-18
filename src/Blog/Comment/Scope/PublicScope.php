@@ -10,7 +10,7 @@ use Cycle\ORM\Select\QueryBuilder;
 /**
  * Not deleted
  * Public with condition
- * Sorted
+ * Sorted.
  */
 class PublicScope implements ConstrainInterface
 {
@@ -29,7 +29,7 @@ class PublicScope implements ConstrainInterface
                 '@or' => [
                     ['public' => true],
                     $this->publicOrCondition,
-                ]
+                ],
             ]);
         } else {
             $query->andWhere('public', '=', true);

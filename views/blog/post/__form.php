@@ -22,40 +22,40 @@ if (!empty($errors)) {
 }
 ?>
 
-<h1><?= Html::encode($title) ?></h1>
+<h1><?php echo Html::encode($title) ?></h1>
 
 <form id="postForm"
       method="POST"
-      action="<?= $urlGenerator->generate(...$action) ?>"
+      action="<?php echo $urlGenerator->generate(...$action) ?>"
       enctype="multipart/form-data"
 >
-    <input type="hidden" name="_csrf" value="<?= $csrf ?>">
+    <input type="hidden" name="_csrf" value="<?php echo $csrf ?>">
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" name="title" id="title" placeholder="Title"
-               value="<?= Html::encode($body['title'] ?? '') ?>" required>
+               value="<?php echo Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
     <div class="form-group">
         <label for="content">Content</label>
         <textarea class="form-control" name="content" id="content"
-                  placeholder="Content" required><?= Html::encode($body['content'] ?? '') ?></textarea>
+                  placeholder="Content" required><?php echo Html::encode($body['content'] ?? '') ?></textarea>
     </div>
 
     <div class="form-group">
         <label for="AddTag">Add tag</label>
         <input type="text" class="form-control" id="addTag" placeholder="Add tag" value="">
-        <?= Html::button(
+        <?php echo Html::button(
     'Add',
     ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
 ) ?>
     </div>
 
     <div class="form-group" id="tags">
-        <?php foreach ($body['tags'] ?? [] as $tag): ?>
-             <span class="badge badge-info mr-2" id="tag<?= Html::encode($tag) ?>">
-                <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
-                <span><?= Html::encode($tag) ?></span>
+        <?php foreach ($body['tags'] ?? [] as $tag) { ?>
+             <span class="badge badge-info mr-2" id="tag<?php echo Html::encode($tag) ?>">
+                <input type="hidden" name="tags[]" value="<?php echo Html::encode($tag) ?>">
+                <span><?php echo Html::encode($tag) ?></span>
                 <svg
                 width="2em"
                 height="2em"
@@ -69,7 +69,7 @@ if (!empty($errors)) {
                   5.354a.5.5 0 0 1 0-.708z"/>
                </svg>
             </span>
-        <?php endforeach; ?>
+        <?php } ?>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

@@ -16,12 +16,12 @@ use Yiisoft\Router\UrlGeneratorInterface;
 ?>
 
 <?php foreach ($data->read() as $comment) { ?>
-    <div class="card mb-3" data-id="<?= $comment->getId(); ?>">
+    <div class="card mb-3" data-id="<?php echo $comment->getId(); ?>">
         <div class="card-header">
-            #<?= $comment->getId() ?> <?= $comment->getCreatedAt()->format('Y.m.d') ?>
+            #<?php echo $comment->getId() ?> <?php echo $comment->getCreatedAt()->format('Y.m.d') ?>
         </div>
         <div class="card-body">
-            <p class="card-text"><?= Html::encode($comment->getContent()) ?></p>
+            <p class="card-text"><?php echo Html::encode($comment->getContent()) ?></p>
         </div>
     </div>
 <?php } ?>
@@ -30,7 +30,7 @@ use Yiisoft\Router\UrlGeneratorInterface;
     <div class="row load-more-comment-container">
         <div class="col-sm-12">
             <a class="load-more-comment btn btn-primary btn-lg btn-block"
-               href="<?= $urlGenerator->generate('blog/comment/index', ['next' => $data->getNextPageToken()]) ?>">
+               href="<?php echo $urlGenerator->generate('blog/comment/index', ['next' => $data->getNextPageToken()]) ?>">
                 show more
             </a>
         </div>

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
+ * @var string[][]|\Yiisoft\Data\Reader\DataReaderInterface $archive
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -41,7 +41,7 @@ use Yiisoft\Html\Html;
                 echo Html::beginTag('div', ['class' => 'mx-2 my-1']);
                 // Print month name
                 echo Html::a(
-                    Date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
+                    date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
                     $urlGenerator->generate('blog/archive/month', [
                         'year' => $year,
                         'month' => $month,

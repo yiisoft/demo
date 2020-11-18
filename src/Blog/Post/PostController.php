@@ -80,8 +80,8 @@ final class PostController
             'body' => [
                 'title' => $post->getTitle(),
                 'content' => $post->getContent(),
-                'tags' => $this->postService->getPostTags($post)
-            ]
+                'tags' => $this->postService->getPostTags($post),
+            ],
         ];
 
         if ($request->getMethod() === Method::POST) {

@@ -39,7 +39,6 @@ final class TagRepository extends Repository
     }
 
     /**
-     * @param int $limit
      * @return DataReaderInterface Collection of Array('label' => 'Tag Label', 'count' => '8')
      */
     public function getTagMentions(int $limit = 0): DataReaderInterface
@@ -54,7 +53,7 @@ final class TagRepository extends Repository
         // All SQL-queries received on mysql database. SQL-queries may vary by driver
 
         /**
-         * Case 1 would look like:
+         * Case 1 would look like:.
          *
          * SELECT `t`.`label`, count(*) `count`
          * FROM `post_tag` AS `postTag`
@@ -74,7 +73,7 @@ final class TagRepository extends Repository
             ->groupBy('t.label, tag_id');
 
         /**
-         * Case 2 would look like:
+         * Case 2 would look like:.
          *
          * SELECT `label`, count(*) `count`
          * FROM `tag` AS `tag`
@@ -93,7 +92,7 @@ final class TagRepository extends Repository
             ->groupBy('tag.label, tag_id');
 
         /**
-         * Case 3 would look like:
+         * Case 3 would look like:.
          *
          * SELECT `label`, count(*) `count`
          * FROM `tag` AS `tag`
@@ -112,7 +111,7 @@ final class TagRepository extends Repository
             ->columns(['label', 'count(*) count']);
 
         /**
-         * Case 4 would look like:
+         * Case 4 would look like:.
          *
          * SELECT `label`, count(*) `count`
          * FROM `post` AS `post`

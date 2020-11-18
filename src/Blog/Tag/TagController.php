@@ -20,6 +20,7 @@ final class TagController
     {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/tag');
     }
+
     public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
     {
         $label = $request->getAttribute('label', null);

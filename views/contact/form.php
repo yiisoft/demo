@@ -26,7 +26,7 @@ if (isset($sent)) {
 
 <div>
 
-    <?= Form::begin()
+    <?php echo Form::begin()
         ->action($url->generate('site/contact'))
         ->options(
             [
@@ -37,25 +37,25 @@ if (isset($sent)) {
         )
         ->start() ?>
 
-    <?= $field->config($form, 'username') ?>
-    <?= $field->config($form, 'email')->input('email') ?>
-    <?= $field->config($form, 'subject') ?>
-    <?= $field->config($form, 'body')
+    <?php echo $field->config($form, 'username') ?>
+    <?php echo $field->config($form, 'email')->input('email') ?>
+    <?php echo $field->config($form, 'subject') ?>
+    <?php echo $field->config($form, 'body')
         ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
-    <?= $field->config($form, 'attachFiles')
+    <?php echo $field->config($form, 'attachFiles')
         ->inputCssClass('file-input')
         ->fileInput(
             ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
             true,
         ) ?>
 
-    <?= Html::submitButton(
+    <?php echo Html::submitButton(
             'Submit',
             [
-            'class' => 'btn btn-primary'
-        ]
+                'class' => 'btn btn-primary',
+            ]
         ) ?>
 
-    <?= Form::end() ?>
+    <?php echo Form::end() ?>
 
 </div>

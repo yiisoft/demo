@@ -43,7 +43,7 @@ final class BlogController
             'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(self::ARCHIVE_MONTHS_COUNT),
             'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
-            'isGuest' => $user->isGuest()
+            'isGuest' => $user->isGuest(),
         ];
         return $this->viewRenderer->render('index', $data);
     }

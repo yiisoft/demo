@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App;
 
 use Composer\Script\Event;
-use RecursiveIteratorIterator as RIterator;
 use FilesystemIterator as FSIterator;
 use RecursiveDirectoryIterator as DirIterator;
+use RecursiveIteratorIterator as RIterator;
 
 final class Installer
 {

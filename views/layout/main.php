@@ -15,13 +15,14 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
+ *
  * @var \App\Entity\User $user
  * @var string $currentUrl
  * @var string $brandLabel
  */
 
 $assetManager->register([
-    AppAsset::class
+    AppAsset::class,
 ]);
 
 $this->setCssFiles($assetManager->getCssFiles());
@@ -64,9 +65,9 @@ echo Nav::widget()
         ->items(
             $user->getId() === null
                 ? [
-                ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
-                ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
-            ]
+                    ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
+                    ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
+                ]
                 : [['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')]],
         );
 echo NavBar::end();
@@ -76,7 +77,7 @@ echo $content;
 ?></main>
 
 <footer class="container py-4">
-    <?= PerformanceMetrics::widget() ?>
+    <?php echo PerformanceMetrics::widget() ?>
 </footer>
 <?php
 

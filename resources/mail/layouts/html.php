@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* @var $content string Mail contents as view render result */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<?= $content ?>
+<?php echo $content ?>
 
 <footer style="margin-top: 5em">
 -- <br>

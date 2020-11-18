@@ -16,6 +16,6 @@ use Yiisoft\Router\UrlGeneratorInterface;
 <h1>Comments Feed</h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9 comment-feed-container">
-        <?= $this->render('_comments', ['data' => $data]) ?>
+        <?php echo $this->render('_comments', ['data' => $data]) ?>
     </div>
 </div>

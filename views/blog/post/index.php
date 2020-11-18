@@ -13,9 +13,9 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 ?>
-    <h1><?= Html::encode($item->getTitle()) ?></h1>
+    <h1><?php echo Html::encode($item->getTitle()) ?></h1>
     <div>
-        <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
+        <span class="text-muted"><?php echo $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
     Html::encode($item->getUser()->getLogin()),
@@ -55,19 +55,19 @@ if ($item->getComments()) {
         <div class="media mt-4 shadow p-3 rounded">
             <div class="media-body">
                 <div>
-                    <?= Html::a(
+                    <?php echo Html::a(
             Html::encode($comment->getUser()->getLogin()),
             $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
         ) ?>
                     <span class="text-muted">
-                        <i>created at</i> <?= $comment->getCreatedAt()->format('H:i d.m.Y') ?>
+                        <i>created at</i> <?php echo $comment->getCreatedAt()->format('H:i d.m.Y') ?>
                     </span>
                     <?php if ($comment->isPublic()) { ?>
                         <span class="text-muted">
-                            <i>published at</i> <?= $comment->getPublishedAt()->format('d.m.Y') ?>
+                            <i>published at</i> <?php echo $comment->getPublishedAt()->format('d.m.Y') ?>
                         </span>
                     <?php } ?>
-                    <span><?= $comment->isPublic()
+                    <span><?php echo $comment->isPublic()
                             ? ''
                             : Html::tag(
                                 'span',
@@ -76,7 +76,7 @@ if ($item->getComments()) {
                             ) ?></span>
                 </div>
                 <div class="mt-1 text-justify">
-                    <?= Html::encode($comment->getContent()) ?>
+                    <?php echo Html::encode($comment->getContent()) ?>
                 </div>
             </div>
         </div>

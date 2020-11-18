@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Contact;
 
 use App\Form\ContactForm;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -28,7 +26,7 @@ class ContactController
     public function contact(ServerRequestInterface $request, ContactForm $form): ResponseInterface
     {
         $parameters = [
-            'form' => $form
+            'form' => $form,
         ];
 
         if (($request->getMethod() === Method::POST)) {
