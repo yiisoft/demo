@@ -9,7 +9,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo
+      extensions: curl, fileinfo
       key: cache-v1
 
     runs-on: ${{ matrix.os }}
