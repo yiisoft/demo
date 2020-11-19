@@ -9,7 +9,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: curl, fileinfo
+      extensions: fileinfo
       key: cache-v1
 
     runs-on: ${{ matrix.os }}
@@ -18,10 +18,10 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
 
         php:
           - "7.4"
+          - "8.0"
 
     steps:
       - name: Checkout
@@ -36,13 +36,8 @@ jobs:
           coverage: pcov
           tools: composer:v2
 
-      - name: Determine composer cache directory on Linux
-        if: matrix.os == 'ubuntu-latest'
+      - name: Determine composer cache directory
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
-
-      - name: Determine composer cache directory on Windows
-        if: matrix.os == 'windows-latest'
-        run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v2
@@ -63,4 +58,4 @@ jobs:
       - name: Run tests with codeception
         run: |
           php -S 127.0.0.1:8080 -t public > ./runtime/yii.log 2>&1 &
-          vendor/bin/codecept run
+          vendor/bin/codecept run --coverage-xml
