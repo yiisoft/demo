@@ -30,6 +30,6 @@ final class UserService
     public function hasPermission(string $permission): bool
     {
         $userId = $this->user->getId();
-        return !is_null($userId) && $this->accessChecker->userHasPermission($userId, $permission);
+        return null !== $userId && $this->accessChecker->userHasPermission($userId, $permission);
     }
 }

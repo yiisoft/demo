@@ -29,7 +29,7 @@ class PublicScope implements ConstrainInterface
                 '@or' => [
                     ['public' => true],
                     $this->publicOrCondition,
-                ]
+                ],
             ]);
         } else {
             $query->andWhere('public', '=', true);

@@ -8,5 +8,5 @@ $timer = new Timer();
 $timer->start('overall');
 
 return [
-    Timer::class => $timer
+    Timer::class => $timer,
 ];

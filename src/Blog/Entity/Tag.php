@@ -11,7 +11,6 @@ use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Relation\Pivoted\PivotedCollection;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity(repository="App\Blog\Tag\TagRepository", mapper="App\Blog\Tag\TagMapper")
@@ -40,7 +39,8 @@ class Tag
 
     /**
      * @ManyToMany(target="App\Blog\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
-     * @var Post[]|PivotedCollection
+     *
+     * @var PivotedCollection|Post[]
      */
     private $posts;
 

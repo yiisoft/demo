@@ -12,5 +12,5 @@ use Yiisoft\Cache\File\FileCache;
 return [
     CacheInterface::class => FileCache::class,
 
-    YiiCacheInterface::class => Cache::class
+    YiiCacheInterface::class => Cache::class,
 ];

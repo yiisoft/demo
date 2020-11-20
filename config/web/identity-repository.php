@@ -10,5 +10,5 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 return [
     IdentityRepositoryInterface::class => static function (ContainerInterface $container) {
         return $container->get(ORMInterface::class)->getRepository(User::class);
-    }
+    },
 ];
