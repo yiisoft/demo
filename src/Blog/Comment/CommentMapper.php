@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Blog\Comment;
 
 use App\Blog\Entity\Comment;
-use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Command\CommandInterface;
+use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Command\Database\Update;
 use Cycle\ORM\Context\ConsumerInterface;
 use Cycle\ORM\Heap\Node;
@@ -19,8 +19,10 @@ final class CommentMapper extends Mapper
      * @param Comment $entity
      * @param Node $node
      * @param State $state
-     * @return ContextCarrierInterface
+     *
      * @throws \Exception
+     *
+     * @return ContextCarrierInterface
      */
     public function queueCreate($entity, Node $node, State $state): ContextCarrierInterface
     {
@@ -37,12 +39,15 @@ final class CommentMapper extends Mapper
 
         return $command;
     }
+
     /**
      * @param Comment $entity
      * @param Node $node
      * @param State $state
-     * @return ContextCarrierInterface
+     *
      * @throws \Exception
+     *
+     * @return ContextCarrierInterface
      */
     public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
     {
@@ -58,12 +63,15 @@ final class CommentMapper extends Mapper
 
         return $command;
     }
+
     /**
      * @param Comment $entity
      * @param Node $node
      * @param State $state
-     * @return CommandInterface
+     *
      * @throws \Exception
+     *
+     * @return CommandInterface
      */
     public function queueDelete($entity, Node $node, State $state): CommandInterface
     {

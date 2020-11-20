@@ -19,6 +19,6 @@ class AppAsset extends AssetBundle
     ];
 
     public array $depends = [
-        BootstrapAsset::class
+        BootstrapAsset::class,
     ];
 }

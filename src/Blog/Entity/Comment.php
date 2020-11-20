@@ -63,14 +63,16 @@ class Comment
 
     /**
      * @BelongsTo(target="App\Entity\User", nullable=false, load="eager")
-     * @var User|\Cycle\ORM\Promise\Reference
+     *
+     * @var \Cycle\ORM\Promise\Reference|User
      */
     private $user = null;
     private ?int $user_id = null;
 
     /**
      * @BelongsTo(target="App\Blog\Entity\Post", nullable=false)
-     * @var Post|\Cycle\ORM\Promise\Reference
+     *
+     * @var \Cycle\ORM\Promise\Reference|Post
      */
     private $post = null;
     private ?int $post_id = null;
