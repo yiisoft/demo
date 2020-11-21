@@ -41,7 +41,7 @@ final class PostForm extends FormModel
             ],
             'content' => [
                 new Required(),
-            ]
+            ],
         ];
     }
 }

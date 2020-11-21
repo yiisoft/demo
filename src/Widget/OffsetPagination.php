@@ -20,7 +20,6 @@ class OffsetPagination extends Widget
     private array $pages;
     private bool $prepared;
 
-
     public function paginator(?Paginator $paginator): self
     {
         $this->paginator = $paginator;

@@ -82,6 +82,7 @@ final class ArchiveRepository
 
     /**
      * @param string $attr Can be 'day', 'month' or 'year'
+     *
      * @return FragmentInterface
      */
     private function extractFromDateColumn(string $attr): FragmentInterface
@@ -107,7 +108,9 @@ final class ArchiveRepository
 
     /**
      * @psalm-suppress UndefinedDocblockClass
+     *
      * @param Select|SelectQuery $query
+     *
      * @return SelectDataReader
      */
     private function prepareDataReader($query): SelectDataReader
