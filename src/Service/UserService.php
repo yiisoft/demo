@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Yiisoft\Access\AccessCheckerInterface;
-use Yiisoft\Yii\Web\User\User as UserComponent;
+use Yiisoft\User\User as UserComponent;
 
 final class UserService
 {
