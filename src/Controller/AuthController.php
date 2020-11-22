@@ -12,7 +12,7 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
-use Yiisoft\Yii\Web\User\User;
+use Yiisoft\User\User;
 
 class AuthController
 {

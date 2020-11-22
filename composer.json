@@ -61,7 +61,8 @@
         "yiisoft/yii-event": "^3.0@dev",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
-        "yiisoft/yii-web": "^3.0@dev"
+        "yiisoft/yii-web": "^3.0@dev",
+        "yiisoft/user": "^3.0@dev"
     },
     "require-dev": {
         "codeception/codeception": "^4.1.9",
