@@ -6,7 +6,7 @@ namespace App\ViewInjection;
 
 use Yiisoft\Router\UrlMatcherInterface;
 use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
-use Yiisoft\Yii\Web\User\User;
+use Yiisoft\User\User;
 
 class LayoutViewInjection implements LayoutParametersInjectionInterface
 {
