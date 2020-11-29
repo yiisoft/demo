@@ -88,9 +88,8 @@
         "post-update-cmd": [
             "App\\Installer::postUpdate"
         ],
-        "test": [
-            "phpunit --colors --no-interaction"
-        ]
+        "test": "phpunit --testdox --no-interaction",
+        "test-watch": "phpunit-watcher watch"
     },
     "extra": {
         "branch-alias": {
