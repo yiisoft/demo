@@ -115,4 +115,8 @@ return [
             Reference::to(MetaTagsViewInjection::class),
         ],
     ],
+
+    'yiisoft/router' => [
+        'enableCache' => false,
+    ],
 ];

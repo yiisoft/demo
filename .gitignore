@@ -26,5 +26,5 @@ phpunit.phar
 /composer.lock
 /node_modules
 
-package.json
-package-lock.json
+# Codeception
+c3.php

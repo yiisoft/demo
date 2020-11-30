@@ -50,6 +50,7 @@
         "yiisoft/security": "^1.0",
         "yiisoft/serializer": "^3.0@dev",
         "yiisoft/strings": "^1.0",
+        "yiisoft/user": "^3.0@dev",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
         "yiisoft/widget": "^3.0@dev",
@@ -61,18 +62,19 @@
         "yiisoft/yii-event": "^3.0@dev",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
-        "yiisoft/yii-web": "^3.0@dev",
-        "yiisoft/user": "^3.0@dev"
+        "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
-        "codeception/codeception": "^4.1.9",
         "codeception/c3": "^2.6.0",
+        "codeception/codeception": "^4.1.9",
         "codeception/module-asserts": "@dev",
         "codeception/module-phpbrowser": "@dev",
         "fzaninotto/faker": "^1.9",
         "phpunit/phpunit": "^9.4",
+        "roave/infection-static-analysis-plugin": "^1.5",
         "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^4.1"
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.2"
     },
     "autoload": {
         "psr-4": {
@@ -86,9 +88,8 @@
         "post-update-cmd": [
             "App\\Installer::postUpdate"
         ],
-        "test": [
-            "phpunit --colors --no-interaction"
-        ]
+        "test": "phpunit --testdox --no-interaction",
+        "test-watch": "phpunit-watcher watch"
     },
     "extra": {
         "branch-alias": {
