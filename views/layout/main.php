@@ -41,11 +41,11 @@ $this->beginPage();
 <?php
 $this->beginBody();
 
-echo NavBar::begin()
+echo NavBar::widget()
       ->brandLabel($brandLabel)
       ->brandUrl($urlGenerator->generate('site/index'))
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
-      ->start();
+      ->begin();
 echo Nav::widget()
         ->currentPath($currentUrl)
         ->options(['class' => 'navbar-nav mr-auto'])

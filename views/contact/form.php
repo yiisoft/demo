@@ -26,7 +26,7 @@ if (isset($sent)) {
 
 <div>
 
-    <?= Form::begin()
+    <?= Form::widget()
         ->action($url->generate('site/contact'))
         ->options(
             [
@@ -35,7 +35,7 @@ if (isset($sent)) {
                 'enctype' => 'multipart/form-data',
             ]
         )
-        ->start() ?>
+        ->begin() ?>
 
     <?= $field->config($form, 'username') ?>
     <?= $field->config($form, 'email')->input('email') ?>
