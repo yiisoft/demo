@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
+use Yiisoft\Form\Widget\Form;
+use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap4\Nav;
 use Yiisoft\Yii\Bootstrap4\NavBar;
 
@@ -67,7 +69,9 @@ echo Nav::widget()
                 ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
                 ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
             ]
-                : [['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')]],
+                : [Form::widget()->action($urlGenerator->generate('site/logout'))->begin()
+                     . Html::submitButton("Logout ({$user->getLogin()})", ['class' => 'dropdown-item'])
+                     . Form::end()],
         );
 echo NavBar::end();
 
