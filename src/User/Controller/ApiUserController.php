@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\User;
+namespace App\User\Controller;
 
+use App\User\User;
+use App\User\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
