@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\User;
 
-use App\Entity\User;
 use Cycle\ORM\Select;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;

@@ -102,8 +102,7 @@ return [
             ],
         ],
         'annotated-entity-paths' => [
-            '@src/Entity',
-            '@src/Blog/Entity',
+            '@src',
         ],
     ],
 

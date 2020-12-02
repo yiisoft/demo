@@ -8,7 +8,7 @@ use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
-use App\Entity\User;
+use App\User\User;
 use Cycle\ORM\Transaction;
 use Faker\Factory;
 use Faker\Generator;

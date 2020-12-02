@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\User\User;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Psr\Http\Message\RequestInterface;
@@ -44,7 +44,7 @@ final class SignupController
                     }
                 }
 
-                /** @var \App\Entity\User $identity */
+                /** @var \App\User\User $identity */
                 $identity = $identityRepository->findByLogin($body['login']);
                 if ($identity !== null) {
                     throw new \InvalidArgumentException('Unable to register user with such username.');

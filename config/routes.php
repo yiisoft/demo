@@ -13,7 +13,7 @@ use App\Controller\ApiUserController;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
-use App\Controller\UserController;
+use App\User\UserController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use Yiisoft\Auth\Middleware\Authentication;
