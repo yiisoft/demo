@@ -29,7 +29,7 @@ class LayoutViewInjection implements LayoutParametersInjectionInterface
     {
         return [
             'brandLabel' => 'Yii Demo',
-            'csrf' => $this->csrf,
+            'csrf' => $this->csrf->getValue(),
             'currentUrl' => (string)$this->urlMatcher->getCurrentUri(),
             'user' => $this->user->getIdentity(),
         ];
