@@ -62,6 +62,7 @@ echo Nav::widget()
         );
 echo Nav::widget()
         ->currentPath($currentUrl)
+        ->encodeLabels(false)
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
