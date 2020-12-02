@@ -70,9 +70,12 @@ echo Nav::widget()
                 ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
                 ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
             ]
-                : [Form::widget()->action($urlGenerator->generate('site/logout'))->begin()
-                     . Html::submitButton("Logout ({$user->getLogin()})", ['class' => 'dropdown-item'])
-                     . Form::end()],
+                : [Form::widget()
+                    ->action($urlGenerator->generate('site/logout'))
+                    ->options(['csrf' => $csrf])
+                    ->begin()
+                    . Html::submitButton("Logout ({$user->getLogin()})", ['class' => 'dropdown-item'])
+                    . Form::end()],
         );
 echo NavBar::end();
 
