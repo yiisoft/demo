@@ -18,6 +18,7 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  *
  * @see \App\ApplicationViewInjection
  * @var \App\Entity\User $user
+ * @var string $csrf;
  * @var string $currentUrl
  * @var string $brandLabel
  */
