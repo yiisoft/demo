@@ -74,7 +74,7 @@ echo Nav::widget()
                     ->action($urlGenerator->generate('site/logout'))
                     ->options(['csrf' => $csrf])
                     ->begin()
-                    . Html::submitButton("Logout ({$user->getLogin()})", ['class' => 'dropdown-item'])
+                    . Html::submitButton('Logout (' . Html::encode($user->getLogin()) . ')', ['class' => 'dropdown-item'])
                     . Form::end()],
         );
 echo NavBar::end();
