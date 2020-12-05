@@ -25,7 +25,6 @@ class LayoutViewInjection implements LayoutParametersInjectionInterface
     {
         return [
             'user' => $this->user->getIdentity(),
-            'currentUrl' => (string)$this->urlMatcher->getCurrentUri(),
             'brandLabel' => 'Yii Demo',
         ];
     }
