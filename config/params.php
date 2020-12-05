@@ -89,12 +89,8 @@ return [
             'safe' => false,
         ],
         'schema-providers' => [
-            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
-                'key' => 'cycle-orm-cache-key',
-            ],
-            // \Yiisoft\Yii\Cycle\Schema\Provider\FromFileSchemaProvider::class => [
-            //     'file' => '@runtime/schema.php'
-            // ],
+            // Uncomment next line to enable schema cache
+            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Generator\SyncTables::class, // sync table changes to database
