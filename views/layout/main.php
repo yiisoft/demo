@@ -47,7 +47,7 @@ echo NavBar::widget()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
@@ -59,7 +59,7 @@ echo Nav::widget()
             ]
         );
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
