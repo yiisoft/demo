@@ -12,6 +12,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
     'yiisoft/yii-debug' => [
@@ -110,6 +111,7 @@ return [
     'yiisoft/yii-view' => [
         'injections' => [
             Reference::to(ContentViewInjection::class),
+            Reference::to(CsrfViewInjection::class),
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
             Reference::to(MetaTagsViewInjection::class),
