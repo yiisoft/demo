@@ -68,7 +68,7 @@ final class SignupController
             }
         }
 
-        return $this->viewRenderer->withCsrf()->render(
+        return $this->viewRenderer->render(
             'signup',
             [
                 'body' => $body,
