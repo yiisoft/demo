@@ -35,7 +35,7 @@ return [
         ->name('site/contact'),
     Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
         ->name('site/login'),
-    Route::get('/logout', [AuthController::class, 'logout'])
+    Route::post('/logout', [AuthController::class, 'logout'])
         ->name('site/logout'),
     Route::methods([Method::GET, Method::POST], '/signup', [SignupController::class, 'signup'])
         ->name('site/signup'),

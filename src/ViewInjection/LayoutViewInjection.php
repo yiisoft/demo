@@ -24,9 +24,9 @@ class LayoutViewInjection implements LayoutParametersInjectionInterface
     public function getLayoutParameters(): array
     {
         return [
-            'user' => $this->user->getIdentity(),
-            'currentUrl' => (string)$this->urlMatcher->getCurrentUri(),
             'brandLabel' => 'Yii Demo',
+            'currentUrl' => (string)$this->urlMatcher->getCurrentUri(),
+            'user' => $this->user->getIdentity(),
         ];
     }
 }
