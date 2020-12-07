@@ -62,7 +62,7 @@ final class PostController
             $parameters['errors'] = $form->firstErrors();
         }
 
-        return $this->viewRenderer->withCsrf()->render('__form', $parameters);
+        return $this->viewRenderer->render('__form', $parameters);
     }
 
     public function edit(Request $request, PostForm $form, PostRepository $postRepository): Response
@@ -96,6 +96,6 @@ final class PostController
             $parameters['errors'] = $form->firstErrors();
         }
 
-        return $this->viewRenderer->withCsrf()->render('__form', $parameters);
+        return $this->viewRenderer->render('__form', $parameters);
     }
 }
