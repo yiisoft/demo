@@ -38,6 +38,6 @@ class ContactController
             $parameters['sent'] = $sent;
         }
 
-        return $this->viewRenderer->withCsrf()->render('form', $parameters);
+        return $this->viewRenderer->render('form', $parameters);
     }
 }

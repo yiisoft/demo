@@ -12,6 +12,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
     'yiisoft/yii-debug' => [
@@ -89,12 +90,8 @@ return [
             'safe' => false,
         ],
         'schema-providers' => [
-            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
-                'key' => 'cycle-orm-cache-key',
-            ],
-            // \Yiisoft\Yii\Cycle\Schema\Provider\FromFileSchemaProvider::class => [
-            //     'file' => '@runtime/schema.php'
-            // ],
+            // Uncomment next line to enable schema cache
+            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Generator\SyncTables::class, // sync table changes to database
@@ -109,6 +106,7 @@ return [
     'yiisoft/yii-view' => [
         'injections' => [
             Reference::to(ContentViewInjection::class),
+            Reference::to(CsrfViewInjection::class),
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
             Reference::to(MetaTagsViewInjection::class),
