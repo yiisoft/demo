@@ -11,7 +11,7 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
+ * @var \Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
@@ -19,7 +19,6 @@ use Yiisoft\Yii\Bootstrap4\NavBar;
  * @see \App\ApplicationViewInjection
  * @var \App\Entity\User $user
  * @var string $csrf;
- * @var string $currentUrl
  * @var string $brandLabel
  */
 
@@ -50,7 +49,7 @@ echo NavBar::widget()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
@@ -62,7 +61,7 @@ echo Nav::widget()
             ]
         );
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
