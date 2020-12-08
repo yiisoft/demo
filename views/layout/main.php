@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
+use Yiisoft\Form\Widget\Form;
+use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap4\Nav;
 use Yiisoft\Yii\Bootstrap4\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var Yiisoft\Router\UrlMatcherInterface $urlMatcher
+ * @var \Yiisoft\Router\UrlMatcherInterface $urlMatcher
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
  * @var \App\Entity\User $user
- * @var string $currentUrl
+ * @var string $csrf;
  * @var string $brandLabel
  */
 
@@ -47,7 +49,7 @@ echo NavBar::widget()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav mr-auto'])
         ->items(
             [
@@ -59,7 +61,7 @@ echo Nav::widget()
             ]
         );
 echo Nav::widget()
-        ->currentPath($currentUrl)
+        ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
@@ -67,7 +69,12 @@ echo Nav::widget()
                 ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
                 ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
             ]
-                : [['label' => "Logout ({$user->getLogin()})", 'url' => $urlGenerator->generate('site/logout')]],
+                : [Form::widget()
+                    ->action($urlGenerator->generate('site/logout'))
+                    ->options(['csrf' => $csrf])
+                    ->begin()
+                    . Html::submitButton('Logout (' . Html::encode($user->getLogin()) . ')', ['class' => 'dropdown-item'])
+                    . Form::end()],
         );
 echo NavBar::end();
 

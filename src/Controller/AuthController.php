@@ -77,7 +77,7 @@ class AuthController
             }
         }
 
-        return $this->viewRenderer->withCsrf()->render(
+        return $this->viewRenderer->render(
             'login',
             [
                 'body' => $body,
