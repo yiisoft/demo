@@ -51,7 +51,7 @@ class AuthController
                     }
                 }
 
-                /** @var \App\Entity\User $identity */
+                /** @var \App\User\User $identity */
                 $identity = $identityRepository->findByLogin($body['login']);
                 if ($identity === null) {
                     throw new \InvalidArgumentException('No such user');

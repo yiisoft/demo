@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\User;
+use App\User\User;
 use Cycle\ORM\ORMInterface;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;

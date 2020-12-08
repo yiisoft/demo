@@ -42,7 +42,7 @@ echo Html::a(
     </thead>
     <tbody>
 <?php
-/** @var \App\Entity\User $item */
+/** @var \App\User\User $item */
 foreach ($paginator->read() as $item) {
     echo Html::beginTag('tr');
     echo Html::beginTag('td');

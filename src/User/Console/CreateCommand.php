@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Command\User;
+namespace App\User\Console;
 
-use App\Entity\User;
+use App\User\User;
 use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
