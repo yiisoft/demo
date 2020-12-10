@@ -70,6 +70,6 @@ final class PostRepository extends Select\Repository
 
     private function prepareDataReader($query): SelectDataReader
     {
-        return (new SelectDataReader($query))->withSort((new Sort([]))->withOrder(['published_at' => 'desc']));
+        return (new SelectDataReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
     }
 }
