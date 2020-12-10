@@ -58,8 +58,8 @@ return [
 
     'yiisoft/yii-console' => [
         'commands' => [
-            'user/create' => Command\User\CreateCommand::class,
-            'user/assignRole' => Command\User\AssignRoleCommand::class,
+            'user/create' => App\User\Console\CreateCommand::class,
+            'user/assignRole' => App\User\Console\AssignRoleCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
             'router/list' => Command\Router\ListCommand::class,
         ],
