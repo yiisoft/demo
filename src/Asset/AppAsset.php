@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Asset;
 
 use Yiisoft\Assets\AssetBundle;
+use Yiisoft\Yii\Bootstrap4\Assets\BootstrapAsset;
 
 class AppAsset extends AssetBundle
 {
