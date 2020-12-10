@@ -13,6 +13,7 @@ use Spiral\Database\Driver\DriverInterface;
 use Spiral\Database\Driver\SQLite\SQLiteDriver;
 use Spiral\Database\Injection\Fragment;
 use Spiral\Database\Injection\FragmentInterface;
+use Spiral\Database\Query\SelectQuery;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
@@ -65,7 +66,7 @@ final class ArchiveRepository
      */
     public function getFullArchive(): DataReaderInterface
     {
-        $sort = (new Sort([]))->withOrder(['year' => 'desc', 'month' => 'desc']);
+        $sort = (new Sort(['year', 'month']))->withOrder(['year' => 'desc', 'month' => 'desc']);
 
         $query = $this
             ->select()
@@ -115,6 +116,6 @@ final class ArchiveRepository
      */
     private function prepareDataReader($query): SelectDataReader
     {
-        return (new SelectDataReader($query))->withSort((new Sort([]))->withOrder(['published_at' => 'desc']));
+        return (new SelectDataReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
     }
 }

@@ -19,6 +19,6 @@ final class CommentRepository extends Select\Repository
 
     private function getSort(): Sort
     {
-        return (new Sort([]))->withOrder(['id' => 'asc']);
+        return (new Sort(['id']))->withOrder(['id' => 'asc']);
     }
 }
