@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\User;
 
 use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
@@ -17,7 +17,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Security\PasswordHasher;
 
 /**
- * @Entity(repository="App\Repository\UserRepository", mapper="Yiisoft\Yii\Cycle\Mapper\TimestampedMapper")
+ * @Entity(repository="App\User\UserRepository", mapper="Yiisoft\Yii\Cycle\Mapper\TimestampedMapper")
  * @Table(
  *     indexes={
  *         @Index(columns={"login"}, unique=true),

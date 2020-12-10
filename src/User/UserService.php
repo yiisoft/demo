@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\User;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\User\User as UserComponent;
 
