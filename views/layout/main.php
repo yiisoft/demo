@@ -6,8 +6,8 @@ use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Nav;
-use Yiisoft\Yii\Bootstrap4\NavBar;
+use Yiisoft\Yii\Bootstrap5\Nav;
+use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -50,7 +50,7 @@ echo NavBar::widget()
       ->begin();
 echo Nav::widget()
         ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav mr-auto'])
+        ->options(['class' => 'navbar-nav me-auto'])
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
