@@ -15,7 +15,7 @@ document.addEventListener('click', function (event) {
                 document.querySelector(".comment-feed-container").insertAdjacentHTML('beforeend', xhr.responseText);
             } else {
                 event.target.disabled = false;
-                document.querySelector(".comment-feed-container").insertAdjacentHTML('beforeend', 'An error occurred during your request: ' +  xhr.status + ' ' + xhr.statusText);
+                document.querySelector(".comment-feed-container").insertAdjacentText('beforeend', 'An error occurred during your request: ' +  xhr.status + ': ' + xhr.statusText);
             }
         }
     }
