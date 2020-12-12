@@ -2,6 +2,7 @@
 document.addEventListener('click', function (event) {
     if (!event.target.matches('.load-more-comment')) return;
     event.preventDefault();
+    event.target.disabled = true;
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', event.target.href);
@@ -10,10 +11,11 @@ document.addEventListener('click', function (event) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if(xhr.status === 200) {
-                document.querySelector(".load-more-comment-container").style.display = "none";
+                event.target.parentNode.parentNode.remove();
                 document.querySelector(".comment-feed-container").insertAdjacentHTML('beforeend', xhr.responseText);
             } else {
-                document.querySelector(".comment-feed-container").innerHTML += 'An error occurred during your request: ' +  xhr.status + ' ' + xhr.statusText;
+                event.target.disabled = false;
+                document.querySelector(".comment-feed-container").insertAdjacentHTML('beforeend', 'An error occurred during your request: ' +  xhr.status + ' ' + xhr.statusText);
             }
         }
     }
