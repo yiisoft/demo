@@ -50,7 +50,7 @@ echo NavBar::widget()
       ->begin();
 echo Nav::widget()
         ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav me-auto'])
+        ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],

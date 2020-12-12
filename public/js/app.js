@@ -1,10 +1,14 @@
 // app.js
-$(document).on('click', '.load-more-comment', function (event) {
+document.addEventListener('click', function (event) {
+    if (!event.target.matches('.load-more-comment')) return;
     event.preventDefault();
-    $.get($(this).attr('href'), function (data) {
-        $('.load-more-comment-container').hide();
-        $('.comment-feed-container').append(data);
-    });
+    document.querySelector(".load-more-comment-container").style.display = "none";
+
+    fetch(event.target.href)
+    .then((response) => response.text())
+    .then((html) => {
+        document.querySelector(".comment-feed-container").innerHTML += html;
+    })
 });
 
 function addTag() {
@@ -36,6 +40,6 @@ function removeTag(element) {
     element.parentNode.parentNode.removeChild(element.parentNode);
 }
 
-$(document).ready(function(){
-    document.getElementById("addTagButton").addEventListener('click', addTag);
-});
+document.getElementById('addTagButton'), function(el) {
+    el.addEventListener('click', addTag)
+}
