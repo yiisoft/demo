@@ -22,7 +22,7 @@ class ApiUserController
 
     public function index(UserRepository $userRepository): ResponseInterface
     {
-        $dataReader = $userRepository->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $dataReader = $userRepository->findAll()->withSort((new Sort(['login']))->withOrderString('login'));
         $users = $dataReader->read();
 
         $items = [];
