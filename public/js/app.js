@@ -4,11 +4,18 @@ document.addEventListener('click', function (event) {
     event.preventDefault();
     document.querySelector(".load-more-comment-container").style.display = "none";
 
-    fetch(event.target.href)
-    .then((response) => response.text())
-    .then((html) => {
-        document.querySelector(".comment-feed-container").innerHTML += html;
-    })
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', event.target.href);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if(xhr.status === 200) {
+                document.querySelector(".comment-feed-container").innerHTML += xhr.responseText;
+            } else {
+                document.querySelector(".comment-feed-container").innerHTML += 'An error occurred during your request: ' +  xhr.status + ' ' + xhr.statusText;
+            }
+        }
+    }
 });
 
 function addTag() {
