@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Alert;
+use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (isset($sent)) {
     echo Alert::widget()

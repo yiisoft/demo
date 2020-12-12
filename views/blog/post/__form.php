@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Alert;
+use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {
