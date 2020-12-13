@@ -30,6 +30,7 @@ final class WebControllerService
 
     public function getNotFoundResponse(): ResponseInterface
     {
-        return $this->responseFactory->createResponse(Status::NOT_FOUND);
+        return $this->responseFactory
+            ->createResponse(Status::NOT_FOUND);
     }
 }

@@ -32,7 +32,7 @@ use Yiisoft\Html\Html;
                 Html::encode($label),
                 $urlGenerator->generate('blog/tag', ['label' => $label]),
                 ['class' => 'text-muted overflow-hidden']
-            ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
+            ), ' ', Html::span($count, ['class' => 'badge badge-secondary badge-pill']);
             echo Html::endTag('div');
         }
     } else {

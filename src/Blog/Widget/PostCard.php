@@ -54,15 +54,13 @@ class PostCard extends Widget
 
     protected function renderBody(): string
     {
-        return Html::tag(
-            'div',
+        return Html::div(
             $this->post->getPublishedAt()->format('M, d') . ' by ' . Html::a(
                 Html::encode($this->post->getUser()->getLogin()),
                 $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
             ),
             ['class' => 'mb-1 text-muted']
-        ) . Html::tag(
-            'p',
+        ) . Html::p(
             Html::encode(mb_substr($this->post->getContent(), 0, 400))
             . (mb_strlen($this->post->getContent()) > 400 ? '…' : ''),
             ['class' => 'card-text mb-auto']
@@ -76,7 +74,7 @@ class PostCard extends Widget
             $return .= Html::a(
                 Html::encode($tag->getLabel()),
                 $this->urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
-                ['class' => 'btn btn-outline-secondary btn-sm mx-1 mt-1']
+                ['class' => 'btn btn-outline-secondary btn-sm me-2 mt-1']
             );
         }
         return $return . Html::endTag('div');

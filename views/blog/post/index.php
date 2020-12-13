@@ -26,7 +26,7 @@ use Yiisoft\Html\Html;
             echo Html::a(
                 'Edit',
                 $urlGenerator->generate('blog/edit', ['slug' => $slug]),
-                ['class' => 'btn btn-outline-secondary btn-sm']
+                ['class' => 'btn btn-outline-secondary btn-sm ms-2']
             );
         }
         ?>
@@ -41,7 +41,7 @@ if ($item->getTags()) {
         echo Html::a(
             Html::encode($tag->getLabel()),
             $urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
-            ['class' => 'btn btn-outline-secondary btn-sm m-1']
+            ['class' => 'btn btn-outline-secondary btn-sm me-2']
         );
     }
     echo Html::endTag('div');
@@ -83,6 +83,6 @@ if ($item->getComments()) {
         <?php
     }
 } else {
-    echo Html::tag('p', 'No comments', ['class' => 'lead']);
+    echo Html::p('No comments', ['class' => 'lead']);
 }
 echo Html::endTag('div');
