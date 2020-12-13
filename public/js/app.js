@@ -26,7 +26,7 @@ document.addEventListener('click', function (event) {
         if (input.value && !document.getElementById('tag' + input.value)) {
             var tags = document.getElementById('tags');
             tags.insertAdjacentHTML('beforeend',
-                `<button type="button" class="btn btn-sm btn-info mt-3 me-2" onclick="removeTag(this)">
+                `<button type="button" class="btn btn-sm btn-info mt-3 me-2" onclick="this.remove()">
                     <input type="hidden" name="tags[]" value="` + input.value + `">
                     ` + input.value + ` <span class="badge bg-dark">
                     <svg
@@ -46,7 +46,3 @@ document.addEventListener('click', function (event) {
         }
     }
 });
-
-function removeTag(element) {
-    element.remove();
-}
