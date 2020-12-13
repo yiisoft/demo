@@ -119,7 +119,7 @@ class OffsetPagination extends Widget
             $isDisabled = $this->currentPage === $page || $page === null;
             $result .= Html::beginTag('li', ['class' => $isDisabled ? 'page-item disabled' : 'page-item']);
             if ($page === null) {
-                $result .= Html::tag('span', '…', ['class' => 'page-link']);
+                $result .= Html::span('…', ['class' => 'page-link']);
             } else {
                 $result .= Html::a((string)$page, $this->getPageLink($page), ['class' => 'page-link']);
             }
