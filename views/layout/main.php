@@ -28,6 +28,8 @@ $assetManager->register([
 
 $this->setCssFiles($assetManager->getCssFiles());
 $this->setJsFiles($assetManager->getJsFiles());
+$this->setJsStrings($assetManager->getJsStrings());
+$this->setJsVar($assetManager->getJsVar());
 
 $this->beginPage();
 ?><!DOCTYPE html>
