@@ -26,11 +26,15 @@ document.addEventListener('click', function (event) {
         if (input.value && !document.getElementById('tag' + input.value)) {
             var tags = document.getElementById('tags');
             tags.insertAdjacentHTML('beforeend',
-                `<button type="button" class="btn btn-sm btn-info mt-3 me-2" onclick="this.remove()">
+                `<button type="button" class="btn btn-sm btn-info mt-3 me-2 remove-tag">
                     <input type="hidden" name="tags[]" value="` + input.value + `">
                     ` + input.value + `<span class="btn-close ms-1"></span>
                 </button>`);
             input.value = '';
         }
+    }
+
+    if (event.target.matches('.remove-tag')) {
+        event.target.remove();
     }
 });

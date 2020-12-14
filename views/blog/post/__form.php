@@ -53,7 +53,7 @@ if (!empty($errors)) {
 
     <div class="form-group" id="tags">
         <?php foreach ($body['tags'] ?? [] as $tag): ?>
-            <button type="button" class="btn btn-sm btn-info mt-3 me-2" onclick="this.remove()">
+            <button type="button" class="btn btn-sm btn-info mt-3 me-2 remove-tag">
                 <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
                 <?= Html::encode($tag) ?><span class="btn-close ms-1"></span>
             </button>
