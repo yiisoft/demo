@@ -23,6 +23,9 @@ if (PHP_SAPI === 'cli-server') {
 
     // Explicitly set for URLs with dot.
     $_SERVER['SCRIPT_NAME'] = '/index.php';
+
+    // adjust CWD
+    chdir('./public');
 }
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
