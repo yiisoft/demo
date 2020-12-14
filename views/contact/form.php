@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Alert;
+use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (isset($sent)) {
     echo Alert::widget()
@@ -43,7 +43,7 @@ if (isset($sent)) {
     <?= $field->config($form, 'body')
         ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
     <?= $field->config($form, 'attachFiles')
-        ->inputCssClass('file-input')
+        ->inputCssClass('form-control')
         ->fileInput(
             ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
             true,
@@ -52,7 +52,7 @@ if (isset($sent)) {
     <?= Html::submitButton(
             'Submit',
             [
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-primary mt-3'
         ]
         ) ?>
 

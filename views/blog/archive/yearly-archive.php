@@ -18,13 +18,12 @@ use Yiisoft\Html\Html;
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
         if (count($items) > 0) {
-            echo Html::tag(
-                'p',
+            echo Html::p(
                 sprintf('Total %d posts', count($items)),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::tag('p', 'No records');
+            echo Html::p('No records');
         }
         $currentMonth = null;
         $monthName = '';
@@ -35,7 +34,7 @@ use Yiisoft\Html\Html;
             if ($currentMonth !== $month) {
                 $currentMonth = $month;
                 $monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
-                echo Html::tag('div', "{$year} {$monthName}", ['class' => 'lead']);
+                echo Html::div("{$year} {$monthName}", ['class' => 'lead']);
             }
             echo Html::beginTag('div');
             echo Html::a(
