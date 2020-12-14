@@ -64,3 +64,7 @@ jobs:
         run: |
           vendor/bin/yii serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
           vendor/bin/codecept run
+
+      - name: Print application logs
+        run: |
+          cat ./runtime/yii.log
