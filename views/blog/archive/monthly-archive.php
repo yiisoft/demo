@@ -31,13 +31,12 @@ $pagination = OffsetPagination::widget()
         <?php
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
-            echo Html::tag(
-                'p',
+            echo Html::p(
                 sprintf('Showing %s out of %s posts', $pageSize, $paginator->getTotalItems()),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::tag('p', 'No records');
+            echo Html::p('No records');
         }
         /** @var Post $item */
         foreach ($paginator->read() as $item) {

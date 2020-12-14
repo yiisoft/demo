@@ -39,7 +39,7 @@ use Yiisoft\Html\Html;
                     'month' => $month,
                 ]),
                 ['class' => 'text-muted']
-            ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
+            ), ' ', Html::span($count, ['class' => 'badge badge-secondary badge-pill']);
             echo Html::endTag('div');
             $currentYear = $year;
         }

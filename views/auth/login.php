@@ -28,13 +28,13 @@ $error = $error ?? null;
           'required' => true,
       ]) ?>
   </div>
-  <div class="form-group">
+  <div class="form-group mt-3">
     <label for="email">Password</label>
       <?= Html::passwordInput('password', $body['password'] ?? '', [
         'class' => 'form-control',
         'required' => true,
     ]) ?>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
 

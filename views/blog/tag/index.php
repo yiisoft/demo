@@ -28,7 +28,7 @@ foreach ($paginator->read() as $post) {
     $userLogin = $post->getUser()->getLogin();
     echo Html::a(Html::encode($userLogin), $urlGenerator->generate('user/profile', ['login' => $userLogin]));
     echo ' at ';
-    echo Html::tag('span', $post->getPublishedAt()->format('H:i d.m.Y'));
+    echo Html::span($post->getPublishedAt()->format('H:i d.m.Y'));
     echo Html::endTag('li');
 }
 echo Html::endTag('ul');

@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Alert;
+use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {
@@ -36,13 +36,13 @@ if (!empty($errors)) {
                value="<?= Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-3">
         <label for="content">Content</label>
         <textarea class="form-control" name="content" id="content"
                   placeholder="Content" required><?= Html::encode($body['content'] ?? '') ?></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-3">
         <label for="AddTag">Add tag</label>
         <input type="text" class="form-control" id="addTag" placeholder="Add tag" value="">
         <?= Html::button(
@@ -53,24 +53,12 @@ if (!empty($errors)) {
 
     <div class="form-group" id="tags">
         <?php foreach ($body['tags'] ?? [] as $tag): ?>
-             <span class="badge badge-info mr-2" id="tag<?= Html::encode($tag) ?>">
+            <button type="button" class="btn btn-sm btn-info mt-3 me-2" onclick="this.remove()">
                 <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
-                <span><?= Html::encode($tag) ?></span>
-                <svg
-                width="2em"
-                height="2em"
-                viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                onclick="removeTag(this)"
-                >
-                  <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647
-                  2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646
-                  5.354a.5.5 0 0 1 0-.708z"/>
-               </svg>
-            </span>
+                <?= Html::encode($tag) ?><span class="btn-close ms-1"></span>
+            </button>
         <?php endforeach; ?>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
