@@ -24,7 +24,7 @@ use Yiisoft\Html\Html;
         foreach ($archive->read() as $item) {
             $year = $item['year'];
             $month = $item['month'];
-            $count = $item['count'];
+            $count = (string) $item['count'];
 
             if ($currentYear !== $year) {
                 // print Year
