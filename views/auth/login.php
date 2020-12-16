@@ -22,14 +22,14 @@ $error = $error ?? null;
 <form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
   <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="form-group">
-    <label for="subject">Login</label>
+    <label for="subject" class="required">Login</label>
       <?= Html::textInput('login', $body['login'] ?? '', [
           'class' => 'form-control',
           'required' => true,
       ]) ?>
   </div>
   <div class="form-group mt-3">
-    <label for="email">Password</label>
+    <label for="email" class="required">Password</label>
       <?= Html::passwordInput('password', $body['password'] ?? '', [
         'class' => 'form-control',
         'required' => true,

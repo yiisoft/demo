@@ -36,8 +36,10 @@ return [
 
     'yiisoft/form' => [
         'fieldConfig' => [
-            'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']],
+            'enclosedByContainer()' => [true, ['class' => 'mb-3']],
+            'errorOptions()' => [['class' => 'text-danger fst-italic']],
+            'inputCssClass()' => ['form-control'],
+            'labelOptions()' => [['class' => 'form-label']],
         ],
     ],
 

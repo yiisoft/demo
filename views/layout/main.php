@@ -40,7 +40,7 @@ $this->beginPage();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yii Demo</title>
     <style>
-        form .required:after {
+        label.required:not(:empty):after {
             color: #dc3545;
             content: '\a0*';
         }
