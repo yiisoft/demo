@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 /**
- * @var string $requestedUri
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  */
 
@@ -15,7 +14,10 @@ use Yiisoft\Html\Html;
         <h1 class="card-title display-1 fw-bold">404</h1>
         <p class="card-text">
             <?php echo "The page "
-                . Html::span($requestedUri, ['class' => 'text-muted'])
+                . Html::span(
+                    Html::encode($urlMatcher->getCurrentUri()->getPath()),
+                    ['class' => 'text-muted']
+                )
                 . " could not be found."
             ?>
         </p>
