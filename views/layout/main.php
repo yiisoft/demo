@@ -39,6 +39,12 @@ $this->beginPage();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yii Demo</title>
+    <style>
+        form .required:after {
+            color: #dc3545;
+            content: '\a0*';
+        }
+    </style>
     <?php $this->head() ?>
 </head>
 <body>
