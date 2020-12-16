@@ -55,7 +55,7 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => $urlMatcher->getCurrentRoute() !== null && dirname($urlMatcher->getCurrentRoute()->getName()) === 'blog'],
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => $urlMatcher->getCurrentRoute() !== null && in_array(dirname($urlMatcher->getCurrentRoute()->getName()), ['blog', 'blog/archive'])],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => $urlMatcher->getCurrentRoute() !== null && dirname($urlMatcher->getCurrentRoute()->getName()) === 'user'],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
