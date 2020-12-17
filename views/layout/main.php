@@ -6,6 +6,7 @@ use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
+use Yiisoft\Strings\StringHelper;
 use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
 
@@ -59,7 +60,7 @@ echo Nav::widget()
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => in_array($currentRoute, ['blog/index', 'blog/add', 'blog/archive/index', 'blog/archive/month', 'blog/archive/year', 'blog/edit', 'blog/post', 'blog/tag'])],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => in_array($currentRoute, ['user/index', 'user/profile'])],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
