@@ -58,7 +58,7 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => in_array($currentRoute, ['blog/index', 'blog/add', 'blog/archive/index', 'blog/archive/month', 'blog/archive/year', 'blog/edit', 'blog/post', 'blog/tag'])],
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
