@@ -31,6 +31,8 @@ $this->setJsFiles($assetManager->getJsFiles());
 $this->setJsStrings($assetManager->getJsStrings());
 $this->setJsVar($assetManager->getJsVar());
 
+$currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
+
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="">
@@ -55,9 +57,9 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => $urlMatcher->getCurrentRoute() !== null && in_array(dirname($urlMatcher->getCurrentRoute()->getName()), ['blog', 'blog/archive'])],
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => in_array($currentRoute, ['blog/index', 'blog/add', 'blog/archive/index', 'blog/archive/month', 'blog/archive/year', 'blog/edit', 'blog/post', 'blog/tag'])],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => $urlMatcher->getCurrentRoute() !== null && dirname($urlMatcher->getCurrentRoute()->getName()) === 'user'],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => in_array($currentRoute, ['user/index', 'user/profile'])],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
