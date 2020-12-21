@@ -9,7 +9,7 @@ use Yiisoft\Injector\Injector;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Session\SessionMiddleware;
-use Yiisoft\Yii\Web\NotFoundHandler;
+use App\Handler\NotFoundHandler;
 
 return [
     Yiisoft\Yii\Web\Application::class => [
