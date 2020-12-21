@@ -19,7 +19,7 @@ final class ContactForm extends FormModel
     public function attributeLabels(): array
     {
         return [
-            'username' => 'Name',
+            'name' => 'Name',
             'email' => 'Email',
             'subject' => 'Subject',
             'body' => 'Body',
