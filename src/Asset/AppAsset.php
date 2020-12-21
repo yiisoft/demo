@@ -16,7 +16,7 @@ class AppAsset extends AssetBundle
     public ?string $sourcePath = '@resources/asset';
 
     public array $css = [
-        'css/site.css',        
+        'css/site.css',
     ];
 
     public array $js = [
