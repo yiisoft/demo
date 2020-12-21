@@ -19,7 +19,7 @@ if (isset($sent)) {
               ->body(
                   $sent && !$form->hasErrors()
                       ? 'Thanks to contact us, we\'ll get in touch with you as soon as possible.'
-                      : 'Some values is incorrect'
+                      : 'One or more values are incorrect'
               );
 }
 ?>
@@ -37,7 +37,7 @@ if (isset($sent)) {
         )
         ->begin() ?>
 
-    <?= $field->config($form, 'username') ?>
+    <?= $field->config($form, 'name') ?>
     <?= $field->config($form, 'email')->input('email') ?>
     <?= $field->config($form, 'subject') ?>
     <?= $field->config($form, 'body')

@@ -27,7 +27,7 @@ class ContactMailer
         $message = $this->mailer->compose(
             'contact',
             [
-                'name' => $form->getAttributeValue('username'),
+                'name' => $form->getAttributeValue('name'),
                 'content' => $form->getAttributeValue('body'),
             ]
         )

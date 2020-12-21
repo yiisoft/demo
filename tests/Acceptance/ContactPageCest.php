@@ -22,7 +22,7 @@ final class ContactPageCest
     public function contactFormCanBeSubmitted(AcceptanceTester $I)
     {
         $I->amGoingTo('submit contact form with correct data');
-        $I->fillField('#contactform-username', 'tester');
+        $I->fillField('#contactform-name', 'tester');
         $I->fillField('#contactform-email', 'tester@example.com');
         $I->fillField('#contactform-subject', 'test subject');
         $I->fillField('#contactform-body', 'test content');

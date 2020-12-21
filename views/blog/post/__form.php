@@ -31,13 +31,13 @@ if (!empty($errors)) {
 >
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">
     <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title" class="required">Title</label>
         <input type="text" class="form-control" name="title" id="title" placeholder="Title"
                value="<?= Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
     <div class="form-group mt-3">
-        <label for="content">Content</label>
+        <label for="content" class="required">Content</label>
         <textarea class="form-control" name="content" id="content"
                   placeholder="Content" required><?= Html::encode($body['content'] ?? '') ?></textarea>
     </div>

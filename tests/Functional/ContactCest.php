@@ -23,7 +23,7 @@ final class ContactCest
     {
         $I->submitForm('#form-contact', []);
         $I->expectTo('see validations errors');
-        $I->see('Some values is incorrect');
+        $I->see('One or more values are incorrect');
     }
 
     public function submitFormWithIncorrectEmail(FunctionalTester $I)
@@ -42,7 +42,7 @@ final class ContactCest
     public function submitFormSuccessfully(FunctionalTester $I)
     {
         $I->submitForm('#form-contact', [
-            'ContactForm[username]' => 'tester',
+            'ContactForm[name]' => 'tester',
             'ContactForm[email]' => 'tester@example.com',
             'ContactForm[subject]' => 'test subject',
             'ContactForm[body]' => 'test content',
