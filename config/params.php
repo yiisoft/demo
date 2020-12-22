@@ -34,15 +34,6 @@ return [
         'adminEmail' => 'admin@example.com',
     ],
 
-    'yiisoft/form' => [
-        'fieldConfig' => [
-            'enclosedByContainer()' => [true, ['class' => 'mb-3']],
-            'errorOptions()' => [['class' => 'text-danger fst-italic']],
-            'inputCssClass()' => ['form-control'],
-            'labelOptions()' => [['class' => 'form-label']],
-        ],
-    ],
-
     'yiisoft/session' => [
         'session' => [
             'options' => ['cookie_secure' => 0],
