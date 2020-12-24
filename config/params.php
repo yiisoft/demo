@@ -90,6 +90,7 @@ return [
                     Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
+            ReverseBlockMerge::class => new ReverseBlockMerge(),
         ],
         'annotated-entity-paths' => [
             '@src',
