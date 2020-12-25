@@ -37,7 +37,7 @@ if (!empty($errors)) {
     </div>
 
     <div class="mb-3">
-        <label for="AddTag">Add tag</label>
+        <label for="addTag">Add tag</label>
         <input type="text" class="form-control" id="addTag" placeholder="Add tag" value="">
         <?= Html::button(
             'Add',
