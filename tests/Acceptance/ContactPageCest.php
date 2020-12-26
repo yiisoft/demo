@@ -29,6 +29,6 @@ final class ContactPageCest
 
         $I->click('Submit');
 
-        $I->see("Thanks to contact us, we'll get in touch with you as soon as possible.");
+        $I->see("Thank you for contacting us, we'll get in touch with you as soon as possible.");
     }
 }
