@@ -14,6 +14,8 @@ use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 ?>
 
+<h1>Contact</h1>
+
 <?= FlashMessage::widget() ?>
 
 <div>
