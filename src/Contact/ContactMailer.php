@@ -62,7 +62,7 @@ class ContactMailer
 
         try {
             $message->send();
-            $flashMsg = 'Thanks to contact us, we\'ll get in touch with you as soon as possible.';
+            $flashMsg = 'Thank you for contacting us, we\'ll get in touch with you as soon as possible.';
         } catch (Exception $e) {
             $flashMsg = $e->getMessage();
             $this->logger->error($flashMsg);
