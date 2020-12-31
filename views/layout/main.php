@@ -6,8 +6,9 @@ use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Nav;
-use Yiisoft\Yii\Bootstrap4\NavBar;
+use Yiisoft\Strings\StringHelper;
+use Yiisoft\Yii\Bootstrap5\Nav;
+use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -28,6 +29,10 @@ $assetManager->register([
 
 $this->setCssFiles($assetManager->getCssFiles());
 $this->setJsFiles($assetManager->getJsFiles());
+$this->setJsStrings($assetManager->getJsStrings());
+$this->setJsVar($assetManager->getJsVar());
+
+$currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
 
 $this->beginPage();
 ?><!DOCTYPE html>
@@ -50,12 +55,12 @@ echo NavBar::widget()
       ->begin();
 echo Nav::widget()
         ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav mr-auto'])
+        ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index')],
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index')],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]

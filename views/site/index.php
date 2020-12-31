@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Yii\Bootstrap4\Carousel;
+use Yiisoft\Yii\Bootstrap5\Carousel;
 
 echo Carousel::widget()
     ->items([

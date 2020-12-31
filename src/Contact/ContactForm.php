@@ -10,7 +10,7 @@ use Yiisoft\Validator\Rule\Required;
 
 final class ContactForm extends FormModel
 {
-    private string $username = '';
+    private string $name = '';
     private string $email = '';
     private string $subject = '';
     private string $body = '';
@@ -19,7 +19,7 @@ final class ContactForm extends FormModel
     public function attributeLabels(): array
     {
         return [
-            'username' => 'Username',
+            'name' => 'Name',
             'email' => 'Email',
             'subject' => 'Subject',
             'body' => 'Body',
@@ -34,7 +34,7 @@ final class ContactForm extends FormModel
     public function rules(): array
     {
         return [
-            'username' => [new Required()],
+            'name' => [new Required()],
             'email' => [new Required(), new Email()],
             'subject' => [new Required()],
             'body' => [new Required()],

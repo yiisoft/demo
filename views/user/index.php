@@ -16,7 +16,7 @@ $pagination = OffsetPagination::widget()
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('user/index', ['page' => $page]));
 
 echo Html::tag('h1', 'Users');
-echo Html::tag('p', 'Total users: ' . $paginator->getTotalItems(), ['class' => 'text-muted']);
+echo Html::p('Total users: ' . $paginator->getTotalItems(), ['class' => 'text-muted']);
 echo Html::a(
     'API v1 Info',
     $urlGenerator->generate('api/info/v1'),

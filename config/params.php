@@ -8,6 +8,7 @@ use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
+use Yiisoft\Arrays\Modifier\ReverseBlockMerge;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Router\UrlGeneratorInterface;
@@ -32,13 +33,6 @@ return [
 
     'mailer' => [
         'adminEmail' => 'admin@example.com',
-    ],
-
-    'yiisoft/form' => [
-        'fieldConfig' => [
-            'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']],
-        ],
     ],
 
     'yiisoft/session' => [
@@ -97,6 +91,7 @@ return [
                     Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
+            ReverseBlockMerge::class => new ReverseBlockMerge(),
         ],
         'annotated-entity-paths' => [
             '@src',

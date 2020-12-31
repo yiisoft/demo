@@ -9,20 +9,14 @@ declare(strict_types=1);
  * @var $field \Yiisoft\Form\Widget\Field
  */
 
+use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Alert;
-
-if (isset($sent)) {
-    echo Alert::widget()
-              ->options(['class' => !$form->hasErrors() ? 'alert-success' : 'alert-danger'])
-              ->body(
-                  $sent && !$form->hasErrors()
-                      ? 'Thanks to contact us, we\'ll get in touch with you as soon as possible.'
-                      : 'Some values is incorrect'
-              );
-}
 ?>
+
+<h1>Contact</h1>
+
+<?= FlashMessage::widget() ?>
 
 <div>
 
@@ -37,13 +31,13 @@ if (isset($sent)) {
         )
         ->begin() ?>
 
-    <?= $field->config($form, 'username') ?>
+    <?= $field->config($form, 'name') ?>
     <?= $field->config($form, 'email')->input('email') ?>
     <?= $field->config($form, 'subject') ?>
     <?= $field->config($form, 'body')
         ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
     <?= $field->config($form, 'attachFiles')
-        ->inputCssClass('file-input')
+        ->inputCssClass('form-control')
         ->fileInput(
             ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
             true,
@@ -52,7 +46,7 @@ if (isset($sent)) {
     <?= Html::submitButton(
             'Submit',
             [
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-primary mt-3'
         ]
         ) ?>
 
