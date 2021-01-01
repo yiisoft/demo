@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\User\User;
-use Cycle\ORM\ORMInterface;
-use Cycle\ORM\Transaction;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,6 +12,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
@@ -28,7 +27,7 @@ final class SignupController
     public function signup(
         RequestInterface $request,
         IdentityRepositoryInterface $identityRepository,
-        ORMInterface $orm,
+        EntityWriter $entityWriter,
         UrlGeneratorInterface $urlGenerator,
         LoggerInterface $logger,
         ResponseFactoryInterface $responseFactory
@@ -51,11 +50,8 @@ final class SignupController
                 }
 
                 $user = new User($body['login'], $body['password']);
+                $entityWriter->write([$user]);
 
-                $transaction = new Transaction($orm);
-                $transaction->persist($user);
-
-                $transaction->run();
                 return $responseFactory
                     ->createResponse(302)
                     ->withHeader(

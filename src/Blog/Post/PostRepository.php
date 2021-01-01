@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
-use Cycle\ORM\Transaction;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
+use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class PostRepository extends Select\Repository
 {
-    private ORMInterface $orm;
+    private EntityWriter $entityWriter;
 
-    public function __construct(Select $select, ORMInterface $orm)
+    public function __construct(Select $select, EntityWriter $entityWriter)
     {
-        $this->orm = $orm;
+        $this->entityWriter = $entityWriter;
         parent::__construct($select);
     }
 
@@ -53,19 +52,16 @@ final class PostRepository extends Select\Repository
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
             ->load('comments', ['method' => Select::OUTER_QUERY]);
         /** @var Post|null $post */
-        return $query->fetchOne();
+        $post = $query->fetchOne();
+        return $post;
     }
 
     /**
-     * @param Post $post
-     *
      * @throws Throwable
      */
     public function save(Post $post): void
     {
-        $transaction = new Transaction($this->orm);
-        $transaction->persist($post);
-        $transaction->run();
+        $this->entityWriter->write([$post]);
     }
 
     private function prepareDataReader($query): EntityReader
