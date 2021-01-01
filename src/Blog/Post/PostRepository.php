@@ -51,9 +51,7 @@ final class PostRepository extends Select\Repository
             // force loading in single query with comments
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
             ->load('comments', ['method' => Select::OUTER_QUERY]);
-        /** @var Post|null $post */
-        $post = $query->fetchOne();
-        return $post;
+        return  $query->fetchOne();
     }
 
     /**
