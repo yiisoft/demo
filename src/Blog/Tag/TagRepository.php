@@ -13,7 +13,7 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
+use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class TagRepository extends Repository
 {
@@ -132,6 +132,6 @@ final class TagRepository extends Repository
             ->columns(['label', 'count(*) count']);
 
         $sort = (new Sort(['count']))->withOrder(['count' => 'desc']);
-        return (new SelectDataReader($case3))->withSort($sort)->withLimit($limit);
+        return (new EntityReader($case3))->withSort($sort)->withLimit($limit);
     }
 }

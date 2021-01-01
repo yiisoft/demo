@@ -16,7 +16,7 @@ use Spiral\Database\Injection\FragmentInterface;
 use Spiral\Database\Query\SelectQuery;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
+use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 /**
  * This repository is not associated with Post entity
@@ -78,7 +78,7 @@ final class ArchiveRepository
             ])
             ->groupBy('year, month');
 
-        return (new SelectDataReader($query))->withSort($sort);
+        return (new EntityReader($query))->withSort($sort);
     }
 
     /**
@@ -112,10 +112,10 @@ final class ArchiveRepository
      *
      * @param Select|SelectQuery $query
      *
-     * @return SelectDataReader
+     * @return EntityReader
      */
-    private function prepareDataReader($query): SelectDataReader
+    private function prepareDataReader($query): EntityReader
     {
-        return (new SelectDataReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
+        return (new EntityReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
     }
 }
