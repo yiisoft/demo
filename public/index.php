@@ -1,6 +1,5 @@
 <?php
 
-use App\Timer;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
