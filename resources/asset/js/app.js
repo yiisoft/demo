@@ -24,7 +24,7 @@ document.addEventListener('click', event => {
 
     if (event.target.matches('#addTagButton')) {
         const input = document.getElementById('addTag');
-        if (input.value && !document.getElementById(`tag ${input.value}`)) {
+        if (input.value && !document.getElementById(`tag${input.value}`)) {
             const tags = document.getElementById('tags');
             tags.insertAdjacentHTML('beforeend',
                 `<button type="button" class="btn btn-sm btn-info mt-3 me-2 remove-tag">
