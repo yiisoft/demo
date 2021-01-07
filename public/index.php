@@ -59,8 +59,6 @@ $errorHandler->setLogger($container->get(LoggerInterface::class));
 $errorHandler->setRenderer($container->get(ThrowableRendererInterface::class));
 
 $container = $container->get(ContainerInterface::class);
-$container->get(Timer::class)->start('overall'); // Start overall timer
-
 $application = $container->get(Application::class);
 
 $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
