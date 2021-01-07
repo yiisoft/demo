@@ -1,6 +1,5 @@
 // app.js
 document.addEventListener('click', event => {
-    console.log("test", event.target.matches);
     if (event.target.matches('.load-more-comment')) {
         event.preventDefault();
         event.target.disabled = true;
