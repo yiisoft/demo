@@ -122,7 +122,6 @@ class AddCommand extends Command
             /** @var User $postUser */
             $postUser = $this->users[array_rand($this->users)];
             $post = new Post($this->faker->text(64), $this->faker->realText(rand(1000, 4000)));
-            $post->setUser($postUser);
             $postUser->addPost($post);
             $public = rand(0, 2) > 0;
             $post->setPublic($public);
@@ -147,9 +146,7 @@ class AddCommand extends Command
                     $comment->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
                 }
                 $commentUser = $this->users[array_rand($this->users)];
-                $comment->setUser($commentUser);
                 $commentUser->addComment($comment);
-                $post->addComment($comment);
                 $comment->setPost($post);
             }
         }
