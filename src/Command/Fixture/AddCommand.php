@@ -84,7 +84,7 @@ class AddCommand extends Command
 
     private function addUsers(int $count): void
     {
-        for ($i = 0; $i <= $count; ++$i) {
+        for ($i = 0; $i < $count; ++$i) {
             $login = $this->faker->firstName . rand(0, 9999);
             $user = new User($login, $login);
             $this->users[] = $user;
@@ -97,7 +97,7 @@ class AddCommand extends Command
         $tagRepository = $this->promise->getORM()->getRepository(Tag::class);
         $this->tags = [];
         $tagWords = [];
-        for ($i = 0, $fails = 0; $i <= $count; ++$i) {
+        for ($i = 0, $fails = 0; $i < $count; ++$i) {
             $word = $this->faker->word();
             if (in_array($word, $tagWords, true)) {
                 --$i;
@@ -118,7 +118,7 @@ class AddCommand extends Command
         if (count($this->users) === 0) {
             throw new \Exception('No users');
         }
-        for ($i = 0; $i <= $count; ++$i) {
+        for ($i = 0; $i < $count; ++$i) {
             /** @var User $postUser */
             $postUser = $this->users[array_rand($this->users)];
             $post = new Post($this->faker->text(64), $this->faker->realText(rand(1000, 4000)));
