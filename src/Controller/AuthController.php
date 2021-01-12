@@ -53,12 +53,9 @@ class AuthController
 
                 /** @var \App\User\User $identity */
                 $identity = $identityRepository->findByLogin($body['login']);
-                if ($identity === null) {
-                    throw new \InvalidArgumentException('No such user');
-                }
 
-                if (!$identity->validatePassword($body['password'])) {
-                    throw new \InvalidArgumentException('Invalid password');
+                if ($identity === null || !$identity->validatePassword($body['password'])) {
+                    throw new \InvalidArgumentException('Invalid login or password');
                 }
 
                 if ($this->user->login($identity)) {
