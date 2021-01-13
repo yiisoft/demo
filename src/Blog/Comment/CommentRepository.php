@@ -7,13 +7,13 @@ namespace App\Blog\Comment;
 use Cycle\ORM\Select;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
+use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class CommentRepository extends Select\Repository
 {
     public function getReader(): DataReaderInterface
     {
-        return (new SelectDataReader($this->select()))
+        return (new EntityReader($this->select()))
             ->withSort($this->getSort());
     }
 

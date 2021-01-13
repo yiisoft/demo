@@ -11,7 +11,7 @@ use Cycle\ORM\Transaction;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
+use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class PostRepository extends Select\Repository
 {
@@ -68,8 +68,8 @@ final class PostRepository extends Select\Repository
         $transaction->run();
     }
 
-    private function prepareDataReader($query): SelectDataReader
+    private function prepareDataReader($query): EntityReader
     {
-        return (new SelectDataReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
+        return (new EntityReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
     }
 }
