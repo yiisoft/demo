@@ -9,7 +9,6 @@ use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
 use App\User\User;
-use Cycle\ORM\Transaction;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\Console\Command\Command;
@@ -19,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
+use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 class AddCommand extends Command
 {
@@ -75,11 +75,7 @@ class AddCommand extends Command
 
     private function saveEntities(): void
     {
-        $transaction = new Transaction($this->promise->getORM());
-        foreach ($this->users as $user) {
-            $transaction->persist($user);
-        }
-        $transaction->run();
+        (new EntityWriter($this->promise->getORM()))->write($this->users);
     }
 
     private function addUsers(int $count): void
