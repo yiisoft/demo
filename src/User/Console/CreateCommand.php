@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\User\Console;
 
 use App\User\User;
-use Cycle\ORM\Transaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +14,7 @@ use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\StorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
+use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 class CreateCommand extends Command
 {
@@ -52,9 +52,7 @@ class CreateCommand extends Command
 
         $user = new User($login, $password);
         try {
-            $transaction = new Transaction($this->promise->getORM());
-            $transaction->persist($user);
-            $transaction->run();
+            (new EntityWriter($this->promise->getORM()))->write([$user]);
 
             if ($isAdmin) {
                 $this->manager->assign($this->storage->getRoleByName('admin'), $user->getId());

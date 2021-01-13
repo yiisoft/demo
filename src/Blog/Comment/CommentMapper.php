@@ -17,37 +17,6 @@ final class CommentMapper extends Mapper
 {
     /**
      * @param Comment $entity
-     * @param Node $node
-     * @param State $state
-     *
-     * @throws \Exception
-     *
-     * @return ContextCarrierInterface
-     */
-    public function queueCreate($entity, Node $node, State $state): ContextCarrierInterface
-    {
-        $command = parent::queueCreate($entity, $node, $state);
-        $now = new \DateTimeImmutable();
-
-        $state->register('created_at', $now, true);
-        $command->register('created_at', $now, true);
-
-        $state->register('updated_at', $now, true);
-        $command->register('updated_at', $now, true);
-
-        $this->touch($entity, $node, $state, $command);
-
-        return $command;
-    }
-
-    /**
-     * @param Comment $entity
-     * @param Node $node
-     * @param State $state
-     *
-     * @throws \Exception
-     *
-     * @return ContextCarrierInterface
      */
     public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
     {
@@ -66,12 +35,6 @@ final class CommentMapper extends Mapper
 
     /**
      * @param Comment $entity
-     * @param Node $node
-     * @param State $state
-     *
-     * @throws \Exception
-     *
-     * @return CommandInterface
      */
     public function queueDelete($entity, Node $node, State $state): CommandInterface
     {

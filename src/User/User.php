@@ -17,7 +17,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Security\PasswordHasher;
 
 /**
- * @Entity(repository="App\User\UserRepository", mapper="Yiisoft\Yii\Cycle\Mapper\TimestampedMapper")
+ * @Entity(repository="App\User\UserRepository")
  * @Table(
  *     indexes={
  *         @Index(columns={"login"}, unique=true),
@@ -42,12 +42,12 @@ class User implements IdentityInterface
     private string $passwordHash;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * @Column(type="datetime")
      */
     private DateTimeImmutable $created_at;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * @Column(type="datetime")
      */
     private DateTimeImmutable $updated_at;
 

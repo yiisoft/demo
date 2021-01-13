@@ -9,9 +9,9 @@ use Yiisoft\Yii\Bootstrap5\Assets\BootstrapAsset;
 
 class AppAsset extends AssetBundle
 {
-    public ?string $basePath = '@public';
+    public ?string $basePath = '@assets';
 
-    public ?string $baseUrl = '@baseUrl';
+    public ?string $baseUrl = '@assetsUrl';
 
     public ?string $sourcePath = '@resources/asset';
 

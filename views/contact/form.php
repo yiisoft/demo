@@ -9,20 +9,14 @@ declare(strict_types=1);
  * @var $field \Yiisoft\Form\Widget\Field
  */
 
+use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap5\Alert;
-
-if (isset($sent)) {
-    echo Alert::widget()
-              ->options(['class' => !$form->hasErrors() ? 'alert-success' : 'alert-danger'])
-              ->body(
-                  $sent && !$form->hasErrors()
-                      ? 'Thanks to contact us, we\'ll get in touch with you as soon as possible.'
-                      : 'One or more values are incorrect'
-              );
-}
 ?>
+
+<h1>Contact</h1>
+
+<?= FlashMessage::widget() ?>
 
 <div>
 
