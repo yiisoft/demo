@@ -13,7 +13,7 @@ use Cycle\ORM\Relation\Pivoted\PivotedCollection;
 use DateTimeImmutable;
 
 /**
- * @Entity(repository="App\Blog\Tag\TagRepository", mapper="App\Blog\Tag\TagMapper")
+ * @Entity(repository="App\Blog\Tag\TagRepository")
  * @Table(
  *     indexes={
  *         @Index(columns={"label"}, unique=true)
