@@ -14,7 +14,7 @@ class MetaTagsViewInjection implements MetaTagsInjectionInterface
             [
                 '__key' => 'generator',
                 'name' => 'generator',
-                'value' => 'Yii',
+                'content' => 'Yii',
             ],
         ];
     }

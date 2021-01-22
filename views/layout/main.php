@@ -36,7 +36,7 @@ $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getC
 
 $this->beginPage();
 ?><!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,6 +65,7 @@ echo Nav::widget()
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
+
 echo Nav::widget()
         ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav'])
@@ -83,7 +84,7 @@ echo Nav::widget()
         );
 echo NavBar::end();
 
-?><main role="main" class="container py-4"><?php
+?><main class="container py-4"><?php
 echo $content;
 ?></main>
 
