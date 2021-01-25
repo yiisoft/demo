@@ -10,6 +10,7 @@ use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class PostController
@@ -43,7 +44,7 @@ final class PostController
         return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
-    public function add(Request $request, PostForm $form): Response
+    public function add(Request $request, PostForm $form, ValidatorInterface $validator): Response
     {
         $parameters = [
             'title' => 'Add post',
@@ -54,7 +55,7 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form->load($parameters['body']);
-            if ($form->validate()) {
+            if ($form->validate($validator)) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
@@ -65,8 +66,12 @@ final class PostController
         return $this->viewRenderer->render('__form', $parameters);
     }
 
-    public function edit(Request $request, PostForm $form, PostRepository $postRepository): Response
-    {
+    public function edit(
+        Request $request,
+        PostForm $form,
+        PostRepository $postRepository,
+        ValidatorInterface $validator
+    ): Response {
         $slug = $request->getAttribute('slug', null);
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
@@ -87,7 +92,7 @@ final class PostController
         if ($request->getMethod() === Method::POST) {
             $body = $request->getParsedBody();
             $form->load($body);
-            if ($form->validate()) {
+            if ($form->validate($validator)) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
