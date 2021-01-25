@@ -11,6 +11,7 @@ use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 class ContactController
@@ -32,10 +33,13 @@ class ContactController
         $this->viewRenderer = $viewRenderer->withControllerName('contact');
     }
 
-    public function contact(ContactForm $form, ServerRequestInterface $request): ResponseInterface
-    {
+    public function contact(
+        ContactForm $form,
+        ValidatorInterface $validator,
+        ServerRequestInterface $request
+    ): ResponseInterface {
         $body = $request->getParsedBody();
-        if (($request->getMethod() === Method::POST) && $form->load($body) && $form->validate()) {
+        if (($request->getMethod() === Method::POST) && $form->load($body) && $form->validate($validator)) {
             $this->mailer->send($form, $request);
 
             return $this->responseFactory
