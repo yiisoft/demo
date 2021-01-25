@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var $csrf string
- * @var $form Yiisoft\Form\FormModel
+ * @var $form \App\Contact\ContactForm
  * @var $url \Yiisoft\Router\UrlGeneratorInterface
  * @var $field \Yiisoft\Form\Widget\Field
  */
@@ -12,6 +12,7 @@ declare(strict_types=1);
 use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
+
 ?>
 
 <h1>Contact</h1>
