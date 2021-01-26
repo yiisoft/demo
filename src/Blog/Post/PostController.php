@@ -44,7 +44,7 @@ final class PostController
         return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
-    public function add(Request $request, PostForm $form, ValidatorInterface $validator): Response
+    public function add(Request $request, ValidatorInterface $validator): Response
     {
         $parameters = [
             'title' => 'Add post',
@@ -54,8 +54,8 @@ final class PostController
         ];
 
         if ($request->getMethod() === Method::POST) {
-            $form->load($parameters['body']);
-            if ($form->validate($validator)) {
+            $form = new PostForm();
+            if ($form->load($parameters['body']) && $form->validate($validator)) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
@@ -68,7 +68,6 @@ final class PostController
 
     public function edit(
         Request $request,
-        PostForm $form,
         PostRepository $postRepository,
         ValidatorInterface $validator
     ): Response {
@@ -90,9 +89,9 @@ final class PostController
         ];
 
         if ($request->getMethod() === Method::POST) {
+            $form = new PostForm();
             $body = $request->getParsedBody();
-            $form->load($body);
-            if ($form->validate($validator)) {
+            if ($form->load($body) && $form->validate($validator)) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }

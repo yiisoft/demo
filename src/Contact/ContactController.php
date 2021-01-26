@@ -34,11 +34,11 @@ class ContactController
     }
 
     public function contact(
-        ContactForm $form,
         ValidatorInterface $validator,
         ServerRequestInterface $request
     ): ResponseInterface {
         $body = $request->getParsedBody();
+        $form = new ContactForm();
         if (($request->getMethod() === Method::POST) && $form->load($body) && $form->validate($validator)) {
             $this->mailer->send($form, $request);
 
