@@ -33,7 +33,7 @@ final class PostForm extends FormModel
         return $this->tags;
     }
 
-    protected function rules(): array
+    public function rules(): array
     {
         return [
             'title' => [
