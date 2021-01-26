@@ -7,7 +7,7 @@ namespace App\Widget;
 use Closure;
 use Yiisoft\Data\Paginator\OffsetPaginator as Paginator;
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap4\Widget;
+use Yiisoft\Yii\Bootstrap5\Widget;
 
 class OffsetPagination extends Widget
 {
@@ -19,7 +19,6 @@ class OffsetPagination extends Widget
     private int $currentPage;
     private array $pages;
     private bool $prepared;
-
 
     public function paginator(?Paginator $paginator): self
     {
@@ -120,7 +119,7 @@ class OffsetPagination extends Widget
             $isDisabled = $this->currentPage === $page || $page === null;
             $result .= Html::beginTag('li', ['class' => $isDisabled ? 'page-item disabled' : 'page-item']);
             if ($page === null) {
-                $result .= Html::tag('span', '…', ['class' => 'page-link']);
+                $result .= Html::span('…', ['class' => 'page-link']);
             } else {
                 $result .= Html::a((string)$page, $this->getPageLink($page), ['class' => 'page-link']);
             }

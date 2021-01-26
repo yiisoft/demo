@@ -7,7 +7,7 @@ namespace App\Blog\Post;
 use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
-use App\Entity\User;
+use App\User\User;
 
 final class PostService
 {

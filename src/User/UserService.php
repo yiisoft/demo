@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\User;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use Yiisoft\Access\AccessCheckerInterface;
-use Yiisoft\Yii\Web\User\User as UserComponent;
+use Yiisoft\User\User as UserComponent;
 
 final class UserService
 {
@@ -30,6 +28,6 @@ final class UserService
     public function hasPermission(string $permission): bool
     {
         $userId = $this->user->getId();
-        return !is_null($userId) && $this->accessChecker->userHasPermission($userId, $permission);
+        return null !== $userId && $this->accessChecker->userHasPermission($userId, $permission);
     }
 }

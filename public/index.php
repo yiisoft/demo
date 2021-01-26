@@ -8,28 +8,38 @@ use Yiisoft\Di\Container;
 use Yiisoft\ErrorHandler\ErrorHandler;
 use Yiisoft\ErrorHandler\HtmlRenderer;
 use Yiisoft\ErrorHandler\ThrowableRendererInterface;
+use Yiisoft\Files\FileHelper;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
 
-$c3 = dirname(__DIR__) . '/c3.php';
+// PHP built-in server routing.
+if (PHP_SAPI === 'cli-server') {
+    // Serve static files as is.
+    if (is_file(__DIR__ . $_SERVER["REQUEST_URI"])) {
+        return false;
+    }
 
-if (is_file($c3)) {
-    require_once $c3;
+    // Explicitly set for URLs with dot.
+    $_SERVER['SCRIPT_NAME'] = '/index.php';
 }
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 // Don't do it in production, assembling takes it's time
-Builder::rebuild();
+$configTime = FileHelper::lastModifiedTime(dirname(__DIR__) . '/config/');
+$buildTime = FileHelper::lastModifiedTime(dirname(__DIR__) . '/runtime/build/config/');
+if ($buildTime < $configTime) {
+    Builder::rebuild();
+}
+
 $startTime = microtime(true);
 
 /**
  * Register temporary error handler to catch error while container is building.
  */
 $errorHandler = new ErrorHandler(new NullLogger(), new HtmlRenderer());
-
 /**
  * Production mode
  * $errorHandler = $errorHandler->withoutExposedDetails();

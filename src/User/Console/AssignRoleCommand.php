@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Command\User;
+namespace App\User\Console;
 
-use App\Entity\User;
+use App\User\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,13 +53,13 @@ class AssignRoleCommand extends Command
             $orm = $this->promise->getORM();
             $userRepo = $orm->getRepository(User::class);
             $user = $userRepo->findByPK($userId);
-            if (is_null($user)) {
+            if (null === $user) {
                 throw new \Exception('Can\'t find user');
             }
 
             $role = $this->storage->getRoleByName($roleName);
 
-            if (is_null($role)) {
+            if (null === $role) {
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Role doesn\'t exist. Create new one? ', false);
 

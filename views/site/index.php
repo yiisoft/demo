@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Yii\Bootstrap4\Carousel;
+use Yiisoft\Yii\Bootstrap5\Carousel;
 
 echo Carousel::widget()
     ->items([
@@ -52,6 +52,9 @@ echo Carousel::widget()
         <h4 class="card-title text-muted">DB Schema</h4>
         <div>
             <code><?= "{$binPath} cycle/schema" ?></code>
+            <br><code><?= "{$binPath} cycle/schema/php" ?></code>
+            <br><code><?= "{$binPath} cycle/schema/clear" ?></code>
+            <br><code><?= "{$binPath} cycle/schema/rebuild" ?></code>
         </div>
     </div>
 </div>

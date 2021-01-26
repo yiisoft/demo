@@ -9,20 +9,21 @@ use App\Blog\Post\PostController;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\ApiInfo;
-use App\Controller\ApiUserController;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
-use App\Controller\UserController;
+use App\User\Controller\ApiUserController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
+use App\User\Controller\UserController;
 use Yiisoft\Auth\Middleware\Authentication;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
-use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 
@@ -34,7 +35,7 @@ return [
         ->name('site/contact'),
     Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
         ->name('site/login'),
-    Route::get('/logout', [AuthController::class, 'logout'])
+    Route::post('/logout', [AuthController::class, 'logout'])
         ->name('site/logout'),
     Route::methods([Method::GET, Method::POST], '/signup', [SignupController::class, 'signup'])
         ->name('site/signup'),
@@ -95,7 +96,7 @@ return [
                 ->name('blog/archive/year'),
             // Monthly page
             Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                ->name('blog/archive/month')
+                ->name('blog/archive/month'),
         ]),
         // comments
         Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
@@ -106,6 +107,7 @@ return [
     Group::create('/swagger', [
         Route::get('')
             ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+            ->addMiddleware(FormatDataResponseAsHtml::class)
             ->name('swagger/index'),
         Route::get('/json-url')
             ->addMiddleware(static function (SwaggerJson $swaggerJson) {
@@ -113,7 +115,7 @@ return [
                     // Uncomment cache for production environment
                     // ->withCache(60)
                     ->withAnnotationPaths([
-                        '@src/Controller' // Path to API controllers
+                        '@src/Controller', // Path to API controllers
                     ]);
             })
             ->addMiddleware(FormatDataResponseAsJson::class),

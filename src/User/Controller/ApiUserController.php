@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\User\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\User\User;
+use App\User\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -22,7 +22,7 @@ class ApiUserController
 
     public function index(UserRepository $userRepository): ResponseInterface
     {
-        $dataReader = $userRepository->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $dataReader = $userRepository->findAll()->withSort((new Sort(['login']))->withOrderString('login'));
         $users = $dataReader->read();
 
         $items = [];

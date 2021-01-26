@@ -13,7 +13,7 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\DataReader\SelectDataReader;
+use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class TagRepository extends Repository
 {
@@ -40,6 +40,7 @@ final class TagRepository extends Repository
 
     /**
      * @param int $limit
+     *
      * @return DataReaderInterface Collection of Array('label' => 'Tag Label', 'count' => '8')
      */
     public function getTagMentions(int $limit = 0): DataReaderInterface
@@ -130,7 +131,7 @@ final class TagRepository extends Repository
             ->buildQuery()
             ->columns(['label', 'count(*) count']);
 
-        $sort = (new Sort([]))->withOrder(['count' => 'desc']);
-        return (new SelectDataReader($case3))->withSort($sort)->withLimit($limit);
+        $sort = (new Sort(['count']))->withOrder(['count' => 'desc']);
+        return (new EntityReader($case3))->withSort($sort)->withLimit($limit);
     }
 }

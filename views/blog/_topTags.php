@@ -17,22 +17,22 @@ use Yiisoft\Html\Html;
 <ul class="list-group mb-3">
     <?php
     $blockBegin = Html::beginTag(
-    'li',
-    ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
-);
+        'li',
+        ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
+    );
     $blockEnd = Html::endTag('li');
     echo $blockBegin;
     if (count($tags)) {
         foreach ($tags->read() as $tagValue) {
             $label = $tagValue['label'];
-            $count = $tagValue['count'];
+            $count = (string) $tagValue['count'];
 
             echo Html::beginTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
             echo Html::a(
                 Html::encode($label),
                 $urlGenerator->generate('blog/tag', ['label' => $label]),
                 ['class' => 'text-muted overflow-hidden']
-            ), ' ', Html::tag('span', $count, ['class' => 'badge badge-secondary badge-pill']);
+            ), ' ', Html::span($count, ['class' => 'badge rounded-pill bg-secondary']);
             echo Html::endTag('div');
         }
     } else {

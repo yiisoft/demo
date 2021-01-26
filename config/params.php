@@ -8,23 +8,16 @@ use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
+use Yiisoft\Arrays\Modifier\ReverseBlockMerge;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\UrlMatcherInterface;
+use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
     'yiisoft/yii-debug' => [
         // 'enabled' => false,
-    ],
-
-    'mailer' => [
-        'writeToFiles' => true,
-        'host' => 'smtp.example.com',
-        'port' => 25,
-        'encryption' => null,
-        'username' => 'admin@example.com',
-        'password' => '',
     ],
 
     'yiisoft/aliases' => [
@@ -34,25 +27,18 @@ return [
             '@resources' => '@root/resources',
             '@src' => '@root/src',
             '@assets' => '@public/assets',
-            '@assetsUrl' => '@baseUrl/assets'
+            '@assetsUrl' => '@baseUrl/assets',
         ],
     ],
 
     'mailer' => [
-        'adminEmail' => 'admin@example.com'
-    ],
-
-    'yiisoft/form' => [
-        'fieldConfig' => [
-            'inputCssClass()' => ['form-control input field'],
-            'labelOptions()' => [['label' => '']]
-        ]
+        'adminEmail' => 'admin@example.com',
     ],
 
     'yiisoft/session' => [
         'session' => [
-            'options' => ['cookie_secure' => 0]
-        ]
+            'options' => ['cookie_secure' => 0],
+        ],
     ],
 
     'yiisoft/view' => [
@@ -60,17 +46,17 @@ return [
         'defaultParameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'urlMatcher' => Reference::to(UrlMatcherInterface::class)
-        ]
+            'urlMatcher' => Reference::to(UrlMatcherInterface::class),
+        ],
     ],
 
     'yiisoft/yii-console' => [
         'commands' => [
-            'user/create' => Command\User\CreateCommand::class,
-            'user/assignRole' => Command\User\AssignRoleCommand::class,
+            'user/create' => App\User\Console\CreateCommand::class,
+            'user/assignRole' => App\User\Console\AssignRoleCommand::class,
             'fixture/add' => Command\Fixture\AddCommand::class,
-            'router/list' => Command\Router\ListCommand::class
-        ]
+            'router/list' => Command\Router\ListCommand::class,
+        ],
     ],
 
     'yiisoft/yii-cycle' => [
@@ -78,7 +64,7 @@ return [
             'default' => 'default',
             'aliases' => [],
             'databases' => [
-                'default' => ['connection' => 'sqlite']
+                'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
                 'sqlite' => [
@@ -98,30 +84,31 @@ return [
             'safe' => false,
         ],
         'schema-providers' => [
-            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
-                'key' => 'cycle-orm-cache-key'
-            ],
-            // \Yiisoft\Yii\Cycle\Schema\Provider\FromFileSchemaProvider::class => [
-            //     'file' => '@runtime/schema.php'
-            // ],
+            // Uncomment next line to enable schema cache
+            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Generator\SyncTables::class, // sync table changes to database
-                ]
+                ],
             ],
+            ReverseBlockMerge::class => new ReverseBlockMerge(),
         ],
         'annotated-entity-paths' => [
-            '@src/Entity',
-            '@src/Blog/Entity'
-        ]
+            '@src',
+        ],
     ],
 
     'yiisoft/yii-view' => [
         'injections' => [
             Reference::to(ContentViewInjection::class),
+            Reference::to(CsrfViewInjection::class),
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
-            Reference::to(MetaTagsViewInjection::class)
-        ]
-    ]
+            Reference::to(MetaTagsViewInjection::class),
+        ],
+    ],
+
+    'yiisoft/router' => [
+        'enableCache' => false,
+    ],
 ];

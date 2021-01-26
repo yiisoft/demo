@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\User\Controller;
 
-use App\Repository\UserRepository;
+use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -27,7 +27,7 @@ class UserController
     {
         $pageNum = (int)$request->getAttribute('page', 1);
 
-        $dataReader = $userRepository->findAll()->withSort((new Sort([]))->withOrderString('login'));
+        $dataReader = $userRepository->findAll()->withSort((new Sort(['login']))->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::PAGINATION_INDEX)
             ->withCurrentPage($pageNum);
