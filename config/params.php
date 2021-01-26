@@ -8,7 +8,8 @@ use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Schema\Generator;
-use Yiisoft\Arrays\Modifier\ReverseBlockMerge;
+use Yiisoft\Arrays\Collection\ArrayCollection;
+use Yiisoft\Arrays\Collection\Modifier\SaveOrder;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Router\UrlGeneratorInterface;
@@ -83,16 +84,18 @@ return [
             'table' => 'migration',
             'safe' => false,
         ],
-        'schema-providers' => [
-            // Uncomment next line to enable schema cache
-            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
-            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
-                'generators' => [
-                    Generator\SyncTables::class, // sync table changes to database
+        'schema-providers' => new ArrayCollection(
+            [
+                // Uncomment next line to enable schema cache
+                // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+                \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+                    'generators' => [
+                        Generator\SyncTables::class, // sync table changes to database
+                    ],
                 ],
             ],
-            ReverseBlockMerge::class => new ReverseBlockMerge(),
-        ],
+            new SaveOrder()
+        ),
         'annotated-entity-paths' => [
             '@src',
         ],
