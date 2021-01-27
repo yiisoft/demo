@@ -131,7 +131,7 @@ final class TagRepository extends Repository
             ->buildQuery()
             ->columns(['label', 'count(*) count']);
 
-        $sort = (new Sort(['count']))->withOrder(['count' => 'desc']);
+        $sort = Sort::only(['count', 'label'])->withOrder(['count' => 'desc']);
         return (new EntityReader($case3))->withSort($sort)->withLimit($limit);
     }
 }

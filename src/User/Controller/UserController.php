@@ -27,7 +27,7 @@ class UserController
     {
         $pageNum = (int)$request->getAttribute('page', 1);
 
-        $dataReader = $userRepository->findAll()->withSort((new Sort(['login']))->withOrderString('login'));
+        $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::PAGINATION_INDEX)
             ->withCurrentPage($pageNum);

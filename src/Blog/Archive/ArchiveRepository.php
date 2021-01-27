@@ -66,7 +66,7 @@ final class ArchiveRepository
      */
     public function getFullArchive(): DataReaderInterface
     {
-        $sort = (new Sort(['year', 'month']))->withOrder(['year' => 'desc', 'month' => 'desc']);
+        $sort = Sort::only(['year', 'month', 'count'])->withOrder(['year' => 'desc', 'month' => 'desc']);
 
         $query = $this
             ->select()
@@ -116,6 +116,6 @@ final class ArchiveRepository
      */
     private function prepareDataReader($query): EntityReader
     {
-        return (new EntityReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
+        return (new EntityReader($query))->withSort(Sort::only(['published_at'])->withOrder(['published_at' => 'desc']));
     }
 }
