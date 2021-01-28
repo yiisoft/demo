@@ -41,15 +41,15 @@ class ContactMailer
                 'content' => $form->getAttributeValue('body'),
             ]
         )
-            ->setSubject($form->getAttributeValue('subject'))
-            ->setFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
-            ->setTo($this->to);
+            ->withSubject($form->getAttributeValue('subject'))
+            ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
+            ->withTo($this->to);
 
         $attachFiles = $request->getUploadedFiles();
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file->getError() === UPLOAD_ERR_OK) {
-                    $message->attachContent(
+                    $message = $message->withAttachedContent(
                         (string) $file->getStream(),
                         [
                             'fileName' => $file->getClientFilename(),
@@ -61,7 +61,7 @@ class ContactMailer
         }
 
         try {
-            $message->send();
+            $this->mailer->send($message);
             $flashMsg = 'Thank you for contacting us, we\'ll get in touch with you as soon as possible.';
         } catch (Exception $e) {
             $flashMsg = $e->getMessage();
