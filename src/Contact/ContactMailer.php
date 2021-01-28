@@ -8,6 +8,7 @@ use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Form\FormModelInterface;
+use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Session\Flash\FlashInterface;
 
@@ -49,12 +50,12 @@ class ContactMailer
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file->getError() === UPLOAD_ERR_OK) {
-                    $message = $message->withAttachedContent(
-                        (string) $file->getStream(),
-                        [
-                            'fileName' => $file->getClientFilename(),
-                            'contentType' => $file->getClientMediaType(),
-                        ]
+                    $message = $message->withAttached(
+                        File::fromContent(
+                            (string) $file->getStream(),
+                            $file->getClientFilename(),
+                            $file->getClientMediaType()
+                        ),
                     );
                 }
             }
