@@ -8,6 +8,7 @@ use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Form\FormModelInterface;
+use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Session\Flash\FlashInterface;
 
@@ -41,27 +42,27 @@ class ContactMailer
                 'content' => $form->getAttributeValue('body'),
             ]
         )
-            ->setSubject($form->getAttributeValue('subject'))
-            ->setFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
-            ->setTo($this->to);
+            ->withSubject($form->getAttributeValue('subject'))
+            ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
+            ->withTo($this->to);
 
         $attachFiles = $request->getUploadedFiles();
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file->getError() === UPLOAD_ERR_OK) {
-                    $message->attachContent(
-                        (string) $file->getStream(),
-                        [
-                            'fileName' => $file->getClientFilename(),
-                            'contentType' => $file->getClientMediaType(),
-                        ]
+                    $message = $message->withAttached(
+                        File::fromContent(
+                            (string) $file->getStream(),
+                            $file->getClientFilename(),
+                            $file->getClientMediaType()
+                        ),
                     );
                 }
             }
         }
 
         try {
-            $message->send();
+            $this->mailer->send($message);
             $flashMsg = 'Thank you for contacting us, we\'ll get in touch with you as soon as possible.';
         } catch (Exception $e) {
             $flashMsg = $e->getMessage();
