@@ -24,6 +24,8 @@ final class PostRepository extends Select\Repository
 
     /**
      * Get posts without filter with preloaded Users and Tags
+     *
+     * @psalm-return DataReaderInterface<int, Post>
      */
     public function findAllPreloaded(): DataReaderInterface
     {
@@ -32,6 +34,9 @@ final class PostRepository extends Select\Repository
         return $this->prepareDataReader($query);
     }
 
+    /**
+     * @psalm-return DataReaderInterface<int, Post>
+     */
     public function findByTag($tagId): DataReaderInterface
     {
         $query = $this
@@ -64,6 +69,9 @@ final class PostRepository extends Select\Repository
 
     private function prepareDataReader($query): EntityReader
     {
-        return (new EntityReader($query))->withSort((new Sort(['published_at']))->withOrder(['published_at' => 'desc']));
+        return (new EntityReader($query))->withSort(
+            Sort::only(['id', 'title', 'public', 'updated_at', 'published_at', 'user_id'])
+                ->withOrder(['published_at' => 'desc'])
+        );
     }
 }

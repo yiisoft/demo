@@ -26,7 +26,7 @@
         "yiisoft/aliases": "^1.1.0",
         "yiisoft/arrays": "^3.0@dev",
         "yiisoft/assets": "^1.0@dev",
-        "yiisoft/auth": "^2.0",
+        "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^3.0@dev",
         "yiisoft/cache-file": "^3.0@dev",
         "yiisoft/composer-config-plugin": "^1.0@dev",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -16,7 +18,7 @@ use Yiisoft\Yii\Web\ServerRequestFactory;
 // PHP built-in server routing.
 if (PHP_SAPI === 'cli-server') {
     // Serve static files as is.
-    if (is_file(__DIR__ . $_SERVER["REQUEST_URI"])) {
+    if (is_file(__DIR__ . $_SERVER['REQUEST_URI'])) {
         return false;
     }
 
@@ -33,7 +35,10 @@ if (is_file($c3)) {
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 // Don't do it in production, assembling takes it's time
-Builder::rebuild();
+if (shouldRebuildConfigs()) {
+    Builder::rebuild();
+}
+
 $startTime = microtime(true);
 
 /**
