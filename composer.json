@@ -24,7 +24,7 @@
         "psr/log": "^1.1",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^1.1.0",
-        "yiisoft/arrays": "^3.0@dev",
+        "yiisoft/arrays": "^1.0",
         "yiisoft/assets": "^1.0@dev",
         "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^3.0@dev",
