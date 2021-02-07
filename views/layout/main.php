@@ -49,14 +49,14 @@ $this->beginPage();
 $this->beginBody();
 
 echo NavBar::widget()
-      ->brandLabel($brandLabel)
-      ->brandUrl($urlGenerator->generate('site/index'))
-      ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
+      ->withBrandLabel($brandLabel)
+      ->withBrandUrl($urlGenerator->generate('site/index'))
+      ->withOptions(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav mx-auto'])
-        ->items(
+        ->withCurrentPath($urlMatcher->getCurrentUri()->getPath())
+        ->withOptions(['class' => 'navbar-nav mx-auto'])
+        ->withItems(
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
@@ -67,9 +67,9 @@ echo Nav::widget()
         );
 
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav'])
-        ->items(
+        ->withCurrentPath($urlMatcher->getCurrentUri()->getPath())
+        ->withOptions(['class' => 'navbar-nav'])
+        ->withItems(
             $user->getId() === null
                 ? [
                 ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],

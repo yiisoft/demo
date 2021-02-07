@@ -25,8 +25,8 @@ final class FlashMessage extends Widget
         foreach ($flashes as $type => $data) {
             foreach ($data as $message) {
                 $html[] = Alert::widget()
-                    ->options(['class' => "alert-{$type} shadow"])
-                    ->body($message['body'])
+                    ->withOptions(['class' => "alert-{$type} shadow"])
+                    ->withBody($message['body'])
                 ;
             }
         }

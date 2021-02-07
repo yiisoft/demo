@@ -62,7 +62,7 @@ class OffsetPagination extends Widget
         $this->initOptions();
         $this->prepareButtons();
 
-        $this->registerPlugin('offset-pagination', $this->options);
+//        $this->registerPlugin('offset-pagination', $this->options);
 
         return implode("\n", [
             Html::beginTag('nav', $this->options),
