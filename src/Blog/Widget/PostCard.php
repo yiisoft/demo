@@ -30,8 +30,6 @@ class PostCard extends Widget
 
         $this->initOptions();
 
-//        $this->registerPlugin('page-card', $this->options);
-
         return implode("\n", [
             Html::beginTag('div', $this->options),
             Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start']),
