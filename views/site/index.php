@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Yiisoft\Yii\Bootstrap5\Carousel;
 
 echo Carousel::widget()
-    ->withItems([
+    ->items([
         [
             'content' => '<div class="d-block w-100 bg-info" style="height: 200px"></div>',
             'caption' => '<h5>First slide label</h5><p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>',
