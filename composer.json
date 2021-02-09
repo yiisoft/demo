@@ -63,7 +63,6 @@
         "yiisoft/yii-event": "^3.0@dev",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
-        "yiisoft/yii-bootstrap5": "dev-clean-up-rectoring as 3.0",
         "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
@@ -148,10 +147,6 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/terabytesoftw/yii-bootstrap5.git"
         }
     ]
 }
