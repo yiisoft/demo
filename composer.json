@@ -50,7 +50,7 @@
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^1.0",
         "yiisoft/serializer": "^3.0@dev",
-        "yiisoft/strings": "^1.0",
+        "yiisoft/strings": "^2.0",
         "yiisoft/user": "^3.0@dev",
         "yiisoft/var-dumper": "^3.0@dev",
         "yiisoft/view": "^3.0@dev",
