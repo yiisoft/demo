@@ -30,8 +30,6 @@ class PostCard extends Widget
 
         $this->initOptions();
 
-        $this->registerPlugin('page-card', $this->options);
-
         return implode("\n", [
             Html::beginTag('div', $this->options),
             Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start']),
@@ -59,7 +57,7 @@ class PostCard extends Widget
                 Html::encode($this->post->getUser()->getLogin()),
                 $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
             ),
-            ['class' => 'mb-1 text-muted']
+            ['class' => 'mb-1 text-muted', 'encode' => false]
         ) . Html::p(
             Html::encode(mb_substr($this->post->getContent(), 0, 400))
             . (mb_strlen($this->post->getContent()) > 400 ? '…' : ''),
