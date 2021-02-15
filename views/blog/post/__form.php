@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @var $this \Yiisoft\View\View
- * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
- * @var $body array
- * @var $csrf string
- * @var $action string
- * @var $tags array
- * @var $title string
+ * @var \Yiisoft\View\View $this
+ * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var array $body
+ * @var string $csrf
+ * @var string $action
+ * @var array $tags
+ * @var string $title
  */
 
 use Yiisoft\Html\Html;
