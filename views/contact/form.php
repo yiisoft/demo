@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @var $csrf string
- * @var $form \App\Contact\ContactForm
- * @var $url \Yiisoft\Router\UrlGeneratorInterface
- * @var $field \Yiisoft\Form\Widget\Field
+ * @var string $csrf
+ * @var \App\Contact\ContactForm $form
+ * @var \Yiisoft\Router\UrlGeneratorInterface $url
+ * @var \Yiisoft\Form\Widget\Field $field
  */
 
 use App\Widget\FlashMessage;
