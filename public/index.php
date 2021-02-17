@@ -38,7 +38,7 @@ $startTime = microtime(true);
  */
 $errorHandler = new ErrorHandler(new NullLogger(), new HtmlRenderer());
 // Development mode:
-//$errorHandler->debug();
+$errorHandler->debug();
 $errorHandler->register();
 
 $container = new Container(
@@ -52,7 +52,7 @@ $container = new Container(
 $errorHandler->unregister();
 $errorHandler = $container->get(ErrorHandler::class);
 // Development mode:
-//$errorHandler->debug();
+$errorHandler->debug();
 $errorHandler->register();
 
 $container = $container->get(ContainerInterface::class);

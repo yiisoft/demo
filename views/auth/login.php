@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 /**
- * @var $this \Yiisoft\View\View
- * @var $urlGenerator \Yiisoft\Router\UrlGeneratorInterface
- * @var $csrf string
+ * @var \Yiisoft\View\View $this
+ * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var string $csrf
  */
 
 $error = $error ?? null;
