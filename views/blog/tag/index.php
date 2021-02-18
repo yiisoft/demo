@@ -19,19 +19,19 @@ $pagination = OffsetPagination::widget()
                                   ['label' => $item->getLabel(), 'page' => $page]
                               ));
 echo Html::tag('h1', Html::encode($item->getLabel()));
-echo Html::beginTag('ul');
+echo Html::openTag('ul');
 /** @var \App\Blog\Entity\Post $post */
 foreach ($paginator->read() as $post) {
-    echo Html::beginTag('li', ['class' => 'text-muted']);
+    echo Html::openTag('li', ['class' => 'text-muted']);
     echo Html::a(Html::encode($post->getTitle()), $urlGenerator->generate('blog/post', ['slug' => $post->getSlug()]));
     echo ' by ';
     $userLogin = $post->getUser()->getLogin();
     echo Html::a(Html::encode($userLogin), $urlGenerator->generate('user/profile', ['login' => $userLogin]));
     echo ' at ';
     echo Html::span($post->getPublishedAt()->format('H:i d.m.Y'));
-    echo Html::endTag('li');
+    echo Html::closeTag('li');
 }
-echo Html::endTag('ul');
+echo Html::closeTag('ul');
 
 if ($pagination->isRequired()) {
     echo $pagination;

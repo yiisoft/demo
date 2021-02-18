@@ -36,7 +36,7 @@ use Yiisoft\Html\Html;
                 $monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
                 echo Html::div("{$year} {$monthName}", ['class' => 'lead']);
             }
-            echo Html::beginTag('div');
+            echo Html::openTag('div');
             echo Html::a(
                 Html::encode($item->getTitle()),
                 $urlGenerator->generate('blog/post', ['slug' => $item->getSlug()])
@@ -47,7 +47,7 @@ use Yiisoft\Html\Html;
                 'user/profile',
                 ['login' => $login]
             ));
-            echo Html::endTag('div');
+            echo Html::closeTag('div');
         }
         ?>
     </div>
