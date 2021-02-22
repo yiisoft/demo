@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace App\User;
 
 use Yiisoft\Access\AccessCheckerInterface;
-use Yiisoft\User\User as UserComponent;
+use Yiisoft\User\CurrentIdentity\CurrentIdentity;
 
 final class UserService
 {
-    private UserComponent $user;
+    private CurrentIdentity $currentIdentity;
     private UserRepository $repository;
     private AccessCheckerInterface $accessChecker;
 
-    public function __construct(UserComponent $user, UserRepository $repository, AccessCheckerInterface $accessChecker)
+    public function __construct(CurrentIdentity $currentIdentity, UserRepository $repository, AccessCheckerInterface $accessChecker)
     {
-        $this->user = $user;
+        $this->currentIdentity = $currentIdentity;
         $this->repository = $repository;
         $this->accessChecker = $accessChecker;
     }
 
     public function getUser(): ?User
     {
-        return $this->repository->findIdentity($this->user->getId());
+        return $this->repository->findIdentity($this->currentIdentity->getId());
     }
 
     public function hasPermission(string $permission): bool
     {
-        $userId = $this->user->getId();
+        $userId = $this->currentIdentity->getId();
         return null !== $userId && $this->accessChecker->userHasPermission($userId, $permission);
     }
 }

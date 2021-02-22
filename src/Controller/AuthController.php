@@ -11,8 +11,8 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\User\CurrentIdentity\CurrentIdentity;
 use Yiisoft\Yii\View\ViewRenderer;
-use Yiisoft\User\User;
 
 class AuthController
 {
@@ -20,20 +20,20 @@ class AuthController
     private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private ViewRenderer $viewRenderer;
-    private User $user;
+    private CurrentIdentity $currentIdentity;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         ViewRenderer $viewRenderer,
         LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator,
-        User $user
+        CurrentIdentity $currentIdentity
     ) {
         $this->responseFactory = $responseFactory;
         $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
-        $this->user = $user;
+        $this->currentIdentity = $currentIdentity;
     }
 
     public function login(
@@ -58,7 +58,7 @@ class AuthController
                     throw new \InvalidArgumentException('Invalid login or password');
                 }
 
-                if ($this->user->login($identity)) {
+                if ($this->currentIdentity->login($identity)) {
                     return $this->responseFactory
                         ->createResponse(302)
                         ->withHeader(
@@ -85,7 +85,7 @@ class AuthController
 
     public function logout(): ResponseInterface
     {
-        $this->user->logout();
+        $this->currentIdentity->logout();
 
         return $this->responseFactory
             ->createResponse(302)
