@@ -18,7 +18,7 @@ final class ContactForm extends FormModel
     private string $body = '';
     private ?array $attachFiles = null;
 
-    public function attributeLabels(): array
+    public function getAttributeLabels(): array
     {
         return [
             'name' => 'Name',
@@ -28,12 +28,12 @@ final class ContactForm extends FormModel
         ];
     }
 
-    public function formName(): string
+    public function getFormName(): string
     {
         return 'ContactForm';
     }
 
-    public function rules(): array
+    public function getRules(): array
     {
         return [
             'name' => [new RequiredHtmlOptions(new Required())],

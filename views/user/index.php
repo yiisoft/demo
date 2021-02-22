@@ -44,8 +44,8 @@ echo Html::a(
 <?php
 /** @var \App\User\User $item */
 foreach ($paginator->read() as $item) {
-    echo Html::beginTag('tr');
-    echo Html::beginTag('td');
+    echo Html::openTag('tr');
+    echo Html::openTag('td');
     echo Html::a(
         Html::encode($item->getLogin()),
         $urlGenerator->generate('user/profile', ['login' => $item->getLogin()]),
@@ -56,9 +56,9 @@ foreach ($paginator->read() as $item) {
         $urlGenerator->generate('api/user/profile', ['login' => $item->getLogin()]),
         ['class' => 'btn btn-link']
     );
-    echo Html::endTag('td');
+    echo Html::closeTag('td');
     echo Html::tag('td', $item->getCreatedAt()->format('r'));
-    echo Html::endTag('tr');
+    echo Html::closeTag('tr');
 }
 ?>
     </tbody>

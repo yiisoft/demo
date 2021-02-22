@@ -31,13 +31,13 @@ class PostCard extends Widget
         $this->initOptions();
 
         return implode("\n", [
-            Html::beginTag('div', $this->options),
-            Html::beginTag('div', ['class' => 'card-body d-flex flex-column align-items-start']),
+            Html::openTag('div', $this->options),
+            Html::openTag('div', ['class' => 'card-body d-flex flex-column align-items-start']),
             $this->renderHead(),
             $this->renderBody(),
             $this->renderTags(),
-            Html::endTag('div'),
-            Html::endTag('div'),
+            Html::closeTag('div'),
+            Html::closeTag('div'),
         ]);
     }
 
@@ -67,7 +67,7 @@ class PostCard extends Widget
 
     protected function renderTags(): string
     {
-        $return = Html::beginTag('div', ['class' => 'mt-3']);
+        $return = Html::openTag('div', ['class' => 'mt-3']);
         foreach ($this->post->getTags() as $tag) {
             $return .= Html::a(
                 Html::encode($tag->getLabel()),
@@ -75,7 +75,7 @@ class PostCard extends Widget
                 ['class' => 'btn btn-outline-secondary btn-sm me-2 mt-1']
             );
         }
-        return $return . Html::endTag('div');
+        return $return . Html::closeTag('div');
     }
 
     protected function initOptions(): void

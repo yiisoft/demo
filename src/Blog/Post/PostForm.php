@@ -23,7 +23,7 @@ final class PostForm extends FormModel
         return $this->content;
     }
 
-    public function formName(): string
+    public function getFormName(): string
     {
         return '';
     }
@@ -33,7 +33,7 @@ final class PostForm extends FormModel
         return $this->tags;
     }
 
-    public function rules(): array
+    public function getRules(): array
     {
         return [
             'title' => [

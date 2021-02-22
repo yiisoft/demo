@@ -36,7 +36,7 @@ use Yiisoft\Html\Html;
 echo Html::tag('article', Html::encode($item->getContent()), ['class' => 'text-justify']);
 
 if ($item->getTags()) {
-    echo Html::beginTag('div', ['class' => 'mt-3']);
+    echo Html::openTag('div', ['class' => 'mt-3']);
     foreach ($item->getTags() as $tag) {
         echo Html::a(
             Html::encode($tag->getLabel()),
@@ -44,11 +44,11 @@ if ($item->getTags()) {
             ['class' => 'btn btn-outline-secondary btn-sm me-2']
         );
     }
-    echo Html::endTag('div');
+    echo Html::closeTag('div');
 }
 
 echo Html::tag('h2', 'Comments', ['class' => 'mt-4 text-muted']);
-echo Html::beginTag('div', ['class' => 'mt-3']);
+echo Html::openTag('div', ['class' => 'mt-3']);
 if ($item->getComments()) {
     foreach ($item->getComments() as $comment) {
         ?>
@@ -85,4 +85,4 @@ if ($item->getComments()) {
 } else {
     echo Html::p('No comments', ['class' => 'lead']);
 }
-echo Html::endTag('div');
+echo Html::closeTag('div');

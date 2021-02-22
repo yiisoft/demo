@@ -63,11 +63,11 @@ class OffsetPagination extends Widget
         $this->prepareButtons();
 
         return implode("\n", [
-            Html::beginTag('nav', $this->options),
-            Html::beginTag('ul', ['class' => 'pagination']),
+            Html::openTag('nav', $this->options),
+            Html::openTag('ul', ['class' => 'pagination']),
             $this->renderButtons(),
-            Html::endTag('ul'),
-            Html::endTag('nav'),
+            Html::closeTag('ul'),
+            Html::closeTag('nav'),
         ]);
     }
 
@@ -108,27 +108,27 @@ class OffsetPagination extends Widget
 
         // `Previous` page
         $prevUrl = $this->paginator->isOnFirstPage() ? null : $this->getPageLink($this->currentPage - 1);
-        $result .= Html::beginTag('li', ['class' => $prevUrl === null ? 'page-item disabled' : 'page-item']);
+        $result .= Html::openTag('li', ['class' => $prevUrl === null ? 'page-item disabled' : 'page-item']);
         $result .= Html::a('Previous', $prevUrl, ['class' => 'page-link']);
-        $result .= Html::endTag('li');
+        $result .= Html::closeTag('li');
 
         // Numeric buttons
         foreach ($this->pages as $page) {
             $isDisabled = $this->currentPage === $page || $page === null;
-            $result .= Html::beginTag('li', ['class' => $isDisabled ? 'page-item disabled' : 'page-item']);
+            $result .= Html::openTag('li', ['class' => $isDisabled ? 'page-item disabled' : 'page-item']);
             if ($page === null) {
                 $result .= Html::span('…', ['class' => 'page-link']);
             } else {
                 $result .= Html::a((string)$page, $this->getPageLink($page), ['class' => 'page-link']);
             }
-            $result .= Html::endTag('li');
+            $result .= Html::closeTag('li');
         }
 
         // `Next` page
         $nextUrl = $this->paginator->isOnLastPage() ? null : $this->getPageLink($this->currentPage + 1);
-        $result .= Html::beginTag('li', ['class' => $nextUrl === null ? 'page-item disabled' : 'page-item']);
+        $result .= Html::openTag('li', ['class' => $nextUrl === null ? 'page-item disabled' : 'page-item']);
         $result .= Html::a('Next', $nextUrl, ['class' => 'page-link']);
-        $result .= Html::endTag('li');
+        $result .= Html::closeTag('li');
 
         return $result;
     }

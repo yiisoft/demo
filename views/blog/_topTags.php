@@ -16,24 +16,24 @@ use Yiisoft\Html\Html;
 </h4>
 <ul class="list-group mb-3">
     <?php
-    $blockBegin = Html::beginTag(
+    $blockBegin = Html::openTag(
         'li',
         ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
     );
-    $blockEnd = Html::endTag('li');
+    $blockEnd = Html::closeTag('li');
     echo $blockBegin;
     if (count($tags)) {
         foreach ($tags->read() as $tagValue) {
             $label = $tagValue['label'];
             $count = (string) $tagValue['count'];
 
-            echo Html::beginTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
+            echo Html::openTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
             echo Html::a(
                 Html::encode($label),
                 $urlGenerator->generate('blog/tag', ['label' => $label]),
                 ['class' => 'text-muted overflow-hidden']
             ), ' ', Html::span($count, ['class' => 'badge rounded-pill bg-secondary']);
-            echo Html::endTag('div');
+            echo Html::closeTag('div');
         }
     } else {
         echo 'tags not found';

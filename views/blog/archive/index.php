@@ -16,11 +16,11 @@ use Yiisoft\Html\Html;
     <div class="col-sm-12">
         <?php
         $currentYear = null;
-        $sectionBegin = Html::beginTag(
+        $sectionBegin = Html::openTag(
             'li',
             ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
         );
-        $sectionEnd = Html::endTag('li');
+        $sectionEnd = Html::closeTag('li');
         if (count($archive)) {
             foreach ($archive->read() as $item) {
                 $year = $item['year'];
@@ -33,12 +33,12 @@ use Yiisoft\Html\Html;
                         $year,
                         $urlGenerator->generate('blog/archive/year', ['year' => $year]),
                         ['class' => 'h5']
-                    ), Html::beginTag(
+                    ), Html::openTag(
                         'div',
                         ['class' => 'd-flex flex-wrap']
                     );
                 }
-                echo Html::beginTag('div', ['class' => 'mx-2 my-1']);
+                echo Html::openTag('div', ['class' => 'mx-2 my-1']);
                 // Print month name
                 echo Html::a(
                     Date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
@@ -48,10 +48,10 @@ use Yiisoft\Html\Html;
                     ]),
                     ['class' => 'text-muted']
                 ), ' ', Html::tag('sup', $count, ['class' => '']);
-                echo Html::endTag('div');
+                echo Html::closeTag('div');
                 $currentYear = $year;
             }
-            echo Html::endTag('div'), $sectionEnd;
+            echo Html::closeTag('div'), $sectionEnd;
         } else {
             echo $sectionBegin, 'No records', $sectionEnd;
         }
