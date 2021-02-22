@@ -55,7 +55,7 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
-            if ($form->load($parameters['body']) && $form->validate($validator)) {
+            if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
