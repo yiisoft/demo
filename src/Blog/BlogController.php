@@ -10,8 +10,8 @@ use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
-use Yiisoft\User\User;
 
 final class BlogController
 {
@@ -31,7 +31,7 @@ final class BlogController
         PostRepository $postRepository,
         TagRepository $tagRepository,
         ArchiveRepository $archiveRepo,
-        User $user
+        CurrentUser $currentUser
     ): Response {
         $pageNum = (int)$request->getAttribute('page', 1);
         $dataReader = $postRepository->findAllPreloaded();
@@ -43,7 +43,7 @@ final class BlogController
             'paginator' => $paginator,
             'archive' => $archiveRepo->getFullArchive()->withLimit(self::ARCHIVE_MONTHS_COUNT),
             'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
-            'isGuest' => $user->isGuest(),
+            'isGuest' => $currentUser->isGuest(),
         ];
         return $this->viewRenderer->render('index', $data);
     }

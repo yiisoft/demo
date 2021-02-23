@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace App\ViewInjection;
 
+use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
-use Yiisoft\User\User;
 
 class LayoutViewInjection implements LayoutParametersInjectionInterface
 {
-    private User $user;
+    private CurrentUser $currentUser;
 
-    public function __construct(
-        User $user
-    ) {
-        $this->user = $user;
+    public function __construct(CurrentUser $currentUser)
+    {
+        $this->currentUser = $currentUser;
     }
 
     public function getLayoutParameters(): array
     {
         return [
             'brandLabel' => 'Yii Demo',
-            'user' => $this->user->getIdentity(),
+            'user' => $this->currentUser->getIdentity(),
         ];
     }
 }
