@@ -1,0 +1,6 @@
+{
+    "scan-files": [
+        "src/*.php",
+        "public/index.php"
+    ]
+}
