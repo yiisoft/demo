@@ -26,6 +26,8 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 return [
     // Lonely pages of site
@@ -66,6 +68,36 @@ return [
             ->addMiddleware(FormatDataResponseAsJson::class)
             ->name('api/user/profile'),
     ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+
+    Group::create('/api1', [
+        Route::get('/info/v2', ApiInfo::class)
+            ->addMiddleware(FormatDataResponseAsXml::class)
+            ->addMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
+                $response = $handler->handle($request);
+                return $response->withHeader('Content-Type', 'application/json');
+            })
+            ->name('api1/user/profile'),
+    ]),
+
+    Group::create('/api2', [
+        Route::get('/info/v2', ApiInfo::class)
+            ->addMiddleware(function(ServerRequestInterface $request, RequestHandlerInterface $handler) {
+                $response = $handler->handle($request);
+                $response->getBody();
+                return $response->withHeader('Content-Type', 'application/json');
+            })
+            ->name('api2/user/profile'),
+    ])->addMiddleware(FormatDataResponseAsXml::class),
+
+    Group::create('/api3', [
+        Route::get('/info/v2', ApiInfo::class)
+            ->addMiddleware(function(ServerRequestInterface $request, RequestHandlerInterface $handler) {
+                $response = $handler->handle($request);
+                $response->getBody();
+                return $response;
+            })
+            ->name('api3/user/profile'),
+    ])->addMiddleware(FormatDataResponseAsXml::class),
 
     // Blog routes
     Group::create('/blog', [
