@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\User;
 
 use Yiisoft\Access\AccessCheckerInterface;
-use Yiisoft\User\CurrentUser\CurrentUser;
+use Yiisoft\User\CurrentUser;
 
 final class UserService
 {

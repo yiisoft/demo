@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ViewInjection;
 
-use Yiisoft\User\CurrentUser\CurrentUser;
+use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
 
 class LayoutViewInjection implements LayoutParametersInjectionInterface

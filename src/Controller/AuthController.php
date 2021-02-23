@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\User\CurrentUser\CurrentUser;
+use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
 class AuthController

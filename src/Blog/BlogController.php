@@ -10,7 +10,7 @@ use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\User\CurrentUser\CurrentUser;
+use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class BlogController
