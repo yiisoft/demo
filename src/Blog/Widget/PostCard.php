@@ -60,7 +60,7 @@ class PostCard extends Widget
             $this->post->getUser()->getLogin(),
             $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
         )->class('mb-1 text-muted');
-        
+
         $return .= Html::p(
             mb_substr($this->post->getContent(), 0, 400)
             . (mb_strlen($this->post->getContent()) > 400 ? '…' : '')
