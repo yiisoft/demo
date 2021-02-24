@@ -55,12 +55,12 @@ class PostCard extends Widget
     {
         return Html::div(
             $this->post->getPublishedAt()->format('M, d') . ' by ' . Html::a(
-                Html::encode($this->post->getUser()->getLogin()),
+                $this->post->getUser()->getLogin(),
                 $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
             ),
             ['class' => 'mb-1 text-muted', 'encode' => false]
         ) . Html::p(
-            Html::encode(mb_substr($this->post->getContent(), 0, 400))
+            mb_substr($this->post->getContent(), 0, 400)
             . (mb_strlen($this->post->getContent()) > 400 ? '…' : ''),
             ['class' => 'card-text mb-auto']
         );
