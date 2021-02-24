@@ -30,7 +30,7 @@
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
         "yiisoft/composer-config-plugin": "^1.0@dev",
-        "yiisoft/csrf": "^3.0@dev",
+        "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",

@@ -15,11 +15,11 @@ use Yiisoft\Html\Html;
 <ul class="list-group mb-3">
     <?php
     $currentYear = null;
-    $blockBegin = Html::beginTag(
+    $blockBegin = Html::openTag(
         'li',
         ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
     );
-    $blockEnd = Html::endTag('li');
+    $blockEnd = Html::closeTag('li');
     if (count($archive)) {
         foreach ($archive->read() as $item) {
             $year = $item['year'];
@@ -30,7 +30,7 @@ use Yiisoft\Html\Html;
                 // print Year
                 echo $blockBegin, Html::tag('h6', $year, ['class' => 'my-0']);
             }
-            echo Html::beginTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
+            echo Html::openTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
             // Print month name
             echo Html::a(
                 Date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
@@ -40,7 +40,7 @@ use Yiisoft\Html\Html;
                 ]),
                 ['class' => 'text-muted']
             ), ' ', Html::span($count, ['class' => 'badge rounded-pill bg-secondary']);
-            echo Html::endTag('div');
+            echo Html::closeTag('div');
             $currentYear = $year;
         }
         echo Html::a('Open archive', $urlGenerator->generate('blog/archive/index'), ['class' => 'mt-2']);
