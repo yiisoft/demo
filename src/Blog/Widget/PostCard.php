@@ -47,7 +47,8 @@ class PostCard extends Widget
             Html::encode($this->post->getTitle()),
             $this->urlGenerator->generate('blog/post', ['slug' => $this->post->getSlug()]),
             ['class' => 'mb-0 h4 text-decoration-none'] // stretched-link
-        );
+        )
+        ->render();
     }
 
     protected function renderBody(): string
