@@ -53,15 +53,19 @@ class PostCard extends Widget
 
     protected function renderBody(): string
     {
-        return Html::div(
-            $this->post->getPublishedAt()->format('M, d') . ' by ' . Html::a(
-                    $this->post->getUser()->getLogin(),
-                    $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
-                )->class('mb-1 text-muted'),
-            )->encode(false) . Html::p(
+        $return = Html::openTag('div', ['class' => card-text mb-auto']);
+        $return .= $this->post->getPublishedAt()->format('M, d');
+        $return .= ' by ';
+        $return .= Html::a(
+            $this->post->getUser()->getLogin(),
+            $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
+        )->class('mb-1 text-muted');
+        
+        $return .= Html::p(
             mb_substr($this->post->getContent(), 0, 400)
-            . (mb_strlen($this->post->getContent()) > 400 ? '…' : ''),
-        )->class('card-text mb-auto');
+            . (mb_strlen($this->post->getContent()) > 400 ? '…' : '')
+        );
+        return $return . Html::closeTag('div');
     }
 
     protected function renderTags(): string
