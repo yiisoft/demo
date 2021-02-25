@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Functional;
+namespace App\Tests\Functional;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
