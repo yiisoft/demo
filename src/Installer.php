@@ -14,6 +14,7 @@ final class Installer
     public static function postUpdate(Event $event = null): void
     {
         self::chmodRecursive('runtime', 0777);
+        self::chmodRecursive('public/assets', 0777);
     }
 
     private static function chmodRecursive(string $path, int $mode): void
