@@ -18,7 +18,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4|^8.0",
-        "ext-sqlite3": "*",
+        "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
         "httpsoft/http-message": "^1.0.5",
