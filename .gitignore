@@ -21,6 +21,9 @@ phpunit.phar
 /.env
 /docker-compose.local.yml
 
+# dist config
+/config/packages/**/dist/
+
 # evolving files
 /vendor
 /composer.lock
