@@ -18,6 +18,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4|^8.0",
+        "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
         "cycle/proxy-factory": "^1.2",
         "httpsoft/http-message": "^1.0.5",
@@ -28,7 +29,7 @@
         "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
-        "yiisoft/composer-config-plugin": "^1.0@dev",
+        "yiisoft/config": "1.0.x-dev",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^3.0@dev",
@@ -80,6 +81,7 @@
         }
     },
     "scripts": {
+        "serve": "yii serve",
         "post-update-cmd": [
             "App\\Installer::postUpdate"
         ],
