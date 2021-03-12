@@ -17,7 +17,6 @@ final class BlogPageCest
     public function testBlogPage(AcceptanceTester $I): void
     {
         $I->expectTo('see blog page.');
-        $I->see('Blog');
-        $I->see('No records');
+        if ($I->dontSee('No records')) $I->see('Blog');
     }
 }
