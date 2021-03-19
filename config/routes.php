@@ -53,19 +53,41 @@ return [
     // API group.
     // By default it responds with XML regardless of content-type.
     // Individual sub-routes are responding with JSON.
-    Group::create('/api', [
-        Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
-            return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
-        })->name('api/info/v1'),
-        Route::get('/info/v2', ApiInfo::class)
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/info/v2'),
-        Route::get('/user', [ApiUserController::class, 'index'])
-            ->name('api/user/index'),
-        Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/user/profile'),
-    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+//    Group::create('/api', [
+//        Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
+//            return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
+//        })->name('api/info/v1'),
+//        Route::get('/info/v2', ApiInfo::class)
+//            ->addMiddleware(FormatDataResponseAsJson::class)
+//            ->name('api/info/v2'),
+//        Route::get('/user', [ApiUserController::class, 'index'])
+//            ->name('api/user/index'),
+//        Route::get('/user/{login}', [ApiUserController::class, 'profile'])
+//            ->addMiddleware(FormatDataResponseAsJson::class)
+//            ->name('api/user/profile'),
+//    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+
+        Group::create('/api')
+        ->pipe(FormatDataResponseAsXml::class)
+        ->pipe(ApiDataWrapper::class)
+        ->routes([
+            Route::get('/info/v1')
+                ->name('api/info/v1')
+                ->action(function (DataResponseFactoryInterface $responseFactory) {
+                    return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
+                }),
+            Route::get('/info/v2')
+                ->name('api/info/v2')
+                ->pipe(FormatDataResponseAsJson::class)
+                ->action(ApiInfo::class),
+            Route::get('/user')
+                ->name('api/user/index')
+                ->action([ApiUserController::class, 'index']),
+            Route::get('/user/{login}')
+                ->name('api/user/profile')
+                ->pipe(FormatDataResponseAsJson::class)
+                ->action([ApiUserController::class, 'profile']),
+        ]),
 
     // Blog routes
     Group::create('/blog', [
