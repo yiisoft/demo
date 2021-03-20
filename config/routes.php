@@ -68,26 +68,26 @@ return [
 //    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
 
         Group::create('/api')
-        ->pipe(FormatDataResponseAsXml::class)
-        ->pipe(ApiDataWrapper::class)
-        ->routes([
-            Route::get('/info/v1')
-                ->name('api/info/v1')
-                ->action(function (DataResponseFactoryInterface $responseFactory) {
-                    return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
-                }),
-            Route::get('/info/v2')
-                ->name('api/info/v2')
-                ->pipe(FormatDataResponseAsJson::class)
-                ->action(ApiInfo::class),
-            Route::get('/user')
-                ->name('api/user/index')
-                ->action([ApiUserController::class, 'index']),
-            Route::get('/user/{login}')
-                ->name('api/user/profile')
-                ->pipe(FormatDataResponseAsJson::class)
-                ->action([ApiUserController::class, 'profile']),
-        ]),
+        ->middleware(FormatDataResponseAsXml::class)
+        ->middleware(ApiDataWrapper::class)
+        ->routes(
+                Route::get('/info/v1')
+                    ->name('api/info/v1')
+                    ->action(function (DataResponseFactoryInterface $responseFactory) {
+                        return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
+                    }),
+                Route::get('/info/v2')
+                    ->name('api/info/v2')
+                    ->middleware(FormatDataResponseAsJson::class)
+                    ->action(ApiInfo::class),
+                Route::get('/user')
+                    ->name('api/user/index')
+                    ->action([ApiUserController::class, 'index']),
+                Route::get('/user/{login}')
+                    ->name('api/user/profile')
+                    ->middleware(FormatDataResponseAsJson::class)
+                    ->action([ApiUserController::class, 'profile']),
+        ),
 
     // Blog routes
     Group::create('/blog', [
