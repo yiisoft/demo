@@ -28,7 +28,7 @@ echo Carousel::widget()
 <div class="card mt-3 col-md-8">
     <div class="card-body">
         <h2 class="card-title">Console</h2>
-        <?php $binPath = strtr('./vendor/bin/yii', '/', DIRECTORY_SEPARATOR); ?>
+        <?php $binPath = str_replace('/', DIRECTORY_SEPARATOR, './yii'); ?>
         <h4 class="card-title text-muted">Create new user</h4>
         <div>
             <code><?= "{$binPath} user/create &lt;login&gt; &lt;password&gt; [isAdmin = 0]" ?></code>
