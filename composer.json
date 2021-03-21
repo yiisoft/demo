@@ -92,6 +92,7 @@
         "branch-alias": {
             "dev-master": "3.0.x-dev"
         },
+        "config-plugin-output-dir": "config/packages",
         "config-plugin": {
             "common": "config/common/*.php",
             "params": [
