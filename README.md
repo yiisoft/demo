@@ -23,15 +23,15 @@ You'll need at least PHP 7.4.
 
 1. Clone this repository.
 2. Run `composer update` in project root directory.
-3. Run `./vendor/bin/yii serve` (on Windows `.\vendor\bin\yii.bat serve`). After Application started on http://localhost:8080/
+3. Run `./yii serve` (on Windows `yii serve`). The application will be started on http://localhost:8080/.
 4. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
    If you want to disable this behavior then comment out line with `Generator\SyncTables::class` in the `config/packges/yiisoft/yii-cycle/params.php`.
    In this case you should create migrations to sync changes of entities with DB.
-5. Run `./vendor/bin/yii fixture/add 20` to create some random data.
+5. Run `./yii fixture/add 20` to create some random data.
 
 ## Console
 
-Console works out of the box and could be executed with `./vendor/bin/yii`.
+Console works out of the box and could be executed with `./yii`.
 
 Some commands:
 
@@ -44,7 +44,7 @@ In order to register your own commands, add them to `console/params.php`, `conso
 
 ## Web application
 
-In order to run web application either built-in web server could be used by running `./vendor/bin/yii serve` or a
+In order to run web application either built-in web server could be used by running `./yii serve` or a
 real web server could be pointed to `/public/index.php`.
 
 More routes could be added by editing `src/Factory/AppRouterFactory`.
