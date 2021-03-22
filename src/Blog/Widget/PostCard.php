@@ -54,7 +54,9 @@ class PostCard extends Widget
     protected function renderBody(): string
     {
         $return = Html::openTag('div', ['class' => 'card-text mb-auto']);
-        $return .= $this->post->getPublishedAt()->format('M, d');
+        $return .= $this->post->getPublishedAt() === null
+            ? 'not published'
+            : $this->post->getPublishedAt()->format('M, d');
         $return .= ' by ';
         $return .= Html::a(
             $this->post->getUser()->getLogin(),

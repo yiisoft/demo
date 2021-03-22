@@ -15,7 +15,9 @@ use Yiisoft\Html\Html;
 ?>
     <h1><?= Html::encode($item->getTitle()) ?></h1>
     <div>
-        <span class="text-muted"><?= $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
+        <span class="text-muted"><?= $item->getPublishedAt() === null
+                ? 'not published'
+                : $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
     Html::encode($item->getUser()->getLogin()),
