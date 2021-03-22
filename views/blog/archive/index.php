@@ -27,6 +27,10 @@ use Yiisoft\Html\Html;
                 $month = $item['month'];
                 $count = $item['count'];
 
+                if ($year === null || $month === null) {
+                    continue;
+                }
+
                 if ($currentYear !== $year) {
                     // print Year
                     echo $sectionBegin, Html::a(
