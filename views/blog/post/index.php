@@ -20,7 +20,7 @@ use Yiisoft\Html\Html;
                 : $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
-    Html::encode($item->getUser()->getLogin()),
+    $item->getUser()->getLogin(),
     $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]),
     ['class' => 'mr-3']
 );
@@ -35,7 +35,7 @@ use Yiisoft\Html\Html;
     </div>
 <?php
 
-echo Html::tag('article', Html::encode($item->getContent()), ['class' => 'text-justify']);
+echo Html::tag('article', $item->getContent(), ['class' => 'text-justify']);
 
 if ($item->getTags()) {
     echo Html::openTag('div', ['class' => 'mt-3']);
@@ -58,7 +58,7 @@ if ($item->getComments()) {
             <div class="media-body">
                 <div>
                     <?= Html::a(
-            Html::encode($comment->getUser()->getLogin()),
+            $comment->getUser()->getLogin(),
             $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
         ) ?>
                     <span class="text-muted">
