@@ -37,7 +37,7 @@
         "yiisoft/error-handler": "@dev",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
-        "yiisoft/html": "^3.0@dev",
+        "yiisoft/html": "^1.0",
         "yiisoft/http": "^1.1",
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
@@ -68,7 +68,7 @@
         "codeception/codeception": "^4.1.9",
         "codeception/module-asserts": "@dev",
         "codeception/module-phpbrowser": "@dev",
-        "fzaninotto/faker": "^1.9",
+        "fakerphp/faker": "^1.13.0",
         "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.5",
         "roave/security-advisories": "dev-master",
@@ -92,7 +92,9 @@
         "branch-alias": {
             "dev-master": "3.0.x-dev"
         },
-        "config-plugin-output-dir": "runtime/build/config",
+        "config-plugin-options": {
+            "output-directory": "config/packages"
+        },
         "config-plugin": {
             "common": "config/common/*.php",
             "params": [

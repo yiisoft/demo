@@ -26,6 +26,10 @@ use Yiisoft\Html\Html;
             $month = $item['month'];
             $count = (string) $item['count'];
 
+            if ($year === null || $month === null) {
+                continue;
+            }
+
             if ($currentYear !== $year) {
                 // print Year
                 echo $blockBegin, Html::tag('h6', $year, ['class' => 'my-0']);
