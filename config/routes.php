@@ -92,8 +92,9 @@ return [
                 ->name('blog/index'),
             // Add Post page
             Route::methods([Method::GET, Method::POST], '/page/add')
+                ->middleware(Authentication::class)
                 ->action([PostController::class, 'add'])
-                ->name('blog/add')->addMiddleware(Authentication::class),
+                ->name('blog/add'),
             // Edit Post page
             Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
                 ->name('blog/edit')
@@ -136,11 +137,11 @@ return [
         ->routes(
             Route::get('')
                 ->middleware(FormatDataResponseAsHtml::class)
-                ->middleware(fn(SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+                ->action(fn(SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
                 ->name('swagger/index'),
             Route::get('/json-url')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->middleware(static function (SwaggerJson $swaggerJson) {
+                ->action(static function (SwaggerJson $swaggerJson) {
                     return $swaggerJson
                         // Uncomment cache for production environment
                         // ->withCache(60)
