@@ -61,7 +61,6 @@ return [
     // API group.
     // By default it responds with XML regardless of content-type.
     // Individual sub-routes are responding with JSON.
-
     Group::create('/api')
         ->middleware(FormatDataResponseAsXml::class)
         ->middleware(ApiDataWrapper::class)
