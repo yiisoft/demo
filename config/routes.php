@@ -98,7 +98,7 @@ return [
             // Edit Post page
             Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
                 ->name('blog/edit')
-                ->middleware(fn(AccessChecker $checker) => $checker->withPermission('editPost'))
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
                 ->middleware(Authentication::class)
                 ->action([PostController::class, 'edit']),
 
@@ -137,7 +137,7 @@ return [
         ->routes(
             Route::get('')
                 ->middleware(FormatDataResponseAsHtml::class)
-                ->action(fn(SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+                ->action(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
                 ->name('swagger/index'),
             Route::get('/json-url')
                 ->middleware(FormatDataResponseAsJson::class)

@@ -46,5 +46,5 @@ return [
             Route::methods([Method::GET, Method::OPTIONS], '/object/{id}/{objectId}')
                 ->action([DebugController::class, 'object'])
                 ->name('debug/object')
-       ),
+        ),
 ];
