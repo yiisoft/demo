@@ -13,7 +13,6 @@ return [
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '/assets',
             '@baseUrl' => '/',
-            '@message' => '@root/resources/message',
             '@npm' => '@root/node_modules',
             '@public' => '@root/public',
             '@resources' => '@root/resources',
