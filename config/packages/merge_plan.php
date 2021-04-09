@@ -17,6 +17,9 @@ return [
         'yiisoft/mailer-swiftmailer' => [
             'common.php',
         ],
+        'yiisoft/router-fastroute' => [
+            'common.php',
+        ],
         'yiisoft/yii-cycle' => [
             'common.php',
         ],
@@ -45,9 +48,6 @@ return [
             'common.php',
         ],
         'yiisoft/router' => [
-            'common.php',
-        ],
-        'yiisoft/router-fastroute' => [
             'common.php',
         ],
     ],
@@ -126,6 +126,9 @@ return [
         'yiisoft/mailer-swiftmailer' => [
             'params.php',
         ],
+        'yiisoft/router-fastroute' => [
+            'params.php',
+        ],
         'yiisoft/user' => [
             'params.php',
         ],
@@ -153,9 +156,6 @@ return [
         'yiisoft/profiler' => [
             'params.php',
         ],
-        'yiisoft/yii-web' => [
-            'params.php',
-        ],
         'yiisoft/yii-view' => [
             'params.php',
         ],
@@ -166,9 +166,6 @@ return [
             'params.php',
         ],
         'yiisoft/view' => [
-            'params.php',
-        ],
-        'yiisoft/router-fastroute' => [
             'params.php',
         ],
     ],
@@ -219,9 +216,6 @@ return [
         'yiisoft/yii-debug' => [
             'tests.php',
         ],
-        'yiisoft/yii-web' => [
-            '$web',
-        ],
     ],
     'web' => [
         '/' => [
@@ -229,6 +223,9 @@ return [
             'config/web/*.php',
         ],
         'yiisoft/error-handler' => [
+            'web.php',
+        ],
+        'yiisoft/router-fastroute' => [
             'web.php',
         ],
         'yiisoft/user' => [
@@ -252,9 +249,6 @@ return [
         'yiisoft/yii-debug' => [
             'web.php',
         ],
-        'yiisoft/yii-web' => [
-            'web.php',
-        ],
         'yiisoft/yii-view' => [
             'web.php',
         ],
@@ -268,9 +262,6 @@ return [
             'web.php',
         ],
         'yiisoft/middleware-dispatcher' => [
-            'web.php',
-        ],
-        'yiisoft/router-fastroute' => [
             'web.php',
         ],
     ],
