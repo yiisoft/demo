@@ -11,8 +11,8 @@ use Yiisoft\Session\SessionInterface;
 
 return [
     SessionInterface::class => [
-        '__class' => Session::class,
-        '__construct()' => [
+        'class' => Session::class,
+        'constructor' => [
             $params['yiisoft/session']['session']['options'],
             $params['yiisoft/session']['session']['handler'],
         ],

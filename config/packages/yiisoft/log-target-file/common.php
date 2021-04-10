@@ -15,8 +15,8 @@ return [
     LoggerInterface::class => static fn (FileTarget $fileTarget) => new Logger([$fileTarget]),
 
     FileRotatorInterface::class => [
-        '__class' => FileRotator::class,
-        '__construct()' => [
+        'class' => FileRotator::class,
+        'constructor' => [
             $params['yiisoft/log-target-file']['fileRotator']['maxFileSize'],
             $params['yiisoft/log-target-file']['fileRotator']['maxFiles'],
             $params['yiisoft/log-target-file']['fileRotator']['fileMode'],

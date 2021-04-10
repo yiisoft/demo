@@ -16,7 +16,7 @@ return [
     DataResponseFormatterInterface::class => HtmlDataResponseFormatter::class,
     DataResponseFactoryInterface::class => DataResponseFactory::class,
     ContentNegotiator::class => [
-        '__construct()' => [
+        'constructor' => [
             'contentFormatters' => [
                 'text/html' => new HtmlDataResponseFormatter(),
                 'application/xml' => new XmlDataResponseFormatter(),

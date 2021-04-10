@@ -18,8 +18,8 @@ use Yiisoft\View\View;
 
 return [
     MessageBodyRenderer::class => [
-        '__class' => MessageBodyRenderer::class,
-        '__construct()' => [
+        'class' => MessageBodyRenderer::class,
+        'constructor' => [
             Reference::to(View::class),
             static fn (Aliases $aliases) => new MessageBodyTemplate(
                 $aliases->get($params['yiisoft/mailer']['messageBodyTemplate']['viewPath']),
@@ -28,29 +28,31 @@ return [
     ],
 
     MessageFactoryInterface::class => [
-        '__class' => MessageFactory::class,
-        '__construct()' => [
+        'class' => MessageFactory::class,
+        'constructor' => [
             Message::class,
         ],
     ],
 
     Swift_SmtpTransport::class => [
-        '__class' => Swift_SmtpTransport::class,
-        '__construct()' => [
+        'class' => Swift_SmtpTransport::class,
+        'constructor' => [
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['host'],
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['port'],
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['encryption'],
         ],
-        'setUsername()' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['username']],
-        'setPassword()' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['password']],
+        'callMethods' => [
+            'setUsername' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['username']],
+            'setPassword' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['password']],
+        ],
     ],
 
     Swift_Transport::class => $params['yiisoft/mailer']['useSendmail']
         ? Swift_SendmailTransport::class : Swift_SmtpTransport::class,
 
     FileMailer::class => [
-        '__class' => FileMailer::class,
-        '__construct()' => [
+        'class' => FileMailer::class,
+        'constructor' => [
             'path' => fn (Aliases $aliases) => $aliases->get(
                 $params['yiisoft/mailer']['fileMailer']['fileMailerStorage']
             ),

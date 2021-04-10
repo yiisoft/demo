@@ -9,12 +9,14 @@ use Yiisoft\View\View;
 
 return [
     View::class => [
-        '__class' => View::class,
-        '__construct()' => [
+        'class' => View::class,
+        'constructor' => [
             'basePath' => static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath']),
         ],
-        'setDefaultParameters()' => [
-            $params['yiisoft/view']['defaultParameters'],
+        'callMethods' => [
+            'setDefaultParameters' => [
+                $params['yiisoft/view']['defaultParameters'],
+            ],
         ],
     ],
 ];
