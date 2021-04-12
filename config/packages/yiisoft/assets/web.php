@@ -10,7 +10,7 @@ use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Assets\AssetPublisher;
 use Yiisoft\Assets\AssetPublisherInterface;
-use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Factory\Definition\Reference;
 
 /** @var array $params */
 

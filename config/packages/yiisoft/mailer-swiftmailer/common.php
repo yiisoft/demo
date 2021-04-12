@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
