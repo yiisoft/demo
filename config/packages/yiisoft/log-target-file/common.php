@@ -16,7 +16,7 @@ return [
 
     FileRotatorInterface::class => [
         'class' => FileRotator::class,
-        'constructor' => [
+        '__construct()' => [
             $params['yiisoft/log-target-file']['fileRotator']['maxFileSize'],
             $params['yiisoft/log-target-file']['fileRotator']['maxFiles'],
             $params['yiisoft/log-target-file']['fileRotator']['fileMode'],

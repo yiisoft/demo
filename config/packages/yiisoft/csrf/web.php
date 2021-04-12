@@ -16,20 +16,20 @@ use Yiisoft\Factory\Definitions\Reference;
 return [
     CsrfTokenInterface::class => [
         'class' => MaskedCsrfToken::class,
-        'constructor' => [
+        '__construct()' => [
             'token' => Reference::to(SynchronizerCsrfToken::class),
         ],
     ],
 
     SynchronizerCsrfToken::class => [
-        'constructor' => [
+        '__construct()' => [
             'generator' => Reference::to(RandomCsrfTokenGenerator::class),
             'storage' => Reference::to(SessionCsrfTokenStorage::class),
         ],
     ],
 
     HmacCsrfToken::class => [
-        'constructor' => [
+        '__construct()' => [
             'identityGenerator' => Reference::to(SessionCsrfTokenIdentityGenerator::class),
             'secretKey' => $params['yiisoft/csrf']['hmacToken']['secretKey'],
             'algorithm' => $params['yiisoft/csrf']['hmacToken']['algorithm'],

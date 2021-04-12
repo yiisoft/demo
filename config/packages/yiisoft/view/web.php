@@ -25,13 +25,11 @@ return [
 
     WebView::class => [
         'class' => WebView::class,
-        'constructor' => [
+        '__construct()' => [
             'basePath' => static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath']),
         ],
-        'callMethods' => [
-            'setDefaultParameters' => [
-                $params['yiisoft/view']['defaultParameters'],
-            ],
+        'setDefaultParameters()' => [
+            $params['yiisoft/view']['defaultParameters'],
         ],
     ],
 ];

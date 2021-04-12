@@ -12,7 +12,7 @@ use Yiisoft\Session\SessionMiddleware;
 
 return [
     Yiisoft\Yii\Web\Application::class => [
-        'constructor' => [
+        '__construct()' => [
             'dispatcher' => static function (Injector $injector) {
                 return ($injector->make(MiddlewareDispatcher::class))
                     ->withMiddlewares(

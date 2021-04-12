@@ -12,21 +12,19 @@ use Yiisoft\User\UserAuth;
 return [
     UserAuth::class => [
         'class' => UserAuth::class,
-        'callMethods' => [
-            'withAuthUrl' => [$params['yiisoft/user']['authUrl']],
-        ],
+        'withAuthUrl()' => [$params['yiisoft/user']['authUrl']],
     ],
 
     AuthenticationMethodInterface::class => UserAuth::class,
 
     CookieLoginMiddleware::class => [
-        'constructor' => [
+        '__construct()' => [
             'addCookie' => $params['yiisoft/user']['cookieLogin']['addCookie'],
         ],
     ],
 
     CookieLogin::class => [
-        'constructor' => [
+        '__construct()' => [
             'duration' => new \DateInterval($params['yiisoft/user']['cookieLogin']['duration']),
         ],
     ],

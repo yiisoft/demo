@@ -19,7 +19,7 @@ use Yiisoft\View\View;
 return [
     MessageBodyRenderer::class => [
         'class' => MessageBodyRenderer::class,
-        'constructor' => [
+        '__construct()' => [
             Reference::to(View::class),
             static fn (Aliases $aliases) => new MessageBodyTemplate(
                 $aliases->get($params['yiisoft/mailer']['messageBodyTemplate']['viewPath']),
@@ -29,22 +29,20 @@ return [
 
     MessageFactoryInterface::class => [
         'class' => MessageFactory::class,
-        'constructor' => [
+        '__construct()' => [
             Message::class,
         ],
     ],
 
     Swift_SmtpTransport::class => [
         'class' => Swift_SmtpTransport::class,
-        'constructor' => [
+        '__construct()' => [
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['host'],
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['port'],
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['encryption'],
         ],
-        'callMethods' => [
-            'setUsername' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['username']],
-            'setPassword' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['password']],
-        ],
+        'setUsername()' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['username']],
+        'setPassword()' => [$params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['password']],
     ],
 
     Swift_Transport::class => $params['yiisoft/mailer']['useSendmail']
@@ -52,7 +50,7 @@ return [
 
     FileMailer::class => [
         'class' => FileMailer::class,
-        'constructor' => [
+        '__construct()' => [
             'path' => fn (Aliases $aliases) => $aliases->get(
                 $params['yiisoft/mailer']['fileMailer']['fileMailerStorage']
             ),

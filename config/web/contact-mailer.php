@@ -9,7 +9,7 @@ use App\Contact\ContactMailer;
 return [
     ContactMailer::class => [
         'class' => ContactMailer::class,
-        'constructor' => [
+        '__construct()' => [
             'to' => $params['mailer']['adminEmail'],
         ],
     ],

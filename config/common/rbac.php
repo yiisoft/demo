@@ -14,7 +14,7 @@ use Yiisoft\Rbac\StorageInterface;
 return [
     StorageInterface::class => [
         'class' => Storage::class,
-        'constructor' => [
+        '__construct()' => [
             'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],

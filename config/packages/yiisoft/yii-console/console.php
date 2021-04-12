@@ -14,27 +14,25 @@ use Yiisoft\Yii\Console\SymfonyEventDispatcher;
 return [
     CommandLoaderInterface::class => [
         'class' => CommandLoader::class,
-        'constructor' => [
+        '__construct()' => [
             'commandMap' => $params['yiisoft/yii-console']['commands'],
         ],
     ],
 
     Application::class => [
         'class' => Application::class,
-        'callMethods' => [
-            'setDispatcher' => [Reference::to(SymfonyEventDispatcher::class)],
-            'setCommandLoader' => [Reference::to(CommandLoaderInterface::class)],
-            'addOptions' => [
-                new InputOption(
-                    'config',
-                    null,
-                    InputOption::VALUE_REQUIRED,
-                    'Set alternative configuration name'
-                ),
-            ],
-            'setName' => [$params['yiisoft/yii-console']['name']],
-            'setVersion' => [$params['yiisoft/yii-console']['version']],
-            'setAutoExit' => [$params['yiisoft/yii-console']['autoExit']],
+        'setDispatcher()' => [Reference::to(SymfonyEventDispatcher::class)],
+        'setCommandLoader()' => [Reference::to(CommandLoaderInterface::class)],
+        'addOptions()' => [
+            new InputOption(
+                'config',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Set alternative configuration name'
+            ),
         ],
+        'setName()' => [$params['yiisoft/yii-console']['name']],
+        'setVersion()' => [$params['yiisoft/yii-console']['version']],
+        'setAutoExit()' => [$params['yiisoft/yii-console']['autoExit']],
     ],
 ];

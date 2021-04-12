@@ -8,8 +8,6 @@ use Yiisoft\Router\UrlGeneratorInterface;
 return [
     UrlGeneratorInterface::class => [
         'class' => UrlGenerator::class,
-        'callMethods' => [
-            'setEncodeRaw' => [$params['yiisoft/router-fastroute']['encodeRaw']],
-        ],
+        'setEncodeRaw()' => [$params['yiisoft/router-fastroute']['encodeRaw']],
     ],
 ];
