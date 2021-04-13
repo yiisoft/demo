@@ -24,7 +24,7 @@ return [
     },
 
     WebView::class => [
-        'class' => WebView::class,
+        '__class' => WebView::class,
         '__construct()' => [
             'basePath' => static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath']),
         ],

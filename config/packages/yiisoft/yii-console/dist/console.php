@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\CommandLoader;
 use Yiisoft\Yii\Console\SymfonyEventDispatcher;
@@ -13,14 +13,14 @@ use Yiisoft\Yii\Console\SymfonyEventDispatcher;
 
 return [
     CommandLoaderInterface::class => [
-        'class' => CommandLoader::class,
+        '__class' => CommandLoader::class,
         '__construct()' => [
             'commandMap' => $params['yiisoft/yii-console']['commands'],
         ],
     ],
 
     Application::class => [
-        'class' => Application::class,
+        '__class' => Application::class,
         'setDispatcher()' => [Reference::to(SymfonyEventDispatcher::class)],
         'setCommandLoader()' => [Reference::to(CommandLoaderInterface::class)],
         'addOptions()' => [
