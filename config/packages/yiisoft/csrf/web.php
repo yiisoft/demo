@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-/* @var array $params */
-
 use Yiisoft\Csrf\MaskedCsrfToken;
 use Yiisoft\Csrf\CsrfTokenInterface;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
@@ -11,11 +9,13 @@ use Yiisoft\Csrf\Synchronizer\Storage\SessionCsrfTokenStorage;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\Csrf\Hmac\IdentityGenerator\SessionCsrfTokenIdentityGenerator;
 use Yiisoft\Csrf\Hmac\HmacCsrfToken;
-use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Factory\Definition\Reference;
+
+/* @var array $params */
 
 return [
     CsrfTokenInterface::class => [
-        '__class' => MaskedCsrfToken::class,
+        'class' => MaskedCsrfToken::class,
         '__construct()' => [
             'token' => Reference::to(SynchronizerCsrfToken::class),
         ],
