@@ -9,7 +9,7 @@ use Yiisoft\View\View;
 
 return [
     View::class => [
-        '__class' => View::class,
+        'class' => View::class,
         '__construct()' => [
             'basePath' => static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath']),
         ],

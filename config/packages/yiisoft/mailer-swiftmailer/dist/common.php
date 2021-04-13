@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
@@ -18,7 +18,7 @@ use Yiisoft\View\View;
 
 return [
     MessageBodyRenderer::class => [
-        '__class' => MessageBodyRenderer::class,
+        'class' => MessageBodyRenderer::class,
         '__construct()' => [
             Reference::to(View::class),
             static fn (Aliases $aliases) => new MessageBodyTemplate(
@@ -28,14 +28,14 @@ return [
     ],
 
     MessageFactoryInterface::class => [
-        '__class' => MessageFactory::class,
+        'class' => MessageFactory::class,
         '__construct()' => [
             Message::class,
         ],
     ],
 
     Swift_SmtpTransport::class => [
-        '__class' => Swift_SmtpTransport::class,
+        'class' => Swift_SmtpTransport::class,
         '__construct()' => [
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['host'],
             $params['swiftmailer/swiftmailer']['SwiftSmtpTransport']['port'],
@@ -49,7 +49,7 @@ return [
         ? Swift_SendmailTransport::class : Swift_SmtpTransport::class,
 
     FileMailer::class => [
-        '__class' => FileMailer::class,
+        'class' => FileMailer::class,
         '__construct()' => [
             'path' => fn (Aliases $aliases) => $aliases->get(
                 $params['yiisoft/mailer']['fileMailer']['fileMailerStorage']

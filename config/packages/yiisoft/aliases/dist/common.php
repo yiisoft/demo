@@ -8,7 +8,7 @@ use Yiisoft\Aliases\Aliases;
 
 return [
     Aliases::class => [
-        '__class' => Aliases::class,
+        'class' => Aliases::class,
         '__construct()' => [$params['yiisoft/aliases']['aliases']],
     ],
 ];
