@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     'yiisoft/yii-view' => [
         'viewBasePath' => '@views',
-        'layout' => '@views/layout/main',
+        'layout' => '@layout/main',
         'injections' => [
             // Use for add Csrf parameter to all views
             // Reference::to(CsrfViewInjection::class),

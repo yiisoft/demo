@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-/**
- * @var array $params
- */
-
 use Yiisoft\Yii\View\ViewRenderer;
+
+/** @var array $params */
 
 return [
     ViewRenderer::class => [
