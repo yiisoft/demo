@@ -28,7 +28,7 @@ use Yiisoft\Yii\Debug\Proxy\UrlMatcherInterfaceProxy;
 
 return [
     'yiisoft/yii-debug' => [
-        'enabled' => true,
+        'enabled' => false,
         'collectors' => [
             LogCollectorInterface::class,
             EventCollectorInterface::class,
