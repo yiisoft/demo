@@ -44,25 +44,30 @@ class PostCard extends Widget
     protected function renderHead(): string
     {
         return Html::a(
-            Html::encode($this->post->getTitle()),
+            $this->post->getTitle(),
             $this->urlGenerator->generate('blog/post', ['slug' => $this->post->getSlug()]),
             ['class' => 'mb-0 h4 text-decoration-none'] // stretched-link
-        );
+        )
+        ->render();
     }
 
     protected function renderBody(): string
     {
-        return Html::div(
-            $this->post->getPublishedAt()->format('M, d') . ' by ' . Html::a(
-                Html::encode($this->post->getUser()->getLogin()),
-                $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
-            ),
-            ['class' => 'mb-1 text-muted', 'encode' => false]
-        ) . Html::p(
-            Html::encode(mb_substr($this->post->getContent(), 0, 400))
-            . (mb_strlen($this->post->getContent()) > 400 ? '…' : ''),
-            ['class' => 'card-text mb-auto']
+        $return = Html::openTag('div', ['class' => 'card-text mb-auto']);
+        $return .= $this->post->getPublishedAt() === null
+            ? 'not published'
+            : $this->post->getPublishedAt()->format('M, d');
+        $return .= ' by ';
+        $return .= Html::a(
+            $this->post->getUser()->getLogin(),
+            $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
+        )->class('mb-1 text-muted');
+
+        $return .= Html::p(
+            mb_substr($this->post->getContent(), 0, 400)
+            . (mb_strlen($this->post->getContent()) > 400 ? '…' : '')
         );
+        return $return . Html::closeTag('div');
     }
 
     protected function renderTags(): string
@@ -70,7 +75,7 @@ class PostCard extends Widget
         $return = Html::openTag('div', ['class' => 'mt-3']);
         foreach ($this->post->getTags() as $tag) {
             $return .= Html::a(
-                Html::encode($tag->getLabel()),
+                $tag->getLabel(),
                 $this->urlGenerator->generate('blog/tag', ['label' => $tag->getLabel()]),
                 ['class' => 'btn btn-outline-secondary btn-sm me-2 mt-1']
             );

@@ -29,95 +29,125 @@ use Yiisoft\Swagger\Middleware\SwaggerUi;
 
 return [
     // Lonely pages of site
-    Route::get('/', [SiteController::class, 'index'])
+    Route::get('/')
+        ->action([SiteController::class, 'index'])
         ->name('site/index'),
-    Route::methods([Method::GET, Method::POST], '/contact', [ContactController::class, 'contact'])
+    Route::methods([Method::GET, Method::POST], '/contact')
+        ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
-    Route::methods([Method::GET, Method::POST], '/login', [AuthController::class, 'login'])
+    Route::methods([Method::GET, Method::POST], '/login')
+        ->action([AuthController::class, 'login'])
         ->name('site/login'),
-    Route::post('/logout', [AuthController::class, 'logout'])
+    Route::post('/logout')
+        ->action([AuthController::class, 'logout'])
         ->name('site/logout'),
-    Route::methods([Method::GET, Method::POST], '/signup', [SignupController::class, 'signup'])
+    Route::methods([Method::GET, Method::POST], '/signup')
+        ->action([SignupController::class, 'signup'])
         ->name('site/signup'),
 
     // User
-    Group::create('/user', [
+    Group::create('/user')
+        ->routes(
         // Index
-        Route::get('[/page-{page:\d+}]', [UserController::class, 'index'])
-            ->name('user/index'),
-        // Profile page
-        Route::get('/{login}', [UserController::class, 'profile'])
-            ->name('user/profile'),
-    ]),
+            Route::get('[/page-{page:\d+}]')
+                ->action([UserController::class, 'index'])
+                ->name('user/index'),
+            // Profile page
+            Route::get('/{login}')
+                ->action([UserController::class, 'profile'])
+                ->name('user/profile')
+        ),
 
     // API group.
     // By default it responds with XML regardless of content-type.
     // Individual sub-routes are responding with JSON.
-    Group::create('/api', [
-        Route::get('/info/v1', function (DataResponseFactoryInterface $responseFactory) {
-            return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
-        })->name('api/info/v1'),
-        Route::get('/info/v2', ApiInfo::class)
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/info/v2'),
-        Route::get('/user', [ApiUserController::class, 'index'])
-            ->name('api/user/index'),
-        Route::get('/user/{login}', [ApiUserController::class, 'profile'])
-            ->addMiddleware(FormatDataResponseAsJson::class)
-            ->name('api/user/profile'),
-    ])->addMiddleware(ApiDataWrapper::class)->addMiddleware(FormatDataResponseAsXml::class),
+    Group::create('/api')
+        ->middleware(FormatDataResponseAsXml::class)
+        ->middleware(ApiDataWrapper::class)
+        ->routes(
+            Route::get('/info/v1')
+                ->name('api/info/v1')
+                ->action(function (DataResponseFactoryInterface $responseFactory) {
+                    return $responseFactory->createResponse(['version' => '1.0', 'author' => 'yiisoft']);
+                }),
+            Route::get('/info/v2')
+                ->name('api/info/v2')
+                ->middleware(FormatDataResponseAsJson::class)
+                ->action(ApiInfo::class),
+            Route::get('/user')
+                ->name('api/user/index')
+                ->action([ApiUserController::class, 'index']),
+            Route::get('/user/{login}')
+                ->name('api/user/profile')
+                ->middleware(FormatDataResponseAsJson::class)
+                ->action([ApiUserController::class, 'profile'])
+        ),
 
     // Blog routes
-    Group::create('/blog', [
+    Group::create('/blog')
+        ->routes(
         // Index
-        Route::get('[/page{page:\d+}]', [BlogController::class, 'index'])
-            ->name('blog/index'),
-        // Add Post page
-        Route::methods([Method::GET, Method::POST], '/page/add', [PostController::class, 'add'])
-            ->name('blog/add')->addMiddleware(Authentication::class),
-        // Edit Post page
-        Route::methods([Method::GET, Method::POST], '/page/edit/{slug}', [PostController::class, 'edit'])
-            ->name('blog/edit')
-            ->addMiddleware(Authentication::class)
-            ->addMiddleware(fn (AccessChecker $checker) => $checker->withPermission('editPost')),
-        // Post page
-        Route::get('/page/{slug}', [PostController::class, 'index'])
-            ->name('blog/post'),
-        // Tag page
-        Route::get('/tag/{label}[/page{page:\d+}]', [TagController::class, 'index'])
-            ->name('blog/tag'),
-        // Archive
-        Group::create('/archive', [
-            // Index page
-            Route::get('', [ArchiveController::class, 'index'])
-                ->name('blog/archive/index'),
-            // Yearly page
-            Route::get('/{year:\d+}', [ArchiveController::class, 'yearlyArchive'])
-                ->name('blog/archive/year'),
-            // Monthly page
-            Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]', [ArchiveController::class, 'monthlyArchive'])
-                ->name('blog/archive/month'),
-        ]),
-        // comments
-        Route::get('/comments/[next/{next}]', [CommentController::class, 'index'])
-            ->name('blog/comment/index'),
-    ]),
+            Route::get('[/page{page:\d+}]')
+                ->action([BlogController::class, 'index'])
+                ->name('blog/index'),
+            // Add Post page
+            Route::methods([Method::GET, Method::POST], '/page/add')
+                ->middleware(Authentication::class)
+                ->action([PostController::class, 'add'])
+                ->name('blog/add'),
+            // Edit Post page
+            Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
+                ->name('blog/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
+                ->middleware(Authentication::class)
+                ->action([PostController::class, 'edit']),
+
+            // Post page
+            Route::get('/page/{slug}')
+                ->action([PostController::class, 'index'])
+                ->name('blog/post'),
+            // Tag page
+            Route::get('/tag/{label}[/page{page:\d+}]')
+                ->action([TagController::class, 'index'])
+                ->name('blog/tag'),
+            // Archive
+            Group::create('/archive')
+                ->routes(
+                // Index page
+                    Route::get('')
+                        ->action([ArchiveController::class, 'index'])
+                        ->name('blog/archive/index'),
+                    // Yearly page
+                    Route::get('/{year:\d+}')
+                        ->action([ArchiveController::class, 'yearlyArchive'])
+                        ->name('blog/archive/year'),
+                    // Monthly page
+                    Route::get('/{year:\d+}-{month:\d+}[/page{page:\d+}]')
+                        ->action([ArchiveController::class, 'monthlyArchive'])
+                        ->name('blog/archive/month'),
+                ),
+            // comments
+            Route::get('/comments/[next/{next}]')
+                ->action([CommentController::class, 'index'])
+                ->name('blog/comment/index')
+        ),
 
     // Swagger routes
-    Group::create('/swagger', [
-        Route::get('')
-            ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
-            ->addMiddleware(FormatDataResponseAsHtml::class)
-            ->name('swagger/index'),
-        Route::get('/json-url')
-            ->addMiddleware(static function (SwaggerJson $swaggerJson) {
-                return $swaggerJson
-                    // Uncomment cache for production environment
-                    // ->withCache(60)
-                    ->withAnnotationPaths([
-                        '@src/Controller', // Path to API controllers
-                    ]);
-            })
-            ->addMiddleware(FormatDataResponseAsJson::class),
-    ]),
+    Group::create('/swagger')
+        ->routes(
+            Route::get('')
+                ->middleware(FormatDataResponseAsHtml::class)
+                ->action(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+                ->name('swagger/index'),
+            Route::get('/json-url')
+                ->middleware(FormatDataResponseAsJson::class)
+                ->action(static function (SwaggerJson $swaggerJson) {
+                    return $swaggerJson
+                        // Uncomment cache for production environment
+                        // ->withCache(60)
+                        ->withAnnotationPaths([
+                            '@src/Controller', // Path to API controllers
+                        ]);
+                }),
+        ),
 ];
