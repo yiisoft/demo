@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetConverter;
 use Yiisoft\Assets\AssetConverterInterface;
@@ -17,38 +19,48 @@ use Yiisoft\Factory\Definition\Reference;
 return [
     AssetConverterInterface::class => [
         'class' => AssetConverter::class,
-        'setCommand()' => [
-            $params['yiisoft/assets']['assetConverter']['command']['from'],
-            $params['yiisoft/assets']['assetConverter']['command']['to'],
-            $params['yiisoft/assets']['assetConverter']['command']['command'],
+        '__construct()' => [
+            Reference::to(Aliases::class),
+            Reference::to(LoggerInterface::class),
+            $params['yiisoft/assets']['assetConverter']['commands'],
+            $params['yiisoft/assets']['assetConverter']['forceConvert'],
         ],
-        'setForceConvert()' => [$params['yiisoft/assets']['assetConverter']['forceConvert']],
     ],
 
     AssetLoaderInterface::class => [
         'class' => AssetLoader::class,
-        'setAppendTimestamp()' => [$params['yiisoft/assets']['assetLoader']['appendTimestamp']],
-        'setAssetMap()' => [$params['yiisoft/assets']['assetLoader']['assetMap']],
-        'setBasePath()' => [$params['yiisoft/assets']['assetLoader']['basePath']],
-        'setBaseUrl()' => [$params['yiisoft/assets']['assetLoader']['baseUrl']],
+        '__construct()' => [
+            Reference::to(Aliases::class),
+            $params['yiisoft/assets']['assetLoader']['appendTimestamp'],
+            $params['yiisoft/assets']['assetLoader']['assetMap'],
+            $params['yiisoft/assets']['assetLoader']['basePath'],
+            $params['yiisoft/assets']['assetLoader']['baseUrl'],
+        ],
     ],
 
     AssetPublisherInterface::class => [
         'class' => AssetPublisher::class,
-        'setForceCopy()' => [$params['yiisoft/assets']['assetPublisher']['forceCopy']],
-        'setLinkAssets()' => [$params['yiisoft/assets']['assetPublisher']['linkAssets']],
-    ],
-
-    AssetManager::class => [
-        'class' => AssetManager::class,
         '__construct()' => [
             Reference::to(Aliases::class),
-            Reference::to(AssetLoaderInterface::class),
+            $params['yiisoft/assets']['assetPublisher']['forceCopy'],
+            $params['yiisoft/assets']['assetPublisher']['linkAssets'],
+        ],
+    ],
+
+    AssetManager::class => static function (ContainerInterface $container) use ($params): AssetManager {
+        $assetManager = new AssetManager(
+            $container->get(Aliases::class),
+            $container->get(AssetLoaderInterface::class),
             $params['yiisoft/assets']['assetManager']['allowedBundleNames'],
             $params['yiisoft/assets']['assetManager']['customizedBundles'],
-        ],
-        'setPublisher()' => [Reference::to(AssetPublisherInterface::class)],
-        'setConverter()' => [Reference::to(AssetConverterInterface::class)],
-        'register()' => [$params['yiisoft/assets']['assetManager']['register']],
-    ],
+        );
+
+        $assetManager = $assetManager
+            ->withConverter($container->get(AssetConverterInterface::class))
+            ->withPublisher($container->get(AssetPublisherInterface::class))
+        ;
+
+        $assetManager->register($params['yiisoft/assets']['assetManager']['register']);
+        return $assetManager;
+    },
 ];

@@ -13,7 +13,7 @@ return [
         '__construct()' => [
             'basePath' => static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath']),
         ],
-        'setDefaultParameters()' => [
+        'withDefaultParameters()' => [
             $params['yiisoft/view']['defaultParameters'],
         ],
     ],
