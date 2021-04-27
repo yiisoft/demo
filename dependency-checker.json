@@ -1,0 +1,8 @@
+{
+    "scan-files": [
+        "config/*.php",
+        "src/*.php",
+        "views/*.php",
+        "public/index.php"
+    ]
+}
