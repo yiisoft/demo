@@ -16,6 +16,8 @@ use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
 $monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
+$this->setTitle("Archive for $monthName $year");
+
 $pagination = OffsetPagination::widget()
     ->paginator($paginator)
     ->urlGenerator(
@@ -25,7 +27,7 @@ $pagination = OffsetPagination::widget()
         )
     );
 ?>
-<h1>Archive <small class="text-muted"><?= "$monthName $year" ?></small></h1>
+<h1>Archive for <small class="text-muted"><?= "$monthName $year" ?></small></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php

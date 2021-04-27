@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+use Yiisoft\View\WebView;
 use Yiisoft\Yii\Bootstrap5\Carousel;
+
+/** @var WebView $this */
+$this->setTitle('Home');
 
 echo Carousel::widget()
     ->items([

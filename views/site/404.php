@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var \Yiisoft\View\WebView $this
  */
 
 use Yiisoft\Html\Html;
+$this->setTitle('Not found');
 ?>
 
 <div class="card shadow p-5 my-5 mx-5 bg-white rounded">

@@ -12,8 +12,10 @@ declare(strict_types=1);
 use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
+$this->setTitle("Archive for $year");
+
 ?>
-<h1>Archive <small class="text-muted">Year <?= $year ?></small></h1>
+<h1>Archive for <small class="text-muted"><?= $year ?></small></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php

@@ -12,6 +12,8 @@ declare(strict_types=1);
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
+$this->setTitle($item->getLabel());
+
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate(

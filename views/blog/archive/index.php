@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 
+$this->setTitle('Archive');
+
 ?>
-<h1>Archive</h1>
+<h1><?= Html::encode($this->getTitle()) ?></h1>
 <div class="row">
     <div class="col-sm-12">
         <?php

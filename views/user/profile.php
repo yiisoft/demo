@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 
-echo Html::tag('h1', Html::encode($item->getLogin()));
+$this->setTitle($item->getLogin());
+
+echo Html::tag('h1', Html::encode($this->getTitle()));
 ?>
 <div>
     <span class="text-muted">Created at <?= $item->getCreatedAt()->format('H:i:s d.m.Y') ?></span>

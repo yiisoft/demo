@@ -7,15 +7,18 @@ declare(strict_types=1);
  * @var \App\Contact\ContactForm $form
  * @var \Yiisoft\Router\UrlGeneratorInterface $url
  * @var \Yiisoft\Form\Widget\Field $field
+ * @var WebView $this
  */
 
 use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
+use Yiisoft\View\WebView;
 
+$this->setTitle('Contact');
 ?>
 
-<h1>Contact</h1>
+<h1><?= Html::encode($this->getTitle()) ?></h1>
 
 <?= FlashMessage::widget() ?>
 

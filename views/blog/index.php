@@ -16,11 +16,12 @@ use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
+$this->setTitle('Blog');
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]));
 ?>
-<h1>Blog</h1>
+<h1><?= Html::encode($this->getTitle())?></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php

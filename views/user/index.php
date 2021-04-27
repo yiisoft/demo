@@ -11,6 +11,8 @@ declare(strict_types=1);
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
+$this->setTitle('Users');
+
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('user/index', ['page' => $page]));

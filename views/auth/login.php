@@ -5,10 +5,12 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 /**
- * @var \Yiisoft\View\View $this
+ * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var string $csrf
  */
+
+$this->setTitle('Login');
 
 $error = $error ?? null;
 ?>

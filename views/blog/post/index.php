@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 
+$this->setTitle($item->getTitle());
+
 ?>
     <h1><?= Html::encode($item->getTitle()) ?></h1>
     <div>
