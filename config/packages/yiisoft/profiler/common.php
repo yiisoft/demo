@@ -29,7 +29,7 @@ return [
         if ((bool)$params['enabled']) {
             $target = $target->enable();
         } else {
-            $target = $target->disable();
+            $target = $target->enable(false);
         }
         return $target->include($params['include'])->exclude($params['exclude']);
     },
@@ -40,7 +40,7 @@ return [
         if ((bool)$params['enabled']) {
             $target = $target->enable();
         } else {
-            $target = $target->disable();
+            $target = $target->enable(false);
         }
         return $target->include($params['include'])->exclude($params['exclude']);
     },
