@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Session\Flash\FlashInterface;
 
 /**
@@ -30,14 +31,14 @@ class ContactMailer
     ) {
         $this->flash = $flash;
         $this->logger = $logger;
-        $this->mailer = $mailer;
+        $this->mailer = $mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
         $this->to = $to;
     }
 
     public function send(FormModelInterface $form, ServerRequestInterface $request)
     {
         $message = $this->mailer->compose(
-            'contact',
+            'contact-email',
             [
                 'content' => $form->getAttributeValue('body'),
             ]
@@ -52,7 +53,7 @@ class ContactMailer
                 if ($file->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
                         File::fromContent(
-                            (string) $file->getStream(),
+                            (string)$file->getStream(),
                             $file->getClientFilename(),
                             $file->getClientMediaType()
                         ),

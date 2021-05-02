@@ -30,7 +30,9 @@ class ContactController
         $this->mailer = $mailer;
         $this->responseFactory = $responseFactory;
         $this->url = $url;
-        $this->viewRenderer = $viewRenderer->withControllerName('contact');
+        $this->viewRenderer = $viewRenderer
+            ->withControllerName('contact')
+            ->withViewBasePath(__DIR__ . '/views');
     }
 
     public function contact(
