@@ -24,24 +24,16 @@ return [
     },
     LogTarget::class => static function (LoggerInterface $logger) use ($params) {
         $params = $params['yiisoft/profiler']['targets'][LogTarget::class];
-        $target = new LogTarget($logger, $params['level']);
-
-        if ((bool)$params['enabled']) {
-            $target = $target->enable();
-        } else {
-            $target = $target->disable();
-        }
-        return $target->include($params['include'])->exclude($params['exclude']);
+        return (new LogTarget($logger, $params['level']))
+            ->enable((bool)$params['enabled'])
+            ->include($params['include'])
+            ->exclude($params['exclude']);
     },
     FileTarget::class => static function (Aliases $aliases) use ($params) {
         $params = $params['yiisoft/profiler']['targets'][FileTarget::class];
-        $target = new FileTarget($aliases->get($params['filename']), $params['requestBeginTime'], $params['directoryMode']);
-
-        if ((bool)$params['enabled']) {
-            $target = $target->enable();
-        } else {
-            $target = $target->disable();
-        }
-        return $target->include($params['include'])->exclude($params['exclude']);
+        return (new FileTarget($aliases->get($params['filename']), $params['requestBeginTime'], $params['directoryMode']))
+            ->enable((bool)$params['enabled'])
+            ->include($params['include'])
+            ->exclude($params['exclude']);
     },
 ];
