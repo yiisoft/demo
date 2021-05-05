@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Widget\FlashMessage;
+use Yiisoft\Form\Widget\Form;
+use Yiisoft\Html\Html;
+use Yiisoft\View\WebView;
 /**
  * @var string $csrf
  * @var \App\Contact\ContactForm $form
@@ -9,12 +13,6 @@ declare(strict_types=1);
  * @var \Yiisoft\Form\Widget\Field $field
  * @var WebView $this
  */
-
-use App\Widget\FlashMessage;
-use Yiisoft\Form\Widget\Form;
-use Yiisoft\Html\Html;
-use Yiisoft\View\WebView;
-
 $this->setTitle('Contact');
 ?>
 
@@ -48,11 +46,11 @@ $this->setTitle('Contact');
         ) ?>
 
     <?= Html::submitButton(
-            'Submit',
-            [
-            'class' => 'btn btn-primary mt-3'
+        'Submit',
+        [
+            'class' => 'btn btn-primary mt-3',
         ]
-        ) ?>
+    ) ?>
 
     <?= Form::end() ?>
 
