@@ -17,6 +17,6 @@ final class IndexPageCest
     public function testIndexPage(AcceptanceTester $I): void
     {
         $I->expectTo('see page index.');
-        $I->see('First slide label');
+        $I->see('Hello, everyone!');
     }
 }
