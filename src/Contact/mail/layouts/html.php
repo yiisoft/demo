@@ -15,10 +15,10 @@ declare(strict_types=1);
 
 <?= $content ?>
 
-<footer style="margin-top: 5em">
--- <br>
+<div style="margin-top: 5em">
+-- <br />
 Mailed by Yii
-</footer>
+</div>
 
 </body>
 </html>
