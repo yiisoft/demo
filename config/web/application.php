@@ -12,18 +12,19 @@ use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Session\SessionMiddleware;
 
 return [
+    'app.dispatcher' => static function (Injector $injector) {
+        return ($injector->make(MiddlewareDispatcher::class))
+            ->withMiddlewares(
+                [
+                    Router::class,
+                    SessionMiddleware::class,
+                    ErrorCatcher::class,
+                ]
+            );
+    },
     Yiisoft\Yii\Web\Application::class => [
         '__construct()' => [
-            'dispatcher' => DynamicReference::to(static function (Injector $injector) {
-                return ($injector->make(MiddlewareDispatcher::class))
-                    ->withMiddlewares(
-                        [
-                            Router::class,
-                            SessionMiddleware::class,
-                            ErrorCatcher::class,
-                        ]
-                    );
-            }),
+            'dispatcher' => Reference::to('app.dispatcher'),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],
