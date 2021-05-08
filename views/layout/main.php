@@ -30,7 +30,7 @@ $assetManager->register([
 $this->setCssFiles($assetManager->getCssFiles());
 $this->setJsFiles($assetManager->getJsFiles());
 $this->setJsStrings($assetManager->getJsStrings());
-$this->setJsVar($assetManager->getJsVar());
+$this->setJsVars($assetManager->getJsVars());
 
 $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
 
