@@ -23,33 +23,29 @@ return [
         ],
     ],
 
-     'yiisoft/yii-cycle' => [
-        // Cycle DBAL config
+    'yiisoft/yii-cycle' => [
+        // DBAL config
         'dbal' => [
-            /**
-             * SQL query logger
-             * You may use {@see \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger} class to pass log to
-             * stdout or any PSR-compatible logger
-             */
+            // SQL query logger. Definition of Psr\Log\LoggerInterface
+            // For example, \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class
             'query-logger' => null,
-            // Default database (from 'databases' list)
+            // Default database
             'default' => 'default',
             'aliases' => [],
             'databases' => [
-                'default' => ['connection' => 'mysql']
+                'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
-                'mysql' => [
-                    'driver' => \Spiral\Database\Driver\MySQL\MySQLDriver::class,
-                    // see https://www.php.net/manual/pdo.construct.php, DSN for connection syntax
-                    'connection' => 'mysql:host=localhost;dbname=yii-invoice',
-                    'username' => 'root',
+                'sqlite' => [
+                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
+                    'connection' => 'sqlite:@runtime/database.db',
+                    'username' => '',
                     'password' => '',
-                ]
+                ],
             ],
         ],
 
-        // Migrations config
+        // Cycle migration config
         'migrations' => [
             'directory' => '@root/migrations',
             'namespace' => 'App\\Migration',
@@ -58,17 +54,32 @@ return [
         ],
 
         /**
-         * {@see \Yiisoft\Yii\Cycle\Factory\OrmFactory} config 
-         * Either {@see \Cycle\ORM\PromiseFactoryInterface} implementation or null is specified.
-         * Docs: @link https://github.com/cycle/docs/blob/master/advanced/promise.md
+         * Config for {@see \Yiisoft\Yii\Cycle\Factory\OrmFactory}
+         * Null, classname or {@see PromiseFactoryInterface} object.
+         *
+         * For example, \Cycle\ORM\Promise\ProxyFactory::class
+         *
+         * @link https://github.com/cycle/docs/blob/master/advanced/promise.md
          */
         'orm-promise-factory' => null,
 
         /**
-         * A list of DB schema providers for {@see \Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline}
-         * Providers are implementing {@see SchemaProviderInterface}.
-         * The configuration is an array of provider class names. Alternatively, you can specify provider class as key
-         * and its config as value:
+         * SchemaProvider list for {@see \Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline}
+         * Array of classname and {@see SchemaProviderInterface} object.
+         * You can configure providers if you pass classname as key and parameters as array:
+         * [
+         *     SimpleCacheSchemaProvider::class => [
+         *         'key' => 'my-custom-cache-key'
+         *     ],
+         *     FromFilesSchemaProvider::class => [
+         *         'files' => ['@runtime/cycle-schema.php']
+         *     ],
+         *     FromConveyorSchemaProvider::class => [
+         *         'generators' => [
+         *              Generator\SyncTables::class, // sync table changes to database
+         *          ]
+         *     ],
+         * ]
          */
         'schema-providers' => [
             // Uncomment next line to enable schema cache
@@ -81,11 +92,12 @@ return [
         ],
 
         /**
-         * {@see \Yiisoft\Yii\Cycle\Schema\Conveyor\AnnotatedSchemaConveyor} settings
-         * A list of entity directories. You can use {@see \Yiisoft\Aliases\Aliases} in paths.
+         * Config for {@see \Yiisoft\Yii\Cycle\Schema\Conveyor\AnnotatedSchemaConveyor}
+         * Annotated entity directories list.
+         * {@see \Yiisoft\Aliases\Aliases} are also supported.
          */
         'annotated-entity-paths' => [
-            '@src'
+            '@src',
         ],
     ],
 ];
