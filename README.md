@@ -6,6 +6,8 @@
     <br>
 </p>
 
+May 10 - ..\config\packages\yiisoft\yii-cycle\params adjusted
+
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
 It's intended to show and test all Yii features.
