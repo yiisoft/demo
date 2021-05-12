@@ -3,6 +3,7 @@
         <img src="https://www.yiiframework.com/image/yii_logo_light.png" width="400" alt="Yii Framework" />
     </a>
     <h1 align="center">Yii Framework Demo Project</h1>
+    <h5 align="center">...with Invoicing System</h5>
     <br>
 </p>
 
