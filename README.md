@@ -6,7 +6,12 @@
     <br>
 </p>
 
-May 10 - ..\config\packages\yiisoft\yii-cycle\params adjusted
+May 10 ..\config\packages\yiisoft\yii-cycle\params adjusted. Using default 'synctable' settings.
+May 11 .. Useful read on annotations here [https://php-annotations.readthedocs.io/en/latest/index.html](https://php-annotations.readthedocs.io/en/latest/index.html)
+May 12 ..src\Entity\Invoice\Client.php and src\Invoice created with annotations and now database is being built automatically. Use yii cycle/schema to
+build and include new client table. Useful read: https://cycle-orm.dev/docs/intro-quick-start.
+
+''''Do not use 'syntables' in production mode!! Will overwrite tables.
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
