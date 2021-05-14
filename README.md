@@ -15,7 +15,8 @@ May 12 ..src\Entity\Invoice\Client.php and src\Invoice created with annotations 
 build and include new client table. Useful read: https://cycle-orm.dev/docs/intro-quick-start.
 
 May 14 ..https://github.com/cycle/annotated/blob/master/resources/stubs/Column.php 
-Types: 'primary', 'bigPrimary', 'enum', 'boolean', 'integer', 'tinyInteger', 'bigInteger', 'string', 'text', 'tinyText', 'longText', 'double', 'float', 'decimal', 'datetime', 'date', 'time', 'timestamp', 'binary', 'tinyBinary', 'longBinary', 'json',
+1. Types: 'primary', 'bigPrimary', 'enum', 'boolean', 'integer', 'tinyInteger', 'bigInteger', 'string', 'text', 'tinyText', 'longText', 'double', 'float', 'decimal', 'datetime', 'date', 'time', 'timestamp', 'binary', 'tinyBinary', 'longBinary', 'json'
+2. Entity 'Clients' and 'Settings' created manually.  
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
