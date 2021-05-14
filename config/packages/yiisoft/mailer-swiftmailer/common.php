@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Factory\Definition\DynamicReference;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
@@ -21,9 +22,9 @@ return [
         'class' => MessageBodyRenderer::class,
         '__construct()' => [
             Reference::to(View::class),
-            static fn (Aliases $aliases) => new MessageBodyTemplate(
+            DynamicReference::to(static fn (Aliases $aliases) => new MessageBodyTemplate(
                 $aliases->get($params['yiisoft/mailer']['messageBodyTemplate']['viewPath']),
-            ),
+            )),
         ],
     ],
 
@@ -51,9 +52,9 @@ return [
     FileMailer::class => [
         'class' => FileMailer::class,
         '__construct()' => [
-            'path' => fn (Aliases $aliases) => $aliases->get(
+            'path' => DynamicReference::to(fn (Aliases $aliases) => $aliases->get(
                 $params['yiisoft/mailer']['fileMailer']['fileMailerStorage']
-            ),
+            )),
         ],
     ],
 

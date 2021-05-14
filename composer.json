@@ -45,7 +45,7 @@
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
-        "yiisoft/error-handler": "@dev",
+        "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
         "yiisoft/html": "^1.0",
@@ -71,7 +71,7 @@
         "yiisoft/yii-cycle": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-debug-api": "^3.0@dev",
-        "yiisoft/yii-event": "^3.0@dev",
+        "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
         "yiisoft/yii-web": "^3.0@dev"

@@ -49,7 +49,7 @@ $this->beginPage();
 $this->beginBody();
 
 echo NavBar::widget()
-      ->brandLabel($brandLabel)
+      ->brandText($brandLabel)
       ->brandUrl($urlGenerator->generate('site/index'))
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
