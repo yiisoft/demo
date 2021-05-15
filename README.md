@@ -18,6 +18,25 @@ May 14 ..https://github.com/cycle/annotated/blob/master/resources/stubs/Column.p
 1. Types: 'primary', 'bigPrimary', 'enum', 'boolean', 'integer', 'tinyInteger', 'bigInteger', 'string', 'text', 'tinyText', 'longText', 'double', 'float', 'decimal', 'datetime', 'date', 'time', 'timestamp', 'binary', 'tinyBinary', 'longBinary', 'json'
 2. Entity 'Clients' and 'Settings' created manually.  
 
+May 15..Useful code:
+
+Logger
+
+````public function __construct()
+	{
+	    $this->_logger = new \Yiisoft\Log\Logger();
+            $this->_logger->info('Language Class Initialized');            
+	}
+````
+
+Aliases
+
+````$aliases = new \Yiisoft\Aliases\Aliases(['@invoice' => __DIR__ . '/src/invoice', '@language' => '@invoice/language']);
+    $path = $aliases->get('@language');
+````
+
+
+
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
 It's intended to show and test all Yii features.
