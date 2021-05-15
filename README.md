@@ -20,7 +20,7 @@ May 14 ..https://github.com/cycle/annotated/blob/master/resources/stubs/Column.p
 
 May 15..Useful code:
 
-Logger for emergency, warning, info, error, debug eg.
+Logger for emergency, warning, info, error, debug (../vendor/yiisoft/log/README.MD) eg.
 
 ````
     public function __construct()
@@ -30,7 +30,7 @@ Logger for emergency, warning, info, error, debug eg.
 	}
 ````
 
-Aliases
+Aliases (../vendor/yiisoft/aliases/README.MD) eg.
 
 ````
     $aliases = new \Yiisoft\Aliases\Aliases(['@invoice' => __DIR__ . '/src/invoice', '@language' => '@invoice/language']);
