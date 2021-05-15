@@ -20,7 +20,7 @@ May 14 ..https://github.com/cycle/annotated/blob/master/resources/stubs/Column.p
 
 May 15..Useful code:
 
-Logger
+Logger for emergency, warning, info, error, debug eg.
 
 ````
     public function __construct()
