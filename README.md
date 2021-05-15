@@ -22,7 +22,8 @@ May 15..Useful code:
 
 Logger
 
-````public function __construct()
+````
+    public function __construct()
 	{
 	    $this->_logger = new \Yiisoft\Log\Logger();
             $this->_logger->info('Language Class Initialized');            
@@ -31,7 +32,8 @@ Logger
 
 Aliases
 
-````$aliases = new \Yiisoft\Aliases\Aliases(['@invoice' => __DIR__ . '/src/invoice', '@language' => '@invoice/language']);
+````
+    $aliases = new \Yiisoft\Aliases\Aliases(['@invoice' => __DIR__ . '/src/invoice', '@language' => '@invoice/language']);
     $path = $aliases->get('@language');
 ````
 
