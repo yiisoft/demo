@@ -37,6 +37,11 @@ Aliases (../vendor/yiisoft/aliases/README.MD) eg.
     $path = $aliases->get('@language');
 ````
 
+May 16..Useful code: rbac.. Assign the 'admin' role to first signed up user => assignment.php generated under ../resources/rbac. 
+
+````
+    yii user/assignRole admin 1
+````
 
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
