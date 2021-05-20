@@ -67,7 +67,8 @@ May 20..Client Entity testing commencing. Birthdate Tips.
 1. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
 ...src/Invoice/Entity/Client.php **and below**  
 ...src/Invoice/Client/ClientForm.php
-````public function getClient_birthdate(): ?\DateTime
+````
+    public function getClient_birthdate(): ?\DateTime
     {
         if (isset($this->client_birthdate) && !empty($this->client_birthdate)){return new DateTime($this->client_birthdate);}
         else return $this->client_birthdate = null;        
