@@ -49,6 +49,8 @@ May 19..Client Entity created.
 1. Ensure initialization in instantiation area ie. BEFORE construct and IN construct.
 1. Ensure Client table structure replicates Invoiceplane's Client table structure including birthdate date type. 
 
+May 20..Client Entity testing commencing.
+
 
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
