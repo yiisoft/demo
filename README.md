@@ -49,8 +49,30 @@ May 19..Client Entity created.
 1. Ensure initialization in instantiation area ie. BEFORE construct and IN construct.
 1. Ensure Client table structure replicates Invoiceplane's Client table structure including birthdate date type. 
 
-May 20..Client Entity testing commencing.
+May 20..Client Entity testing commencing. Birthdate Tips.
+1. Annotations above function read by Cycle. For newbies ...they are not comments.
+1. ```` use \DateTime; ```` before Annotations. Don't forget backslash to indicate DateTime is a php class not in current Namespace.
+1. mySql type DATE in database and 'date' in annotation below. ie. ````* @Column(type="date", nullable=true)````
+1. Question mark before DateTime in function allows null value which we want since Date is not compulsory. ie. can be empty.
+1. Ensure question mark before DateTime even in ````public function getClient_birthdate() : ?\DateTime  ```` and 
+   ````public function setClient_birthdate(?\DateTime $client_birthdate): void```  
 
+...src/Invoice/Entity/Client.php...
+````
+     /**
+     * @Column(type="date", nullable=true)
+     */
+    private ?DateTime $client_birthdate = null;    
+````
+1. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
+...src/Invoice/Entity/Client.php **and below**  
+...src/Invoice/Client/ClientForm.php
+````public function getClient_birthdate(): ?\DateTime
+    {
+        if (isset($this->client_birthdate) && !empty($this->client_birthdate)){return new DateTime($this->client_birthdate);}
+        else return $this->client_birthdate = null;        
+    }
+````
 
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
