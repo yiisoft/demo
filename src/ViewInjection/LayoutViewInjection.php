@@ -19,7 +19,7 @@ class LayoutViewInjection implements LayoutParametersInjectionInterface
     public function getLayoutParameters(): array
     {
         return [
-            'brandLabel' => 'Yii Demo',
+            'brandLabel' => 'Yii Demo with Invoicing System',
             'user' => $this->currentUser->getIdentity(),
         ];
     }

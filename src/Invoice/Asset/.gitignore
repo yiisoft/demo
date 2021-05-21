@@ -1,0 +1,12 @@
+*
+!.gitignore
+
+# Core
+!Core
+!Core/**/*
+
+# Base themes
+!Invoice
+!Invoice/**/*
+!Invoice_blue
+!Invoice_blue/**/*

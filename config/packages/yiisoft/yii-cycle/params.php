@@ -58,12 +58,15 @@ return [
         ],
 
         /**
-         * {@see \Yiisoft\Yii\Cycle\Factory\OrmFactory} config 
-         * Either {@see \Cycle\ORM\PromiseFactoryInterface} implementation or null is specified.
-         * Docs: @link https://github.com/cycle/docs/blob/master/advanced/promise.md
+         * Config for {@see \Yiisoft\Yii\Cycle\Factory\OrmFactory}
+         * Null, classname or {@see PromiseFactoryInterface} object.
+         *
+         * For example, \Cycle\ORM\Promise\ProxyFactory::class
+         *
+         * @link https://github.com/cycle/docs/blob/master/advanced/promise.md
          */
         'orm-promise-factory' => null,
-
+        //'orm-promise-factory' => \Cycle\ORM\Promise\ProxyFactory::class, 
         /**
          * A list of DB schema providers for {@see \Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline}
          * Providers are implementing {@see SchemaProviderInterface}.
@@ -72,12 +75,15 @@ return [
          */
         'schema-providers' => [
             // Uncomment next line to enable schema cache
-            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+            //\Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+            //\Yiisoft\Yii\Cycle\Schema\Provider\FromFilesSchemaProvider::class => [
+            //   'files' => ['@runtime/cycle-schema.php']
+            //],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
-            ],
+           ],
         ],
 
         /**

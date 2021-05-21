@@ -62,7 +62,6 @@ final class PostController
 
             $parameters['errors'] = $form->getFirstErrors();
         }
-
         return $this->viewRenderer->render('__form', $parameters);
     }
 

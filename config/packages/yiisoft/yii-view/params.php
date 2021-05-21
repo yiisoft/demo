@@ -12,7 +12,7 @@ use Yiisoft\Yii\View\CsrfViewInjection;
 return [
     'yiisoft/yii-view' => [
         'viewBasePath' => '@views',
-        'layout' => '@views/layout/main',
+        'layout'=>'@views/layout/main',
         'injections' => [
             Reference::to(ContentViewInjection::class),
             Reference::to(CsrfViewInjection::class),

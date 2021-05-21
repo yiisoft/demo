@@ -8,6 +8,8 @@ use App\Blog\CommentController;
 use App\Blog\Post\PostController;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
+use App\Invoice\InvoiceController;
+use App\Invoice\Client\ClientController;
 use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
@@ -130,7 +132,7 @@ return [
             Route::get('/comments/[next/{next}]')
                 ->action([CommentController::class, 'index'])
                 ->name('blog/comment/index')
-        ),
+        ),                      
 
     // Swagger routes
     Group::create('/swagger')
@@ -150,4 +152,24 @@ return [
                         ]);
                 }),
         ),
+    
+    // Invoice routes
+    Group::create('/invoice')
+        ->routes(
+        // Index                
+            Route::get('')
+                ->action([InvoiceController::class, 'index'])
+                ->name('invoice/index'),
+            // Add Client
+            Route::methods([Method::GET, Method::POST], '/client/add')
+                ->middleware(Authentication::class)
+                ->action([ClientController::class, 'add'])
+                ->name('client/add'),
+            // Edit Client
+            Route::methods([Method::GET, Method::POST], '/client/edit/{slug}')
+                ->name('client/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
+                ->middleware(Authentication::class)
+                ->action([ClientController::class, 'edit']),                        
+        ),                    
 ];
