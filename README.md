@@ -66,6 +66,7 @@ May 20..Client Entity testing commencing. Birthdate Tips.
      */
     private ?DateTime $client_birthdate = null;    
 ````
+1. The value accepted from coalface __form uses a string so initialize ClientForm.php's ````private ?string $client_birthdate = null```` with as string. 
 1. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
 ...src/Invoice/Entity/Client.php **and below**  
 ...src/Invoice/Client/ClientForm.php
