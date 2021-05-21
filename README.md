@@ -70,8 +70,9 @@ and
      */
     private ?DateTime $client_birthdate = null;    
 ````
-1. The value accepted from coalface __form uses a string so initialize ClientForm.php's ````private ?string $client_birthdate = null```` with as string. 
-1. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
+1. The value accepted from coalface __form uses a string so initialize ClientForm.php's ````private ?string $client_birthdate = null```` with a string
+   not a DateTime function.
+3. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
 ...src/Invoice/Entity/Client.php **and below**  
 ...src/Invoice/Client/ClientForm.php
 ````
