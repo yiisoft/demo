@@ -42,7 +42,7 @@ May 16..Useful code: rbac.. Assign the 'admin' role to first signed up user => a
 ````
     yii user/assignRole admin 1
 ````
-May 19..Client Entity created. 
+May 19..Client Entity created ...src/Invoice/Entity/Client.php along with SCRuMFS.
 
 1. Ensure _form 'id' and 'name' values eg. client_name correspond to Entity @column and Database tables fields. ie Use field names consistently
    through Entity, Annotations.
@@ -82,6 +82,7 @@ and
         else return $this->client_birthdate = null;        
     }
 ````
+May 21..Test Setting Entity and Setting/Add function.
 
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
