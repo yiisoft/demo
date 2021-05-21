@@ -18,6 +18,74 @@ May 14 ..https://github.com/cycle/annotated/blob/master/resources/stubs/Column.p
 1. Types: 'primary', 'bigPrimary', 'enum', 'boolean', 'integer', 'tinyInteger', 'bigInteger', 'string', 'text', 'tinyText', 'longText', 'double', 'float', 'decimal', 'datetime', 'date', 'time', 'timestamp', 'binary', 'tinyBinary', 'longBinary', 'json'
 2. Entity 'Clients' and 'Settings' created manually.  
 
+May 15..Useful code:
+
+Logger for emergency, warning, info, error, debug (../vendor/yiisoft/log/README.MD) eg.
+
+````
+    public function __construct()
+	{
+	    $this->_logger = new \Yiisoft\Log\Logger();
+            $this->_logger->info('Language Class Initialized');            
+	}
+````
+
+Aliases (../vendor/yiisoft/aliases/README.MD) eg.
+
+````
+    $aliases = new \Yiisoft\Aliases\Aliases(['@invoice' => __DIR__ . '/src/invoice', '@language' => '@invoice/language']);
+    $path = $aliases->get('@language');
+````
+
+May 16..Useful code: rbac.. Assign the 'admin' role to first signed up user => assignment.php generated under ../resources/rbac. 
+
+````
+    yii user/assignRole admin 1
+````
+May 19..Client Entity created ...src/Invoice/Entity/Client.php along with SCRuMFS.
+
+1. Ensure _form 'id' and 'name' values eg. client_birthdate correspond to Entity @column and Database tables fields. ie Use field names consistently
+   through Entity, Annotations. The ClientForm's getter method will receive data from the form which as a string. The getter will convert this 
+   to a DATETIME so that CYCLE ORM (Spiral Framework) can process it.
+1. Ensure initialization in instantiation area ie. BEFORE construct and IN construct.
+1. Ensure Client table structure replicates Invoiceplane's Client table structure including birthdate date type. 
+
+May 20..Client Entity testing commencing. Birthdate Tips.
+1. Annotations above function read by Cycle. For newbies ...they are not comments.
+1. ```` use \DateTime; ```` before Annotations. Don't forget backslash to indicate DateTime is a php class not in current Namespace.
+1. mySql type DATE in database and 'date' in annotation below. ie. ````* @Column(type="date", nullable=true)````
+1. Question mark before DateTime in function allows null value which we want since Date is not compulsory. ie. can be empty.
+1. Ensure question mark before DateTime even in 
+
+````
+   public function getClient_birthdate() : ?\DateTime  
+```` 
+and 
+````
+   public function setClient_birthdate(?\DateTime $client_birthdate): void
+````  
+...src/Invoice/Entity/Client.php...
+````
+     /**
+     * @Column(type="date", nullable=true)
+     */
+    private ?DateTime $client_birthdate = null;    
+````
+1. The value accepted from coalface __form uses a string so initialize ClientForm.php's ````private ?string $client_birthdate = null```` with a string
+   not a DateTime function.
+3. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
+...src/Invoice/Entity/Client.php **and below**  
+...src/Invoice/Client/ClientForm.php
+````
+    public function getClient_birthdate(): ?\DateTime
+    {
+        if (isset($this->client_birthdate) && !empty($this->client_birthdate)){return new DateTime($this->client_birthdate);}
+        else return $this->client_birthdate = null;        
+    }
+````
+May 21..Test Setting Entity and Setting/Add function.
+
+
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
 It's intended to show and test all Yii features.
