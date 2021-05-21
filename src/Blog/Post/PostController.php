@@ -59,7 +59,6 @@ final class PostController
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
-
             $parameters['errors'] = $form->getFirstErrors();
         }
         return $this->viewRenderer->render('__form', $parameters);
