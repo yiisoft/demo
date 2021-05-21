@@ -54,11 +54,15 @@ May 20..Client Entity testing commencing. Birthdate Tips.
 1. ```` use \DateTime; ```` before Annotations. Don't forget backslash to indicate DateTime is a php class not in current Namespace.
 1. mySql type DATE in database and 'date' in annotation below. ie. ````* @Column(type="date", nullable=true)````
 1. Question mark before DateTime in function allows null value which we want since Date is not compulsory. ie. can be empty.
-1. Ensure question mark before DateTime even in ````public function getClient_birthdate() : ?\DateTime  ```` and 
-   ````
-   public function setClient_birthdate(?\DateTime $client_birthdate): void
-   ```  
+1. Ensure question mark before DateTime even in 
 
+````
+   public function getClient_birthdate() : ?\DateTime  
+```` 
+and 
+````
+   public function setClient_birthdate(?\DateTime $client_birthdate): void
+````  
 ...src/Invoice/Entity/Client.php...
 ````
      /**
