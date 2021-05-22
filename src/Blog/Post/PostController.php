@@ -52,7 +52,6 @@ final class PostController
             'errors' => [],
             'body' => $request->getParsedBody(),
         ];
-
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
