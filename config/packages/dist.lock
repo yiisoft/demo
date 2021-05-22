@@ -32,9 +32,8 @@
         "web.php": "0d27b4eeaf46040f041424a8f9f56c52"
     },
     "yiisoft/log": {
-        "version": "1.0.2",
-        "events-web.php": "550b5ab87519380102e93143cee95913",
-        "events-console.php": "dba155a1e9ddff313d6899eebe684799"
+        "version": "1.0.1",
+        "events-web.php": "550b5ab87519380102e93143cee95913"
     },
     "yiisoft/log-target-file": {
         "version": "1.0.3",
@@ -96,11 +95,10 @@
         "web/field.php": "de80775138e87752de0105d78b838bd4"
     },
     "yiisoft/yii-console": {
-        "version": "dev-master 46e7d07",
+        "version": "dev-master 52b741b",
         "params.php": "f317cc18e62d6e61e57cc96f72b354d7",
         "console.php": "2c0ab3e1a5ccae37dea7d7fe86b46c07",
-        "providers-console.php": "7887e93f0895f75069c346b8ae701366",
-        "events-console.php": "92c76da023e07b7845db29791235dd17"
+        "providers-console.php": "7887e93f0895f75069c346b8ae701366"
     },
     "yiisoft/yii-cycle": {
         "version": "dev-master 5249640",
