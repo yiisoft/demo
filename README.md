@@ -45,7 +45,7 @@ May 16..Useful code: rbac.. Assign the 'admin' role to first signed up user => a
 May 19..Client Entity created ...src/Invoice/Entity/Client.php along with SCRuMFS.
 
 1. Ensure _form 'id' and 'name' values eg. client_birthdate correspond to Entity @column and Database tables fields. ie Use field names consistently
-   through Entity, Annotations. The ClientForm's getter method will receive data from the form which as a string. The getter will convert this 
+   through Entity, Annotations. The ClientForm's getter method will receive data from the form as a string. The getter will convert this 
    to a DATETIME so that CYCLE ORM (Spiral Framework) can process it.
 1. Ensure initialization in instantiation area ie. BEFORE construct and IN construct.
 1. Ensure Client table structure replicates Invoiceplane's Client table structure including birthdate date type. 
