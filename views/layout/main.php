@@ -19,7 +19,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
  *
  * @see \App\ApplicationViewInjection
  * @var \App\User\User $user
- * @var string $csrf;
+ * @var string $csrf
  * @var string $brandLabel
  */
 
@@ -27,10 +27,11 @@ $assetManager->register([
     AppAsset::class
 ]);
 
-$this->setCssFiles($assetManager->getCssFiles());
-$this->setJsFiles($assetManager->getJsFiles());
-$this->setJsStrings($assetManager->getJsStrings());
-$this->setJsVars($assetManager->getJsVars());
+$this->addCssFiles($assetManager->getCssFiles());
+$this->addCssStrings($assetManager->getCssStrings());
+$this->addJsFiles($assetManager->getJsFiles());
+$this->addJsStrings($assetManager->getJsStrings());
+$this->addJsVars($assetManager->getJsVars());
 
 $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
 
