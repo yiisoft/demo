@@ -70,8 +70,14 @@ and
      /**
      * @Column(type="date", nullable=true)
      */
-    private $client_birthdate = '' value accepted from coalface __form uses a string so initialize ClientForm.php's ````private ?string $client_birthdate = null```` with a string
-   not a DateTime function.
+    private $client_birthdate = '' value accepted from coalface __form uses a string so initialize ClientForm.php's 
+    with a string not a DateTime function.
+
+ ````
+ private ?string $client_birthdate = null
+
+```` 
+
 3. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
 ...src/Invoice/Entity/Client.php **and below**  
 ...src/Invoice/Client/ClientForm.php
