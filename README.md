@@ -79,7 +79,6 @@ and
 private ?string $client_birthdate = null
 ````
 
-```` 
 
 3. Question mark before ?\DateTime allows for null value. Use consistently in function declaration as well as seen below.  
 ...src/Invoice/Entity/Client.php **and below**  
@@ -92,7 +91,7 @@ private ?string $client_birthdate = null
     }
 ````
 May 21..Test Setting Entity and Setting/Add function.
-
+May 25..Client Add and Edit working.
 
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
