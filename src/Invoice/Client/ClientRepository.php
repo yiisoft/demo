@@ -49,11 +49,11 @@ final class ClientRepository extends Select\Repository
         );
     }
     
-    public function fullClientPage(int $client_id): ?Client
+    public function repoClientquery(string $client_id): Client
     {
         $query = $this
             ->select()
             ->where(['client_id' => $client_id]);
-        return  $query->fetchOne();
+        return  $query->fetchOne();        
     }
 }

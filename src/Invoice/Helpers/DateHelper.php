@@ -66,7 +66,8 @@ public function date_from_mysql($date, $ignore_post_check = false, $s)
 {
     if ($date <> '0000-00-00') {
         if (!$_POST or $ignore_post_check) {
-            $date = DateTime::createFromFormat('Y-m-d', $date);
+            $date = DateTime::createFromImmutable($date );
+            //$date = DateTime::createFromFormat('Y-m-d', $date);
             return $date->format($s->setting('date_format'));
         }
         return $date;

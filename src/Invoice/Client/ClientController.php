@@ -38,12 +38,11 @@ final class ClientController
     public function index(Request $request, ClientRepository $clientRepository): Response
     {
         $canEdit = $this->userService->hasPermission('editClient');
-        $client_id = $request->getAttribute('client_id', null);
-        $item = $clientRepository->fullClientPage($client_id);        
-        if ($item === null) {
+        $clients = $clientRepository->findAllPreloaded();        
+        if ($clients === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'client_id' => $client_id]);
+        return $this->viewRenderer->render('index', [ 'canEdit' => $canEdit, 'clients' => $clients]);
     }
 
     public function add(Request $request, ValidatorInterface $validator, SettingRepository $settingRepository): Response
@@ -69,7 +68,7 @@ final class ClientController
             $form = new ClientForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
                 $this->clientService->saveClient($this->userService->getUser(),new Client(),$form);
-                return $this->webService->getRedirectResponse('invoice/index');
+                return $this->webService->getRedirectResponse('client/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -77,22 +76,28 @@ final class ClientController
         return $this->viewRenderer->render('__form', $parameters, );
     }
 
-    public function edit(
-        Request $request,
-        ClientRepository $clientRepository,
-        ValidatorInterface $validator,
-        SettingRepository $settingRepository    
+    public function edit(Request $request,ClientRepository $clientRepository,ValidatorInterface $validator,SettingRepository $settingRepository    
     ): Response {
-        $client_id = $request->getAttribute('client_id', null);
-        $client = $clientRepository->fullClientPage($client_id);
+        $client_id = $request->getAttribute('client_id');
+        $canEdit = $this->userService->hasPermission('editClient');
+        $client = $clientRepository->repoClientquery($client_id);
         if ($client === null) {
             return $this->webService->getNotFoundResponse();
         }
-
+        if (!$canEdit){
+            //improve with flashmessage later
+            return $this->webService->getRedirectResponse('client/index');
+        }
+        $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']);
+        $language = $aliases->get('@language');
+        //todo client_country
+        $selected_country = $request->getParsedBody();
+        $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('edit_client'),
             'action' => ['client/edit', ['client_id' => $client_id]],
             'errors' => [],
+            'client'=>$client,
             'body' => [
                 'client_date_created'=>$client->getClient_date_created(),
                 'client_date_modified'=>$client->getClient_date_modified(),
@@ -119,16 +124,19 @@ final class ClientController
                 'client_birthdate'=>$client->getClient_birthdate(),
                 'client_gender'=>$client->getClient_gender()
             ],
+            'aliases'=>$aliases,
+            's'=>$settingRepository,
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
         ];
 
         if ($request->getMethod() === Method::POST) {
             $form = new ClientForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($client, $form);
-                return $this->webService->getRedirectResponse('invoice/index');
+                $this->clientService->saveClient($this->userService->getUser(),$client, $form);
+                return $this->webService->getRedirectResponse('client/index');
             }
-
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
         }

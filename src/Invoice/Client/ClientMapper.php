@@ -46,7 +46,7 @@ final class ClientMapper extends Mapper
             $this->source->getDatabase(),
             $this->source->getTable(),
             [
-                'client_date_deleted' => new \DateTimeImmutable(),
+                'client_date_modified' => new \DateTimeImmutable(),
                 'client_active' => false,
             ]
         );
@@ -70,9 +70,11 @@ final class ClientMapper extends Mapper
     {
         $now = new \DateTimeImmutable();
 
-        if ($entity->isPublic() && $entity->getPublishedAt() === null) {
+        if ($entity->isNewRecord()) {
             $state->register('client_date_created', $now, true);
             $command->register('client_date_created', $now, true);
+            $state->register('client_date_modified', $now, true);
+            $command->register('client_date_modified', $now, true);
         }
     }
 }

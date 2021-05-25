@@ -138,8 +138,12 @@ final class ClientForm extends FormModel
     
     public function getClient_birthdate(): ?\DateTime
     {
-        if (isset($this->client_birthdate) && !empty($this->client_birthdate)){return new DateTime($this->client_birthdate);}
-        else return $this->client_birthdate = null;        
+        if (isset($this->client_birthdate) && !empty($this->client_birthdate)){
+            return new DateTime($this->client_birthdate);            
+        }
+        if (empty($this->client_birthdate)){
+            return $this->client_birthdate = null;
+        } 
     }
     
     public function getClient_gender(): int

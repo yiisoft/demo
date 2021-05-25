@@ -15,7 +15,6 @@ use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Arrays\ArrayHelper;
 use App\Invoice\Helpers\DateHelper;
-use \DateTimeImmutable;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {
@@ -177,7 +176,7 @@ if (!empty($errors)) {
     <div class="mb-3 form-group has-feedback">
         <label form-label for="client_birthdate"><?= $s->trans('birthdate'); ?></label>
         <?php
-            $bdate = $body['client_birthdate'] ?? null;
+            $bdate = Html::encode($body['client_birthdate'] ?? null);
             if ($bdate && $bdate != "0000-00-00") {
                 //use the DateHelper
                 $datehelper = new DateHelper();
@@ -189,7 +188,7 @@ if (!empty($errors)) {
         <div class="input-group">
             <input type="text" name="client_birthdate" id="client_birthdate" placeholder="YYYY/MM/DD"
                    class="form-control data-datepicker"
-                   value="<?php echo Html::encode($bdate); ?>">
+                   value="<?= Html::encode($bdate); ?>">
             <span class="input-group-addon">
             <i class="fa fa-calendar fa-fw"></i>
         </span>

@@ -48,7 +48,7 @@ final class PostController
     {
         $parameters = [
             'title' => 'Add post',
-            'action' => ['blog/add'],
+            'action' => ['post/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
         ];
@@ -77,7 +77,7 @@ final class PostController
 
         $parameters = [
             'title' => 'Edit post',
-            'action' => ['blog/edit', ['slug' => $slug]],
+            'action' => ['post/edit', ['slug' => $slug]],
             'errors' => [],
             'body' => [
                 'title' => $post->getTitle(),

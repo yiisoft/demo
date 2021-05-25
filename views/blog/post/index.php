@@ -29,7 +29,7 @@ $this->setTitle($item->getTitle());
         if ($canEdit) {
             echo Html::a(
                 'Edit',
-                $urlGenerator->generate('blog/edit', ['slug' => $slug]),
+                $urlGenerator->generate('post/edit', ['slug' => $slug]),
                 ['class' => 'btn btn-outline-secondary btn-sm ms-2']
             );
         }

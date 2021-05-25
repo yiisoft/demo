@@ -6,11 +6,10 @@ namespace App\Invoice\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
-use \DateTimeImmutable;
-use \DateTime;
+use DateTime;
+use DateTimeImmutable;
 
 /**
  * @Entity(
@@ -29,7 +28,7 @@ class Client
     /**
      * @Column(type="primary")
      */
-    private ?int $client_id = null;
+    public ?int $client_id = null;
     
     /**
      * @Column(type="datetime")
@@ -44,7 +43,7 @@ class Client
     /**
      * @Column(type="text")
      */ 
-    private string $client_name = '';
+    public string $client_name = '';
     
     /**
      * @Column(type="text", nullable=true)
@@ -124,7 +123,7 @@ class Client
     /**
      * @Column(type="string(255)", nullable=true)
      */
-    private ?string $client_surname = '';
+    public ?string $client_surname = '';
     
     /**
      * @Column(type="string(16)", nullable=true)
@@ -144,7 +143,7 @@ class Client
     /**
      * @Column(type="date", nullable=true)
      */
-    private ?DateTime $client_birthdate = null;
+    private $client_birthdate = '';
     
     /**
      * @Column(type="tinyInteger", default=0)
@@ -155,7 +154,7 @@ class Client
             string $client_state='',string $client_zip='',string $client_country='',string $client_phone='',string $client_fax='',
             string $client_mobile='', string $client_email ='', string $client_web='', string $client_vat_id='', string $client_tax_code='',
             string $client_language='', bool $client_active=false, string $client_surname='', string $client_avs='', string $client_insurednumber='',
-            string $client_veka='', ?DateTime $client_birthdate = null, int $client_gender=0
+            string $client_veka='', $client_birthdate = '', int $client_gender=0
     )
     {
         $this->client_name = $client_name;  
@@ -196,7 +195,7 @@ class Client
 
     public function getClient_date_modified(): DateTimeImmutable
     {
-        return $this->client_date_updated;
+        return $this->client_date_modified;
     }
     
     public function getClient_name(): string
@@ -398,13 +397,19 @@ class Client
     {
         $this->client_veka = $client_veka;
     }
-         
-    public function getClient_birthdate() : ?\DateTime  
+    
+    //cycle 
+    public function getClient_birthdate() : ?DateTimeImmutable  
     {
-        return $this->client_birthdate = $client_birthdate;
+        if (isset($this->client_birthdate) && !empty($this->client_birthdate)){
+            return $this->client_birthdate;            
+        }
+        if (empty($this->client_birthdate)){
+            return $this->client_birthdate = null;
+        }
     }    
     
-    public function setClient_birthdate(?\DateTime $client_birthdate): void
+    public function setClient_birthdate(?DateTime $client_birthdate): void
     {
         $this->client_birthdate = $client_birthdate;
     }

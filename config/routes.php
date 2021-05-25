@@ -89,17 +89,19 @@ return [
     Group::create('/blog')
         ->routes(
         // Index
-            Route::get('[/page{page:\d+}]')
+            Route::get('[/page///////{page:\d+}]')
                 ->action([BlogController::class, 'index'])
                 ->name('blog/index'),
             // Add Post page
-            Route::methods([Method::GET, Method::POST], '/page/add')
+            Route::methods([Method::GET, Method::POST], '/this is the deceptive path and you can add an input in curly brackets for edits')
                 ->middleware(Authentication::class)
+                //this is the actual public function add(... in the controller. Note no keyword action before the name as in Yii2
                 ->action([PostController::class, 'add'])
-                ->name('blog/add'),
+                //below is the name that will be used in PostController parameters 
+                ->name('post/add'),
             // Edit Post page
-            Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
-                ->name('blog/edit')
+            Route::methods([Method::GET, Method::POST], '/anything can be put here, so use .../config/routes.php/{slug}')
+                ->name('post/edit')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
                 ->middleware(Authentication::class)
                 ->action([PostController::class, 'edit']),
@@ -156,20 +158,25 @@ return [
     // Invoice routes
     Group::create('/invoice')
         ->routes(
-        // Index                
+        // Index
+            //so nothing will appear over the tooltip when you hover over the button ie. ''                
             Route::get('')
                 ->action([InvoiceController::class, 'index'])
                 ->name('invoice/index'),
+            //so if you add the below /client to the above '/invoice' you get '/invoice/client', does that look familiar?
+            Route::get('/client')
+                ->action([ClientController::class, 'index'])
+                ->name('client/index'),    
             // Add Client
             Route::methods([Method::GET, Method::POST], '/client/add')
                 ->middleware(Authentication::class)
                 ->action([ClientController::class, 'add'])
                 ->name('client/add'),
             // Edit Client
-            Route::methods([Method::GET, Method::POST], '/client/edit/{slug}')
+            Route::methods([Method::GET, Method::POST], '/client/edit/{client_id}')
                 ->name('client/edit')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
                 ->middleware(Authentication::class)
-                ->action([ClientController::class, 'edit']),                        
+                ->action([ClientController::class, 'edit']), 
         ),                    
 ];
