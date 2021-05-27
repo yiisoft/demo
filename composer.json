@@ -80,7 +80,6 @@
         "codeception/codeception": "^4.1.9",
         "codeception/module-asserts": "@dev",
         "codeception/module-phpbrowser": "@dev",
-        "maglnet/composer-require-checker": "^3.1",
         "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.5",
         "roave/security-advisories": "dev-master",
