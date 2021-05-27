@@ -10,7 +10,7 @@ use Yiisoft\Router\UrlMatcherInterface;
 return [
     'yiisoft/view' => [
         'basePath' => '@views',
-        'defaultParameters' => [
+        'commonParameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
             'urlMatcher' => Reference::to(UrlMatcherInterface::class),
