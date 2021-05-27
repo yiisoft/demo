@@ -43,8 +43,8 @@ jobs:
       - name: Update composer
         run: composer self-update
 
-      - name: Install dependencies with composer
-        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+      - name: Install maglnet/composer-require-checker
+        run: composer require maglnet/composer-require-checker
 
       - name: Check dependency
         run: vendor/bin/composer-require-checker
