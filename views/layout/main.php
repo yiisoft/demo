@@ -73,7 +73,7 @@ echo Nav::widget()
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
                 ['label' => 'Invoice', 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRoute, 'invoice/') && $currentRoute !== 'invoice/index',
                     'items' => [ 
-                                ['label' =>'Client Add','url'=>$urlGenerator->generate('client/add')]
+                                ['label' =>'Client','url'=>$urlGenerator->generate('client/index')]
                                ]
                 ],                
             ]       

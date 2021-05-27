@@ -143,4 +143,19 @@ final class ClientController
 
         return $this->viewRenderer->render('__form', $parameters);
     }
+    
+    public function delete(Request $request,ClientRepository $clientRepository  
+    ): Response {
+        $client_id = $request->getAttribute('client_id');
+        $canEdit = $this->userService->hasPermission('editClient');
+        $client = $clientRepository->repoClientquery($client_id);
+        if ($client === null) {
+            return $this->webService->getNotFoundResponse();
+        }
+        if (!$canEdit){
+            return $this->webService->getRedirectResponse('client/index');
+        }
+        $this->clientService->deleteClient($client);
+        return $this->webService->getRedirectResponse('client/index');        
+    }
 }

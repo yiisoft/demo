@@ -1,17 +1,17 @@
 {
-    "name": "yiisoft/yii-demo",
+    "name": "yiisoft/demo",
     "type": "project",
     "description": "Yii Framework Project Demo",
     "keywords": [
         "yii",
         "app"
     ],
-    "homepage": "https://github.com/yiisoft/yii-demo",
+    "homepage": "https://github.com/yiisoft/demo",
     "license": "BSD-3-Clause",
     "support": {
-        "source": "https://github.com/yiisoft/yii-demo",
-        "issues": "https://github.com/yiisoft/yii-demo/issues",
-        "wiki": "https://github.com/yiisoft/yii-demo/wiki",
+        "source": "https://github.com/yiisoft/demo",
+        "issues": "https://github.com/yiisoft/demo/issues",
+        "wiki": "https://github.com/yiisoft/demo/wiki",
         "forum": "http://www.yiiframework.com/forum/"
     },
     "minimum-stability": "dev",

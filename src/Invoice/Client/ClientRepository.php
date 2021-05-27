@@ -40,6 +40,14 @@ final class ClientRepository extends Select\Repository
     {
         $this->entityWriter->write([$client]);
     }
+    
+    /**
+     * @throws Throwable
+     */
+    public function delete(Client $client): void
+    {
+        $this->entityWriter->delete([$client]);
+    }
 
     private function prepareDataReader($query): EntityReader
     {

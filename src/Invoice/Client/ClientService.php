@@ -47,4 +47,9 @@ final class ClientService
 
         $this->repository->save($model);
     }
+    
+    public function deleteClient(Client $model): void
+    {
+        $this->repository->delete($model);
+    }
 }

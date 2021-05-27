@@ -28,19 +28,6 @@
    $this->setJsStrings($assetManager->getJsStrings());
    $this->setJsVars($assetManager->getJsVars());
    
-   ///$config = new Config(
-   ///         dirname(__DIR__),
-   ///         '/config/packages', // Configs path.
-   ///     );
-   
-   ///$container = new Container(
-            //$config->get('providers-web')
-           
-  ///      );
-   
-   //$container = $container->get(ContainerInterface::class);
-   
-   
 ?>
 <?php $this->beginPage(); ?>  
 <!DOCTYPE html>

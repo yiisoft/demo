@@ -178,5 +178,10 @@ return [
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
                 ->middleware(Authentication::class)
                 ->action([ClientController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/client/delete/{client_id}')
+                ->name('client/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
+                ->middleware(Authentication::class)
+                ->action([ClientController::class, 'delete']),    
         ),                    
 ];
