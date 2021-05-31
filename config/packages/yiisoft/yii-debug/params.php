@@ -22,10 +22,6 @@ use Yiisoft\Yii\Debug\Proxy\EventDispatcherInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\LoggerInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\UrlMatcherInterfaceProxy;
 
-/**
- * @var $params array
- */
-
 return [
     'yiisoft/yii-debug' => [
         'enabled' => false,
@@ -49,6 +45,19 @@ return [
             EventDispatcherInterface::class => [EventDispatcherInterfaceProxy::class, EventCollectorInterface::class],
             UrlMatcherInterface::class => [UrlMatcherInterfaceProxy::class, RouterCollectorInterface::class],
             CacheInterface::class,
+        ],
+        'dumper.excludedClasses' => [
+            'PhpParser\\Parser\\Php7',
+            'PhpParser\\NodeTraverser',
+            'PhpParser\\NodeVisitor\\NameResolver',
+            'PhpParser\\NameContext',
+            'PhpParser\\Node\\Name',
+            'PhpParser\\ErrorHandler\\Throwing',
+            'Spiral\\Attributes\\Internal\\AttributeParser',
+            'Doctrine\\Inflector\\Rules\\Pattern',
+            'Doctrine\\Inflector\\Rules\\Word',
+            'Doctrine\\Inflector\\Rules\\Substitution',
+            'Doctrine\\Inflector\\Rules\\Transformation',
         ],
         'logLevel' => ContainerProxy::LOG_ARGUMENTS | ContainerProxy::LOG_RESULT | ContainerProxy::LOG_ERROR,
         'path' => '@runtime/debug',
