@@ -7,7 +7,7 @@ return [
         'optionalRequests' => ['/debug**'],
     ],
     'yiisoft/yii-debug-api' => [
-        'enabled' => false,
+        'enabled' => true,
         'allowedIPs' => ['127.0.0.1', '::1'],
         'allowedHosts' => [],
     ],
