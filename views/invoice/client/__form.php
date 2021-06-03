@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Html\Html;
+use Yiisoft\Yii\Bootstrap5\Alert;
+use Yiisoft\Arrays\ArrayHelper;
+use App\Invoice\Helpers\DateHelper;
+
 /**
  * @var \Yiisoft\View\View $this
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -10,12 +15,6 @@ declare(strict_types=1);
  * @var string $action
  * @var string $title
  */
-
-use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap5\Alert;
-use Yiisoft\Arrays\ArrayHelper;
-use App\Invoice\Helpers\DateHelper;
-use \DateTimeImmutable;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {
@@ -26,19 +25,9 @@ if (!empty($errors)) {
 
 <h1><?= Html::encode($title) ?></h1>
 
-<!--modify this script later to Yii3 javascript -->
-<script type="text/javascript">
-    $(function () {
-        $("#country").select2({
-            placeholder: "<?= $s->trans('country'); ?>",
-            allowClear: true
-        });
-    });
-</script>
-
-<form id="clientForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data">
+<form id="clientForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data" >
 <input type="hidden" name="_csrf" value="<?= $csrf ?>">
-  <div class="row">
+  <div class="row border border-2 bg-primary bg-gradient text-white">
     <div class="mb-3 form-group">
         <label for="client_active" class="control-label">
                                 <?= $s->trans('active_client'); ?>
@@ -77,7 +66,7 @@ if (!empty($errors)) {
         </select> 
     </div>  
   </div>
-  <div class="row">
+  <div class="row border border-2 bg-secondary bg-gradient text-white">
     <div class="mb-3 form-group">
         <label for="client_address_1" class="form-label"><?= $s->trans('street_address'); ?></label>
         <input type="text" class="form-control" name="client_address_1" id="client_address_1" placeholder="<?= $s->trans('street_address'); ?>" value="<?= Html::encode($body['client_address_1'] ?? '') ?>">
@@ -117,7 +106,7 @@ if (!empty($errors)) {
             </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row border border-2 bg-info bg-gradient text-white">
     <div class="mb-3 form-group">
         <label for="client_phone" class="form-label"><?= $s->trans('phone'); ?></label>
         <input type="text" class="form-control" name="client_phone" id="client_phone" placeholder="<?= $s->trans('phone'); ?>" value="<?= Html::encode($body['client_phone'] ?? '') ?>">
@@ -143,7 +132,7 @@ if (!empty($errors)) {
         <input type="text" class="form-control" name="client_web" id="client_web" placeholder="<?= $s->trans('web'); ?>" value="<?= Html::encode($body['client_web'] ?? '') ?>">
     </div>
   </div>    
-  <div class="row">     
+  <div class="row border border-2 bg-warning bg-gradient text-white">     
     <div class="mb-3 form-group">
         <label for="client_vat_id" class="form-label"><?= $s->trans('vat_id'); ?></label>
         <input type="text" class="form-control" name="client_vat_id" id="client_vat_id" placeholder="<?= $s->trans('vat_id'); ?>" value="<?= Html::encode($body['client_vat_id'] ?? '') ?>">
@@ -154,7 +143,7 @@ if (!empty($errors)) {
         <input type="text" class="form-control" name="client_tax_code" id="client_tax_code" placeholder="<?= $s->trans('tax_code'); ?>" value="<?= Html::encode($body['client_tax_code'] ?? '') ?>">
     </div>
   </div>
-  <div class="row">
+  <div class="row border border-2 bg-danger bg-gradient text-white">
     <div class="mb-3 form-group">
         <label for="client_gender"  class="form-label"><?= $s->trans('gender'); ?></label>
         <div class="controls">
@@ -175,21 +164,21 @@ if (!empty($errors)) {
         </div>
     </div>
     <div class="mb-3 form-group has-feedback">
-        <label form-label for="client_birthdate"><?= $s->trans('birthdate'); ?></label>
+        <label form-label for="client_birthdate"><?= $s->trans('birthdate') .'  YYYY-MM-DD'; ?></label>
         <?php
             $bdate = $body['client_birthdate'] ?? null;
-            if ($bdate && $bdate != "0000-00-00") {
+            $datehelper = new DateHelper();
+            if ($bdate && $bdate !== "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
                 $bdate = $datehelper->date_from_mysql($bdate, false, $s);
             } else {
                 $bdate = null;
             }
         ?>        
         <div class="input-group">
-            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="YYYY/MM/DD"
+            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="YYYY-MM-DD"
                    class="form-control data-datepicker"
-                   value="<?php echo Html::encode($bdate); ?>">
+                   value="<?php if ($bdate <> null) {echo Html::encode($datehelper->date_to_mysql($bdate, $s));} ?>">
             <span class="input-group-addon">
             <i class="fa fa-calendar fa-fw"></i>
         </span>

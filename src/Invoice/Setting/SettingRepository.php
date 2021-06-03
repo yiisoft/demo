@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Invoice\Setting;
 
-use App\Invoice\Entity\Settings;
+use App\Invoice\Entity\Setting;
 use Cycle\ORM\Select;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -28,7 +28,7 @@ final class SettingRepository extends Select\Repository
     /**
      * Get settings without filter
      *
-     * @psalm-return DataReaderInterface<int, Settings>
+     * @psalm-return DataReaderInterface<int, Setting>
      */
     public function findAllPreloaded(): DataReaderInterface
     {
@@ -43,6 +43,14 @@ final class SettingRepository extends Select\Repository
     {
         $this->entityWriter->write([$setting]);
     }
+    
+    /**
+     * @throws Throwable
+     */
+    public function delete(Setting $setting): void
+    {
+        $this->entityWriter->delete([$setting]);
+    }
 
     private function prepareDataReader($query): EntityReader
     {
@@ -52,15 +60,15 @@ final class SettingRepository extends Select\Repository
         );
     }
     
-    public function fullSettingPage(int $setting_id): ?Settings
+    public function repoSettingquery(string $setting_id): Setting
     {
         $query = $this
             ->select()
             ->where(['setting_id' => $setting_id]);
-        return  $query->fetchOne();
+        return  $query->fetchOne();        
     }
     
-    public function withKey(string $setting_key): ?Settings
+    public function withKey(string $setting_key): ?Setting
     {
         $query = $this
             ->select()
@@ -68,21 +76,21 @@ final class SettingRepository extends Select\Repository
         return  $query->fetchOne();
     }
     
-    public function expand(string $setting_key, string $setting_value): ?Settings
+    public function expand(string $setting_key, string $setting_value): ?Setting
     {
         $one_setting = $this->withKey($setting_key);
         if (!empty($one_setting)) {
               $one_setting->setting_value = $setting_value;
               $this->save($one_setting);        
         } else {
-            $newsetting = new Settings();
+            $newsetting = new Setting();
             $newsetting->setting_key = $key;
             $newsetting->setting_value = $value;
             $this->save($newsetting);        
         }       
     }
     
-    public function getValue(string $setting_key): ?Settings
+    public function getValue(string $setting_key): ?Setting
     {
         $one_setting = $this->withKey($key);
         if (!empty($one_setting) && !empty($one_setting->setting_value)) {
@@ -90,12 +98,6 @@ final class SettingRepository extends Select\Repository
             return $g;
         }
         else return '';        
-    }
-    
-    public function delete(string $setting_key): ?Settings
-    {
-        $one_setting = $this->withKey($setting_key);
-        $one_setting->delete();
     }
     
     public function load_settings()

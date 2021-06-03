@@ -10,7 +10,6 @@ use Cycle\Annotated\Annotation\Entity;
 /**
  * @Entity(
  *     repository="App\Invoice\Setting\SettingRepository",
- *     mapper="App\Invoice\Setting\SettingMapper",
  * )
  */
 class Setting

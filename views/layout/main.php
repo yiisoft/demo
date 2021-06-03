@@ -27,10 +27,11 @@ $assetManager->register([
     AppAsset::class
 ]);
 
-$this->setCssFiles($assetManager->getCssFiles());
-$this->setJsFiles($assetManager->getJsFiles());
-$this->setJsStrings($assetManager->getJsStrings());
-$this->setJsVars($assetManager->getJsVars());
+$this->addCssFiles($assetManager->getCssFiles());
+$this->addCssStrings($assetManager->getCssStrings());
+$this->addJsFiles($assetManager->getJsFiles());
+$this->addJsStrings($assetManager->getJsStrings());
+$this->addJsVars($assetManager->getJsVars());
 
 $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
 $this->beginPage();
@@ -73,9 +74,10 @@ echo Nav::widget()
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
                 ['label' => 'Invoice', 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRoute, 'invoice/') && $currentRoute !== 'invoice/index',
                     'items' => [ 
-                                ['label' =>'Client','url'=>$urlGenerator->generate('client/index')]
+                                ['label' =>'Setting','url'=>$urlGenerator->generate('setting/index')],
+                                ['label' =>'Client','url'=>$urlGenerator->generate('client/index')]                                  
                                ]
-                ],                
+                ],              
             ]       
         );
 

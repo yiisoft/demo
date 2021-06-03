@@ -13,7 +13,7 @@ final class ClientService
 
     public function __construct(ClientRepository $repository)
     {
-        $this->repository = $repository;;
+        $this->repository = $repository;
     }
 
     public function saveClient(User $user, Client $model, ClientForm $form): void

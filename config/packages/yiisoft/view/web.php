@@ -29,8 +29,8 @@ return [
         '__construct()' => [
             'basePath' => DynamicReference::to(static fn (Aliases $aliases) => $aliases->get($params['yiisoft/view']['basePath'])),
         ],
-        'withDefaultParameters()' => [
-            $params['yiisoft/view']['defaultParameters'],
+        'setCommonParameters()' => [
+            $params['yiisoft/view']['commonParameters'],
         ],
     ],
 ];

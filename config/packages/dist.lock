@@ -81,14 +81,14 @@
         "common.php": "4b94172a2c47b9f7db89944ce6655751"
     },
     "yiisoft/view": {
-        "version": "dev-master 23ad8da",
-        "params.php": "fe7aae603d46a47a2e248b5fdade25cf",
+        "version": "dev-master 76a92c1",
+        "params.php": "ca97adea9f9ae25196245a45e3e9e08d",
         "common.php": "975df7908084213fdfa8ea1ff7ec7c28",
         "web.php": "41e2541d9875dcddf0b47f2521e25163"
     },
     "yiisoft/widget": {
-        "version": "dev-master fc6a12d",
-        "providers.php": "88add09d70199884cccfc20df5cb752c"
+        "version": "dev-master 4d9ae56",
+        "providers.php": "48e874fa0ba37dfcfe1393dd15b9d949"
     },
     "yiisoft/yii-bootstrap5": {
         "version": "dev-master 2562fd8",
@@ -141,6 +141,12 @@
         "version": "dev-master 1593798",
         "common.php": "351a6fb358d6c6ad73d05fc0e7b02d52",
         "providers.php": "b536be5f07d471da91b489801969aec1"
+    },
+    "yiisoft/yii-gii": {
+        "version": "dev-master 72febe9",
+        "params.php": "139c128cf7c8e02bc955ec21bd3c7604",
+        "console.php": "e6d0aa38ea0ba5b544eb8fdf9f436bc5",
+        "common.php": "a2ba0f899b920c7f66352cf9e98d9ec9"
     },
     "yiisoft/yii-view": {
         "version": "dev-master 2507e03",

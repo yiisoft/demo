@@ -15,6 +15,8 @@ use Yiisoft\Http\Method;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Session\SessionInterface;
+use Yiisoft\Session\Flash\Flash;
 
 final class ClientController
 {
@@ -30,26 +32,30 @@ final class ClientController
         UserService $userService
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/client');
+                                           //->withLayout(dirname(dirname(dirname(__DIR__))).'/views/layout/main.php');
         $this->webService = $webService;
         $this->clientService = $clientService;
         $this->userService = $userService;
     }
 
-    public function index(Request $request, ClientRepository $clientRepository): Response
+    public function index(SessionInterface $session, ClientRepository $clientRepository, SettingRepository $settingRepository): Response
     {
-        $canEdit = $this->userService->hasPermission('editClient');
-        $clients = $clientRepository->findAllPreloaded();        
-        if ($clients === null) {
-            return $this->webService->getNotFoundResponse();
-        }
-        return $this->viewRenderer->render('index', [ 'canEdit' => $canEdit, 'clients' => $clients]);
+        $canEdit = $this->rbac($session);
+        $flash = $this->flash($session, 'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $parameters = [
+            's'=> $settingRepository,
+            'canEdit' => $canEdit,
+            'clients' => $this->clients($clientRepository), 
+            'flash'=> $flash,
+        ];    
+        return $this->viewRenderer->render('index', $parameters);
     }
 
-    public function add(Request $request, ValidatorInterface $validator, SettingRepository $settingRepository): Response
+    public function add(SessionInterface $session, Request $request, ValidatorInterface $validator, SettingRepository $settingRepository): Response
     {
+        $this->rbac($session);
         $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']);
         $language = $aliases->get('@language');
-        //todo client_country
         $selected_country = $request->getParsedBody();
         $countries = new CountryHelper();
         $parameters = [
@@ -72,33 +78,103 @@ final class ClientController
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
-
         return $this->viewRenderer->render('__form', $parameters, );
     }
 
-    public function edit(Request $request,ClientRepository $clientRepository,ValidatorInterface $validator,SettingRepository $settingRepository    
+    public function edit(SessionInterface $session, Request $request, ClientRepository $clientRepository, ValidatorInterface $validator,SettingRepository $settingRepository
     ): Response {
-        $client_id = $request->getAttribute('client_id');
-        $canEdit = $this->userService->hasPermission('editClient');
-        $client = $clientRepository->repoClientquery($client_id);
-        if ($client === null) {
-            return $this->webService->getNotFoundResponse();
-        }
-        if (!$canEdit){
-            //improve with flashmessage later
-            return $this->webService->getRedirectResponse('client/index');
-        }
-        $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']);
-        $language = $aliases->get('@language');
-        //todo client_country
+        $this->rbac($session);
         $selected_country = $request->getParsedBody();
         $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('edit_client'),
-            'action' => ['client/edit', ['client_id' => $client_id]],
+            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->client_id]],
             'errors' => [],
-            'client'=>$client,
-            'body' => [
+            'client'=>$this->client($request, $clientRepository),
+            'body' => $this->body($this->client($request, $clientRepository)),
+            'aliases'=> new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']),
+            's'=>$settingRepository,
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
+        ];
+        if ($request->getMethod() === Method::POST) {
+            $form = new ClientForm();
+            $body = $request->getParsedBody();
+            if ($form->load($body) && $validator->validate($form)->isValid()) {
+                $this->clientService->saveClient($this->userService->getUser(),$this->client($request,$clientRepository), $form);
+                return $this->webService->getRedirectResponse('client/index');
+            }
+            $parameters['body'] = $body;
+            $parameters['errors'] = $form->getFirstErrors();
+        }
+        return $this->viewRenderer->render('__form', $parameters);
+    }
+    
+    public function delete(SessionInterface $session,Request $request,ClientRepository $clientRepository 
+    ): Response {
+        $this->rbac($session);
+        $this->flash($session, 'danger','This record has been deleted');
+        $this->clientService->deleteClient($this->client($request,$clientRepository));               
+        return $this->webService->getRedirectResponse('client/index');        
+    }
+    
+    public function view(SessionInterface $session, Request $request, ClientRepository $clientRepository, ValidatorInterface $validator,SettingRepository $settingRepository   
+    ): Response {
+        $this->rbac($session);
+        $selected_country = $request->getParsedBody();
+        $countries = new CountryHelper();
+        $parameters = [
+            'title' => $settingRepository->trans('edit_client'),
+            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->client_id]],
+            'errors' => [],
+            'client'=>$this->client($request, $clientRepository),
+            'body' => $this->body($this->client($request, $clientRepository)),
+            'aliases'=>new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']),
+            's'=>$settingRepository,
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
+        ];
+        if ($request->getMethod() === Method::POST) {
+            $form = new ClientForm();
+            $body = $request->getParsedBody();
+            if ($form->load($body) && $validator->validate($form)->isValid()) {
+                $this->clientService->saveClient($this->userService->getUser(),$this->client($request, $clientRepository), $form);
+                return $this->webService->getRedirectResponse('client/index');
+            }
+            $parameters['body'] = $body;
+            $parameters['errors'] = $form->getFirstErrors();
+        }
+        return $this->viewRenderer->render('__view', $parameters);
+    }
+    
+    private function rbac(SessionInterface $session) {
+        $canEdit = $this->userService->hasPermission('editClient');
+        if (!$canEdit){
+            $this->flash($session,'warning', 'You do not have the required permission.');
+            return $this->webService->getRedirectResponse('client/index');
+        }
+        return $canEdit;
+    }
+    
+    private function client(Request $request,ClientRepository $clientRepository) {
+        $client_id = $request->getAttribute('client_id');       
+        $client = $clientRepository->repoClientquery($client_id);
+        if ($client === null) {
+            return $this->webService->getNotFoundResponse();
+        }
+        return $client;
+    }
+    
+    private function clients(ClientRepository $clientRepository) {
+        $clients = $clientRepository->findAllPreloaded();        
+        if ($clients === null) {
+            return $this->webService->getNotFoundResponse();
+        };
+        return $clients;
+    }
+    
+    private function body($client) {
+        $body = [
                 'client_date_created'=>$client->getClient_date_created(),
                 'client_date_modified'=>$client->getClient_date_modified(),
                 'client_name' => $client->getClient_name(),
@@ -123,39 +199,13 @@ final class ClientController
                 'client_veka'=>$client->getClient_veka(),
                 'client_birthdate'=>$client->getClient_birthdate(),
                 'client_gender'=>$client->getClient_gender()
-            ],
-            'aliases'=>$aliases,
-            's'=>$settingRepository,
-            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
-            'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
-        ];
-
-        if ($request->getMethod() === Method::POST) {
-            $form = new ClientForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($this->userService->getUser(),$client, $form);
-                return $this->webService->getRedirectResponse('client/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
-
-        return $this->viewRenderer->render('__form', $parameters);
+                ];
+        return $body;
     }
     
-    public function delete(Request $request,ClientRepository $clientRepository  
-    ): Response {
-        $client_id = $request->getAttribute('client_id');
-        $canEdit = $this->userService->hasPermission('editClient');
-        $client = $clientRepository->repoClientquery($client_id);
-        if ($client === null) {
-            return $this->webService->getNotFoundResponse();
-        }
-        if (!$canEdit){
-            return $this->webService->getRedirectResponse('client/index');
-        }
-        $this->clientService->deleteClient($client);
-        return $this->webService->getRedirectResponse('client/index');        
+    private function flash(SessionInterface $session, $level, $message){
+        $flash = new Flash($session);
+        $flash->set($level, $message); 
+        return $flash;
     }
 }

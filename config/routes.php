@@ -10,6 +10,7 @@ use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Invoice\InvoiceController;
 use App\Invoice\Client\ClientController;
+use App\Invoice\Setting\SettingController;
 use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
@@ -26,6 +27,7 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
+use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 
@@ -161,6 +163,8 @@ return [
         // Index
             //so nothing will appear over the tooltip when you hover over the button ie. ''                
             Route::get('')
+                //add session just for Invoice
+                ->middleware(SessionMiddleware::class)
                 ->action([InvoiceController::class, 'index'])
                 ->name('invoice/index'),
             //so if you add the below /client to the above '/invoice' you get '/invoice/client', does that look familiar?
@@ -182,6 +186,37 @@ return [
                 ->name('client/delete')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
                 ->middleware(Authentication::class)
-                ->action([ClientController::class, 'delete']),    
-        ),                    
+                ->action([ClientController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/client/view/{client_id}')
+                ->name('client/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
+                ->middleware(Authentication::class)
+                ->action([ClientController::class, 'view']),
+                
+            Route::get('/setting')
+                ->middleware(Authentication::class)
+                ->action([SettingController::class, 'index'])
+                ->name('setting/index'),    
+            // Add Setting
+            Route::methods([Method::GET, Method::POST], '/setting/add')
+                ->middleware(Authentication::class)
+                ->action([SettingController::class, 'add'])
+                ->name('setting/add'),
+            // Edit Setting
+            Route::methods([Method::GET, Method::POST], '/setting/edit/{setting_id}')
+                ->name('setting/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSetting'))
+                ->middleware(Authentication::class)
+                ->action([SettingController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/setting/delete/{setting_id}')
+                ->name('setting/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSetting'))
+                ->middleware(Authentication::class)
+                ->action([SettingController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/setting/view/{setting_id}')
+                ->name('setting/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSetting'))
+                ->middleware(Authentication::class)
+                ->action([SettingController::class, 'view']),    
+        ),            
 ];

@@ -62,7 +62,7 @@ final class ClientMapper extends Mapper
             true,
             ConsumerInterface::SCOPE
         );
-
+        
         return $command;
     }
 
