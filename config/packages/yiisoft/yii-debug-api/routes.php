@@ -23,7 +23,7 @@ return [
         ->middleware(
             static function (ResponseFactoryInterface $responseFactory) use ($params) {
                 return new IpFilter(
-                    (new Ip())->ranges($params['yiisoft/yii-debug-api']['allowedIPs']),
+                    Ip::rule()->ranges($params['yiisoft/yii-debug-api']['allowedIPs']),
                     $responseFactory
                 );
             }

@@ -11,8 +11,7 @@ class LinkTagsViewInjection implements LinkTagsInjectionInterface
     public function getLinkTags(): array
     {
         return [
-            [
-                '__key' => 'favicon',
+            'favicon' => [
                 'rel' => 'icon',
                 'href' => '/favicon.ico',
             ],

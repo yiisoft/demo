@@ -27,9 +27,6 @@ return [
             'yiisoft/yii-gii' => [
                 'common.php',
             ],
-            'yiisoft/cache' => [
-                'common.php',
-            ],
             'yiisoft/yii-event' => [
                 'common.php',
             ],
@@ -43,6 +40,9 @@ return [
                 'common.php',
             ],
             'yiisoft/aliases' => [
+                'common.php',
+            ],
+            'yiisoft/cache' => [
                 'common.php',
             ],
             'yiisoft/validator' => [
@@ -158,6 +158,9 @@ return [
             'yiisoft/yii-gii' => [
                 'params.php',
             ],
+            'yiisoft/yii-debug-viewer' => [
+                'config/params.php',
+            ],
             'yiisoft/assets' => [
                 'params.php',
             ],
@@ -228,6 +231,9 @@ return [
             'yiisoft/yii-debug-api' => [
                 'routes.php',
             ],
+            'yiisoft/yii-debug-viewer' => [
+                'config/routes.php',
+            ],
         ],
         'tests' => [
             'yiisoft/yii-debug' => [
@@ -253,6 +259,9 @@ return [
             ],
             'yiisoft/yii-debug-api' => [
                 'web.php',
+            ],
+            'yiisoft/yii-debug-viewer' => [
+                'config/web.php',
             ],
             'yiisoft/assets' => [
                 'web.php',
