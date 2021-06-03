@@ -96,6 +96,8 @@ May 25..Client Add and Edit working.
 
 May 27..Client Delete working.
 
+June 3..Setting Add, Edit, View, Delete working
+
 [Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
 
 It's intended to show and test all Yii features.
