@@ -50,9 +50,12 @@ final class ApplicationRunner
 
         $container = new Container(
             $config->get('web'),
-            $config->get('providers-web')
+            $config->get('providers-web'),
+            [],
+            null,
+            $this->debug
         );
-        
+
         // Register error handler with real container-configured dependencies.
         $this->registerErrorHandler($container->get(ErrorHandler::class), $errorHandler);
 
@@ -61,8 +64,8 @@ final class ApplicationRunner
         if ($this->debug) {
             $container->get(ListenerConfigurationChecker::class)->check($config->get('events-web'));
         }
-        
-        $application = $container->get(Application::class);        
+
+        $application = $container->get(Application::class);
 
         $request = $container->get(ServerRequestFactory::class)->createFromGlobals();
         $request = $request->withAttribute('applicationStartTime', $startTime);

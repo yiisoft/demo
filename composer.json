@@ -11,8 +11,7 @@
     "support": {
         "source": "https://github.com/yiisoft/demo",
         "issues": "https://github.com/yiisoft/demo/issues",
-        "wiki": "https://github.com/yiisoft/demo/wiki",
-        "forum": "http://www.yiiframework.com/forum/"
+        "forum": "https://www.yiiframework.com/forum/"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -74,8 +73,7 @@
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
         "yiisoft/yii-view": "^3.0@dev",
-        "yiisoft/yii-web": "^3.0@dev",
-        "yiisoft/yii-gii":"^3.0@dev"
+        "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
         "codeception/c3": "^2.6.0",

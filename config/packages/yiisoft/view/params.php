@@ -14,7 +14,7 @@ return [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
             'urlMatcher' => Reference::to(UrlMatcherInterface::class),
-        ],        
+        ],
         'theme' => [
             'pathMap' => [],
             'basePath' => '',

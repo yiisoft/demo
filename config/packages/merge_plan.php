@@ -24,9 +24,6 @@ return [
             'yiisoft/yii-cycle' => [
                 'common.php',
             ],
-            'yiisoft/yii-gii' => [
-                'common.php',
-            ],
             'yiisoft/yii-event' => [
                 'common.php',
             ],
@@ -61,10 +58,6 @@ return [
                 'config/console/*.php',
             ],
             'yiisoft/yii-cycle' => [
-                'console.php',
-            ],
-            'yiisoft/yii-gii' => [
-                '$common',
                 'console.php',
             ],
             'yiisoft/yii-console' => [
@@ -153,9 +146,6 @@ return [
                 'params.php',
             ],
             'yiisoft/yii-debug-api' => [
-                'params.php',
-            ],
-            'yiisoft/yii-gii' => [
                 'params.php',
             ],
             'yiisoft/yii-debug-viewer' => [

@@ -48,7 +48,7 @@ final class PostController
     {
         $parameters = [
             'title' => 'Add post',
-            'action' => ['post/add'],
+            'action' => ['blog/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
         ];
@@ -59,8 +59,10 @@ final class PostController
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
+
             $parameters['errors'] = $form->getFirstErrors();
         }
+
         return $this->viewRenderer->render('__form', $parameters);
     }
 
@@ -77,7 +79,7 @@ final class PostController
 
         $parameters = [
             'title' => 'Edit post',
-            'action' => ['post/edit', ['slug' => $slug]],
+            'action' => ['blog/edit', ['slug' => $slug]],
             'errors' => [],
             'body' => [
                 'title' => $post->getTitle(),

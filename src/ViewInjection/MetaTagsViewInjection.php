@@ -11,7 +11,7 @@ class MetaTagsViewInjection implements MetaTagsInjectionInterface
     public function getMetaTags(): array
     {
         return [
-           'generator' => [
+            'generator' => [
                 'name' => 'generator',
                 'content' => 'Yii',
             ],

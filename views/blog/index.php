@@ -48,7 +48,7 @@ $pagination = OffsetPagination::widget()
         if (!$isGuest) {
             echo Html::a(
                 'Add post',
-                $urlGenerator->generate('post/add'),
+                $urlGenerator->generate('blog/add'),
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );
         } ?>

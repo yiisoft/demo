@@ -22,13 +22,9 @@ use Yiisoft\Yii\Debug\Proxy\EventDispatcherInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\LoggerInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\UrlMatcherInterfaceProxy;
 
-/**
- * @var $params array
- */
-
 return [
     'yiisoft/yii-debug' => [
-        'enabled' => false,
+        'enabled' => true,
         'collectors' => [
             LogCollectorInterface::class,
             EventCollectorInterface::class,
