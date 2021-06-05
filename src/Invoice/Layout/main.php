@@ -18,8 +18,8 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
- * @var \App\User\User $user
- * @var string $csrf
+ * @var \App\User\User $user 
+ * @var string $csrf;
  * @var string $brandLabel
  */
 
@@ -34,7 +34,6 @@ $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
 $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
-
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="en">
@@ -57,14 +56,29 @@ echo NavBar::widget()
 echo Nav::widget()
         ->currentPath($urlMatcher->getCurrentUri()->getPath())
         ->options(['class' => 'navbar-nav mx-auto'])
-        ->items(
+        ->items( 
+            $user->getId() === null
+                ? [
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
+                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
+                ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
+                
+            ] :
             [
                 ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
                 ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
-            ]
+                ['label' => 'Invoice', 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRoute, 'invoice/') && $currentRoute !== 'invoice/index',
+                    'items' => [ 
+                                ['label' =>'Setting','url'=>$urlGenerator->generate('setting/index')],
+                                ['label' =>'Client','url'=>$urlGenerator->generate('client/index')]                                  
+                               ]
+                ],              
+            ]       
         );
 
 echo Nav::widget()

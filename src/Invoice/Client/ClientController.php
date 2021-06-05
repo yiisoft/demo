@@ -31,8 +31,8 @@ final class ClientController
         ClientService $clientService,
         UserService $userService
     ) {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/client');
-                                           //->withLayout(dirname(dirname(dirname(__DIR__))).'/views/layout/main.php');
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/client')
+                                           ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->clientService = $clientService;
         $this->userService = $userService;

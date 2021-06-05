@@ -15,7 +15,8 @@ final class InvoiceController
 
     public function __construct(ViewRenderer $viewRenderer)
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice');
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice')
+                                           ->withLayout(dirname(dirname(__DIR__)).'/src/Invoice/Layout/main.php');                                            
     }
 
     public function index(
