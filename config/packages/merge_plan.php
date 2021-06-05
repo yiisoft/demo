@@ -27,9 +27,9 @@ return [
             'yiisoft/yii-event' => [
                 'common.php',
             ],
-            'yiisoft/yii-debug' => [
-                'common.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'common.php',
+            //],
             'yiisoft/profiler' => [
                 'common.php',
             ],
@@ -66,9 +66,9 @@ return [
             'yiisoft/yii-event' => [
                 'console.php',
             ],
-            'yiisoft/yii-debug' => [
-                'console.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'console.php',
+            //],
         ],
         'events' => [
             '/' => [
@@ -96,9 +96,9 @@ return [
                 '$events',
                 'events-console.php',
             ],
-            'yiisoft/yii-debug' => [
-                'events-console.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'events-console.php',
+            //],
         ],
         'events-web' => [
             '/' => [
@@ -112,9 +112,9 @@ return [
                 '$events',
                 'events-web.php',
             ],
-            'yiisoft/yii-debug' => [
-                'events-web.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'events-web.php',
+            //],
             'yiisoft/profiler' => [
                 'events-web.php',
             ],
@@ -186,9 +186,9 @@ return [
             'yiisoft/widget' => [
                 'providers.php',
             ],
-            'yiisoft/yii-debug' => [
-                'providers.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'providers.php',
+            //],
             'yiisoft/yii-filesystem' => [
                 'providers.php',
             ],
@@ -225,11 +225,11 @@ return [
                 'config/routes.php',
             ],
         ],
-        'tests' => [
-            'yiisoft/yii-debug' => [
-                'tests.php',
-            ],
-        ],
+        //'tests' => [
+        //    'yiisoft/yii-debug' => [
+        //        'tests.php',
+        //    ],
+        //],
         'web' => [
             '/' => [
                 '$common',
@@ -262,9 +262,9 @@ return [
             'yiisoft/yii-event' => [
                 'web.php',
             ],
-            'yiisoft/yii-debug' => [
-                'web.php',
-            ],
+            //'yiisoft/yii-debug' => [
+            //    'web.php',
+            //],
             'yiisoft/yii-view' => [
                 'web.php',
             ],
