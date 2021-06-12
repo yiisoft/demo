@@ -37,10 +37,10 @@ final class PostForm extends FormModel
     {
         return [
             'title' => [
-                new Required(),
+                Required::rule(),
             ],
             'content' => [
-                new Required(),
+                Required::rule(),
             ],
         ];
     }
