@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Invoice\Helpers;
 
+use App\Invoice\Setting\SettingRepository;
+
 Use  \DateTime;
 
 Class DateHelper
@@ -62,7 +64,7 @@ public function date_formats()
     ];
 }
 
-public function date_from_mysql($date, $ignore_post_check = false, $s)
+public function date_from_mysql($date, $ignore_post_check = false,SettingRepository $s)
 {
     if ($date <> '0000-00-00') {
         if (!$_POST or $ignore_post_check) {
@@ -75,7 +77,7 @@ public function date_from_mysql($date, $ignore_post_check = false, $s)
     return '';
 }
 
-public function date_from_timestamp($timestamp, $s)
+public function date_from_timestamp($timestamp,SettingRepository $s)
 {
     $date = new DateTime();
     $date->setTimestamp($timestamp);
@@ -89,14 +91,14 @@ public function date_to_mysql($date, $s)
 }
 
 
-public function is_date($date, $s)
+public function is_date($date,SettingRepository $s)
 {
     $format = $s->setting('date_format');
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
 
-public function date_format_setting($s)
+public function date_format_setting(SettingRepository $s)
 {
     $date_format = $s->setting('date_format');
 
@@ -105,7 +107,7 @@ public function date_format_setting($s)
     return $date_formats[$date_format]['setting'];
 }
 
-function date_format_datepicker($s)
+function date_format_datepicker(SettingRepository $s)
 {
     $date_format = $s->setting('date_format');
     
@@ -115,7 +117,7 @@ function date_format_datepicker($s)
     if (!empty($date_format)){return $date_formats[$date_format]['datepicker'];}
 }
 
-public function increment_user_date($date, $increment,$s)
+public function increment_user_date($date, $increment,SettingRepository $s)
 {
     $mysql_date = $this->date_to_mysql($date);
 

@@ -17,5 +17,8 @@ return [
         'setCommonParameters()' => [
             $params['yiisoft/view']['commonParameters'],
         ],
+        'reset' => function () {
+            $this->clear();
+        },
     ],
 ];

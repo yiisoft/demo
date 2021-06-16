@@ -27,15 +27,15 @@ final class SettingForm extends FormModel
     {
         return '';
     }
-
+    
     public function getRules(): array
     {
         return [
             'setting_key' => [
-                new Required(),
+                Required::rule(),
             ],
             'setting_value' => [
-                new Required(),
+                Required::rule(),
             ],
         ];
     }

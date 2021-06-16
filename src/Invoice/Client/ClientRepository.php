@@ -52,7 +52,7 @@ final class ClientRepository extends Select\Repository
     private function prepareDataReader($query): EntityReader
     {
         return (new EntityReader($query))->withSort(
-            Sort::only(['client_id', 'client_active', 'client_date_created', 'client_date_modified', 'user_id'])
+            Sort::only(['id', 'client_active', 'client_date_created', 'client_date_modified', 'user_id'])
                 ->withOrder(['client_date_created' => 'desc'])
         );
     }
@@ -61,7 +61,7 @@ final class ClientRepository extends Select\Repository
     {
         $query = $this
             ->select()
-            ->where(['client_id' => $client_id]);
+            ->where(['id' => $client_id]);
         return  $query->fetchOne();        
     }
 }

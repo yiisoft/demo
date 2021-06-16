@@ -55,7 +55,7 @@ final class SettingRepository extends Select\Repository
     private function prepareDataReader($query): EntityReader
     {
         return (new EntityReader($query))->withSort(
-            Sort::only(['setting_id', 'setting_key', 'setting_value'])
+            Sort::only(['id', 'setting_key', 'setting_value'])
                 ->withOrder(['setting_key' => 'asc'])
         );
     }
@@ -64,7 +64,7 @@ final class SettingRepository extends Select\Repository
     {
         $query = $this
             ->select()
-            ->where(['setting_id' => $setting_id]);
+            ->where(['id' => $setting_id]);
         return  $query->fetchOne();        
     }
     
@@ -290,7 +290,7 @@ final class SettingRepository extends Select\Repository
     } 
     
     public static function getPlaceholderAbsoluteUrl(){
-        return Url::to(Utilities::getPlaceholderRelativeUrl,true);                                    
+        return Url::to($this->getPlaceholderRelativeUrl(),true);                                    
     }
     
     public static function getAssetholderRelativeUrl()
@@ -318,4 +318,43 @@ final class SettingRepository extends Select\Repository
         return '/Invoice/Uploads/Archive';
     }
     
+    public function format_currency($amount)
+    {
+        $this->load_settings();
+        $currency_symbol =$this->setting('currency_symbol');
+        $currency_symbol_placement = $this->setting('currency_symbol_placement');
+        $thousands_separator = $this->setting('thousands_separator');
+        $decimal_point = $this->setting('decimal_point');
+
+        if ($currency_symbol_placement == 'before') {
+            return $currency_symbol . number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
+        } elseif ($currency_symbol_placement == 'afterspace') {
+            return number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . '&nbsp;' . $currency_symbol;
+        } else {
+            return number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . $currency_symbol;
+        }
+    }
+    
+    //show the decimal point representation character whether a comma, a dot, or something else with maximum of 2 decimal points after the point
+    public function format_amount($amount = null)
+    {
+        $this->load_settings();    
+        if ($amount) {
+            $thousands_separator = $this->setting('thousands_separator');
+            $decimal_point = $this->setting('decimal_point');
+            //force the rounding of amounts to 2 decimal points if the decimal point setting is filled.
+            return number_format(($amount), ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
+        }
+        return null;
+    }
+
+    public function standardize_amount($amount)
+    {
+        $this->load_settings();
+        $thousands_separator = $this->setting('thousands_separator');
+        $decimal_point = $this->setting('decimal_point');
+        $amount = str_replace($thousands_separator, '', $amount);
+        $amount = str_replace($decimal_point, '.', $amount);
+        return $amount;
+    }
 }

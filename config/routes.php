@@ -11,6 +11,11 @@ use App\Contact\ContactController;
 use App\Invoice\InvoiceController;
 use App\Invoice\Client\ClientController;
 use App\Invoice\Setting\SettingController;
+use App\Invoice\EmailTemplate\EmailTemplateController;
+use App\Invoice\Family\FamilyController;
+use App\Invoice\TaxRate\TaxRateController;
+use App\Invoice\Unit\UnitController;
+use App\Invoice\Product\ProductController;
 use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
@@ -91,19 +96,17 @@ return [
     Group::create('/blog')
         ->routes(
         // Index
-            Route::get('[/page///////{page:\d+}]')
+            Route::get('[/page{page:\d+}]')
                 ->action([BlogController::class, 'index'])
                 ->name('blog/index'),
             // Add Post page
-            Route::methods([Method::GET, Method::POST], '/this is the deceptive path and you can add an input in curly brackets for edits')
+            Route::methods([Method::GET, Method::POST], '/page/add')
                 ->middleware(Authentication::class)
-                //this is the actual public function add(... in the controller. Note no keyword action before the name as in Yii2
                 ->action([PostController::class, 'add'])
-                //below is the name that will be used in PostController parameters 
-                ->name('post/add'),
+                ->name('blog/add'),
             // Edit Post page
-            Route::methods([Method::GET, Method::POST], '/anything can be put here, so use .../config/routes.php/{slug}')
-                ->name('post/edit')
+            Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
+                ->name('blog/edit')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
                 ->middleware(Authentication::class)
                 ->action([PostController::class, 'edit']),
@@ -136,7 +139,7 @@ return [
             Route::get('/comments/[next/{next}]')
                 ->action([CommentController::class, 'index'])
                 ->name('blog/comment/index')
-        ),                      
+    ),                    
 
     // Swagger routes
     Group::create('/swagger')
@@ -218,5 +221,135 @@ return [
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSetting'))
                 ->middleware(Authentication::class)
                 ->action([SettingController::class, 'view']),    
-        ),            
+            
+            Route::get('/emailtemplate')
+                ->middleware(Authentication::class)
+                ->action([EmailTemplateController::class, 'index'])
+                ->name('emailtemplate/index'),    
+            // Add EmailTemplate
+            Route::methods([Method::GET, Method::POST], '/emailtemplate/add')
+                ->middleware(Authentication::class)
+                ->action([EmailTemplateController::class, 'add'])
+                ->name('emailtemplate/add'),
+            // Edit EmailTemplate
+            Route::methods([Method::GET, Method::POST], '/emailtemplate/edit/{email_template_id}')
+                ->name('emailtemplate/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editEmailTemplate'))
+                ->middleware(Authentication::class)
+                ->action([EmailTemplateController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/emailtemplate/delete/{email_template_id}')
+                ->name('emailtemplate/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editEmailTemplate'))
+                ->middleware(Authentication::class)
+                ->action([EmailTemplateController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/emailtemplate/view/{email_template_id}')
+                ->name('emailtemplate/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editEmailTemplate'))
+                ->middleware(Authentication::class)
+                ->action([EmailTemplateController::class, 'view']),    
+            
+            Route::get('/family')
+                ->middleware(Authentication::class)
+                ->action([FamilyController::class, 'index'])
+                ->name('family/index'),    
+            // Add Family
+            Route::methods([Method::GET, Method::POST], '/family/add')
+                ->middleware(Authentication::class)
+                ->action([FamilyController::class, 'add'])
+                ->name('family/add'),
+            // Edit Family
+            Route::methods([Method::GET, Method::POST], '/family/edit/{family_id}')
+                ->name('family/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editFamily'))
+                ->middleware(Authentication::class)
+                ->action([FamilyController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/family/delete/{family_id}')
+                ->name('family/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editFamily'))
+                ->middleware(Authentication::class)
+                ->action([FamilyController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/family/view/{family_id}')
+                ->name('family/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editFamily'))
+                ->middleware(Authentication::class)
+                ->action([FamilyController::class, 'view']),
+                
+            Route::get('/taxrate')
+                ->middleware(Authentication::class)
+                ->action([TaxRateController::class, 'index'])
+                ->name('taxrate/index'),    
+            // Add TaxRate
+            Route::methods([Method::GET, Method::POST], '/taxrate/add')
+                ->middleware(Authentication::class)
+                ->action([TaxRateController::class, 'add'])
+                ->name('taxrate/add'),
+            // Edit TaxRate
+            Route::methods([Method::GET, Method::POST], '/taxrate/edit/{tax_rate_id}')
+                ->name('taxrate/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editTaxrate'))
+                ->middleware(Authentication::class)
+                ->action([TaxRateController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/taxrate/delete/{tax_rate_id}')
+                ->name('taxrate/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editTaxrate'))
+                ->middleware(Authentication::class)
+                ->action([TaxRateController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/taxrate/view/{tax_rate_id}')
+                ->name('taxrate/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editTaxrate'))
+                ->middleware(Authentication::class)
+                ->action([TaxRateController::class, 'view']),
+                
+            Route::get('/unit')
+                ->middleware(Authentication::class)
+                ->action([UnitController::class, 'index'])
+                ->name('unit/index'),    
+            // Add Unit
+            Route::methods([Method::GET, Method::POST], '/unit/add')
+                ->middleware(Authentication::class)
+                ->action([UnitController::class, 'add'])
+                ->name('unit/add'),
+            // Edit Unit
+            Route::methods([Method::GET, Method::POST], '/unit/edit/{unit_id}')
+                ->name('unit/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editUnit'))
+                ->middleware(Authentication::class)
+                ->action([UnitController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/unit/delete/{unit_id}')
+                ->name('unit/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editUnit'))
+                ->middleware(Authentication::class)
+                ->action([UnitController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/unit/view/{unit_id}')
+                ->name('unit/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editUnit'))
+                ->middleware(Authentication::class)
+                ->action([UnitController::class, 'view']),
+            
+            Route::get('/product')
+                ->middleware(Authentication::class)
+                ->action([ProductController::class, 'index'])
+                ->name('product/index'),    
+            // Add Product
+            Route::methods([Method::GET, Method::POST], '/product/add')
+                ->middleware(Authentication::class)
+                ->action([ProductController::class, 'add'])
+                ->name('product/add'),
+            // Edit Product
+            Route::methods([Method::GET, Method::POST], '/product/edit/{product_id}')
+                ->name('product/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editProduct'))
+                ->middleware(Authentication::class)
+                ->action([ProductController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/product/delete/{product_id}')
+                ->name('product/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editProduct'))
+                ->middleware(Authentication::class)
+                ->action([ProductController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/product/view/{product_id}')
+                ->name('product/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editProduct'))
+                ->middleware(Authentication::class)
+                ->action([ProductController::class, 'view']),    
+        ),//invoice          
 ];

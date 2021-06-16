@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Invoice\Client;
 
 use App\Invoice\Entity\Client;
-use App\User\User;
 
 final class ClientService
 {
@@ -16,7 +15,7 @@ final class ClientService
         $this->repository = $repository;
     }
 
-    public function saveClient(User $user, Client $model, ClientForm $form): void
+    public function saveClient(Client $model, ClientForm $form): void
     {
         $model->setClient_name($form->getClient_name());
         $model->setClient_address_1($form->getClient_address_1());

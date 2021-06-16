@@ -1,9 +1,8 @@
 <?php
-Namespace frontend\modules\invoice\application\helpers;
 
-Use  yii\base\Component;
+Namespace App\Invoice\Helpers;
 
-Class DirectoryHelper extends Component
+Class DirectoryHelper
 {
 	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
 	{

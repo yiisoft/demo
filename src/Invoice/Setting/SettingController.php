@@ -29,7 +29,8 @@ final class SettingController
         SettingService $settingService,
         UserService $userService    
     ) {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/setting');
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/setting')
+                                           ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->settingService = $settingService;
         $this->userService = $userService;
@@ -76,7 +77,7 @@ final class SettingController
         $setting = $this->setting($request, $settingRepository);
         $parameters = [
             'title' => 'Edit setting',
-            'action' => ['setting/edit', ['setting_id' => $setting->setting_id]],
+            'action' => ['setting/edit', ['setting_id' => $setting->id]],
             'errors' => [],
             'body' => [
                 'setting_key' => $this->setting($request,$settingRepository)->getSetting_key(),
@@ -111,12 +112,12 @@ final class SettingController
         $setting = $this->setting($request, $settingRepository);
         $parameters = [
             'title' => $settingRepository->trans('edit_setting'),
-            'action' => ['setting/edit', ['setting_id' => $setting->setting_id]],
+            'action' => ['setting/edit', ['setting_id' => $setting->id]],
             'errors' => [],
             'setting'=>$this->setting($request,$settingRepository),
             's'=>$settingRepository,     
             'body' => [
-                'setting_id'=>$setting->setting_id,
+                'setting_id'=>$setting->id,
                 'setting_key'=>$setting->getSetting_key(),
                 'setting_value'=>$setting->getSetting_value(),               
             ],            

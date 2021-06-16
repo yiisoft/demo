@@ -57,19 +57,19 @@ use Yiisoft\Yii\Bootstrap5\Alert;
             //list all the clients
             foreach ($clients as $client){
                 echo Html::br();
-                $label = $client->client_id . " ";
+                $label = $client->id . " ";
                 echo Html::label($label);
-                echo Html::a($client->client_name." ". $client->client_surname,$urlGenerator->generate('client/view',['client_id' => $client->client_id]),['class' => 'btn btn-success btn-sm ms-2']);
+                echo Html::a($client->client_name." ". $client->client_surname,$urlGenerator->generate('client/view',['client_id' => $client->id]),['class' => 'btn btn-success btn-sm ms-2']);
                 echo Html::a($s->trans('edit'),
-                $urlGenerator->generate('client/edit', ['client_id' => $client->client_id]),
+                $urlGenerator->generate('client/edit', ['client_id' => $client->id]),
                 ['class' => 'btn btn-info btn-sm ms-2']
                 );                
                 echo Html::a($s->trans('view'),
-                $urlGenerator->generate('client/view',['client_id' => $client->client_id]),
+                $urlGenerator->generate('client/view',['client_id' => $client->id]),
                 ['class' => 'btn btn-warning btn-sm ms-2']
                 );
                 echo Html::a($s->trans('delete'),
-                $urlGenerator->generate('client/delete',['client_id' => $client->client_id]),
+                $urlGenerator->generate('client/delete',['client_id' => $client->id]),
                 ['class' => 'btn btn-danger btn-sm ms-2']
                 );
                 echo Html::br();

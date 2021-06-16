@@ -55,8 +55,8 @@ final class ClientController
     {
         $this->rbac($session);
         $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']);
-        $language = $aliases->get('@language');
-        $selected_country = $request->getParsedBody();
+        $selected_country =  '';
+        $selected_language = '';
         $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('add_client'),
@@ -65,7 +65,8 @@ final class ClientController
             'body' => $request->getParsedBody(),
             'aliases'=>$aliases,
             's'=>$settingRepository,
-            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),            
+            'selected_language' => $selected_language ?: $settingRepository->get_setting('default_language'),
             'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
         ];
         
@@ -73,35 +74,37 @@ final class ClientController
             
             $form = new ClientForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($this->userService->getUser(),new Client(),$form);
+                $this->clientService->saveClient(new Client(),$form);
                 return $this->webService->getRedirectResponse('client/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
-        return $this->viewRenderer->render('__form', $parameters, );
+        return $this->viewRenderer->render('__form', $parameters);
     }
 
     public function edit(SessionInterface $session, Request $request, ClientRepository $clientRepository, ValidatorInterface $validator,SettingRepository $settingRepository
     ): Response {
         $this->rbac($session);
-        $selected_country = $request->getParsedBody();
+        $selected_country =  $this->country($this->client($request, $clientRepository))  ?: '';
+        $selected_language = $this->language($this->client($request, $clientRepository)) ?: '';
         $countries = new CountryHelper();
         $parameters = [
-            'title' => $settingRepository->trans('edit_client'),
-            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->client_id]],
+            'title' => $settingRepository->trans('edit'),
+            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->getClient_id()]],
             'errors' => [],
             'client'=>$this->client($request, $clientRepository),
             'body' => $this->body($this->client($request, $clientRepository)),
             'aliases'=> new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']),
             's'=>$settingRepository,
-            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),            
+            'selected_language' => $selected_language ?: $settingRepository->get_setting('default_language'),
             'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new ClientForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($this->userService->getUser(),$this->client($request,$clientRepository), $form);
+                $this->clientService->saveClient($this->client($request,$clientRepository), $form);
                 return $this->webService->getRedirectResponse('client/index');
             }
             $parameters['body'] = $body;
@@ -121,24 +124,26 @@ final class ClientController
     public function view(SessionInterface $session, Request $request, ClientRepository $clientRepository, ValidatorInterface $validator,SettingRepository $settingRepository   
     ): Response {
         $this->rbac($session);
-        $selected_country = $request->getParsedBody();
+        $selected_country =  $this->country($this->client($request, $clientRepository))  ?: '';
+        $selected_language = $this->language($this->client($request, $clientRepository)) ?: '';
         $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('edit_client'),
-            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->client_id]],
+            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->getClient_id()]],
             'errors' => [],
             'client'=>$this->client($request, $clientRepository),
             'body' => $this->body($this->client($request, $clientRepository)),
             'aliases'=>new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']),
             's'=>$settingRepository,
-            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),
+            'selected_country' => $selected_country ?: $settingRepository->get_setting('default_country'),            
+            'selected_language' => $selected_language ?: $settingRepository->get_setting('default_language'),
             'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new ClientForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($this->userService->getUser(),$this->client($request, $clientRepository), $form);
+                $this->clientService->saveClient($this->client($request, $clientRepository), $form);
                 return $this->webService->getRedirectResponse('client/index');
             }
             $parameters['body'] = $body;
@@ -171,6 +176,16 @@ final class ClientController
             return $this->webService->getNotFoundResponse();
         };
         return $clients;
+    }
+    
+    private function country($client)
+    {
+        return $client->getClient_country();
+    }
+    
+    private function language($client)
+    {
+        return $client->getClient_language();
     }
     
     private function body($client) {

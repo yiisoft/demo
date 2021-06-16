@@ -28,7 +28,7 @@ class Client
     /**
      * @Column(type="primary")
      */
-    public ?int $client_id = null;
+    public ?int $id = null;
     
     /**
      * @Column(type="datetime")
@@ -185,7 +185,7 @@ class Client
     
     public function getClient_id(): ?int
     {
-        return $this->client_id;
+        return $this->id;
     }
     
     public function getClient_date_created(): DateTimeImmutable

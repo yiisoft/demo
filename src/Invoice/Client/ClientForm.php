@@ -155,15 +155,15 @@ final class ClientForm extends FormModel
     {
         return '';
     }
-
-   public function getRules(): array
+    
+    public function getRules(): array
     {
         return [
             'client_name' => [
-                new Required(),
+                Required::rule(),
             ],
             'client_email' => [
-                new Required(),
+                Required::rule(),
             ],
         ];
     }

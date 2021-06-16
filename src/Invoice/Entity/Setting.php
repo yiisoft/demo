@@ -17,7 +17,7 @@ class Setting
     /**
      * @Column(type="primary")
      */
-    public ?int $setting_id = null;
+    public ?int $id = null;
     
     /**
      * @Column(type="string(50)")
@@ -40,7 +40,7 @@ class Setting
     
     public function getSetting_id(): ?int
     {
-        return $this->setting_id;
+        return $this->id;
     }
 
     public function getSetting_key(): string

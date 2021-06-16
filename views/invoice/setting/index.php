@@ -58,19 +58,19 @@ use Yiisoft\Yii\Bootstrap5\Alert;
             //list all the settings
             foreach ($settings as $setting){
                 echo Html::br();
-                $label = $setting->setting_id . " ";
+                $label = $setting->id . " ";
                 echo Html::label($label);
-                echo Html::a($setting->setting_key." ". $setting->setting_value,$urlGenerator->generate('setting/view',['setting_id' => $setting->setting_id]),['class' => 'btn btn-success btn-sm ms-2']);
+                echo Html::a($setting->setting_key." ". $setting->setting_value,$urlGenerator->generate('setting/view',['setting_id' => $setting->id]),['class' => 'btn btn-success btn-sm ms-2']);
                 echo Html::a($s->trans('edit'),
-                $urlGenerator->generate('setting/edit', ['setting_id' => $setting->setting_id]),
+                $urlGenerator->generate('setting/edit', ['setting_id' => $setting->id]),
                 ['class' => 'btn btn-info btn-sm ms-2']
                 );                
                 echo Html::a($s->trans('view'),
-                $urlGenerator->generate('setting/view',['setting_id' => $setting->setting_id]),
+                $urlGenerator->generate('setting/view',['setting_id' => $setting->id]),
                 ['class' => 'btn btn-warning btn-sm ms-2']
                 );
                 echo Html::a($s->trans('delete'),
-                $urlGenerator->generate('setting/delete',['setting_id' => $setting->setting_id]),
+                $urlGenerator->generate('setting/delete',['setting_id' => $setting->id]),
                 ['class' => 'btn btn-danger btn-sm ms-2']
                 );
                 echo Html::br();

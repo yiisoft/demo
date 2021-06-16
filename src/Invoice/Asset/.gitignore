@@ -2,11 +2,11 @@
 !.gitignore
 
 # Core
-!Core
-!Core/**/*
+!core
+!core/**/*
 
 # Base themes
-!Invoice
-!Invoice/**/*
-!Invoice_blue
-!Invoice_blue/**/*
+!invoice
+!invoice/**/*
+!invoice_blue
+!invoice_blue/**/*
