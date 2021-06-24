@@ -93,7 +93,7 @@
         }
     },
     "scripts": {
-        "serve": "yii serve",
+        "serve": "./yii serve",
         "post-update-cmd": [
             "App\\Installer::postUpdate"
         ],
