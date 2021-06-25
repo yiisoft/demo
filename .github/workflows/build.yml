@@ -21,18 +21,16 @@ jobs:
           - windows-latest
 
         php:
-          - "7.4"
           - "8.0"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
           ini-values: date.timezone='UTC'
           tools: composer:v2
 
@@ -51,16 +49,13 @@ jobs:
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             php${{ matrix.php }}-composer-
+      - name: Update composer
+        run: composer self-update
 
-      - name: Install dependencies with composer php 7.4
-        if: matrix.php == '7.4'
+      - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
-
-      - name: Install dependencies with composer php 8.0
-        if: matrix.php == '8.0'
-        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ignore-platform-reqs --ansi
 
       - name: Run tests with codeception
         run: |
-          php -S 127.0.0.1:8080 -t public > ./runtime/yii.log 2>&1 &
-          vendor/bin/codecept run
+        php -S 127.0.0.1:8080 -t public > ./runtime/yii.log 2>&1 &
+        vendor/bin/codecept run
