@@ -20,6 +20,8 @@ build:
     tests-and-coverage:
       environment:
         php: 8.0.6
+        ini:
+          xdebug.mode: coverage
 
       dependencies:
         override:
