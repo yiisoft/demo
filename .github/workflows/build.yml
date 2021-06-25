@@ -31,6 +31,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
           ini-values: date.timezone='UTC'
           tools: composer:v2
 
