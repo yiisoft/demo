@@ -9,7 +9,6 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollectionInterface;
 use Yiisoft\Yii\Console\ExitCode;
 
@@ -39,18 +38,18 @@ class ListCommand extends Command
         uasort(
             $routes,
             static function ($a, $b) {
-                return ($a->getParameter(Route::HOST) <=> $b->getParameter(Route::HOST)) ?: ($a->getParameter(Route::NAME, $a->getDefaultName()) <=> $b->getParameter(Route::NAME, $b->getDefaultName()));
+                return ($a->getHost() <=> $b->getHost()) ?: ($a->getName() <=> $b->getName());
             }
         );
         $table->setHeaders(['Host', 'Methods', 'Name', 'Pattern', 'Defaults']);
         foreach ($routes as $route) {
             $table->addRow(
                 [
-                    $route->getParameter(Route::HOST),
-                    implode(',', $route->getParameter(Route::METHODS)),
-                    $route->getParameter(Route::NAME, $route->getDefaultName()),
-                    $route->getParameter(Route::PATTERN),
-                    implode(',', $route->getParameter(Route::DEFAULTS)),
+                    $route->getHost(),
+                    implode(',', $route->getMethods()),
+                    $route->getName(),
+                    $route->getPattern(),
+                    implode(',', $route->getDefaults()),
                 ]
             );
             if (next($routes) !== false) {
