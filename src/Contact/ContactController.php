@@ -32,7 +32,7 @@ class ContactController
         $this->url = $url;
         $this->viewRenderer = $viewRenderer
             ->withControllerName('contact')
-            ->withViewBasePath(__DIR__ . '/views');
+            ->withViewPath(__DIR__ . '/views');
     }
 
     public function contact(
