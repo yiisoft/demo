@@ -41,7 +41,7 @@ final class FamilyController
     {
         $canEdit = $this->rbac($session);
         $familys = $this->familys($familyRepository);
-        $flash = $this->flash($session,'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -113,25 +113,15 @@ final class FamilyController
         $family = $this->family($request, $familyRepository);
         $parameters = [
             'title' => $settingRepository->trans('edit_family'),
-            'action' => ['family/edit', ['family_id' => $family->id]],
+            'action' => ['family/view', ['family_id' => $family->getFamily_id()]],
             'errors' => [],
             'family'=>$this->family($request,$familyRepository),
             's'=>$settingRepository,     
             'body' => [
-                'family_id'=>$family->id,
+                'family_id'=>$family->getFamily_id(),
                 'family_name'=>$family->getFamily_name()               
             ],            
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new FamilyForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->familyService->saveFamily($this->userService->getUser(),$family, $form);
-                return $this->webService->getRedirectResponse('family/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters);
     }
     

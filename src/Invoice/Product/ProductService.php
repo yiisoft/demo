@@ -36,8 +36,7 @@ final class ProductService
         $model->setTax_rate_id($form->getTax_rate_id());
         $model->setUnit_id($form->getUnit_id());
         $model->setFamily_id($form->getFamily_id());
-        $model->setProduct_tariff($form->getProduct_tariff());
-        
+        $model->setProduct_tariff($form->getProduct_tariff());        
         $this->repository->save($model);
     }
     

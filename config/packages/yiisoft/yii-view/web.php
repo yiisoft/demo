@@ -9,7 +9,7 @@ use Yiisoft\Yii\View\ViewRenderer;
 return [
     ViewRenderer::class => [
         '__construct()' => [
-            'viewBasePath' => $params['yiisoft/yii-view']['viewBasePath'],
+            'viewPath' => $params['yiisoft/yii-view']['viewPath'],
             'layout' => $params['yiisoft/yii-view']['layout'],
             'injections' => $params['yiisoft/yii-view']['injections'],
         ],

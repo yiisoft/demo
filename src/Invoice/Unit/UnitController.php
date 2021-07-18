@@ -40,8 +40,8 @@ final class UnitController
     public function index(Session $session,UnitRepository $unitRepository, SettingRepository $settingRepository): Response
     {
         $canEdit = $this->rbac($session);
-        $units = $this->units($unitRepository);
-        $flash = $this->flash($session,'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $units = $this->units($unitRepository); 
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -123,16 +123,6 @@ final class UnitController
                 'unit_name_plrl'=>$unit->getUnit_name_plrl(),               
             ],            
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new UnitForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->unitService->saveUnit($this->userService->getUser(),$unit, $form);
-                return $this->webService->getRedirectResponse('unit/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters);
     }
     

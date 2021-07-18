@@ -41,8 +41,8 @@ final class EmailTemplateController
 
     public function index(SessionInterface $session, EmailTemplateRepository $emailtemplateRepository, SettingRepository $settingRepository): Response
     {
-        $canEdit = $this->rbac($session);
-        $flash = $this->flash($session, 'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $canEdit = $this->rbac($session); 
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=> $settingRepository,
             'canEdit' => $canEdit,
@@ -128,16 +128,6 @@ final class EmailTemplateController
             'aliases'=>new Aliases(['@invoice' => dirname(__DIR__), '@language' => '@invoice/Language']),
             's'=>$settingRepository,
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new EmailTemplateForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->emailtemplateService->saveEmailTemplate($this->userService->getUser(),$this->emailtemplate($request, $emailtemplateRepository), $form);
-                return $this->webService->getRedirectResponse('emailtemplate/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters); 
     }
     

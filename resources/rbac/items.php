@@ -14,11 +14,25 @@ return [
             'editFamily',
             'editTaxrate',
             'editUnit',
-            'editProduct'
+            'editProduct',
+            'editGenerator',
+            'editGeneratorRelation'
         ],
     ],
     'editPost' => [
         'name' => 'editPost',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],    
+    'editGenerator' => [
+        'name' => 'editGenerator',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editGeneratorRelation' => [
+        'name' => 'editGeneratorRelation',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 Namespace App\Invoice\Helpers;
 
 Class DirectoryHelper

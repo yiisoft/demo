@@ -40,7 +40,7 @@ final class SettingController
     {
         $canEdit = $this->rbac($session);
         $settings = $this->settings($settingRepository);
-        $flash = $this->flash($session,'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -54,7 +54,7 @@ final class SettingController
     {
         $this->rbac($session);
         $parameters = [
-            'title' => 'Add Setting',
+            'title' => $settingRepository->trans('add'),
             'action' => ['setting/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
@@ -76,7 +76,7 @@ final class SettingController
         $this->rbac($session);
         $setting = $this->setting($request, $settingRepository);
         $parameters = [
-            'title' => 'Edit setting',
+            'title' => $settingRepository->trans('edit'),
             'action' => ['setting/edit', ['setting_id' => $setting->id]],
             'errors' => [],
             'body' => [
@@ -111,7 +111,7 @@ final class SettingController
         $this->rbac($session);        
         $setting = $this->setting($request, $settingRepository);
         $parameters = [
-            'title' => $settingRepository->trans('edit_setting'),
+            'title' => $settingRepository->trans('view'),
             'action' => ['setting/edit', ['setting_id' => $setting->id]],
             'errors' => [],
             'setting'=>$this->setting($request,$settingRepository),
@@ -122,16 +122,6 @@ final class SettingController
                 'setting_value'=>$setting->getSetting_value(),               
             ],            
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new SettingForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->settingService->saveSetting($this->userService->getUser(),$setting, $form);
-                return $this->webService->getRedirectResponse('setting/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters);
     }
     

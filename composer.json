@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "ext-mbstring": "*",
         "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
@@ -34,7 +34,7 @@
         "spiral/database": "^2.8",
         "symfony/console": "^5.2",
         "yiisoft/access": "^1.0",
-        "yiisoft/aliases": "^1.1|^2.0",
+        "yiisoft/aliases": "^2.0",
         "yiisoft/assets": "^1.0",
         "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^1.0",
@@ -42,7 +42,7 @@
         "yiisoft/config": "1.0.x-dev",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
-        "yiisoft/data-response": "^3.0@dev",
+        "yiisoft/data-response": "^1.0",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
@@ -52,8 +52,8 @@
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
         "yiisoft/log-target-file": "^1.0",
-        "yiisoft/mailer": "^3.0@dev",
-        "yiisoft/mailer-swiftmailer": "^3.0@dev",
+        "yiisoft/mailer": "^1.0",
+        "yiisoft/mailer-swiftmailer": "^1.0",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
@@ -63,7 +63,7 @@
         "yiisoft/user": "^3.0@dev",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
-        "yiisoft/view": "^3.0@dev",
+        "yiisoft/view": "^1.0",
         "yiisoft/widget": "^3.0@dev",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
@@ -72,7 +72,7 @@
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
-        "yiisoft/yii-view": "^3.0@dev",
+        "yiisoft/yii-view": "^1.0",
         "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
@@ -93,7 +93,7 @@
         }
     },
     "scripts": {
-        "serve": "yii serve",
+        "serve": "./yii serve",
         "post-update-cmd": [
             "App\\Installer::postUpdate"
         ],
@@ -152,7 +152,10 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        }
     },
     "repositories": [
         {

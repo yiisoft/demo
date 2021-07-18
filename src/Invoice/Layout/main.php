@@ -71,7 +71,9 @@ echo Nav::widget()
             ] :
             [
                 ['label' => 'Invoice', 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRoute, 'invoice/') && $currentRoute !== 'invoice/index',
-                    'items' => [ 
+                    'items' => [
+                                ['label' =>'Generator','url'=>$urlGenerator->generate('generator/index')],
+                                ['label' =>'Generator Relation','url'=>$urlGenerator->generate('generatorrelation/index')],  
                                 ['label' =>'Setting','url'=>$urlGenerator->generate('setting/index')],
                                 ['label' =>'Client','url'=>$urlGenerator->generate('client/index')],
                                 ['label' =>'Email Template','url'=>$urlGenerator->generate('emailtemplate/index')],
@@ -102,8 +104,11 @@ echo Nav::widget()
         );
 echo NavBar::end();
 
-?><main class="container py-4"><?php
-echo Breadcrumbs::widget()->links([
+?><main class="container py-4">
+<?php if ($user->getId() <> null) {
+    echo Breadcrumbs::widget()->links([
+                                   ['label' => 'Generator Add','url'=>$urlGenerator->generate('generator/add')],
+                                   ['label' => 'Generator Relation Add','url'=>$urlGenerator->generate('generatorrelation/add')],
                                    ['label' => 'Setting Add','url'=>$urlGenerator->generate('setting/add')],
                                    ['label' => 'Client Add','url'=>$urlGenerator->generate('client/add')],
                                    ['label' => 'Email Template Add','url'=>$urlGenerator->generate('emailtemplate/add')],
@@ -114,14 +119,14 @@ echo Breadcrumbs::widget()->links([
                                   ])
                           ->activeItemTemplate("<li class=\"breadcrumb-item active\" aria-current=\"page\">{link}</li>\n")
                           ->homelink(['label'=>'Home','url'=>$urlGenerator->generate('invoice/index')]);
-echo $content;
+    echo $content;
+}
 ?></main>
 
 <footer class="container py-4">
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php
-
 $this->endBody();
 ?>
 </body>

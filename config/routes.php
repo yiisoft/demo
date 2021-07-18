@@ -16,6 +16,8 @@ use App\Invoice\Family\FamilyController;
 use App\Invoice\TaxRate\TaxRateController;
 use App\Invoice\Unit\UnitController;
 use App\Invoice\Product\ProductController;
+use App\Invoice\Generator\GeneratorController;
+use App\Invoice\GeneratorRelation\GeneratorRelationController;
 use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
@@ -169,7 +171,7 @@ return [
                 //add session just for Invoice
                 ->middleware(SessionMiddleware::class)
                 ->action([InvoiceController::class, 'index'])
-                ->name('invoice/index'),
+                ->name('invoice/index'),            
             //so if you add the below /client to the above '/invoice' you get '/invoice/client', does that look familiar?
             Route::get('/client')
                 ->action([ClientController::class, 'index'])
@@ -195,6 +197,109 @@ return [
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClient'))
                 ->middleware(Authentication::class)
                 ->action([ClientController::class, 'view']),
+            
+                
+            Route::get('/generatorrelation')
+                ->middleware(Authentication::class)
+                ->action([GeneratorRelationController::class, 'index'])
+                ->name('generatorrelation/index'),    
+            // Add GeneratorRelation
+            Route::methods([Method::GET, Method::POST], '/generatorrelation/add')
+                ->middleware(Authentication::class)
+                ->action([GeneratorRelationController::class, 'add'])
+                ->name('generatorrelation/add'),
+            // Edit GeneratorRelation
+            Route::methods([Method::GET, Method::POST], '/generatorrelation/edit/{id}')
+                ->name('generatorrelation/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGeneratorRelation'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorRelationController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/generatorrelation/delete/{id}')
+                ->name('generatorrelation/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGeneratorRelation'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorRelationController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/generatorrelation/view/{id}')
+                ->name('generatorrelation/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorRelationController::class, 'view']),
+                
+            Route::get('/generator')
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'index'])
+                ->name('generator/index'),    
+            // Add Generator
+            Route::methods([Method::GET, Method::POST], '/generator/add')
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'add'])
+                ->name('generator/add'),
+            // Edit Generator
+            Route::methods([Method::GET, Method::POST], '/generator/edit/{id}')
+                ->name('generator/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/generator/delete/{id}')
+                ->name('generator/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/generator/view/{id}')
+                ->name('generator/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'view']),
+            Route::methods([Method::GET, Method::POST], '/generator/entity/{id}')
+                ->name('generator/entity')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'entity']),
+            Route::methods([Method::GET, Method::POST], '/generator/repo/{id}')
+                ->name('generator/repo')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'repo']),    
+            Route::methods([Method::GET, Method::POST], '/generator/service/{id}')
+                ->name('generator/service')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'service']),  
+            Route::methods([Method::GET, Method::POST], '/generator/mapper/{id}')
+                ->name('generator/mapper')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'mapper']),      
+            Route::methods([Method::GET, Method::POST], '/generator/controller/{id}')
+                ->name('generator/controller')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'controller']),          
+            Route::methods([Method::GET, Method::POST], '/generator/form/{id}')
+                ->name('generator/form')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'form']),
+            Route::methods([Method::GET, Method::POST], '/generator/scope/{id}')
+                ->name('generator/scope')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, 'scope']),
+            Route::methods([Method::GET, Method::POST], '/generator/_index/{id}')
+                ->name('generator/_index')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, '_index']),    
+            Route::methods([Method::GET, Method::POST], '/generator/_form/{id}')
+                ->name('generator/_form')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, '_form']),
+            Route::methods([Method::GET, Method::POST], '/generator/_view/{id}')
+                ->name('generator/_view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, '_view']),    
                 
             Route::get('/setting')
                 ->middleware(Authentication::class)

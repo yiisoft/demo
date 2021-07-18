@@ -48,8 +48,8 @@ final class ProductController
         if ($request->getAttribute('next') !== null) {
             $paginator = $paginator->withNextPageToken((string)$request->getAttribute('next'));
         }
-        $canEdit = $this->rbac($session);
-        $flash = $this->flash($session, 'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $canEdit = $this->rbac($session); 
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=> $settingRepository,
             'canEdit' => $canEdit,
@@ -148,16 +148,6 @@ final class ProductController
             //load Entity\Product BelongTo relations ie. $family, $tax_rate, $unit by means of repoProductQuery             
             'product'=>$productRepository->repoProductquery($this->product($request, $productRepository)->getProduct_id()),
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new ProductForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->productService->saveProduct($this->userService->getUser(),$this->product($request, $productRepository), $form);
-                return $this->webService->getRedirectResponse('product/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('_view', $parameters);
     }
     

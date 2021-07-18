@@ -56,7 +56,7 @@ class ListCommand extends Command
                 $table->addRow(new TableSeparator());
             }
         }
-
+        
         $table->render();
         return ExitCode::OK;
     }

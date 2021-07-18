@@ -34,12 +34,8 @@ if (!empty($errors)) {
       <label for="client_active" class="control-label ">
                                 <?= $s->trans('active_client'); ?>
                                 <input id="client_active" name="client_active" type="checkbox" value="1"
-                                    <?php if (Html::encode($body['client_active'] ?? "1")
-                                        || !is_numeric($body['client_active'])
-                                    ) {
-                                        echo 'checked="checked"';
-                                    } ?>>
-      </label>
+                                <?php $s->check_select(Html::encode($body['client_active'] ?? ''), 1, '==', true) ?>>
+      </label>   
       </div>    
   </div>       
   <div class="row">

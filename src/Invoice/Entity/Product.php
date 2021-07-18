@@ -54,7 +54,7 @@ class Product
     private ?string $provider_name = '';
     
     /**
-     * @BelongsTo(target="Family", nullable=false)
+     * @BelongsTo(target="Family", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Family
      */
@@ -66,7 +66,7 @@ class Product
     private ?int $family_id = null;
     
     /**
-     * @BelongsTo(target="TaxRate", nullable=false)
+     * @BelongsTo(target="TaxRate", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|TaxRate
      */
@@ -78,7 +78,7 @@ class Product
     private ?int $tax_rate_id = null;
     
     /**
-     * @BelongsTo(target="Unit", nullable=false)
+     * @BelongsTo(target="Unit", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Unit
      */
@@ -151,15 +151,15 @@ class Product
     {
         return (string)$this->id;
     }
-    
-    public function setFamily_id(int $family_id): void
-    {
-        $this->family_id = $family_id;
-    }
 
     public function getFamily_id(): ?int
     {
         return $this->family_id;
+    }
+    
+    public function setFamily_id(int $family_id): void
+    {
+        $this->family_id = $family_id;
     }
     
     public function getProduct_sku(): string

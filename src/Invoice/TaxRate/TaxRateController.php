@@ -40,8 +40,8 @@ final class TaxRateController
     public function index(Session $session,TaxRateRepository $taxrateRepository, SettingRepository $settingRepository): Response
     {
         $canEdit = $this->rbac($session);
-        $taxrates = $this->taxrates($taxrateRepository);
-        $flash = $this->flash($session,'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $taxrates = $this->taxrates($taxrateRepository); 
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -124,16 +124,6 @@ final class TaxRateController
                 'tax_rate_percent'=>$taxrate->getTax_rate_percent()
             ],            
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new TaxRateForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->taxrateService->saveTaxRate($this->userService->getUser(),$taxrate, $form);
-                return $this->webService->getRedirectResponse('/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters);
     }
     

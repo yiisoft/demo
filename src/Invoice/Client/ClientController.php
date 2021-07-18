@@ -41,7 +41,7 @@ final class ClientController
     public function index(SessionInterface $session, ClientRepository $clientRepository, SettingRepository $settingRepository): Response
     {
         $canEdit = $this->rbac($session);
-        $flash = $this->flash($session, 'info', 'Clicking on the delete button will delete the record immediately so proceed with caution.');
+        $flash = $this->flash($session, 'success', 'Help information will appear here.');
         $parameters = [
             's'=> $settingRepository,
             'canEdit' => $canEdit,
@@ -139,16 +139,6 @@ final class ClientController
             'selected_language' => $selected_language ?: $settingRepository->get_setting('default_language'),
             'countries'=> $countries->get_country_list($settingRepository->get_setting('cldr'))
         ];
-        if ($request->getMethod() === Method::POST) {
-            $form = new ClientForm();
-            $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient($this->client($request, $clientRepository), $form);
-                return $this->webService->getRedirectResponse('client/index');
-            }
-            $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
-        }
         return $this->viewRenderer->render('__view', $parameters);
     }
     

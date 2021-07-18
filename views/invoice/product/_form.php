@@ -59,7 +59,6 @@ if (!empty($errors)) {
                             <label for="family_id">
                                 <?= $s->trans('family'); ?>
                             </label>
-
                             <select name="family_id" id="family_id" class="form-control simple-select">
                                 <option value="0"><?= $s->trans('select_family'); ?></option>
                                 <?php foreach ($families as $family) { ?>
