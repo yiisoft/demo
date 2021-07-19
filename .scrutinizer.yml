@@ -1,14 +1,14 @@
 checks:
-   php: true
+  php: true
 
 filter:
-    paths:
-      - "src/*"
-    excluded_paths:
-      - "src/ApplicationRunner.php"
+  paths:
+    - "src/*"
+  excluded_paths:
+    - "src/ApplicationRunner.php"
 
 build:
-    nodes:
+  nodes:
     analysis:
       environment:
         php: 8.0.6
@@ -19,10 +19,9 @@ build:
 
     tests-and-coverage:
       environment:
-        php:
-          version: 8.0.6
-          ini:
-            xdebug.mode: coverage
+        php: 8.0.6
+        ini:
+          xdebug.mode: coverage
 
       dependencies:
         override:
@@ -38,5 +37,4 @@ build:
             coverage:
               file: runtime/tests/_output/coverage.xml
               format: php-clover
-
 
