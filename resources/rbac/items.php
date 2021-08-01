@@ -16,7 +16,13 @@ return [
             'editUnit',
             'editProduct',
             'editGenerator',
-            'editGeneratorRelation'
+            'editGeneratorRelation',
+            'editProject',
+            'editTask',
+            'editGroup',
+            'editInv',
+            'editItem',
+            'editAmount'
         ],
     ],
     'editPost' => [
@@ -75,6 +81,43 @@ return [
     ],
     'editProduct' => [
         'name' => 'editProduct',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editTask' => [
+        'name' => 'editTask',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editProject' => [
+        'name' => 'editProject',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editGroup' => [
+        'name' => 'editGroup',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editInv' => [
+        'name' => 'editInv',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    'editItem' => [
+        'name' => 'editItem',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editAmount' => [
+        'name' => 'editAmount',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,

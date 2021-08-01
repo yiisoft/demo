@@ -90,9 +90,9 @@ final class SettingRepository extends Select\Repository
         }       
     }
     
-    public function getValue(string $setting_key): ?Setting
+    public function getValue(string $setting_key)
     {
-        $one_setting = $this->withKey($key);
+        $one_setting = $this->withKey($setting_key);
         if (!empty($one_setting) && !empty($one_setting->setting_value)) {
             $g = $one_setting->setting_value;
             return $g;

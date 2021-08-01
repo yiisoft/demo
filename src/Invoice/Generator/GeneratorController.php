@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace App\Invoice\Generator;
 
 use App\Invoice\Entity\Gentor;
+use App\Invoice\Generator\GeneratorForm;
 use App\Invoice\Generator\GeneratorRepository;
+use App\Invoice\Generator\GeneratorService;
 use App\Invoice\GeneratorRelation\GeneratorRelationRepository;
+use App\Invoice\Helpers\GenerateCodeFileHelper;
 use App\Invoice\Setting\SettingRepository;
 use App\Service\WebControllerService;
 use App\User\UserService;
-use Yiisoft\Aliases\Aliases;
-use Yiisoft\Http\Method;
-use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Yii\View\ViewRenderer;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\Session\SessionInterface as Session;
-use Yiisoft\Session\Flash\Flash;
-use App\Invoice\Helpers\GenerateCodeFileHelper;
 use Spiral\Database\DatabaseManager;
+use Yiisoft\Aliases\Aliases;
+use Yiisoft\Http\Method;
+use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Session\SessionInterface as Session;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\View\View;
-use Exception;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class GeneratorController
 {
@@ -57,10 +59,12 @@ final class GeneratorController
     {
         $canEdit = $this->rbac($session);
         $generators = $this->generators($generatorRepository);
+        $flash = $this->flash($session, 'dummy', 'Help information will appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
-            'generators' => $generators
+            'generators' => $generators,
+            'flash'=> $flash
         ]; 
         return $this->viewRenderer->render('index', $parameters);
     }
@@ -106,6 +110,7 @@ final class GeneratorController
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
                 $this->generatorService->saveGenerator($generator, $form);
+                $this->flash($session,'warning','This record has been edited.');
                 return $this->webService->getRedirectResponse('generator/index');
             }
             $parameters['body'] = $body;
@@ -114,7 +119,7 @@ final class GeneratorController
         return $this->viewRenderer->render('__form', $parameters);
     }
     
-    public function delete(Session $session, Request $request, GeneratorRepository $generatorRepository): Response 
+    public function delete(Session $session, Request $request, GeneratorRepository $generatorRepository, GeneratorRelationRepository $grr): Response 
     {
         $this->rbac($session);
         $generator = $this->generator($request, $generatorRepository);
@@ -124,7 +129,7 @@ final class GeneratorController
         }
         catch (Exception $e) {
            $flashMsg = $e->getMessage();
-           $this->flash($session,'danger','This record cannot be deleleted due to the following error: ' . $flashMsg);
+           $this->flash($session,'danger','This record has existing Generator Relations so it cannot be deleleted. Delete these relations first.');
         }
         return $this->webService->getRedirectResponse('generator/index');   
     }
@@ -154,17 +159,15 @@ final class GeneratorController
         return $canEdit;
     }
     
-    //$generator = $this->generator();
     private function generator(Request $request, GeneratorRepository $generatorRepository){
         $id = $request->getAttribute('id');
-        $generator = $generatorRepository->repogeneratorquery($id);
+        $generator = $generatorRepository->repoGentorQuery($id);
         if ($generator === null) {
             return $this->webService->getNotFoundResponse();
         }        
         return $generator; 
     }
-    
-    //$generators = $this->generators();
+   
     private function generators(GeneratorRepository $generatorRepository){
         $generators = $generatorRepository->findAllPreloaded();
         if ($generators === null) {

@@ -31,7 +31,7 @@ class Product
     /**
      * @Column(type="text", nullable=true)
      */
-    private ?string $product_name = '';
+    public ?string $product_name = '';
     
     /**
      * @Column(type="longText", nullable=false)

@@ -44,7 +44,7 @@ if (!empty($errors)) {
           echo ' <div class="mb3 form-group">'."\n";
           echo '   <label for="'.$relation->getLowercase_name().'_id" class="form-label" style="background:lightblue">'.'<?= $s'."->trans('".$relation->getLowercase_name()."'); ?>";
           echo '</label>'."\n";
-          echo '   <?= $'.$generator->getSmall_singular_name().'->get'.$relation->getCamelcase_name().'()->'.$relation->getLowercase_name().'_name'.';?>'."\n";
+          echo '   <?= $'.$generator->getSmall_singular_name().'->get'.$relation->getCamelcase_name().'()->'.$relation->getLowercase_name().'_id'.';?>'."\n";
           echo ' </div>'."\n";
       }
       echo '</div>'."\n";

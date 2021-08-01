@@ -84,10 +84,10 @@ public function date_from_timestamp($timestamp,SettingRepository $s)
     return $date->format($s->setting('date_format'));
 }
 
-public function date_to_mysql($date, $s)
+public function date_to_mysql($date,SettingRepository $s)
 {
    $date = DateTime::createFromFormat($s->setting('date_format'), $date);
-   return $date->format('Y-m-d');
+   return $date;
 }
 
 

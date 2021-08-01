@@ -26,7 +26,8 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Service
         foreach ($orm_schema->getColumns() as $column) { 
                 echo '       $model->set'. ucfirst($column->getName()).'($form->get'.ucfirst($column->getName()).'());'."\n";
         }
-        ?>  
+        ?> 
+        $this->repository->save($model);
     }
     
     public function delete<?= $generator->getCamelcase_capital_name(); ?>(<?= $generator->getCamelcase_capital_name(); ?> $model): void

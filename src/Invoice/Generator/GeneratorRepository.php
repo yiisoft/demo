@@ -57,7 +57,7 @@ final class GeneratorRepository extends Select\Repository
         );
     }
     
-    public function repogeneratorquery(string $id): Gentor
+    public function repoGentorQuery(string $id): Gentor
     {
         $query = $this
             ->select()

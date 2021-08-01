@@ -104,7 +104,7 @@ if (!empty($errors)) {
                             <div class="input-group has-feedback">
                                 <input type="text" name="product_price" id="product_price" class="form-control"
                                        value="<?= $s->format_amount($body['product_price'] ?? ''); ?>">
-                                <span class="input-group-addon"><?= $s->get_setting('currency_symbol'); ?></span>
+                                <span class="input-group-text"><?= $s->get_setting('currency_symbol'); ?></span>
                             </div>
                         </div>
 
@@ -169,7 +169,7 @@ if (!empty($errors)) {
                             <div class="input-group has-feedback">
                                 <input type="text" name="purchase_price" id="purchase_price" class="form-control"
                                        value="<?= $s->format_amount($body['purchase_price'] ?? ''); ?>">
-                                <span class="input-group-addon"><?= $s->get_setting('currency_symbol'); ?></span>
+                                <span class="input-group-text"><?= $s->get_setting('currency_symbol'); ?></span>
                             </div>
                         </div>
 

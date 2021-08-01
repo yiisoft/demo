@@ -6,11 +6,11 @@ use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Yii\Bootstrap5\Modal;
 /**
- * @var \App\Invoice\Entity\Gentor $gentors
+ * @var \App\Invoice\Entity\Gentor $generators
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var bool $canEdit
- * @var string $id
- * @var \Yiisoft\Session\Flash\Flash $flash 
+ * @var string $id 
+ * @var \Yiisoft\Session\Flash\Flash $flash
  */
 
 ?>
@@ -47,6 +47,16 @@ use Yiisoft\Yii\Bootstrap5\Modal;
             ->render();
             echo $alert;
         }
+        $success = $flash->get('success');
+        if ($success !== null) {
+            $alert =  Alert::widget()
+                ->body($success)
+                ->options([
+                    'class' => ['alert-success shadow'],
+                ])
+            ->render();
+            echo $alert;
+        }
       }
     ?>
     <div>        
@@ -72,7 +82,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 );
                 //modal delete button
                 echo Modal::widget()
-                ->title('Please confirm that you want to delete this record')
+                ->title('Please confirm that you want to delete this record #'.$generator->getGentor_id())
                 ->titleOptions(['class' => 'text-center'])
                 ->options(['class' => 'testMe'])
                 ->size(Modal::SIZE_SMALL)        
@@ -103,7 +113,6 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 ->begin();
                 echo '<p>Are you sure you want to delete this record? </p>';
                 echo Modal::end();
-                
                 echo Html::a('Entity'.DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name(),
                 $urlGenerator->generate('generator/entity',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']
@@ -151,4 +160,6 @@ use Yiisoft\Yii\Bootstrap5\Modal;
         }
         ?>
     </div>
-
+<?php
+echo Html::closeTag('div');
+?>

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Invoice\Generator;
 
 use App\Invoice\Entity\Gentor;
+use App\Invoice\Generator\GeneratorRepository;
+use App\Invoice\Generator\GeneratorForm;
 
 final class GeneratorService
 {

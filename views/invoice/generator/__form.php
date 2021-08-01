@@ -111,11 +111,11 @@ if (!empty($errors)) {
   <div class="card row mb-3">
       <div class="card-header"><h5>Path to Layout File</h5></div>  
     <div class="col mb-3 form-group">     
-        <label for="controller_layout_dir" class="form-label required">Controller Layout Directory eg. dirname(dirname(__DIR__) that appears just after controller construct.</label>
-        <input type="text" class="form-control" name="controller_layout_dir" id="controller_layout_dir" placeholder="Controller Layout Directory eg. dirname(dirname(__DIR__)" value="<?= Html::encode($body['controller_layout_dir'] ?? '') ?>" required>
+        <label for="controller_layout_dir" class="form-label required">Controller Layout Directory eg. dirname(dirname(__DIR__)) that appears just after controller construct.</label>
+        <input type="text" class="form-control" name="controller_layout_dir" id="controller_layout_dir" placeholder="Controller Layout Directory eg. dirname(dirname(__DIR__))" value="<?= Html::encode($body['controller_layout_dir'] ?? '') ?>" required>
     </div>
     <div class="col mb-3 form-group">
-        <label for="controller_layout_dir_dot_path" class="form-label required">Controller Layout Directory Dot Path eg. '/Invoice/Layout/main.php' that appears just after controller construct.</label>
+        <label for="controller_layout_dir_dot_path" class="form-label required">Controller Layout Directory Dot Path eg. '/Invoice/Layout/main.php' that appears just after controller construct (exclude the apostrophe's).</label>
         <input type="text" class="form-control" name="controller_layout_dir_dot_path" id="controller_layout_dir_dot_path" placeholder="Controller Layout Directory Dot Path" value="<?= Html::encode($body['controller_layout_dir_dot_path'] ?? '') ?>" required>
     </div>
   </div>

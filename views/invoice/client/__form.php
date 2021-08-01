@@ -204,7 +204,7 @@ if (!empty($errors)) {
             <input type="text" name="client_birthdate" id="client_birthdate" placeholder="YYYY-MM-DD"
                    class="form-control data-datepicker"
                    value="<?php if ($bdate <> null) {echo Html::encode($datehelper->date_to_mysql($bdate, $s));} ?>">
-            <span class="input-group-addon">
+            <span class="input-group-text">
             <i class="fa fa-calendar fa-fw"></i>
         </span>
         </div>        
