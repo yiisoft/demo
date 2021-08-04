@@ -22,6 +22,8 @@ use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
+use Yiisoft\Yii\Debug\Proxy\ContainerProxy;
+use Yiisoft\Yii\Debug\Proxy\ContainerProxyConfig;
 
 use function dirname;
 use function microtime;
@@ -52,9 +54,10 @@ final class ApplicationRunner
             $config->get('web'),
             $config->get('providers-web'),
             [],
-            null,
             $this->debug
         );
+
+        \Yiisoft\Widget\WidgetFactory::initialize($container);
 
         // Register error handler with real container-configured dependencies.
         $this->registerErrorHandler($container->get(ErrorHandler::class), $errorHandler);
