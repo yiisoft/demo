@@ -141,7 +141,7 @@
                 "providers-console.php"
             ],
             "routes": "routes.php",
-            "bootstrap": "boostrap.php"
+            "bootstrap": "bootstrap.php"
         },
         "installer-types": [
             "npm-asset"
