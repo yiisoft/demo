@@ -22,8 +22,6 @@ use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 use Yiisoft\Yii\Web\Application;
 use Yiisoft\Yii\Web\SapiEmitter;
 use Yiisoft\Yii\Web\ServerRequestFactory;
-use Yiisoft\Yii\Debug\Proxy\ContainerProxy;
-use Yiisoft\Yii\Debug\Proxy\ContainerProxyConfig;
 
 use function dirname;
 use function microtime;
