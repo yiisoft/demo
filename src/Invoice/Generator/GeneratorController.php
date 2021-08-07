@@ -220,8 +220,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -247,8 +247,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -274,8 +274,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+       $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -301,8 +301,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -328,8 +328,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -355,8 +355,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -382,8 +382,8 @@ final class GeneratorController
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
-        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$g->getCamelcase_capital_name().$file);
+        $build_file = $this->build_and_save($path,$content,$file,$g->getCamelcase_capital_name());
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -410,7 +410,7 @@ final class GeneratorController
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
         $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $build_file = $this->build_and_save($path,$content,$file,'');
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -437,7 +437,7 @@ final class GeneratorController
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
         $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $build_file = $this->build_and_save($path,$content,$file,'');
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -464,7 +464,7 @@ final class GeneratorController
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
         $content = $this->getContent($view,$g,$relations,$orm,$file);
         $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
-        $build_file = $this->build_and_save($path,$content,$file);
+        $build_file = $this->build_and_save($path,$content,$file,'');
         $parameters = [
             'canEdit'=>$this->rbac($session),
             's'=> $settingRepository,
@@ -493,8 +493,8 @@ final class GeneratorController
                 'body'=>$this->body($generator)]);
     }
     
-    private function build_and_save($generated_dir_path,$content, $file){
-        $build_file = new GenerateCodeFileHelper("$generated_dir_path/$file", $content); 
+    private function build_and_save($generated_dir_path,$content, $file,$name){
+        $build_file = new GenerateCodeFileHelper("$generated_dir_path/$name$file", $content); 
         $build_file->save();
         return $build_file;
     }

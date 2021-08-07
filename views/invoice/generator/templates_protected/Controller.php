@@ -60,7 +60,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
       <?php if ($generator->getRepo_extra_camelcase_name()) {  
            echo "    's'=>". '$'.lcfirst($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
            echo "          'canEdit' => ".'$canEdit,'."\n";
-           echo "          '".$generator->getSmall_plural_name()."'".' => $'.'this->'.$generator->getSmall_plural_name().'($'.lcfirst($generator->getCamelcase_capital_name()).'Repository),'."\n"; 
+           echo "          '".$generator->getSmall_plural_name()."'".' => $'.'this->'.$generator->getSmall_plural_name().'($'.$generator->getSmall_singular_name().'Repository),'."\n"; 
            echo "          'flash'=> ".'$flash'."\n";
            echo "         ];"."\n";
            echo "\n";
@@ -154,7 +154,6 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
                  echo "'s'=>". '$'.lcfirst($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
             }
             ?>
-            'head'=>$head,
             <?php
                 $rel = '';
                 foreach ($relations as $relation) {

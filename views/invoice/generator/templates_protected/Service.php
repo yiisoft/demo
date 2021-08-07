@@ -22,10 +22,12 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Service
     public function save<?= $generator->getCamelcase_capital_name(); ?>(<?= $generator->getCamelcase_capital_name(); ?> $model, <?= $generator->getCamelcase_capital_name(); ?>Form $form): void
     {
         <?php
-        echo "\n";
-        foreach ($orm_schema->getColumns() as $column) { 
-                echo '       $model->set'. ucfirst($column->getName()).'($form->get'.ucfirst($column->getName()).'());'."\n";
-        }
+            echo "\n";
+            foreach ($orm_schema->getColumns() as $column) { 
+                if (($column->getAbstractType() <> 'primary')) {
+                    echo '       $model->set'. ucfirst($column->getName()).'($form->get'.ucfirst($column->getName()).'());'."\n";
+                }    
+            }
         ?> 
         $this->repository->save($model);
     }

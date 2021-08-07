@@ -2,12 +2,11 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Sumex;
+namespace App\Invoice\CustomField;
 
-use App\Invoice\Entity\Sumex;
-use App\Invoice\Sumex\SumexService;
-use App\Invoice\Sumex\SumexForm;
-use App\Invoice\Sumex\SumexRepository;
+use App\Invoice\Entity\CustomField;
+use App\Invoice\CustomField\CustomFieldService;
+use App\Invoice\CustomField\CustomFieldRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
@@ -19,41 +18,42 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class SumexController
+final class CustomFieldController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private SumexService $sumexService;
+    private CustomFieldService $customfieldService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        SumexService $sumexService
+        CustomFieldService $customfieldService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/sumex')
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/customfield')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->sumexService = $sumexService;
+        $this->customfieldService = $customfieldService;
     }
     
-    public function index(SessionInterface $session, SumexRepository $sumexRepository, SettingRepository $settingRepository, Request $request, SumexService $service): Response
+    public function index(SessionInterface $session, CustomFieldRepository $customfieldRepository, SettingRepository $settingRepository, Request $request, CustomFieldService $service): Response
     {
+       
          $canEdit = $this->rbac($session);
          $flash = $this->flash($session, 'dummy' , 'Flash message!.');
          $parameters = [
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'sumexs' => $this->sumexs($sumexRepository),
+          'customfields' => $this->customfields($customfieldRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_sumexs', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_customfields', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,13 +66,14 @@ final class SumexController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository
+                        SettingRepository $settingRepository                        
+
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['sumex/add'],
+            'action' => ['customfield/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
@@ -82,10 +83,10 @@ final class SumexController
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new SumexForm();
+            $form = new CustomFieldForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex(new Sumex(),$form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->customfieldService->saveCustomField(new CustomField(),$form);
+                return $this->webService->getRedirectResponse('customfield/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -94,25 +95,26 @@ final class SumexController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SumexRepository $sumexRepository, 
-                        SettingRepository $settingRepository
+                        CustomFieldRepository $customfieldRepository, 
+                        SettingRepository $settingRepository                        
+
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
-            's'=>$settingRepository,
+            'body' => $this->body($this->customfield($request, $customfieldRepository)),
             'head'=>$head,
+            's'=>$settingRepository,
             
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new SumexForm();
+            $form = new CustomFieldForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex($this->sumex($request,$sumexRepository), $form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->customfieldService->saveCustomField($this->customfield($request,$customfieldRepository), $form);
+                return $this->webService->getRedirectResponse('customfield/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -120,68 +122,65 @@ final class SumexController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
+    public function delete(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository 
     ): Response {
         $this->rbac($session);
         $this->flash($session, 'danger','This record has been deleted');
-        $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
-        return $this->webService->getRedirectResponse('sumex/index');        
+        $this->customfieldService->deleteCustomField($this->customfield($request,$customfieldRepository));               
+        return $this->webService->getRedirectResponse('customfield/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,SumexRepository $sumexRepository,
+    public function view(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->customfield($request, $customfieldRepository)),
             's'=>$settingRepository,             
-            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($request, $sumexRepository)->getId()),
+            'customfield'=>$customfieldRepository->repoCustomFieldquery($this->customfield($request, $customfieldRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editSumex');
+        $canEdit = $this->userService->hasPermission('editCustomField');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('sumex/index');
+            return $this->webService->getRedirectResponse('customfield/index');
         }
         return $canEdit;
     }
     
-    private function sumex(Request $request,SumexRepository $sumexRepository) 
+    private function customfield(Request $request,CustomFieldRepository $customfieldRepository) 
     {
         $id = $request->getAttribute('id');       
-        $sumex = $sumexRepository->repoSumexquery($id);
-        if ($sumex === null) {
+        $customfield = $customfieldRepository->repoCustomFieldquery($id);
+        if ($customfield === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $sumex;
+        return $customfield;
     }
     
-    private function sumexs(SumexRepository $sumexRepository) 
+    private function customfields(CustomFieldRepository $customfieldRepository) 
     {
-        $sumexs = $sumexRepository->findAllPreloaded();        
-        if ($sumexs === null) {
+        $customfields = $customfieldRepository->findAllPreloaded();        
+        if ($customfields === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $sumexs;
+        return $customfields;
     }
     
-    private function body($sumex) {
+    private function body($customfield) {
         $body = [
-          'invoice'=>$sumex->getInvoice(),
-          'reason'=>$sumex->getReason(),
-          'diagnosis'=>$sumex->getDiagnosis(),
-          'observations'=>$sumex->getObservations(),
-          'treatmentstart'=>$sumex->getTreatmentstart(),
-          'treatmentend'=>$sumex->getTreatmentend(),
-          'casedate'=>$sumex->getCasedate(),
-          'casenumber'=>$sumex->getCasenumber()
+          'table'=>$customfield->getTable(),
+          'label'=>$customfield->getLabel(),
+          'type'=>$customfield->getType(),
+          'location'=>$customfield->getLocation(),
+          'order'=>$customfield->getOrder()
                 ];
         return $body;
     }

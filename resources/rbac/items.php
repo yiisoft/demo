@@ -22,7 +22,12 @@ return [
             'editGroup',
             'editInv',
             'editItem',
-            'editAmount'
+            'editAmount',
+            'editSumex',
+            'editMerchant',
+            'editInvcust',
+            'editCustomField',            
+            'editCustomValue',
         ],
     ],
     'editPost' => [
@@ -122,4 +127,39 @@ return [
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,
     ],
+    
+    'editSumex' => [
+        'name' => 'editSumex',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editMerchant' => [
+        'name' => 'editMerchant',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editInvcust' => [
+        'name' => 'editInvcust',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editCustomField' => [
+        'name' => 'editCustomField',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editCustomValue' => [
+        'name' => 'editCustomValue',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ]
 ];

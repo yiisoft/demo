@@ -7,15 +7,9 @@ namespace App\Invoice\Sumex;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
 use \DateTime;
-use \DateTimeImmutable;
-use \DateTime;
-use \DateTimeImmutable;
-use \DateTime;
-use \DateTimeImmutable;
 
 final class SumexForm extends FormModel
 {    
-    
     private ?int $invoice=null;
     private ?int $reason=null;
     private ?string $diagnosis='';
@@ -47,21 +41,24 @@ final class SumexForm extends FormModel
 
     public function getTreatmentstart() : ?\DateTime
     {
-       if (isset($this->treatmentstart) && !empty($this->treatmentstart))) {
+       if (isset($this->treatmentstart) && !empty($this->treatmentstart)) {
           return new DateTime($this->treatmentstart);
-       }    }
+       }
+    }
 
     public function getTreatmentend() : ?\DateTime
     {
-       if (isset($this->treatmentend) && !empty($this->treatmentend))) {
+       if (isset($this->treatmentend) && !empty($this->treatmentend)) {
           return new DateTime($this->treatmentend);
-       }    }
+       }
+    }
 
     public function getCasedate() : ?\DateTime
     {
-       if (isset($this->casedate) && !empty($this->casedate))) {
+       if (isset($this->casedate) && !empty($this->casedate)) {
           return new DateTime($this->casedate);
-       }    }
+       }
+    }
 
     public function getCasenumber() : string
     {

@@ -2,12 +2,11 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Sumex;
+namespace App\Invoice\CustomValue;
 
-use App\Invoice\Entity\Sumex;
-use App\Invoice\Sumex\SumexService;
-use App\Invoice\Sumex\SumexForm;
-use App\Invoice\Sumex\SumexRepository;
+use App\Invoice\Entity\CustomValue;
+use App\Invoice\CustomValue\CustomValueService;
+use App\Invoice\CustomValue\CustomValueRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
@@ -19,41 +18,42 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class SumexController
+final class CustomValueController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private SumexService $sumexService;
+    private CustomValueService $customvalueService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        SumexService $sumexService
+        CustomValueService $customvalueService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/sumex')
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/customvalue')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->sumexService = $sumexService;
+        $this->customvalueService = $customvalueService;
     }
     
-    public function index(SessionInterface $session, SumexRepository $sumexRepository, SettingRepository $settingRepository, Request $request, SumexService $service): Response
+    public function index(SessionInterface $session, CustomValueRepository $customvalueRepository, SettingRepository $settingRepository, Request $request, CustomValueService $service): Response
     {
+       
          $canEdit = $this->rbac($session);
          $flash = $this->flash($session, 'dummy' , 'Flash message!.');
          $parameters = [
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'sumexs' => $this->sumexs($sumexRepository),
+          'customvalues' => $this->customvalues($customvalueRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_sumexs', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_customvalues', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,13 +66,14 @@ final class SumexController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository
+                        SettingRepository $settingRepository,                        
+
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['sumex/add'],
+            'action' => ['customvalue/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
@@ -82,10 +83,10 @@ final class SumexController
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new SumexForm();
+            $form = new CustomValueForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex(new Sumex(),$form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->customvalueService->saveCustomValue(new CustomValue(),$form);
+                return $this->webService->getRedirectResponse('customvalue/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -94,25 +95,26 @@ final class SumexController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SumexRepository $sumexRepository, 
-                        SettingRepository $settingRepository
+                        CustomValueRepository $customvalueRepository, 
+                        SettingRepository $settingRepository,                        
+
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['customvalue/edit', ['id' => $this->customvalue($request, $customvalueRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
-            's'=>$settingRepository,
+            'body' => $this->body($this->customvalue($request, $customvalueRepository)),
             'head'=>$head,
+            's'=>$settingRepository,
             
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new SumexForm();
+            $form = new CustomValueForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex($this->sumex($request,$sumexRepository), $form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->customvalueService->saveCustomValue($this->customvalue($request,$customvalueRepository), $form);
+                return $this->webService->getRedirectResponse('customvalue/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -120,68 +122,64 @@ final class SumexController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
+    public function delete(SessionInterface $session,Request $request,CustomValueRepository $customvalueRepository 
     ): Response {
         $this->rbac($session);
         $this->flash($session, 'danger','This record has been deleted');
-        $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
-        return $this->webService->getRedirectResponse('sumex/index');        
+        $this->customvalueService->deleteCustomValue($this->customvalue($request,$customvalueRepository));               
+        return $this->webService->getRedirectResponse('customvalue/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,SumexRepository $sumexRepository,
-        SettingRepository $settingRepository
+    public function view(SessionInterface $session,Request $request,CustomValueRepository $customvalueRepository,
+        SettingRepository $settingRepository,
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['customvalue/edit', ['id' => $this->customvalue($request, $customvalueRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->customvalue($request, $customvalueRepository)),
             's'=>$settingRepository,             
-            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($request, $sumexRepository)->getId()),
+            'customvalue'=>$customvalueRepository->repoCustomValuequery($this->customvalue($request, $customvalueRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editSumex');
+        $canEdit = $this->userService->hasPermission('editCustomValue');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('sumex/index');
+            return $this->webService->getRedirectResponse('customvalue/index');
         }
         return $canEdit;
     }
     
-    private function sumex(Request $request,SumexRepository $sumexRepository) 
+    private function customvalue(Request $request,CustomValueRepository $customvalueRepository) 
     {
         $id = $request->getAttribute('id');       
-        $sumex = $sumexRepository->repoSumexquery($id);
-        if ($sumex === null) {
+        $customvalue = $customvalueRepository->repoCustomValuequery($id);
+        if ($customvalue === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $sumex;
+        return $customvalue;
     }
     
-    private function sumexs(SumexRepository $sumexRepository) 
+    private function customvalues(CustomValueRepository $customvalueRepository) 
     {
-        $sumexs = $sumexRepository->findAllPreloaded();        
-        if ($sumexs === null) {
+        $customvalues = $customvalueRepository->findAllPreloaded();        
+        if ($customvalues === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $sumexs;
+        return $customvalues;
     }
     
-    private function body($sumex) {
+    private function body($customvalue) {
         $body = [
-          'invoice'=>$sumex->getInvoice(),
-          'reason'=>$sumex->getReason(),
-          'diagnosis'=>$sumex->getDiagnosis(),
-          'observations'=>$sumex->getObservations(),
-          'treatmentstart'=>$sumex->getTreatmentstart(),
-          'treatmentend'=>$sumex->getTreatmentend(),
-          'casedate'=>$sumex->getCasedate(),
-          'casenumber'=>$sumex->getCasenumber()
+                
+          'id'=>$customvalue->getId(),
+          'field'=>$customvalue->getField(),
+          'value'=>$customvalue->getValue()
                 ];
         return $body;
     }

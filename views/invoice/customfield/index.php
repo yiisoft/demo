@@ -7,7 +7,7 @@ use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Yii\Bootstrap5\Modal;
 
 /**
- * @var \App\Invoice\Entity\Product $product
+ * @var \App\Invoice\Entity\CustomField $customfield
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var bool $canEdit
  * @var string $id
@@ -15,7 +15,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<h1>Products</h1>
+<h1>Customfields</h1>
 <?php
         $danger = $flash->get('danger');
         if ($danger != null) {
@@ -48,25 +48,25 @@ use Yiisoft\Yii\Bootstrap5\Modal;
 <?php
     if ($canEdit) {
         echo Html::a('Add',
-        $urlGenerator->generate('product)/add'),
+        $urlGenerator->generate('customfield/add'),
             ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
      );
     //list all the items
-    foreach ($products as $product){
+    foreach ($customfields as $customfield){
       echo Html::br();
-      $label = $product->id . " ";
+      $label = $customfield->id . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('product/edit', ['id' => $product->id]),
+      $urlGenerator->generate('customfield/edit', ['id' => $customfield->id]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('product/view', ['id' => $product->id]),
+      $urlGenerator->generate('customfield/view', ['id' => $customfield->id]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record')
+      ->title('Please confirm that you want to delete this record# '.$customfield->id)
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -83,9 +83,8 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                               'bs-dismiss' => 'modal',
                    ],
                    ]
-                   ),
-                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('product/delete', ['id' => $product->id]),
+                   ).                   Html::a('Yes Delete it Please ... I am sure!',
+                   $urlGenerator->generate('customfield/delete', ['id' => $customfield->id]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

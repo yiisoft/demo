@@ -16,6 +16,7 @@ use Yiisoft\Validator\Rule\Required;
        if ($column->getAbstractType() === 'date' || $column->getAbstractType() === 'datetime' || $column->getAbstractType() === 'time' ) {
            echo 'use \DateTime;'."\n";
            echo 'use \DateTimeImmutable;'."\n";
+           break;
        }
    }         
 ?>
@@ -41,10 +42,12 @@ final class <?= $generator->getCamelcase_capital_name();?>Form extends FormModel
                 {
                    if ($column->hasDefaultValue()) {
                       $init  = $column->getDefaultValue();
+                      if ($init === 1) {$init = false;}
+                      if ($init === 0) {$init = true;}
                       break;
                    }
                    else {
-                       $init = 'false';
+                       $init = false;
                        break;
                    }
                 }
@@ -65,9 +68,9 @@ final class <?= $generator->getCamelcase_capital_name();?>Form extends FormModel
         echo "\n";
         echo '    public function get'.ucfirst($column->getName()).'() : ?\DateTime'."\n";
         echo '    {'."\n";
-        echo '       if (isset($this->'.$column->getName().') && !empty($this->'.$column->getName().'))) {'."\n";
+        echo '       if (isset($this->'.$column->getName().') && !empty($this->'.$column->getName().')) {'."\n";
         echo '          return new DateTime($this->'.$column->getName().');'."\n";            
-        echo '       }';
+        echo '       }'."\n";
         if (($column->getAbstractType() === 'date') && ($column->isNullable())) {
             echo '       if (empty($this->'.$column->getName().')){'."\n";
             echo '          return null;'."\n";

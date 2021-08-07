@@ -2,9 +2,9 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Product;
+namespace App\Invoice\Merchant;
 
-use App\Invoice\Entity\Product;
+use App\Invoice\Entity\Merchant;
 use Cycle\ORM\Select;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -12,7 +12,7 @@ use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-final class ProductRepository extends Select\Repository
+final class MerchantRepository extends Select\Repository
 {
 private EntityWriter $entityWriter;
 
@@ -23,9 +23,9 @@ private EntityWriter $entityWriter;
     }
 
     /**
-     * Get products  without filter
+     * Get merchants  without filter
      *
-     * @psalm-return DataReaderInterface<int,Product>
+     * @psalm-return DataReaderInterface<int,Merchant>
      */
     public function findAllPreloaded(): DataReaderInterface
     {
@@ -34,7 +34,7 @@ private EntityWriter $entityWriter;
     }
     
     /**
-     * @psalm-return DataReaderInterface<int, Product>
+     * @psalm-return DataReaderInterface<int, Merchant>
      */
     public function getReader(): DataReaderInterface
     {
@@ -50,17 +50,17 @@ private EntityWriter $entityWriter;
     /**
      * @throws Throwable
      */
-    public function save(Product $product): void
+    public function save(Merchant $merchant): void
     {
-        $this->entityWriter->write([$product]);
+        $this->entityWriter->write([$merchant]);
     }
     
     /**
      * @throws Throwable
      */
-    public function delete(Product $product): void
+    public function delete(Merchant $merchant): void
     {
-        $this->entityWriter->delete([$product]);
+        $this->entityWriter->delete([$merchant]);
     }
     
     private function prepareDataReader($query): EntityReader
@@ -71,8 +71,8 @@ private EntityWriter $entityWriter;
         );
     }
     
-    public function repoProductquery(string $id): Product    {
-        $query = $this->select()->load('tax_rate')->load('family')->load('unit')->where(['id' => $id]);
+    public function repoMerchantquery(string $id): Merchant    {
+        $query = $this->select()->load('inv')->where(['id' => $id]);
         return  $query->fetchOne();        
     }
 }

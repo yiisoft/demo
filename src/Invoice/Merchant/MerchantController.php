@@ -2,13 +2,13 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Sumex;
+namespace App\Invoice\Merchant;
 
-use App\Invoice\Entity\Sumex;
-use App\Invoice\Sumex\SumexService;
-use App\Invoice\Sumex\SumexForm;
-use App\Invoice\Sumex\SumexRepository;
+use App\Invoice\Entity\Merchant;
+use App\Invoice\Merchant\MerchantService;
+use App\Invoice\Merchant\MerchantRepository;
 use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Inv\InvRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
@@ -19,41 +19,42 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class SumexController
+final class MerchantController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private SumexService $sumexService;
+    private MerchantService $merchantService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        SumexService $sumexService
+        MerchantService $merchantService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/sumex')
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/merchant')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->sumexService = $sumexService;
+        $this->merchantService = $merchantService;
     }
     
-    public function index(SessionInterface $session, SumexRepository $sumexRepository, SettingRepository $settingRepository, Request $request, SumexService $service): Response
+    public function index(SessionInterface $session, MerchantRepository $merchantRepository, SettingRepository $settingRepository, Request $request, MerchantService $service): Response
     {
+       
          $canEdit = $this->rbac($session);
          $flash = $this->flash($session, 'dummy' , 'Flash message!.');
          $parameters = [
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'sumexs' => $this->sumexs($sumexRepository),
+          'merchants' => $this->merchants($merchantRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_sumexs', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_merchants', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,26 +67,28 @@ final class SumexController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository
+                        SettingRepository $settingRepository,                        
+                        InvRepository $invRepository
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['sumex/add'],
+            'action' => ['merchant/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
             'head'=>$head,
             
+            'invs'=>$invRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new SumexForm();
+            $form = new MerchantForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex(new Sumex(),$form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->merchantService->saveMerchant(new Merchant(),$form);
+                return $this->webService->getRedirectResponse('merchant/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -94,25 +97,26 @@ final class SumexController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SumexRepository $sumexRepository, 
-                        SettingRepository $settingRepository
+                        MerchantRepository $merchantRepository, 
+                        SettingRepository $settingRepository,                        
+                        InvRepository $invRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['merchant/edit', ['id' => $this->merchant($request, $merchantRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
-            's'=>$settingRepository,
+            'body' => $this->body($this->merchant($request, $merchantRepository)),
             'head'=>$head,
-            
+            's'=>$settingRepository,
+            'invs'=>$invRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new SumexForm();
+            $form = new MerchantForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex($this->sumex($request,$sumexRepository), $form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->merchantService->saveMerchant($this->merchant($request,$merchantRepository), $form);
+                return $this->webService->getRedirectResponse('merchant/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -120,68 +124,66 @@ final class SumexController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
+    public function delete(SessionInterface $session,Request $request,MerchantRepository $merchantRepository 
     ): Response {
         $this->rbac($session);
         $this->flash($session, 'danger','This record has been deleted');
-        $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
-        return $this->webService->getRedirectResponse('sumex/index');        
+        $this->merchantService->deleteMerchant($this->merchant($request,$merchantRepository));               
+        return $this->webService->getRedirectResponse('merchant/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,SumexRepository $sumexRepository,
+    public function view(SessionInterface $session,Request $request,MerchantRepository $merchantRepository,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['merchant/edit', ['id' => $this->merchant($request, $merchantRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->merchant($request, $merchantRepository)),
             's'=>$settingRepository,             
-            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($request, $sumexRepository)->getId()),
+            'merchant'=>$merchantRepository->repoMerchantquery($this->merchant($request, $merchantRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editSumex');
+        $canEdit = $this->userService->hasPermission('editMerchant');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('sumex/index');
+            return $this->webService->getRedirectResponse('merchant/index');
         }
         return $canEdit;
     }
     
-    private function sumex(Request $request,SumexRepository $sumexRepository) 
+    private function merchant(Request $request,MerchantRepository $merchantRepository) 
     {
         $id = $request->getAttribute('id');       
-        $sumex = $sumexRepository->repoSumexquery($id);
-        if ($sumex === null) {
+        $merchant = $merchantRepository->repoMerchantquery($id);
+        if ($merchant === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $sumex;
+        return $merchant;
     }
     
-    private function sumexs(SumexRepository $sumexRepository) 
+    private function merchants(MerchantRepository $merchantRepository) 
     {
-        $sumexs = $sumexRepository->findAllPreloaded();        
-        if ($sumexs === null) {
+        $merchants = $merchantRepository->findAllPreloaded();        
+        if ($merchants === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $sumexs;
+        return $merchants;
     }
     
-    private function body($sumex) {
+    private function body($merchant) {
         $body = [
-          'invoice'=>$sumex->getInvoice(),
-          'reason'=>$sumex->getReason(),
-          'diagnosis'=>$sumex->getDiagnosis(),
-          'observations'=>$sumex->getObservations(),
-          'treatmentstart'=>$sumex->getTreatmentstart(),
-          'treatmentend'=>$sumex->getTreatmentend(),
-          'casedate'=>$sumex->getCasedate(),
-          'casenumber'=>$sumex->getCasenumber()
+          'inv_id'=>$merchant->getInv_id(),
+          'successful'=>$merchant->getSuccessful(),
+          'date'=>$merchant->getDate(),
+          'driver'=>$merchant->getDriver(),
+          'response'=>$merchant->getResponse(),
+          'reference'=>$merchant->getReference()
                 ];
         return $body;
     }

@@ -69,7 +69,6 @@ if (!empty($errors)) {
  </div>
     
  <div class="mb-3 form-group has-feedback">
-        <label for="task_finish_date"><?= $s->trans('task_finish_date') .'  YYYY-MM-DD'; ?></label>
         <?php
             $fdate = $body['task_finish_date'] ?? null;
             $datehelper = new DateHelper();
@@ -79,11 +78,12 @@ if (!empty($errors)) {
             } else {
                 $fdate = null;
             }
-        ?>        
+        ?>
+        <label for="task_finish_date"><?= $s->trans('task_finish_date') .' ('.$datehelper->date_format_datepicker($s).')'; ?></label>
         <div class="input-group">
-            <input type="text" name="task_finish_date" id="task_finish_date" placeholder="YYYY-MM-DD"
+            <input type="text" name="task_finish_date" id="task_finish_date" placeholder="<?= ' ('.$datehelper->date_format_datepicker($s).')';?>YYYY-MM-DD"
                    class="form-control data-datepicker"
-                   value="<?php if ($fdate <> null) {echo Html::encode($datehelper->date_to_mysql($fdate, $s));} ?>">
+                   value="<?php if ($fdate <> null) {echo Html::encode($fdate);} ?>">
             <span class="input-group-text">
             <i class="fa fa-calendar fa-fw"></i>
         </span>

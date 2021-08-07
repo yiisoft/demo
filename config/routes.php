@@ -22,6 +22,11 @@ use App\Invoice\Group\GroupController;
 use App\Invoice\Inv\InvController;
 use App\Invoice\Amount\AmountController;
 use App\Invoice\Item\ItemController;
+use App\Invoice\Sumex\SumexController;
+use App\Invoice\Merchant\MerchantController;
+use App\Invoice\Invcust\InvcustController;
+use App\Invoice\CustomField\CustomFieldController;
+use App\Invoice\CustomValue\CustomValueController;
 use App\Invoice\Generator\GeneratorController;
 use App\Invoice\GeneratorRelation\GeneratorRelationController;
 use App\Controller\ApiInfo;
@@ -619,7 +624,141 @@ return [
                 ->name('amount/view')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editAmount'))
                 ->middleware(Authentication::class)
-                ->action([AmountController::class, 'view']),           
+                ->action([AmountController::class, 'view']), 
                 
+            // Sumex    
+            Route::get('/sumex')
+                ->middleware(Authentication::class)
+                ->action([SumexController::class, 'index'])
+                ->name('sumex/index'),    
+            // Add Sumex
+            Route::methods([Method::GET, Method::POST], '/sumex/add')
+                ->middleware(Authentication::class)
+                ->action([SumexController::class, 'add'])
+                ->name('sumex/add'),
+            // Edit Sumex
+            Route::methods([Method::GET, Method::POST], '/sumex/edit/{id}')
+                ->name('sumex/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSumex'))
+                ->middleware(Authentication::class)
+                ->action([SumexController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/sumex/delete/{id}')
+                ->name('sumex/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSumex'))
+                ->middleware(Authentication::class)
+                ->action([SumexController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/sumex/view/{id}')
+                ->name('sumex/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editSumex'))
+                ->middleware(Authentication::class)
+                ->action([SumexController::class, 'view']), 
+                
+            // Merchant   
+            Route::get('/merchant')
+                ->middleware(Authentication::class)
+                ->action([MerchantController::class, 'index'])
+                ->name('merchant/index'),    
+            // Add Merchant
+            Route::methods([Method::GET, Method::POST], '/merchant/add')
+                ->middleware(Authentication::class)
+                ->action([MerchantController::class, 'add'])
+                ->name('merchant/add'),
+            // Edit Merchant
+            Route::methods([Method::GET, Method::POST], '/merchant/edit/{id}')
+                ->name('merchant/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editMerchant'))
+                ->middleware(Authentication::class)
+                ->action([MerchantController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/merchant/delete/{id}')
+                ->name('merchant/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editMerchant'))
+                ->middleware(Authentication::class)
+                ->action([MerchantController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/merchant/view/{id}')
+                ->name('merchant/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editMerchant'))
+                ->middleware(Authentication::class)
+                ->action([MerchantController::class, 'view']), 
+                
+            // Invoice Custom    
+            Route::get('/invcust')
+                ->middleware(Authentication::class)
+                ->action([InvcustController::class, 'index'])
+                ->name('invcust/index'),    
+            // Add Invcust
+            Route::methods([Method::GET, Method::POST], '/invcust/add')
+                ->middleware(Authentication::class)
+                ->action([InvcustController::class, 'add'])
+                ->name('invcust/add'),
+            // Edit Invcust
+            Route::methods([Method::GET, Method::POST], '/invcust/edit/{id}')
+                ->name('invcust/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editInvcust'))
+                ->middleware(Authentication::class)
+                ->action([InvcustController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/invcust/delete/{id}')
+                ->name('invcust/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editInvcust'))
+                ->middleware(Authentication::class)
+                ->action([InvcustController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/invcust/view/{id}')
+                ->name('invcust/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editInvcust'))
+                ->middleware(Authentication::class)
+                ->action([InvcustController::class, 'view']), 
+                
+            // Custom Field
+            Route::get('/customfield')
+                ->middleware(Authentication::class)
+                ->action([CustomFieldController::class, 'index'])
+                ->name('customfield/index'),    
+            // Add
+            Route::methods([Method::GET, Method::POST], '/customfield/add')
+                ->middleware(Authentication::class)
+                ->action([CustomFieldController::class, 'add'])
+                ->name('customfield/add'),
+            // Edit 
+            Route::methods([Method::GET, Method::POST], '/customfield/edit/{id}')
+                ->name('customfield/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomField'))
+                ->middleware(Authentication::class)
+                ->action([CustomFieldController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/customfield/delete/{id}')
+                ->name('customfield/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomField'))
+                ->middleware(Authentication::class)
+                ->action([CustomFieldController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/customfield/view/{id}')
+                ->name('customfield/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomField'))
+                ->middleware(Authentication::class)
+                ->action([CustomFieldController::class, 'view']),      
+            
+            // Custom Value
+            Route::get('/customvalue')
+                ->middleware(Authentication::class)
+                ->action([CustomValueController::class, 'index'])
+                ->name('customvalue/index'),    
+            // Add
+            Route::methods([Method::GET, Method::POST], '/customvalue/add')
+                ->middleware(Authentication::class)
+                ->action([CustomValueController::class, 'add'])
+                ->name('customvalue/add'),
+            // Edit 
+            Route::methods([Method::GET, Method::POST], '/customvalue/edit/{id}')
+                ->name('customvalue/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomValue'))
+                ->middleware(Authentication::class)
+                ->action([CustomValueController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/customvalue/delete/{id}')
+                ->name('customvalue/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomValue'))
+                ->middleware(Authentication::class)
+                ->action([CustomValueController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/customvalue/view/{id}')
+                ->name('customvalue/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomValue'))
+                ->middleware(Authentication::class)
+                ->action([CustomValueController::class, 'view']),          
         ),//invoice          
 ];

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Invoice\Sumex;
 
 use App\Invoice\Entity\Sumex;
-
+use App\Invoice\Sumex\SumexRepository;
+use App\Invoice\Sumex\SumexForm;
 
 final class SumexService
 {
@@ -19,8 +20,6 @@ final class SumexService
 
     public function saveSumex(Sumex $model, SumexForm $form): void
     {
-        
-       $model->setId($form->getId());
        $model->setInvoice($form->getInvoice());
        $model->setReason($form->getReason());
        $model->setDiagnosis($form->getDiagnosis());
@@ -30,7 +29,7 @@ final class SumexService
        $model->setCasedate($form->getCasedate());
        $model->setCasenumber($form->getCasenumber());
  
-        $this->repository->save($model);
+       $this->repository->save($model);
     }
     
     public function deleteSumex(Sumex $model): void

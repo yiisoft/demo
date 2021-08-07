@@ -7,7 +7,7 @@ use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Yii\Bootstrap5\Modal;
 
 /**
- * @var \App\Invoice\Entity\Inv $invs
+ * @var \App\Invoice\Entity\Merchant $merchant
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var bool $canEdit
  * @var string $id
@@ -15,7 +15,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<h1>Invoices</h1>
+<h1>Merchants</h1>
 <?php
         $danger = $flash->get('danger');
         if ($danger != null) {
@@ -48,20 +48,20 @@ use Yiisoft\Yii\Bootstrap5\Modal;
 <?php
     if ($canEdit) {
         echo Html::a('Add',
-        $urlGenerator->generate('inv/add'),
+        $urlGenerator->generate('merchant/add'),
             ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
      );
     //list all the items
-    foreach ($invs as $inv){
+    foreach ($merchants as $merchant){
       echo Html::br();
-      $label = $inv->id . " ";
+      $label = $merchant->id . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('inv/edit', ['id' => $inv->id]),
+      $urlGenerator->generate('merchant/edit', ['id' => $merchant->id]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('inv/view', ['id' => $inv->id]),
+      $urlGenerator->generate('merchant/view', ['id' => $merchant->id]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('inv/delete', ['id' => $inv->id]),
+                   $urlGenerator->generate('merchant/delete', ['id' => $merchant->id]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

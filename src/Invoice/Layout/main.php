@@ -88,6 +88,11 @@ echo Nav::widget()
                                 ['label' =>'Invoice','url'=>$urlGenerator->generate('inv/index')],
                                 ['label' =>'Invoice Item','url'=>$urlGenerator->generate('item/index')],
                                 ['label' =>'Invoice Amount','url'=>$urlGenerator->generate('amount/index')],
+                                ['label' =>'Sumex','url'=>$urlGenerator->generate('sumex/index')],
+                                ['label' =>'Merchant','url'=>$urlGenerator->generate('merchant/index')],
+                                ['label' =>'Custom Invoice','url'=>$urlGenerator->generate('invcust/index')], 
+                                ['label' =>'Custom Field','url'=>$urlGenerator->generate('customfield/index')],
+                                ['label' =>'Custom Value','url'=>$urlGenerator->generate('customvalue/index')],
                                ]
                 ],              
             ]       
@@ -128,7 +133,12 @@ echo NavBar::end();
                                    ['label' => 'Group Add','url'=>$urlGenerator->generate('group/add')],
                                    ['label' => 'Invoice Add','url'=>$urlGenerator->generate('inv/add')],
                                    ['label' => 'Invoice Item Add','url'=>$urlGenerator->generate('item/add')],
-                                   ['label' => 'Invoice Amount Add','url'=>$urlGenerator->generate('amount/add')] 
+                                   ['label' => 'Invoice Amount Add','url'=>$urlGenerator->generate('amount/add')],
+                                   ['label' => 'Sumex Add','url'=>$urlGenerator->generate('sumex/add')],
+                                   ['label' => 'Merchant Add','url'=>$urlGenerator->generate('merchant/add')],
+                                   ['label' => 'Custom Invoice Add','url'=>$urlGenerator->generate('invcust/add')],
+                                   ['label' => 'Custom Field Add','url'=>$urlGenerator->generate('customfield/add')],
+                                   ['label' => 'Custom Value Add','url'=>$urlGenerator->generate('customvalue/add')] 
                                   ])
                           ->activeItemTemplate("<li class=\"breadcrumb-item active\" aria-current=\"page\">{link}</li>\n")
                           ->homelink(['label'=>'Home','url'=>$urlGenerator->generate('invoice/index')]);

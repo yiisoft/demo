@@ -69,7 +69,9 @@ if ($date && $date !== "0000-00-00") {
  <div class="input-group"> 
 <input type="text" name="date_created" id="date_created" placeholder="<?= $s->trans('invoice_date').' ('.$datehelper->date_format_datepicker($s).')';?>" 
        class="form-control data-datepicker" 
-       value="<?php echo Html::encode(date($datehelper->date_format_setting($s))); ?>"> 
+       value="<?php 
+                echo Html::encode($date); 
+              ?>"> 
 <span class="input-group-text"> 
 <i class="fa fa-calendar fa-fw"></i> 
  </span> 

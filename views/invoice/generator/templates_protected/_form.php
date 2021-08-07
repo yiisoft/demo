@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
+use App\Invoice\Helpers\DateHelper;
 
 /**
  * @var \Yiisoft\View\View $this
@@ -47,7 +48,7 @@ if (!empty($errors)) {
           echo '         <?php foreach ($'.$relation->getLowercase_name().'s as $'.$relation->getLowercase_name().') { ?>'."\n";
           echo '          <option value="<?= $'.$relation->getLowercase_name().'->id; ?>"'."\n";
           echo '           <?php $s->check_select(Html::encode($body['."'".$relation->getLowercase_name()."_id'] ?? ''), $".$relation->getLowercase_name().'->id) ?>'."\n";
-          echo '           ><?= $'.$relation->getLowercase_name().'->'.$relation->getLowercase_name().'_name; ?></option>'."\n";
+          echo '           ><?= $'.$relation->getLowercase_name().'->'.$relation->getLowercase_name().'_id; ?></option>'."\n";
           echo '         <?php } ?>'."\n";
           echo '    </select>'."\n";
           echo ' </div>'."\n";
@@ -68,7 +69,6 @@ if (!empty($errors)) {
          if (($column->getType() === 'string') && ($column->getAbstractType() === 'date' ))
          {
             echo ' <div class="mb-3 form-group has-feedback">';
-            echo ' <label form-label for='.'"'.$column->getName().'"'.'><?= $s->trans('."'".$column->getName()."'".') .'."'".'  YYYY-MM-DD'."'".'; ?></label>;';
             echo ' <?php '; 
             echo ' $date = $body['."'".$column->getName()."'".'] ?? null; '."\n";
             echo '$datehelper = new DateHelper(); '."\n";
@@ -77,11 +77,12 @@ if (!empty($errors)) {
             echo '} else { '."\n";
             echo '    $date = null; '."\n";
             echo '} '."\n";
-            echo '   ?>  '."\n";     
-            echo ' <div class="mb3 input-group"> '."\n";
-            echo '<input type="text" name="'.$column->getName().'" id="'.$column->getName().'" placeholder="YYYY-MM-DD" '."\n";
+            echo '   ?>  '."\n";            
+            echo '<label form-label for='.'"'.$column->getName().'"'.'><?= $s->trans('."'".$column->getName()."'".') ." (".  $datehelper->date_format_datepicker($s).") "; ?></label>';
+            echo '<div class="mb3 input-group"> '."\n";
+            echo '<input type="text" name="'.$column->getName().'" id="'.$column->getName().'" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" '."\n";
             echo '       class="form-control data-datepicker" '."\n";
-            echo '       value="<?php if ($date <> null) {echo Html::encode($datehelper->date_to_mysql($date, $s));} ?>"> '."\n";
+            echo '       value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> '."\n";
             echo '<span class="input-group-text"> '."\n";
             echo '<i class="fa fa-calendar fa-fw"></i> '."\n";
             echo ' </span> '."\n";
@@ -119,6 +120,8 @@ if (!empty($errors)) {
           }  
         }
       }    
+      echo "\n".'</div>'."\n";
+      echo "\n".'</div>'."\n";
       echo "\n".'</div>'."\n";
       echo '</form>'."\n";
 ?>

@@ -2,9 +2,9 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Product;
+namespace App\Invoice\CustomValue;
 
-use App\Invoice\Entity\Product;
+use App\Invoice\Entity\CustomValue;
 use Cycle\ORM\Select;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -12,7 +12,7 @@ use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-final class ProductRepository extends Select\Repository
+final class CustomValueRepository extends Select\Repository
 {
 private EntityWriter $entityWriter;
 
@@ -23,9 +23,9 @@ private EntityWriter $entityWriter;
     }
 
     /**
-     * Get products  without filter
+     * Get customvalues  without filter
      *
-     * @psalm-return DataReaderInterface<int,Product>
+     * @psalm-return DataReaderInterface<int,CustomValue>
      */
     public function findAllPreloaded(): DataReaderInterface
     {
@@ -34,7 +34,7 @@ private EntityWriter $entityWriter;
     }
     
     /**
-     * @psalm-return DataReaderInterface<int, Product>
+     * @psalm-return DataReaderInterface<int, CustomValue>
      */
     public function getReader(): DataReaderInterface
     {
@@ -50,17 +50,17 @@ private EntityWriter $entityWriter;
     /**
      * @throws Throwable
      */
-    public function save(Product $product): void
+    public function save(CustomValue $customvalue): void
     {
-        $this->entityWriter->write([$product]);
+        $this->entityWriter->write([$customvalue]);
     }
     
     /**
      * @throws Throwable
      */
-    public function delete(Product $product): void
+    public function delete(CustomValue $customvalue): void
     {
-        $this->entityWriter->delete([$product]);
+        $this->entityWriter->delete([$customvalue]);
     }
     
     private function prepareDataReader($query): EntityReader
@@ -71,8 +71,8 @@ private EntityWriter $entityWriter;
         );
     }
     
-    public function repoProductquery(string $id): Product    {
-        $query = $this->select()->load('tax_rate')->load('family')->load('unit')->where(['id' => $id]);
+    public function repoCustomValuequery(string $id): CustomValue    {
+        $query = $this->select()->where(['id' => $id]);
         return  $query->fetchOne();        
     }
 }

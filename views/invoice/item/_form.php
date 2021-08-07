@@ -95,7 +95,7 @@ if ($date_add && $date_add !== "0000-00-00") {
    ?>  
 <div class="mb3 input-group">
 <input type="text" name="date_added" id="date_added" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
-       class="form-control data-datepicker" value="<?php if ($date_add <> null) {echo Html::encode($datehelper->date_to_mysql($date_add, $s));} ?>"> 
+       class="form-control data-datepicker" value="<?php if ($date_add <> null) {echo Html::encode($date_add);} ?>"> 
 <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span> 
 </div> 
      

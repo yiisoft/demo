@@ -6,7 +6,8 @@ namespace App\Invoice\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\BelongsTo;
+use DateTime;
+use DateTimeImmutable;
   
  /**
 * @Entity(
@@ -18,7 +19,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
  {
        
        
-        /**
+     /**
      * @Column(type="primary")
      */
      public ?int $id =  null;
@@ -46,17 +47,17 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     /**
      * @Column(type="date", nullable=false)
      */
-     private string $treatmentstart =  '';
+     private $treatmentstart =  '';
      
     /**
      * @Column(type="date", nullable=false)
      */
-     private string $treatmentend =  '';
+     private $treatmentend =  '';
      
     /**
      * @Column(type="date", nullable=false)
      */
-     private string $casedate =  '';
+     private $casedate =  '';
      
     /**
      * @Column(type="string(35)", nullable=true)
@@ -64,18 +65,16 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
      private ?string $casenumber =  '';
      
      public function __construct(
-          int $id = null,
          int $invoice = null,
          int $reason = null,
          string $diagnosis = '',
          string $observations = '',
          string $treatmentstart = '',
-         string $treatmentend = '',
+         string$treatmentend = '',
          string $casedate = '',
          string $casenumber = ''
      )
      {
-         $this->id=$id;
          $this->invoice=$invoice;
          $this->reason=$reason;
          $this->diagnosis=$diagnosis;
@@ -98,7 +97,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     
     public function getInvoice(): int
     {
-     return $this->invoice;
+       return $this->invoice;
     }
     
     public function setInvoice(int $invoice) : void
@@ -108,7 +107,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     
     public function getReason(): int
     {
-     return $this->reason;
+       return $this->reason;
     }
     
     public function setReason(int $reason) : void
@@ -118,7 +117,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     
     public function getDiagnosis(): string
     {
-     return $this->diagnosis;
+       return $this->diagnosis;
     }
     
     public function setDiagnosis(string $diagnosis) : void
@@ -128,7 +127,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     
     public function getObservations(): string
     {
-     return $this->observations;
+       return $this->observations;
     }
     
     public function setObservations(string $observations) : void
@@ -136,39 +135,48 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
       $this->observations =  $observations;
     }
     
-    public function getTreatmentstart(): string
+    public function getTreatmentstart(): ?DateTimeImmutable
     {
-     return $this->treatmentstart;
+      if (isset($this->treatmentstart) && !empty($this->treatmentstart)){
+            return $this->treatmentstart;
+      };
+      if (empty($this->treatmentstart)){
+            return $this->treatmentstart = null;
+      }
     }
     
-    public function setTreatmentstart(string $treatmentstart) : void
+    public function setTreatmentstart(DateTime $treatmentstart) : void
     {
-      $this->treatmentstart =  $treatmentstart;
+            $this->treatmentstart =  $treatmentstart->format('Y-m-d');
     }
     
-    public function getTreatmentend(): string
+    public function getTreatmentend(): DateTimeImmutable
     {
-     return $this->treatmentend;
+      if (isset($this->treatmentend) && !empty($this->treatmentend)){
+       return $this->treatmentend;
+       };
     }
     
-    public function setTreatmentend(string $treatmentend) : void
+    public function setTreatmentend(DateTime $treatmentend) : void
     {
-      $this->treatmentend =  $treatmentend;
+      $this->treatmentend =  $treatmentend->format('Y-m-d')    ;
     }
     
-    public function getCasedate(): string
+    public function getCasedate(): DateTimeImmutable
     {
-     return $this->casedate;
+      if (isset($this->casedate) && !empty($this->casedate)){
+       return $this->casedate;
+      };
     }
     
-    public function setCasedate(string $casedate) : void
+    public function setCasedate(DateTime $casedate) : void
     {
       $this->casedate =  $casedate;
     }
     
     public function getCasenumber(): ?string
     {
-     return $this->casenumber;
+       return $this->casenumber;
     }
     
     public function setCasenumber(string $casenumber) : void

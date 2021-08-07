@@ -69,7 +69,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
         echo '             );'."\n";
         echo '      //modal delete button'."\n";
         echo '      echo Modal::widget()'."\n";
-        echo "      ->title('Please confirm that you want to delete this record')"."\n";
+        echo "      ->title('Please confirm that you want to delete this record# '".".$".$generator->getSmall_singular_name().'->id)'."\n";
         echo "      ->titleOptions(['class' => 'text-center'])"."\n";
         echo "      ->options(['class' => 'testMe'])"."\n";
         echo '      ->size(Modal::SIZE_SMALL)'."\n";        

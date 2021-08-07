@@ -2,13 +2,13 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\Sumex;
+namespace App\Invoice\Invcust;
 
-use App\Invoice\Entity\Sumex;
-use App\Invoice\Sumex\SumexService;
-use App\Invoice\Sumex\SumexForm;
-use App\Invoice\Sumex\SumexRepository;
+use App\Invoice\Entity\Invcust;
+use App\Invoice\Invcust\InvcustService;
+use App\Invoice\Invcust\InvcustRepository;
 use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Inv\InvRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
@@ -19,41 +19,42 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class SumexController
+final class InvcustController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private SumexService $sumexService;
+    private InvcustService $invcustService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        SumexService $sumexService
+        InvcustService $invcustService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/sumex')
-                                           ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/invcust')
+                                           ->withLayout(dirname(dirname(__DIR__)) .'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->sumexService = $sumexService;
+        $this->invcustService = $invcustService;
     }
     
-    public function index(SessionInterface $session, SumexRepository $sumexRepository, SettingRepository $settingRepository, Request $request, SumexService $service): Response
+    public function index(SessionInterface $session, InvcustRepository $invcustRepository, SettingRepository $settingRepository, Request $request, InvcustService $service): Response
     {
+       
          $canEdit = $this->rbac($session);
          $flash = $this->flash($session, 'dummy' , 'Flash message!.');
          $parameters = [
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'sumexs' => $this->sumexs($sumexRepository),
+          'invcusts' => $this->invcusts($invcustRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_sumexs', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_invcusts', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,26 +67,28 @@ final class SumexController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository
+                        SettingRepository $settingRepository,                        
+                        InvRepository $invRepository
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['sumex/add'],
+            'action' => ['invcust/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
             'head'=>$head,
             
+            'invs'=>$invRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new SumexForm();
+            $form = new InvcustForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex(new Sumex(),$form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->invcustService->saveInvcust(new Invcust(),$form);
+                return $this->webService->getRedirectResponse('invcust/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -94,25 +97,26 @@ final class SumexController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SumexRepository $sumexRepository, 
-                        SettingRepository $settingRepository
+                        InvcustRepository $invcustRepository, 
+                        SettingRepository $settingRepository,                        
+                        InvRepository $invRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['invcust/edit', ['id' => $this->invcust($request, $invcustRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
-            's'=>$settingRepository,
+            'body' => $this->body($this->invcust($request, $invcustRepository)),
             'head'=>$head,
-            
+            's'=>$settingRepository,
+                        'invs'=>$invRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new SumexForm();
+            $form = new InvcustForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex($this->sumex($request,$sumexRepository), $form);
-                return $this->webService->getRedirectResponse('sumex/index');
+                $this->invcustService->saveInvcust($this->invcust($request,$invcustRepository), $form);
+                return $this->webService->getRedirectResponse('invcust/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -120,68 +124,65 @@ final class SumexController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
+    public function delete(SessionInterface $session,Request $request,InvcustRepository $invcustRepository 
     ): Response {
         $this->rbac($session);
         $this->flash($session, 'danger','This record has been deleted');
-        $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
-        return $this->webService->getRedirectResponse('sumex/index');        
+        $this->invcustService->deleteInvcust($this->invcust($request,$invcustRepository));               
+        return $this->webService->getRedirectResponse('invcust/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,SumexRepository $sumexRepository,
-        SettingRepository $settingRepository
+    public function view(SessionInterface $session,Request $request,InvcustRepository $invcustRepository,
+        SettingRepository $settingRepository,
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['invcust/edit', ['id' => $this->invcust($request, $invcustRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->invcust($request, $invcustRepository)),
             's'=>$settingRepository,             
-            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($request, $sumexRepository)->getId()),
+            'invcust'=>$invcustRepository->repoInvcustquery($this->invcust($request, $invcustRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editSumex');
+        $canEdit = $this->userService->hasPermission('editInvcust');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('sumex/index');
+            return $this->webService->getRedirectResponse('invcust/index');
         }
         return $canEdit;
     }
     
-    private function sumex(Request $request,SumexRepository $sumexRepository) 
+    private function invcust(Request $request,InvcustRepository $invcustRepository) 
     {
         $id = $request->getAttribute('id');       
-        $sumex = $sumexRepository->repoSumexquery($id);
-        if ($sumex === null) {
+        $invcust = $invcustRepository->repoInvcustquery($id);
+        if ($invcust === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $sumex;
+        return $invcust;
     }
     
-    private function sumexs(SumexRepository $sumexRepository) 
+    private function invcusts(InvcustRepository $invcustRepository) 
     {
-        $sumexs = $sumexRepository->findAllPreloaded();        
-        if ($sumexs === null) {
+        $invcusts = $invcustRepository->findAllPreloaded();        
+        if ($invcusts === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $sumexs;
+        return $invcusts;
     }
     
-    private function body($sumex) {
+    private function body($invcust) {
         $body = [
-          'invoice'=>$sumex->getInvoice(),
-          'reason'=>$sumex->getReason(),
-          'diagnosis'=>$sumex->getDiagnosis(),
-          'observations'=>$sumex->getObservations(),
-          'treatmentstart'=>$sumex->getTreatmentstart(),
-          'treatmentend'=>$sumex->getTreatmentend(),
-          'casedate'=>$sumex->getCasedate(),
-          'casenumber'=>$sumex->getCasenumber()
+                
+          'id'=>$invcust->getId(),
+          'inv_id'=>$invcust->getInv_id(),
+          'fieldid'=>$invcust->getFieldid(),
+          'fieldvalue'=>$invcust->getFieldvalue()
                 ];
         return $body;
     }

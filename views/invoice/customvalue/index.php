@@ -7,7 +7,7 @@ use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Yii\Bootstrap5\Modal;
 
 /**
- * @var \App\Invoice\Entity\Inv $invs
+ * @var \App\Invoice\Entity\CustomValue $customvalue
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var bool $canEdit
  * @var string $id
@@ -15,7 +15,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<h1>Invoices</h1>
+<h1>Custom Values</h1>
 <?php
         $danger = $flash->get('danger');
         if ($danger != null) {
@@ -48,25 +48,25 @@ use Yiisoft\Yii\Bootstrap5\Modal;
 <?php
     if ($canEdit) {
         echo Html::a('Add',
-        $urlGenerator->generate('inv/add'),
+        $urlGenerator->generate('customvalue/add'),
             ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
      );
     //list all the items
-    foreach ($invs as $inv){
+    foreach ($customvalues as $customvalue){
       echo Html::br();
-      $label = $inv->id . " ";
+      $label = $customvalue->id . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('inv/edit', ['id' => $inv->id]),
+      $urlGenerator->generate('customvalue/edit', ['id' => $customvalue->id]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('inv/view', ['id' => $inv->id]),
+      $urlGenerator->generate('customvalue/view', ['id' => $customvalue->id]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record')
+      ->title('Please confirm that you want to delete this record# '.$customvalue->id)
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('inv/delete', ['id' => $inv->id]),
+                   $urlGenerator->generate('customvalue/delete', ['id' => $customvalue->id]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

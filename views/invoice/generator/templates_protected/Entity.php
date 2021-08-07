@@ -15,7 +15,8 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
 <?php foreach ($orm_schema->getColumns() as $column) { 
        if ($column->getType() === 'date' || $column->getType() === 'datetime'){ 
            echo 'use DateTime;';
-           echo 'use DateTimeImmutable;';           
+           echo 'use DateTimeImmutable;'; 
+           break;
        }
 }
 ?>
@@ -82,10 +83,12 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                     {
                        if ($column->hasDefaultValue()) {
                           $init  = $column->getDefaultValue();
+                          if ($init === 1) {$init = false;}
+                          if ($init === 0) {$init = true;}
                           break;
                        }
                        else {
-                          $init = 'false';
+                          $init = false;
                           break;
                        }
                     }
@@ -114,14 +117,14 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                            $default = 'false';
                     }
                     $ab = '     * @Column(type="'.$column->getAbstractType().'"'.($column->hasDefaultvalue() ? ',default='.$default  : '').($column->isNullable() ? ',nullable=true'  : ',nullable=false').')'."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 }
                 //Database specific integer (usually 32 bits).    
                 case 'integer':
                     $result = $column->getSize();
                     $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Small/tiny integer, check your DBMS to check its size.    
                 case 'tinyInteger':
@@ -132,70 +135,70 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                 case 'bigInteger':
                     $result = $column->getSize();
                     $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //length:255] String with specified length, a perfect type for emails and usernames as it can be indexed.    
                 Case 'string':
                     $result = $column->getSize();
                     $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Database specific type to store text data. Check DBMS to find size limitations.    
                 case 'text':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Tiny text, same as "text" for most of the databases. Differs only in MySQL.    
                 case 'tinyText':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Long text, same as "text" for most of the databases. Differs only in MySQL.    
                 case 'longText':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //[Double precision number.] (https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
                 case 'double':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Single precision number, usually mapped into "real" type in the database.
                 case 'float':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue()."')"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //precision, [scale:0]	Number with specified precision and scale.    
                 case 'decimal':
                     $result = $column->getPrecision() .','. $column->getScale();
                     $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue()."')"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //To store specific date and time, DBAL will automatically force UTC timezone for such columns.    
                 case 'datetime':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue()."')"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //To store date only, DBAL will automatically force UTC timezone for such columns.    
                 case 'date':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue()."')"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //To store time only.    
                 case 'time':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.'"'.$column->getDefaultvalue().'"'.")"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Timestamp without a timezone, DBAL will automatically convert incoming values into UTC timezone. 
                 //Do not use such column in your objects to store time (use DateTime instead) as timestamps will behave very specific to select DBMS.    
                 case 'timestamp':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().")"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //To store binary data. Check specific DBMS to find size limitations.    
                 case 'binary':
                     $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().")"  : ')')."\n";
-                    $ate_or_lic='private ';;
+                    $ate_or_lic='private ';
                     break;
                 //Tiny binary, same as "binary" for most of the databases. Differs only in MySQL.    
                 case 'tinyBinary':
@@ -230,6 +233,11 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
             } else {
               echo '     '.$ate_or_lic. $questionmark.$column->getType()." $".$column->getName(). ' =  '.$init.';'."\n";  
             }
+            
+            if ($column->getAbstractType() === 'date'){
+              echo '     '.$ate_or_lic. $questionmark." $".$column->getName(). ' =  '.$init.';'."\n";  
+            }
+            
             echo '     '."\n";
             $construct .= "     ".$column->getType()." $".$column->getName(). ' = '.$init.','."\n    ";
         }
@@ -255,15 +263,19 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                 if (substr($column->getName(), -2) === 'id'){
                      echo '    public function get'.ucfirst($column->getName()).'(): '.($column->isNullable() ? $questionmark : ''). 'string'."\n";
                      echo '    {'."\n";                     
-                     echo '     return (string)$this->'.$column->getName().';'."\n";                
-                } else {
-                     echo '    public function get'.ucfirst($column->getName()).'(): '.($column->isNullable() ? $questionmark : ''). $column->getType()."\n";
-                     echo '    {'."\n";                     
-                     echo '     return $this->'.$column->getName().';'."\n";                
+                     echo '     return (string)$this->'.$column->getName().';'."\n";                    
+                }else{                    
+                     echo '    public function get'.ucfirst($column->getName()).'(): '.($column->isNullable() ? $questionmark : ''). ($column->getAbstractType() === 'date' ? 'DateTimeImmutable' : $column->getType())."\n";
+                     echo '    {'."\n";
+                     echo ''.$column->getAbstractType() === 'date' ? '      if (isset($this->'.$column->getName().') && !empty($this->'.$column->getName().')){'."\n" : '';
+                     echo '       return $this->'.$column->getName().';'."\n";
+                     echo ''.$column->getAbstractType() === 'date' ? '     };'."\n" : '';
+                     echo ''.$column->isNullable() && $column->getAbstractType() === 'date' ? '      if (empty($this->'.$column->getName().')){'."\n" : '';
+                     echo ''.$column->isNullable() && $column->getAbstractType() === 'date' ? '        return $this->'.$column->getName().';'."\n" : '';
                 }
                 echo '    }'."\n";
                 echo '    '."\n";
-                echo '    public function set'.ucfirst($column->getName()).'('.$column->getType().' $'.$column->getName().') : void'."\n";
+                echo '    public function set'.ucfirst($column->getName()).'('.($column->getAbstractType() === 'date' ? 'DateTime' : $column->getType()).' $'.$column->getName().') : void'."\n";
                 echo '    {'."\n";
                 echo '      $this->'.$column->getName().' =  $'.$column->getName().';'."\n";
                 echo '    }'."\n";          

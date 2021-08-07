@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
+use App\Invoice\Helpers\DateHelper;
 
 /**
  * @var \Yiisoft\View\View $this
@@ -30,11 +31,6 @@ if (!empty($errors)) {
 <?php echo (string)$response->getBody(); ?><div id="content">
 <div class="row">
  <div class="mb3 form-group">
-   <label for="id"><?= $s->trans('id'); ?></label>
-   <input type="text" name="id" id="id" class="form-control"
- value="<?= Html::encode($body['id'] ??  ''); ?>">
- </div>
- <div class="mb3 form-group">
    <label for="invoice"><?= $s->trans('invoice'); ?></label>
    <input type="text" name="invoice" id="invoice" class="form-control"
  value="<?= Html::encode($body['invoice'] ??  ''); ?>">
@@ -45,68 +41,73 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['reason'] ??  ''); ?>">
  </div>
  <div class="mb3 form-group">
-   <label for="diagnosis"><?= $s->trans('diagnosis'); ?></label>
+   <label for="diagnosis"><?= $s->trans('invoice_sumex_diagnosis'); ?></label>
    <input type="text" name="diagnosis" id="diagnosis" class="form-control"
  value="<?= Html::encode($body['diagnosis'] ??  ''); ?>">
  </div>
  <div class="mb3 form-group">
-   <label for="observations"><?= $s->trans('observations'); ?></label>
+   <label for="observations"><?= $s->trans('sumex_observations'); ?></label>
    <input type="text" name="observations" id="observations" class="form-control"
  value="<?= Html::encode($body['observations'] ??  ''); ?>">
  </div>
- <div class="mb-3 form-group has-feedback"> <label form-label for="treatmentstart"><?= $s->trans('treatmentstart') .'  YYYY-MM-DD'; ?></label>; <?php  $date = $body['treatmentstart'] ?? null; 
+ <div class="mb-3 form-group has-feedback"><?php  $tdate = $body['treatmentstart'] ?? null; 
 $datehelper = new DateHelper(); 
-if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+if ($tdate && $tdate !== "0000-00-00") { 
+    $tdate = $datehelper->date_from_mysql($tdate, false, $s); 
 } else { 
-    $date = null; 
-} 
-   ?>  
- <div class="mb3 input-group"> 
-<input type="text" name="treatmentstart" id="treatmentstart" placeholder="YYYY-MM-DD" 
+    $tdate = null; } 
+?>
+<label form-label for="treatmentstart"><?= $s->trans('treatment_start') ." (". $datehelper->date_format_datepicker($s).") "; ?></label>
+<div class="mb3 input-group">
+<input type="text" name="treatmentstart" id="treatmentstart" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
        class="form-control data-datepicker" 
-       value="<?php if ($date <> null) {echo Html::encode($datehelper->date_to_mysql($date, $s));} ?>"> 
+       value="<?php if ($tdate <> null) {echo Html::encode($tdate);} ?>"> 
 <span class="input-group-text"> 
 <i class="fa fa-calendar fa-fw"></i> 
  </span> 
 </div>
-</div>   <div class="mb-3 form-group has-feedback"> <label form-label for="treatmentend"><?= $s->trans('treatmentend') .'  YYYY-MM-DD'; ?></label>; <?php  $date = $body['treatmentend'] ?? null; 
+</div>   <div class="mb-3 form-group has-feedback"><?php  $edate = $body['treatmentend'] ?? null; 
 $datehelper = new DateHelper(); 
-if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+if ($edate && $edate !== "0000-00-00") { 
+    $edate = $datehelper->date_from_mysql($edate, false, $s); 
 } else { 
-    $date = null; 
+    $edate = null; 
 } 
-   ?>  
- <div class="mb3 input-group"> 
-<input type="text" name="treatmentend" id="treatmentend" placeholder="YYYY-MM-DD" 
+   ?>
+
+<label form-label for="treatmentend"><?= $s->trans('treatment_end')." (". $datehelper->date_format_datepicker($s).") "; ?></label> 
+<div class="mb3 input-group">
+<input type="text" name="treatmentend" id="treatmentend" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
        class="form-control data-datepicker" 
-       value="<?php if ($date <> null) {echo Html::encode($datehelper->date_to_mysql($date, $s));} ?>"> 
+       value="<?php if ($edate <> null) {echo Html::encode($edate);} ?>"> 
 <span class="input-group-text"> 
 <i class="fa fa-calendar fa-fw"></i> 
  </span> 
 </div>
-</div>   <div class="mb-3 form-group has-feedback"> <label form-label for="casedate"><?= $s->trans('casedate') .'  YYYY-MM-DD'; ?></label>; <?php  $date = $body['casedate'] ?? null; 
+</div>   <div class="mb-3 form-group has-feedback"><?php  $cdate = $body['casedate'] ?? null; 
 $datehelper = new DateHelper(); 
-if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+if ($cdate && $cdate !== "0000-00-00") { 
+    $cdate = $datehelper->date_from_mysql($cdate, false, $s); 
 } else { 
-    $date = null; 
+    $cdate = null; 
 } 
-   ?>  
- <div class="mb3 input-group"> 
-<input type="text" name="casedate" id="casedate" placeholder="YYYY-MM-DD" 
+   ?>
+
+<label form-label for="casedate"><?= $s->trans('case_date')." (". $datehelper->date_format_datepicker($s).") "; ?></label> 
+<div class="mb3 input-group">
+<input type="text" name="casedate" id="casedate" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
        class="form-control data-datepicker" 
-       value="<?php if ($date <> null) {echo Html::encode($datehelper->date_to_mysql($date, $s));} ?>"> 
+       value="<?php if ($cdate <> null) {echo Html::encode($cdate);} ?>"> 
 <span class="input-group-text"> 
 <i class="fa fa-calendar fa-fw"></i> 
  </span> 
 </div>
 </div>   <div class="mb3 form-group">
-   <label for="casenumber"><?= $s->trans('casenumber'); ?></label>
+   <label for="casenumber"><?= $s->trans('case_number'); ?></label>
    <input type="text" name="casenumber" id="casenumber" class="form-control"
  value="<?= Html::encode($body['casenumber'] ??  ''); ?>">
  </div>
-
+</div>
+</div>
 </div>
 </form>

@@ -7,6 +7,7 @@ use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Arrays\ArrayHelper;
 use App\Invoice\Helpers\DateHelper;
 
+
 /**
  * @var \Yiisoft\View\View $this
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -189,7 +190,7 @@ if (!empty($errors)) {
         </div>
     </div>
     <div class="mb-3 form-group has-feedback">
-        <label form-label for="client_birthdate"><?= $s->trans('birthdate') .'  YYYY-MM-DD'; ?></label>
+        
         <?php
             $bdate = $body['client_birthdate'] ?? null;
             $datehelper = new DateHelper();
@@ -199,11 +200,12 @@ if (!empty($errors)) {
             } else {
                 $bdate = null;
             }
-        ?>        
+        ?>
+        <label form-label for="client_birthdate"><?= $s->trans('birthdate') .' ('.$datehelper->date_format_datepicker($s).')'; ?></label>
         <div class="input-group">
-            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="YYYY-MM-DD"
+            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="<?= ' ('.$datehelper->date_format_datepicker($s).')';?>"
                    class="form-control data-datepicker"
-                   value="<?php if ($bdate <> null) {echo Html::encode($datehelper->date_to_mysql($bdate, $s));} ?>">
+                   value="<?php if ($bdate <> null) {echo Html::encode($bdate);} ?>">
             <span class="input-group-text">
             <i class="fa fa-calendar fa-fw"></i>
         </span>
