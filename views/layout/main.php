@@ -35,7 +35,6 @@ $this->addJsVars($assetManager->getJsVars());
 
 $currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
 
-
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="en">

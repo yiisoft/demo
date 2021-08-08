@@ -14,13 +14,14 @@ use Yiisoft\Router\RouteCollectorInterface;
 
 return [
     RouteCollectionInterface::class => static function (RouteCollectorInterface $collector) use ($config) {
-        $collector = $collector
+        $collector
             ->middleware(CsrfMiddleware::class)
             ->middleware(FormatDataResponse::class)
             ->addGroup(
                 Group::create(null)
                     ->routes(...$config->get('routes'))
             );
+
         return new RouteCollection($collector);
     },
 ];

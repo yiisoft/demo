@@ -140,7 +140,8 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "routes": "routes.php"
+            "routes": "routes.php",
+            "bootstrap": "bootstrap.php"
         },
         "installer-types": [
             "npm-asset"
@@ -152,10 +153,7 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "8.0.2"
-        }
+        "sort-packages": true
     },
     "repositories": [
         {
