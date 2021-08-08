@@ -5,6 +5,14 @@ declare(strict_types=1);
 // Do not edit. Content will be replaced.
 return [
     '/' => [
+        'bootstrap' => [
+            '/' => [
+                'config/bootstrap.php',
+            ],
+            'yiisoft/widget' => [
+                'bootstrap.php',
+            ],
+        ],
         'common' => [
             '/' => [
                 'config/common/*.php',
@@ -182,9 +190,6 @@ return [
         'providers' => [
             '/' => [
                 'config/providers.php',
-            ],
-            'yiisoft/widget' => [
-                'providers.php',
             ],
             'yiisoft/yii-debug' => [
                 'providers.php',
