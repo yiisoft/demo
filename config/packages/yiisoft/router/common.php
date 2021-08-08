@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Router\RouteCollector;
+use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollectorInterface;
 
 return [
-    RouteCollectorInterface::class => RouteCollector::class,
+    RouteCollectorInterface::class => Group::create(),
 ];

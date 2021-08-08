@@ -52,6 +52,7 @@ final class ApplicationRunner
             $config->get('web'),
             $config->get('providers-web'),
             [],
+            null,
             $this->debug
         );
 
@@ -59,14 +60,6 @@ final class ApplicationRunner
         $this->registerErrorHandler($container->get(ErrorHandler::class), $errorHandler);
 
         $container = $container->get(ContainerInterface::class);
-        
-        $bootstrapList = $config->get('bootstrap');
-        foreach ($bootstrapList as $callback) {
-            if (!(is_callable($callback))) {
-                throw new \RuntimeException('Bootstrap callback must be callable.');
-            }
-            $callback($container);
-        }
 
         if ($this->debug) {
             $container->get(ListenerConfigurationChecker::class)->check($config->get('events-web'));

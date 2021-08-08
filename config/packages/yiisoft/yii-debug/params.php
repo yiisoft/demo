@@ -17,14 +17,10 @@ use Yiisoft\Yii\Debug\Collector\RouterCollectorInterface;
 use Yiisoft\Yii\Debug\Collector\ServiceCollectorInterface;
 use Yiisoft\Yii\Debug\Collector\WebAppInfoCollector;
 use Yiisoft\Yii\Debug\Command\ResetCommand;
-use Yiisoft\Yii\Debug\Proxy\ContainerInterfaceProxy;
+use Yiisoft\Yii\Debug\Proxy\ContainerProxy;
 use Yiisoft\Yii\Debug\Proxy\EventDispatcherInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\LoggerInterfaceProxy;
 use Yiisoft\Yii\Debug\Proxy\UrlMatcherInterfaceProxy;
-
-/**
- * @var $params array
- */
 
 return [
     'yiisoft/yii-debug' => [
@@ -63,7 +59,7 @@ return [
             'Doctrine\\Inflector\\Rules\\Substitution',
             'Doctrine\\Inflector\\Rules\\Transformation',
         ],
-        'logLevel' => ContainerInterfaceProxy::LOG_ARGUMENTS | ContainerInterfaceProxy::LOG_RESULT | ContainerInterfaceProxy::LOG_ERROR,
+        'logLevel' => ContainerProxy::LOG_ARGUMENTS | ContainerProxy::LOG_RESULT | ContainerProxy::LOG_ERROR,
         'path' => '@runtime/debug',
         'optionalRequests' => [
             '/assets/*',
