@@ -131,7 +131,7 @@ final class TaskController
     public function delete(SessionInterface $session,Request $request,TaskRepository $taskRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->taskService->deleteTask($this->task($request,$taskRepository));               
         return $this->webService->getRedirectResponse('task/index');        
     }

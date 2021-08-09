@@ -127,7 +127,7 @@ final class MerchantController
     public function delete(SessionInterface $session,Request $request,MerchantRepository $merchantRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->merchantService->deleteMerchant($this->merchant($request,$merchantRepository));               
         return $this->webService->getRedirectResponse('merchant/index');        
     }

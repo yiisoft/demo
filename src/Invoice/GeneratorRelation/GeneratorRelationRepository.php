@@ -73,6 +73,14 @@ final class GeneratorRelationRepository extends Select\Repository
         return  $query->fetchOne();        
     }
     
+    public function repoGeneratorquery(string $id): array
+    {
+        $query = $this
+            ->select()
+            ->where(['gentor_id' => $id]);
+        return  $query->fetchAll();        
+    }
+    
     public function withLowercaseName(string $generatorrelation_lowercase_name): ?GentorRelation
     {
         $query = $this

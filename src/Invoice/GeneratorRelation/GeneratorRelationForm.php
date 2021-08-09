@@ -13,6 +13,8 @@ final class GeneratorRelationForm extends FormModel
     
     private ?string $camelcasename = '';
     
+    private ?string $view_field_name = '';
+    
     private ?int $id = null;
     
     private ?int $gentor_id = null;
@@ -25,6 +27,11 @@ final class GeneratorRelationForm extends FormModel
     public function getCamelcase_name(): string
     {
         return $this->camelcasename;
+    }
+    
+    public function getView_field_name(): string
+    {
+        return $this->view_field_name;
     }
     
     public function getGentor_id(): int
@@ -44,6 +51,9 @@ final class GeneratorRelationForm extends FormModel
                 Required::rule(),
             ],
             'camelcasename' => [
+                Required::rule(),
+            ],
+            'view_field_name' => [
                 Required::rule(),
             ],
             'gentor_id' => [

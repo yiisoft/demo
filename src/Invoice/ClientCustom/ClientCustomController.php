@@ -2,12 +2,13 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\CustomField;
+namespace App\Invoice\ClientCustom;
 
-use App\Invoice\Entity\CustomField;
-use App\Invoice\CustomField\CustomFieldService;
-use App\Invoice\CustomField\CustomFieldRepository;
+use App\Invoice\Entity\ClientCustom;
+use App\Invoice\ClientCustom\ClientCustomService;
+use App\Invoice\ClientCustom\ClientCustomRepository;
 use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Client\ClientRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
@@ -18,28 +19,28 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class CustomFieldController
+final class ClientCustomController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private CustomFieldService $customfieldService;
+    private ClientCustomService $clientcustomService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        CustomFieldService $customfieldService
+        ClientCustomService $clientcustomService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/customfield')
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/clientcustom')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->customfieldService = $customfieldService;
+        $this->clientcustomService = $clientcustomService;
     }
     
-    public function index(SessionInterface $session, CustomFieldRepository $customfieldRepository, SettingRepository $settingRepository, Request $request, CustomFieldService $service): Response
+    public function index(SessionInterface $session, ClientCustomRepository $clientcustomRepository, SettingRepository $settingRepository, Request $request, ClientCustomService $service): Response
     {
        
          $canEdit = $this->rbac($session);
@@ -48,12 +49,12 @@ final class CustomFieldController
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'customfields' => $this->customfields($customfieldRepository),
+          'clientcustoms' => $this->clientcustoms($clientcustomRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_customfields', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_clientcustoms', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,27 +67,27 @@ final class CustomFieldController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository                        
-
+                        SettingRepository $settingRepository,                        
+                        ClientRepository $clientRepository
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['customfield/add'],
+            'action' => ['clientcustom/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
             'head'=>$head,
-            
+            'clients'=>$clientRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new CustomFieldForm();
+            $form = new ClientCustomForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->customfieldService->saveCustomField(new CustomField(),$form);
-                return $this->webService->getRedirectResponse('customfield/index');
+                $this->clientcustomService->saveClientCustom(new ClientCustom(),$form);
+                return $this->webService->getRedirectResponse('clientcustom/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -95,26 +96,26 @@ final class CustomFieldController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        CustomFieldRepository $customfieldRepository, 
-                        SettingRepository $settingRepository                        
-
+                        ClientCustomRepository $clientcustomRepository, 
+                        SettingRepository $settingRepository,                        
+                        ClientRepository $clientRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
+            'action' => ['clientcustom/edit', ['id' => $this->clientcustom($request, $clientcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->customfield($request, $customfieldRepository)),
+            'body' => $this->body($this->clientcustom($request, $clientcustomRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-            
+                        'clients'=>$clientRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new CustomFieldForm();
+            $form = new ClientCustomForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->customfieldService->saveCustomField($this->customfield($request,$customfieldRepository), $form);
-                return $this->webService->getRedirectResponse('customfield/index');
+                $this->clientcustomService->saveClientCustom($this->clientcustom($request,$clientcustomRepository), $form);
+                return $this->webService->getRedirectResponse('clientcustom/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -122,65 +123,64 @@ final class CustomFieldController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository 
+    public function delete(SessionInterface $session,Request $request,ClientCustomRepository $clientcustomRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->customfieldService->deleteCustomField($this->customfield($request,$customfieldRepository));               
-        return $this->webService->getRedirectResponse('customfield/index');        
+        $this->clientcustomService->deleteClientCustom($this->clientcustom($request,$clientcustomRepository));               
+        return $this->webService->getRedirectResponse('clientcustom/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository,
+    public function view(SessionInterface $session,Request $request,ClientCustomRepository $clientcustomRepository,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
+            'action' => ['clientcustom/edit', ['id' => $this->clientcustom($request, $clientcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->customfield($request, $customfieldRepository)),
+            'body' => $this->body($this->clientcustom($request, $clientcustomRepository)),
             's'=>$settingRepository,             
-            'customfield'=>$customfieldRepository->repoCustomFieldquery($this->customfield($request, $customfieldRepository)->getId()),
+            'clientcustom'=>$clientcustomRepository->repoClientCustomquery($this->clientcustom($request, $clientcustomRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editCustomField');
+        $canEdit = $this->userService->hasPermission('editClientCustom');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('customfield/index');
+            return $this->webService->getRedirectResponse('clientcustom/index');
         }
         return $canEdit;
     }
     
-    private function customfield(Request $request,CustomFieldRepository $customfieldRepository) 
+    private function clientcustom(Request $request,ClientCustomRepository $clientcustomRepository) 
     {
         $id = $request->getAttribute('id');       
-        $customfield = $customfieldRepository->repoCustomFieldquery($id);
-        if ($customfield === null) {
+        $clientcustom = $clientcustomRepository->repoClientCustomquery($id);
+        if ($clientcustom === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $customfield;
+        return $clientcustom;
     }
     
-    private function customfields(CustomFieldRepository $customfieldRepository) 
+    private function clientcustoms(ClientCustomRepository $clientcustomRepository) 
     {
-        $customfields = $customfieldRepository->findAllPreloaded();        
-        if ($customfields === null) {
+        $clientcustoms = $clientcustomRepository->findAllPreloaded();        
+        if ($clientcustoms === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $customfields;
+        return $clientcustoms;
     }
     
-    private function body($customfield) {
+    private function body($clientcustom) {
         $body = [
-          'table'=>$customfield->getTable(),
-          'label'=>$customfield->getLabel(),
-          'type'=>$customfield->getType(),
-          'location'=>$customfield->getLocation(),
-          'order'=>$customfield->getOrder()
+                
+          'id'=>$clientcustom->getId(),
+          'client_id'=>$clientcustom->getClient_id(),
+          'fieldid'=>$clientcustom->getFieldid(),
+          'fieldvalue'=>$clientcustom->getFieldvalue()
                 ];
         return $body;
     }

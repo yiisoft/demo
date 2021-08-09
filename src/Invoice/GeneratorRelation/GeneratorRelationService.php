@@ -19,6 +19,7 @@ final class GeneratorRelationService
     {
         $model->setLowercase_name($form->getLowercase_name());
         $model->setCamelcase_name($form->getCamelcase_name());
+        $model->setView_field_name($form->getView_field_name());
         $model->setGentor_id($form->getGentor_id());
         $this->repository->save($model);
     }

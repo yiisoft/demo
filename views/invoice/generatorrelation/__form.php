@@ -31,6 +31,8 @@ if (!empty($errors)) {
         <input type="text" class="form-control" name="lowercasename" id="lowercasename" placeholder="Entity Generator Relation BelongsTo Lowercase Name eg. tax_rate" value="<?= Html::encode($body['lowercasename'] ?? '') ?>" required>
         <label for="camelcasename">Camelcase name<span style="color:red">*</span></label>
         <input type="text" class="form-control" name="camelcasename" id="camelcasename" placeholder="Entity Generator Relation Camelcase Name eg. TaxRate" value="<?= Html::encode($body['camelcasename'] ?? '') ?>" required>
+        <label for="view_field_name">View Field Name<span style="color:red">*</span></label>
+        <input type="text" class="form-control" name="view_field_name" id="view_field_name" placeholder="Table View Field Name that will be used in Generator's Table's _form dropdown box and _view eg. id, name" value="<?= Html::encode($body['view_field_name'] ?? '') ?>" required>
     </div>
     <div class="mb-3 form-group">
      <label for="gentor_id">Entity Generator<span style="color:red">*</span></label>   

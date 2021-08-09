@@ -9,6 +9,7 @@ return [
         'children' => [
             'editPost',
             'editClient',
+            'editClientCustom',
             'editSetting',
             'editEmailTemplate',
             'editFamily',
@@ -28,6 +29,7 @@ return [
             'editInvcust',
             'editCustomField',            
             'editCustomValue',
+            'editClientNote',
         ],
     ],
     'editPost' => [
@@ -158,6 +160,20 @@ return [
     
     'editCustomValue' => [
         'name' => 'editCustomValue',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editClientCustom' => [
+        'name' => 'editClientCustom',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editClientNote' => [
+        'name' => 'editClientNote',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,

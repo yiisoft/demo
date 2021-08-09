@@ -66,12 +66,19 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 $urlGenerator->generate('generator/add'),
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );
+            
             //list all the generators
             foreach ($generators as $generator){
                 echo Html::br();
-                $label = $generator->getGentor_id() . " ";
+                $label = $generator->getGentor_id() . " ";               
                 echo Html::label($label);
-                echo Html::a($generator->getCamelcase_capital_name(),$urlGenerator->generate('generator/view',['id' => $generator->getGentor_id()]),['class' => 'btn btn-success btn-sm ms-2']);
+                echo '<div class="btn-group">';
+                echo Html::a($generator->getCamelcase_capital_name(),$urlGenerator->generate('generator/view',['id' => $generator->getGentor_id()]),['class' => 'btn btn-primary btn-sm active','aria-current' => 'page']);
+                $relations = $grr->repoGeneratorquery($generator->getGentor_id());
+                foreach ($relations as $relation) {
+                    echo Html::a($relation->getLowercase_name(),$urlGenerator->generate('generatorrelation/edit',['id' => $relation->getRelation_id()]),['class' => 'btn btn-primary btn-sm']);
+                }
+                echo '</div>';
                 echo Html::a($s->trans('edit'),
                 $urlGenerator->generate('generator/edit', ['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-info btn-sm ms-2']
@@ -152,6 +159,10 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 );
                 echo Html::a('_form',
                 $urlGenerator->generate('generator/_form',['id' => $generator->getGentor_id()]),
+                ['class' => 'btn btn-secondary btn-sm ms-2']
+                );
+                echo Html::a('_route',
+                $urlGenerator->generate('generator/_route',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']
                 );
                 //if file exist entity.php create button

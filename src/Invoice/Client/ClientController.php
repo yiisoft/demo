@@ -116,7 +116,6 @@ final class ClientController
     public function delete(SessionInterface $session,Request $request,ClientRepository $clientRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
         $this->clientService->deleteClient($this->client($request,$clientRepository));               
         return $this->webService->getRedirectResponse('client/index');        
     }

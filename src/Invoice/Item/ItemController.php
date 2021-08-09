@@ -147,7 +147,7 @@ final class ItemController
     public function delete(SessionInterface $session,Request $request,ItemRepository $itemRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->itemService->deleteItem($this->item($request,$itemRepository));               
         return $this->webService->getRedirectResponse('item/index');        
     }

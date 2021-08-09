@@ -78,13 +78,14 @@ final class GeneratorRelationController
         $this->rbac($session);
         $generatorrelation = $this->generatorrelation($request, $generatorrelationRepository);
         $parameters = [
-            'title' => $settingRepository->trans('Edit'),
+            'title' => $settingRepository->trans('edit'),
             'action' => ['generatorrelation/edit', ['id' => $generatorrelation->getRelation_id()]],
             'errors' => [],
             'body' => [
                 'id'=>$generatorrelation->getRelation_id(),
                 'lowercasename'=>$generatorrelation->getLowercase_name(),               
                 'camelcasename'=>$generatorrelation->getCamelcase_name(),
+                'view_field_name'=>$generatorrelation->getView_field_name(),
                 'gentor_id'=>$generatorrelation->getGentor_id(),
             ],
             //relation generator
@@ -108,7 +109,6 @@ final class GeneratorRelationController
     {
         $this->rbac($session);
         $generatorrelation = $this->generatorrelation($request,$generatorrelationRepository);
-        $this->flash($session,'danger','This record has been deleleted.');
         $this->generatorrelationService->deleteGeneratorRelation($generatorrelation);               
         return $this->webService->getRedirectResponse('generatorrelation/index');        
     }
@@ -117,7 +117,7 @@ final class GeneratorRelationController
         $this->rbac($session);        
         $generatorrelation = $this->generatorrelation($request, $generatorrelationRepository);
         $parameters = [
-            'title' => $settingRepository->trans('View'),
+            'title' => $settingRepository->trans('view'),
             'action' => ['generatorrelation/view', ['id' => $generatorrelation->getRelation_id()]],
             'errors' => [],
             'generatorrelation'=>$this->generatorrelation($request,$generatorrelationRepository),
@@ -126,6 +126,7 @@ final class GeneratorRelationController
                 'id'=>$generatorrelation->getRelation_id(),
                 'lowercasename'=>$generatorrelation->getLowercase_name(),               
                 'camelcasename'=>$generatorrelation->getCamelcase_name(),
+                'view_field_name'=>$generatorrelation->getView_field_name(),
                 'gentor_id'=>$generatorrelation->getGentor_id()                
             ],
             'egrs'=>$generatorrelationRepository->repoGeneratorRelationquery($this->generatorrelation($request, $generatorrelationRepository)->getRelation_id()),

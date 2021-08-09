@@ -127,7 +127,7 @@ final class ProjectController
     public function delete(SessionInterface $session,Request $request,ProjectRepository $projectRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->projectService->deleteProject($this->project($request,$projectRepository));               
         return $this->webService->getRedirectResponse('project/index');        
     }

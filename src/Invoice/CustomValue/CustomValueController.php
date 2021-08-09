@@ -125,7 +125,7 @@ final class CustomValueController
     public function delete(SessionInterface $session,Request $request,CustomValueRepository $customvalueRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->customvalueService->deleteCustomValue($this->customvalue($request,$customvalueRepository));               
         return $this->webService->getRedirectResponse('customvalue/index');        
     }

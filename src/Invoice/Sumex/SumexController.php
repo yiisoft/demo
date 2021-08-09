@@ -123,7 +123,7 @@ final class SumexController
     public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
         return $this->webService->getRedirectResponse('sumex/index');        
     }

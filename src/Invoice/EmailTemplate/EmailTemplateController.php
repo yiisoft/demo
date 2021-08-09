@@ -111,7 +111,7 @@ final class EmailTemplateController
     public function delete(SessionInterface $session,Request $request,EmailTemplateRepository $emailtemplateRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->emailtemplateService->deleteEmailTemplate($this->emailtemplate($request,$emailtemplateRepository));               
         return $this->webService->getRedirectResponse('emailtemplate/index');        
     }

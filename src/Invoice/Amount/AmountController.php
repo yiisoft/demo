@@ -125,7 +125,7 @@ final class AmountController
     public function delete(SessionInterface $session,Request $request,AmountRepository $amountRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->amountService->deleteAmount($this->amount($request,$amountRepository));               
         return $this->webService->getRedirectResponse('amount/index');        
     }

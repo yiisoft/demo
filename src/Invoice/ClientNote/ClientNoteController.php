@@ -2,12 +2,13 @@
 
 declare(strict_types=1); 
 
-namespace App\Invoice\CustomField;
+namespace App\Invoice\ClientNote;
 
-use App\Invoice\Entity\CustomField;
-use App\Invoice\CustomField\CustomFieldService;
-use App\Invoice\CustomField\CustomFieldRepository;
+use App\Invoice\Entity\ClientNote;
+use App\Invoice\ClientNote\ClientNoteService;
+use App\Invoice\ClientNote\ClientNoteRepository;
 use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Client\ClientRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
@@ -18,28 +19,28 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
 
-final class CustomFieldController
+final class ClientNoteController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private UserService $userService;
-    private CustomFieldService $customfieldService;
+    private ClientNoteService $clientnoteService;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        CustomFieldService $customfieldService
+        ClientNoteService $clientnoteService
     )    
     {
-        $this->viewRenderer = $viewRenderer->withControllerName('invoice/customfield')
+        $this->viewRenderer = $viewRenderer->withControllerName('invoice/clientnote')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        $this->customfieldService = $customfieldService;
+        $this->clientnoteService = $clientnoteService;
     }
     
-    public function index(SessionInterface $session, CustomFieldRepository $customfieldRepository, SettingRepository $settingRepository, Request $request, CustomFieldService $service): Response
+    public function index(SessionInterface $session, ClientNoteRepository $clientnoteRepository, SettingRepository $settingRepository, Request $request, ClientNoteService $service): Response
     {
        
          $canEdit = $this->rbac($session);
@@ -48,12 +49,12 @@ final class CustomFieldController
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
-          'customfields' => $this->customfields($customfieldRepository),
+          'clientnotes' => $this->clientnotes($clientnoteRepository),
           'flash'=> $flash
          ];
 
         if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_customfields', ['data' => $paginator]);
+            return $this->viewRenderer->renderPartial('_clientnotes', ['data' => $paginator]);
         }
         
         return $this->viewRenderer->render('index', $parameters);
@@ -66,27 +67,28 @@ final class CustomFieldController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $settingRepository                        
-
+                        SettingRepository $settingRepository,                        
+                        ClientRepository $clientRepository
     )
     {
         $this->rbac($session);
         $parameters = [
             'title' => 'Add',
-            'action' => ['customfield/add'],
+            'action' => ['clientnote/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
             'head'=>$head,
             
+            'clients'=>$clientRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
             
-            $form = new CustomFieldForm();
+            $form = new ClientNoteForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->customfieldService->saveCustomField(new CustomField(),$form);
-                return $this->webService->getRedirectResponse('customfield/index');
+                $this->clientnoteService->saveClientNote(new ClientNote(),$form);
+                return $this->webService->getRedirectResponse('clientnote/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
         }
@@ -95,26 +97,26 @@ final class CustomFieldController
     
     public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        CustomFieldRepository $customfieldRepository, 
-                        SettingRepository $settingRepository                        
-
+                        ClientNoteRepository $clientnoteRepository, 
+                        SettingRepository $settingRepository,                        
+                        ClientRepository $clientRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
+            'action' => ['clientnote/edit', ['id' => $this->clientnote($request, $clientnoteRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->customfield($request, $customfieldRepository)),
+            'body' => $this->body($this->clientnote($request, $clientnoteRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-            
+                        'clients'=>$clientRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
-            $form = new CustomFieldForm();
+            $form = new ClientNoteForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->customfieldService->saveCustomField($this->customfield($request,$customfieldRepository), $form);
-                return $this->webService->getRedirectResponse('customfield/index');
+                $this->clientnoteService->saveClientNote($this->clientnote($request,$clientnoteRepository), $form);
+                return $this->webService->getRedirectResponse('clientnote/index');
             }
             $parameters['body'] = $body;
             $parameters['errors'] = $form->getFirstErrors();
@@ -122,65 +124,65 @@ final class CustomFieldController
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository 
+    public function delete(SessionInterface $session,Request $request,ClientNoteRepository $clientnoteRepository 
     ): Response {
         $this->rbac($session);
        
-        $this->customfieldService->deleteCustomField($this->customfield($request,$customfieldRepository));               
-        return $this->webService->getRedirectResponse('customfield/index');        
+        $this->clientnoteService->deleteClientNote($this->clientnote($request,$clientnoteRepository));               
+        return $this->webService->getRedirectResponse('clientnote/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,CustomFieldRepository $customfieldRepository,
+    public function view(SessionInterface $session,Request $request,ClientNoteRepository $clientnoteRepository,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['customfield/edit', ['id' => $this->customfield($request, $customfieldRepository)->getId()]],
+            'action' => ['clientnote/edit', ['id' => $this->clientnote($request, $clientnoteRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->customfield($request, $customfieldRepository)),
+            'body' => $this->body($this->clientnote($request, $clientnoteRepository)),
             's'=>$settingRepository,             
-            'customfield'=>$customfieldRepository->repoCustomFieldquery($this->customfield($request, $customfieldRepository)->getId()),
+            'clientnote'=>$clientnoteRepository->repoClientNotequery($this->clientnote($request, $clientnoteRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
     
     private function rbac(SessionInterface $session) 
     {
-        $canEdit = $this->userService->hasPermission('editCustomField');
+        $canEdit = $this->userService->hasPermission('editClientNote');
         if (!$canEdit){
             $this->flash($session,'warning', 'You do not have the required permission.');
-            return $this->webService->getRedirectResponse('customfield/index');
+            return $this->webService->getRedirectResponse('clientnote/index');
         }
         return $canEdit;
     }
     
-    private function customfield(Request $request,CustomFieldRepository $customfieldRepository) 
+    private function clientnote(Request $request,ClientNoteRepository $clientnoteRepository) 
     {
         $id = $request->getAttribute('id');       
-        $customfield = $customfieldRepository->repoCustomFieldquery($id);
-        if ($customfield === null) {
+        $clientnote = $clientnoteRepository->repoClientNotequery($id);
+        if ($clientnote === null) {
             return $this->webService->getNotFoundResponse();
         }
-        return $customfield;
+        return $clientnote;
     }
     
-    private function customfields(CustomFieldRepository $customfieldRepository) 
+    private function clientnotes(ClientNoteRepository $clientnoteRepository) 
     {
-        $customfields = $customfieldRepository->findAllPreloaded();        
-        if ($customfields === null) {
+        $clientnotes = $clientnoteRepository->findAllPreloaded();        
+        if ($clientnotes === null) {
             return $this->webService->getNotFoundResponse();
         };
-        return $customfields;
+        return $clientnotes;
     }
     
-    private function body($customfield) {
+    private function body($clientnote) {
         $body = [
-          'table'=>$customfield->getTable(),
-          'label'=>$customfield->getLabel(),
-          'type'=>$customfield->getType(),
-          'location'=>$customfield->getLocation(),
-          'order'=>$customfield->getOrder()
+                
+          'id'=>$clientnote->getId(),
+          'client_id'=>$clientnote->getClient_id(),
+          'date'=>$clientnote->getDate(),
+          'note'=>$clientnote->getNote()
                 ];
         return $body;
     }

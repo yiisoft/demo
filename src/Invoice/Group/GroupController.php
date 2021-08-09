@@ -125,7 +125,7 @@ final class GroupController
     public function delete(SessionInterface $session,Request $request,GroupRepository $groupRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->groupService->deleteGroup($this->group($request,$groupRepository));               
         return $this->webService->getRedirectResponse('group/index');        
     }

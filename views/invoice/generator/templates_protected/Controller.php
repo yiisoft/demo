@@ -178,7 +178,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
     public function delete(SessionInterface $session,Request $request,<?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name();?>Repository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this-><?= $generator->getSmall_singular_name();?>Service->delete<?= $generator->getCamelcase_capital_name(); ?>($this-><?= $generator->getSmall_singular_name();?>($request,$<?= $generator->getSmall_singular_name();?>Repository));               
         return $this->webService->getRedirectResponse('<?= $generator->getSmall_singular_name();?>/index');        
     }

@@ -127,7 +127,7 @@ final class InvcustController
     public function delete(SessionInterface $session,Request $request,InvcustRepository $invcustRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->invcustService->deleteInvcust($this->invcust($request,$invcustRepository));               
         return $this->webService->getRedirectResponse('invcust/index');        
     }

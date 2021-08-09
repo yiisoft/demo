@@ -130,7 +130,7 @@ final class ProductController
     public function delete(SessionInterface $session,Request $request,ProductRepository $productRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->productService->deleteProduct($this->product($request,$productRepository));               
         return $this->webService->getRedirectResponse('product/index');        
     }

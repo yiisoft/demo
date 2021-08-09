@@ -121,7 +121,7 @@ final class InvController
     public function delete(SessionInterface $session,Request $request,InvRepository $invRepository 
     ): Response {
         $this->rbac($session);
-        $this->flash($session, 'danger','This record has been deleted');
+       
         $this->invService->deleteInv($this->inv($request,$invRepository));               
         return $this->webService->getRedirectResponse('inv/index');        
     }

@@ -27,6 +27,8 @@ use App\Invoice\Merchant\MerchantController;
 use App\Invoice\Invcust\InvcustController;
 use App\Invoice\CustomField\CustomFieldController;
 use App\Invoice\CustomValue\CustomValueController;
+use App\Invoice\ClientCustom\ClientCustomController;
+use App\Invoice\ClientNote\ClientNoteController;
 use App\Invoice\Generator\GeneratorController;
 use App\Invoice\GeneratorRelation\GeneratorRelationController;
 use App\Controller\ApiInfo;
@@ -310,7 +312,12 @@ return [
                 ->name('generator/_view')
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
                 ->middleware(Authentication::class)
-                ->action([GeneratorController::class, '_view']),    
+                ->action([GeneratorController::class, '_view']),
+            Route::methods([Method::GET, Method::POST], '/generator/_route/{id}')
+                ->name('generator/_route')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editGenerator'))
+                ->middleware(Authentication::class)
+                ->action([GeneratorController::class, '_route']),   
                 
             Route::get('/setting')
                 ->middleware(Authentication::class)
@@ -760,5 +767,61 @@ return [
                 ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editCustomValue'))
                 ->middleware(Authentication::class)
                 ->action([CustomValueController::class, 'view']),          
+                
+            // Client Custom
+            Route::get('/clientcustom')
+                ->middleware(Authentication::class)
+                ->action([ClientCustomController::class, 'index'])
+                ->name('clientcustom/index'),    
+            // Add
+            Route::methods([Method::GET, Method::POST], '/clientcustom/add')
+                ->middleware(Authentication::class)
+                ->action([ClientCustomController::class, 'add'])
+                ->name('clientcustom/add'),
+            // Edit 
+            Route::methods([Method::GET, Method::POST], '/clientcustom/edit/{id}')
+                ->name('clientcustom/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientCustom'))
+                ->middleware(Authentication::class)
+                ->action([ClientCustomController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/clientcustom/delete/{id}')
+                ->name('clientcustom/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientCustom'))
+                ->middleware(Authentication::class)
+                ->action([ClientCustomController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/clientcustom/view/{id}')
+                ->name('clientcustom/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientCustom'))
+                ->middleware(Authentication::class)
+                ->action([ClientCustomController::class, 'view']),
+                
+            // ClientNote    
+            Route::get('/clientnote')
+                ->middleware(Authentication::class)
+                ->action([ClientNoteController::class, 'index'])
+                ->name('clientnote/index'),    
+            // Add
+            Route::methods([Method::GET, Method::POST], '/clientnote/add')
+                ->middleware(Authentication::class)
+                ->action([ClientNoteController::class, 'add'])
+                ->name('clientnote/add'),
+            // Edit 
+            Route::methods([Method::GET, Method::POST], '/clientnote/edit/{id}')
+                ->name('clientnote/edit')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientNote'))
+                ->middleware(Authentication::class)
+                ->action([ClientNoteController::class, 'edit']), 
+            Route::methods([Method::GET, Method::POST], '/clientnote/delete/{id}')
+                ->name('clientnote/delete')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientNote'))
+                ->middleware(Authentication::class)
+                ->action([ClientNoteController::class, 'delete']),
+            Route::methods([Method::GET, Method::POST], '/clientnote/view/{id}')
+                ->name('clientnote/view')
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editClientNote'))
+                ->middleware(Authentication::class)
+                ->action([ClientNoteController::class, 'view']),
+                
+            
         ),//invoice          
 ];

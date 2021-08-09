@@ -32,6 +32,11 @@ class GentorRelation
     public ?string $camelcasename = null;
     
     /**
+     * @Column(type="text", nullable=true)
+     */
+    public ?string $view_field_name = null;
+    
+    /**
      * @BelongsTo(target="Gentor", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Gentor
@@ -46,11 +51,13 @@ class GentorRelation
     public function __construct(
             string $lowercasename='',
             string $camelcasename='',
+            string $view_field_name='',
             int $gentor_id=null
     )
     {
         $this->lowercasename = $lowercasename;
         $this->camelcasename = $camelcasename;
+        $this->view_field_name = $view_field_name;
         $this->gentor_id = $gentor_id;
     }
     
@@ -83,6 +90,16 @@ class GentorRelation
     public function setCamelcase_name(string $camelcasename): void
     {
         $this->camelcasename = $camelcasename;
+    }
+    
+    public function getView_field_name(): string
+    {
+        return $this->view_field_name;
+    }
+
+    public function setView_field_name(string $view_field_name): void
+    {
+        $this->view_field_name = $view_field_name;
     }
     
     public function getGentor_id(): int

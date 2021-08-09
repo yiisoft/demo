@@ -13,7 +13,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 <?php foreach ($orm_schema->getColumns() as $column) { 
-       if ($column->getType() === 'date' || $column->getType() === 'datetime'){ 
+       if ($column->getAbstractType() === 'date' || $column->getAbstractType() === 'datetime'){ 
            echo 'use DateTime;';
            echo 'use DateTimeImmutable;'; 
            break;

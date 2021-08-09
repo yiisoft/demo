@@ -48,7 +48,7 @@ if (!empty($errors)) {
           echo '         <?php foreach ($'.$relation->getLowercase_name().'s as $'.$relation->getLowercase_name().') { ?>'."\n";
           echo '          <option value="<?= $'.$relation->getLowercase_name().'->id; ?>"'."\n";
           echo '           <?php $s->check_select(Html::encode($body['."'".$relation->getLowercase_name()."_id'] ?? ''), $".$relation->getLowercase_name().'->id) ?>'."\n";
-          echo '           ><?= $'.$relation->getLowercase_name().'->'.$relation->getLowercase_name().'_id; ?></option>'."\n";
+          echo '           ><?= $'.$relation->getLowercase_name().'->'.$relation->getView_field_name().'; ?></option>'."\n";
           echo '         <?php } ?>'."\n";
           echo '    </select>'."\n";
           echo ' </div>'."\n";
@@ -110,11 +110,18 @@ if (!empty($errors)) {
             echo ' </div>'."\n";
           }
           
-          if (($column->getType() === 'int') && ($column->getAbstractType() <> 'date' )) {
+          if (($column->getType() === 'int') && ($column->getAbstractType() <> 'date' ) && ($column->getAbstractType() <> 'primary' )) {
             echo ' <div class="mb3 form-group">'."\n";
             echo '   <label for="'.$column->getName().'"><?= $s->trans('."'".$column->getName()."'". '); ?>';
             echo '</label>'."\n";
             echo '   <input type="text" name="'.$column->getName().'" id="'.$column->getName().'" class="form-control"'."\n";
+            echo ' value="<?= Html::encode($body['."'".$column->getName()."'".'] ?? '. " ''". '); ?>'.'"'.'>'."\n";
+            echo ' </div>'."\n";
+          }
+          
+          if (($column->getType() === 'int') && ($column->getAbstractType() === 'primary' )) {
+            echo ' <div class="mb3 form-group">'."\n";
+            echo '   <input type="hidden" name="'.$column->getName().'" id="'.$column->getName().'" class="form-control"'."\n";
             echo ' value="<?= Html::encode($body['."'".$column->getName()."'".'] ?? '. " ''". '); ?>'.'"'.'>'."\n";
             echo ' </div>'."\n";
           }  

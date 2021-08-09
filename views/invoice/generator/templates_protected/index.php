@@ -17,7 +17,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<?php echo '<h1>'.ucfirst($generator->getSmall_plural_name()).'</h1>'."\n"; ?>
+<?php echo '<h1>'.ucfirst($generator->getSmall_singular_name()).'</h1>'."\n"; ?>
 <?php   echo "<?php\n"; ?>
         $danger = $flash->get('danger');
         if ($danger != null) {
