@@ -12,7 +12,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\UrlMatcherInterface $urlMatcher
+ * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
@@ -33,7 +33,7 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
+$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
 
 $this->beginPage();
 ?><!DOCTYPE html>
@@ -55,20 +55,20 @@ echo NavBar::widget()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
+        ->currentPath($currentRoute->getUri()->getPath())
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
+                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
                 ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
+                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
                 ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
 
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
+        ->currentPath($currentRoute->getUri()->getPath())
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
