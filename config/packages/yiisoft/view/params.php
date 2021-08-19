@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definition\Reference;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 
 return [
@@ -13,7 +13,7 @@ return [
         'commonParameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'currentRoute' => Reference::to(CurrentRoute::class),
+            'currentRoute' => Reference::to(CurrentRouteInterface::class),
         ],
         'theme' => [
             'pathMap' => [],

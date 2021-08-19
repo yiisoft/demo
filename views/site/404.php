@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Html\Html;
+
 /**
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
+ * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var \Yiisoft\Router\CurrentRouteInterface $currentRoute
  */
 
-use Yiisoft\Html\Html;
 $this->setTitle('Not found');
 ?>
 
