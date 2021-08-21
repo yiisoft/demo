@@ -21,6 +21,8 @@ if (is_file($c3)) {
     require_once $c3;
 }
 
+define('YII_ENV', getenv('env') ?: 'test');
+
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $runner = new ApplicationRunner();
