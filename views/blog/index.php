@@ -17,7 +17,7 @@ use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
-$this->setTitle($translator->translate('Blog'));
+$this->setTitle($translator->translate('layout.blog'));
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]));
@@ -29,7 +29,7 @@ $pagination = OffsetPagination::widget()
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::p(
-                $translator->translate('Showing {pageSize} out of {total} posts', [
+                $translator->translate('layout.showing {pageSize} out of {total} posts', [
                     'pageSize' => $pageSize,
                     'total' => $paginator->getTotalItems(),
                 ]),
@@ -37,7 +37,7 @@ $pagination = OffsetPagination::widget()
             );
         } else {
             echo Html::p(
-                $translator->translate('No records')
+                $translator->translate('layout.no records')
         );
         }
         /** @var Post $item */
@@ -53,7 +53,7 @@ $pagination = OffsetPagination::widget()
         <?php
         if (!$isGuest) {
             echo Html::a(
-                $translator->translate('Add post'),
+                $translator->translate('layout.add post'),
                 $urlGenerator->generate('blog/add'),
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );

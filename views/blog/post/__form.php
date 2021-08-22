@@ -28,20 +28,20 @@ if (!empty($errors)) {
 <form id="postForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">
     <div class="mb-3">
-        <label for="title" class="form-label required"><?= $translator->translate('Title') ?></label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="<?= $translator->translate('Title') ?>" value="<?= Html::encode($body['title'] ?? '') ?>" required>
+        <label for="title" class="form-label required"><?= $translator->translate('layout.title') ?></label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="<?= $translator->translate('layout.title') ?>" value="<?= Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
     <div class="mb-3">
-        <label for="content" class="form-label required"><?= $translator->translate('Content') ?></label>
-        <textarea class="form-control" name="content" id="content" placeholder="<?= $translator->translate('Content') ?>" required><?= Html::encode($body['content'] ?? '') ?></textarea>
+        <label for="content" class="form-label required"><?= $translator->translate('layout.content') ?></label>
+        <textarea class="form-control" name="content" id="content" placeholder="<?= $translator->translate('layout.content') ?>" required><?= Html::encode($body['content'] ?? '') ?></textarea>
     </div>
 
     <div class="mb-3">
-        <label for="addTag" class="form-label"><?= $translator->translate('Add tag') ?></label>
-        <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('Add tag') ?>" value="">
+        <label for="addTag" class="form-label"><?= $translator->translate('layout.add tag') ?></label>
+        <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('layout.add tag') ?>" value="">
         <?= Html::button(
-            $translator->translate('Add'),
+            $translator->translate('layout.add'),
             ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
         ) ?>
         <div id="tags">
@@ -54,5 +54,5 @@ if (!empty($errors)) {
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary"><?= $translator->translate('Submit') ?></button>
+    <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.submit') ?></button>
 </form>

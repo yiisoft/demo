@@ -89,6 +89,7 @@
         "roave/security-advisories": "dev-master",
         "spatie/phpunit-watcher": "^1.23.1",
         "vimeo/psalm": "^4.2",
+        "yiisoft/translator-extractor": "3.0.x-dev",
         "yiisoft/yii-debug-viewer": "^3.0@dev"
     },
     "autoload": {

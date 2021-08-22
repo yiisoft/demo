@@ -34,21 +34,21 @@ echo Carousel::widget()
 
 <div class="card mt-3 col-md-8">
     <div class="card-body">
-        <h2 class="card-title"><?= $translator->translate('Console') ?></h2>
+        <h2 class="card-title"><?= $translator->translate('layout.console') ?></h2>
         <?php $binPath = str_replace('/', DIRECTORY_SEPARATOR, './yii'); ?>
-        <h4 class="card-title text-muted"><?= $translator->translate('Create new user') ?></h4>
+        <h4 class="card-title text-muted"><?= $translator->translate('layout.create new user') ?></h4>
         <div>
             <code><?= "{$binPath} user/create &lt;login&gt; &lt;password&gt; [isAdmin = 0]" ?></code>
         </div>
-        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('Assign RBAC role to user') ?></h4>
+        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('layout.assign rbac role to user') ?></h4>
         <div>
             <code><?= "{$binPath} user/assignRole &lt;role&gt; &lt;userId&gt;" ?></code>
         </div>
-        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('Add random content') ?></h4>
+        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('layout.add random content') ?></h4>
         <div>
             <code><?= "{$binPath} fixture/add [count = 10]" ?></code>
         </div>
-        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('Migrations') ?></h4>
+        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('layout.migrations') ?></h4>
         <div>
             <code><?= "{$binPath} migrate/create" ?></code>
             <br><code><?= "{$binPath} migrate/generate" ?></code>
@@ -56,7 +56,7 @@ echo Carousel::widget()
             <br><code><?= "{$binPath} migrate/down" ?></code>
             <br><code><?= "{$binPath} migrate/list" ?></code>
         </div>
-        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('DB Schema') ?></h4>
+        <h4 class="card-title text-muted mt-2 mb-1"><?= $translator->translate('layout.db schema') ?></h4>
         <div>
             <code><?= "{$binPath} cycle/schema" ?></code>
             <br><code><?= "{$binPath} cycle/schema/php" ?></code>

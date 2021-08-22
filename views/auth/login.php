@@ -11,7 +11,7 @@ use Yiisoft\Html\Html;
  * @var string $csrf
  */
 
-$this->setTitle($translator->translate('Login'));
+$this->setTitle($translator->translate('layout.login'));
 
 $error = $error ?? null;
 ?>
@@ -25,7 +25,7 @@ $error = $error ?? null;
 <form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
   <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="mb-3">
-    <label for="login" class="form-label required"><?= $translator->translate('Login') ?></label>
+    <label for="login" class="form-label required"><?= $translator->translate('layout.login') ?></label>
     <?= Html::textInput('login', $body['login'] ?? '', [
       'id' => 'login',
       'class' => 'form-control',
@@ -33,12 +33,12 @@ $error = $error ?? null;
     ]) ?>
   </div>
   <div class="mb-3">
-    <label for="password" class="form-label required"><?= $translator->translate('Password') ?></label>
+    <label for="password" class="form-label required"><?= $translator->translate('layout.password') ?></label>
     <?= Html::passwordInput('password', $body['password'] ?? '', [
       'id' => 'password',
       'class' => 'form-control',
       'required' => true,
     ]) ?>
   </div>
-  <button type="submit" class="btn btn-primary"><?= $translator->translate('Submit') ?></button>
+  <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.submit') ?></button>
 </form>

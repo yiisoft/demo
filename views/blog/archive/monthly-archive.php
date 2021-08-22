@@ -39,7 +39,7 @@ $pagination = OffsetPagination::widget()
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::p('No records');
+            echo Html::p($translator->translate('layout.no records'));
         }
         /** @var Post $item */
         foreach ($paginator->read() as $item) {

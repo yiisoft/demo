@@ -95,11 +95,11 @@ echo $content;
                 [
                     [
                         'label' => 'layout.language.english',
-                        'locale' => 'en-US',
+                        'locale' => 'en',
                     ],
                     [
                         'label' => 'layout.language.russian',
-                        'locale' => 'ru-RU',
+                        'locale' => 'ru',
                     ],
                 ]
             ),

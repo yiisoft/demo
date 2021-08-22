@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 
-$this->setTitle($translator->translate('Archive'));
+$this->setTitle($translator->translate('layout.archive'));
 
 ?>
 <h1><?= Html::encode($this->getTitle()) ?></h1>
@@ -60,7 +60,7 @@ $this->setTitle($translator->translate('Archive'));
             }
             echo Html::closeTag('div'), $sectionEnd;
         } else {
-            echo $sectionBegin, $translator->translate('No records'), $sectionEnd;
+            echo $sectionBegin, $translator->translate('layout.no records'), $sectionEnd;
         }
         ?>
     </div>

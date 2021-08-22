@@ -6,8 +6,8 @@ use Yiisoft\Factory\Definition\Reference;
 
 return [
     'yiisoft/translator' => [
-        'locale' => 'en-US',
-        'fallbackLocale' => null,
+        'locale' => 'en',
+        'fallbackLocale' => 'en',
         'defaultCategory' => 'app',
         'categorySources' => [
             // You can add categories from your application and additional modules using `Reference::to` below
