@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\ButtonDropdown;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
-
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\Router\CurrentRoute $currentRoute
@@ -17,6 +15,8 @@ use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget
  * @var string $csrf
  * @var string $brandLabel
  */
+
+use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\ButtonDropdown;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
 
 $assetManager->register([
     AppAsset::class,
