@@ -28,10 +28,9 @@ class SiteController
 
     public function setLocale(
         ResponseFactoryInterface $responseFactory,
-        UrlGeneratorInterface    $urlGenerator,
-        ServerRequestInterface   $request
-    ): ResponseInterface
-    {
+        UrlGeneratorInterface $urlGenerator,
+        ServerRequestInterface $request
+    ): ResponseInterface {
         $locale = $request->getQueryParams()['locale'];
 
         $response = $responseFactory
