@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -11,13 +12,13 @@ declare(strict_types=1);
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
-$this->setTitle('Users');
+$this->setTitle($translator->translate('menu.users'));
 
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('user/index', ['page' => $page]));
 
-echo Html::tag('h1', 'Users');
+echo Html::tag('h1', $this->getTitle());
 echo Html::p('Total users: ' . $paginator->getTotalItems(), ['class' => 'text-muted']);
 echo Html::a(
     'API v1 Info',

@@ -16,7 +16,7 @@ use Yiisoft\View\WebView;
  * @var WebView $this
  */
 
-$this->setTitle($translator->translate('Comments Feed'));
+$this->setTitle($translator->translate('menu.comments_feed'));
 
 ?>
 <h1><?= Html::encode($this->getTitle()) ?></h1>
