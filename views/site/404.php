@@ -2,30 +2,33 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Html\Html;
+
 /**
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  */
 
-use Yiisoft\Html\Html;
-$this->setTitle('Not found');
+$this->setTitle($translator->translate('Not found'));
 ?>
 
 <div class="card shadow p-5 my-5 mx-5 bg-white rounded">
     <div class="card-body text-center ">
         <h1 class="card-title display-1 fw-bold">404</h1>
         <p class="card-text">
-            <?php echo "The page "
-                . Html::span(
+            <?= $translator->translate("The page {url} could not be found.", [
+                'url' => Html::span(
                     Html::encode($currentRoute->getUri()->getPath()),
                     ['class' => 'text-muted']
                 )
-                . " could not be found."
+            ])
             ?>
         </p>
         <p>
-            <?php echo Html::a(
-                'Go Back Home',
+            <?= Html::a(
+                $translator->translate('Go Back Home'),
                 $urlGenerator->generate('site/index'),
                 ['class' => 'btn btn-outline-primary mt-5']
             );

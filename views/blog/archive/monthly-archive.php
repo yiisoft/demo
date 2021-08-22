@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @var int $year
  * @var int $month
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */

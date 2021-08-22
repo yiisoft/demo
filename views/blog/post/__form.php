@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\View\View $this
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var array $body
  * @var string $csrf
@@ -27,20 +28,20 @@ if (!empty($errors)) {
 <form id="postForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<?= $csrf ?>">
     <div class="mb-3">
-        <label for="title" class="form-label required">Title</label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="<?= Html::encode($body['title'] ?? '') ?>" required>
+        <label for="title" class="form-label required"><?= $translator->translate('Title') ?></label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="<?= $translator->translate('Title') ?>" value="<?= Html::encode($body['title'] ?? '') ?>" required>
     </div>
 
     <div class="mb-3">
-        <label for="content" class="form-label required">Content</label>
-        <textarea class="form-control" name="content" id="content" placeholder="Content" required><?= Html::encode($body['content'] ?? '') ?></textarea>
+        <label for="content" class="form-label required"><?= $translator->translate('Content') ?></label>
+        <textarea class="form-control" name="content" id="content" placeholder="<?= $translator->translate('Content') ?>" required><?= Html::encode($body['content'] ?? '') ?></textarea>
     </div>
 
     <div class="mb-3">
-        <label for="addTag" class="form-label">Add tag</label>
-        <input type="text" class="form-control" id="addTag" placeholder="Add tag" value="">
+        <label for="addTag" class="form-label"><?= $translator->translate('Add tag') ?></label>
+        <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('Add tag') ?>" value="">
         <?= Html::button(
-            'Add',
+            $translator->translate('Add'),
             ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
         ) ?>
         <div id="tags">
@@ -53,5 +54,5 @@ if (!empty($errors)) {
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary"><?= $translator->translate('Submit') ?></button>
 </form>

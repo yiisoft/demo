@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @var int $year
  * @var Post[]|\Yiisoft\Data\Reader\DataReaderInterface $items
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
@@ -12,20 +13,20 @@ declare(strict_types=1);
 use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
-$this->setTitle("Archive for $year");
+$this->setTitle($translator->translate('Archive for {year}', ['year' => $year]));
 
 ?>
-<h1>Archive for <small class="text-muted"><?= $year ?></small></h1>
+<h1><?= $translator->translate('Archive for {year}', ['year' => '<small class="text-muted">'.$year.'</small>']) ?></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
         if (count($items) > 0) {
             echo Html::p(
-                sprintf('Total %d posts', count($items)),
+                $translator->translate('Total {count} posts', ['count' => count($items)]),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::p('No records');
+            echo Html::p($translator->translate('No records'));
         }
         $currentMonth = null;
         $monthName = '';

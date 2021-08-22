@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */
 
 use Yiisoft\Html\Html;
 
-$this->setTitle('Archive');
+$this->setTitle($translator->translate('Archive'));
 
 ?>
 <h1><?= Html::encode($this->getTitle()) ?></h1>
@@ -59,7 +60,7 @@ $this->setTitle('Archive');
             }
             echo Html::closeTag('div'), $sectionEnd;
         } else {
-            echo $sectionBegin, 'No records', $sectionEnd;
+            echo $sectionBegin, $translator->translate('No records'), $sectionEnd;
         }
         ?>
     </div>
