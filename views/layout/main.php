@@ -19,7 +19,7 @@ use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget
  */
 
 $assetManager->register([
-    AppAsset::class
+    AppAsset::class,
 ]);
 
 $this->addCssFiles($assetManager->getCssFiles());
@@ -45,44 +45,45 @@ $this->beginPage();
 $this->beginBody();
 
 echo NavBar::widget()
-      ->brandText($brandLabel)
-      ->brandUrl($urlGenerator->generate('site/index'))
-      ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
-      ->begin();
+    ->brandText($brandLabel)
+    ->brandUrl($urlGenerator->generate('site/index'))
+    ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
+    ->begin();
 echo Nav::widget()
-        ->currentPath($currentRoute->getUri()->getPath())
-        ->options(['class' => 'navbar-nav mx-auto'])
-        ->items(
-            [
-                ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
-                ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
-                ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
-                ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],
-            ]
-        );
+    ->currentPath($currentRoute->getUri()->getPath())
+    ->options(['class' => 'navbar-nav mx-auto'])
+    ->items(
+        [
+            ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
+            ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
+            ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
+            ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
+            ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],
+        ]
+    );
 
 echo Nav::widget()
-        ->currentPath($currentRoute->getUri()->getPath())
-        ->options(['class' => 'navbar-nav'])
-        ->items(
-            $user->getId() === null
-                ? [
-                ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
-                ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
-            ]
-                : [Form::widget()
-                    ->action($urlGenerator->generate('site/logout'))
-                    ->options(['csrf' => $csrf])
-                    ->begin()
-                    . Html::submitButton($translator->translate('menu.logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
-                    . Form::end()],
-        );
+    ->currentPath($currentRoute->getUri()->getPath())
+    ->options(['class' => 'navbar-nav'])
+    ->items(
+        $user->getId() === null
+            ? [
+            ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
+            ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
+        ]
+            : [Form::widget()
+                ->action($urlGenerator->generate('site/logout'))
+                ->options(['csrf' => $csrf])
+                ->begin()
+            . Html::submitButton($translator->translate('menu.logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
+            . Form::end()],
+    );
 echo NavBar::end();
 
-?><main class="container py-4"><?php
-echo $content;
-?></main>
+?>
+<main class="container py-4"><?php
+    echo $content;
+    ?></main>
 
 <footer class="container py-4">
     <?=
