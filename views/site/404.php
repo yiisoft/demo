@@ -17,7 +17,7 @@ $this->setTitle('Not found');
         <p class="card-text">
             <?php echo "The page "
                 . Html::span(
-                    Html::encode($urlMatcher->getCurrentUri()->getPath()),
+                    Html::encode($currentRoute->getUri()->getPath()),
                     ['class' => 'text-muted']
                 )
                 . " could not be found."

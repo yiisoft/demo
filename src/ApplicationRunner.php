@@ -60,10 +60,12 @@ final class ApplicationRunner
 
         $container = $container->get(ContainerInterface::class);
 
-        $bootstrapList = $config->get('bootstrap');
+        $bootstrapList = $config->get('bootstrap-web');
         foreach ($bootstrapList as $callback) {
             if (!(is_callable($callback))) {
-                throw new \RuntimeException('Bootstrap callback must be callable.');
+                $type = is_object($callback) ? get_class($callback) : gettype($callback);
+
+                throw new \RuntimeException("Bootstrap callback must be callable, $type given.");
             }
             $callback($container);
         }
