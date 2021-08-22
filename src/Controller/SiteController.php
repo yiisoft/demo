@@ -31,7 +31,7 @@ class SiteController
         UrlGeneratorInterface $urlGenerator,
         ServerRequestInterface $request
     ): ResponseInterface {
-        $locale = $request->getQueryParams()['locale'];
+        $locale = $request->getParsedBody()['locale'];
 
         $response = $responseFactory
             ->createResponse(302);

@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Asset\AppAsset;
-use App\Widget\PerformanceMetrics;
-use Yiisoft\Form\Widget\Form;
-use Yiisoft\Html\Html;
-use Yiisoft\Strings\StringHelper;
-use Yiisoft\Yii\Bootstrap5\ButtonDropdown;
-use Yiisoft\Yii\Bootstrap5\Nav;
-use Yiisoft\Yii\Bootstrap5\NavBar;
+use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -88,31 +81,20 @@ echo Nav::widget()
 echo NavBar::end();
 
 ?>
-<main class="container py-4"><?php
-    echo $content;
-    ?></main>
+<main class="container py-4"><?= $content ?></main>
 
 <footer class="container py-4">
-    <?=
-    ButtonDropdown::widget()
-        ->label($translator->translate('layout.change_language'))
-        ->buttonOptions(['class' => 'btn-secondary'])
-        ->dropdown([
-            'items' => array_map(
-                static fn(array $params) => ['label' => $translator->translate($params['label']), 'url' => '/locale?locale=' . $params['locale']],
-                [
-                    [
-                        'label' => 'layout.language.english',
-                        'locale' => 'en',
-                    ],
-                    [
-                        'label' => 'layout.language.russian',
-                        'locale' => 'ru',
-                    ],
-                ]
-            ),
-        ]);
-    ?>
+    <form id="localeForm" method="POST" action="<?= $urlGenerator->generate('site/set-locale') ?>" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<?= $csrf ?>">
+        <div class="col-2 d-inline-block">
+            <select name="locale" class="form-select" aria-label="<?= $translator->translate('layout.change_language') ?>">
+                <option value="en"><?= $translator->translate('layout.language.english') ?></option>
+                <option value="ru"><?= $translator->translate('layout.language.russian') ?></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.change_language') ?></button>
+    </form>
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php
