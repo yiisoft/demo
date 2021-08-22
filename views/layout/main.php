@@ -2,19 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Asset\AppAsset;
-use App\Widget\PerformanceMetrics;
-use Yiisoft\Form\Widget\Form;
-use Yiisoft\Html\Html;
-use Yiisoft\Strings\StringHelper;
-use Yiisoft\Yii\Bootstrap5\Nav;
-use Yiisoft\Yii\Bootstrap5\NavBar;
+use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
@@ -59,11 +54,11 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
-                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
-                ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
-                ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
+                ['label' => $translator->translate('Blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
+                ['label' => $translator->translate('Comments Feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
+                ['label' => $translator->translate('Users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
+                ['label' => $translator->translate('Contact'), 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => $translator->translate('Swagger'), 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
 
@@ -73,14 +68,14 @@ echo Nav::widget()
         ->items(
             $user->getId() === null
                 ? [
-                ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
-                ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
+                ['label' => $translator->translate('Login'), 'url' => $urlGenerator->generate('site/login')],
+                ['label' => $translator->translate('Signup'), 'url' => $urlGenerator->generate('site/signup')],
             ]
                 : [Form::widget()
                     ->action($urlGenerator->generate('site/logout'))
                     ->options(['csrf' => $csrf])
                     ->begin()
-                    . Html::submitButton('Logout (' . Html::encode($user->getLogin()) . ')', ['class' => 'dropdown-item'])
+                    . Html::submitButton($translator->translate('Logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
                     . Form::end()],
         );
 echo NavBar::end();
