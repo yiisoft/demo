@@ -6,6 +6,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
 return [
     'yiisoft/view' => [
@@ -14,6 +15,7 @@ return [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
             'currentRoute' => Reference::to(CurrentRoute::class),
+            'translator' => Reference::to(TranslatorInterface::class),
         ],
         'theme' => [
             'pathMap' => [],
