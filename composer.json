@@ -40,6 +40,7 @@
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
         "yiisoft/config": "1.0.x-dev",
+        "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
