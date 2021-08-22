@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
+use App\Asset\AppAsset;use App\Widget\PerformanceMetrics;use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Strings\StringHelper;use Yiisoft\Yii\Bootstrap5\ButtonDropdown;use Yiisoft\Yii\Bootstrap5\Nav;use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
@@ -54,11 +54,11 @@ echo Nav::widget()
         ->options(['class' => 'navbar-nav mx-auto'])
         ->items(
             [
-                ['label' => $translator->translate('Blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
-                ['label' => $translator->translate('Comments Feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => $translator->translate('Users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
-                ['label' => $translator->translate('Contact'), 'url' => $urlGenerator->generate('site/contact')],
-                ['label' => $translator->translate('Swagger'), 'url' => $urlGenerator->generate('swagger/index')],
+                ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
+                ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
+                ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
+                ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],
             ]
         );
 
@@ -68,14 +68,14 @@ echo Nav::widget()
         ->items(
             $user->getId() === null
                 ? [
-                ['label' => $translator->translate('Login'), 'url' => $urlGenerator->generate('site/login')],
-                ['label' => $translator->translate('Signup'), 'url' => $urlGenerator->generate('site/signup')],
+                ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
+                ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
             ]
                 : [Form::widget()
                     ->action($urlGenerator->generate('site/logout'))
                     ->options(['csrf' => $csrf])
                     ->begin()
-                    . Html::submitButton($translator->translate('Logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
+                    . Html::submitButton($translator->translate('menu.logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
                     . Form::end()],
         );
 echo NavBar::end();
@@ -85,6 +85,26 @@ echo $content;
 ?></main>
 
 <footer class="container py-4">
+    <?=
+    ButtonDropdown::widget()
+        ->label($translator->translate('layout.change_language'))
+        ->buttonOptions(['class' => 'btn-secondary'])
+        ->dropdown([
+            'items' => array_map(
+                static fn(array $params) => ['label' => $translator->translate($params['label']), 'url' => '/locale?locale=' . $params['locale']],
+                [
+                    [
+                        'label' => 'layout.language.english',
+                        'locale' => 'en-US',
+                    ],
+                    [
+                        'label' => 'layout.language.russian',
+                        'locale' => 'ru-RU',
+                    ],
+                ]
+            ),
+        ]);
+    ?>
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php
