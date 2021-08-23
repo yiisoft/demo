@@ -12,7 +12,7 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 ?>
-<h4 class="text-muted mb-3"><?= $translator->translate('') ?>Archive</h4>
+<h4 class="text-muted mb-3"><?= $translator->translate('layout.archive') ?></h4>
 <ul class="list-group mb-3">
     <?php
     $currentYear = null;
