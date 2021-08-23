@@ -76,6 +76,11 @@ return [
                 ->action(ApiInfo::class),
             Route::get('/user')
                 ->name('api/user/index')
+                ->middleware(function () {
+                    $cache = new \Yiisoft\Cache\File\FileCache(__DIR__ . '/../runtime/rate-limit/');
+                    $storage = new \Yiisoft\Yii\RateLimiter\Storage\SimpleCacheStorage($cache);
+                    return new \App\User\Controller\RateLimitToUserApiMiddleware($storage);
+                })
                 ->action([ApiUserController::class, 'index']),
             Route::get('/user/{login}')
                 ->name('api/user/profile')

@@ -54,6 +54,7 @@
         "yiisoft/log-target-file": "^1.0",
         "yiisoft/mailer": "^1.0",
         "yiisoft/mailer-swiftmailer": "^1.0",
+        "yiisoft/rate-limiter": "^2.0",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
