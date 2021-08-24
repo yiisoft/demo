@@ -48,14 +48,25 @@ class CreateCommand extends Command
 
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
-        $isAdmin = (bool) $input->getArgument('isAdmin');
+        $isAdmin = (bool)$input->getArgument('isAdmin');
 
         $user = new User($login, $password);
         try {
             (new EntityWriter($this->promise->getORM()))->write([$user]);
 
             if ($isAdmin) {
-                $this->manager->assign($this->storage->getRoleByName('admin'), $user->getId());
+                $role = $this->storage->getRoleByName('admin');
+                $userId = $user->getId();
+
+                if ($role === null){
+                    throw new \Exception('Role admin is NULL');
+                }
+
+                if ($userId === null) {
+                    throw new \Exception('User Id is NULL');
+                }
+
+                $this->manager->assign($role, $userId);
             }
 
             $io->success('User created');
