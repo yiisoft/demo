@@ -58,7 +58,7 @@ class CreateCommand extends Command
                 $role = $this->storage->getRoleByName('admin');
                 $userId = $user->getId();
 
-                if ($role === null){
+                if ($role === null) {
                     throw new \Exception('Role admin is NULL');
                 }
 

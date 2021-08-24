@@ -56,7 +56,8 @@ class AssignRoleCommand extends Command
             $user = $userRepo->findByPK($userId);
             if (null === $user) {
                 throw new \Exception('Can\'t find user');
-            } elseif (null === $user->getId()) {
+            }
+            if (null === $user->getId()) {
                 throw new \Exception('User Id is NULL');
             }
 
