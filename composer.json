@@ -47,7 +47,7 @@
         "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
-        "yiisoft/html": "^1.0",
+        "yiisoft/html": "^2.0",
         "yiisoft/http": "^1.1",
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
