@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Controller;
 
-use Nyholm\Psr7\Factory\Psr17Factory;
+use HttpSoft\Message\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,7 +30,7 @@ class RateLimitToUserApiMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $responseFactory = new Psr17Factory();
+        $responseFactory = new ResponseFactory();
         $limitingPolicy = new LimitPerIp();
 
         $middleware = new LimitRequestsMiddleware($this->getCounter(), $responseFactory, $limitingPolicy);
