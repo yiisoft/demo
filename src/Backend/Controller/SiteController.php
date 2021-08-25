@@ -15,7 +15,7 @@ class SiteController
     {
         $this->viewRenderer = $viewRenderer
             ->withController($this)
-            ->withViewPath(__DIR__ . '/../views');
+            ->withViewPath('@resources/backend/views');
     }
 
     public function index(): ResponseInterface
