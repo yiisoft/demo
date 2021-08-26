@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'mailer' => [
         'adminEmail' => 'admin@example.com',
+        'senderEmail' => 'sender@example.com',
     ],
 
     'yiisoft/aliases' => [
