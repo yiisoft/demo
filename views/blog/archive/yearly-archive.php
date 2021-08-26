@@ -16,7 +16,7 @@ use Yiisoft\Html\Html;
 $this->setTitle($translator->translate('layout.archive for {year}', ['year' => $year]));
 
 ?>
-<h1><?= $translator->translate('layout.archive for {year}', ['year' => '<small class="text-muted">'.$year.'</small>']) ?></h1>
+<h1><?= $translator->translate('layout.archive for {year}', ['year' => '<small class="text-muted">' . $year . '</small>']) ?></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
