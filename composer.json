@@ -140,7 +140,10 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "routes": "routes.php",
+            "routes": [
+                "routes-backend.php",
+                "routes.php"
+            ],
             "bootstrap": "bootstrap.php",
             "bootstrap-web": [
                 "$bootstrap",
