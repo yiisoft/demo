@@ -30,7 +30,6 @@ $container = new Container(
     $config->get('providers-console')
 );
 
-/** @var ContainerInterface $container */
 $container = $container->get(ContainerInterface::class);
 
 $bootstrapList = $config->get('bootstrap-console');
