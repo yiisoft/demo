@@ -42,6 +42,7 @@ foreach ($bootstrapList as $callback) {
     $callback($container);
 }
 
+/** @var Application $application */
 $application = $container->get(Application::class);
 $exitCode = 1;
 
