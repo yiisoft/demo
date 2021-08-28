@@ -10,6 +10,8 @@ use Yiisoft\Config\Config;
 use Yiisoft\Di\Container;
 use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 
+use function dirname;
+
 class EventListenerConfigurationTest extends TestCase
 {
     public function testConsoleListenerConfiguration(): void
@@ -17,7 +19,7 @@ class EventListenerConfigurationTest extends TestCase
         $config = new Config(
             dirname(__DIR__, 2),
             '/config/packages', // Configs path.
-            null,
+            'console',
             [
                 'params',
                 'events',
@@ -26,9 +28,9 @@ class EventListenerConfigurationTest extends TestCase
             ]
         );
 
-        $container = (new Container($config->get('console')))->get(ContainerInterface::class);
+        $container = (new Container($config->get('definitions')))->get(ContainerInterface::class);
         $checker = $container->get(ListenerConfigurationChecker::class);
-        $checker->check($config->get('events-console'));
+        $checker->check($config->get('events'));
 
         self::assertInstanceOf(ListenerConfigurationChecker::class, $checker);
     }
