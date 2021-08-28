@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Factory\Definition\DynamicReference;
+use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\View\View;
 
 /** @var array $params */

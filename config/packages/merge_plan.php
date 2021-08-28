@@ -35,7 +35,7 @@ return [
             'yiisoft/log-target-file' => [
                 'common.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'common.php',
             ],
             'yiisoft/router-fastroute' => [
@@ -150,7 +150,7 @@ return [
             'yiisoft/log-target-file' => [
                 'params.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'params.php',
             ],
             'yiisoft/router-fastroute' => [
@@ -233,6 +233,7 @@ return [
         ],
         'routes' => [
             '/' => [
+                'config/routes-backend.php',
                 'config/routes.php',
             ],
             'yiisoft/yii-debug-api' => [

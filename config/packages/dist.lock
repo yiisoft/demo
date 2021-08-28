@@ -37,14 +37,19 @@
         "events-web.php": "550b5ab87519380102e93143cee95913"
     },
     "yiisoft/log-target-file": {
-        "version": "1.0.3",
-        "common.php": "a0a485940ce6f720b44264901a71d0c6",
+        "version": "1.0.4",
+        "common.php": "fbf6e77468feae493f3ed6afd83942cc",
         "params.php": "16e4ea41a7d8964fff91d711bc5bb173"
     },
     "yiisoft/mailer-swiftmailer": {
         "version": "1.0.0",
         "params.php": "ad25e7c8fd1c1934646e04d266a776d2",
         "common.php": "69b8a8e588214e13ea1c12556fcc03b3"
+    },
+    "yiisoft/mailer-symfony": {
+        "version": "dev-master bb784aa",
+        "params.php": "20f92945ac349b7babb0a7ccd7ce227a",
+        "common.php": "2c4ba40519b9e82c7d5823859922375e"
     },
     "yiisoft/middleware-dispatcher": {
         "version": "dev-master ffb9446",
@@ -57,8 +62,8 @@
         "params.php": "d62d1a018bd5504d38a811d24d6ab7e2"
     },
     "yiisoft/router": {
-        "version": "dev-master 694aa09",
-        "common.php": "9f3ec9233e0ea471e68b0bd6363e2285"
+        "version": "dev-master 33029ea",
+        "common.php": "b5993bb93506956666a69813040d7a67"
     },
     "yiisoft/router-fastroute": {
         "version": "dev-master 1af8225",
@@ -72,9 +77,9 @@
         "params.php": "7581377094a3f76d9f1712e3f8dd18b7"
     },
     "yiisoft/user": {
-        "version": "dev-master 5d267ea",
+        "version": "dev-master c569172",
         "params.php": "27eea805ad7297566be80d505b7e10e0",
-        "web.php": "b67dcfcf9a690d301dedfa7ee19935a0"
+        "web.php": "b9083c516a05ad6e1af478d5e5d4b568"
     },
     "yiisoft/validator": {
         "version": "dev-master a20a6f4",
@@ -111,11 +116,11 @@
         "providers-web.php": "7209cc28a3d80321515e57371d5b10b1"
     },
     "yiisoft/yii-debug": {
-        "version": "dev-master 9dccc68",
+        "version": "dev-master 13c05a9",
         "tests.php": "8cc8cb7f41dece781a14025adab8c428",
         "params.php": "616487d4cd1d1b85fc4132764e931881",
         "common.php": "7e51f83ad60495a4632efc156c3c9ec2",
-        "console.php": "7b4623798311e0fb42f5523aa3163d6f",
+        "console.php": "b87fb22b7de0a708c8e2c1bc5b53c934",
         "web.php": "3864e4e815a9dca22392e8dd47ef8587",
         "providers.php": "1516a90d16296c7059c015ec2c0d3ecb",
         "events-web.php": "c4f7a8d7b2d44054f7ace6e3e04b98d7",

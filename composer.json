@@ -43,6 +43,7 @@
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
+        "yiisoft/definitions": "3.0.x-dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
