@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\User\CurrentUser;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\User\UserAuth;
@@ -10,6 +11,12 @@ use Yiisoft\User\UserAuth;
 /** @var array $params */
 
 return [
+    CurrentUser::class => [
+        'reset' => function () {
+            $this->identity = null;
+            $this->identityOverride = null;
+        },
+    ],
     UserAuth::class => [
         'class' => UserAuth::class,
         'withAuthUrl()' => [$params['yiisoft/user']['authUrl']],

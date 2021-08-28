@@ -16,7 +16,7 @@ require_once 'vendor/autoload.php';
 $config = new Config(
     __DIR__,
     '/config/packages',
-    null,
+    'console',
     [
         'params',
         'events',
@@ -26,14 +26,14 @@ $config = new Config(
 );
 
 $container = new Container(
-    $config->get('console'),
-    $config->get('providers-console')
+    $config->get('definitions'),
+    $config->get('providers')
 );
 
 /** @var ContainerInterface $container */
 $container = $container->get(ContainerInterface::class);
 
-$bootstrapList = $config->get('bootstrap-console');
+$bootstrapList = $config->get('bootstrap');
 foreach ($bootstrapList as $callback) {
     if (!(is_callable($callback))) {
         $type = is_object($callback) ? get_class($callback) : gettype($callback);

@@ -8,5 +8,10 @@ use Yiisoft\Router\CurrentRoute;
 
 return [
     RouteCollectorInterface::class => RouteCollector::class,
-    CurrentRoute::class => CurrentRoute::class,
+    CurrentRoute::class => [
+        'reset' => function () {
+            $this->route = null;
+            $this->uri = null;
+        },
+    ],
 ];

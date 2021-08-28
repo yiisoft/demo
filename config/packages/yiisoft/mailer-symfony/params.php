@@ -13,11 +13,11 @@ return [
         'useSendmail' => false,
         'writeToFiles' => true,
     ],
-    'swiftmailer/swiftmailer' => [
-        'SwiftSmtpTransport' => [
+    'symfony/mailer' => [
+        'esmtpTransport' => [
             'host' => 'smtp.example.com',
-            'port' => 25,
-            'encryption' => null,
+            'port' => 465,
+            'tls' => true,
             'username' => 'admin@example.com',
             'password' => '',
         ],

@@ -109,50 +109,53 @@
             "output-directory": "config/packages"
         },
         "config-plugin": {
-            "common": "common/*.php",
             "params": [
-                "params.php",
-                "?params-local.php"
+                "shared/params.php",
+                "?shared/params-local.php"
             ],
-            "web": [
+            "definitions": [
                 "$common",
-                "web/*.php"
+                "shared/definitions/*.php"
             ],
-            "console": [
-                "$common",
-                "console/*.php"
+            "definitions-web": [
+                "$web",
+                "shared/definitions-web/*.php"
             ],
-            "events": "events.php",
-            "events-web": [
-                "$events",
-                "events-web.php"
-            ],
-            "events-console": [
-                "$events",
-                "events-console.php"
-            ],
-            "providers": "providers.php",
-            "providers-web": [
-                "$providers",
-                "providers-web.php"
-            ],
-            "providers-console": [
-                "$providers",
-                "providers-console.php"
-            ],
-            "routes": [
-                "routes-backend.php",
-                "routes.php"
-            ],
-            "bootstrap": "bootstrap.php",
-            "bootstrap-web": [
-                "$bootstrap",
-                "bootstrap-web.php"
-            ],
-            "bootstrap-console": [
-                "$bootstrap",
-                "bootstrap-console.php"
-            ]
+            "events": "shared/events.php",
+            "events-web": "shared/events-web.php",
+            "providers": "shared/providers.php",
+            "providers-web": "shared/providers-web.php",
+            "bootstrap": "shared/bootstrap.php",
+            "bootstrap-web": "shared/bootstrap-web.php"
+        },
+        "config-plugin-environments": {
+            "application": {
+                "definitions": "$definitions-web",
+                "events": "$events-web",
+                "providers": "$providers-web",
+                "bootstrap": [
+                    "$bootstrap-web",
+                    "application/bootstrap.php"
+                ],
+                "routes": [
+                    "application/routes-backend.php",
+                    "application/routes.php"
+                ]
+            },
+            "console": {
+                "definitions": "$console",
+                "events": [
+                    "$events-console",
+                    "console/events.php"
+                ],
+                "providers": [
+                    "$providers-console",
+                    "console/providers.php"
+                ],
+                "bootstrap": [
+                    "console/bootstrap.php"
+                ]
+            }
         },
         "installer-types": [
             "npm-asset"

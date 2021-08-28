@@ -7,35 +7,25 @@ return [
     '/' => [
         'bootstrap' => [
             '/' => [
-                'config/bootstrap.php',
+                'config/shared/bootstrap.php',
             ],
             'yiisoft/widget' => [
                 'bootstrap.php',
             ],
         ],
-        'bootstrap-console' => [
-            '/' => [
-                '$bootstrap',
-                'config/bootstrap-console.php',
-            ],
-        ],
         'bootstrap-web' => [
             '/' => [
-                '$bootstrap',
-                'config/bootstrap-web.php',
+                'config/shared/bootstrap-web.php',
             ],
         ],
         'common' => [
-            '/' => [
-                'config/common/*.php',
-            ],
             'yiisoft/cache-file' => [
                 'common.php',
             ],
             'yiisoft/log-target-file' => [
                 'common.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'common.php',
             ],
             'yiisoft/router-fastroute' => [
@@ -73,10 +63,6 @@ return [
             ],
         ],
         'console' => [
-            '/' => [
-                '$common',
-                'config/console/*.php',
-            ],
             'yiisoft/yii-cycle' => [
                 'console.php',
             ],
@@ -90,19 +76,27 @@ return [
                 'console.php',
             ],
         ],
+        'definitions' => [
+            '/' => [
+                '$common',
+                'config/shared/definitions/*.php',
+            ],
+        ],
+        'definitions-web' => [
+            '/' => [
+                '$web',
+                'config/shared/definitions-web/*.php',
+            ],
+        ],
         'events' => [
             '/' => [
-                'config/events.php',
+                'config/shared/events.php',
             ],
             'yiisoft/yii-event' => [
                 'events.php',
             ],
         ],
         'events-console' => [
-            '/' => [
-                '$events',
-                'config/events-console.php',
-            ],
             'yiisoft/yii-cycle' => [
                 'events-console.php',
             ],
@@ -122,8 +116,7 @@ return [
         ],
         'events-web' => [
             '/' => [
-                '$events',
-                'config/events-web.php',
+                'config/shared/events-web.php',
             ],
             'yiisoft/log' => [
                 'events-web.php',
@@ -141,8 +134,8 @@ return [
         ],
         'params' => [
             '/' => [
-                'config/params.php',
-                '?config/params-local.php',
+                'config/shared/params.php',
+                '?config/shared/params-local.php',
             ],
             'yiisoft/cache-file' => [
                 'params.php',
@@ -150,7 +143,7 @@ return [
             'yiisoft/log-target-file' => [
                 'params.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'params.php',
             ],
             'yiisoft/router-fastroute' => [
@@ -201,7 +194,7 @@ return [
         ],
         'providers' => [
             '/' => [
-                'config/providers.php',
+                'config/shared/providers.php',
             ],
             'yiisoft/yii-debug' => [
                 'providers.php',
@@ -211,18 +204,13 @@ return [
             ],
         ],
         'providers-console' => [
-            '/' => [
-                '$providers',
-                'config/providers-console.php',
-            ],
             'yiisoft/yii-console' => [
                 'providers-console.php',
             ],
         ],
         'providers-web' => [
             '/' => [
-                '$providers',
-                'config/providers-web.php',
+                'config/shared/providers-web.php',
             ],
             'yiisoft/yii-cycle' => [
                 'providers-web.php',
@@ -232,9 +220,6 @@ return [
             ],
         ],
         'routes' => [
-            '/' => [
-                'config/routes.php',
-            ],
             'yiisoft/yii-debug-api' => [
                 'routes.php',
             ],
@@ -248,10 +233,6 @@ return [
             ],
         ],
         'web' => [
-            '/' => [
-                '$common',
-                'config/web/*.php',
-            ],
             'yiisoft/error-handler' => [
                 'web.php',
             ],
@@ -296,6 +277,59 @@ return [
             ],
             'yiisoft/middleware-dispatcher' => [
                 'web.php',
+            ],
+        ],
+    ],
+    'application' => [
+        'bootstrap' => [
+            '/' => [
+                '$bootstrap-web',
+                'config/application/bootstrap.php',
+            ],
+        ],
+        'definitions' => [
+            '/' => [
+                '$definitions-web',
+            ],
+        ],
+        'events' => [
+            '/' => [
+                '$events-web',
+            ],
+        ],
+        'providers' => [
+            '/' => [
+                '$providers-web',
+            ],
+        ],
+        'routes' => [
+            '/' => [
+                'config/application/routes-backend.php',
+                'config/application/routes.php',
+            ],
+        ],
+    ],
+    'console' => [
+        'bootstrap' => [
+            '/' => [
+                'config/console/bootstrap.php',
+            ],
+        ],
+        'definitions' => [
+            '/' => [
+                '$console',
+            ],
+        ],
+        'events' => [
+            '/' => [
+                '$events-console',
+                'config/console/events.php',
+            ],
+        ],
+        'providers' => [
+            '/' => [
+                '$providers-console',
+                'config/console/providers.php',
             ],
         ],
     ],

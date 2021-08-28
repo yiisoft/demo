@@ -46,7 +46,7 @@ final class ApplicationRunner
         $config = new Config(
             dirname(__DIR__),
             '/config/packages',
-            null,
+            'application',
             [
                 'params',
                 'events',
@@ -56,8 +56,8 @@ final class ApplicationRunner
         );
 
         $container = new Container(
-            $config->get('web'),
-            $config->get('providers-web'),
+            $config->get('definitions'),
+            $config->get('providers'),
             [],
             $this->debug
         );
@@ -67,7 +67,7 @@ final class ApplicationRunner
 
         $container = $container->get(ContainerInterface::class);
 
-        $bootstrapList = $config->get('bootstrap-web');
+        $bootstrapList = $config->get('bootstrap');
         foreach ($bootstrapList as $callback) {
             if (!(is_callable($callback))) {
                 $type = is_object($callback) ? get_class($callback) : gettype($callback);
@@ -78,7 +78,7 @@ final class ApplicationRunner
         }
 
         if ($this->debug) {
-            $container->get(ListenerConfigurationChecker::class)->check($config->get('events-web'));
+            $container->get(ListenerConfigurationChecker::class)->check($config->get('events'));
         }
 
         $application = $container->get(Application::class);
