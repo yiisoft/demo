@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Definitions\Reference;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\CommandLoader;
 use Yiisoft\Yii\Console\SymfonyEventDispatcher;
