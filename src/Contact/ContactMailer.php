@@ -21,17 +21,20 @@ class ContactMailer
     private FlashInterface $flash;
     private LoggerInterface $logger;
     private MailerInterface $mailer;
+    private string $sender;
     private string $to;
 
     public function __construct(
         FlashInterface $flash,
         LoggerInterface $logger,
         MailerInterface $mailer,
+        string $sender,
         string $to
     ) {
         $this->flash = $flash;
         $this->logger = $logger;
         $this->mailer = $mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
+        $this->sender = $sender;
         $this->to = $to;
     }
 
@@ -45,6 +48,7 @@ class ContactMailer
         )
             ->withSubject($form->getAttributeValue('subject'))
             ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
+            ->withSender($this->sender)
             ->withTo($this->to);
 
         $attachFiles = $request->getUploadedFiles();

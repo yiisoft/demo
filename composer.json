@@ -52,8 +52,8 @@
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
         "yiisoft/log-target-file": "^1.0",
-        "yiisoft/mailer": "^2.0",
-        "yiisoft/mailer-swiftmailer": "^2.0",
+        "yiisoft/mailer": "^3.0",
+        "yiisoft/mailer-symfony": "dev-master",
         "yiisoft/rate-limiter": "^2.0",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
@@ -141,7 +141,10 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "routes": "routes.php",
+            "routes": [
+                "routes-backend.php",
+                "routes.php"
+            ],
             "bootstrap": "bootstrap.php",
             "bootstrap-web": [
                 "$bootstrap",
