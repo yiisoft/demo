@@ -11,7 +11,7 @@ use Yiisoft\Yii\Console\Output\ConsoleBufferedOutput;
 
 define('YII_ENV', getenv('env') ?: 'production');
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $config = new Config(
     __DIR__,
@@ -30,26 +30,26 @@ $container = new Container(
     $config->get('providers-console')
 );
 
-/** @var ContainerInterface $container */
 $container = $container->get(ContainerInterface::class);
 
 $bootstrapList = $config->get('bootstrap-console');
 foreach ($bootstrapList as $callback) {
     if (!(is_callable($callback))) {
-        $type = is_object($callback) ? get_class($callback) : gettype($callback);
+        $type = get_debug_type($callback);
 
-        throw new \RuntimeException("Bootstrap callback must be callable, $type given.");
+        throw new RuntimeException("Bootstrap callback must be callable, $type given.");
     }
     $callback($container);
 }
 
+/** @var Application $application */
 $application = $container->get(Application::class);
 $exitCode = 1;
 
 try {
     $application->start();
     $exitCode = $application->run(null, new ConsoleBufferedOutput());
-} catch (\Error $error) {
+} catch (Error $error) {
     $application->renderThrowable($error, new ConsoleBufferedOutput());
 } finally {
     $application->shutdown($exitCode);
