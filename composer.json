@@ -141,14 +141,14 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "delegates": "config/delegates.php",
+            "delegates": "delegates.php",
             "delegates-web": [
                 "$delegates",
-                "config/delegates-web.php"
+                "delegates-web.php"
             ],
             "delegates-console": [
                 "$delegates",
-                "config/delegates-console.php"
+                "delegates-console.php"
             ],
             "routes": [
                 "routes-backend.php",

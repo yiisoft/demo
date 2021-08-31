@@ -90,6 +90,23 @@ return [
                 'console.php',
             ],
         ],
+        'delegates' => [
+            '/' => [
+                'config/delegates.php',
+            ],
+        ],
+        'delegates-console' => [
+            '/' => [
+                '$delegates',
+                'config/delegates-console.php',
+            ],
+        ],
+        'delegates-web' => [
+            '/' => [
+                '$delegates',
+                'config/delegates-web.php',
+            ],
+        ],
         'events' => [
             '/' => [
                 'config/events.php',
