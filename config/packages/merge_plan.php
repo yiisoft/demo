@@ -195,6 +195,9 @@ return [
             'yiisoft/csrf' => [
                 'params.php',
             ],
+            'yiisoft/data-response' => [
+                'params.php',
+            ],
             'yiisoft/view' => [
                 'params.php',
             ],
