@@ -44,17 +44,18 @@
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
+        "yiisoft/definitions": "3.0.x-dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
-        "yiisoft/html": "^1.0",
+        "yiisoft/html": "^2.0",
         "yiisoft/http": "^1.1",
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
         "yiisoft/log-target-file": "^1.0",
-        "yiisoft/mailer": "^1.0",
-        "yiisoft/mailer-swiftmailer": "^1.0",
+        "yiisoft/mailer": "^3.0",
+        "yiisoft/mailer-symfony": "dev-master",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
@@ -67,7 +68,7 @@
         "yiisoft/user": "^3.0@dev",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
-        "yiisoft/view": "^1.0",
+        "yiisoft/view": "^2.0",
         "yiisoft/widget": "^3.0@dev",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
@@ -76,7 +77,7 @@
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
-        "yiisoft/yii-view": "^1.0",
+        "yiisoft/yii-view": "^2.0",
         "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
@@ -145,7 +146,10 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "routes": "routes.php",
+            "routes": [
+                "routes-backend.php",
+                "routes.php"
+            ],
             "bootstrap": "bootstrap.php",
             "bootstrap-web": [
                 "$bootstrap",
