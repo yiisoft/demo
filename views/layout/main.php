@@ -94,8 +94,8 @@ echo NavBar::end();
         <input type="hidden" name="_csrf" value="<?= $csrf ?>">
         <div class="col-2 d-inline-block">
             <select name="locale" class="form-select" aria-label="<?= $translator->translate('layout.change_language') ?>">
-                <option value="en"><?= $translator->translate('layout.language.english') ?></option>
-                <option value="ru"><?= $translator->translate('layout.language.russian') ?></option>
+                <option value="en"<?php if ($translator->getLocale() === 'en'): ?> selected<?php endif ?>><?= $translator->translate('layout.language.english') ?></option>
+                <option value="ru"<?php if ($translator->getLocale() === 'ru'): ?> selected<?php endif ?>><?= $translator->translate('layout.language.russian') ?></option>
             </select>
         </div>
 
