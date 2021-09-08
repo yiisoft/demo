@@ -1,8 +1,6 @@
 on:
-  pull_request:
-  push:
-  schedule:
-    - cron: '0 0 * * *'
+  - pull_request
+  - push
 
 name: static analysis
 
@@ -18,14 +16,14 @@ jobs:
           - ubuntu-latest
 
         php:
-          - "8.0"
+          - 8.0
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v2.13.0
         with:
           php-version: "${{ matrix.php }}"
           tools: composer:v2, cs2pr
