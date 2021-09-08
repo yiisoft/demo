@@ -12,14 +12,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 use Yiisoft\Config\Config;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotFoundException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Di\Container;
 use Yiisoft\ErrorHandler\ErrorHandler;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\ErrorHandler\Renderer\HtmlRenderer;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotFoundException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Http\Method;
 use Yiisoft\Log\Logger;
 use Yiisoft\Log\Target\File\FileTarget;
@@ -34,11 +34,13 @@ use function microtime;
 
 final class WebApplicationRunner
 {
-    private bool $debug = false;
+    private bool $debug;
+    private ?string $environment;
 
-    public function debug(bool $enable = true): void
+    public function __construct(bool $debug, ?string $environment)
     {
-        $this->debug = $enable;
+        $this->debug = $debug;
+        $this->environment = $environment;
     }
 
     /**
@@ -56,7 +58,7 @@ final class WebApplicationRunner
         $config = new Config(
             dirname(__DIR__, 2),
             '/config/packages', // Configs path.
-            null,
+            $this->environment,
             [
                 'params',
                 'events',
