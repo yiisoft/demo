@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
+use App\Widget\LanguageSelector;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 use Yiisoft\Strings\StringHelper;
@@ -90,17 +91,7 @@ echo NavBar::end();
 <main class="container py-4"><?= $content ?></main>
 
 <footer class="container py-4">
-    <form id="localeForm" method="POST" action="<?= $urlGenerator->generate('site/set-locale') ?>" enctype="multipart/form-data">
-        <input type="hidden" name="_csrf" value="<?= $csrf ?>">
-        <div class="col-2 d-inline-block">
-            <select name="locale" class="form-select" aria-label="<?= $translator->translate('layout.change_language') ?>">
-                <option value="en"<?php if ($translator->getLocale() === 'en'): ?> selected<?php endif ?>><?= $translator->translate('layout.language.english') ?></option>
-                <option value="ru"<?php if ($translator->getLocale() === 'ru'): ?> selected<?php endif ?>><?= $translator->translate('layout.language.russian') ?></option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.change_language') ?></button>
-    </form>
+    <?= LanguageSelector::widget() ?>
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php
