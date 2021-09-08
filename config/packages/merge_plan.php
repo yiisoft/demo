@@ -94,6 +94,9 @@ return [
             '/' => [
                 'config/delegates.php',
             ],
+            'yiisoft/yii-cycle' => [
+                'delegates.php',
+            ],
         ],
         'delegates-console' => [
             '/' => [
@@ -243,9 +246,6 @@ return [
             '/' => [
                 '$providers',
                 'config/providers-web.php',
-            ],
-            'yiisoft/yii-cycle' => [
-                'providers-web.php',
             ],
             'yiisoft/yii-debug-api' => [
                 'providers-web.php',
