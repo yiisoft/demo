@@ -81,7 +81,7 @@ echo Nav::widget()
                 ->action($urlGenerator->generate('site/logout'))
                 ->options(['csrf' => $csrf])
                 ->begin()
-            . Html::submitButton($translator->translate('menu.logout ({login})', ['user' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
+            . Html::submitButton($translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
             . Form::end()],
     );
 echo NavBar::end();
