@@ -16,19 +16,22 @@ final class TranslateCommand extends Command
 
     public function __construct(TranslatorInterface $translator)
     {
-        parent::__construct('app/translation/translate');
+        parent::__construct('translator/translate');
         $this->translator = $translator;
     }
 
     protected function configure()
     {
         $this->addArgument('message', InputArgument::REQUIRED, 'Message that will be translated.');
+        $this->addArgument('locale', InputArgument::OPTIONAL, 'Translation locale.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $message = $input->getArgument('message');
-        $output->writeln($this->translator->translate($message));
+        $locale = $input->getArgument('locale');
+
+        $output->writeln($this->translator->translate($message, [], null, $locale));
         return 0;
     }
 }
