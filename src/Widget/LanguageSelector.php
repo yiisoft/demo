@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Widget;
 
 use Yiisoft\Csrf\CsrfTokenInterface;
-use Yiisoft\Form\Widget\Form;use Yiisoft\Html\Html;use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Form\Widget\Form;
+use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Widget\Widget;
 
@@ -36,7 +40,7 @@ final class LanguageSelector extends Widget
             ->value($this->translator->getLocale())
             ->optionsData([
                 'en' => $this->translator->translate('layout.language.english'),
-                'ru' => $this->translator->translate('layout.language.russian')
+                'ru' => $this->translator->translate('layout.language.russian'),
             ])
             ->class('form-select')
             ->attributes(['aria-label' => $this->translator->translate('layout.change_language')]);
