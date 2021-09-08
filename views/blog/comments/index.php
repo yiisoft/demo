@@ -10,12 +10,13 @@ use Yiisoft\View\WebView;
 
 /**
  * @var KeysetPaginator $data
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var UrlGeneratorInterface $urlGenerator
  * @var AssetManager $assetManager
  * @var WebView $this
  */
 
-$this->setTitle('Comments Feed');
+$this->setTitle($translator->translate('menu.comments_feed'));
 
 ?>
 <h1><?= Html::encode($this->getTitle()) ?></h1>

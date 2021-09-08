@@ -40,6 +40,7 @@
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
         "yiisoft/config": "1.0.x-dev",
+        "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
@@ -61,6 +62,9 @@
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^1.0",
         "yiisoft/session": "^1.0",
+        "yiisoft/translator": "^1.0",
+        "yiisoft/translator-formatter-intl": "^1.0",
+        "yiisoft/translator-message-php": "^1.0",
         "yiisoft/user": "^3.0@dev",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
@@ -86,6 +90,7 @@
         "roave/security-advisories": "dev-master",
         "spatie/phpunit-watcher": "^1.23.1",
         "vimeo/psalm": "^4.2",
+        "yiisoft/translator-extractor": "3.0.x-dev",
         "yiisoft/yii-debug-viewer": "^3.0@dev"
     },
     "autoload": {

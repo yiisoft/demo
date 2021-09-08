@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */

@@ -14,6 +14,7 @@ return [
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '/assets',
             '@baseUrl' => '/',
+            '@messages' => '@resources/messages',
             '@npm' => '@root/node_modules',
             '@public' => '@root/public',
             '@resources' => '@root/resources',

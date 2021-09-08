@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Handler\NotFoundHandler;
+use App\Middleware\LocaleMiddleware;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Definitions\DynamicReference;
@@ -21,6 +22,7 @@ return [
                             Router::class,
                             SessionMiddleware::class,
                             ErrorCatcher::class,
+                            LocaleMiddleware::class,
                         ]
                     );
             }),

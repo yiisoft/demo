@@ -12,9 +12,9 @@ use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
-use App\User\Controller\ApiUserController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
+use App\User\Controller\ApiUserController;
 use App\User\Controller\UserController;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -32,6 +32,9 @@ return [
     Route::get('/')
         ->action([SiteController::class, 'index'])
         ->name('site/index'),
+    Route::post('/locale')
+        ->action([SiteController::class, 'setLocale'])
+        ->name('site/set-locale'),
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),

@@ -12,8 +12,9 @@ use Yiisoft\View\WebView;
  * @var \Yiisoft\Router\UrlGeneratorInterface $url
  * @var \Yiisoft\Form\Widget\Field $field
  * @var WebView $this
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  */
-$this->setTitle('Contact');
+$this->setTitle($translator->translate('menu.contact'));
 ?>
 
 <h1><?= Html::encode($this->getTitle()) ?></h1>
