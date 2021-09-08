@@ -229,9 +229,6 @@ return [
             'yiisoft/yii-debug' => [
                 'providers.php',
             ],
-            'yiisoft/yii-filesystem' => [
-                'providers.php',
-            ],
         ],
         'providers-console' => [
             '/' => [
