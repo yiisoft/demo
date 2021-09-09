@@ -86,3 +86,6 @@ enabled:
   - trailing_comma_in_multiline_array
   - unalign_double_arrow
   - unalign_equals
+  - empty_loop_body_braces
+  - integer_literal_case
+  - union_type_without_spaces
