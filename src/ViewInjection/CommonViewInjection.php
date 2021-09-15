@@ -8,7 +8,7 @@ use Yiisoft\Form\Widget\Field;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\CommonParametersInjectionInterface;
 
-class ContentViewInjection implements CommonParametersInjectionInterface
+class CommonViewInjection implements CommonParametersInjectionInterface
 {
     private UrlGeneratorInterface $url;
     private Field $field;
