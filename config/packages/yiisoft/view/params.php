@@ -11,7 +11,7 @@ use Yiisoft\Translator\TranslatorInterface;
 return [
     'yiisoft/view' => [
         'basePath' => '@views',
-        'commonParameters' => [
+        'parameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
             'currentRoute' => Reference::to(CurrentRoute::class),
