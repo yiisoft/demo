@@ -13,6 +13,18 @@ return [
                 'bootstrap.php',
             ],
         ],
+        'bootstrap-console' => [
+            '/' => [
+                '$bootstrap',
+                'config/bootstrap-console.php',
+            ],
+        ],
+        'bootstrap-web' => [
+            '/' => [
+                '$bootstrap',
+                'config/bootstrap-web.php',
+            ],
+        ],
         'common' => [
             '/' => [
                 'config/common/*.php',
@@ -23,13 +35,22 @@ return [
             'yiisoft/log-target-file' => [
                 'common.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'common.php',
             ],
             'yiisoft/router-fastroute' => [
                 'common.php',
             ],
+            'yiisoft/translator-formatter-intl' => [
+                'common.php',
+            ],
+            'yiisoft/translator-message-php' => [
+                'common.php',
+            ],
             'yiisoft/yii-cycle' => [
+                'common.php',
+            ],
+            'yiisoft/translator' => [
                 'common.php',
             ],
             'yiisoft/yii-event' => [
@@ -68,6 +89,9 @@ return [
             'yiisoft/yii-cycle' => [
                 'console.php',
             ],
+            'yiisoft/translator-extractor' => [
+                'console.php',
+            ],
             'yiisoft/yii-console' => [
                 'console.php',
             ],
@@ -76,6 +100,26 @@ return [
             ],
             'yiisoft/yii-debug' => [
                 'console.php',
+            ],
+        ],
+        'delegates' => [
+            '/' => [
+                'config/delegates.php',
+            ],
+            'yiisoft/yii-cycle' => [
+                'delegates.php',
+            ],
+        ],
+        'delegates-console' => [
+            '/' => [
+                '$delegates',
+                'config/delegates-console.php',
+            ],
+        ],
+        'delegates-web' => [
+            '/' => [
+                '$delegates',
+                'config/delegates-web.php',
             ],
         ],
         'events' => [
@@ -138,7 +182,7 @@ return [
             'yiisoft/log-target-file' => [
                 'params.php',
             ],
-            'yiisoft/mailer-swiftmailer' => [
+            'yiisoft/mailer-symfony' => [
                 'params.php',
             ],
             'yiisoft/router-fastroute' => [
@@ -156,13 +200,19 @@ return [
             'yiisoft/yii-debug-api' => [
                 'params.php',
             ],
+            'yiisoft/translator-extractor' => [
+                'params.php',
+            ],
             'yiisoft/yii-debug-viewer' => [
-                'config/params.php',
+                'params.php',
             ],
             'yiisoft/assets' => [
                 'params.php',
             ],
             'yiisoft/session' => [
+                'params.php',
+            ],
+            'yiisoft/translator' => [
                 'params.php',
             ],
             'yiisoft/yii-console' => [
@@ -183,6 +233,9 @@ return [
             'yiisoft/csrf' => [
                 'params.php',
             ],
+            'yiisoft/data-response' => [
+                'params.php',
+            ],
             'yiisoft/view' => [
                 'params.php',
             ],
@@ -192,9 +245,6 @@ return [
                 'config/providers.php',
             ],
             'yiisoft/yii-debug' => [
-                'providers.php',
-            ],
-            'yiisoft/yii-filesystem' => [
                 'providers.php',
             ],
         ],
@@ -212,22 +262,20 @@ return [
                 '$providers',
                 'config/providers-web.php',
             ],
-            'yiisoft/yii-cycle' => [
-                'providers-web.php',
-            ],
             'yiisoft/yii-debug-api' => [
                 'providers-web.php',
             ],
         ],
         'routes' => [
             '/' => [
+                'config/routes-backend.php',
                 'config/routes.php',
             ],
             'yiisoft/yii-debug-api' => [
                 'routes.php',
             ],
             'yiisoft/yii-debug-viewer' => [
-                'config/routes.php',
+                'routes.php',
             ],
         ],
         'tests' => [
@@ -256,7 +304,7 @@ return [
                 'web.php',
             ],
             'yiisoft/yii-debug-viewer' => [
-                'config/web.php',
+                'web.php',
             ],
             'yiisoft/assets' => [
                 'web.php',

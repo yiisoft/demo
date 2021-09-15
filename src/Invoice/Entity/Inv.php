@@ -45,7 +45,7 @@ use DateInterval;
      */
      private $client = null;
      
-     /**
+    /**
      * @Column(type="primary", nullable=false)
      */
      public ?int $id =  null;
@@ -60,7 +60,7 @@ use DateInterval;
      */
      public ?int $group_id =  null;
      
-     /**
+    /**
      * @Column(type="integer(11)", nullable=false)
      */
      public ?int $user_id = null; 

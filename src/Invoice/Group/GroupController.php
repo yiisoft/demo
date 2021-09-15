@@ -125,9 +125,14 @@ final class GroupController
     public function delete(SessionInterface $session,Request $request,GroupRepository $groupRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->groupService->deleteGroup($this->group($request,$groupRepository));               
-        return $this->webService->getRedirectResponse('group/index');        
+        try {
+              $this->groupService->deleteGroup($this->group($request,$groupRepository));               
+              return $this->webService->getRedirectResponse('group/index'); 
+	} catch (Exception $e) {
+              unset($e);
+              $this->flash($session, 'danger', 'Cannot delete. Group history exists.');
+              return $this->webService->getRedirectResponse('group/index'); 
+        }
     }
     
     public function view(SessionInterface $session,Request $request,GroupRepository $groupRepository,

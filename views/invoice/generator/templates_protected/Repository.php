@@ -1,4 +1,4 @@
-<?php  
+<?php
    echo "<?php\n";             
 ?>
 
@@ -31,7 +31,15 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        <?php if (!empty($relations)) {
+            echo '$query = $this->select()';
+            foreach ($relations as $relation) {
+                    echo "->load('".$relation->getLowercase_name()."')"."\n";
+            }
+        } else {
+            echo '$query = $this->select();';    
+        }
+        ?>
         return $this->prepareDataReader($query);
     }
     
@@ -75,10 +83,17 @@ private EntityWriter $entityWriter;
     
     public function repo<?= $generator->getCamelcase_capital_name(); ?>query(string $id): <?= $generator->getCamelcase_capital_name(); ?>
     {
-        $query = $this->select()<?php foreach ($relations as $relation) {
-                    echo "->load('".$relation->getLowercase_name()."')";
-                }
-            ?>->where(['id' => $id]);
+        <?php if (!empty($relations)) {
+            echo '$query = $this->select()';
+            foreach ($relations as $relation) {
+                    echo "->load('".$relation->getLowercase_name()."')"."\n";
+                    echo "->where(['id' =>".'$id]);';
+            }
+        } else {
+            echo '$query = $this->select()'."\n";
+            echo "->where(['id' =>".'$id]);';
+        }
+        ?>
         return  $query->fetchOne();        
     }
 }

@@ -29,7 +29,10 @@ final class ProductRepository extends Select\Repository
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()
+            ->load('family')
+            ->load('tax_rate')
+            ->load('unit');
         return $this->prepareDataReader($query);
     }
     

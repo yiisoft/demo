@@ -7,7 +7,6 @@ use App\Invoice\Entity\Inv;
 use App\Invoice\Inv\InvService;
 use App\Invoice\Inv\InvRepository;
 use App\Invoice\Setting\SettingRepository;
-use App\User\UserRepository;
 use App\Invoice\Group\GroupRepository;
 use App\Invoice\Client\ClientRepository;
 use App\User\UserService;
@@ -19,6 +18,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Exception;
 
 final class InvController
 {
@@ -79,7 +79,7 @@ final class InvController
             
             $form = new InvForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->invService->saveInv($this->userService->getUser(),new Inv(),$form,$settingRepository);
+                $this->invService->saveInv($this->userService->getUser(),new Inv(),$form,$settingRepository, $groupRepository);
                 return $this->webService->getRedirectResponse('inv/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
@@ -109,7 +109,7 @@ final class InvController
             $form = new InvForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->invService->saveInv($this->userService->getUser(),$this->inv($request,$invRepository), $form, $settingRepository);
+                $this->invService->saveInv($this->userService->getUser(),$this->inv($request,$invRepository), $form, $settingRepository, $groupRepository);
                 return $this->webService->getRedirectResponse('inv/index');
             }
             $parameters['body'] = $body;
@@ -120,10 +120,15 @@ final class InvController
     
     public function delete(SessionInterface $session,Request $request,InvRepository $invRepository 
     ): Response {
-        $this->rbac($session);
-       
-        $this->invService->deleteInv($this->inv($request,$invRepository));               
-        return $this->webService->getRedirectResponse('inv/index');        
+        $this->rbac($session);       
+        try {
+            $this->invService->deleteInv($this->inv($request,$invRepository));               
+            return $this->webService->getRedirectResponse('inv/index');        
+	} catch (Exception $e) {
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete. Invoice history exists.');
+            return $this->webService->getRedirectResponse('inv/index');        
+        }
     }
     
     public function view(SessionInterface $session,Request $request,InvRepository $invRepository,

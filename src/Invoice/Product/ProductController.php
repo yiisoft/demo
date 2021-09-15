@@ -16,6 +16,7 @@ use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
@@ -23,6 +24,7 @@ use Yiisoft\Session\Flash\Flash;
 
 final class ProductController
 {
+    private const PRODUCTS_PER_PAGE = 1; 
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private ProductService $productService;
@@ -44,13 +46,14 @@ final class ProductController
 
     public function index(SessionInterface $session, ProductRepository $productRepository, SettingRepository $settingRepository, Request $request, ProductService $service): Response
     {
-        $paginator = $service->getFeedPaginator();
-        if ($request->getAttribute('next') !== null) {
-            $paginator = $paginator->withNextPageToken((string)$request->getAttribute('next'));
-        }
         $canEdit = $this->rbac($session); 
-        $flash = $this->flash($session, 'success', 'Help information will appear here.');
+        $flash = $this->flash($session, 'success', 'Help information will appear here.'); 
+        $pageNum = (int)$request->getAttribute('page', 1);
+        $paginator = (new OffsetPaginator($this->products($productRepository)))
+            ->withPageSize(self::PRODUCTS_PER_PAGE)
+            ->withCurrentPage($pageNum);
         $parameters = [
+            'paginator'=>$paginator,
             's'=> $settingRepository,
             'canEdit' => $canEdit,
             'products' => $this->products($productRepository), 
@@ -130,9 +133,14 @@ final class ProductController
     public function delete(SessionInterface $session,Request $request,ProductRepository $productRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->productService->deleteProduct($this->product($request,$productRepository));               
-        return $this->webService->getRedirectResponse('product/index');        
+        try {
+            $this->productService->deleteProduct($this->product($request,$productRepository));               
+            return $this->webService->getRedirectResponse('product/index');   
+	} catch (Exception $e) {
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete. Product history exists.');
+            return $this->webService->getRedirectResponse('product/index');   
+        }
     }
     
     public function view(SessionInterface $session,Request $request,ProductRepository $productRepository,SettingRepository $settingRepository,

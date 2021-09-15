@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types=1); 
 
 namespace App\Invoice\Client;
 
@@ -14,7 +14,7 @@ use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class ClientRepository extends Select\Repository
 {
-    private EntityWriter $entityWriter;
+private EntityWriter $entityWriter;
 
     public function __construct(Select $select, EntityWriter $entityWriter)
     {
@@ -23,16 +23,30 @@ final class ClientRepository extends Select\Repository
     }
 
     /**
-     * Get clients without filter
+     * Get clients  without filter
      *
-     * @psalm-return DataReaderInterface<int, Client>
+     * @psalm-return DataReaderInterface<int,Client>
      */
     public function findAllPreloaded(): DataReaderInterface
     {
         $query = $this->select();
         return $this->prepareDataReader($query);
     }
-
+    
+    /**
+     * @psalm-return DataReaderInterface<int, Client>
+     */
+    public function getReader(): DataReaderInterface
+    {
+        return (new EntityReader($this->select()))
+            ->withSort($this->getSort());
+    }
+    
+    private function getSort(): Sort
+    {
+        return Sort::only(['id'])->withOrder(['id' => 'asc']);
+    }
+    
     /**
      * @throws Throwable
      */
@@ -48,20 +62,28 @@ final class ClientRepository extends Select\Repository
     {
         $this->entityWriter->delete([$client]);
     }
-
+    
     private function prepareDataReader($query): EntityReader
     {
         return (new EntityReader($query))->withSort(
-            Sort::only(['id', 'client_active', 'client_date_created', 'client_date_modified', 'user_id'])
-                ->withOrder(['client_date_created' => 'desc'])
+            Sort::only(['id'])
+                ->withOrder(['id' => 'asc'])
         );
     }
     
-    public function repoClientquery(string $client_id): Client
-    {
-        $query = $this
-            ->select()
-            ->where(['id' => $client_id]);
+    public function repoClientquery(string $id): Client    {
+        $query = $this->select()->where(['id' => $id]);
         return  $query->fetchOne();        
+    }
+    
+    /**
+     * Get clients  without filter
+     *
+     * @psalm-return DataReaderInterface<int,Client>
+     */
+    public function  repoActivequery(bool $client_active): DataReaderInterface
+    {
+        $query = $this->select()->where(['client_active' => $client_active]);
+        return $this->prepareDataReader($query);
     }
 }

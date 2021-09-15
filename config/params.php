@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'mailer' => [
         'adminEmail' => 'admin@example.com',
+        'senderEmail' => 'sender@example.com',
     ],
 
     'yiisoft/aliases' => [
@@ -13,6 +14,7 @@ return [
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '/assets',
             '@baseUrl' => '/',
+            '@messages' => '@resources/messages',
             '@npm' => '@root/node_modules',
             '@public' => '@root/public',
             '@resources' => '@root/resources',

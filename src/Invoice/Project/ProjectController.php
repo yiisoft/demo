@@ -45,8 +45,7 @@ final class ProjectController
        
          $canEdit = $this->rbac($session);
          $flash = $this->flash($session, 'success' , 'Change the type from success to info and you will get a flash message!.');
-         $parameters = [
-      
+         $parameters = [      
           's'=>$settingRepository,
           'canEdit' => $canEdit,
           'projects' => $this->projects($projectRepository),

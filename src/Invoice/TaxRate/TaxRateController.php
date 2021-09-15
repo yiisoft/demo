@@ -102,11 +102,16 @@ final class TaxRateController
     
     public function delete(Session $session, Request $request, TaxRateRepository $taxrateRepository): Response 
     {
-        $this->rbac($session);
-        $taxrate = $this->taxrate($request,$taxrateRepository);
-        $this->flash($session,'danger','This record has been deleleted.');
-        $this->taxrateService->deleteTaxRate($taxrate);               
-        return $this->webService->getRedirectResponse('taxrate/index');        
+        try {
+            $this->rbac($session);
+            $taxrate = $this->taxrate($request,$taxrateRepository);
+            $this->taxrateService->deleteTaxRate($taxrate);               
+            return $this->webService->getRedirectResponse('taxrate/index'); 
+	} catch (Exception $e) {
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete. Tax Rate history exists.');
+            return $this->webService->getRedirectResponse('taxrate/index');
+        } 
     }
     
     public function view(Session $session,Request $request,TaxRateRepository $taxrateRepository,SettingRepository $settingRepository,ValidatorInterface $validator): Response {

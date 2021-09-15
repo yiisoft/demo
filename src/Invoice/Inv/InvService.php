@@ -8,6 +8,7 @@ use App\Invoice\Entity\Inv;
 use App\User\User;
 use App\Invoice\Inv\InvRepository;
 use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Group\GroupRepository;
 
 
 final class InvService
@@ -20,13 +21,14 @@ final class InvService
         $this->repository = $repository;
     }
 
-    public function saveInv(User $user, Inv $model, InvForm $form, SettingRepository $s): void
+    public function saveInv(User $user, Inv $model, InvForm $form, SettingRepository $s, GroupRepository $g): void
     { 
        $model->setClient_id($form->getClient_id());
        $model->setGroup_id($form->getGroup_id());
        $model->setPassword($form->getPassword());
        $model->setDate_created($form->getDate_created());
        $model->setDate_due($form->getDate_created(),$s);
+       $model->setNumber($g->generate_invoice_number($form->getGroup_id(),true));
        $model->setTime_created($form->getTime_created());
        $model->setTerms($form->getTerms());
        $model->setPayment_method($form->getPayment_method());

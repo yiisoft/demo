@@ -2,20 +2,33 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap5\Alert;
-use Yiisoft\Yii\Bootstrap5\Modal;
 /**
- * @var \App\Blog\Entity\Client $item
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var bool $canEdit
- * @var string $client_id
+ * @var \App\Invoice\Entity\Client $client
+ * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator 
+ * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
  * @var \Yiisoft\Session\Flash\FlashInterface $flash 
  */
 
+use Yiisoft\Yii\Bootstrap5\Alert;
+use App\Widget\OffsetPagination;
+use Yiisoft\Html\Html;
 
 ?>
-    <h1><?= Html::encode($s->trans('clients')); ?></h1>
+<?php
+  $pagination = OffsetPagination::widget()
+  ->paginator($paginator)
+  ->urlGenerator(fn ($page) => $urlGenerator->generate('client/index', ['page' => $page]));
+?>
+
+<div>
+    <h5><?= $s->trans('clients'); ?></h5>
+    <div class="btn-group">
+        <a class="btn btn-success" href="<?= $urlGenerator->generate('client/add'); ?>">
+            <i class="fa fa-plus"></i> <?= $s->trans('new'); ?>
+        </a>
+    </div>
+</div>
+<div id="content" class="table-content">
     <?php
         $danger = $flash->get('danger');
         if ($danger != null) {
@@ -48,65 +61,84 @@ use Yiisoft\Yii\Bootstrap5\Modal;
             echo $alert;
         }
     ?>
-    <div>        
-        <?php
-        if ($canEdit) {
-            echo Html::a($s->trans('add_client'),
-                $urlGenerator->generate('client/add'),
-                ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
+    <?php 
+                if ($pagination->isRequired()) {
+                   echo $pagination;
+                }
+    ?>  
+        <div class="table-responsive">
+        <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+        <th><?= $s->trans('active'); ?></th>
+        <th><?= $s->trans('client_name'); ?></th>
+        <th><?= $s->trans('email_address'); ?></th>
+        <th><?= $s->trans('phone_number'); ?></th>
+        <th class="amount"><?= $s->trans('balance'); ?></th>
+        <th><?= $s->trans('options'); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php /** @var Client $client */ ?>
+            <?php foreach ($paginator->read() as $client) { ?>
+            <tr>
+		<td>
+		    <?= ($client->client_active) ? '<span class="label active">' . $s->trans('yes') . '</span>' : '<span class="label inactive">' . $s->trans('no') . '</span>'; ?>
+		</td>
+                <td><?= Html::a($client->client_name." ".$client->client_surname,$urlGenerator->generate('client/view',['id' => $client->id]),['class' => 'btn btn-warning ms-2']);?></td>
+                <td><?= Html::encode($client->client_email); ?></td>
+                <td><?= Html::encode($client->client_phone ? $client->client_phone : ($client->client_mobile ? $client->client_mobile : '')); ?></td>
+                <td class="amount"><?php // $s->format_currency($client->client_invoice_balance); ?></td>
+                <td>
+                    <div class="options btn-group">
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" style="text-decoration:none">
+                            <i class="fa fa-cog"></i> <?= $s->trans('options'); ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="<?= $urlGenerator->generate('client/view',['id' => $client->id]); ?>" style="text-decoration:none">
+                                    <i class="fa fa-eye fa-margin"></i> <?= $s->trans('view'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('client/edit', ['id' => $client->id]); ?>" style="text-decoration:none">
+                                    <i class="fa fa-edit fa-margin"></i> <?= $s->trans('edit'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('quote/add'); ?>" class="client-create-quote" data-client-id="<?= $client->id; ?>" style="text-decoration:none">
+                                    <i class="fa fa-file fa-margin"></i> <?= $s->trans('create_quote'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('inv/add'); ?>" class="client-create-invoice" style="text-decoration:none"
+                                    data-client-id="<?= $client->id; ?>">
+                                    <i class="fa fa-file-text fa-margin"></i> <?= $s->trans('create_invoice'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('client/delete',['id' => $client->id]); ?>" class="client-create-invoice" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
+                                      <i class="fa fa-trash fa-margin"></i> <?= $s->trans('delete'); ?>                                    
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <?php } ?>            
+        </tbody>
+    </table>
+         
+    <?php
+        $pageSize = $paginator->getCurrentPageSize();
+        if ($pageSize > 0) {
+            echo Html::p(
+                sprintf('Showing %s out of %s clients', $pageSize, $paginator->getTotalItems()),
+                ['class' => 'text-muted']
             );
-            //list all the clients
-            foreach ($clients as $client){
-                echo Html::br();
-                $label = $client->id . " ";
-                echo Html::label($label);
-                echo Html::a($client->client_name." ". $client->client_surname,$urlGenerator->generate('client/view',['client_id' => $client->id]),['class' => 'btn btn-success btn-sm ms-2']);
-                echo Html::a($s->trans('edit'),
-                $urlGenerator->generate('client/edit', ['client_id' => $client->id]),
-                ['class' => 'btn btn-info btn-sm ms-2']
-                );                
-                echo Html::a($s->trans('view'),
-                $urlGenerator->generate('client/view',['client_id' => $client->id]),
-                ['class' => 'btn btn-warning btn-sm ms-2']
-                );
-                
-                //modal delete button
-                echo Modal::widget()
-                ->title('Please confirm that you want to delete this record')
-                ->titleOptions(['class' => 'text-center'])
-                ->options(['class' => 'testMe'])
-                ->size(Modal::SIZE_SMALL)        
-                ->headerOptions(['class' => 'text-danger'])
-                ->bodyOptions(['class' => 'modal-body', 'style' => 'text-align:center;',])
-                ->footerOptions(['class' => 'text-dark'])
-                ->footer(
-                                Html::button(
-                                    'Close',
-                                    [
-                                        'type' => 'button',
-                                        'class' => ['btn btn-success btn-sm ms-2'],
-                                        'data' => [
-                                            'bs-dismiss' => 'modal',
-                                        ],
-                                    ]
-                                ) . "\n" .                
-                                Html::a('Yes Delete it Please ... I am sure!',
-                                $urlGenerator->generate('client/delete',['client_id' => $client->id]),
-                                ['class' => 'btn btn-danger btn-sm ms-2']
-                                )
-                            )
-                ->withoutCloseButton()
-                ->toggleButton([
-                                'class' => ['btn btn-danger btn-sm ms-2'],
-                                'label' => $s->trans('delete'),
-                            ])
-                ->begin();
-                echo '<p>Are you sure you want to delete this record? </p>';
-                echo Modal::end();
-                echo Html::br();
-            }           
+        } else {
+            echo Html::p('No records');
         }
-        ?>
-    </div>
-<?php
-echo Html::closeTag('div');
+    ?>
+        
+</div>

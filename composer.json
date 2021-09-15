@@ -40,30 +40,35 @@
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
         "yiisoft/config": "1.0.x-dev",
+        "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
+        "yiisoft/definitions": "3.0.x-dev",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/error-handler": "^1.0",
         "yiisoft/factory": "^3.0@dev",
         "yiisoft/form": "^1.0@dev",
-        "yiisoft/html": "^1.0",
+        "yiisoft/html": "^2.0",
         "yiisoft/http": "^1.1",
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
         "yiisoft/log-target-file": "^1.0",
-        "yiisoft/mailer": "^1.0",
-        "yiisoft/mailer-swiftmailer": "^1.0",
+        "yiisoft/mailer": "^3.0",
+        "yiisoft/mailer-symfony": "dev-master",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^1.0",
         "yiisoft/session": "^1.0",
+        "yiisoft/translator": "^1.0",
+        "yiisoft/translator-formatter-intl": "^1.0",
+        "yiisoft/translator-message-php": "^1.0",
         "yiisoft/user": "^3.0@dev",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
-        "yiisoft/view": "^1.0",
+        "yiisoft/view": "^2.0",
         "yiisoft/widget": "^3.0@dev",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
@@ -72,19 +77,21 @@
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
-        "yiisoft/yii-view": "^1.0",
+        "yiisoft/yii-view": "^2.0",
         "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
         "codeception/c3": "^2.6.0",
         "codeception/codeception": "^4.1.9",
         "codeception/module-asserts": "@dev",
+        "codeception/module-cli": "^1.1",
         "codeception/module-phpbrowser": "@dev",
         "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.5",
         "roave/security-advisories": "dev-master",
         "spatie/phpunit-watcher": "^1.23.1",
         "vimeo/psalm": "^4.2",
+        "yiisoft/translator-extractor": "3.0.x-dev",
         "yiisoft/yii-debug-viewer": "^3.0@dev"
     },
     "autoload": {
@@ -140,8 +147,28 @@
                 "$providers",
                 "providers-console.php"
             ],
-            "routes": "routes.php",
-            "bootstrap": "bootstrap.php"
+            "delegates": "delegates.php",
+            "delegates-web": [
+                "$delegates",
+                "delegates-web.php"
+            ],
+            "delegates-console": [
+                "$delegates",
+                "delegates-console.php"
+            ],
+            "routes": [
+                "routes-backend.php",
+                "routes.php"
+            ],
+            "bootstrap": "bootstrap.php",
+            "bootstrap-web": [
+                "$bootstrap",
+                "bootstrap-web.php"
+            ],
+            "bootstrap-console": [
+                "$bootstrap",
+                "bootstrap-console.php"
+            ]
         },
         "installer-types": [
             "npm-asset"

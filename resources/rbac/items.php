@@ -22,14 +22,26 @@ return [
             'editTask',
             'editGroup',
             'editInv',
-            'editItem',
-            'editAmount',
+            'editInvItem',
+            'editInvAmount',
+            'editInvTaxRate',
+            'editItemLookup',
+            'editQuote',
+            'editQuoteItem',
+            'editQuoteItemAmount',
+            'editQuoteAmount',
+            'editQuoteTaxRate',
             'editSumex',
             'editMerchant',
             'editInvcust',
             'editCustomField',            
             'editCustomValue',
             'editClientNote',
+            'editRecurring',
+            'editImport',
+            'editPayment',
+            'editPaymentMethod',
+            'editPaymentCustom'
         ],
     ],
     'editPost' => [
@@ -116,15 +128,29 @@ return [
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,
     ],
-    'editItem' => [
-        'name' => 'editItem',
+    'editInvItem' => [
+        'name' => 'editInvItem',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,
     ],
     
-    'editAmount' => [
-        'name' => 'editAmount',
+    'editItemLookup' => [
+        'name' => 'editItemLookup',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editInvAmount' => [
+        'name' => 'editInvAmount',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editInvTaxRate' => [
+        'name' => 'editInvTaxRate',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,
@@ -174,6 +200,76 @@ return [
     
     'editClientNote' => [
         'name' => 'editClientNote',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editRecurring' => [
+        'name' => 'editRecurring',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editImport' => [
+        'name' => 'editImport',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editQuote' => [
+        'name' => 'editQuote',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editQuoteItem' => [
+        'name' => 'editQuoteItem',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editQuoteAmount' => [
+        'name' => 'editQuoteAmount',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editQuoteItemAmount' => [
+        'name' => 'editQuoteItemAmount',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editQuoteTaxRate' => [
+        'name' => 'editQuoteTaxRate',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editPayment' => [
+        'name' => 'editPayment',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+    'editPaymentMethod' => [
+        'name' => 'editPaymentMethod',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
+    
+     'editPaymentCustom' => [
+        'name' => 'editPaymentCustom',
         'type' => 'permission',
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,

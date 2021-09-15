@@ -3,38 +3,23 @@
 
 declare(strict_types=1);
 
-use Psr\Container\ContainerInterface;
-use Yiisoft\Config\Config;
-use Yiisoft\Di\Container;
-use Yiisoft\Yii\Console\Application;
-use Yiisoft\Yii\Console\Output\ConsoleBufferedOutput;
+use App\Runner\ConsoleApplicationRunner;
 
-define('YII_ENV', getenv('env') ?: 'production');
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once 'vendor/autoload.php';
+/**
+ *  Set debug value for console application runner, for default its `true` add additionally the validation of the
+ *  container-di configurations (debug mode).
+ */
+define('YII_DEBUG', getenv('YII_DEBUG') ?: true);
 
-$config = new Config(
-    __DIR__,
-    '/config/packages',
-);
+/**
+ *  Set environment value for web application runner, for default its `null`.
+ *
+ *  @link https://github.com/yiisoft/config#environments
+ */
+define('YII_ENV', getenv('YII_ENV') ?: null);
 
-$container = new Container(
-    $config->get('console'),
-    $config->get('providers-console')
-);
-
-/** @var ContainerInterface $container */
-$container = $container->get(ContainerInterface::class);
-
-$application = $container->get(Application::class);
-$exitCode = 1;
-
-try {
-    $application->start();
-    $exitCode = $application->run(null, new ConsoleBufferedOutput());
-} catch (\Error $error) {
-    $application->renderThrowable($error, new ConsoleBufferedOutput());
-} finally {
-    $application->shutdown($exitCode);
-    exit($exitCode);
-}
+// Run console application runner
+$consoleRunner = new ConsoleApplicationRunner(YII_DEBUG, YII_ENV);
+$consoleRunner->run();

@@ -39,6 +39,7 @@ final class GeneratorController
     const SCOPE = 'Scope.php';
     const CONTROLLER = 'Controller.php';
     const INDEX = 'index.php';
+    const INDEX_ADV_PAGINATOR = 'index_adv_paginator.php';
     const _FORM = '_form.php';     
     const _VIEW = '_view.php';
     const _ROUTE = '_route.php';
@@ -60,7 +61,7 @@ final class GeneratorController
     {
         $canEdit = $this->rbac($session);
         $generators = $this->generators($generatorRepository);
-        $flash = $this->flash($session, 'dummy', 'Help information will appear here.');
+        $flash = $this->flash($session, 'dummy', 'Help information can appear here.');
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -130,7 +131,7 @@ final class GeneratorController
            $this->generatorService->deleteGenerator($generator);
         }
         catch (Exception $e) {
-           $flashMsg = $e->getMessage();
+           unset($e);  
            $this->flash($session,'danger','This record has existing Generator Relations so it cannot be deleleted. Delete these relations first.');
         }
         return $this->webService->getRedirectResponse('generator/index');   
@@ -405,6 +406,33 @@ final class GeneratorController
                              ValidatorInterface $validator, DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::INDEX;
+        $path = $this->getAliases();
+        $g = $this->generator($request, $gr);
+        $id = $g->getGentor_id();
+        $relations = $grr->findRelations($id);
+        $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
+        $content = $this->getContent($view,$g,$relations,$orm,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
+        $build_file = $this->build_and_save($path,$content,$file,'');
+        $parameters = [
+            'canEdit'=>$this->rbac($session),
+            's'=> $settingRepository,
+            'title' => 'Generate '.$file,
+            'body' => $this->body($g),
+            'generator'=> $g,
+            'orm_schema'=>$orm,
+            'relations'=>$relations,
+            'flash'=> $flash,
+            'generated'=>$build_file,
+        ];
+        return $this->viewRenderer->render('__results', $parameters);
+    }
+    
+    public function _index_adv_paginator(Session $session,Request $request, GeneratorRepository $gr, 
+                             SettingRepository $settingRepository, GeneratorRelationRepository $grr,
+                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                            ): Response {
+        $file = self::INDEX_ADV_PAGINATOR;
         $path = $this->getAliases();
         $g = $this->generator($request, $gr);
         $id = $g->getGentor_id();

@@ -1,4 +1,5 @@
 <?php 
+   use Yiisoft\Strings\Inflector;
    echo "<?php\n";             
 ?>
 
@@ -17,7 +18,10 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<?php echo '<h1>'.ucfirst($generator->getSmall_singular_name()).'</h1>'."\n"; ?>
+<?php 
+        $inf = new Inflector();
+        echo '<h1>'.$inf->toSentence($generator->getPre_entity_table(),'UTF-8').'</h1>'."\n"; 
+?>
 <?php   echo "<?php\n"; ?>
         $danger = $flash->get('danger');
         if ($danger != null) {

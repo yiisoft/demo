@@ -23,7 +23,7 @@ use DateTimeImmutable;
        
    
     /**
-     * @BelongsTo(target="Inv", nullable=false)
+     * @BelongsTo(target="Inv", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Inv
      */

@@ -15,6 +15,7 @@ return [
             'user/assignRole' => App\User\Console\AssignRoleCommand::class,
             'fixture/add' => App\Command\Fixture\AddCommand::class,
             'router/list' => App\Command\Router\ListCommand::class,
+            'translator/translate' => App\Command\Translation\TranslateCommand::class,
         ],
         'version' => '3.0',
     ],

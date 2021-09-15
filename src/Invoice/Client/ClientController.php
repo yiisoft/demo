@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Invoice\Client;
 
 use App\Invoice\Entity\Client;
+use App\Invoice\Entity\UserClient;
 use App\Invoice\Helpers\CountryHelper;
 use App\Invoice\Setting\SettingRepository;
 use App\Service\WebControllerService;
 use App\User\UserService;
+use App\Invoice\UserClient\UserClientService;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
@@ -17,36 +20,50 @@ use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\User\CurrentUser;
+use \Exception;
 
 final class ClientController
 {
+    private const CLIENTS_PER_PAGE = 1; 
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private ClientService $clientService;
     private UserService $userService;
+    private UserClientService $userclientService;     
+    private CurrentUser $currentUser;
 
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         ClientService $clientService,
-        UserService $userService
+        UserService $userService,
+        UserClientService $userclientService,
+        CurrentUser $currentUser             
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/client')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->clientService = $clientService;
         $this->userService = $userService;
+        $this->userclientService = $userclientService;
+        $this->currentUser = $currentUser;
     }
 
-    public function index(SessionInterface $session, ClientRepository $clientRepository, SettingRepository $settingRepository): Response
+    public function index(Request $request, ViewRenderer $head,SessionInterface $session, ClientRepository $clientRepository, SettingRepository $settingRepository): 
+        Response
     {
         $canEdit = $this->rbac($session);
         $flash = $this->flash($session, 'success', 'Help information will appear here.');
+        $pageNum = (int)$request->getAttribute('page', 1);
+        $paginator = (new OffsetPaginator($this->clients($clientRepository)))
+            ->withPageSize(self::CLIENTS_PER_PAGE)
+            ->withCurrentPage($pageNum);
         $parameters = [
+            'paginator'=>$paginator,
             's'=> $settingRepository,
             'canEdit' => $canEdit,
-            'clients' => $this->clients($clientRepository), 
-            'flash'=> $flash,
+            'flash'=> $flash
         ];    
         return $this->viewRenderer->render('index', $parameters);
     }
@@ -74,7 +91,9 @@ final class ClientController
             
             $form = new ClientForm();
             if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
-                $this->clientService->saveClient(new Client(),$form);
+                $newclient = new Client();
+                $this->clientService->saveClient($newclient,$form);
+                $this->userclientService->saveUserClient(new UserClient(),$this->currentUser->getId(),$newclient->getClient_id());
                 return $this->webService->getRedirectResponse('client/index');
             }
             $parameters['errors'] = $form->getFirstErrors();
@@ -90,7 +109,7 @@ final class ClientController
         $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('edit'),
-            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->getClient_id()]],
+            'action' => ['client/edit', ['id' => $this->client($request, $clientRepository)->getClient_id()]],
             'errors' => [],
             'client'=>$this->client($request, $clientRepository),
             'body' => $this->body($this->client($request, $clientRepository)),
@@ -113,11 +132,18 @@ final class ClientController
         return $this->viewRenderer->render('__form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,ClientRepository $clientRepository 
+    public function delete(SessionInterface $session,Request $request,ClientRepository $clientRepository
     ): Response {
         $this->rbac($session);
-        $this->clientService->deleteClient($this->client($request,$clientRepository));               
-        return $this->webService->getRedirectResponse('client/index');        
+        try {
+            $this->clientService->deleteClient($this->client($request, $clientRepository));            
+            //UserClient Entity automatically deletes the UserClient record relevant to this client 
+            return $this->webService->getRedirectResponse('client/index');
+	} catch (Exception $e) {
+              unset($e);
+              $this->flash($session, 'danger', 'Cannot delete. Client history exists.');
+              return $this->webService->getRedirectResponse('client/index');
+        }
     }
     
     public function view(SessionInterface $session, Request $request, ClientRepository $clientRepository, ValidatorInterface $validator,SettingRepository $settingRepository   
@@ -128,7 +154,7 @@ final class ClientController
         $countries = new CountryHelper();
         $parameters = [
             'title' => $settingRepository->trans('edit_client'),
-            'action' => ['client/edit', ['client_id' => $this->client($request, $clientRepository)->getClient_id()]],
+            'action' => ['client/edit', ['id' => $this->client($request, $clientRepository)->getClient_id()]],
             'errors' => [],
             'client'=>$this->client($request, $clientRepository),
             'body' => $this->body($this->client($request, $clientRepository)),
@@ -151,7 +177,7 @@ final class ClientController
     }
     
     private function client(Request $request,ClientRepository $clientRepository) {
-        $client_id = $request->getAttribute('client_id');       
+        $client_id = $request->getAttribute('id');
         $client = $clientRepository->repoClientquery($client_id);
         if ($client === null) {
             return $this->webService->getNotFoundResponse();
@@ -160,7 +186,7 @@ final class ClientController
     }
     
     private function clients(ClientRepository $clientRepository) {
-        $clients = $clientRepository->findAllPreloaded();        
+           $clients = $clientRepository->findAllPreloaded(); 
         if ($clients === null) {
             return $this->webService->getNotFoundResponse();
         };

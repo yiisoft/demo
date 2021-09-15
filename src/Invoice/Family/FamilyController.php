@@ -102,10 +102,15 @@ final class FamilyController
     public function delete(Session $session, Request $request, FamilyRepository $familyRepository): Response 
     {
         $this->rbac($session);
-        $family = $this->family($request,$familyRepository);
-        $this->flash($session,'danger','This record has been deleleted.');
-        $this->familyService->deleteFamily($family);               
-        return $this->webService->getRedirectResponse('family/index');        
+        try {
+            $family = $this->family($request,$familyRepository);
+            $this->familyService->deleteFamily($family);               
+            return $this->webService->getRedirectResponse('family/index');  
+	} catch (Exception $e) {
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete. Family history exists.');
+            return $this->webService->getRedirectResponse('family/index');  
+        }
     }
     
     public function view(Session $session,Request $request,FamilyRepository $familyRepository,SettingRepository $settingRepository,ValidatorInterface $validator): Response {

@@ -76,6 +76,14 @@ final class SettingRepository extends Select\Repository
         return  $query->fetchOne();
     }
     
+    public function withValue(string $setting_value): ?Setting
+    {
+        $query = $this
+            ->select()
+            ->where(['setting_value' => $setting_value]);
+        return  $query->fetchOne();
+    }
+    
     public function expand(string $setting_key, string $setting_value): ?Setting
     {
         $one_setting = $this->withKey($setting_key);
@@ -98,6 +106,15 @@ final class SettingRepository extends Select\Repository
             return $g;
         }
         else return '';        
+    }
+    
+    public function load_setting($setting_key)
+    {
+        $setting = $this->select()->where(['setting_key' => $setting_key]);
+        foreach ($setting as $data) {
+            $this->settings[$data->setting_key] = $data->setting_value;
+        }
+        return $this->settings['default_language'];              
     }
     
     public function load_settings()
@@ -171,10 +188,9 @@ final class SettingRepository extends Select\Repository
     echo $echo_selected ? $select : '';
     }
     
-    public function languages()
+    public function dictionary()
     {
-        $this->load_settings();
-        $language = $this->get_setting('default_language');                   
+        $language = $this->load_setting('default_language');
         $lang = [];
         $lang = new Lang();
         $lang->load('ip', $language);
@@ -188,8 +204,7 @@ final class SettingRepository extends Select\Repository
     
     public function trans($quote)
     {
-        $languages = $this->languages();
-        foreach ($languages as $key => $value){
+        foreach ($this->dictionary() as $key => $value){
              if ($quote === $key){
                   return $value;                                    
              }
@@ -221,7 +236,7 @@ final class SettingRepository extends Select\Repository
                                                     $pool = '123456789';
                                                     break;
                                     }
-                                    return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
+                                    return substr(str_shuffle(str_repeat($pool, (int)ceil($len / strlen($pool)))), 0, $len);
                             case 'unique': // todo: remove in 3.1+
                             case 'md5':
                                     return md5(uniqid(mt_rand()));
@@ -327,11 +342,11 @@ final class SettingRepository extends Select\Repository
         $decimal_point = $this->setting('decimal_point');
 
         if ($currency_symbol_placement == 'before') {
-            return $currency_symbol . number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
+            return $currency_symbol . number_format((float)$amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
         } elseif ($currency_symbol_placement == 'afterspace') {
-            return number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . '&nbsp;' . $currency_symbol;
+            return number_format((float)$amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . '&nbsp;' . $currency_symbol;
         } else {
-            return number_format($amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . $currency_symbol;
+            return number_format((float)$amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator) . $currency_symbol;
         }
     }
     
@@ -343,7 +358,7 @@ final class SettingRepository extends Select\Repository
             $thousands_separator = $this->setting('thousands_separator');
             $decimal_point = $this->setting('decimal_point');
             //force the rounding of amounts to 2 decimal points if the decimal point setting is filled.
-            return number_format(($amount), ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
+            return number_format((float)$amount, ($decimal_point) ? 2 : 0, $decimal_point, $thousands_separator);
         }
         return null;
     }

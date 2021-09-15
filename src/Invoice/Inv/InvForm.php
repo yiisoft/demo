@@ -64,7 +64,7 @@ final class InvForm extends FormModel
 
     public function getRules(): array    {
       return [
-         'client_id' => [
+        'client_id' => [
             Required::rule(),
         ],
         'group_id' => [

@@ -46,7 +46,7 @@ if (!empty($errors)) {
       <div class="col card mb3">
           <div class="card-header"><h5>Namespace Path</h5></div>
           <label for="namespace_path" class="form-label required">Namespace before Entity Path eg. App\Invoice (NOT App\Invoice\Entity) </label>
-          <input type="text" class="form-control" name="namespace_path" id="namespace_path" placeholder="Namespace Path" value="<?= Html::encode($body['namespace_path'] ?? '') ?>" required>
+          <input type="text" class="form-control" name="namespace_path" id="namespace_path" placeholder="Namespace Path" value="<?= Html::encode($body['namespace_path'] ?? 'App\Invoice') ?>" required>
       </div>
     </div>
   </div>
@@ -56,33 +56,33 @@ if (!empty($errors)) {
     <div class="card-header"><h5>Controller and Repository</h5></div>    
     <div class="col mb-3">
         <label for="route_prefix" class="form-label required">Route Prefix eg. invoice in 'invoice/product' that will appear after the controller construct.</label>
-        <input type="text" class="form-control" name="route_prefix" id="route_prefix" placeholder="Route Prefix" value="<?= Html::encode($body['route_prefix'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="route_prefix" id="route_prefix" placeholder="Route Prefix" value="<?= Html::encode($body['route_prefix'] ?? 'invoice') ?>" required>
     </div>
     <div class="col mb-3">
         <label for="route_suffix" class="form-label required">Route Suffix eg. product in 'invoice/product' that will appear after the controller construct.</label>
-        <input type="text" class="form-control" name="route_suffix" id="route_suffix" placeholder="Route Suffix" value="<?= Html::encode($body['route_suffix'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="route_suffix" id="route_suffix" placeholder="Route Suffix" value="<?= Html::encode($body['route_suffix'] ?? 'product') ?>" required>
     </div>
     <div class="col mb-3">
         <label for="camelcase_capital_name" class="form-label required">Camelcase Capital Name used in Controller and Repository names eg. TaxRate </label>
-        <input type="text" class="form-control" name="camelcase_capital_name" id="camelcase_capital_name" placeholder="Camelcase Capital Name used in Controller and Repository names eg. TaxRate" value="<?= Html::encode($body['camelcase_capital_name'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="camelcase_capital_name" id="camelcase_capital_name" placeholder="Camelcase Capital Name used in Controller and Repository names eg. TaxRate" value="<?= Html::encode($body['camelcase_capital_name'] ?? '') ?>" placeholder = "Product" required>
     </div>
     <div class="col mb-3">
         <label for="small_singular_name" class="form-label required">Small <b>singular</b> name used in Controller for <b>edit</b>, and <b>view</b> controller functions.</label>
-        <input type="text" class="form-control" name="small_singular_name" id="small_singular_name" placeholder="Small singular name used in Controller for edit, and view controller functions." value="<?= Html::encode($body['small_singular_name'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="small_singular_name" id="small_singular_name" placeholder="Small singular name used in Controller for edit, and view controller functions." value="<?= Html::encode($body['small_singular_name'] ?? '') ?>" placeholder = "product" required>
     </div>
     <div class="col mb-3">
         <label for="small_plural_name" class="form-label required">Small <b>plural</b> name  used in Controller for <b>index</b> controller function to list all entity generators.</label>
-        <input type="text" class="form-control" name="small_plural_name" id="small_plural_name" placeholder="Small Plural Name" value="<?= Html::encode($body['small_plural_name'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="small_plural_name" id="small_plural_name" placeholder="Small Plural Name" value="<?= Html::encode($body['small_plural_name'] ?? '') ?>" placeholder = "products" required>
     </div>
     <div class="col mb-3">
-        <label for="keyset_paginator_include" class="form-label">Include Keyset Paginator <a href="https://use-the-index-luke.com"></a></label>
+        <label for="keyset_paginator_include" class="form-label">Include Keyset Paginator <a href="https://use-the-index-luke.com">https://use-the-index-luke.com</a></label>
         <input type="hidden" name="keyset_paginator_include" value="0">
         <input type="checkbox" name="keyset_paginator_include" id="keyset_paginator_include" value="1"
            <?php $s->check_select(Html::encode($body['keyset_paginator_include'] ?? ''), 1, '==', true) ?>    
         >
     </div>
     <div class="col mb-3">
-        <label for="offset_paginator_include" class="form-label">Include Offset Paginator <a href="https://use-the-index-luke.com"></a></label>
+        <label for="offset_paginator_include" class="form-label">Include Offset Paginator <a href="https://use-the-index-luke.com">https://use-the-index-luke.com</a></label>
         <input type="hidden" name="offset_paginator_include" value="0">
         <input type="checkbox" name="offset_paginator_include" id="offset_paginator_include" value="1"
            <?php $s->check_select(Html::encode($body['offset_paginator_include'] ?? ''), 1, '==', true) ?>    
@@ -112,19 +112,19 @@ if (!empty($errors)) {
       <div class="card-header"><h5>Path to Layout File</h5></div>  
     <div class="col mb-3 form-group">     
         <label for="controller_layout_dir" class="form-label required">Controller Layout Directory eg. dirname(dirname(__DIR__)) that appears just after controller construct.</label>
-        <input type="text" class="form-control" name="controller_layout_dir" id="controller_layout_dir" placeholder="Controller Layout Directory eg. dirname(dirname(__DIR__))" value="<?= Html::encode($body['controller_layout_dir'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="controller_layout_dir" id="controller_layout_dir" placeholder="Controller Layout Directory eg. dirname(dirname(__DIR__))" value="<?= Html::encode($body['controller_layout_dir'] ?? 'dirname(dirname(__DIR__))') ?>" required>
     </div>
     <div class="col mb-3 form-group">
         <label for="controller_layout_dir_dot_path" class="form-label required">Controller Layout Directory Dot Path eg. '/Invoice/Layout/main.php' that appears just after controller construct (exclude the apostrophe's).</label>
-        <input type="text" class="form-control" name="controller_layout_dir_dot_path" id="controller_layout_dir_dot_path" placeholder="Controller Layout Directory Dot Path" value="<?= Html::encode($body['controller_layout_dir_dot_path'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="controller_layout_dir_dot_path" id="controller_layout_dir_dot_path" placeholder="Controller Layout Directory Dot Path" value="<?= Html::encode($body['controller_layout_dir_dot_path'] ?? '/Invoice/Layout/main.php') ?>" required>
     </div>
   </div>
   <div class="card row mb-3">
       <div class="card-header"><h5>External Entity used in this Entity</h5></div>  
     <div class="col mb-3 form-group">      
         <div class="mb-3">
-            <label for="repo_extra_camelcase_name" class="form-label required">External Entity eg. MyEntity exclusive of path. Path built in Generator.</label>
-            <input type="text" class="form-control" name="repo_extra_camelcase_name" id="repo_extra_camelcase_name" placeholder="Additional Repository eg. Setting Repository in addition to main repository." value="<?= Html::encode($body['repo_extra_camelcase_name'] ?? '') ?>">
+            <label for="repo_extra_camelcase_name" class="form-label required">External Entity eg. MyEntity exclusive of path. Path built in Generator. Default: Setting</label>
+            <input type="text" class="form-control" name="repo_extra_camelcase_name" id="repo_extra_camelcase_name" placeholder="Additional Repository eg. Setting Repository in addition to main repository." value="<?= Html::encode($body['repo_extra_camelcase_name'] ?? 'Setting') ?>">
         </div>
     </div>
   </div>   

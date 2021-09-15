@@ -14,7 +14,7 @@ use Yiisoft\Yii\Bootstrap5\Breadcrumbs;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\UrlMatcherInterface $urlMatcher
+ * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
@@ -36,7 +36,7 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRoute = $urlMatcher->getCurrentRoute() === null ? '' : $urlMatcher->getCurrentRoute()->getName();
+$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="en">
@@ -58,62 +58,130 @@ echo NavBar::widget()
       ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
       ->begin();
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
-        ->options(['class' => 'navbar-nav mx-auto'])
+        ->currentPath($currentRoute->getUri()->getPath())
+        ->options(['class' => 'navbar-nav mx-auto', 'style'=>'background-color: #e3f2fd;'])
         ->items( 
             $user->getId() === null
                 ? [
-                ['label' => 'Blog', 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRoute, 'blog/') && $currentRoute !== 'blog/comment/index'],
-                ['label' => 'Comments Feed', 'url' => $urlGenerator->generate('blog/comment/index')],
-                ['label' => 'Users', 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRoute, 'user/')],
-                ['label' => 'Contact', 'url' => $urlGenerator->generate('site/contact')],
-                ['label' => 'Swagger', 'url' => $urlGenerator->generate('swagger/index')],
-                
+                ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
+                ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
+                ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
+                ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
+                ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],                
             ] :
             [
-                ['label' => 'Invoice', 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRoute, 'invoice/') && $currentRoute !== 'invoice/index',
+                ['label' => $translator->translate('invoice.home'), 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRouteName, 'invoice/') && $currentRouteName !== 'invoice/index',
                     'items' => [
-                                ['label' =>'Generator','url'=>$urlGenerator->generate('generator/index')],
-                                ['label' =>'Generator Relation','url'=>$urlGenerator->generate('generatorrelation/index')],  
-                                ['label' =>'Setting','url'=>$urlGenerator->generate('setting/index')],
-                                ['label' =>'Client','url'=>$urlGenerator->generate('client/index')],
-                                ['label' =>'Client Custom','url'=>$urlGenerator->generate('clientcustom/index')],
-                                ['label' =>'Client Note','url'=>$urlGenerator->generate('clientnote/index')],
-                                ['label' =>'Email Template','url'=>$urlGenerator->generate('emailtemplate/index')],
-                                ['label' =>'Family','url'=>$urlGenerator->generate('family/index')],
-                                ['label' =>'Tax Rate','url'=>$urlGenerator->generate('taxrate/index')],
-                                ['label' =>'Unit','url'=>$urlGenerator->generate('unit/index')],
-                                ['label' =>'Product','url'=>$urlGenerator->generate('product/index')],
-                                ['label' =>'Project','url'=>$urlGenerator->generate('project/index')],
-                                ['label' =>'Task','url'=>$urlGenerator->generate('task/index')],
-                                ['label' =>'Group','url'=>$urlGenerator->generate('group/index')],
-                                ['label' =>'Invoice','url'=>$urlGenerator->generate('inv/index')],
-                                ['label' =>'Invoice Item','url'=>$urlGenerator->generate('item/index')],
-                                ['label' =>'Invoice Amount','url'=>$urlGenerator->generate('amount/index')],
-                                ['label' =>'Sumex','url'=>$urlGenerator->generate('sumex/index')],
-                                ['label' =>'Merchant','url'=>$urlGenerator->generate('merchant/index')],
-                                ['label' =>'Custom Invoice','url'=>$urlGenerator->generate('invcust/index')], 
-                                ['label' =>'Custom Field','url'=>$urlGenerator->generate('customfield/index')],
-                                ['label' =>'Custom Value','url'=>$urlGenerator->generate('customvalue/index')],
+                                ['label' => $translator->translate('invoice.generator'),'url'=>$urlGenerator->generate('generator/index')],
+                                ['label' => $translator->translate('invoice.generators.relation'),'url'=>$urlGenerator->generate('generatorrelation/index')],  
+                                ['label' => $translator->translate('invoice.setting'),'url'=>$urlGenerator->generate('setting/index')],
+                                ['label' => $translator->translate('invoice.client'),'url'=>$urlGenerator->generate('client/index')],
+                                ['label' => $translator->translate('invoice.client.custom'),'url'=>$urlGenerator->generate('clientcustom/index')],
+                                ['label' => $translator->translate('invoice.client.note'),'url'=>$urlGenerator->generate('clientnote/index')],
+                                ['label' => $translator->translate('invoice.email.template'),'url'=>$urlGenerator->generate('emailtemplate/index')],
+                                ['label' => $translator->translate('invoice.family'),'url'=>$urlGenerator->generate('family/index')],
+                                ['label' => $translator->translate('invoice.tax.rate'),'url'=>$urlGenerator->generate('taxrate/index')],
+                                ['label' => $translator->translate('invoice.unit'),'url'=>$urlGenerator->generate('unit/index')],
+                                ['label' => $translator->translate('invoice.product'),'url'=>$urlGenerator->generate('product/index')],
+                                ['label' => $translator->translate('invoice.project'),'url'=>$urlGenerator->generate('project/index')],
+                                ['label' => $translator->translate('invoice.task'),'url'=>$urlGenerator->generate('task/index')],
+                                ['label' => $translator->translate('invoice.group'),'url'=>$urlGenerator->generate('group/index')],
+                                ['label' => $translator->translate('invoice.invoice'),'url'=>$urlGenerator->generate('inv/index')],
+                                ['label' => $translator->translate('invoice.invoice.item'),'url'=>$urlGenerator->generate('invitem/index')],
+                                ['label' => $translator->translate('invoice.invoice.amount'),'url'=>$urlGenerator->generate('invamount/index')],
+                                ['label' => $translator->translate('invoice.invoice.tax.rate'),'url'=>$urlGenerator->generate('invtaxrate/index')],
+                                ['label' => $translator->translate('invoice.invoice.recurring'),'url'=>$urlGenerator->generate('recurring/index')],
+                                ['label' => $translator->translate('invoice.invoice.item.lookup'),'url'=>$urlGenerator->generate('itemlookup/index')],
+                                ['label' => $translator->translate('invoice.quote'),'url'=>$urlGenerator->generate('quote/index')],
+                                ['label' => $translator->translate('invoice.quote.item'),'url'=>$urlGenerator->generate('quoteitem/index')],
+                                ['label' => $translator->translate('invoice.quote.amount'),'url'=>$urlGenerator->generate('quoteamount/index')],
+                                ['label' => $translator->translate('invoice.quote.item.amount'),'url'=>$urlGenerator->generate('quoteitemamount/index')],
+                                ['label' => $translator->translate('invoice.quote.tax.rate'),'url'=>$urlGenerator->generate('quotetaxrate/index')],
+                                ['label' => $translator->translate('invoice.sumex'),'url'=>$urlGenerator->generate('sumex/index')],
+                                ['label' => $translator->translate('invoice.merchant'),'url'=>$urlGenerator->generate('merchant/index')],
+                                ['label' => $translator->translate('invoice.invoice.custom'),'url'=>$urlGenerator->generate('invcust/index')], 
+                                ['label' => $translator->translate('invoice.custom.field'),'url'=>$urlGenerator->generate('customfield/index')],
+                                ['label' => $translator->translate('invoice.custom.value'),'url'=>$urlGenerator->generate('customvalue/index')],
+                                ['label' => $translator->translate('invoice.payment'),'url'=>$urlGenerator->generate('payment/index')],
+                                ['label' => $translator->translate('invoice.payment.method'),'url'=>$urlGenerator->generate('paymentmethod/index')],
+                                ['label' => $translator->translate('invoice.payment.custom'),'url'=>$urlGenerator->generate('paymentcustom/index')],
                                ]
-                ],              
+                ],
+                ['label' => $translator->translate('invoice.client'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.add'),'url'=>$urlGenerator->generate('client/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('client/index')],
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.quote'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.add'),'url'=>$urlGenerator->generate('quote/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('quote/index')],
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.invoice'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.add'),'url'=>$urlGenerator->generate('inv/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('inv/index')],
+                                ['label' => $translator->translate('invoice.recurring'),'url'=>$urlGenerator->generate('recurring/index')], 
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.payment'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.enter'),'url'=>$urlGenerator->generate('payment/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('payment/index')],
+                                ['label' => $translator->translate('invoice.online.log'),'url'=>'#'] 
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.product'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.create'),'url'=>$urlGenerator->generate('product/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('product/index')],
+                                ['label' => $translator->translate('invoice.family'),'url'=>$urlGenerator->generate('family/index')],
+                                ['label' => $translator->translate('invoice.unit'),'url'=>$urlGenerator->generate('unit/index')],
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.task'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.create'),'url'=>$urlGenerator->generate('task/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('task/index')],
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.project'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.create'),'url'=>$urlGenerator->generate('project/add')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('project/index')],
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.report'), 
+                     'items' => [
+                                ['label' => $translator->translate('invoice.create'),'url'=>'#'],
+                                ['label' => $translator->translate('invoice.view'),'url'=>'#'],
+                               ],
+                    ],
+                    ['label' => 'Setting', 
+                     'items' => [
+                                 ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('setting/index')],
+                               ],
+                    ],
+                
             ]       
         );
 
 echo Nav::widget()
-        ->currentPath($urlMatcher->getCurrentUri()->getPath())
+        ->currentPath($currentRoute->getUri()->getPath())
         ->options(['class' => 'navbar-nav'])
         ->items(
             $user->getId() === null
                 ? [
-                ['label' => 'Login', 'url' => $urlGenerator->generate('site/login')],
-                ['label' => 'Signup', 'url' => $urlGenerator->generate('site/signup')],
+                 ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
+                 ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
             ]
                 : [Form::widget()
                     ->action($urlGenerator->generate('site/logout'))
                     ->options(['csrf' => $csrf])
                     ->begin()
-                    . Html::submitButton('Logout (' . Html::encode($user->getLogin()) . ')', ['class' => 'dropdown-item'])
+                    . Html::submitButton($translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
                     . Form::end()],
         );
 echo NavBar::end();
@@ -121,31 +189,42 @@ echo NavBar::end();
 ?><main class="container py-4">
 <?php if ($user->getId() <> null) {
     echo Breadcrumbs::widget()->links([
-                                   ['label' => 'Generator Add','url'=>$urlGenerator->generate('generator/add')],
-                                   ['label' => 'Generator Relation Add','url'=>$urlGenerator->generate('generatorrelation/add')],
-                                   ['label' => 'Setting Add','url'=>$urlGenerator->generate('setting/add')],
-                                   ['label' => 'Client Add','url'=>$urlGenerator->generate('client/add')],
-                                   ['label' => 'Client Custom Add','url'=>$urlGenerator->generate('clientcustom/add')],
-                                   ['label' => 'Client Note Add','url'=>$urlGenerator->generate('clientnote/add')], 
-                                   ['label' => 'Email Template Add','url'=>$urlGenerator->generate('emailtemplate/add')],
-                                   ['label' => 'Family Add','url'=>$urlGenerator->generate('family/add')],
-                                   ['label' => 'Tax Rate Add','url'=>$urlGenerator->generate('taxrate/add')],
-                                   ['label' => 'Unit Add','url'=>$urlGenerator->generate('unit/add')],
-                                   ['label' => 'Product Add','url'=>$urlGenerator->generate('product/add')],
-                                   ['label' => 'Project Add','url'=>$urlGenerator->generate('project/add')],
-                                   ['label' => 'Task Add','url'=>$urlGenerator->generate('task/add')],
-                                   ['label' => 'Group Add','url'=>$urlGenerator->generate('group/add')],
-                                   ['label' => 'Invoice Add','url'=>$urlGenerator->generate('inv/add')],
-                                   ['label' => 'Invoice Item Add','url'=>$urlGenerator->generate('item/add')],
-                                   ['label' => 'Invoice Amount Add','url'=>$urlGenerator->generate('amount/add')],
-                                   ['label' => 'Sumex Add','url'=>$urlGenerator->generate('sumex/add')],
-                                   ['label' => 'Merchant Add','url'=>$urlGenerator->generate('merchant/add')],
-                                   ['label' => 'Custom Invoice Add','url'=>$urlGenerator->generate('invcust/add')],
-                                   ['label' => 'Custom Field Add','url'=>$urlGenerator->generate('customfield/add')],
-                                   ['label' => 'Custom Value Add','url'=>$urlGenerator->generate('customvalue/add')] 
+                                   ['label' => $translator->translate('invoice.generator.add'),'url'=>$urlGenerator->generate('generator/add')],
+                                   ['label' => $translator->translate('invoice.generator.relations.add'),'url'=>$urlGenerator->generate('generatorrelation/add')],
+                                   ['label' => $translator->translate('invoice.setting.add'),'url'=>$urlGenerator->generate('setting/add')],
+                                   ['label' => $translator->translate('invoice.client.add'),'url'=>$urlGenerator->generate('client/add')],
+                                   ['label' => $translator->translate('invoice.client.custom.add'),'url'=>$urlGenerator->generate('clientcustom/add')],
+                                   ['label' => $translator->translate('invoice.client.note.add'),'url'=>$urlGenerator->generate('clientnote/add')], 
+                                   ['label' => $translator->translate('invoice.email.template.add'),'url'=>$urlGenerator->generate('emailtemplate/add')],
+                                   ['label' => $translator->translate('invoice.family.add'),'url'=>$urlGenerator->generate('family/add')],
+                                   ['label' => $translator->translate('invoice.tax.rate.add'),'url'=>$urlGenerator->generate('taxrate/add')],
+                                   ['label' => $translator->translate('invoice.unit.add'),'url'=>$urlGenerator->generate('unit/add')],
+                                   ['label' => $translator->translate('invoice.product.add'),'url'=>$urlGenerator->generate('product/add')],
+                                   ['label' => $translator->translate('invoice.project.add'),'url'=>$urlGenerator->generate('project/add')],
+                                   ['label' => $translator->translate('invoice.task.add'),'url'=>$urlGenerator->generate('task/add')],
+                                   ['label' => $translator->translate('invoice.group.add'),'url'=>$urlGenerator->generate('group/add')],
+                                   ['label' => $translator->translate('invoice.invoice.add'),'url'=>$urlGenerator->generate('inv/add')],
+                                   ['label' => $translator->translate('invoice.invoice.item.add'),'url'=>$urlGenerator->generate('invitem/add')],
+                                   ['label' => $translator->translate('invoice.invoice.amount.add'),'url'=>$urlGenerator->generate('invamount/add')],
+                                   ['label' => $translator->translate('invoice.invoice.tax.rate.add'),'url'=>$urlGenerator->generate('invtaxrate/add')],
+                                   ['label' => $translator->translate('invoice.item.lookup'),'url'=>$urlGenerator->generate('itemlookup/index')],
+                                   ['label' => $translator->translate('invoice.quote.add'),'url'=>$urlGenerator->generate('quote/add')],
+                                   ['label' => $translator->translate('invoice.quote.item.add'),'url'=>$urlGenerator->generate('quoteitem/add')],
+                                   ['label' => $translator->translate('invoice.quote.item.amount'),'url'=>$urlGenerator->generate('quoteitemamount/add')],
+                                   ['label' => $translator->translate('invoice.quote.amount.add'),'url'=>$urlGenerator->generate('quoteamount/add')],
+                                   ['label' => $translator->translate('invoice.quote.tax.rate.add'),'url'=>$urlGenerator->generate('quotetaxrate/add')],
+                                   ['label' => $translator->translate('invoice.sumex.add'),'url'=>$urlGenerator->generate('sumex/add')],
+                                   ['label' => $translator->translate('invoice.merchant.add'),'url'=>$urlGenerator->generate('merchant/add')],
+                                   ['label' => $translator->translate('invoice.custom.invoice.add'),'url'=>$urlGenerator->generate('invcust/add')],
+                                   ['label' => $translator->translate('invoice.custom.field.add'),'url'=>$urlGenerator->generate('customfield/add')],
+                                   ['label' => $translator->translate('invoice.custom.value.add'),'url'=>$urlGenerator->generate('customvalue/add')],
+                                   ['label' => $translator->translate('invoice.invoice.recurring.add'),'url'=>$urlGenerator->generate('recurring/add')],
+                                   ['label' => $translator->translate('invoice.payment.method.add'),'url'=>$urlGenerator->generate('paymentmethod/add')],
+                                   ['label' => $translator->translate('invoice.payment.custom.add'),'url'=>$urlGenerator->generate('paymentcustom/add')],
+                                   ['label' => $translator->translate('invoice.payment.add'),'url'=>$urlGenerator->generate('payment/add')],
                                   ])
                           ->activeItemTemplate("<li class=\"breadcrumb-item active\" aria-current=\"page\">{link}</li>\n")
-                          ->homelink(['label'=>'Home','url'=>$urlGenerator->generate('invoice/index')]);
+                          ->homelink(['label' => $translator->translate('invoice.home'),'url'=>$urlGenerator->generate('invoice/index')]);
     echo $content;
 }
 ?></main>

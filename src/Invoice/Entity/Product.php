@@ -26,7 +26,7 @@ class Product
     /**
      * @Column(type="text", nullable=true)
      */
-    private ?string $product_sku = '';
+    public ?string $product_sku = '';
     
     /**
      * @Column(type="text", nullable=true)
@@ -36,12 +36,12 @@ class Product
     /**
      * @Column(type="longText", nullable=false)
      */
-    private ?string $product_description = '';
+    public ?string $product_description = '';
     
     /**
      * @Column(type="decimal(20,2)", nullable=true)
      */
-    private ?float $product_price = null;
+    public ?float $product_price = null;
     
     /**
      * @Column(type="decimal(20,2)", nullable=true)
@@ -54,7 +54,7 @@ class Product
     private ?string $provider_name = '';
     
     /**
-     * @BelongsTo(target="Family", nullable=false, fkAction="NO ACTION")
+     * @BelongsTo(target="App\Invoice\Entity\Family", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Family
      */

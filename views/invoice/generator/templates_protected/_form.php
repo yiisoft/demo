@@ -66,7 +66,7 @@ if (!empty($errors)) {
           echo ' </div>'."\n";
          }
          
-         if (($column->getType() === 'string') && ($column->getAbstractType() === 'date' ))
+         if (($column->getType() === 'string') && (($column->getAbstractType() === 'date' )||($column->getAbstractType() === 'datetime')))
          {
             echo ' <div class="mb-3 form-group has-feedback">';
             echo ' <?php '; 

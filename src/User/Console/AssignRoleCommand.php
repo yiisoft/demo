@@ -52,9 +52,13 @@ class AssignRoleCommand extends Command
         try {
             $orm = $this->promise->getORM();
             $userRepo = $orm->getRepository(User::class);
+            /** @var User|null $user */
             $user = $userRepo->findByPK($userId);
             if (null === $user) {
                 throw new \Exception('Can\'t find user');
+            }
+            if (null === $user->getId()) {
+                throw new \Exception('User Id is NULL');
             }
 
             $role = $this->storage->getRoleByName($roleName);
@@ -71,7 +75,7 @@ class AssignRoleCommand extends Command
                 $this->manager->addRole($role);
             }
 
-            $this->manager->assign($role, $user->getId());
+            $this->manager->assign($role, $userId);
 
             $io->success('Role was assigned to given user');
         } catch (\Throwable $t) {

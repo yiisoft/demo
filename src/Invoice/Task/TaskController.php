@@ -131,9 +131,14 @@ final class TaskController
     public function delete(SessionInterface $session,Request $request,TaskRepository $taskRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->taskService->deleteTask($this->task($request,$taskRepository));               
-        return $this->webService->getRedirectResponse('task/index');        
+        try {
+            $this->taskService->deleteTask($this->task($request,$taskRepository));               
+            return $this->webService->getRedirectResponse('task/index');
+	} catch (Exception $e) {
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete. Task history exists.');
+            return $this->webService->getRedirectResponse('task/index');
+        }        
     }
     
     public function view(SessionInterface $session,Request $request,TaskRepository $taskRepository,

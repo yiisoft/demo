@@ -102,10 +102,15 @@ final class UnitController
     public function delete(Session $session, Request $request, UnitRepository $unitRepository): Response 
     {
         $this->rbac($session);
-        $unit = $this->unit($request,$unitRepository);
-        $this->flash($session,'danger','This record has been deleleted.');
-        $this->unitService->deleteUnit($unit);               
-        return $this->webService->getRedirectResponse('unit/index');        
+        try {
+              $unit = $this->unit($request,$unitRepository);              
+              $this->unitService->deleteUnit($unit);               
+              return $this->webService->getRedirectResponse('unit/index');
+	} catch (Exception $e) {
+              unset($e);
+              $this->flash($session, 'danger', 'Cannot delete. Unit history exists.');
+              return $this->webService->getRedirectResponse('unit/index');
+        }
     }
     
     public function view(Session $session,Request $request,UnitRepository $unitRepository,SettingRepository $settingRepository, ValidatorInterface $validator): Response {

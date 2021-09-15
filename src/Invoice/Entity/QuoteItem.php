@@ -1,0 +1,291 @@
+<?php
+
+declare(strict_types=1); 
+
+namespace App\Invoice\Entity;
+
+use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Relation\BelongsTo;
+use DateTime;
+use DateTimeImmutable;use App\Invoice\Entity\TaxRate;
+use App\Invoice\Entity\Product;
+use App\Invoice\Entity\Quote;
+  
+ /**
+ * @Entity(
+ * repository="App\Invoice\QuoteItem\QuoteItemRepository",
+ * )
+ */
+ 
+ class QuoteItem
+ {
+       
+   
+    /**
+     * @BelongsTo(target="TaxRate", nullable=false, fkAction="NO ACTION")
+     *
+     * @var \Cycle\ORM\Promise\Reference|TaxRate
+     */
+     private $tax_rate = null;
+    
+
+    /**
+     * @BelongsTo(target="Product", nullable=false, fkAction="NO ACTION")
+     *
+     * @var \Cycle\ORM\Promise\Reference|Product
+     */
+     private $product = null;
+    
+
+    /**
+     * @BelongsTo(target="Quote", nullable=false, fkAction="NO ACTION")
+     *
+     * @var \Cycle\ORM\Promise\Reference|Quote
+     */
+     private $quote = null;
+    
+    
+        /**
+     * @Column(type="primary")
+     */
+     public ?int $id =  null;
+     
+    /**
+     * @Column(type="integer(11)", nullable=false)
+     */
+     private ?int $quote_id =  null;
+     
+    /**
+     * @Column(type="integer(11)", nullable=false)
+     */
+     private ?int $tax_rate_id =  null;
+     
+    /**
+     * @Column(type="integer(11)", nullable=true)
+     */
+     private ?int $product_id =  null;
+     
+    /**
+     * @Column(type="date", nullable=false)
+     */
+     private $date_added;
+     
+    /**
+     * @Column(type="text", nullable=true)
+     */
+     private ?string $name =  '';
+     
+    /**
+     * @Column(type="text", nullable=true)
+     */
+     private ?string $description =  '';
+     
+    /**
+     * @Column(type="decimal(20,2)", nullable=true)
+     */
+     private ?float $quantity =  null;
+     
+    /**
+     * @Column(type="decimal(20,2)", nullable=true)
+     */
+     private ?float $price =  null;
+     
+    /**
+     * @Column(type="decimal(20,2)", nullable=true)
+     */
+     private ?float $discount_amount =  null;
+     
+    /**
+     * @Column(type="integer(2)", nullable=false,default=0)
+     */
+     private ?int $order =  null;
+     
+    /**
+     * @Column(type="string(50)", nullable=true)
+     */
+     private ?string $product_unit =  '';
+     
+    /**
+     * @Column(type="integer(11)", nullable=true)
+     */
+     private ?int $product_unit_id =  null;
+     
+     public function __construct(
+          int $id = null,
+         int $quote_id = null,
+         int $tax_rate_id = null,
+         int $product_id = null,
+          $date_added = '',
+         string $name = '',
+         string $description = '',
+         float $quantity = null,
+         float $price = null,
+         float $discount_amount = null,
+         int $order = null,
+         string $product_unit = '',
+         int $product_unit_id = null
+     )
+     {
+         $this->id=$id;
+         $this->quote_id=$quote_id;
+         $this->tax_rate_id=$tax_rate_id;
+         $this->product_id=$product_id;
+         $this->date_added=$date_added;
+         $this->name=$name;
+         $this->description=$description;
+         $this->quantity=$quantity;
+         $this->price=$price;
+         $this->discount_amount=$discount_amount;
+         $this->order=$order;
+         $this->product_unit=$product_unit;
+         $this->product_unit_id=$product_unit_id;
+     }
+    
+    public function getTaxRate() : ?TaxRate
+ {
+      return $this->tax_rate;
+    }
+    
+    public function getProduct() : ?Product
+ {
+      return $this->product;
+    }
+    
+    public function getQuote() : ?Quote
+ {
+      return $this->quote;
+    }
+    
+    public function getId(): string
+    {
+     return (string)$this->id;
+    }
+    
+    public function setId(int $id) : void
+    {
+      $this->id =  $id;
+    }
+    
+    public function getQuote_id(): string
+    {
+     return (string)$this->quote_id;
+    }
+    
+    public function setQuote_id(int $quote_id) : void
+    {
+      $this->quote_id =  $quote_id;
+    }
+    
+    public function getTax_rate_id(): string
+    {
+     return (string)$this->tax_rate_id;
+    }
+    
+    public function setTax_rate_id(int $tax_rate_id) : void
+    {
+      $this->tax_rate_id =  $tax_rate_id;
+    }
+    
+    public function getProduct_id(): ?string
+    {
+     return (string)$this->product_id;
+    }
+    
+    public function setProduct_id(int $product_id) : void
+    {
+      $this->product_id =  $product_id;
+    }
+    
+    public function getDate_added(): DateTimeImmutable
+    {
+      if (isset($this->date_added) && !empty($this->date_added)){
+       return $this->date_added;
+     };
+    }
+    
+    public function setDate_added(DateTime $date_added) : void
+    {
+      $this->date_added =  $date_added;
+    }
+    
+    public function getName(): ?string
+    {
+       return $this->name;
+    }
+    
+    public function setName(string $name) : void
+    {
+      $this->name =  $name;
+    }
+    
+    public function getDescription(): ?string
+    {
+       return $this->description;
+    }
+    
+    public function setDescription(string $description) : void
+    {
+      $this->description =  $description;
+    }
+    
+    public function getQuantity(): ?float
+    {
+       return $this->quantity;
+    }
+    
+    public function setQuantity(float $quantity) : void
+    {
+      $this->quantity =  $quantity;
+    }
+    
+    public function getPrice(): ?float
+    {
+       return $this->price;
+    }
+    
+    public function setPrice(float $price) : void
+    {
+      $this->price =  $price;
+    }
+    
+    public function getDiscount_amount(): ?float
+    {
+       return $this->discount_amount;
+    }
+    
+    public function setDiscount_amount(float $discount_amount) : void
+    {
+      $this->discount_amount =  $discount_amount;
+    }
+    
+    public function getOrder(): int
+    {
+       return $this->order;
+    }
+    
+    public function setOrder(int $order) : void
+    {
+      $this->order =  $order;
+    }
+    
+    public function getProduct_unit(): ?string
+    {
+       return $this->product_unit;
+    }
+    
+    public function setProduct_unit(string $product_unit) : void
+    {
+      $this->product_unit =  $product_unit;
+    }
+    
+    public function getProduct_unit_id(): ?string
+    {
+     return (string)$this->product_unit_id;
+    }
+    
+    public function setProduct_unit_id(int $product_unit_id) : void
+    {
+      $this->product_unit_id =  $product_unit_id;
+    }
+}

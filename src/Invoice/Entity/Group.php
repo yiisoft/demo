@@ -30,17 +30,17 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
     /**
      * @Column(type="string", nullable=false)
      */
-     private string $identifier_format =  '';
+     public string $identifier_format =  '';
      
     /**
      * @Column(type="integer", nullable=false)
      */
-     private ?int $next_id =  null;
+     public ?int $next_id =  null;
      
     /**
      * @Column(type="integer", nullable=false,default=0)
      */
-     private ?int $left_pad =  null;
+     public ?int $left_pad =  null;
      
      public function __construct(
          string $name = '',

@@ -10,6 +10,7 @@ use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 use App\Service\WebControllerService;
 use Yiisoft\Session\SessionInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Session\Flash\Flash;
 use App\User\UserService;
 use Spiral\Database\DatabaseManager;
@@ -26,7 +27,6 @@ final class InvoiceController
                                            ->withLayout(dirname(dirname(__DIR__)).'/src/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
-        
     }
 
     public function index(SessionInterface $session, CurrentUser $currentUser, DatabaseManager $dbal
@@ -34,7 +34,7 @@ final class InvoiceController
         $canEdit = $this->rbac($session);
         $data = [
             'isGuest' => $currentUser->isGuest(),
-            'canEdit' => $canEdit, 
+            'canEdit' => $canEdit,
             'tables'=>$dbal->database('default')->getTables()
         ];
         return $this->viewRenderer->render('index', $data);

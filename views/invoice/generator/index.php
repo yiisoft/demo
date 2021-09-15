@@ -153,6 +153,12 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 $urlGenerator->generate('generator/_index',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']
                 );
+                if (!empty($generator->isKeyset_paginator_include()) || !empty($generator->isOffset_paginator_include())) {
+                    echo Html::a('index_adv_paginator',
+                    $urlGenerator->generate('generator/_index_adv_paginator',['id' => $generator->getGentor_id()]),
+                    ['class' => 'btn btn-secondary btn-sm ms-2']
+                    );
+                }
                 echo Html::a('_view',
                 $urlGenerator->generate('generator/_view',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']
@@ -165,7 +171,6 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 $urlGenerator->generate('generator/_route',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']
                 );
-                //if file exist entity.php create button
                 echo Html::br();
             }           
         }

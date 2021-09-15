@@ -22,7 +22,7 @@ class Project
     public ?int $id = null;
     
     /**
-     * @BelongsTo(target="Client", nullable=false)
+     * @BelongsTo(target="Client", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Client
      */

@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types=1); 
 
 namespace App\Invoice\Client;
 
 use App\Invoice\Entity\Client;
+use Yiisoft\Data\Paginator\KeysetPaginator;
 
 final class ClientService
 {

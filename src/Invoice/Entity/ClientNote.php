@@ -22,7 +22,7 @@ use DateTimeImmutable;
        
    
     /**
-     * @BelongsTo(target="Client", nullable=false)
+     * @BelongsTo(target="Client", nullable=false, fkAction="NO ACTION")
      *
      * @var \Cycle\ORM\Promise\Reference|Client
      */

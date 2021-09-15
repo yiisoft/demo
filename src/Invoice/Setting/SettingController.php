@@ -15,13 +15,15 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Session\SessionInterface as Session;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 
 final class SettingController
 {
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private SettingService $settingService;    
-    private UserService $userService;
+    private UserService $userService;    
+    private const SETTINGS_PER_PAGE = 25;
 
     public function __construct(
         ViewRenderer $viewRenderer,
@@ -36,7 +38,7 @@ final class SettingController
         $this->userService = $userService;
     }
 
-    public function index(Session $session,SettingRepository $settingRepository): Response
+    public function index_old(Session $session,SettingRepository $settingRepository): Response
     {
         $canEdit = $this->rbac($session);
         $settings = $this->settings($settingRepository);
@@ -47,6 +49,24 @@ final class SettingController
             'settings' => $settings, 
             'flash'=>$flash,
         ]; 
+        return $this->viewRenderer->render('index_old', $parameters);
+    }
+    
+    public function index(Session $session, SettingRepository $settingRepository,Request $request, SettingService $service): Response
+    {  
+        $pageNum = (int)$request->getAttribute('page', 1);
+        $paginator = (new OffsetPaginator($this->settings($settingRepository)))
+        ->withPageSize(self::SETTINGS_PER_PAGE)
+        ->withCurrentPage($pageNum);
+        $canEdit = $this->rbac($session);
+        $flash = $this->flash($session, 'dummy' , 'Flash message!.');
+        $parameters = [
+              'paginator' => $paginator,
+              's'=>$settingRepository,
+              'canEdit' => $canEdit,
+              'settings' => $this->settings($settingRepository),
+              'flash'=> $flash
+        ];
         return $this->viewRenderer->render('index', $parameters);
     }
 
