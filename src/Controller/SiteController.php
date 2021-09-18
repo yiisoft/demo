@@ -11,7 +11,6 @@ use Yiisoft\Cookies\Cookie;
 use Yiisoft\Cookies\CookieCollection;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
-use Yiisoft\Translator\TranslatorInterface;
 
 class SiteController
 {
@@ -22,7 +21,7 @@ class SiteController
         $this->viewRenderer = $viewRenderer->withController($this);
     }
 
-    public function index(ServerRequestInterface $request,TranslatorInterface $translate): ResponseInterface
+    public function index(): ResponseInterface
     {
         return $this->viewRenderer->render('index');
     }
@@ -39,7 +38,7 @@ class SiteController
 
         $cookies = CookieCollection::fromArray($request->getCookieParams());
         $cookies->add(new Cookie('locale', $locale));
-        
+
         $response = $cookies->setToResponse($response);
 
         return $response

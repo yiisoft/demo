@@ -100,13 +100,13 @@
         "common.php": "49c02d9de47834a2d5141ae9df93d0f3"
     },
     "yiisoft/view": {
-        "version": "2.0.1",
+        "version": "2.1.0",
         "params.php": "6354581fa1448a07bee0120ed1ac82ae",
         "common.php": "5a6f5b5850ce263e46c4c0fd7a9504a6",
         "web.php": "da9d7488652e8d07395bf1f051409367"
     },
     "yiisoft/widget": {
-        "version": "dev-master bfdc12a",
+        "version": "dev-master 0c4dbda",
         "bootstrap.php": "726fd077e95280953eb5a1997b966176"
     },
     "yiisoft/yii-bootstrap5": {
@@ -124,7 +124,7 @@
     "yiisoft/yii-cycle": {
         "version": "dev-master 839306b",
         "params.php": "be343964c21cbb870aa4bece77986d38",
-        "common.php": "f221c2b80d32cb999fdd1b0ab65759ea",
+        "common.php": "8bbde7fd7db091be544a7fc714b14dc6",
         "console.php": "23195136c7f46b4b610ce4489f847bc0",
         "events-console.php": "19b16102837aa5b788383dd33cbeafa1",
         "delegates.php": "0da9c2b96dc5d7b653d306efa6c657f2"
@@ -148,10 +148,10 @@
         "providers-web.php": "86472aaced83c7e5b3c70bfb0a816e7c"
     },
     "yiisoft/yii-debug-viewer": {
-        "version": "dev-master 5bc17e4",
+        "version": "dev-master de191c8",
         "web.php": "cba66f44ead38f9bdd008a490d147e78",
         "params.php": "b5e36fd52fdeda0ea6c96d97f1b59470",
-        "routes.php": "b135e538e70c8e65be2ad2712b1f4cd3"
+        "routes.php": "ffa7de27f7a8081f24ceb36f615e20f6"
     },
     "yiisoft/yii-event": {
         "version": "1.0.1",
@@ -167,7 +167,7 @@
         "common.php": "79313c43d01e9b02cffdeadb14bdc25e"
     },
     "yiisoft/yii-view": {
-        "version": "2.0.0",
+        "version": "2.0.1",
         "params.php": "7f0dfffdbc1c1ddb026ce038c43caf72",
         "web.php": "8d3eda4ddba4e34ac79735e3ec9a56a7"
     }
