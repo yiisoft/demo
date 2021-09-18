@@ -68,7 +68,7 @@
         "yiisoft/user": "^3.0@dev",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
-        "yiisoft/view": "^2.0",
+        "yiisoft/view": "^3.0",
         "yiisoft/widget": "^3.0@dev",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^3.0@dev",
@@ -77,7 +77,7 @@
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-swagger": "^3.0@dev",
-        "yiisoft/yii-view": "^2.0",
+        "yiisoft/yii-view": "^3.0",
         "yiisoft/yii-web": "^3.0@dev"
     },
     "require-dev": {
