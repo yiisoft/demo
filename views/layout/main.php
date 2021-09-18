@@ -61,9 +61,23 @@ echo Nav::widget()
     ->options(['class' => 'navbar-nav mx-auto'])
     ->items(
         [
-            ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
-            ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
-            ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
+            [
+                'label' => $translator->translate('menu.blog'),
+                'url' => $urlGenerator->generate('blog/index'),
+                'active' => StringHelper::startsWith(
+                        $currentRouteName,
+                        'blog/'
+                    ) && $currentRouteName !== 'blog/comment/index',
+            ],
+            [
+                'label' => $translator->translate('menu.comments_feed'),
+                'url' => $urlGenerator->generate('blog/comment/index'),
+            ],
+            [
+                'label' => $translator->translate('menu.users'),
+                'url' => $urlGenerator->generate('user/index'),
+                'active' => StringHelper::startsWith($currentRouteName, 'user/'),
+            ],
             ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
             ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],
         ]
@@ -77,13 +91,28 @@ echo Nav::widget()
             ? [
             ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
             ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
+            ['label' => 'Language', 'url' => '#', 'items' => [
+                [
+                    'label' => $translator->translate('layout.language.english'),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'en']),
+                ],
+                [
+                    'label' => $translator->translate('layout.language.russian'),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'ru']),
+                ],
+            ]]
         ]
-            : [Form::widget()
+            : [
+            Form::widget()
                 ->action($urlGenerator->generate('site/logout'))
                 ->options(['csrf' => $csrf])
                 ->begin()
-            . Html::submitButton($translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
-            . Form::end()],
+            . Html::submitButton(
+                $translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]),
+                ['class' => 'dropdown-item']
+            )
+            . Form::end(),
+        ],
     );
 echo NavBar::end();
 

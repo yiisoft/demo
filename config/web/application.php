@@ -29,4 +29,9 @@ return [
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],
+    LocaleMiddleware::class => [
+        '__construct()' => [
+            'locales' => $params['locales'],
+        ],
+    ],
 ];
