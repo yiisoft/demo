@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\ViewInjection\ContentViewInjection;
+use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
@@ -14,7 +14,7 @@ return [
         'viewPath' => '@views',
         'layout' => '@views/layout/main',
         'injections' => [
-            Reference::to(ContentViewInjection::class),
+            Reference::to(CommonViewInjection::class),
             Reference::to(CsrfViewInjection::class),
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),

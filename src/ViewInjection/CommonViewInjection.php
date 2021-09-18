@@ -6,9 +6,9 @@ namespace App\ViewInjection;
 
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Yii\View\ContentParametersInjectionInterface;
+use Yiisoft\Yii\View\CommonParametersInjectionInterface;
 
-class ContentViewInjection implements ContentParametersInjectionInterface
+class CommonViewInjection implements CommonParametersInjectionInterface
 {
     private UrlGeneratorInterface $url;
     private Field $field;
@@ -21,7 +21,7 @@ class ContentViewInjection implements ContentParametersInjectionInterface
         $this->field = $field;
     }
 
-    public function getContentParameters(): array
+    public function getCommonParameters(): array
     {
         return [
             'field' => $this->field,
