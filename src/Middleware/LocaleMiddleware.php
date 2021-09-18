@@ -126,7 +126,8 @@ final class LocaleMiddleware implements MiddlewareInterface
         if (isset($cookies[$this->sessionName])) {
             $this->logger->info(sprintf("Locale '%s' found in cookies", $cookies[$this->sessionName]));
             return $cookies[$this->sessionName];
-        } elseif (isset($queryParameters[$this->queryParameterName])) {
+        }
+        if (isset($queryParameters[$this->queryParameterName])) {
             $this->logger->info(
                 sprintf("Locale '%s' found in query string", $queryParameters[$this->queryParameterName])
             );
@@ -142,7 +143,6 @@ final class LocaleMiddleware implements MiddlewareInterface
 
     private function detectLocale(ServerRequestInterface $request)
     {
-        //
     }
 
     private function saveLocale(string $locale, ResponseInterface $response): ResponseInterface
