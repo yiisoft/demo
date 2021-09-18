@@ -15,9 +15,35 @@ use Cycle\ORM\Mapper\Mapper;
 
 final class QuoteMapper extends Mapper
 {
+    /**
+     * @param Client $entity
+     */
+    public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
+    {
+        /** @var Update $command */
+        $command = parent::queueUpdate($entity, $node, $state);
+
+        $now = new \DateTimeImmutable();
+
+        $state->register('date_modified', $now, true);
+        $command->registerAppendix('date_modified', $now);
+
+        $this->touch($entity, $node, $state, $command);
+
+        return $command;
+    }
     
-       
-            
+    private function touch(Quote $entity, Node $node, State $state, ContextCarrierInterface $command)
+    {
+        $now = new \DateTimeImmutable();
+
+        if ($entity->isNewRecord()) {
+            $state->register('date_created', $now, true);
+            $command->register('date_created', $now, true);
+            $state->register('date_modified', $now, true);
+            $command->register('date_modified', $now, true);
+        }
+    }          
 }
 
 ?>

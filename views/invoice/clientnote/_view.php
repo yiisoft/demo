@@ -26,7 +26,7 @@ if (!empty($errors)) {
 <div class="row">
 <div class="mb3 form-group">
   <label for="date" class="form-label" style="background:lightblue"><?= $s->trans('date'); ?>  </label>
-<?php $date = $body['date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
 <label for="note" class="form-label" style="background:lightblue"><?= $s->trans('note'); ?></label>
    <?= Html::encode($body['note'] ?? ''); ?>

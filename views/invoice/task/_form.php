@@ -71,10 +71,10 @@ if (!empty($errors)) {
  <div class="mb-3 form-group has-feedback">
         <?php
             $fdate = $body['task_finish_date'] ?? null;
-            $datehelper = new DateHelper();
+            $datehelper = new DateHelper($s);
             if ($fdate && $fdate !== "0000-00-00") {
                 //use the DateHelper
-                $fdate = $datehelper->date_from_mysql($fdate, false, $s);
+                $fdate = $datehelper->date_from_mysql($fdate);
             } else {
                 $fdate = null;
             }

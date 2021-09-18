@@ -34,8 +34,8 @@ if (!empty($errors)) {
             $date_added = $body['date_added'] ?? null;
             if ($date_added && $date_added != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $date_added = $datehelper->date_from_mysql($date_added, false, $s);
+                $datehelper = new DateHelper($s);
+                $date_added = $datehelper->date_from_mysql($date_added);
             } else {
                 $date_added = null;
             }
@@ -76,8 +76,8 @@ if (!empty($errors)) {
             $date = $body['date'] ?? null;
             if ($date && $date != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $date = $datehelper->date_from_mysql($date, false, $s);
+                $datehelper = new DateHelper($s);
+                $date = $datehelper->date_from_mysql($date);
             } else {
                 $date = null;
             }

@@ -51,9 +51,9 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['observations'] ??  ''); ?>">
  </div>
  <div class="mb-3 form-group has-feedback"><?php  $tdate = $body['treatmentstart'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($tdate && $tdate !== "0000-00-00") { 
-    $tdate = $datehelper->date_from_mysql($tdate, false, $s); 
+    $tdate = $datehelper->date_from_mysql($tdate); 
 } else { 
     $tdate = null; } 
 ?>
@@ -67,9 +67,9 @@ if ($tdate && $tdate !== "0000-00-00") {
  </span> 
 </div>
 </div>   <div class="mb-3 form-group has-feedback"><?php  $edate = $body['treatmentend'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($edate && $edate !== "0000-00-00") { 
-    $edate = $datehelper->date_from_mysql($edate, false, $s); 
+    $edate = $datehelper->date_from_mysql($edate); 
 } else { 
     $edate = null; 
 } 
@@ -85,9 +85,9 @@ if ($edate && $edate !== "0000-00-00") {
  </span> 
 </div>
 </div>   <div class="mb-3 form-group has-feedback"><?php  $cdate = $body['casedate'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($cdate && $cdate !== "0000-00-00") { 
-    $cdate = $datehelper->date_from_mysql($cdate, false, $s); 
+    $cdate = $datehelper->date_from_mysql($cdate); 
 } else { 
     $cdate = null; 
 } 

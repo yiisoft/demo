@@ -46,8 +46,8 @@ if (!empty($errors)) {
         $tdate = $body['treatmentstart'];
         if ($tdate && $tdate != "0000-00-00") {
                 //use the DateHelper
-            $datehelper = new DateHelper();
-            $tdate = $datehelper->date_from_mysql($tdate, false, $s);
+            $datehelper = new DateHelper($s);
+            $tdate = $datehelper->date_from_mysql($tdate);
         } else {
             $tdate = null;
         }
@@ -60,8 +60,8 @@ if (!empty($errors)) {
         $edate = $body['treatmentend'];
         if ($edate && $edate != "0000-00-00") {
                 //use the DateHelper
-            $datehelper = new DateHelper();
-            $edate = $datehelper->date_from_mysql($edate, false, $s);
+            $datehelper = new DateHelper($s);
+            $edate = $datehelper->date_from_mysql($edate);
         } else {
             $edate = null;
         }
@@ -74,8 +74,8 @@ if (!empty($errors)) {
         $cdate = $body['casedate'];
         if ($cdate && $cdate != "0000-00-00") {
                 //use the DateHelper
-            $datehelper = new DateHelper();
-            $cdate = $datehelper->date_from_mysql($cdate, false, $s);
+            $datehelper = new DateHelper($s);
+            $cdate = $datehelper->date_from_mysql($cdate);
         } else {
             $cdate = null;
         }

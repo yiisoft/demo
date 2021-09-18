@@ -65,4 +65,3 @@ echo Carousel::widget()
         </div>
     </div>
 </div>
-<?= var_dump($cookies);?>

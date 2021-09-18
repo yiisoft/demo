@@ -3,13 +3,28 @@ declare(strict_types=1);
 
 namespace App\Invoice\Helpers;
 
-use App\Invoice\Setting\SettingRepository;
+use App\Invoice\Setting\SettingRepository as SRepo;
 
-Use  \DateTime;
+Use \DateTime;
 
 Class DateHelper
 {
+
+private SRepo $s;
     
+public function __construct(SRepo $s)
+{
+    $this->s = $s;
+}
+
+public function style()
+{
+    $this->s->load_settings();    
+    $format = $this->s->setting('date_format');
+    $formats = $this->date_formats();
+    return $formats[$format]['setting'];
+}
+
 public function date_formats()
 {
     return [
@@ -64,61 +79,42 @@ public function date_formats()
     ];
 }
 
-public function date_from_mysql($date, $ignore_post_check = false,SettingRepository $s)
+public function date_from_mysql($datetimeimmutable)
 {
-    if ($date <> '0000-00-00') {
-        if (!$_POST or $ignore_post_check) {
-            $date = DateTime::createFromImmutable($date );
-            //$date = DateTime::createFromFormat('Y-m-d', $date);
-            return $date->format($s->setting('date_format'));
-        }
-        return $date;
+    return DateTime::createFromImmutable($datetimeimmutable)->format($this->style());    
+}
+
+public function date_from_timestamp($timestamp)
+{
+    return DateTime::setTimestamp($timestamp)->format($this->style());
+}
+
+public function date_to_mysql($date)
+{
+    return DateTime::createFromFormat($this->style(), $date);
+}
+
+public function is_date($date)
+{
+    $d = DateTime::createFromFormat($this->style(), $date);
+    return $d && $d->format($this->style()) == $date;
+}
+
+function date_format_datepicker()
+{
+    $date_formats = $this->date_formats();    
+    if (empty($this->style())){
+        return $date_formats['d-m-Y']['datepicker'];
+    } else
+    {
+        return $date_formats[$this->style()]['datepicker'];
     }
-    return '';
 }
 
-public function date_from_timestamp($timestamp,SettingRepository $s)
+public function increment_user_date($date, $increment)
 {
-    $date = new DateTime();
-    $date->setTimestamp($timestamp);
-    return $date->format($s->setting('date_format'));
-}
-
-public function date_to_mysql($date,SettingRepository $s)
-{
-   $date = DateTime::createFromFormat($s->setting('date_format'), $date);
-   return $date;
-}
-
-
-public function is_date($date,SettingRepository $s)
-{
-    $format = $s->setting('date_format');
-    $d = DateTime::createFromFormat($format, $date);
-    return $d && $d->format($format) == $date;
-}
-
-public function date_format_setting(SettingRepository $s)
-{
-    $date_format = $s->setting('date_format');
-
-    $date_formats = $this->date_formats();
-
-    return $date_formats[$date_format]['setting'];
-}
-
-function date_format_datepicker(SettingRepository $s)
-{
-    $date_format = $s->setting('date_format');
+    $s->load_settings();
     
-    $date_formats = $this->date_formats();
-    
-    if (empty($date_format)){return $date_formats['d-m-Y']['datepicker'];}
-    if (!empty($date_format)){return $date_formats[$date_format]['datepicker'];}
-}
-
-public function increment_user_date($date, $increment,SettingRepository $s)
-{
     $mysql_date = $this->date_to_mysql($date);
 
     $new_date = new DateTime($mysql_date);

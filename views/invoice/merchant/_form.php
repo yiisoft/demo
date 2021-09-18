@@ -47,9 +47,9 @@ if (!empty($errors)) {
    <input type="checkbox" name="successful" id="successful" value="1" <?php $s->check_select(Html::encode($body['successful'] ??'' ), 1, '==', true) ?>>
  </div>
  <div class="mb-3 form-group has-feedback"> <?php  $date = $body['date'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 

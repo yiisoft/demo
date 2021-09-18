@@ -46,9 +46,9 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['id'] ??  ''); ?>">
  </div>
  <div class="mb-3 form-group has-feedback"> <?php  $date = $body['start_date'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 
@@ -62,9 +62,9 @@ if ($date && $date !== "0000-00-00") {
  </span> 
 </div>
 </div>   <div class="mb-3 form-group has-feedback"> <?php  $date = $body['end_date'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 
@@ -83,9 +83,9 @@ if ($date && $date !== "0000-00-00") {
  value="<?= Html::encode($body['frequency'] ??  ''); ?>">
  </div>
  <div class="mb-3 form-group has-feedback"> <?php  $date = $body['next_date'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 

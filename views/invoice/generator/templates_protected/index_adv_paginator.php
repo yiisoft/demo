@@ -14,26 +14,8 @@ use App\Widget\OffsetPagination;
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\Session\Flash\FlashInterface $flash 
  */
-
-?>
-<?php 
-  $inf = new Inflector();
-  echo '<div>'."\n";
-  echo ' <h5>'.$inf->toSentence($generator->getPre_entity_table(),'UTF-8').'</h5>'."\n";
-  echo ' <a class="btn btn-success" href="<?= $urlGenerator->generate('."'".$generator->getSmall_singular_name()."'"."/add'); ?>".'">'."\n";
-  echo '      <i class="fa fa-plus"></i> <?= $s->trans('."'new'".'); ?>';
-  echo ' </a>';
-  echo '</div>'."\n";
-?>
-
-<?php   
-  echo "<?php\n"; 
-  echo '$pagination = OffsetPagination::widget()'."\n"; 
-  echo '->paginator($paginator)'."\n"; 
-  echo '->urlGenerator(fn ($page) => $urlGenerator->generate('."'".$generator->getSmall_singular_name().'/index'."'".', ['."'".'page'."'".' => $page]));';
-?>
-
-        $danger = $flash->get('danger');
+ 
+ $danger = $flash->get('danger');
         if ($danger != null) {
             $alert =  Alert::widget()
             ->body($danger)
@@ -57,6 +39,25 @@ use App\Widget\OffsetPagination;
             ->render();
             echo $alert;
         }
+?>
+<?php 
+  $inf = new Inflector();
+  echo '<div>'."\n";
+  echo ' <h5>'.$inf->toSentence($generator->getPre_entity_table(),'UTF-8').'</h5>'."\n";
+  echo ' <a class="btn btn-success" href="<?= $urlGenerator->generate('."'".$generator->getSmall_singular_name()."'"."/add'); ?>".'">'."\n";
+  echo '      <i class="fa fa-plus"></i> <?= $s->trans('."'new'".'); ?>';
+  echo ' </a>';
+  echo '</div>'."\n";
+?>
+
+<?php   
+  echo "<?php\n"; 
+  echo '$pagination = OffsetPagination::widget()'."\n"; 
+  echo '->paginator($paginator)'."\n"; 
+  echo '->urlGenerator(fn ($page) => $urlGenerator->generate('."'".$generator->getSmall_singular_name().'/index'."'".', ['."'".'page'."'".' => $page]));';
+?>
+
+        
         
 <?php   
         echo "\n";  

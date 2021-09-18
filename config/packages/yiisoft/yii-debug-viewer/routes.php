@@ -10,6 +10,8 @@ use Yiisoft\Router\Route;
 use Yiisoft\Yii\Debug\Viewer\IndexController;
 use Yiisoft\Yii\Debug\Viewer\Panels\ConfigController;
 use Yiisoft\Yii\Debug\Viewer\Panels\Info\PanelInfoController;
+use Yiisoft\Yii\Debug\Viewer\Panels\Middlewares\PanelMiddlewaresController;
+use Yiisoft\Yii\Debug\Viewer\Panels\Request\PanelRequestController;
 use Yiisoft\Yii\Debug\Viewer\Panels\Routes\PanelRoutesController;
 use Yiisoft\Yii\Debug\Viewer\Panels\Logs\PanelLogsController;
 use Yiisoft\Yii\Debug\Viewer\Panels\Events\PanelEventsController;
@@ -42,6 +44,12 @@ return [
                 ->name('debug/panels/events'),
             Route::get('/services')
                 ->action([PanelServicesController::class, 'view'])
-                ->name('debug/panels/services')
+                ->name('debug/panels/services'),
+            Route::get('/middlewares')
+                ->action([PanelMiddlewaresController::class, 'view'])
+                ->name('debug/panels/middlewares'),
+            Route::get('/request')
+                ->action([PanelRequestController::class, 'view'])
+                ->name('debug/panels/request')
         ),
 ];

@@ -21,6 +21,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use \Exception;
 
 final class ProductController
 {
@@ -138,7 +139,7 @@ final class ProductController
             return $this->webService->getRedirectResponse('product/index');   
 	} catch (Exception $e) {
             unset($e);
-            $this->flash($session, 'danger', 'Cannot delete. Product history exists.');
+            $this->flash($session, 'danger', 'Cannot delete. This product is on an invoice or quote.');
             return $this->webService->getRedirectResponse('product/index');   
         }
     }

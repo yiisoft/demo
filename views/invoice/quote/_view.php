@@ -26,14 +26,14 @@ if (!empty($errors)) {
 <div class="row">
 <div class="mb3 form-group">
   <label for="date_created" class="form-label" style="background:lightblue"><?= $s->trans('date_created'); ?>  </label>
-<?php $date = $body['date_created']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['date_created']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
 <label for="date_modified" class="form-label" style="background:lightblue">Date Modified</label>
-   <?php $date = $body['date_modified']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+   <?php $date = $body['date_modified']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  </div>
 <div class="mb3 form-group">
   <label for="date_expires" class="form-label" style="background:lightblue">Date Expires</label>
-<?php $date = $body['date_expires']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['date_expires']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
 <label for="number" class="form-label" style="background:lightblue">Number</label>
    <?= Html::encode($body['number'] ?? ''); ?>

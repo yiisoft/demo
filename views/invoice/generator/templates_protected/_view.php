@@ -47,8 +47,8 @@ if (!empty($errors)) {
           echo '  </label>'."\n";
           echo '<?php $date = $body['."'".$column->getName()."'".'];';
           echo ' if ($date && $date != "0000-00-00") {';
-          echo '    $datehelper = new DateHelper();';
-          echo '  $date = $datehelper->date_from_mysql($date, false, $s);';
+          echo '    $datehelper = new DateHelper($s);';
+          echo '  $date = $datehelper->date_from_mysql($date);';
           echo '} else {';
           echo '  $date = null;';
           echo '}';

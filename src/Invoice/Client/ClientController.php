@@ -25,7 +25,7 @@ use \Exception;
 
 final class ClientController
 {
-    private const CLIENTS_PER_PAGE = 1; 
+    private const CLIENTS_PER_PAGE = 5; 
     private ViewRenderer $viewRenderer;
     private WebControllerService $webService;
     private ClientService $clientService;

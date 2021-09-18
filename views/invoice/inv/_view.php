@@ -34,8 +34,8 @@ if (!empty($errors)) {
             $date_created = $body['date_created'];
             if ($date_created && $date_created != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $date_created = $datehelper->date_from_mysql($date_created, false, $s);
+                $datehelper = new DateHelper($s);
+                $date_created = $datehelper->date_from_mysql($date_created);
             } else {
                 $date_created = null;
             }
@@ -48,8 +48,8 @@ if (!empty($errors)) {
             $date_due = $body['date_due'];
             if ($date_due && $date_due != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $date_due = $datehelper->date_from_mysql($date_due, false, $s);
+                $datehelper = new DateHelper($s);
+                $date_due = $datehelper->date_from_mysql($date_due);
             } else {
                 $date_due = null;
             }

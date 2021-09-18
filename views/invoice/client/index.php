@@ -28,8 +28,8 @@ use Yiisoft\Html\Html;
         </a>
     </div>
 </div>
-<div id="content" class="table-content">
-    <?php
+<div>
+     <?php
         $danger = $flash->get('danger');
         if ($danger != null) {
             $alert =  Alert::widget()
@@ -61,6 +61,8 @@ use Yiisoft\Html\Html;
             echo $alert;
         }
     ?>
+</div>
+<div id="content" class="table-content">
     <?php 
                 if ($pagination->isRequired()) {
                    echo $pagination;
@@ -107,18 +109,18 @@ use Yiisoft\Html\Html;
                             </li>
                             <li>
                                 <a href="<?= $urlGenerator->generate('quote/add'); ?>" class="client-create-quote" data-client-id="<?= $client->id; ?>" style="text-decoration:none">
-                                    <i class="fa fa-file fa-margin"></i> <?= $s->trans('create_quote'); ?>
+                                    <i class="fa fa-file fa-margin"></i><?= $s->trans('create_quote'); ?>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= $urlGenerator->generate('inv/add'); ?>" class="client-create-invoice" style="text-decoration:none"
                                     data-client-id="<?= $client->id; ?>">
-                                    <i class="fa fa-file-text fa-margin"></i> <?= $s->trans('create_invoice'); ?>
+                                    <i class="fa fa-file-text fa-margin"></i><?= $s->trans('create_invoice'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $urlGenerator->generate('client/delete',['id' => $client->id]); ?>" class="client-create-invoice" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
-                                      <i class="fa fa-trash fa-margin"></i> <?= $s->trans('delete'); ?>                                    
+                                <a href="<?= $urlGenerator->generate('client/delete',['id' => $client->id]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
+                                    <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
                                 </a>
                             </li>
                         </ul>
@@ -141,4 +143,5 @@ use Yiisoft\Html\Html;
         }
     ?>
         
+</div>
 </div>

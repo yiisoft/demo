@@ -86,9 +86,9 @@ if (!empty($errors)) {
     </select>
  </div> 
  <div class="mb-3 form-group has-feedback"> <label form-label for="date_added"><?= $s->trans('date_created'); ?></label><?php  $date_add = $body['date_added'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date_add && $date_add !== "0000-00-00") { 
-    $date_add = $datehelper->date_from_mysql($date_add, false, $s); 
+    $date_add = $datehelper->date_from_mysql($date_add); 
 } else { 
     $date_add = null; 
 } 
@@ -144,9 +144,9 @@ if ($date_add && $date_add !== "0000-00-00") {
  value="<?= Html::encode($body['product_unit'] ??  ''); ?>">
  </div>
  <div class="mb-3 form-group has-feedback"> <label form-label for="date"><?= $s->trans('date'); ?></label><?php  $ddate = $body['date'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($ddate && $ddate !== "0000-00-00") { 
-    $ddate = $datehelper->date_from_mysql($ddate, false, $s); 
+    $ddate = $datehelper->date_from_mysql($ddate); 
 } else { 
     $ddate = null; 
 } 

@@ -16,7 +16,7 @@ use Yiisoft\Yii\Cycle\Exception\SchemaWasNotProvidedException;
 use Yiisoft\Yii\Cycle\Factory\CycleDynamicFactory;
 use Yiisoft\Yii\Cycle\Factory\DbalFactory;
 use Yiisoft\Yii\Cycle\Factory\OrmFactory;
-use Yiisoft\Yii\Cycle\Schema\Conveyor\AnnotatedSchemaConveyor;
+use Yiisoft\Yii\Cycle\Schema\Conveyor\CompositeSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline;
 use Yiisoft\Yii\Cycle\Schema\SchemaConveyorInterface;
 use Yiisoft\Yii\Cycle\Schema\SchemaProviderInterface;
@@ -42,8 +42,7 @@ return [
         return new Factory(
             $container->get(DatabaseManager::class),
             null,
-            $container->get(SpiralFactoryInterface::class),
-            $container
+            $container->get(SpiralFactoryInterface::class)
         );
     },
     // Schema provider
@@ -58,10 +57,16 @@ return [
         }
         return new Schema($schema);
     },
-    // Annotated Schema Conveyor
+    // Schema Conveyor
     SchemaConveyorInterface::class => static function (ContainerInterface $container) use (&$params) {
-        $conveyor = new AnnotatedSchemaConveyor($container);
-        $conveyor->addEntityPaths($params['yiisoft/yii-cycle']['annotated-entity-paths']);
+        /** @var SchemaConveyorInterface $conveyor */
+        $conveyor = $container->get($params['yiisoft/yii-cycle']['conveyor'] ?? CompositeSchemaConveyor::class);
+        if (array_key_exists('annotated-entity-paths', $params['yiisoft/yii-cycle'])) {
+            $conveyor->addEntityPaths($params['yiisoft/yii-cycle']['annotated-entity-paths']);
+        }
+        if (array_key_exists('entity-paths', $params['yiisoft/yii-cycle'])) {
+            $conveyor->addEntityPaths($params['yiisoft/yii-cycle']['entity-paths']);
+        }
         return $conveyor;
     },
 ];

@@ -58,9 +58,9 @@ if (!empty($errors)) {
  </div>
  
  <?php  $date = $body['date_created'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 

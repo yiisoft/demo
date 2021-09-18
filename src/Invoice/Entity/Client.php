@@ -17,9 +17,7 @@ use DateTimeImmutable;
  
  class Client
  {
-       
-       
-        /**
+    /**
      * @Column(type="primary")
      */
      public ?int $id =  null;

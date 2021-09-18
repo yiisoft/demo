@@ -105,19 +105,19 @@ use Yiisoft\Html\Html;
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?= $urlGenerator->generate('product/edit',['product_id'=>$product->id]); ?>">
+                                    <a href="<?= $urlGenerator->generate('product/view',['product_id'=>$product->id]); ?>" style="text-decoration:none">
+                                        <i class="fa fa-eye fa-margin"></i> <?= $s->trans('view'); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= $urlGenerator->generate('product/edit',['product_id'=>$product->id]); ?>" style="text-decoration:none">
                                         <i class="fa fa-edit fa-margin"></i> <?= $s->trans('edit'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <form action="<?= $urlGenerator->generate('product/delete',['product_id'=>$product->id]); ?>"
-                                          method="POST">
-                                        <?php $csrf; ?>
-                                        <button type="submit" class="dropdown-button"
-                                                onclick="return confirm('<?= $s->trans('delete_record_warning'); ?>');">
-                                            <i class="fa fa-trash fa-margin"></i> <?= $s->trans('delete'); ?>
-                                        </button>
-                                    </form>
+                                    <a href="<?= $urlGenerator->generate('product/delete',['product_id' =>$product->id]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_record_warning'); ?>');">
+                                        <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
+                                    </a>
                                 </li>
                             </ul>
                         </div>

@@ -1,0 +1,8 @@
+How to get ready for php 8 - Sebastian Bergmann - refers to the following useful websites.
+https://www.youtube.com/watch?v=RjiOKgmqosQ                 
+https://secure.php.net/supported-versions.php
+https://thephp.cc/welcome
+https://vimeo.psalm
+https://roave/you-are-using-it-wrong
+https://thephp.cc/dates/2019/10/international-php-conference/the-future-comes-preloaded
+

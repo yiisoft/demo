@@ -69,9 +69,9 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['id'] ??  ''); ?>">
  </div>
  <div class="mb-3 form-group has-feedback"> <?php  $date = $body['date_created'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 
@@ -87,17 +87,17 @@ if ($date && $date !== "0000-00-00") {
 </div>
 </div>   
 <div class="mb-3 form-group has-feedback"> <?php  $date = $body['date_modified'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 
 ?> 
 <div class="mb-3 form-group has-feedback"> <?php  $date = $body['date_expires'] ?? null; 
-$datehelper = new DateHelper(); 
+$datehelper = new DateHelper($s); 
 if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date, false, $s); 
+    $date = $datehelper->date_from_mysql($date); 
 } else { 
     $date = null; 
 } 

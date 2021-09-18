@@ -46,8 +46,8 @@ if (!empty($errors)) {
             $fdate = $body['task_finish_date'] ?? null;
             if ($fdate && $fdate != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $fdate = $datehelper->date_from_mysql($fdate, false, $s);
+                $datehelper = new DateHelper($s);
+                $fdate = $datehelper->date_from_mysql($fdate);
             } else {
                 $fdate = null;
             }

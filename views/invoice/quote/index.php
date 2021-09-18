@@ -22,10 +22,9 @@ use App\Invoice\Helpers\DateHelper;
         </a>
     </div>
 </div>
-
-<?php
-$pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn ($page) => $urlGenerator->generate('quote/index', ['page' => $page]));
-
+<div>
+<br>
+<?php 
         $danger = $flash->get('danger');
         if ($danger != null) {
             $alert =  Alert::widget()
@@ -50,6 +49,11 @@ $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn
             ->render();
             echo $alert;
         }
+?>        
+</div>
+<div>
+<?php
+  $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn ($page) => $urlGenerator->generate('quote/index', ['page' => $page]));
 ?>
 
 <?php
@@ -57,8 +61,7 @@ $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn
        echo $pagination;
     }
 ?>
- 
-                
+</div>                 
 <div class="table-responsive">
 <table class="table table-hover table-striped">
    <thead>
@@ -77,14 +80,16 @@ $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn
         <td><?= Html::encode($quote->getStatus_id()); ?></td> 
         <td><?= Html::encode($quote->getNumber()); ?></td>
         <?php  $date = $quote->getDate_created() ?? null; 
-               $datehelper = new DateHelper(); 
                if ($date && $date !== "0000-00-00") { 
-                   $date = $datehelper->date_from_mysql($date, false, $s); 
+                   //use the DateHelper
+                   $datehelper = new DateHelper($s); 
+                   $qdate = $datehelper->date_from_mysql($date); 
                } else { 
-                   $date = null; 
+                   $qdate = null; 
                }
         ?>      
-        <td><?= Html::encode($date); ?></td>
+        <td><?= Html::encode($qdate); ?></td>
+        
         <td><?= Html::encode($quote->getClient()->client_name); ?></td>
 
         <td>
@@ -95,19 +100,20 @@ $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn
           </a>
           <ul class="dropdown-menu">
               <li>
-                  <a href="<?= $urlGenerator->generate('quote/edit',['id'=>$quote->id]); ?>">                       <i class="fa fa-edit fa-margin"></i>
+                  <a href="<?= $urlGenerator->generate('quote/view',['id'=>$quote->id]); ?>" style="text-decoration:none"><i class="fa fa-eye fa-margin"></i>
+                       <?= $s->trans('view'); ?>
+                  </a>
+              </li>
+              <li>
+                  <a href="<?= $urlGenerator->generate('quote/edit',['id'=>$quote->id]); ?>" style="text-decoration:none"><i class="fa fa-edit fa-margin"></i>
                        <?= $s->trans('edit'); ?>
                   </a>
               </li>
               <li>
-                  <form action="<?= $urlGenerator->generate('quote/delete',['id'=>$quote->id]); ?>"  method="POST">
-                      <?php $csrf; ?>
-                      <button type="submit" class="dropdown-button" onclick="return confirm('<?= $s->trans('delete_record_warning');?>');">
-                       <i class="fa fa-trash fa-margin"></i>
-                       <?= $s->trans('delete'); ?>
-                      </button>
-                  </form>
-               </li>
+                  <a href="<?= $urlGenerator->generate('quote/delete',['id' => $quote->id]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
+                       <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
+                  </a>
+              </li>
           </ul>
           </div>
          </td>
@@ -126,5 +132,4 @@ $pagination = OffsetPagination::widget()->paginator($paginator)->urlGenerator(fn
       echo Html::p('No records');
     }
 ?>
-</div>
 </div>

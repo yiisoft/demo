@@ -71,9 +71,9 @@ if (!empty($errors)) {
             echo ' <div class="mb-3 form-group has-feedback">';
             echo ' <?php '; 
             echo ' $date = $body['."'".$column->getName()."'".'] ?? null; '."\n";
-            echo '$datehelper = new DateHelper(); '."\n";
+            echo '$datehelper = new DateHelper($s); '."\n";
             echo 'if ($date && $date !== "0000-00-00") { '."\n";
-            echo '    $date = $datehelper->date_from_mysql($date, false, $s); '."\n";
+            echo '    $date = $datehelper->date_from_mysql($date); '."\n";
             echo '} else { '."\n";
             echo '    $date = null; '."\n";
             echo '} '."\n";

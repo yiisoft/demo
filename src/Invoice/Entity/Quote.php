@@ -155,14 +155,14 @@ use App\Invoice\Setting\SettingRepository;
          $this->client_id=$client_id;
          $this->group_id=$group_id;
          $this->status_id=$status_id;
-         $this->date_created=$date_created;
          $this->date_expires=$date_expires;
          $this->number=$number;
          $this->discount_amount=$discount_amount;
          $this->discount_percent=$discount_percent;
          $this->url_key=$url_key;
          $this->password=$password;
-         $this->notes=$notes;         
+         $this->notes=$notes;
+         $this->date_created=new DateTimeImmutable();
          $this->date_modified= new DateTimeImmutable();
      }
     

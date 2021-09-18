@@ -120,8 +120,8 @@ use App\Invoice\Helpers\DateHelper;
             $bdate = $body['client_birthdate'] ?? null;
             if ($bdate && $bdate != "0000-00-00") {
                 //use the DateHelper
-                $datehelper = new DateHelper();
-                $bdate = $datehelper->date_from_mysql($bdate, false, $s);
+                $datehelper = new DateHelper($s);
+                $bdate = $datehelper->date_from_mysql($bdate);
             } else {
                 $bdate = null;
             }

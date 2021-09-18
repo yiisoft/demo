@@ -26,17 +26,17 @@ if (!empty($errors)) {
 <div class="row">
 <div class="mb3 form-group">
   <label for="start_date" class="form-label" style="background:lightblue"><?= $s->trans('start_date'); ?>  </label>
-<?php $date = $body['start_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['start_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
 <div class="mb3 form-group">
   <label for="end_date" class="form-label" style="background:lightblue"><?= $s->trans('end_date'); ?>  </label>
-<?php $date = $body['end_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['end_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
 <label for="frequency" class="form-label" style="background:lightblue">Frequency</label>
    <?= Html::encode($body['frequency'] ?? ''); ?>
  </div>
 <div class="mb3 form-group">
   <label for="next_date" class="form-label" style="background:lightblue"><?= $s->trans('next_date'); ?>  </label>
-<?php $date = $body['next_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper();  $date = $datehelper->date_from_mysql($date, false, $s);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+<?php $date = $body['next_date']; if ($date && $date != "0000-00-00") {    $datehelper = new DateHelper($s);  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
    <label for="inv_id" class="form-label" style="background:lightblue"><?= $s->trans('inv'); ?></label>
    <?= $recurring->getInv()->number;?>

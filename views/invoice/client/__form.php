@@ -193,10 +193,10 @@ if (!empty($errors)) {
         
         <?php
             $bdate = $body['client_birthdate'] ?? null;
-            $datehelper = new DateHelper();
+            $datehelper = new DateHelper($s);
             if ($bdate && $bdate !== "0000-00-00") {
                 //use the DateHelper
-                $bdate = $datehelper->date_from_mysql($bdate, false, $s);
+                $bdate = $datehelper->date_from_mysql($bdate);
             } else {
                 $bdate = null;
             }

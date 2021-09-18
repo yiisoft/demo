@@ -30,7 +30,7 @@ final class QuoteController
     private WebControllerService $webService;
     private UserService $userService;
     private QuoteService $quoteService;
-    private const QUOTES_PER_PAGE = 1;
+    private const QUOTES_PER_PAGE = 5;
     
     public function __construct(
         ViewRenderer $viewRenderer,
@@ -147,7 +147,7 @@ final class QuoteController
             'body' => $this->body($this->quote($request, $quoteRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-                        'invs'=>$invRepository->findAllPreloaded(),
+            'invs'=>$invRepository->findAllPreloaded(),
             'clients'=>$clientRepository->findAllPreloaded(),
             'groups'=>$groupRepository->findAllPreloaded(),
             'users'=>$userRepository->findAll()
@@ -156,7 +156,7 @@ final class QuoteController
             $form = new QuoteForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-               $this->quoteService->saveQuote($this->userService->getUser(),new Quote(),$form,$settingRepository);
+               $this->quoteService->saveQuote($this->userService->getUser(),$this->quote($request, $quoteRepository),$form,$settingRepository);
                 return $this->webService->getRedirectResponse('quote/index');
             }
             $parameters['body'] = $body;
@@ -169,11 +169,12 @@ final class QuoteController
     ): Response {
         $this->rbac($session);
         try {
-            $this->quoteService->deleteQuote($this->quote($request,$quoteRepository));               
+            $this->quoteService->deleteQuote($this->quote($request,$quoteRepository)); 
+            $this->flash($session, 'info', 'Deleted.');
             return $this->webService->getRedirectResponse('quote/index'); 
 	} catch (Exception $e) {
-            //unset($e);
-            $this->flash($session, 'danger', $e);
+            unset($e);
+            $this->flash($session, 'danger', 'Cannot delete.');
             return $this->webService->getRedirectResponse('quote/index'); 
         }
     }
@@ -224,7 +225,6 @@ final class QuoteController
     
     private function body($quote) {
         $body = [
-                
           'id'=>$quote->getId(),
           'inv_id'=>$quote->getInv_id(),
           'user_id'=>$quote->getUser_id(),

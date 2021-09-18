@@ -34,8 +34,8 @@ if (!empty($errors)) {
         $date = $body['date'];
         if ($date && $date != "0000-00-00") {
                 //use the DateHelper
-            $datehelper = new DateHelper();
-            $date = $datehelper->date_from_mysql($date, false, $s);
+            $datehelper = new DateHelper($s);
+            $date = $datehelper->date_from_mysql($date);
         } else {
             $date = null;
         }
