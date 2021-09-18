@@ -91,13 +91,14 @@ echo NavBar::end();
 <main class="container py-4"><?= $content ?></main>
 
 <footer class="container py-4">
-    <?= LanguageSelector::widget(); ?>
+    <?= LanguageSelector::widget() ?>
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php
-  $this->endBody();
+
+$this->endBody();
 ?>
 </body>
 </html>
 <?php
-  $this->endPage(true);
+$this->endPage(true);
