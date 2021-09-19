@@ -58,6 +58,7 @@ final class LocaleMiddleware implements MiddlewareInterface
         if ($this->locales === []) {
             return $handler->handle($request);
         }
+        $this->urlGenerator->setLocales($this->locales);
 
         $uri = $request->getUri();
         $path = $uri->getPath();

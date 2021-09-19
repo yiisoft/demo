@@ -94,11 +94,11 @@ echo Nav::widget()
             ['label' => 'Language', 'url' => '#', 'items' => [
                 [
                     'label' => $translator->translate('layout.language.english'),
-                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'en']),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_locale' => 'en']),
                 ],
                 [
                     'label' => $translator->translate('layout.language.russian'),
-                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'ru']),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_locale' => 'ru']),
                 ],
             ]]
         ]
