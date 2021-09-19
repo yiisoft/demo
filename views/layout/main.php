@@ -91,7 +91,7 @@ echo Nav::widget()
             ? [
             ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
             ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
-            ['label' => 'Language', 'url' => '#', 'items' => [
+            ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
                 [
                     'label' => $translator->translate('layout.language.english'),
                     'url' => $urlGenerator->generate($currentRouteName, ['_locale' => 'en']),
