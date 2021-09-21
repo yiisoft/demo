@@ -162,48 +162,49 @@ final class LocaleMiddleware implements MiddlewareInterface
     {
         if (strpos($locale, '-') !== false) {
             return explode('-', $locale, 2);
-        } elseif (isset($this->locales[$locale]) && strpos($this->locales[$locale], '-') !== false) {
+        }
+        if (isset($this->locales[$locale]) && strpos($this->locales[$locale], '-') !== false) {
             return explode('-', $this->locales[$locale], 2);
         }
         return [$locale, null];
     }
 
-    public function withLocales(array $locales): LocaleMiddleware
+    public function withLocales(array $locales): self
     {
         $new = clone $this;
         $new->locales = $locales;
         return $new;
     }
 
-    public function withDefaultLocale(string $defaultLocale): LocaleMiddleware
+    public function withDefaultLocale(string $defaultLocale): self
     {
         $new = clone $this;
         $new->defaultLocale = $defaultLocale;
         return $new;
     }
 
-    public function withQueryParameterName(string $queryParameterName): LocaleMiddleware
+    public function withQueryParameterName(string $queryParameterName): self
     {
         $new = clone $this;
         $new->queryParameterName = $queryParameterName;
         return $new;
     }
 
-    public function withSessionName(string $sessionName): LocaleMiddleware
+    public function withSessionName(string $sessionName): self
     {
         $new = clone $this;
         $new->sessionName = $sessionName;
         return $new;
     }
 
-    public function withEnableSaveLocale(bool $enableSaveLocale): LocaleMiddleware
+    public function withEnableSaveLocale(bool $enableSaveLocale): self
     {
         $new = clone $this;
         $new->enableDetectLocale = $enableSaveLocale;
         return $new;
     }
 
-    public function withEnableDetectLocale(bool $enableDetectLocale): LocaleMiddleware
+    public function withEnableDetectLocale(bool $enableDetectLocale): self
     {
         $new = clone $this;
         $new->enableDetectLocale = $enableDetectLocale;
