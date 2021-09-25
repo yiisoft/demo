@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
 use App\Widget\LanguageSelector;
+use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 use Yiisoft\Strings\StringHelper;
@@ -80,9 +81,17 @@ echo Nav::widget()
         ]
             : [Form::widget()
                 ->action($urlGenerator->generate('site/logout'))
-                ->options(['csrf' => $csrf])
+                ->csrf($csrf)
                 ->begin()
-            . Html::submitButton($translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
+            . Field::widget()->submitButton(
+                [
+                    'class' => 'btn btn-primary',
+                    'value' => $translator->translate(
+                        'menu.logout ({login})',
+                        ['login' => Html::encode($user->getLogin())],
+                    ),
+                ],
+            )
             . Form::end()],
     );
 echo NavBar::end();
