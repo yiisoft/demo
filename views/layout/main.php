@@ -81,7 +81,7 @@ echo Nav::widget()
         ]
             : [Form::widget()
                 ->action($urlGenerator->generate('site/logout'))
-                ->attributes(['_csrf' => $csrf])
+                ->csrf($csrf)
                 ->begin()
             . Field::widget()->submitButton(
                 [
