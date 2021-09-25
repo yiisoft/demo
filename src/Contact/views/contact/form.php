@@ -27,8 +27,9 @@ $this->setTitle($translator->translate('menu.contact'));
 
     <?= Form::widget()
         ->action($url->generate('site/contact'))
-        ->attributes(['id' => 'form-contact', 'enctype' => 'multipart/form-data'])
+        ->attributes(['enctype' => 'multipart/form-data'])
         ->csrf($csrf)
+        ->id('form-contact')
         ->begin() ?>
 
     <?= $field->config($form, 'name') ?>
