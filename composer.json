@@ -102,7 +102,11 @@
     "scripts": {
         "serve": "./yii serve",
         "post-update-cmd": [
-            "App\\Installer::postUpdate"
+            "App\\Installer::postUpdate",
+            "App\\Installer::copyEnvFile"
+        ],
+        "post-create-project-cmd": [
+            "App\\Installer::copyEnvFile"
         ],
         "test": "phpunit --testdox --no-interaction",
         "test-watch": "phpunit-watcher watch"
