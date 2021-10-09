@@ -52,9 +52,9 @@ class User implements IdentityInterface
     private DateTimeImmutable $updated_at;
 
     /**
-     * @HasMany(target="App\Blog\Entity\Post")
+         * @HasMany(target="App\Blog\Entity\Post")
      *
-     * @var ArrayCollection|Post[]
+        * @var ArrayCollection|Post[]
      */
     private $posts;
 
