@@ -8,7 +8,7 @@ use Yiisoft\Html\Html;
 use Yiisoft\View\WebView;
 
 /**
- * @var string $csrf
+ * @var Yiisoft\Csrf\Csrf $csrf
  * @var \App\Contact\ContactForm $form
  * @var \Yiisoft\Router\UrlGeneratorInterface $url
  * @var \Yiisoft\Form\Widget\Field $field
@@ -28,9 +28,9 @@ $this->setTitle($translator->translate('menu.contact'));
     <?= Form::widget()
         ->action($url->generate('site/contact'))
         ->attributes(['enctype' => 'multipart/form-data'])
-        ->csrf($csrf)
         ->id('form-contact')
         ->begin() ?>
+    <?= $csrf->hiddenInput() ?>
 
     <?= $field->config($form, 'name') ?>
     <?= $field->config($form, 'email')->email() ?>
