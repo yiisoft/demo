@@ -42,7 +42,7 @@ class Post
     private string $slug;
 
     /**
-     * @Column(type="string(255)", default="")
+     * @Column(type="string(191)", default="")
      */
     private string $title = '';
 
