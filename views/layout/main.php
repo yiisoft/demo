@@ -95,11 +95,11 @@ echo Nav::widget()
             ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
                 [
                     'label' => $translator->translate('layout.language.english'),
-                    'url' => $urlGenerator->generate($currentRouteName, ['_locale' => 'en']),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'en']),
                 ],
                 [
                     'label' => $translator->translate('layout.language.russian'),
-                    'url' => $urlGenerator->generate($currentRouteName, ['_locale' => 'ru']),
+                    'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'ru']),
                 ],
             ]]
         ]
@@ -125,7 +125,6 @@ echo NavBar::end();
 <main class="container py-4"><?= $content ?></main>
 
 <footer class="container py-4">
-    <?= LanguageSelector::widget() ?>
     <?= PerformanceMetrics::widget() ?>
 </footer>
 <?php

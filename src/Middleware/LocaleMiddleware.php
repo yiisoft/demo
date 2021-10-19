@@ -21,7 +21,7 @@ use Yiisoft\Translator\TranslatorInterface;
 final class LocaleMiddleware implements MiddlewareInterface
 {
     private const DEFAULT_LOCALE = 'en';
-    private const DEFAULT_LOCALE_NAME = 'language';
+    private const DEFAULT_LOCALE_NAME = '_language';
 
     private TranslatorInterface $translator;
     private UrlGeneratorInterface $urlGenerator;
@@ -29,7 +29,7 @@ final class LocaleMiddleware implements MiddlewareInterface
     private ResponseFactoryInterface $responseFactory;
     private LoggerInterface $logger;
     private array $locales;
-    private bool $enableSaveLocale = false;
+    private bool $enableSaveLocale = true;
     private bool $enableDetectLocale = false;
     private string $defaultLocale = self::DEFAULT_LOCALE;
     private string $queryParameterName = self::DEFAULT_LOCALE_NAME;
@@ -59,6 +59,7 @@ final class LocaleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
         $this->urlGenerator->setLocales($this->locales);
+        $this->urlGenerator->setLocaleParameterName($this->queryParameterName);
 
         $uri = $request->getUri();
         $path = $uri->getPath();
