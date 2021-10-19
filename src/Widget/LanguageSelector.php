@@ -28,11 +28,9 @@ final class LanguageSelector extends Widget
     {
         $form = Form::widget()
             ->action($this->urlGenerator->generate('site/set-locale'))
-            ->method('POST')
-            ->options([
-                'id' => 'localeForm',
-                'csrf' => $this->csrfToken->getValue(),
-            ]);
+            ->csrf($this->csrfToken->getValue())
+            ->id('localeForm')
+            ->method('POST');
 
         $out = $form->begin();
 

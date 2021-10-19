@@ -13,7 +13,7 @@ return [
         'aliases' => [
             '@root' => dirname(__DIR__),
             '@assets' => '@root/public/assets',
-            '@assetsUrl' => '/assets',
+            '@assetsUrl' => '@baseUrl/assets',
             '@baseUrl' => '/',
             '@messages' => '@resources/messages',
             '@npm' => '@root/node_modules',

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
+use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
@@ -40,6 +42,10 @@ class AuthController
         ServerRequestInterface $request,
         IdentityRepositoryInterface $identityRepository
     ): ResponseInterface {
+        if (!$this->currentUser->isGuest()) {
+            return $this->redirectToMain();
+        }
+
         $body = $request->getParsedBody();
         $error = null;
 
@@ -47,7 +53,7 @@ class AuthController
             try {
                 foreach (['login', 'password'] as $name) {
                     if (empty($body[$name])) {
-                        throw new \InvalidArgumentException(ucfirst($name) . ' is required');
+                        throw new InvalidArgumentException(ucfirst($name) . ' is required');
                     }
                 }
 
@@ -55,19 +61,14 @@ class AuthController
                 $identity = $identityRepository->findByLogin($body['login']);
 
                 if ($identity === null || !$identity->validatePassword($body['password'])) {
-                    throw new \InvalidArgumentException('Invalid login or password');
+                    throw new InvalidArgumentException('Invalid login or password');
                 }
 
                 if ($this->currentUser->login($identity)) {
-                    return $this->responseFactory
-                        ->createResponse(302)
-                        ->withHeader(
-                            'Location',
-                            $this->urlGenerator->generate('site/index')
-                        );
+                    return $this->redirectToMain();
                 }
 
-                throw new \InvalidArgumentException('Unable to login');
+                throw new InvalidArgumentException('Unable to login');
             } catch (\Throwable $e) {
                 $this->logger->error($e);
                 $error = $e->getMessage();
@@ -87,8 +88,12 @@ class AuthController
     {
         $this->currentUser->logout();
 
-        return $this->responseFactory
-            ->createResponse(302)
+        return $this->redirectToMain();
+    }
+
+    private function redirectToMain(): ResponseInterface
+    {
+        return $this->responseFactory->createResponse(Status::FOUND)
             ->withHeader(
                 'Location',
                 $this->urlGenerator->generate('site/index')

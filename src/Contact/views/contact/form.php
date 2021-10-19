@@ -6,6 +6,7 @@ use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 use Yiisoft\View\WebView;
+
 /**
  * @var string $csrf
  * @var \App\Contact\ContactForm $form
@@ -14,6 +15,7 @@ use Yiisoft\View\WebView;
  * @var WebView $this
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  */
+
 $this->setTitle($translator->translate('menu.contact'));
 ?>
 
@@ -25,34 +27,29 @@ $this->setTitle($translator->translate('menu.contact'));
 
     <?= Form::widget()
         ->action($url->generate('site/contact'))
-        ->options(
-            [
-                'id' => 'form-contact',
-                'csrf' => $csrf,
-                'enctype' => 'multipart/form-data',
-            ]
-        )
+        ->attributes(['enctype' => 'multipart/form-data'])
+        ->csrf($csrf)
+        ->id('form-contact')
         ->begin() ?>
 
     <?= $field->config($form, 'name') ?>
-    <?= $field->config($form, 'email')->input('email') ?>
+    <?= $field->config($form, 'email')->email() ?>
     <?= $field->config($form, 'subject') ?>
     <?= $field->config($form, 'body')
         ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
     <?= $field->config($form, 'attachFiles')
-        ->inputCssClass('form-control')
-        ->fileInput(
+        ->inputClass('form-control')
+        ->file(
             ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
             true,
         ) ?>
-
-    <?= Html::submitButton(
-        'Submit',
+    <?= $field->submitButton(
         [
-            'class' => 'btn btn-primary mt-3',
-        ]
+            'class' => 'btn btn-primary btn-lg mt-3',
+            'id' => 'contact-button',
+            'value' => 'Submit'
+        ],
     ) ?>
 
     <?= Form::end() ?>
-
 </div>
