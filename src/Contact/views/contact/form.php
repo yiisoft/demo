@@ -8,7 +8,7 @@ use Yiisoft\Html\Html;
 use Yiisoft\View\WebView;
 
 /**
- * @var Yiisoft\Csrf\Csrf $csrf
+ * @var Yiisoft\Yii\View\Csrf $csrf
  * @var \App\Contact\ContactForm $form
  * @var \Yiisoft\Router\UrlGeneratorInterface $url
  * @var \Yiisoft\Form\Widget\Field $field
