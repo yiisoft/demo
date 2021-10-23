@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
  * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  * @var bool $isGuest
@@ -16,7 +17,7 @@ use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
-$this->setTitle('Blog');
+$this->setTitle($translator->translate('layout.blog'));
 $pagination = OffsetPagination::widget()
                               ->paginator($paginator)
                               ->urlGenerator(fn ($page) => $urlGenerator->generate('blog/index', ['page' => $page]));
@@ -28,11 +29,16 @@ $pagination = OffsetPagination::widget()
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::p(
-                sprintf('Showing %s out of %s posts', $pageSize, $paginator->getTotalItems()),
+                $translator->translate('layout.showing {pageSize} out of {total} posts', [
+                    'pageSize' => $pageSize,
+                    'total' => $paginator->getTotalItems(),
+                ]),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::p('No records');
+            echo Html::p(
+                $translator->translate('layout.no records')
+        );
         }
         /** @var Post $item */
         foreach ($paginator->read() as $item) {
@@ -47,7 +53,7 @@ $pagination = OffsetPagination::widget()
         <?php
         if (!$isGuest) {
             echo Html::a(
-                'Add post',
+                $translator->translate('layout.add post'),
                 $urlGenerator->generate('blog/add'),
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );

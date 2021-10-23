@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var \App\Blog\Entity\Post $item
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  * @var bool $canEdit

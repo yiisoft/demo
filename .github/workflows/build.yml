@@ -11,7 +11,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo, pdo, pdo_sqlite
+      extensions: fileinfo, pdo, pdo_sqlite, intl
       key: cache-v1
 
     runs-on: ${{ matrix.os }}
@@ -23,7 +23,7 @@ jobs:
           - windows-latest
 
         php:
-          - "8.0"
+          - 8.0
 
     steps:
       - name: Checkout
