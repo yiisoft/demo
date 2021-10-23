@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Translator\Message\Php\MessageSource;
-use Yiisoft\Translator\Extractor\Extractor;
+use Yiisoft\TranslatorExtractor\Extractor;
 
 /** @var array $params */
 
