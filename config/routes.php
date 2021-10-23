@@ -32,9 +32,6 @@ return [
     Route::get('/')
         ->action([SiteController::class, 'index'])
         ->name('site/index'),
-    Route::post('/locale')
-        ->action([SiteController::class, 'setLocale'])
-        ->name('site/set-locale'),
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
