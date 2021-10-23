@@ -22,6 +22,7 @@ return [
     'menu.swagger' => 'Swagger',
     'menu.login' => 'Login',
     'menu.signup' => 'Signup',
+    'menu.language' => 'Language',
     'menu.logout ({login})' => 'Logout ({login})',
     'layout.change_language' => 'Change language',
     'layout.language.english' => 'English',

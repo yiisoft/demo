@@ -16,6 +16,7 @@ use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
+    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
