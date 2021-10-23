@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
