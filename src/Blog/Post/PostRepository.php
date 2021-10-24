@@ -59,6 +59,16 @@ final class PostRepository extends Select\Repository
         return  $query->fetchOne();
     }
 
+    public function getMaxUpdatedAt(): string
+    {
+        return $this->select()->max('updated_at');
+    }
+
+    public function findBySlug(string $slug): ?Post
+    {
+        return $this->select()->where(['slug' => $slug])->findOne();
+    }
+
     /**
      * @throws Throwable
      */
