@@ -8,7 +8,6 @@ use Error;
 use ErrorException;
 use Exception;
 use Psr\Container\ContainerInterface;
-use Yiisoft\Config\Config;
 use Yiisoft\Di\Container;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
@@ -34,17 +33,7 @@ final class ConsoleApplicationRunner
      */
     public function run(): void
     {
-        $config = new Config(
-            dirname(__DIR__, 2),
-            '/config/packages', // Configs path.
-            $this->environment,
-            [
-                'params',
-                'events',
-                'events-web',
-                'events-console',
-            ],
-        );
+        $config = ConfigFactory::create($this->environment);
 
         $container = new Container(
             $config->get('console'),

@@ -40,7 +40,7 @@
         "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
-        "yiisoft/config": "1.0.x-dev",
+        "yiisoft/config": "^1.0@dev",
         "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.0",
         "yiisoft/data": "^3.0@dev",
@@ -117,8 +117,7 @@
             "dev-master": "3.0.x-dev"
         },
         "config-plugin-options": {
-            "source-directory": "config",
-            "output-directory": "config/packages"
+            "source-directory": "config"
         },
         "config-plugin": {
             "common": "common/*.php",
