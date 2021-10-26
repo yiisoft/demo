@@ -91,7 +91,8 @@ return [
         ->routes(
         // Index
             Route::get('[/page{page:\d+}]')
-                ->middleware(fn(HttpCache $httpCache, PostRepository $postRepository) =>
+                ->middleware(
+                    fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
                         return strtotime($postRepository->getMaxUpdatedAt());
                     })
@@ -112,7 +113,8 @@ return [
 
             // Post page
             Route::get('/page/{slug}')
-                ->middleware(fn(HttpCache $httpCache, PostRepository $postRepository) =>
+                ->middleware(
+                    fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository) {
                         $post = $postRepository->findBySlug($request->getAttribute('slug'));
                         return $post->slug . '-' . $post->getUpdatedAt();
