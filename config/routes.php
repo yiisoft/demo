@@ -117,7 +117,7 @@ return [
                     fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository) {
                         $post = $postRepository->findBySlug($request->getAttribute('slug'));
-                        return $post->slug . '-' . $post->getUpdatedAt();
+                        return $post->getSlug() . '-' . $post->getUpdatedAt()->format('Y-m-d H:i:s');
                     })
                 )
                 ->action([PostController::class, 'index'])

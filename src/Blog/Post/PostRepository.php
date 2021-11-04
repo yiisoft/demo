@@ -66,7 +66,7 @@ final class PostRepository extends Select\Repository
 
     public function findBySlug(string $slug): ?Post
     {
-        return $this->select()->where(['slug' => $slug])->findOne();
+        return $this->select()->where(['slug' => $slug])->fetchOne();
     }
 
     /**
