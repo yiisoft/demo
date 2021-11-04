@@ -6,6 +6,7 @@ namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
 use Cycle\ORM\Select;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -62,7 +63,7 @@ final class PostRepository extends Select\Repository
 
     public function getMaxUpdatedAt(): DateTimeInterface
     {
-        return new \DateTimeImmutable($this->select()->max('updated_at') ?? "now");
+        return new DateTimeImmutable($this->select()->max('updated_at') ?? 'now');
     }
 
     public function findBySlug(string $slug): ?Post
