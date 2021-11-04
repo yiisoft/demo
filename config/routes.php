@@ -94,7 +94,7 @@ return [
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
-                        return strtotime($postRepository->getMaxUpdatedAt());
+                        return $postRepository->getMaxUpdatedAt()->getTimestamp();
                     })
                 )
                 ->action([BlogController::class, 'index'])
@@ -117,7 +117,7 @@ return [
                     fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository) {
                         $post = $postRepository->findBySlug($request->getAttribute('slug'));
-                        return $post->slug . '-' . $post->getUpdatedAt();
+                        return $post->getSlug() . '-' . $post->getUpdatedAt()->getTimestamp();
                     })
                 )
                 ->action([PostController::class, 'index'])
