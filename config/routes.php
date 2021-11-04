@@ -94,7 +94,7 @@ return [
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository) =>
                     $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
-                        return strtotime($postRepository->getMaxUpdatedAt());
+                        return $postRepository->getMaxUpdatedAt()->getTimestamp();
                     })
                 )
                 ->action([BlogController::class, 'index'])
