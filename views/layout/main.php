@@ -26,9 +26,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
  * @var string $brandLabel
  */
 
-$assetManager->register([
-    AppAsset::class,
-]);
+$assetManager->register(AppAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addCssStrings($assetManager->getCssStrings());

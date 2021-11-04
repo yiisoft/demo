@@ -36,7 +36,7 @@
         "vlucas/phpdotenv": "^5.3",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^2.0",
-        "yiisoft/assets": "^1.0",
+        "yiisoft/assets": "^2.0",
         "yiisoft/auth": "^3.0",
         "yiisoft/cache": "^1.0",
         "yiisoft/cache-file": "^1.0",
