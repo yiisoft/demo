@@ -6,16 +6,18 @@ use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\CommentController;
 use App\Blog\Post\PostController;
+use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
-use App\User\Controller\ApiUserController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
+use App\User\Controller\ApiUserController;
 use App\User\Controller\UserController;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
@@ -26,6 +28,7 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Web\Middleware\HttpCache;
 
 return [
     // Lonely pages of site
@@ -88,6 +91,12 @@ return [
         ->routes(
         // Index
             Route::get('[/page{page:\d+}]')
+                ->middleware(
+                    fn (HttpCache $httpCache, PostRepository $postRepository) =>
+                    $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
+                        return $postRepository->getMaxUpdatedAt()->getTimestamp();
+                    })
+                )
                 ->action([BlogController::class, 'index'])
                 ->name('blog/index'),
             // Add Post page
@@ -104,6 +113,13 @@ return [
 
             // Post page
             Route::get('/page/{slug}')
+                ->middleware(
+                    fn (HttpCache $httpCache, PostRepository $postRepository) =>
+                    $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository) {
+                        $post = $postRepository->findBySlug($request->getAttribute('slug'));
+                        return $post->getSlug() . '-' . $post->getUpdatedAt()->getTimestamp();
+                    })
+                )
                 ->action([PostController::class, 'index'])
                 ->name('blog/post'),
             // Tag page

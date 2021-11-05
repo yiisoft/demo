@@ -16,7 +16,7 @@ final class ContactPageCest
     public function contactPageWorks(AcceptanceTester $I)
     {
         $I->wantTo('ensure that contact page works');
-        $I->see('Submit');
+        $I->seeInField('contact-button', 'Submit');
     }
 
     public function contactFormCanBeSubmitted(AcceptanceTester $I)

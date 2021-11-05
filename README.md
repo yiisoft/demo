@@ -55,7 +55,7 @@ The template comes with ready to use [Codeception](https://codeception.com/) con
 In order to execute tests run:
 
 ```
-composer run serve > ./runtime/yii.log 2>&1 &
+composer run serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
 vendor/bin/codecept run
 ```
 

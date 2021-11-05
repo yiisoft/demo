@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 use App\Handler\NotFoundHandler;
+use App\Middleware\LocaleMiddleware;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\Factory\Definition\Reference;
-use Yiisoft\Factory\Definition\DynamicReference;
+use Yiisoft\Definitions\Reference;
+use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Injector\Injector;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 use Yiisoft\Router\Middleware\Router;
@@ -21,10 +22,16 @@ return [
                             Router::class,
                             SessionMiddleware::class,
                             ErrorCatcher::class,
+                            LocaleMiddleware::class,
                         ]
                     );
             }),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
+        ],
+    ],
+    LocaleMiddleware::class => [
+        '__construct()' => [
+            'locales' => $params['locales'],
         ],
     ],
 ];

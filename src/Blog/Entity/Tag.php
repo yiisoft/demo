@@ -28,7 +28,7 @@ class Tag
     private ?int $id = null;
 
     /**
-     * @Column(type="string(255)")
+     * @Column(type="string(191)")
      */
     private string $label;
 

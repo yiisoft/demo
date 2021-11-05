@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
  * @var \App\Blog\Entity\Tag $item
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\View\WebView $this
  */

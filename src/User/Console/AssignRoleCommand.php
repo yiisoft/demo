@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Role;
-use Yiisoft\Rbac\StorageInterface;
+use Yiisoft\Rbac\RolesStorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
@@ -21,15 +21,15 @@ class AssignRoleCommand extends Command
 {
     private CycleDependencyProxy $promise;
     private Manager $manager;
-    private StorageInterface $storage;
+    private RolesStorageInterface $rolesStorage;
 
     protected static $defaultName = 'user/assignRole';
 
-    public function __construct(CycleDependencyProxy $promise, Manager $manager, StorageInterface $storage)
+    public function __construct(CycleDependencyProxy $promise, Manager $manager, RolesStorageInterface $rolesStorage)
     {
         $this->promise = $promise;
         $this->manager = $manager;
-        $this->storage = $storage;
+        $this->rolesStorage = $rolesStorage;
         parent::__construct();
     }
 
@@ -52,12 +52,16 @@ class AssignRoleCommand extends Command
         try {
             $orm = $this->promise->getORM();
             $userRepo = $orm->getRepository(User::class);
+            /** @var User|null $user */
             $user = $userRepo->findByPK($userId);
             if (null === $user) {
                 throw new \Exception('Can\'t find user');
             }
+            if (null === $user->getId()) {
+                throw new \Exception('User Id is NULL');
+            }
 
-            $role = $this->storage->getRoleByName($roleName);
+            $role = $this->rolesStorage->getRoleByName($roleName);
 
             if (null === $role) {
                 $helper = $this->getHelper('question');
@@ -71,7 +75,7 @@ class AssignRoleCommand extends Command
                 $this->manager->addRole($role);
             }
 
-            $this->manager->assign($role, $user->getId());
+            $this->manager->assign($role, $userId);
 
             $io->success('Role was assigned to given user');
         } catch (\Throwable $t) {

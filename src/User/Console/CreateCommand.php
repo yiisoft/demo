@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Rbac\Manager;
-use Yiisoft\Rbac\StorageInterface;
+use Yiisoft\Rbac\RolesStorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
@@ -20,15 +20,15 @@ class CreateCommand extends Command
 {
     private CycleDependencyProxy $promise;
     private Manager $manager;
-    private StorageInterface $storage;
+    private RolesStorageInterface $rolesStorage;
 
     protected static $defaultName = 'user/create';
 
-    public function __construct(CycleDependencyProxy $promise, Manager $manager, StorageInterface $storage)
+    public function __construct(CycleDependencyProxy $promise, Manager $manager, RolesStorageInterface $rolesStorage)
     {
         $this->promise = $promise;
         $this->manager = $manager;
-        $this->storage = $storage;
+        $this->rolesStorage = $rolesStorage;
         parent::__construct();
     }
 
@@ -48,14 +48,25 @@ class CreateCommand extends Command
 
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
-        $isAdmin = (bool) $input->getArgument('isAdmin');
+        $isAdmin = (bool)$input->getArgument('isAdmin');
 
         $user = new User($login, $password);
         try {
             (new EntityWriter($this->promise->getORM()))->write([$user]);
 
             if ($isAdmin) {
-                $this->manager->assign($this->storage->getRoleByName('admin'), $user->getId());
+                $role = $this->rolesStorage->getRoleByName('admin');
+                $userId = $user->getId();
+
+                if ($role === null) {
+                    throw new \Exception('Role admin is NULL');
+                }
+
+                if ($userId === null) {
+                    throw new \Exception('User Id is NULL');
+                }
+
+                $this->manager->assign($role, $userId);
             }
 
             $io->success('User created');
