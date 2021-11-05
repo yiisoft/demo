@@ -7,7 +7,7 @@ use Yiisoft\Html\Html;
 /**
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRoute $currentRoute
+ * @var \Yiisoft\Router\CurrentRouteInterface $currentRoute
  * @var \Yiisoft\View\WebView $this
  */
 

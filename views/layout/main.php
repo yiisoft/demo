@@ -14,7 +14,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRoute $currentRoute
+ * @var \Yiisoft\Router\CurrentRouteInterface $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var \Yiisoft\Translator\TranslatorInterface $translator
