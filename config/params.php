@@ -8,7 +8,7 @@ use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Definitions\Reference;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\Console\Application;
@@ -60,7 +60,7 @@ return [
         'parameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'currentRoute' => Reference::to(CurrentRoute::class),
+            'currentRoute' => Reference::to(CurrentRouteInterface::class),
             'translator' => Reference::to(TranslatorInterface::class),
         ],
     ],
