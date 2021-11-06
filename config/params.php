@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
+use App\Middleware\LocaleMiddleware;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Definitions\Reference;
+use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
@@ -20,6 +24,12 @@ return [
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
+    ],
+    'middlewares' => [
+        ErrorCatcher::class,
+        SessionMiddleware::class,
+        LocaleMiddleware::class,
+        Router::class,
     ],
 
     'yiisoft/aliases' => [
