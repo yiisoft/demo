@@ -9,7 +9,7 @@ use App\Blog\Post\PostController;
 use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
-use App\Controller\ApiInfo;
+use App\Controller\Actions\ApiInfo;
 use App\Controller\AuthController;
 use App\Controller\SignupController;
 use App\Controller\SiteController;
