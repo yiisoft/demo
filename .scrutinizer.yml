@@ -4,8 +4,6 @@ checks:
 filter:
   paths:
     - "src/*"
-  excluded_paths:
-    - "src/ApplicationRunner.php"
 
 build:
   image: default-bionic
