@@ -22,7 +22,7 @@
         "cebe/markdown": "^1.2@dev",
         "cycle/entity-macros": "dev-master",
         "cycle/orm": "2.0.x-dev",
-        "cycle/annotated": "dev-feature/support-schema-modifiers as 2.0.x-dev",
+        "cycle/annotated": "2.0.x-dev",
         "doctrine/collections": "^1.6",
         "fakerphp/faker": "^1.14",
         "httpsoft/http-message": "^1.0.5",
