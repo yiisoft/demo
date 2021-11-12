@@ -20,7 +20,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
+          - windows-2022
 
         php:
           - 8.0
@@ -34,9 +34,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
-          ini-values:
-            date.timezone='UTC'
-            opcache.enable='Off'
+          ini-values: date.timezone='UTC'
           tools: composer:v2
 
       - name: Determine composer cache directory on Linux
