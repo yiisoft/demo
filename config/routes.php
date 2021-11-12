@@ -107,8 +107,8 @@ return [
             // Edit Post page
             Route::methods([Method::GET, Method::POST], '/page/edit/{slug}')
                 ->name('blog/edit')
-                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
                 ->middleware(Authentication::class)
+                ->middleware(fn (AccessChecker $checker) => $checker->withPermission('editPost'))
                 ->action([PostController::class, 'edit']),
 
             // Post page
