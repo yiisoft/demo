@@ -47,7 +47,7 @@ class Post
     private string $title = '';
 
     /**
-     * @Column(type="bool", default="false")
+     * @Column(type="bool", default="false", typecast="bool")
      */
     private bool $public = false;
 

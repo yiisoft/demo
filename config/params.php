@@ -106,7 +106,7 @@ return [
         'dbal' => [
             // SQL query logger. Definition of Psr\Log\LoggerInterface
             // For example, \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class
-            'query-logger' => null,
+            'query-logger' => \Psr\Log\LoggerInterface::class,
             // Default database
             'default' => 'default',
             'aliases' => [],
@@ -114,12 +114,11 @@ return [
                 'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
-                'sqlite' => [
-                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
-                    'connection' => 'sqlite:@runtime/database.db',
-                    'username' => '',
-                    'password' => '',
-                ],
+                'sqlite' => new \Cycle\Database\Config\SQLiteDriverConfig(
+                    connection: new \Cycle\Database\Config\SQLite\FileConnectionConfig(
+                        database: 'runtime/database1.db'
+                    )
+                ),
             ],
         ],
 
@@ -154,7 +153,7 @@ return [
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
-                    Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
+                    // Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
         ],

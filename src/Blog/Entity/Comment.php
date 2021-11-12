@@ -32,7 +32,7 @@ class Comment
     private ?int $id = null;
 
     /**
-     * @Column(type="bool", default="false")
+     * @Column(type="bool", default="false", typecast="bool")
      */
     private bool $public = false;
 
