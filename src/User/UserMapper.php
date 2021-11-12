@@ -12,19 +12,19 @@ use Cycle\ORM\Mapper\Mapper;
 
 final class UserMapper extends Mapper
 {
-    /**
-     * @param User $entity
-     */
-    public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
-    {
-        /** @var Update $command */
-        $command = parent::queueUpdate($entity, $node, $state);
-
-        $now = new \DateTimeImmutable();
-
-        $state->register('updated_at', $now, true);
-        $command->registerAppendix('updated_at', $now);
-
-        return $command;
-    }
+    // /**
+    //  * @param User $entity
+    //  */
+    // public function queueUpdate($entity, Node $node, State $state): ContextCarrierInterface
+    // {
+    //     /** @var Update $command */
+    //     $command = parent::queueUpdate($entity, $node, $state);
+    //
+    //     $now = new \DateTimeImmutable();
+    //
+    //     $state->register('updated_at', $now, true);
+    //     $command->registerAppendix('updated_at', $now);
+    //
+    //     return $command;
+    // }
 }
