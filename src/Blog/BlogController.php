@@ -8,8 +8,8 @@ use App\Blog\Archive\ArchiveRepository;
 use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -27,13 +27,13 @@ final class BlogController
     }
 
     public function index(
-        Request $request,
         PostRepository $postRepository,
         TagRepository $tagRepository,
         ArchiveRepository $archiveRepo,
-        CurrentUser $currentUser
+        CurrentUser $currentUser,
+        CurrentRouteInterface $currentRoute
     ): Response {
-        $pageNum = (int)$request->getAttribute('page', 1);
+        $pageNum = (int)$currentRoute->getParameter('page', 1);
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)

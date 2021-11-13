@@ -7,9 +7,9 @@ namespace App\User\Controller;
 use App\User\User;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Router\CurrentRouteInterface;
 
 class ApiUserController
 {
@@ -33,9 +33,9 @@ class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    public function profile(ServerRequestInterface $request, UserRepository $userRepository): ResponseInterface
+    public function profile(UserRepository $userRepository, CurrentRouteInterface $currentRoute): ResponseInterface
     {
-        $login = $request->getAttribute('login', null);
+        $login = $currentRoute->getParameter('login');
 
         /** @var User $user */
         $user = $userRepository->findByLogin($login);

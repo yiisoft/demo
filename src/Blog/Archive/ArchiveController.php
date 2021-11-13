@@ -8,6 +8,8 @@ use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class ArchiveController
@@ -26,11 +28,11 @@ final class ArchiveController
         return $this->viewRenderer->render('index', ['archive' => $archiveRepo->getFullArchive()]);
     }
 
-    public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
+    public function monthlyArchive(Request $request, TagRepository $tagRepository, ArchiveRepository $archiveRepo, CurrentRouteInterface $currentRoute): Response
     {
-        $pageNum = (int)$request->getAttribute('page', 1);
-        $year = (int)$request->getAttribute('year', 0);
-        $month = (int)$request->getAttribute('month', 0);
+        $pageNum = (int)$currentRoute->getParameter('page', 1);
+        $year = (int)$currentRoute->getParameter('year', 0);
+        $month = (int)$currentRoute->getParameter('month', 0);
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
         $paginator = (new OffsetPaginator($dataReader))
@@ -47,9 +49,9 @@ final class ArchiveController
         return $this->viewRenderer->render('monthly-archive', $data);
     }
 
-    public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo): Response
+    public function yearlyArchive(Request $request, ArchiveRepository $archiveRepo, CurrentRouteInterface $currentRoute): Response
     {
-        $year = (int)$request->getAttribute('year', 0);
+        $year = (int)$currentRoute->getParameter('year', 0);
 
         $data = [
             'year' => $year,

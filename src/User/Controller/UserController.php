@@ -7,9 +7,9 @@ namespace App\User\Controller;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 class UserController
@@ -23,9 +23,9 @@ class UserController
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(Request $request, UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, CurrentRouteInterface $currentRoute): Response
     {
-        $pageNum = (int)$request->getAttribute('page', 1);
+        $pageNum = (int)$currentRoute->getParameter('page', 1);
 
         $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
@@ -35,9 +35,9 @@ class UserController
         return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 
-    public function profile(Request $request, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
+    public function profile(CurrentRouteInterface $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
     {
-        $login = $request->getAttribute('login', null);
+        $login = $currentRoute->getParameter('login');
         $item = $userRepository->findByLogin($login);
         if ($item === null) {
             return $responseFactory->createResponse(404);
