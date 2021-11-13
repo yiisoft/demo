@@ -99,6 +99,8 @@ final class Serve2 extends Command
 
         $output->writeLn('Quit the server with CTRL-C or COMMAND-C.');
 
+        $output->writeln(empty($env) ? 'EMPTY' : $env);
+
         if ($env === 'test') {
             return ExitCode::OK;
         }
