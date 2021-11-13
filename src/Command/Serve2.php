@@ -107,7 +107,7 @@ final class Serve2 extends Command
 
         $x = passthru('"' . PHP_BINARY . '"' . " -S $address -t \"$documentRoot\" $router");
 
-        $output->writeln($x===null ? 'null' : ($x?'true':'false'));
+        $output->writeln($x===null ? 'null' : ($x ? 'true' : 'false'));
 
         return ExitCode::OK;
     }
