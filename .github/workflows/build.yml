@@ -62,5 +62,5 @@ jobs:
 
       - name: Run tests with codeception
         run: |
-          yii serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
+          ./yii serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
           vendor/bin/codecept run
