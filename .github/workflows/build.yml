@@ -62,7 +62,6 @@ jobs:
 
       - name: Run tests with codeception
         run: |
-          "php" -v &
-          "php8.0" -v &
-          ./yii serve2 127.0.0.1:8080 &
+          yii server 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
+          sleep 5s &
           vendor/bin/codecept run
