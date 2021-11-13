@@ -105,9 +105,7 @@ final class Serve2 extends Command
 
         $output->writeln('"' . PHP_BINARY . '"' . " -S $address -t \"$documentRoot\" $router");
 
-        $x = passthru('"' . PHP_BINARY . '"' . " -S $address -t \"$documentRoot\" $router");
-
-        $output->writeln($x===null ? 'null' : ($x ? 'true' : 'false'));
+        passthru('"' . PHP_BINARY . '"' . " -S $address -t \"$documentRoot\" $router");
 
         return ExitCode::OK;
     }
