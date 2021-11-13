@@ -62,5 +62,5 @@ jobs:
 
       - name: Run tests with codeception
         run: |
-          php -S 127.0.0.1:8080 -t public &
+          ./yii serve2 127.0.0.1:8080 &
           vendor/bin/codecept run

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Command\Serve2;
 use App\Middleware\LocaleMiddleware;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
@@ -93,6 +94,7 @@ return [
         'autoExit' => false,
         'commands' => [
             'serve' => Serve::class,
+            'serve2' => Serve2::class,
             'user/create' => App\User\Console\CreateCommand::class,
             'user/assignRole' => App\User\Console\AssignRoleCommand::class,
             'fixture/add' => App\Command\Fixture\AddCommand::class,
