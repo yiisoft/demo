@@ -28,7 +28,7 @@ use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
-use Yiisoft\Yii\Web\Middleware\HttpCache;
+use Yiisoft\Yii\Middleware\HttpCache;
 
 return [
     // Lonely pages of site
