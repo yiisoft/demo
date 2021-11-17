@@ -10,6 +10,9 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
+use Cycle\ORM\Entity\Macros\Timestamped\DeletedAtMacro;
+use Cycle\ORM\Entity\Macros\Timestamped\UpdatedAtMacro;
 use DateTimeImmutable;
 
 /**
@@ -24,6 +27,9 @@ use DateTimeImmutable;
  *     }
  * )
  */
+#[CreatedAtMacro(field: 'created_at', column: 'created_at')]
+#[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]
+#[DeletedAtMacro(field: 'deleted_at', column: 'deleted_at')]
 class Comment
 {
     /**

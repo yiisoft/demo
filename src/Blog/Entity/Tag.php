@@ -9,7 +9,8 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
-use Cycle\ORM\Relation\Pivoted\PivotedCollection;
+use Cycle\ORM\Collection\Pivoted\PivotedCollection;
+use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
 use DateTimeImmutable;
 
 /**
@@ -20,6 +21,7 @@ use DateTimeImmutable;
  *     }
  * )
  */
+#[CreatedAtMacro(field: 'created_at', column: 'created_at')]
 class Tag
 {
     /**

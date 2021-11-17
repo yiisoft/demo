@@ -153,7 +153,7 @@ return [
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
-                    // Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
+                    Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
         ],

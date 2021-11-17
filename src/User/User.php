@@ -11,6 +11,8 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
+use Cycle\ORM\Entity\Macros\Timestamped\UpdatedAtMacro;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Auth\IdentityInterface;
@@ -24,6 +26,8 @@ use Yiisoft\Security\PasswordHasher;
  *     }
  * )
  */
+#[CreatedAtMacro(field: 'created_at', column: 'created_at')]
+#[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]
 class User implements IdentityInterface
 {
     /**
