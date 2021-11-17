@@ -10,7 +10,6 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Collection\Pivoted\PivotedCollection;
 use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
@@ -22,10 +21,8 @@ use Yiisoft\Security\Random;
 
 #[Entity(
     repository: \App\Blog\Post\PostRepository::class,
-    mapper: \App\Blog\Post\PostMapper::class,
     scope: \App\Blog\Post\Scope\PublicScope::class
 )]
-#[Table]
 #[Index(columns: ['public', 'published_at'])]
 #[CreatedAtMacro(field: 'created_at', column: 'created_at')]
 #[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]

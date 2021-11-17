@@ -9,7 +9,6 @@ use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
 use Cycle\ORM\Entity\Macros\Timestamped\UpdatedAtMacro;
@@ -18,56 +17,38 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Security\PasswordHasher;
 
-/**
- * @Entity(repository="App\User\UserRepository")
- * @Table(
- *     indexes={
- *         @Index(columns={"login"}, unique=true),
- *     }
- * )
- */
+#[Entity(repository: \App\User\UserRepository::class)]
+#[Index(columns: ['login'], unique: true)]
 #[CreatedAtMacro(field: 'created_at', column: 'created_at')]
 #[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]
 class User implements IdentityInterface
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     private ?int $id = null;
 
-    /**
-     * @Column(type="string(48)")
-     */
+    #[Column(type: 'string(48)')]
     private string $login;
 
-    /**
-     * @Column(type="string")
-     */
+    #[Column(type: 'string')]
     private string $passwordHash;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $updated_at;
 
     /**
-     * @HasMany(target="App\Blog\Entity\Post")
-     *
-     * @var ArrayCollection|Post[]
+     * @var ArrayCollection<array-key, Post>
      */
-    private $posts;
+     #[HasMany(target: \App\Blog\Entity\Post::class)]
+    private ArrayCollection $posts;
 
     /**
-     * @HasMany(target="App\Blog\Entity\Comment")
-     *
-     * @var ArrayCollection|Comment[]
+     * @var ArrayCollection<array-key, Comment>
      */
-    private $comments;
+     #[HasMany(target: \App\Blog\Entity\Comment::class)]
+    private ArrayCollection $comments;
 
     public function __construct(string $login, string $password)
     {
