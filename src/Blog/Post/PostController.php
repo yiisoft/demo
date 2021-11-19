@@ -36,7 +36,7 @@ final class PostController
     public function index(Request $request, PostRepository $postRepository, CurrentRouteInterface $currentRoute): Response
     {
         $canEdit = $this->userService->hasPermission('editPost');
-        $slug = $currentRoute->getParameter('slug');
+        $slug = $currentRoute->getArgument('slug');
         $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
             return $this->webService->getNotFoundResponse();
@@ -73,7 +73,7 @@ final class PostController
         ValidatorInterface $validator,
         CurrentRouteInterface $currentRoute
     ): Response {
-        $slug = $currentRoute->getParameter('slug');
+        $slug = $currentRoute->getArgument('slug');
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
             return $this->webService->getNotFoundResponse();

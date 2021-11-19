@@ -35,7 +35,7 @@ class ApiUserController
 
     public function profile(UserRepository $userRepository, CurrentRouteInterface $currentRoute): ResponseInterface
     {
-        $login = $currentRoute->getParameter('login');
+        $login = $currentRoute->getArgument('login');
 
         /** @var User $user */
         $user = $userRepository->findByLogin($login);

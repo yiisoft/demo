@@ -22,8 +22,8 @@ final class CommentController
     public function index(Request $request, CommentService $service, CurrentRouteInterface $currentRoute): Response
     {
         $paginator = $service->getFeedPaginator();
-        if ($currentRoute->getParameter('next') !== null) {
-            $paginator = $paginator->withNextPageToken((string)$currentRoute->getParameter('next'));
+        if ($currentRoute->getArgument('next') !== null) {
+            $paginator = $paginator->withNextPageToken((string)$currentRoute->getArgument('next'));
         }
 
         if ($this->isAjaxRequest($request)) {

@@ -33,7 +33,7 @@ final class BlogController
         CurrentUser $currentUser,
         CurrentRouteInterface $currentRoute
     ): Response {
-        $pageNum = (int)$currentRoute->getParameter('page', 1);
+        $pageNum = (int)$currentRoute->getArgument('page', 1);
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)

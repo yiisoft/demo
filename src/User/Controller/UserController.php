@@ -25,7 +25,7 @@ class UserController
 
     public function index(UserRepository $userRepository, CurrentRouteInterface $currentRoute): Response
     {
-        $pageNum = (int)$currentRoute->getParameter('page', 1);
+        $pageNum = (int)$currentRoute->getArgument('page', 1);
 
         $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
@@ -37,7 +37,7 @@ class UserController
 
     public function profile(CurrentRouteInterface $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
     {
-        $login = $currentRoute->getParameter('login');
+        $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
         if ($item === null) {
             return $responseFactory->createResponse(404);
