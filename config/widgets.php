@@ -8,7 +8,7 @@ use Yiisoft\Form\Widget\Field;
 
 return [
     Field::class => [
-        'ariaDescribedBy()'  => [],
+        'ariaDescribedBy()' => [],
         'containerClass()' => $params['yiisoft/forms']['containerClass'],
         'errorClass()' => $params['yiisoft/forms']['errorClass'],
         'hintClass()' => $params['yiisoft/forms']['hintClass'],
