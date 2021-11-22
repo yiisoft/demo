@@ -25,7 +25,7 @@ class UserController
 
     public function index(UserRepository $userRepository, CurrentRouteInterface $currentRoute): Response
     {
-        $pageNum = (int)$currentRoute->getArgument('page', 1);
+        $pageNum = (int)$currentRoute->getArgument('page', '1');
 
         $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
         $paginator = (new OffsetPaginator($dataReader))
