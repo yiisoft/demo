@@ -56,7 +56,7 @@
         "yiisoft/log": "^1.0",
         "yiisoft/log-target-file": "^1.0",
         "yiisoft/mailer": "^3.0",
-        "yiisoft/mailer-symfony": "dev-master",
+        "yiisoft/mailer-symfony": "^1.0",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
