@@ -81,5 +81,4 @@ final class LoginAcceptanceCest
         $I->expectTo('no see link logout.');
         $I->dontSeeLink('logout');
     }
-
 }

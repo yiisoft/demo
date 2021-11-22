@@ -6,7 +6,6 @@ namespace App\Form;
 
 use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Required;
 
 final class LoginForm extends FormModel
