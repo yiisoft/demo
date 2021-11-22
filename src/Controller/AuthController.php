@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use InvalidArgumentException;
+use App\Form\LoginForm;
+use App\User\User;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 class AuthController
 {
     private ResponseFactoryInterface $responseFactory;
-    private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private ViewRenderer $viewRenderer;
     private CurrentUser $currentUser;
@@ -27,51 +28,42 @@ class AuthController
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         ViewRenderer $viewRenderer,
-        LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator,
         CurrentUser $currentUser
     ) {
         $this->responseFactory = $responseFactory;
-        $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
         $this->currentUser = $currentUser;
     }
 
     public function login(
+        IdentityRepositoryInterface $identityRepository,
+        LoginForm $loginForm,
         ServerRequestInterface $request,
-        IdentityRepositoryInterface $identityRepository
+        TranslatorInterface $translator,
+        ValidatorInterface $validator
     ): ResponseInterface {
         if (!$this->currentUser->isGuest()) {
             return $this->redirectToMain();
         }
 
+        /** @var array */
         $body = $request->getParsedBody();
         $error = null;
 
-        if ($request->getMethod() === Method::POST) {
-            try {
-                foreach (['login', 'password'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new InvalidArgumentException(ucfirst($name) . ' is required');
-                    }
-                }
+        if (
+            $request->getMethod() === Method::POST
+            && $loginForm->load($body)
+            && $validator->validate($loginForm)->isValid()
+        ) {
+            /** @var User $identity */
+            $identity = $identityRepository->findByLogin($loginForm->getAttributeValue('login'));
 
-                /** @var \App\User\User $identity */
-                $identity = $identityRepository->findByLogin($body['login']);
-
-                if ($identity === null || !$identity->validatePassword($body['password'])) {
-                    throw new InvalidArgumentException('Invalid login or password');
-                }
-
-                if ($this->currentUser->login($identity)) {
-                    return $this->redirectToMain();
-                }
-
-                throw new InvalidArgumentException('Unable to login');
-            } catch (\Throwable $e) {
-                $this->logger->error($e);
-                $error = $e->getMessage();
+            if ($identity === null || !$identity->validatePassword($loginForm->getAttributeValue('password'))) {
+                $loginForm->getFormErrors()->addError('password', $translator->translate('Invalid login or password'));
+            } elseif ($this->currentUser->login($identity)) {
+                return $this->redirectToMain();
             }
         }
 
@@ -79,6 +71,7 @@ class AuthController
             'login',
             [
                 'body' => $body,
+                'formModel' => $loginForm,
                 'error' => $error,
             ]
         );
