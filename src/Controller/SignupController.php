@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 use Yiisoft\Yii\View\ViewRenderer;
@@ -28,14 +29,16 @@ final class SignupController
     public function signup(
         EntityWriter $entityWriter,
         IdentityRepositoryInterface $identityRepository,
-        LoginForm $loginForm,
         RequestInterface $request,
         ResponseFactoryInterface $responseFactory,
+        TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         ValidatorInterface $validator
     ): ResponseInterface {
         $body = $request->getParsedBody();
         $error = null;
+
+        $loginForm = new LoginForm($translator);
 
         if (
             $request->getMethod() === Method::POST

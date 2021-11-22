@@ -39,7 +39,6 @@ class AuthController
 
     public function login(
         IdentityRepositoryInterface $identityRepository,
-        LoginForm $loginForm,
         ServerRequestInterface $request,
         TranslatorInterface $translator,
         ValidatorInterface $validator
@@ -51,6 +50,8 @@ class AuthController
         /** @var array */
         $body = $request->getParsedBody();
         $error = null;
+
+        $loginForm = new LoginForm($translator);
 
         if (
             $request->getMethod() === Method::POST
