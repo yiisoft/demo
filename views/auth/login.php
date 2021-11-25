@@ -22,7 +22,7 @@ $error = $error ?? null;
   </div>
 <?php endif ?>
 
-<form id="loginForm" method="POST" action="<?= $urlGenerator->generate('site/login') ?>" enctype="multipart/form-data">
+<form id="loginForm" method="POST" action="<?= $urlGenerator->generate('auth/login') ?>" enctype="multipart/form-data">
   <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="mb-3">
     <label for="login" class="form-label required"><?= $translator->translate('layout.login') ?></label>
@@ -39,6 +39,14 @@ $error = $error ?? null;
       'class' => 'form-control',
       'required' => true,
     ]) ?>
+  </div>
+  <div class="form-check mb-3">
+    <?= Html::checkbox('remember', $body['remember'] ?? '', [
+      'id' => 'remember',
+      'class' => 'form-check-input',
+      'value' => '1',
+    ]) ?>
+    <label for="remember" class="form-check-label"><?= $translator->translate('layout.remember') ?></label>
   </div>
   <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.submit') ?></button>
 </form>

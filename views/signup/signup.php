@@ -21,7 +21,7 @@ $error = $error ?? null;
   </div>
 <?php endif ?>
 
-<form id="signupForm" method="POST" action="<?= $urlGenerator->generate('site/signup') ?>" enctype="multipart/form-data">
+<form id="signupForm" method="POST" action="<?= $urlGenerator->generate('auth/signup') ?>" enctype="multipart/form-data">
   <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="mb-3">
     <label for="login" class="form-label required"><?= $translator->translate('layout.login') ?></label>
