@@ -7,8 +7,8 @@ namespace App\Blog\Tag;
 use App\Blog\Post\PostRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class TagController
@@ -21,10 +21,10 @@ final class TagController
         $this->viewRenderer = $viewRenderer->withControllerName('blog/tag');
     }
 
-    public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
+    public function index(CurrentRouteInterface $currentRoute, TagRepository $tagRepository, PostRepository $postRepository, ResponseFactoryInterface $responseFactory): Response
     {
-        $label = $request->getAttribute('label', null);
-        $pageNum = (int)$request->getAttribute('page', 1);
+        $label = $currentRoute->getArgument('label');
+        $pageNum = (int) $currentRoute->getArgument('page', '1');
         $item = $tagRepository->findByLabel($label);
 
         if ($item === null) {

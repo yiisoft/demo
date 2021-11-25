@@ -33,7 +33,7 @@ final class PostController
         $this->userService = $userService;
     }
 
-    public function index(Request $request, PostRepository $postRepository, CurrentRouteInterface $currentRoute): Response
+    public function index(CurrentRouteInterface $currentRoute, PostRepository $postRepository): Response
     {
         $canEdit = $this->userService->hasPermission('editPost');
         $slug = $currentRoute->getArgument('slug');
