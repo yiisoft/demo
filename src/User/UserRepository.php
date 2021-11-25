@@ -25,11 +25,6 @@ class UserRepository extends Select\Repository
         return new EntityReader($this->select()->where($scope)->orderBy($orderBy));
     }
 
-    private function findIdentityBy(string $field, string $value): ?User
-    {
-        return $this->findOne([$field => $value]);
-    }
-
     /**
      * @param string $id
      *
@@ -42,7 +37,7 @@ class UserRepository extends Select\Repository
 
     public function findByLogin(string $login): ?User
     {
-        return $this->findIdentityBy('login', $login);
+        return $this->findBy('login', $login);
     }
 
     public function findByLoginWithAuthIdentity(string $login): ?User
@@ -56,5 +51,10 @@ class UserRepository extends Select\Repository
     public function save(User $user): void
     {
         $this->entityWriter->write([$user]);
+    }
+
+    private function findBy(string $field, string $value): ?User
+    {
+        return $this->findOne([$field => $value]);
     }
 }
