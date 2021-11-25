@@ -72,7 +72,6 @@ final class Identity implements CookieLoginIdentityInterface
 
     public function regenerateCookieLoginKey(): void
     {
-
         $this->authKey = Random::string(32);
     }
 }
