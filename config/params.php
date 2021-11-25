@@ -17,6 +17,7 @@ use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
+use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
@@ -163,8 +164,9 @@ return [
          * Annotated entity directories list.
          * {@see \Yiisoft\Aliases\Aliases} are also supported.
          */
-        'annotated-entity-paths' => [
+        'entity-paths' => [
             '@src',
         ],
+        'conveyor' => AttributedSchemaConveyor::class,
     ],
 ];
