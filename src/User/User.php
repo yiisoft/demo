@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\User;
 
+use App\Auth\Identity;
 use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
+use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Security\PasswordHasher;
 
 /**
@@ -24,7 +25,7 @@ use Yiisoft\Security\PasswordHasher;
  *     }
  * )
  */
-class User implements IdentityInterface
+class User
 {
     /**
      * @Column(type="primary")
@@ -52,6 +53,13 @@ class User implements IdentityInterface
     private DateTimeImmutable $updated_at;
 
     /**
+     * @HasOne(target="App\Auth\Identity")
+     *
+     * @var \Cycle\ORM\Promise\Reference|Identity
+     */
+    private $identity;
+
+    /**
      * @HasMany(target="App\Blog\Entity\Post")
      *
      * @var ArrayCollection|Post[]
@@ -71,6 +79,7 @@ class User implements IdentityInterface
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->setPassword($password);
+        $this->identity = new Identity();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -108,6 +117,11 @@ class User implements IdentityInterface
     public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updated_at;
+    }
+
+    public function getIdentity(): Identity
+    {
+        return $this->identity;
     }
 
     /**

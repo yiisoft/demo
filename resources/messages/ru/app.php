@@ -2,6 +2,7 @@
 return [
     'layout.login' => 'Войти',
     'layout.password' => 'Пароль',
+    'layout.remember' => 'Запомнить меня',
     'layout.submit' => 'Отправить',
     'layout.archive' => 'Архив',
     'layout.no records' => 'Нет записей',

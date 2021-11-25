@@ -10,8 +10,8 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\Actions\ApiInfo;
-use App\Controller\AuthController;
-use App\Controller\SignupController;
+use App\Auth\Controller\AuthController;
+use App\Auth\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
@@ -39,15 +39,17 @@ return [
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
+
+    // Auth
     Route::methods([Method::GET, Method::POST], '/login')
         ->action([AuthController::class, 'login'])
-        ->name('site/login'),
+        ->name('auth/login'),
     Route::post('/logout')
         ->action([AuthController::class, 'logout'])
-        ->name('site/logout'),
+        ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
         ->action([SignupController::class, 'signup'])
-        ->name('site/signup'),
+        ->name('auth/signup'),
 
     // User
     Group::create('/user')

@@ -21,7 +21,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
- * @var \App\User\User $user
+ * @var \App\User\User|null $user
  * @var string $csrf
  * @var string $brandLabel
  */
@@ -86,10 +86,10 @@ echo Nav::widget()
     ->currentPath($currentRoute->getUri()->getPath())
     ->options(['class' => 'navbar-nav'])
     ->items(
-        $user->getId() === null
+        $user === null || $user->getId() === null
             ? [
-            ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
-            ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
+            ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('auth/login')],
+            ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('auth/signup')],
             ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
                 [
                     'label' => $translator->translate('layout.language.english'),
@@ -103,7 +103,7 @@ echo Nav::widget()
         ]
             : [
             Form::widget()
-                ->action($urlGenerator->generate('site/logout'))
+                ->action($urlGenerator->generate('auth/logout'))
                 ->csrf($csrf)
                 ->begin()
             . Field::widget()->submitButton(

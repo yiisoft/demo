@@ -2,47 +2,45 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Auth\Controller;
 
+use App\Auth\AuthService;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
+use Throwable;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
-class AuthController
+final class AuthController
 {
     private ResponseFactoryInterface $responseFactory;
     private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private ViewRenderer $viewRenderer;
-    private CurrentUser $currentUser;
+    private AuthService $authService;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         ViewRenderer $viewRenderer,
         LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator,
-        CurrentUser $currentUser
+        AuthService $authService
     ) {
         $this->responseFactory = $responseFactory;
         $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
-        $this->currentUser = $currentUser;
+        $this->authService = $authService;
     }
 
-    public function login(
-        ServerRequestInterface $request,
-        IdentityRepositoryInterface $identityRepository
-    ): ResponseInterface {
-        if (!$this->currentUser->isGuest()) {
+    public function login(ServerRequestInterface $request): ResponseInterface
+    {
+        if (!$this->authService->isGuest()) {
             return $this->redirectToMain();
         }
 
@@ -57,36 +55,26 @@ class AuthController
                     }
                 }
 
-                /** @var \App\User\User $identity */
-                $identity = $identityRepository->findByLogin($body['login']);
-
-                if ($identity === null || !$identity->validatePassword($body['password'])) {
-                    throw new InvalidArgumentException('Invalid login or password');
-                }
-
-                if ($this->currentUser->login($identity)) {
+                if ($this->authService->login($body['login'], $body['password'], isset($body['remember']))) {
                     return $this->redirectToMain();
                 }
 
-                throw new InvalidArgumentException('Unable to login');
-            } catch (\Throwable $e) {
+                throw new InvalidArgumentException('Unable to login.');
+            } catch (Throwable $e) {
                 $this->logger->error($e);
                 $error = $e->getMessage();
             }
         }
 
-        return $this->viewRenderer->render(
-            'login',
-            [
-                'body' => $body,
-                'error' => $error,
-            ]
-        );
+        return $this->viewRenderer->render('login', [
+            'body' => $body,
+            'error' => $error,
+        ]);
     }
 
     public function logout(): ResponseInterface
     {
-        $this->currentUser->logout();
+        $this->authService->logout();
 
         return $this->redirectToMain();
     }
