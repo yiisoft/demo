@@ -119,7 +119,7 @@ return [
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRouteInterface $currentRoute) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
-                        $post = $postRepository->findBySlug($currentRoute->getParameter('slug'));
+                        $post = $postRepository->findBySlug($currentRoute->getArgument('slug'));
                         return $post->getSlug() . '-' . $post->getUpdatedAt()->getTimestamp();
                     })
                 )
