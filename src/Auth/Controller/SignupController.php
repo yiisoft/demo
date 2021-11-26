@@ -5,31 +5,24 @@ declare(strict_types=1);
 namespace App\Auth\Controller;
 
 use App\Auth\AuthService;
+use App\Service\WebControllerService;
 use InvalidArgumentException;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use Yiisoft\Http\Method;
-use Yiisoft\Http\Status;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
 {
     private ViewRenderer $viewRenderer;
-    private UrlGeneratorInterface $urlGenerator;
-    private ResponseFactoryInterface $responseFactory;
+    private WebControllerService $webService;
 
-    public function __construct(
-        ViewRenderer $viewRenderer,
-        UrlGeneratorInterface $urlGenerator,
-        ResponseFactoryInterface $responseFactory,
-    ) {
+    public function __construct(ViewRenderer $viewRenderer, WebControllerService $webService)
+    {
         $this->viewRenderer = $viewRenderer->withControllerName('signup');
-        $this->urlGenerator = $urlGenerator;
-        $this->responseFactory = $responseFactory;
+        $this->webService = $webService;
     }
 
     public function signup(
@@ -68,10 +61,6 @@ final class SignupController
 
     private function redirectToMain(): ResponseInterface
     {
-        return $this->responseFactory->createResponse(Status::FOUND)
-            ->withHeader(
-                'Location',
-                $this->urlGenerator->generate('site/index')
-            );
+        return $this->webService->getRedirectResponse('site/index');
     }
 }
