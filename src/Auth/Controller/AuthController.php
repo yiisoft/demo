@@ -5,40 +5,29 @@ declare(strict_types=1);
 namespace App\Auth\Controller;
 
 use App\Auth\AuthService;
+use App\Service\WebControllerService;
 use InvalidArgumentException;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use Yiisoft\Http\Method;
-use Yiisoft\Http\Status;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class AuthController
 {
-    private ResponseFactoryInterface $responseFactory;
-    private LoggerInterface $logger;
-    private UrlGeneratorInterface $urlGenerator;
+    private WebControllerService $webService;
     private ViewRenderer $viewRenderer;
     private AuthService $authService;
 
-    public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        ViewRenderer $viewRenderer,
-        LoggerInterface $logger,
-        UrlGeneratorInterface $urlGenerator,
-        AuthService $authService
-    ) {
-        $this->responseFactory = $responseFactory;
-        $this->logger = $logger;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(ViewRenderer $viewRenderer, AuthService $authService, WebControllerService $webService)
+    {
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
         $this->authService = $authService;
+        $this->webService = $webService;
     }
 
-    public function login(ServerRequestInterface $request): ResponseInterface
+    public function login(ServerRequestInterface $request, LoggerInterface $logger): ResponseInterface
     {
         if (!$this->authService->isGuest()) {
             return $this->redirectToMain();
@@ -61,7 +50,7 @@ final class AuthController
 
                 throw new InvalidArgumentException('Unable to login.');
             } catch (Throwable $e) {
-                $this->logger->error($e);
+                $logger->error($e);
                 $error = $e->getMessage();
             }
         }
@@ -81,10 +70,6 @@ final class AuthController
 
     private function redirectToMain(): ResponseInterface
     {
-        return $this->responseFactory->createResponse(Status::FOUND)
-            ->withHeader(
-                'Location',
-                $this->urlGenerator->generate('site/index')
-            );
+        return $this->webService->getRedirectResponse('site/index');
     }
 }
