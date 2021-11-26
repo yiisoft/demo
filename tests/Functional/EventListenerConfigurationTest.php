@@ -18,7 +18,9 @@ class EventListenerConfigurationTest extends TestCase
     {
         $config = ConfigFactory::create(dirname(__DIR__, 2), null);
 
-        $container = (new Container($config->get('console')))->get(ContainerInterface::class);
+        $containerConfig = ContainerConfig::create()
+            ->withDefinitions($config->get('console'));
+        $container = (new Container($containerConfig))->get(ContainerInterface::class);
         $checker = $container->get(ListenerConfigurationChecker::class);
         $checker->check($config->get('events-console'));
 
