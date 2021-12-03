@@ -164,9 +164,9 @@ return [
                     return $swaggerJson
                         // Uncomment cache for production environment
                         // ->withCache(60)
-                        ->withAnnotationPaths([
+                        ->withAnnotationPaths(
                             '@src/Controller', // Path to API controllers
-                        ]);
+                        );
                 }),
         ),
 ];
