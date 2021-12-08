@@ -60,7 +60,7 @@ $this->setTitle($translator->translate('layout.archive'));
             }
             echo Html::closeTag('div'), $sectionEnd;
         } else {
-            echo $sectionBegin, $translator->translate('layout.no records'), $sectionEnd;
+            echo $sectionBegin, $translator->translate('layout.no-records'), $sectionEnd;
         }
         ?>
     </div>
