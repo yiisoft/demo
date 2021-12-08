@@ -35,7 +35,7 @@ $pagination = OffsetPagination::widget()
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::p(
-                $translator->translate('layout.showing-summary', ['pageSize' => $pageSize, 'total' => $paginator->getTotalItems()]),
+                $translator->translate('layout.pagination-summary', ['pageSize' => $pageSize, 'total' => $paginator->getTotalItems()]),
                 ['class' => 'text-muted']
             );
         } else {
