@@ -88,7 +88,7 @@
         "codeception/c3": "^2.6.0",
         "codeception/codeception": "^4.1.9",
         "codeception/module-asserts": "@dev",
-        "codeception/module-cli": "^1.1",
+        "codeception/module-cli": "^2.0",
         "codeception/module-phpbrowser": "@dev",
         "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.5",
