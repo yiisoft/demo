@@ -11,7 +11,7 @@ use Yiisoft\Html\Html;
  * @var string $csrf
  */
 
-$this->setTitle(Html::encode($translator->translate('Signup')));
+$this->setTitle(Html::encode($translator->translate('signup')));
 $error = $error ?? null;
 ?>
 

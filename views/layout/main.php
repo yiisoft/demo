@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use App\Widget\LanguageSelector;
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
@@ -69,7 +68,7 @@ echo Nav::widget()
                     ) && $currentRouteName !== 'blog/comment/index',
             ],
             [
-                'label' => $translator->translate('menu.comments_feed'),
+                'label' => $translator->translate('menu.comments-feed'),
                 'url' => $urlGenerator->generate('blog/comment/index'),
             ],
             [
@@ -110,7 +109,7 @@ echo Nav::widget()
                 [
                     'class' => 'btn btn-primary',
                     'value' => $translator->translate(
-                        'menu.logout ({login})',
+                        'menu.logout',
                         ['login' => Html::encode($user->getLogin())],
                     ),
                 ],

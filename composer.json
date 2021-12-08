@@ -77,6 +77,7 @@
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
+        "yiisoft/yii-gii": "^3.0@dev",
         "yiisoft/yii-http": "dev-master",
         "yiisoft/yii-middleware": "dev-master",
         "yiisoft/yii-runner-console": "dev-master",
