@@ -6,7 +6,6 @@ namespace App\Auth;
 
 use App\User\User;
 use App\User\UserRepository;
-use InvalidArgumentException;
 use Throwable;
 use Yiisoft\User\CurrentUser;
 
