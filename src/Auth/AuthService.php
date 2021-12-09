@@ -31,7 +31,7 @@ final class AuthService
         $user = $this->userRepository->findByLoginWithAuthIdentity($login);
 
         if ($user === null || !$user->validatePassword($password)) {
-            throw new InvalidArgumentException('Invalid login or password.');
+            return false;
         }
 
         $identity = $user->getIdentity();
@@ -58,16 +58,18 @@ final class AuthService
     /**
      * @throws Throwable
      */
-    public function signup(string $login, string $password): void
+    public function signup(string $login, string $password): bool
     {
         $user = $this->userRepository->findByLogin($login);
 
         if ($user !== null) {
-            throw new InvalidArgumentException('Unable to register user with such login.');
+            return false;
         }
 
         $user = new User($login, $password);
         $this->userRepository->save($user);
+
+        return true;
     }
 
     public function isGuest(): bool

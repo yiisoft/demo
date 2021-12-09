@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Auth\Controller;
 
 use App\Auth\AuthService;
+use App\Auth\Form\LoginForm;
 use App\Service\WebControllerService;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 use Throwable;
 use Yiisoft\Http\Method;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class AuthController
@@ -27,8 +29,11 @@ final class AuthController
         $this->webService = $webService;
     }
 
-    public function login(ServerRequestInterface $request, LoggerInterface $logger): ResponseInterface
-    {
+    public function login(
+        ServerRequestInterface $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator
+    ): ResponseInterface {
         if (!$this->authService->isGuest()) {
             return $this->redirectToMain();
         }
@@ -36,29 +41,17 @@ final class AuthController
         $body = $request->getParsedBody();
         $error = null;
 
-        if ($request->getMethod() === Method::POST) {
-            try {
-                foreach (['login', 'password'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new InvalidArgumentException(ucfirst($name) . ' is required');
-                    }
-                }
+        $loginForm = new LoginForm($this->authService, $translator);
 
-                if ($this->authService->login($body['login'], $body['password'], isset($body['remember']))) {
-                    return $this->redirectToMain();
-                }
-
-                throw new InvalidArgumentException('Unable to login.');
-            } catch (Throwable $e) {
-                $logger->error($e);
-                $error = $e->getMessage();
-            }
+        if (
+            $request->getMethod() === Method::POST
+            && $loginForm->load($body)
+            && $validator->validate($loginForm)->isValid()
+        ) {
+            return $this->redirectToMain();
         }
 
-        return $this->viewRenderer->render('login', [
-            'body' => $body,
-            'error' => $error,
-        ]);
+        return $this->viewRenderer->render('login', ['formModel' => $loginForm]);
     }
 
     public function logout(): ResponseInterface

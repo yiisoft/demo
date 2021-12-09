@@ -2,6 +2,7 @@
 return [
     'layout.login' => 'Войти',
     'layout.password' => 'Пароль',
+    'layout.password-verify' => 'Подтвердить пароль',
     'layout.remember' => 'Запомнить меня',
     'layout.submit' => 'Отправить',
     'layout.archive' => 'Архив',

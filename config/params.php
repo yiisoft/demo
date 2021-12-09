@@ -54,6 +54,17 @@ return [
         ],
     ],
 
+    'yiisoft/forms' => [
+        'containerClass' => ['form-floating mb-3'],
+        'errorClass' => ['invalid-feedback'],
+        'hintClass' => ['form-text'],
+        'inputClass' => ['form-control'],
+        'invalidClass' => ['is-invalid'],
+        'labelClass' => ['floatingInput'],
+        'template' => ['{input}{label}{hint}{error}'],
+        'validClass' => ['is-valid'],
+    ],
+
     'yiisoft/router-fastroute' => [
         'enableCache' => false,
     ],

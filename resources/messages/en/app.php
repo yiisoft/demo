@@ -2,6 +2,7 @@
 return [
     'layout.login' => 'Login',
     'layout.password' => 'Password',
+    'layout.password-verify' => 'Confirm password',
     'layout.remember' => 'Remember me',
     'layout.submit' => 'Submit',
     'layout.archive' => 'Archive',
