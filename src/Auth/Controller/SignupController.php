@@ -38,13 +38,12 @@ final class SignupController
         }
 
         $body = $request->getParsedBody();
-        $error = null;
 
         $signupForm = new SignupForm($authService, $translator);
 
         if (
             $request->getMethod() === Method::POST
-            && $signupForm->load($body)
+            && $signupForm->load(is_array($body) ? $body : [])
             && $validator->validate($signupForm)->isValid()
         ) {
             return $this->redirectToMain();

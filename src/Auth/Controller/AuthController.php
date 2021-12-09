@@ -39,13 +39,11 @@ final class AuthController
         }
 
         $body = $request->getParsedBody();
-        $error = null;
-
         $loginForm = new LoginForm($this->authService, $translator);
 
         if (
             $request->getMethod() === Method::POST
-            && $loginForm->load($body)
+            && $loginForm->load(is_array($body) ? $body : [])
             && $validator->validate($loginForm)->isValid()
         ) {
             return $this->redirectToMain();
