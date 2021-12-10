@@ -37,9 +37,14 @@ final class SignupAcceptanceCest
         $I->amGoingTo('go to the register page.');
         $I->amOnPage('/signup');
 
+        $I->fillField('#signup-login', '');
+        $I->fillField('#signup-password', '');
+        $I->fillField('#signup-passwordverify', '');
+
         $I->click('Submit', '#signupForm');
 
         $I->expectTo('see registration register validation.');
+        $I->see('Value cannot be blank');
         $I->see('Value cannot be blank');
         $I->see('Value cannot be blank');
         $I->seeInField('register-button', 'Submit');

@@ -28,7 +28,7 @@ $this->setTitle($translator->translate('Signup'));
                 <div class="card-body p-5 text-center">
                     <?= Form::widget()
                         ->action($urlGenerator->generate('auth/signup'))
-                        ->attributes(['enctype' => 'multipart/form-data', 'novalidate' => true])
+                        ->attributes(['enctype' => 'multipart/form-data'])
                         ->csrf($csrf)
                         ->id('signupForm')
                         ->begin() ?>

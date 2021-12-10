@@ -22,6 +22,9 @@ final class LoginAcceptanceCest
         $I->amGoingTo('go to the log in page.');
         $I->amOnPage('/login');
 
+        $I->fillField('#login-login', '');
+        $I->fillField('#login-password', '');
+
         $I->click('Submit', '#loginForm');
 
         $I->expectTo('see validations errors.');

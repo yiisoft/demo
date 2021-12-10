@@ -30,7 +30,7 @@ $error = $error ?? null;
                 <div class="card-body p-5 text-center">
                     <?= Form::widget()
                         ->action($urlGenerator->generate('auth/login'))
-                        ->attributes(['enctype' => 'multipart/form-data', 'novalidate' => true])
+                        ->attributes(['enctype' => 'multipart/form-data'])
                         ->csrf($csrf)
                         ->id('loginForm')
                         ->begin() ?>
