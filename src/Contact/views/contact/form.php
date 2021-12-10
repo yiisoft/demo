@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Widget\FlashMessage;
+use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 use Yiisoft\View\WebView;
@@ -19,37 +20,48 @@ use Yiisoft\View\WebView;
 $this->setTitle($translator->translate('menu.contact'));
 ?>
 
-<h1><?= Html::encode($this->getTitle()) ?></h1>
-
 <?= FlashMessage::widget() ?>
 
-<div>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-8">
+            <div class="card border border-dark shadow-2-strong rounded-3">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="fw-normal h3 text-center"><?= Html::encode($this->getTitle()) ?></h1>
+                </div>
+                    <div class="card-body p-5 text-center">
+                        <?= Form::widget()
+                            ->action($url->generate('site/contact'))
+                            ->attributes(['enctype' => 'multipart/form-data'])
+                            ->csrf($csrf)
+                            ->id('form-contact')
+                            ->begin()
+                        ?>
 
-    <?= Form::widget()
-        ->action($url->generate('site/contact'))
-        ->attributes(['enctype' => 'multipart/form-data'])
-        ->id('form-contact')
-        ->begin() ?>
-    <?= $csrf->hiddenInput() ?>
-
-    <?= $field->config($form, 'name') ?>
-    <?= $field->config($form, 'email')->email() ?>
-    <?= $field->config($form, 'subject') ?>
-    <?= $field->config($form, 'body')
-        ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
-    <?= $field->config($form, 'attachFiles')
-        ->inputClass('form-control')
-        ->file(
-            ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
-            true,
-        ) ?>
-    <?= $field->submitButton(
-        [
-            'class' => 'btn btn-primary btn-lg mt-3',
-            'id' => 'contact-button',
-            'value' => 'Submit'
-        ],
-    ) ?>
-
-    <?= Form::end() ?>
+                            <?= Field::widget()->config($form, 'name') ?>
+                            <?= Field::widget()->config($form, 'email')->email() ?>
+                            <?= Field::widget()->config($form, 'subject') ?>
+                            <?= Field::widget()
+                                ->config($form, 'body')->textArea(['class' => 'form-control textarea', 'rows' => 2])
+                            ?>
+                            <?= Field::widget()
+                                ->config($form, 'attachFiles')
+                                ->file(
+                                    ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
+                                    true,
+                                )
+                            ?>
+                            <?= Field::widget()->submitButton(
+                                [
+                                    'class' => 'btn btn-primary btn-lg mt-3',
+                                    'id' => 'contact-button',
+                                    'value' => $translator->translate('layout.submit'),
+                                ],
+                            ) ?>
+                        <?= Form::end() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
