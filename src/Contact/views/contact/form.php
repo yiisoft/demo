@@ -46,10 +46,12 @@ $this->setTitle($translator->translate('menu.contact'));
                             ?>
                             <?= Field::widget()
                                 ->config($form, 'attachFiles')
+                                ->containerClass('mb-3')
                                 ->file(
                                     ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
                                     true,
                                 )
+                                ->label([], null)
                             ?>
                             <?= Field::widget()->submitButton(
                                 [
