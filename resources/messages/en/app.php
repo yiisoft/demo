@@ -42,4 +42,7 @@ return [
     'layout.add.random-content' => 'Add random content',
     'layout.migrations' => 'Migrations',
     'layout.db.schema' => 'DB Schema',
+    'validator.invalid.login.paswword' => 'Invalid login or password',
+    'validator.password.not.match' => 'Passwords do not match',
+    'validator.user.exist' => 'User with this login already exists',
 ];

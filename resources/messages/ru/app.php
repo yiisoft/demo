@@ -42,4 +42,7 @@ return [
     'layout.add.random-content' => 'Добавить случайный контент',
     'layout.migrations' => 'Миграции',
     'layout.db.schema' => 'Схема БД',
+    'validator.invalid.login.paswword' => 'Неверный логин или пароль',
+    'validator.password.not.match' => 'Пароли не совпадают',
+    'validator.user.exist' => 'Пользователь с таким логином уже существует',
 ];

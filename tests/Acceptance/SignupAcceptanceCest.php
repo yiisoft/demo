@@ -62,7 +62,7 @@ final class SignupAcceptanceCest
         $I->click('Submit', '#signupForm');
 
         $I->expectTo('see registration register validation.');
-        $I->see('User with this login already exists.');
+        $I->see('User with this login already exists');
         $I->seeInField('register-button', 'Submit');
     }
 
@@ -78,6 +78,6 @@ final class SignupAcceptanceCest
         $I->click('Submit', '#signupForm');
 
         $I->expectTo('see registration register validation.');
-        $I->see('Passwords do not match.');
+        $I->see('Passwords do not match');
     }
 }

@@ -67,11 +67,11 @@ final class SignupForm extends FormModel
             function (): Result {
                 $result = new Result();
                 if ($this->password !== $this->passwordVerify) {
-                    $result->addError($this->translator->translate('Passwords do not match.'));
+                    $result->addError($this->translator->translate('validator.password.not.match'));
                 }
 
                 if ($result->getErrors() === [] && !$this->authService->signup($this->login, $this->password)) {
-                    $result->addError($this->translator->translate('User with this login already exists.'));
+                    $result->addError($this->translator->translate('validator.user.exist'));
                 }
 
                 return $result;
