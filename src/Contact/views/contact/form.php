@@ -67,10 +67,10 @@ $this->setTitle($translator->translate('menu.contact'));
                                     ->attributes(
                                         [
                                             'class' => 'btn btn-primary btn-lg',
-                                            'id' => 'submit-button',
                                             'value' => $translator->translate('layout.submit'),
                                         ],
                                     )
+                                    ->id('contact-button')
                                 ?>
                             </div>
                         <?= Form::end() ?>
