@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Widget\FlashMessage;
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
+use Yiisoft\Form\Widget\ResetButton;
+use Yiisoft\Form\Widget\SubmitButton;
 use Yiisoft\Html\Html;
 use Yiisoft\View\WebView;
 
@@ -41,9 +43,7 @@ $this->setTitle($translator->translate('menu.contact'));
                             <?= Field::widget()->config($form, 'name') ?>
                             <?= Field::widget()->config($form, 'email')->email() ?>
                             <?= Field::widget()->config($form, 'subject') ?>
-                            <?= Field::widget()
-                                ->config($form, 'body')->textArea(['class' => 'form-control textarea', 'rows' => 2])
-                            ?>
+                            <?= Field::widget()->config($form, 'body')->textArea(['class' => 'h-100']) ?>
                             <?= Field::widget()
                                 ->config($form, 'attachFiles')
                                 ->containerClass('mb-3')
@@ -53,13 +53,26 @@ $this->setTitle($translator->translate('menu.contact'));
                                 )
                                 ->label([], null)
                             ?>
-                            <?= Field::widget()->submitButton(
-                                [
-                                    'class' => 'btn btn-primary btn-lg mt-3',
-                                    'id' => 'contact-button',
-                                    'value' => $translator->translate('layout.submit'),
-                                ],
-                            ) ?>
+                            <div class="btn-group btn-toolbar float-end">
+                                <?= ResetButton::widget()
+                                    ->attributes(
+                                        [
+                                            'class' => 'btn btn-danger btn-lg',
+                                            'id' => 'reset-button',
+                                            'value' => $translator->translate('layout.reset'),
+                                        ],
+                                    )
+                                ?>
+                                <?= SubmitButton::widget()
+                                    ->attributes(
+                                        [
+                                            'class' => 'btn btn-primary btn-lg',
+                                            'id' => 'submit-button',
+                                            'value' => $translator->translate('layout.submit'),
+                                        ],
+                                    )
+                                ?>
+                            </div>
                         <?= Form::end() ?>
                     </div>
                 </div>

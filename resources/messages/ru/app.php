@@ -5,6 +5,7 @@ return [
     'layout.password-verify' => 'Подтвердить пароль',
     'layout.remember' => 'Запомнить меня',
     'layout.submit' => 'Отправить',
+    'layout.reset' => 'Сбросить',
     'layout.archive' => 'Архив',
     'layout.no-records' => 'Нет записей',
     'layout.archive.for-year' => 'Архив за {year}',

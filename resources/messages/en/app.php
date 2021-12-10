@@ -5,6 +5,7 @@ return [
     'layout.password-verify' => 'Confirm password',
     'layout.remember' => 'Remember me',
     'layout.submit' => 'Submit',
+    'layout.reset' => 'Reset',
     'layout.archive' => 'Archive',
     'layout.no-records' => 'No records',
     'layout.archive.for-year' => 'Archive for {year}',
