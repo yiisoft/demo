@@ -2,8 +2,10 @@
 return [
     'layout.login' => 'Login',
     'layout.password' => 'Password',
+    'layout.password-verify' => 'Confirm password',
     'layout.remember' => 'Remember me',
     'layout.submit' => 'Submit',
+    'layout.reset' => 'Reset',
     'layout.archive' => 'Archive',
     'layout.no-records' => 'No records',
     'layout.archive.for-year' => 'Archive for {year}',
@@ -41,4 +43,7 @@ return [
     'layout.add.random-content' => 'Add random content',
     'layout.migrations' => 'Migrations',
     'layout.db.schema' => 'DB Schema',
+    'validator.invalid.login.password' => 'Invalid login or password',
+    'validator.password.not.match' => 'Passwords do not match',
+    'validator.user.exist' => 'User with this login already exists',
 ];

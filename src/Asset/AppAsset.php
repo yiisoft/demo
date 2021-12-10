@@ -25,5 +25,6 @@ class AppAsset extends AssetBundle
 
     public array $depends = [
         BootstrapAsset::class,
+        Bootstrap5IconsAsset::class,
     ];
 }

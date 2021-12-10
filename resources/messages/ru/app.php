@@ -2,8 +2,10 @@
 return [
     'layout.login' => 'Войти',
     'layout.password' => 'Пароль',
+    'layout.password-verify' => 'Подтвердить пароль',
     'layout.remember' => 'Запомнить меня',
     'layout.submit' => 'Отправить',
+    'layout.reset' => 'Сбросить',
     'layout.archive' => 'Архив',
     'layout.no-records' => 'Нет записей',
     'layout.archive.for-year' => 'Архив за {year}',
@@ -41,4 +43,7 @@ return [
     'layout.add.random-content' => 'Добавить случайный контент',
     'layout.migrations' => 'Миграции',
     'layout.db.schema' => 'Схема БД',
+    'validator.invalid.login.password' => 'Неверный логин или пароль',
+    'validator.password.not.match' => 'Пароли не совпадают',
+    'validator.user.exist' => 'Пользователь с таким логином уже существует',
 ];

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Auth\Controller;
 
 use App\Auth\AuthService;
+use App\Auth\Form\SignupForm;
 use App\Service\WebControllerService;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
-use Throwable;
 use Yiisoft\Http\Method;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
@@ -26,37 +26,28 @@ final class SignupController
     }
 
     public function signup(
-        ServerRequestInterface $request,
-        LoggerInterface $logger,
         AuthService $authService,
+        ServerRequestInterface $request,
+        TranslatorInterface $translator,
+        ValidatorInterface $validator
     ): ResponseInterface {
         if (!$authService->isGuest()) {
             return $this->redirectToMain();
         }
 
         $body = $request->getParsedBody();
-        $error = null;
 
-        if ($request->getMethod() === Method::POST) {
-            try {
-                foreach (['login', 'password'] as $name) {
-                    if (empty($body[$name])) {
-                        throw new InvalidArgumentException(ucfirst($name) . ' is required.');
-                    }
-                }
+        $signupForm = new SignupForm($authService, $translator);
 
-                $authService->signup($body['login'], $body['password']);
-                return $this->redirectToMain();
-            } catch (Throwable $e) {
-                $logger->error($e);
-                $error = $e->getMessage();
-            }
+        if (
+            $request->getMethod() === Method::POST
+            && $signupForm->load(is_array($body) ? $body : [])
+            && $validator->validate($signupForm)->isValid()
+        ) {
+            return $this->redirectToMain();
         }
 
-        return $this->viewRenderer->render('signup', [
-            'body' => $body,
-            'error' => $error,
-        ]);
+        return $this->viewRenderer->render('signup', ['formModel' => $signupForm]);
     }
 
     private function redirectToMain(): ResponseInterface

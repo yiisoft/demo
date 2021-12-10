@@ -8,7 +8,7 @@ use App\Auth\Identity;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
 
-class LayoutViewInjection implements LayoutParametersInjectionInterface
+final class LayoutViewInjection implements LayoutParametersInjectionInterface
 {
     private CurrentUser $currentUser;
 

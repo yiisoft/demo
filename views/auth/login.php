@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Form\Helper\HtmlFormErrors;
+use Yiisoft\Form\FormModelInterface;
+use Yiisoft\Form\Widget\Field;
+use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
 
 /**
@@ -9,44 +13,57 @@ use Yiisoft\Html\Html;
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var string $csrf
+ * @var FormModelInterface $formModel
  */
 
-$this->setTitle(Html::encode($translator->translate('layout.login')));
+$this->setTitle($translator->translate('layout.login'));
 
 $error = $error ?? null;
 ?>
 
-<?php if ($error !== null) : ?>
-  <div class="alert alert-danger" role="alert">
-    <?= Html::encode($error) ?>
-  </div>
-<?php endif ?>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card border border-dark shadow-2-strong rounded-3">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="fw-normal h3 text-center"><?= Html::encode($this->getTitle()) ?></h1>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <?= Form::widget()
+                        ->action($urlGenerator->generate('auth/login'))
+                        ->attributes(['enctype' => 'multipart/form-data'])
+                        ->csrf($csrf)
+                        ->id('loginForm')
+                        ->begin() ?>
 
-<form id="loginForm" method="POST" action="<?= $urlGenerator->generate('auth/login') ?>" enctype="multipart/form-data">
-  <input type="hidden" name="_csrf" value="<?= $csrf ?>">
-  <div class="mb-3">
-    <label for="login" class="form-label required"><?= Html::encode($translator->translate('layout.login')) ?></label>
-    <?= Html::textInput('login', $body['login'] ?? '', [
-      'id' => 'login',
-      'class' => 'form-control',
-      'required' => true,
-    ]) ?>
-  </div>
-  <div class="mb-3">
-    <label for="password" class="form-label required"><?= Html::encode($translator->translate('layout.password')) ?></label>
-    <?= Html::passwordInput('password', $body['password'] ?? '', [
-      'id' => 'password',
-      'class' => 'form-control',
-      'required' => true,
-    ]) ?>
-  </div>
-  <div class="form-check mb-3">
-    <?= Html::checkbox('remember', $body['remember'] ?? '', [
-      'id' => 'remember',
-      'class' => 'form-check-input',
-      'value' => '1',
-    ]) ?>
-    <label for="remember" class="form-check-label"><?= Html::encode($translator->translate('layout.remember')) ?></label>
-  </div>
-  <button type="submit" class="btn btn-primary"><?= Html::encode($translator->translate('layout.submit')) ?></button>
-</form>
+                        <?= Field::widget()->config($formModel, 'login')
+                            ->invalidClass('')
+                            ->validClass('')
+                            ->text(['autofocus' => true])
+                        ?>
+                        <?= Field::widget()->config($formModel, 'password')
+                            ->errorClass('fw-bold fst-italic invalid-class text-danger')
+                            ->invalidClass('')
+                            ->validClass('')
+                            ->password()
+                        ?>
+                        <?= Field::widget()->config($formModel, 'rememberMe')
+                            ->containerClass('form-check form-switch text-start mt-2')
+                            ->inputClass('form-check-input')
+                            ->checkbox([], false)
+                            ->labelClass('form-check-label')
+                        ?>
+                        <?= Field::widget()->containerClass('d-grid gap-2 form-floating')->submitButton(
+                            [
+                                'class' => 'btn btn-primary btn-lg mt-3',
+                                'id' => 'login-button',
+                                'value' => $translator->translate('layout.submit'),
+                            ]
+                        ) ?>
+                    <?= Form::end() ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
