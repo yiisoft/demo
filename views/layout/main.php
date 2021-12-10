@@ -120,15 +120,17 @@ $this->beginPage();
                             ->action($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
                             ->begin()
-                        . Field::widget()->submitButton(
-                            [
-                                'class' => 'btn btn-primary',
-                                'value' => $translator->translate(
-                                    'menu.logout',
-                                    ['login' => Html::encode($user->getLogin())],
-                                ),
-                            ],
-                        )
+                        . Field::widget()
+                            ->containerClass('mb-1')
+                            ->submitButton(
+                                [
+                                    'class' => 'btn btn-primary',
+                                    'value' => $translator->translate(
+                                        'menu.logout',
+                                        ['login' => Html::encode($user->getLogin())],
+                                    ),
+                                ],
+                            )
                         . Form::end()],
                 ) ?>
             <?= NavBar::end() ?>
