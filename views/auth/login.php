@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Form\Helper\HtmlFormErrors;
 use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
@@ -35,8 +36,17 @@ $error = $error ?? null;
                         ->id('loginForm')
                         ->begin() ?>
 
-                        <?= Field::widget()->config($formModel, 'login')->text(['autofocus' => true]) ?>
-                        <?= Field::widget()->config($formModel, 'password')->password() ?>
+                        <?= Field::widget()->config($formModel, 'login')
+                            ->invalidClass('')
+                            ->validClass('')
+                            ->text(['autofocus' => true])
+                        ?>
+                        <?= Field::widget()->config($formModel, 'password')
+                            ->errorClass('fw-bold fst-italic invalid-class text-danger')
+                            ->invalidClass('')
+                            ->validClass('')
+                            ->password()
+                        ?>
                         <?= Field::widget()->config($formModel, 'rememberMe')
                             ->containerClass('form-check form-switch text-start mt-2')
                             ->inputClass('form-check-input')

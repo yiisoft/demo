@@ -56,7 +56,7 @@ return [
 
     'yiisoft/forms' => [
         'containerClass' => ['form-floating mb-3'],
-        'errorClass' => ['invalid-feedback'],
+        'errorClass' => ['fw-bold fst-italic invalid-feedback'],
         'hintClass' => ['form-text'],
         'inputClass' => ['form-control'],
         'invalidClass' => ['is-invalid'],
