@@ -55,22 +55,14 @@ $this->setTitle($translator->translate('menu.contact'));
                             ?>
                             <div class="btn-group btn-toolbar float-end">
                                 <?= ResetButton::widget()
-                                    ->attributes(
-                                        [
-                                            'class' => 'btn btn-danger btn-lg',
-                                            'id' => 'reset-button',
-                                            'value' => $translator->translate('layout.reset'),
-                                        ],
-                                    )
+                                    ->attributes(['class' => 'btn btn-danger btn-lg'])
+                                    ->id('reset-button')
+                                    ->value($translator->translate('layout.reset'))
                                 ?>
                                 <?= SubmitButton::widget()
-                                    ->attributes(
-                                        [
-                                            'class' => 'btn btn-primary btn-lg',
-                                            'value' => $translator->translate('layout.submit'),
-                                        ],
-                                    )
+                                    ->attributes(['class' => 'btn btn-primary btn-lg'])
                                     ->id('contact-button')
+                                    ->value($translator->translate('layout.submit'))
                                 ?>
                             </div>
                         <?= Form::end() ?>
