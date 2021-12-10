@@ -44,7 +44,7 @@ $this->beginPage();
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Yii Demo<?= $this->getTitle() ? ' - ' . $this->getTitle() : '' ?></title>
+        <title>Yii Demo<?= $this->getTitle() ? ' - ' . Html::encode($this->getTitle()) : '' ?></title>
         <?php $this->head() ?>
     </head>
     <body class="cover-container-fluid d-flex w-100 h-100 mx-auto flex-column">

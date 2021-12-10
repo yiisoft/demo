@@ -15,7 +15,7 @@ use Yiisoft\Html\Html;
  * @var FormModelInterface $formModel
  */
 
-$this->setTitle(Html::encode($translator->translate('Signup')));
+$this->setTitle($translator->translate('Signup'));
 ?>
 
 <div class="container py-5 h-100">
