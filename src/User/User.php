@@ -25,7 +25,7 @@ use Yiisoft\Security\PasswordHasher;
  *     }
  * )
  */
-final class User
+class User
 {
     /**
      * @Column(type="primary")

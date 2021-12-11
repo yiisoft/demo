@@ -14,7 +14,7 @@ use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
 /**
  * @Entity(repository="App\Auth\IdentityRepository")
  */
-final class Identity implements CookieLoginIdentityInterface
+class Identity implements CookieLoginIdentityInterface
 {
     /**
      * @Column(type="primary")

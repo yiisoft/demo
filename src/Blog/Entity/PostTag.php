@@ -10,7 +10,7 @@ use Cycle\Annotated\Annotation\Entity;
 /**
  * @Entity
  */
-final class PostTag
+class PostTag
 {
     /**
      * @Column(type="primary")

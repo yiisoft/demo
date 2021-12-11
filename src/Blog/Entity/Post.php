@@ -29,7 +29,7 @@ use Yiisoft\Security\Random;
  *     }
  * )
  */
-final class Post
+class Post
 {
     /**
      * @Column(type="primary")

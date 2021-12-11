@@ -20,7 +20,7 @@ use DateTimeImmutable;
  *     }
  * )
  */
-final class Tag
+class Tag
 {
     /**
      * @Column(type="primary")
