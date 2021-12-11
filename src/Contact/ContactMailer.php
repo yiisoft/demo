@@ -16,7 +16,7 @@ use Yiisoft\Session\Flash\FlashInterface;
 /**
  * ContactMailer sends an email from the contact form
  */
-class ContactMailer
+final class ContactMailer
 {
     private FlashInterface $flash;
     private LoggerInterface $logger;

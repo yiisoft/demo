@@ -14,7 +14,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(title="Yii demo API", version="2.0")
  */
-class ApiInfo implements MiddlewareInterface
+final class ApiInfo implements MiddlewareInterface
 {
     private DataResponseFactoryInterface $responseFactory;
 

@@ -16,7 +16,7 @@ use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-class CreateCommand extends Command
+final class CreateCommand extends Command
 {
     private CycleDependencyProxy $promise;
     private Manager $manager;

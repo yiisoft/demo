@@ -24,7 +24,7 @@ use DateTimeImmutable;
  *     }
  * )
  */
-class Comment
+final class Comment
 {
     /**
      * @Column(type="primary")
