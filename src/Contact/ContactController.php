@@ -14,7 +14,7 @@ use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
-class ContactController
+final class ContactController
 {
     private ContactMailer $mailer;
     private ResponseFactoryInterface $responseFactory;

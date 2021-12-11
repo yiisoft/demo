@@ -12,7 +12,7 @@ use Cycle\ORM\Select\QueryBuilder;
  * Public with condition
  * Sorted
  */
-class PublicScope implements ConstrainInterface
+final class PublicScope implements ConstrainInterface
 {
     private ?array $publicOrCondition;
 

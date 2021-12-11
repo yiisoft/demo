@@ -7,7 +7,7 @@ namespace App\Asset;
 use Yiisoft\Assets\AssetBundle;
 use Yiisoft\Yii\Bootstrap5\Assets\BootstrapAsset;
 
-class AppAsset extends AssetBundle
+final class AppAsset extends AssetBundle
 {
     public ?string $basePath = '@assets';
 

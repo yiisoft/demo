@@ -17,7 +17,7 @@ use Yiisoft\Rbac\RolesStorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
-class AssignRoleCommand extends Command
+final class AssignRoleCommand extends Command
 {
     private CycleDependencyProxy $promise;
     private Manager $manager;

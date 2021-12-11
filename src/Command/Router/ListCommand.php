@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Yiisoft\Router\RouteCollectionInterface;
 use Yiisoft\Yii\Console\ExitCode;
 
-class ListCommand extends Command
+final class ListCommand extends Command
 {
     private RouteCollectionInterface $routeCollection;
 

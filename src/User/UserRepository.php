@@ -10,7 +10,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-class UserRepository extends Select\Repository
+final class UserRepository extends Select\Repository
 {
     private EntityWriter $entityWriter;
 
