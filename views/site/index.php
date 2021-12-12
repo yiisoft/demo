@@ -65,3 +65,5 @@ echo Carousel::widget()
         </div>
     </div>
 </div>
+
+<?= \App\Widget\StateTester::widget() ?>
