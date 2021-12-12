@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Widget;
 
 use Yiisoft\View\WebView;
@@ -13,7 +15,6 @@ final class StateTester extends Widget
     {
         $this->webView = $webView;
     }
-
 
     protected function run(): string
     {
