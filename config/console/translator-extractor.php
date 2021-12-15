@@ -27,7 +27,7 @@ return [
                             return new MessageSource($aliases->get('@messages'));
                         }),
                     ],
-                ])
+                ]),
             ],
         ],
     ],
