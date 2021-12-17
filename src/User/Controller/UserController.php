@@ -7,6 +7,7 @@ namespace App\User\Controller;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\CurrentRouteInterface;
@@ -23,16 +24,24 @@ final class UserController
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(UserRepository $userRepository, CurrentRouteInterface $currentRoute): Response
-    {
+    public function index(
+        CurrentRouteInterface $currentRoute,
+        ServerRequestInterface $request,
+        UserRepository $userRepository
+    ): Response {
         $pageNum = (int)$currentRoute->getArgument('page', '1');
+        $sortOrderString = $request->getQueryParams();
 
-        $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
-        $paginator = (new OffsetPaginator($dataReader))
-            ->withPageSize(self::PAGINATION_INDEX)
-            ->withCurrentPage($pageNum);
+        $dataReader = $userRepository
+            ->findAll()
+            ->withSort(Sort::only(['id', 'login'])->withOrderString($sortOrderString['sort'] ?? ''));
 
-        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
+        $paginator = (new OffsetPaginator($dataReader));
+
+        return $this->viewRenderer->render(
+            'index',
+            ['currentPage' => $pageNum, 'paginator' => $paginator, 'pageSize' => self::PAGINATION_INDEX]
+        );
     }
 
     public function profile(CurrentRouteInterface $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
