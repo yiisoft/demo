@@ -94,14 +94,6 @@ return [
         'secretKey' => '53136271c432a1af377c3806c3112ddf',
     ],
 
-    'yiisoft/user' => [
-        'authUrl' => '/login',
-        'cookieLogin' => [
-            'addCookie' => true,
-            'duration' => 'P5D', // 5 days, see format on http://php.net/manual/dateinterval.construct.php
-        ],
-    ],
-
     'yiisoft/yii-view' => [
         'viewPath' => '@views',
         'layout' => '@views/layout/main',
