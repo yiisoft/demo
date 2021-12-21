@@ -12,9 +12,9 @@ use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Collection\Pivoted\PivotedCollection;
-use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
-use Cycle\ORM\Entity\Macros\Timestamped\DeletedAtMacro;
-use Cycle\ORM\Entity\Macros\Timestamped\UpdatedAtMacro;
+use Cycle\ORM\Entity\Behavior\CreatedAt;
+use Cycle\ORM\Entity\Behavior\SoftDelete;
+use Cycle\ORM\Entity\Behavior\UpdatedAt;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\Random;
@@ -24,9 +24,9 @@ use Yiisoft\Security\Random;
     scope: \App\Blog\Post\Scope\PublicScope::class
 )]
 #[Index(columns: ['public', 'published_at'])]
-#[CreatedAtMacro(field: 'created_at', column: 'created_at')]
-#[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]
-#[DeletedAtMacro(field: 'deleted_at', column: 'deleted_at')]
+#[CreatedAt(field: 'created_at', column: 'created_at')]
+#[UpdatedAt(field: 'updated_at', column: 'updated_at')]
+#[SoftDelete(field: 'deleted_at', column: 'deleted_at')]
 class Post
 {
     #[Column(type: 'primary')]

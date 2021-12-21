@@ -11,18 +11,17 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\HasOne;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
-use Cycle\ORM\Entity\Macros\Timestamped\CreatedAtMacro;
-use Cycle\ORM\Entity\Macros\Timestamped\UpdatedAtMacro;
+use Cycle\ORM\Entity\Behavior\CreatedAt;
+use Cycle\ORM\Entity\Behavior\UpdatedAt;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\PasswordHasher;
 
 #[Entity(repository: \App\User\UserRepository::class)]
 #[Index(columns: ['login'], unique: true)]
-#[CreatedAtMacro(field: 'created_at', column: 'created_at')]
-#[UpdatedAtMacro(field: 'updated_at', column: 'updated_at')]
+#[CreatedAt(field: 'created_at', column: 'created_at')]
+#[UpdatedAt(field: 'updated_at', column: 'updated_at')]
 class User
 {
     #[Column(type: 'primary')]
