@@ -13,20 +13,20 @@ declare(strict_types=1);
 use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 
-$this->setTitle($translator->translate('layout.archive for {year}', ['year' => $year]));
+$this->setTitle($translator->translate('layout.archive.for-year', ['year' => $year]));
 
 ?>
-<h1><?= $translator->translate('layout.archive for {year}', ['year' => '<small class="text-muted">' . $year . '</small>']) ?></h1>
+<h1><?= $translator->translate('layout.archive.for-year', ['year' => '<small class="text-muted">' . $year . '</small>']) ?></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php
         if (count($items) > 0) {
             echo Html::p(
-                $translator->translate('layout.total {count} posts', ['count' => count($items)]),
+                $translator->translate('layout.total.posts', ['count' => count($items)]),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::p($translator->translate('layout.no records'));
+            echo Html::p($translator->translate('layout.no-records'));
         }
         $currentMonth = null;
         $monthName = '';

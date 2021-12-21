@@ -7,7 +7,7 @@ namespace App\Asset;
 use Yiisoft\Assets\AssetBundle;
 use Yiisoft\Yii\Bootstrap5\Assets\BootstrapAsset;
 
-class AppAsset extends AssetBundle
+final class AppAsset extends AssetBundle
 {
     public ?string $basePath = '@assets';
 
@@ -25,5 +25,6 @@ class AppAsset extends AssetBundle
 
     public array $depends = [
         BootstrapAsset::class,
+        Bootstrap5IconsAsset::class,
     ];
 }

@@ -6,7 +6,7 @@ namespace App\ViewInjection;
 
 use Yiisoft\Yii\View\LinkTagsInjectionInterface;
 
-class LinkTagsViewInjection implements LinkTagsInjectionInterface
+final class LinkTagsViewInjection implements LinkTagsInjectionInterface
 {
     public function getLinkTags(): array
     {

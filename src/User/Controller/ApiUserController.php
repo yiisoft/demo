@@ -11,7 +11,7 @@ use Yiisoft\Data\Reader\Sort;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Router\CurrentRouteInterface;
 
-class ApiUserController
+final class ApiUserController
 {
     private DataResponseFactoryInterface $responseFactory;
 

@@ -7,7 +7,7 @@ namespace App\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
-class SiteController
+final class SiteController
 {
     private ViewRenderer $viewRenderer;
 

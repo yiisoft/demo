@@ -12,7 +12,7 @@ use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\CurrentRouteInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
-class UserController
+final class UserController
 {
     private const PAGINATION_INDEX = 5;
 

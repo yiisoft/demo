@@ -8,6 +8,7 @@ use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Yiisoft\Assets\AssetManager;
+use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\CurrentRouteInterface;
@@ -15,6 +16,7 @@ use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
@@ -29,6 +31,8 @@ return [
     'middlewares' => [
         ErrorCatcher::class,
         SessionMiddleware::class,
+        CookieMiddleware::class,
+        CookieLoginMiddleware::class,
         LocaleMiddleware::class,
         Router::class,
     ],
@@ -49,6 +53,17 @@ return [
             '@layout' => '@root/views/layout',
             '@views' => '@root/views',
         ],
+    ],
+
+    'yiisoft/forms' => [
+        'containerClass' => ['form-floating mb-3'],
+        'errorClass' => ['fw-bold fst-italic invalid-feedback'],
+        'hintClass' => ['form-text'],
+        'inputClass' => ['form-control'],
+        'invalidClass' => ['is-invalid'],
+        'labelClass' => ['floatingInput'],
+        'template' => ['{input}{label}{hint}{error}'],
+        'validClass' => ['is-valid'],
     ],
 
     'yiisoft/router-fastroute' => [
@@ -74,6 +89,10 @@ return [
             'currentRoute' => Reference::to(CurrentRouteInterface::class),
             'translator' => Reference::to(TranslatorInterface::class),
         ],
+    ],
+
+    'yiisoft/cookies' => [
+        'secretKey' => '53136271c432a1af377c3806c3112ddf',
     ],
 
     'yiisoft/yii-view' => [

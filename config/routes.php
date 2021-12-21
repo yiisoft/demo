@@ -10,8 +10,8 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\Actions\ApiInfo;
-use App\Controller\AuthController;
-use App\Controller\SignupController;
+use App\Auth\Controller\AuthController;
+use App\Auth\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
@@ -39,15 +39,17 @@ return [
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
+
+    // Auth
     Route::methods([Method::GET, Method::POST], '/login')
         ->action([AuthController::class, 'login'])
-        ->name('site/login'),
+        ->name('auth/login'),
     Route::post('/logout')
         ->action([AuthController::class, 'logout'])
-        ->name('site/logout'),
+        ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
         ->action([SignupController::class, 'signup'])
-        ->name('site/signup'),
+        ->name('auth/signup'),
 
     // User
     Group::create('/user')
@@ -117,7 +119,7 @@ return [
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRouteInterface $currentRoute) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
-                        $post = $postRepository->findBySlug($currentRoute->getParameter('slug'));
+                        $post = $postRepository->findBySlug($currentRoute->getArgument('slug'));
                         return $post->getSlug() . '-' . $post->getUpdatedAt()->getTimestamp();
                     })
                 )
@@ -162,9 +164,9 @@ return [
                     return $swaggerJson
                         // Uncomment cache for production environment
                         // ->withCache(60)
-                        ->withAnnotationPaths([
+                        ->withAnnotationPaths(
                             '@src/Controller', // Path to API controllers
-                        ]);
+                        );
                 }),
         ),
 ];

@@ -9,7 +9,7 @@ use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\Bootstrap5\Widget;
 
-class PostCard extends Widget
+final class PostCard extends Widget
 {
     private ?Post $post = null;
 

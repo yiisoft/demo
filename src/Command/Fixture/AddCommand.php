@@ -20,7 +20,7 @@ use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-class AddCommand extends Command
+final class AddCommand extends Command
 {
     protected static $defaultName = 'fixture/add';
 
