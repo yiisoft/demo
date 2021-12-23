@@ -23,7 +23,6 @@ class Identity implements CookieLoginIdentityInterface
     #[BelongsTo(target: "App\User\User", nullable: false, load: "eager")]
     private ?User $user = null;
     private ?int $user_id = null;
-    private bool $shouldAddCookie = false;
 
     public function __construct()
     {
@@ -43,16 +42,6 @@ class Identity implements CookieLoginIdentityInterface
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    public function shouldLoginByCookie(): bool
-    {
-        return $this->shouldAddCookie;
-    }
-
-    public function setShouldLoginByCookie(bool $value): void
-    {
-        $this->shouldAddCookie = $value;
     }
 
     public function validateCookieLoginKey(string $key): bool
