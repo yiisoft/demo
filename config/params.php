@@ -11,7 +11,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\SessionMiddleware;
@@ -85,7 +85,7 @@ return [
         'parameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'currentRoute' => Reference::to(CurrentRouteInterface::class),
+            'currentRoute' => Reference::to(CurrentRoute::class),
             'translator' => Reference::to(TranslatorInterface::class),
         ],
     ],
