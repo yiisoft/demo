@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use App\Widget\LanguageSelector;
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
@@ -14,7 +13,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRouteInterface $currentRoute
+ * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var \Yiisoft\Translator\TranslatorInterface $translator
@@ -34,7 +33,7 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
+$currentRouteName = $currentRoute->getName() ?? '';
 
 $this->beginPage();
 ?>

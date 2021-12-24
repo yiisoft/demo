@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
@@ -23,7 +23,7 @@ final class UserController
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(UserRepository $userRepository, CurrentRouteInterface $currentRoute): Response
+    public function index(UserRepository $userRepository, CurrentRoute $currentRoute): Response
     {
         $pageNum = (int)$currentRoute->getArgument('page', '1');
 
@@ -35,7 +35,7 @@ final class UserController
         return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 
-    public function profile(CurrentRouteInterface $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
+    public function profile(CurrentRoute $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
     {
         $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
