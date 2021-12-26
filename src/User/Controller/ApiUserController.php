@@ -9,7 +9,7 @@ use App\User\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 
 final class ApiUserController
 {
@@ -33,7 +33,7 @@ final class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    public function profile(UserRepository $userRepository, CurrentRouteInterface $currentRoute): ResponseInterface
+    public function profile(UserRepository $userRepository, CurrentRoute $currentRoute): ResponseInterface
     {
         $login = $currentRoute->getArgument('login');
 
