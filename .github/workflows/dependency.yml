@@ -46,7 +46,7 @@ jobs:
         run: composer self-update
 
       - name: Install maglnet/composer-require-checker
-        run: composer require maglnet/composer-require-checker
+        run: composer require maglnet/composer-require-checker:^3.8
 
       - name: Check dependency
         run: vendor/bin/composer-require-checker
