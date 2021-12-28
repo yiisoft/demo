@@ -58,8 +58,6 @@ final class LocaleMiddleware implements MiddlewareInterface
         if ($this->locales === []) {
             return $handler->handle($request);
         }
-        $this->urlGenerator->setLocales($this->locales);
-        $this->urlGenerator->setLocaleParameterName($this->queryParameterName);
 
         $uri = $request->getUri();
         $path = $uri->getPath();
@@ -71,9 +69,8 @@ final class LocaleMiddleware implements MiddlewareInterface
             if ($newPath === '') {
                 $newPath = '/';
             }
-            $request = $request->withUri($uri->withPath($newPath));
             $this->translator->setLocale($locale);
-            $this->urlGenerator->setUriPrefix('/' . $locale);
+            $this->urlGenerator->setDefault($this->queryParameterName, $locale);
 
             $response = $handler->handle($request);
             if ($this->isDefaultLocale($locale, $country)) {
@@ -92,6 +89,8 @@ final class LocaleMiddleware implements MiddlewareInterface
             [$locale, $country] = $this->detectLocale($request);
         }
         if ($locale === null || $this->isDefaultLocale($locale, $country)) {
+            $this->urlGenerator->setDefault($this->queryParameterName, $this->defaultLocale);
+            $request = $request->withUri($uri->withPath('/' .$this->defaultLocale . $path));
             return $handler->handle($request);
         }
         return $this->responseFactory->createResponse(Status::FOUND)
