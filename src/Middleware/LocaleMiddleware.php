@@ -96,7 +96,7 @@ final class LocaleMiddleware implements MiddlewareInterface
         $this->urlGenerator->setDefault($this->queryParameterName, $locale);
 
         return $this->responseFactory->createResponse(Status::FOUND)
-            ->withHeader(Header::LOCATION, '/' . $locale . rtrim($path, '/'));
+            ->withHeader(Header::LOCATION, '/' . $locale . $path);
     }
 
     private function getLocaleFromPath(string $path): array
