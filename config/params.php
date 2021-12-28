@@ -126,7 +126,7 @@ return [
         'dbal' => [
             // SQL query logger. Definition of Psr\Log\LoggerInterface
             // For example, \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class
-            'query-logger' => \Psr\Log\LoggerInterface::class,
+            'query-logger' => null,
             // Default database
             'default' => 'default',
             'aliases' => [],
@@ -169,15 +169,18 @@ return [
          * ]
          */
         'schema-providers' => [
-            // Uncomment next line to enable schema cache
+            // Uncomment next line to enable a Schema caching in the common cache
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
-            // \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
-            //     'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
-            //     'file' => 'runtime/schema.php',
-            // ],
+
+            // Store generated Schema in the file
+            \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
+                'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
+                'file' => 'runtime/schema.php',
+            ],
+
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
-                    // Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
+                    Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
         ],

@@ -18,12 +18,4 @@ return [
             ]),
         ],
     ],
-    // LoggerInterface::class => static function () {
-    //     $log = new \Monolog\Logger('test');
-    //     $handler = new \Monolog\Handler\SocketHandler('127.0.0.1:9913');
-    //     $handler->setFormatter(new \Monolog\Formatter\JsonFormatter());
-    //     $log->pushHandler($handler);
-    //
-    //     return $log;
-    // },
 ];
