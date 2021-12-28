@@ -27,9 +27,9 @@ class Tag
     private DateTimeImmutable $created_at;
 
     /**
-     * @var PivotedCollection<array-key, Post>
+     * @var PivotedCollection<array-key, Post, PostTag>
      */
-    #[ManyToMany(target: Post::class, though: 'PostTag', fkAction: 'CASCADE', indexCreate: false)]
+    #[ManyToMany(target: Post::class, though: PostTag::class, fkAction: 'CASCADE', indexCreate: false)]
     private PivotedCollection $posts;
 
     public function __construct(string $label)

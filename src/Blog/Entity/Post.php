@@ -59,9 +59,9 @@ class Post
     private ?int $user_id = null;
 
     /**
-     * @var PivotedCollection<array-key, Tag>
+     * @var PivotedCollection<array-key, Tag, PostTag>
      */
-    #[ManyToMany(target: \App\Blog\Entity\Tag::class, though: 'PostTag', fkAction: 'CASCADE')]
+    #[ManyToMany(target: \App\Blog\Entity\Tag::class, though: PostTag::class, fkAction: 'CASCADE')]
     private PivotedCollection $tags;
     private ?int $tag_id = null;
 
