@@ -93,6 +93,8 @@ final class LocaleMiddleware implements MiddlewareInterface
             $request = $request->withUri($uri->withPath('/' .$this->defaultLocale . $path));
             return $handler->handle($request);
         }
+        $this->urlGenerator->setDefault($this->queryParameterName, $locale);
+
         return $this->responseFactory->createResponse(Status::FOUND)
             ->withHeader(Header::LOCATION, '/' . $locale . rtrim($path, '/'));
     }
