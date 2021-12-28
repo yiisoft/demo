@@ -21,15 +21,16 @@ if (PHP_SAPI === 'cli-server') {
     $_SERVER['SCRIPT_NAME'] = '/index.php';
 }
 
-require_once dirname(__DIR__) . '/preload.php';
+chdir(dirname(__DIR__));
+require_once 'preload.php';
 
 if (getenv('YII_ENV') === 'test') {
-    $c3 = dirname(__DIR__) . '/c3.php';
+    $c3 = 'c3.php';
     if (file_exists($c3)) {
         require_once $c3;
     }
 }
 
 // Run HTTP application runner
-$runner = new HttpApplicationRunner(dirname(__DIR__), $_ENV['YII_DEBUG'], $_ENV['YII_ENV']);
+$runner = new HttpApplicationRunner(getcwd(), $_ENV['YII_DEBUG'], $_ENV['YII_ENV']);
 $runner->run();

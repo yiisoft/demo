@@ -43,11 +43,11 @@ class Comment
     #[Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $deleted_at = null;
 
-     #[BelongsTo(target: \App\User\User::class, nullable: false, load: 'eager')]
+    #[BelongsTo(target: User::class, nullable: false, load: 'eager')]
     private ?User $user = null;
     private ?int $user_id = null;
 
-     #[BelongsTo(target: \App\Blog\Entity\Post::class, nullable: false)]
+    #[BelongsTo(target: Post::class, nullable: false)]
     private ?Post $post = null;
     private ?int $post_id = null;
 

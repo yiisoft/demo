@@ -54,21 +54,21 @@ class Post
     #[Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $deleted_at = null;
 
-    #[BelongsTo(target: \App\User\User::class, nullable: false)]
+    #[BelongsTo(target: User::class, nullable: false)]
     private ?User $user = null;
     private ?int $user_id = null;
 
     /**
      * @var PivotedCollection<array-key, Tag, PostTag>
      */
-    #[ManyToMany(target: \App\Blog\Entity\Tag::class, though: PostTag::class, fkAction: 'CASCADE')]
+    #[ManyToMany(target: Tag::class, though: PostTag::class, fkAction: 'CASCADE')]
     private PivotedCollection $tags;
     private ?int $tag_id = null;
 
     /**
      * @var ArrayCollection<array-key, Comment>
      */
-     #[HasMany(target: \App\Blog\Entity\Comment::class)]
+     #[HasMany(target: Comment::class)]
     private ArrayCollection $comments;
 
     public function __construct(string $title = '', string $content = '')
