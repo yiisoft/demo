@@ -12,16 +12,15 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Table\Index;
-use Cycle\ORM\Entity\Behavior\CreatedAt;
-use Cycle\ORM\Entity\Behavior\UpdatedAt;
+use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\PasswordHasher;
 
 #[Entity(repository: \App\User\UserRepository::class)]
 #[Index(columns: ['login'], unique: true)]
-#[CreatedAt(field: 'created_at', column: 'created_at')]
-#[UpdatedAt(field: 'updated_at', column: 'updated_at')]
+#[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
+#[Behavior\UpdatedAt(field: 'updated_at', column: 'updated_at')]
 class User
 {
     #[Column(type: 'primary')]

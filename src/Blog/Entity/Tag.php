@@ -9,12 +9,12 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Collection\Pivoted\PivotedCollection;
-use Cycle\ORM\Entity\Behavior\CreatedAt;
+use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 
 #[Entity(repository: \App\Blog\Tag\TagRepository::class)]
 #[Index(columns: ['label'], unique: true)]
-#[CreatedAt(field: 'created_at', column: 'created_at')]
+#[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
 class Tag
 {
     #[Column(type: 'primary')]
