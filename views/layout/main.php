@@ -166,7 +166,7 @@ $this->beginPage();
                         <i class="bi bi-twitter text-white"></i>
                     </a>
                     <a class='text-decoration-none px-1' href='https://t.me/yii3ru' target='_blank' rel='noopener'>
-                        <i class="bi bi-twitter text-white"></i>
+                        <i class="bi bi-telegram text-white"></i>
                     </a>
                 </div>
             </div>
