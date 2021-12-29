@@ -102,7 +102,9 @@ $this->beginPage();
                         [
                             'label' => $translator->translate('menu.signup'),
                             'url' => $urlGenerator->generate('auth/signup'),
-                        ],
+                        ]
+                    ]
+                    : [
                         ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
                             [
                                 'label' => $translator->translate('layout.language.english'),
@@ -112,9 +114,7 @@ $this->beginPage();
                                 'label' => $translator->translate('layout.language.russian'),
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
                             ],
-                        ]]
-                    ]
-                    : [
+                        ]],
                         Form::widget()
                             ->action($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
@@ -130,7 +130,8 @@ $this->beginPage();
                                     ),
                                 ],
                             )
-                        . Form::end()],
+                        . Form::end()
+                    ],
                 ) ?>
             <?= NavBar::end() ?>
         </header>
