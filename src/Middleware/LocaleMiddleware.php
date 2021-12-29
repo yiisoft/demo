@@ -70,7 +70,7 @@ final class LocaleMiddleware implements MiddlewareInterface
                 $newPath = '/';
             }
             $this->translator->setLocale($locale);
-            $this->urlGenerator->setDefault($this->queryParameterName, $locale);
+            $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
             $response = $handler->handle($request);
             if ($this->isDefaultLocale($locale, $country)) {
@@ -89,11 +89,11 @@ final class LocaleMiddleware implements MiddlewareInterface
             [$locale, $country] = $this->detectLocale($request);
         }
         if ($locale === null || $this->isDefaultLocale($locale, $country)) {
-            $this->urlGenerator->setDefault($this->queryParameterName, $this->defaultLocale);
+            $this->urlGenerator->setDefaultArgument($this->queryParameterName, $this->defaultLocale);
             $request = $request->withUri($uri->withPath('/' .$this->defaultLocale . $path));
             return $handler->handle($request);
         }
-        $this->urlGenerator->setDefault($this->queryParameterName, $locale);
+        $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
         return $this->responseFactory->createResponse(Status::FOUND)
             ->withHeader(Header::LOCATION, '/' . $locale . $path);
