@@ -106,11 +106,11 @@ $this->beginPage();
                         ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
                             [
                                 'label' => $translator->translate('layout.language.english'),
-                                'url' => $urlGenerator->generate($currentRouteName, array_merge($currentRoute->getArguments(), ['_language' => 'en'])),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], 'site/index'),
                             ],
                             [
                                 'label' => $translator->translate('layout.language.russian'),
-                                'url' => $urlGenerator->generate($currentRouteName, array_merge($currentRoute->getArguments(), ['_language' => 'ru'])),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
                             ],
                         ]]
                     ]
