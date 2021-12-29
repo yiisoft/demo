@@ -68,7 +68,7 @@ class Post
     /**
      * @var ArrayCollection<array-key, Comment>
      */
-     #[HasMany(target: Comment::class)]
+    #[HasMany(target: Comment::class)]
     private ArrayCollection $comments;
 
     public function __construct(string $title = '', string $content = '')

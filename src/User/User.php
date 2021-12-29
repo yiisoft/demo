@@ -44,13 +44,13 @@ class User
     /**
      * @var ArrayCollection<array-key, Post>
      */
-     #[HasMany(target: \App\Blog\Entity\Post::class)]
+    #[HasMany(target: \App\Blog\Entity\Post::class)]
     private ArrayCollection $posts;
 
     /**
      * @var ArrayCollection<array-key, Comment>
      */
-     #[HasMany(target: \App\Blog\Entity\Comment::class)]
+    #[HasMany(target: \App\Blog\Entity\Comment::class)]
     private ArrayCollection $comments;
 
     public function __construct(string $login, string $password)
