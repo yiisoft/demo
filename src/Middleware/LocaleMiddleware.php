@@ -90,7 +90,7 @@ final class LocaleMiddleware implements MiddlewareInterface
         }
         if ($locale === null || $this->isDefaultLocale($locale, $country)) {
             $this->urlGenerator->setDefaultArgument($this->queryParameterName, $this->defaultLocale);
-            $request = $request->withUri($uri->withPath('/' .$this->defaultLocale . $path));
+            $request = $request->withUri($uri->withPath('/' . $this->defaultLocale . $path));
             return $handler->handle($request);
         }
         $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
