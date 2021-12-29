@@ -29,8 +29,7 @@ final class CreateCommand extends Command
         Manager $manager,
         RolesStorageInterface $rolesStorage,
         UserRepository $userRepository
-    )
-    {
+    ) {
         $this->manager = $manager;
         $this->rolesStorage = $rolesStorage;
         $this->userRepository = $userRepository;
