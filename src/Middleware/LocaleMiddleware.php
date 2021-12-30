@@ -58,8 +58,6 @@ final class LocaleMiddleware implements MiddlewareInterface
         if ($this->locales === []) {
             return $handler->handle($request);
         }
-        $this->urlGenerator->setLocales($this->locales);
-        $this->urlGenerator->setLocaleParameterName($this->queryParameterName);
 
         $uri = $request->getUri();
         $path = $uri->getPath();
@@ -71,12 +69,11 @@ final class LocaleMiddleware implements MiddlewareInterface
             if ($newPath === '') {
                 $newPath = '/';
             }
-            $request = $request->withUri($uri->withPath($newPath));
             $this->translator->setLocale($locale);
-            $this->urlGenerator->setUriPrefix('/' . $locale);
+            $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
             $response = $handler->handle($request);
-            if ($this->isDefaultLocale($locale, $country)) {
+            if ($this->isDefaultLocale($locale, $country) && $request->getMethod() === 'GET') {
                 $response = $this->responseFactory->createResponse(Status::FOUND)
                     ->withHeader(Header::LOCATION, $newPath);
             }
@@ -92,10 +89,18 @@ final class LocaleMiddleware implements MiddlewareInterface
             [$locale, $country] = $this->detectLocale($request);
         }
         if ($locale === null || $this->isDefaultLocale($locale, $country)) {
+            $this->urlGenerator->setDefaultArgument($this->queryParameterName, $this->defaultLocale);
+            $request = $request->withUri($uri->withPath('/' . $this->defaultLocale . $path));
             return $handler->handle($request);
         }
-        return $this->responseFactory->createResponse(Status::FOUND)
-            ->withHeader(Header::LOCATION, '/' . $locale . rtrim($path, '/'));
+        $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
+
+        if ($request->getMethod() === 'GET') {
+            return $this->responseFactory->createResponse(Status::FOUND)
+                ->withHeader(Header::LOCATION, '/' . $locale . $path);
+        }
+
+        return $handler->handle($request);
     }
 
     private function getLocaleFromPath(string $path): array

@@ -34,6 +34,7 @@ $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
 $currentRouteName = $currentRoute->getName() ?? '';
+$isGuest = $user === null || $user->getId() === null;
 
 $this->beginPage();
 ?>
@@ -93,29 +94,32 @@ $this->beginPage();
                 ->currentPath($currentRoute->getUri()->getPath())
                 ->options(['class' => 'navbar-nav'])
                 ->items(
-                    $user === null || $user->getId() === null
-                    ? [
+                    [
+                        [
+                            'label' => $translator->translate('menu.language'),
+                            'url' => '#',
+                            'items' => [
+                                [
+                                    'label' => $translator->translate('layout.language.english'),
+                                    'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], 'site/index'),
+                                ],
+                                [
+                                    'label' => $translator->translate('layout.language.russian'),
+                                    'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
+                                ],
+                            ],
+                        ],
                         [
                             'label' => $translator->translate('menu.login'),
                             'url' => $urlGenerator->generate('auth/login'),
+                            'visible' => $isGuest,
                         ],
                         [
                             'label' => $translator->translate('menu.signup'),
                             'url' => $urlGenerator->generate('auth/signup'),
+                            'visible' => $isGuest,
                         ],
-                        ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
-                            [
-                                'label' => $translator->translate('layout.language.english'),
-                                'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'en'] + $currentRoute->getArguments()),
-                            ],
-                            [
-                                'label' => $translator->translate('layout.language.russian'),
-                                'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'ru'] + $currentRoute->getArguments()),
-                            ],
-                        ]]
-                    ]
-                    : [
-                        Form::widget()
+                        $isGuest ? '' : Form::widget()
                             ->action($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
                             ->begin()
@@ -130,7 +134,8 @@ $this->beginPage();
                                     ),
                                 ],
                             )
-                        . Form::end()],
+                        . Form::end()
+                    ],
                 ) ?>
             <?= NavBar::end() ?>
         </header>
@@ -165,7 +170,7 @@ $this->beginPage();
                         <i class="bi bi-twitter text-white"></i>
                     </a>
                     <a class='text-decoration-none px-1' href='https://t.me/yii3ru' target='_blank' rel='noopener'>
-                        <i class="bi bi-twitter text-white"></i>
+                        <i class="bi bi-telegram text-white"></i>
                     </a>
                 </div>
             </div>
