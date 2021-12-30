@@ -73,7 +73,7 @@ final class LocaleMiddleware implements MiddlewareInterface
             $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
             $response = $handler->handle($request);
-            if ($this->isDefaultLocale($locale, $country)) {
+            if ($this->isDefaultLocale($locale, $country) && $request->getMethod() === 'GET') {
                 $response = $this->responseFactory->createResponse(Status::FOUND)
                     ->withHeader(Header::LOCATION, $newPath);
             }
@@ -95,8 +95,12 @@ final class LocaleMiddleware implements MiddlewareInterface
         }
         $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
-        return $this->responseFactory->createResponse(Status::FOUND)
-            ->withHeader(Header::LOCATION, '/' . $locale . $path);
+        if ($request->getMethod() === 'GET') {
+            return $this->responseFactory->createResponse(Status::FOUND)
+                ->withHeader(Header::LOCATION, '/' . $locale . $path);
+        }
+
+        return $handler->handle($request);
     }
 
     private function getLocaleFromPath(string $path): array
