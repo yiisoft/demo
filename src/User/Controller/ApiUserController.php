@@ -50,7 +50,7 @@ final class ApiUserController
     /**
      * @OA\Get(
      *     path="/api/user/{login}",
-     *     tags={"user"}",
+     *     tags={"user"},
      *     @OA\Parameter(
      *     @OA\Schema(type="string"),
      *     in="path",
