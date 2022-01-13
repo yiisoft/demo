@@ -190,7 +190,7 @@ return [
     'yiisoft/yii-swagger' => [
         'annotation-paths' => [
             '@src/Controller',
-            '@src/User/Controller'
-        ]
-    ]
+            '@src/User/Controller',
+        ],
+    ],
 ];
