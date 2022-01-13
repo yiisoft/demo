@@ -30,6 +30,7 @@ final class ApiUserController
     /**
      * @OA\Get(
      *     path="/api/user",
+     *     tags="{user}"
      *     @OA\Response(response="200", description="Get users list")
      * )
      */
@@ -49,6 +50,7 @@ final class ApiUserController
     /**
      * @OA\Get(
      *     path="/api/user/{login}",
+     *     tags="{user}"
      *     @OA\Parameter(
      *     @OA\Schema(type="string"),
      *     in="path",
