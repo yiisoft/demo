@@ -79,8 +79,8 @@
         "yiisoft/yii-event": "^1.0",
         "yiisoft/yii-http": "^1.0",
         "yiisoft/yii-middleware": "dev-master",
-        "yiisoft/yii-runner-console": "dev-master",
-        "yiisoft/yii-runner-http": "dev-master",
+        "yiisoft/yii-runner-console": "^1.0",
+        "yiisoft/yii-runner-http": "^1.0",
         "yiisoft/yii-swagger": "^1.0",
         "yiisoft/yii-view": "^4.0"
     },
