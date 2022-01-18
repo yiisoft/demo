@@ -6,7 +6,7 @@ use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Php\AssignmentsStorage;
 use Yiisoft\Rbac\Php\RolesStorage;
-use Yiisoft\Rbac\RuleFactory\ClassNameRuleFactory;
+use Yiisoft\Rbac\ClassNameRuleFactory;
 use Yiisoft\Rbac\RuleFactoryInterface;
 use Yiisoft\Rbac\AssignmentsStorageInterface;
 use Yiisoft\Rbac\RolesStorageInterface;
