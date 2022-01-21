@@ -28,21 +28,19 @@ $this->setTitle($translator->translate('Signup'));
                 <div class="card-body p-5 text-center">
                     <?= Form::widget()
                         ->action($urlGenerator->generate('auth/signup'))
-                        ->attributes(['enctype' => 'multipart/form-data'])
                         ->csrf($csrf)
                         ->id('signupForm')
                         ->begin() ?>
 
-                        <?= Field::widget()->config($formModel, 'login')->text(['autofocus' => true]) ?>
-                        <?= Field::widget()->config($formModel, 'password')->password() ?>
-                        <?= Field::widget()->config($formModel, 'passwordVerify')->password() ?>
-                        <?= Field::widget()->containerClass('d-grid gap-2 form-floating')->submitButton(
-                            [
-                                'class' => 'btn btn-primary btn-lg mt-3',
-                                'id' => 'register-button',
-                                'value' => $translator->translate('layout.submit'),
-                            ]
-                        ) ?>
+                        <?= Field::widget()->autofocus()->text($formModel, 'login') ?>
+                        <?= Field::widget()->password($formModel, 'password') ?>
+                        <?= Field::widget()->password($formModel, 'passwordVerify') ?>
+                        <?= Field::widget()
+                            ->id('register-button')
+                            ->name('register-button')
+                            ->submitButton()
+                            ->value($translator->translate('layout.submit'))
+                        ?>
 
                     <?= Form::end() ?>
                 </div>

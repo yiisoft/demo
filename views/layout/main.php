@@ -124,16 +124,10 @@ $this->beginPage();
                             ->csrf($csrf)
                             ->begin()
                         . Field::widget()
+                            ->attributes(['class' => 'btn btn-primary'])
                             ->containerClass('mb-1')
-                            ->submitButton(
-                                [
-                                    'class' => 'btn btn-primary',
-                                    'value' => $translator->translate(
-                                        'menu.logout',
-                                        ['login' => Html::encode($user->getLogin())],
-                                    ),
-                                ],
-                            )
+                            ->submitButton()
+                            ->value($translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())]))
                         . Form::end()
                     ],
                 ) ?>
