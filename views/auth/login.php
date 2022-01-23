@@ -31,35 +31,25 @@ $error = $error ?? null;
                 <div class="card-body p-5 text-center">
                     <?= Form::widget()
                         ->action($urlGenerator->generate('auth/login'))
-                        ->attributes(['enctype' => 'multipart/form-data'])
                         ->csrf($csrf)
                         ->id('loginForm')
                         ->begin() ?>
 
-                        <?= Field::widget()->config($formModel, 'login')
-                            ->invalidClass('')
-                            ->validClass('')
-                            ->text(['autofocus' => true])
-                        ?>
-                        <?= Field::widget()->config($formModel, 'password')
-                            ->errorClass('fw-bold fst-italic invalid-class text-danger')
-                            ->invalidClass('')
-                            ->validClass('')
-                            ->password()
-                        ?>
-                        <?= Field::widget()->config($formModel, 'rememberMe')
+                        <?= Field::widget()->autofocus()->text($formModel, 'login') ?>
+                        <?= Field::widget()->password($formModel, 'password') ?>
+                        <?= Field::widget()
+                            ->checkbox($formModel, 'rememberMe')
                             ->containerClass('form-check form-switch text-start mt-2')
                             ->inputClass('form-check-input')
-                            ->checkbox([], false)
                             ->labelClass('form-check-label')
                         ?>
-                        <?= Field::widget()->containerClass('d-grid gap-2 form-floating')->submitButton(
-                            [
-                                'class' => 'btn btn-primary btn-lg mt-3',
-                                'id' => 'login-button',
-                                'value' => $translator->translate('layout.submit'),
-                            ]
-                        ) ?>
+                        <?= Field::widget()
+                            ->id('login-button')
+                            ->name('login-button')
+                            ->submitButton()
+                            ->value($translator->translate('layout.submit'))
+                        ?>
+
                     <?= Form::end() ?>
                 </div>
             </div>

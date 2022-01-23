@@ -11,7 +11,7 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\SessionMiddleware;
@@ -55,14 +55,30 @@ return [
     ],
 
     'yiisoft/forms' => [
-        'containerClass' => ['form-floating mb-3'],
-        'errorClass' => ['fw-bold fst-italic invalid-feedback'],
-        'hintClass' => ['form-text'],
-        'inputClass' => ['form-control'],
-        'invalidClass' => ['is-invalid'],
-        'labelClass' => ['floatingInput'],
-        'template' => ['{input}{label}{hint}{error}'],
-        'validClass' => ['is-valid'],
+        'field' => [
+            'ariaDescribedBy' => [true],
+            'containerClass' => ['form-floating mb-3'],
+            'errorClass' => ['fw-bold fst-italic invalid-feedback'],
+            'hintClass' => ['form-text'],
+            'inputClass' => ['form-control'],
+            'invalidClass' => ['is-invalid'],
+            'labelClass' => ['floatingInput'],
+            'template' => ['{input}{label}{hint}{error}'],
+            'validClass' => ['is-valid'],
+            'defaultValues' => [
+                [
+                    'submit' => [
+                        'definitions' => [
+                            'class()' => ['btn btn-primary btn-lg mt-3'],
+                        ],
+                        'containerClass' => 'd-grid gap-2 form-floating',
+                    ],
+                ],
+            ],
+        ],
+        'form' => [
+            'attributes' => [['enctype' => 'multipart/form-data']],
+        ],
     ],
 
     'yiisoft/router-fastroute' => [
@@ -85,21 +101,13 @@ return [
         'parameters' => [
             'assetManager' => Reference::to(AssetManager::class),
             'urlGenerator' => Reference::to(UrlGeneratorInterface::class),
-            'currentRoute' => Reference::to(CurrentRouteInterface::class),
+            'currentRoute' => Reference::to(CurrentRoute::class),
             'translator' => Reference::to(TranslatorInterface::class),
         ],
     ],
 
     'yiisoft/cookies' => [
         'secretKey' => '53136271c432a1af377c3806c3112ddf',
-    ],
-
-    'yiisoft/user' => [
-        'authUrl' => '/login',
-        'cookieLogin' => [
-            'addCookie' => true,
-            'duration' => 'P5D', // 5 days, see format on http://php.net/manual/dateinterval.construct.php
-        ],
     ],
 
     'yiisoft/yii-view' => [
@@ -193,6 +201,12 @@ return [
          */
         'annotated-entity-paths' => [
             '@src',
+        ],
+    ],
+    'yiisoft/yii-swagger' => [
+        'annotation-paths' => [
+            '@src/Controller',
+            '@src/User/Controller',
         ],
     ],
 ];

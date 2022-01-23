@@ -24,7 +24,7 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
@@ -117,7 +117,7 @@ return [
             // Post page
             Route::get('/page/{slug}')
                 ->middleware(
-                    fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRouteInterface $currentRoute) =>
+                    fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRoute $currentRoute) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
                         $post = $postRepository->findBySlug($currentRoute->getArgument('slug'));
                         return $post->getSlug() . '-' . $post->getUpdatedAt()->getTimestamp();
@@ -160,13 +160,6 @@ return [
                 ->name('swagger/index'),
             Route::get('/json-url')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->action(static function (SwaggerJson $swaggerJson) {
-                    return $swaggerJson
-                        // Uncomment cache for production environment
-                        // ->withCache(60)
-                        ->withAnnotationPaths(
-                            '@src/Controller', // Path to API controllers
-                        );
-                }),
+                ->action(SwaggerJson::class),
         ),
 ];
