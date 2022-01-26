@@ -85,16 +85,16 @@
         "yiisoft/yii-view": "^4.0"
     },
     "require-dev": {
-        "codeception/c3": "^2.6.0",
-        "codeception/codeception": "^4.1.22",
+        "codeception/c3": "^2.6",
+        "codeception/codeception": "^4.1",
         "codeception/module-asserts": "^2.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-phpbrowser": "^2.0",
-        "phpunit/phpunit": "^9.4",
-        "roave/infection-static-analysis-plugin": "^1.5",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.16",
         "roave/security-advisories": "dev-master",
-        "spatie/phpunit-watcher": "^1.23.1",
-        "vimeo/psalm": "^4.2",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.18",
         "yiisoft/translator-extractor": "^1.0",
         "yiisoft/yii-debug-viewer": "^3.0@dev"
     },
