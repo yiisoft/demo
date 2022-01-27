@@ -22,7 +22,7 @@ if (PHP_SAPI === 'cli-server') {
 }
 
 chdir(dirname(__DIR__));
-require_once 'preload.php';
+require_once dirname(__DIR__) . '/autoload.php';
 
 if (getenv('YII_ENV') === 'test') {
     $c3 = 'c3.php';
@@ -32,5 +32,5 @@ if (getenv('YII_ENV') === 'test') {
 }
 
 // Run HTTP application runner
-$runner = new HttpApplicationRunner(getcwd(), $_ENV['YII_DEBUG'], $_ENV['YII_ENV']);
+$runner = new HttpApplicationRunner(dirname(__DIR__), $_ENV['YII_DEBUG'], $_ENV['YII_ENV']);
 $runner->run();

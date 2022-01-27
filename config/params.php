@@ -56,14 +56,30 @@ return [
     ],
 
     'yiisoft/forms' => [
-        'containerClass' => ['form-floating mb-3'],
-        'errorClass' => ['fw-bold fst-italic invalid-feedback'],
-        'hintClass' => ['form-text'],
-        'inputClass' => ['form-control'],
-        'invalidClass' => ['is-invalid'],
-        'labelClass' => ['floatingInput'],
-        'template' => ['{input}{label}{hint}{error}'],
-        'validClass' => ['is-valid'],
+        'field' => [
+            'ariaDescribedBy' => [true],
+            'containerClass' => ['form-floating mb-3'],
+            'errorClass' => ['fw-bold fst-italic invalid-feedback'],
+            'hintClass' => ['form-text'],
+            'inputClass' => ['form-control'],
+            'invalidClass' => ['is-invalid'],
+            'labelClass' => ['floatingInput'],
+            'template' => ['{input}{label}{hint}{error}'],
+            'validClass' => ['is-valid'],
+            'defaultValues' => [
+                [
+                    'submit' => [
+                        'definitions' => [
+                            'class()' => ['btn btn-primary btn-lg mt-3'],
+                        ],
+                        'containerClass' => 'd-grid gap-2 form-floating',
+                    ],
+                ],
+            ],
+        ],
+        'form' => [
+            'attributes' => [['enctype' => 'multipart/form-data']],
+        ],
     ],
 
     'yiisoft/router-fastroute' => [
@@ -194,5 +210,11 @@ return [
             '@src',
         ],
         'conveyor' => AttributedSchemaConveyor::class,
+    ],
+    'yiisoft/yii-swagger' => [
+        'annotation-paths' => [
+            '@src/Controller',
+            '@src/User/Controller',
+        ],
     ],
 ];

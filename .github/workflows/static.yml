@@ -1,6 +1,26 @@
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'infection.json.dist'
+      - 'phpunit.xml.dist'
+
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'infection.json.dist'
+      - 'phpunit.xml.dist'
+
   schedule:
     - cron: '0 0 * * *'
 
@@ -19,6 +39,7 @@ jobs:
 
         php:
           - 8.0
+          - 8.1
 
     steps:
       - name: Checkout
@@ -27,7 +48,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "${{ matrix.php }}"
+          php-version: ${{ matrix.php }}
           tools: composer:v2, cs2pr
           coverage: none
 

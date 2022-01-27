@@ -67,6 +67,7 @@ final class SignupForm extends FormModel
             function (): Result {
                 $result = new Result();
                 if ($this->password !== $this->passwordVerify) {
+                    $this->getFormErrors()->addError('password', '');
                     $result->addError($this->translator->translate('validator.password.not.match'));
                 }
 

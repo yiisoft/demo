@@ -1,6 +1,26 @@
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'phpunit.xml.dist'
+      - 'psalm.xml'
+
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'phpunit.xml.dist'
+      - 'psalm.xml'
+
   schedule:
     - cron: '0 0 * * *'
 
@@ -18,7 +38,7 @@ jobs:
           - ubuntu-latest
 
         php:
-          - "8.0"
+          - 8.1
 
     steps:
       - name: Checkout
@@ -27,7 +47,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "${{ matrix.php }}"
+          php-version: ${{ matrix.php }}
           tools: composer:v2, cs2pr
           coverage: none
 
