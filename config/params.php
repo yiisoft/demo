@@ -19,6 +19,7 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
+use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
@@ -149,12 +150,11 @@ return [
                 'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
-                'sqlite' => [
-                    'driver' => \Spiral\Database\Driver\SQLite\SQLiteDriver::class,
-                    'connection' => 'sqlite:@runtime/database.db',
-                    'username' => '',
-                    'password' => '',
-                ],
+                'sqlite' => new \Cycle\Database\Config\SQLiteDriverConfig(
+                    connection: new \Cycle\Database\Config\SQLite\FileConnectionConfig(
+                        database: 'runtime/database.db'
+                    )
+                ),
             ],
         ],
 
@@ -185,8 +185,15 @@ return [
          * ]
          */
         'schema-providers' => [
-            // Uncomment next line to enable schema cache
+            // Uncomment next line to enable a Schema caching in the common cache
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+
+            // Store generated Schema in the file
+            \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
+                'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
+                'file' => 'runtime/schema.php',
+            ],
+
             \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
@@ -199,9 +206,10 @@ return [
          * Annotated entity directories list.
          * {@see \Yiisoft\Aliases\Aliases} are also supported.
          */
-        'annotated-entity-paths' => [
+        'entity-paths' => [
             '@src',
         ],
+        'conveyor' => AttributedSchemaConveyor::class,
     ],
     'yiisoft/yii-swagger' => [
         'annotation-paths' => [

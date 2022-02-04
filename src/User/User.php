@@ -11,67 +11,47 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\HasOne;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yiisoft\Security\PasswordHasher;
 
-/**
- * @Entity(repository="App\User\UserRepository")
- * @Table(
- *     indexes={
- *         @Index(columns={"login"}, unique=true),
- *     }
- * )
- */
+#[Entity(repository: \App\User\UserRepository::class)]
+#[Index(columns: ['login'], unique: true)]
+#[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
+#[Behavior\UpdatedAt(field: 'updated_at', column: 'updated_at')]
 class User
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     private ?int $id = null;
 
-    /**
-     * @Column(type="string(48)")
-     */
+    #[Column(type: 'string(48)')]
     private string $login;
 
-    /**
-     * @Column(type="string")
-     */
+    #[Column(type: 'string')]
     private string $passwordHash;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $updated_at;
 
-    /**
-     * @HasOne(target="App\Auth\Identity")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Identity
-     */
-    private $identity;
+    #[HasOne(target: Identity::class)]
+    private Identity $identity;
 
     /**
-     * @HasMany(target="App\Blog\Entity\Post")
-     *
-     * @var ArrayCollection|Post[]
+     * @var ArrayCollection<array-key, Post>
      */
-    private $posts;
+    #[HasMany(target: \App\Blog\Entity\Post::class)]
+    private ArrayCollection $posts;
 
     /**
-     * @HasMany(target="App\Blog\Entity\Comment")
-     *
-     * @var ArrayCollection|Comment[]
+     * @var ArrayCollection<array-key, Comment>
      */
-    private $comments;
+    #[HasMany(target: \App\Blog\Entity\Comment::class)]
+    private ArrayCollection $comments;
 
     public function __construct(string $login, string $password)
     {
