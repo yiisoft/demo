@@ -34,37 +34,37 @@ $this->setTitle($translator->translate('menu.contact'));
                     <div class="card-body p-5 text-center">
                         <?= Form::widget()
                             ->action($url->generate('site/contact'))
-                            ->attributes(['enctype' => 'multipart/form-data'])
                             ->csrf($csrf)
                             ->id('form-contact')
                             ->begin()
                         ?>
 
-                            <?= Field::widget()->config($form, 'name') ?>
-                            <?= Field::widget()->config($form, 'email')->email() ?>
-                            <?= Field::widget()->config($form, 'subject') ?>
-                            <?= Field::widget()->config($form, 'body')->textArea(['class' => 'h-100']) ?>
+                            <?= Field::widget()->text($form, 'name') ?>
+                            <?= Field::widget()->email($form, 'email') ?>
+                            <?= Field::widget()->text($form, 'subject') ?>
+                            <?= Field::widget()->attributes(['style' => 'height: 100px'])->textArea($form, 'body') ?>
                             <?= Field::widget()
-                                ->config($form, 'attachFiles')
                                 ->containerClass('mb-3')
-                                ->file(
-                                    ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
-                                    true,
-                                )
-                                ->label([], null)
+                                ->file($form, 'attachFiles', ['multiple()' => [true]])
+                                ->label(null)
                             ?>
-                            <div class="btn-group btn-toolbar float-end">
-                                <?= ResetButton::widget()
-                                    ->attributes(['class' => 'btn btn-danger btn-lg'])
-                                    ->id('reset-button')
-                                    ->value($translator->translate('layout.reset'))
-                                ?>
-                                <?= SubmitButton::widget()
-                                    ->attributes(['class' => 'btn btn-primary btn-lg'])
-                                    ->id('contact-button')
-                                    ->value($translator->translate('layout.submit'))
-                                ?>
-                            </div>
+                            <?= Field::widget()
+                                ->containerClass('btn-group btn-toolbar float-end')
+                                ->buttonGroup(
+                                    [
+                                        ['label' => 'Reset', 'type' => 'reset'],
+                                        ['label' => 'Submit', 'type' => 'submit'],
+                                    ],
+                                        ['individualButtonAttributes()' => [
+                                            [
+                                                0 => ['class' => 'btn btn-lg btn-danger'],
+                                                1 => ['class' => 'btn btn-lg btn-primary', 'name' => 'contact-button'],
+                                            ],
+                                        ],
+                                    ],
+                                )
+                            ?>
+
                         <?= Form::end() ?>
                     </div>
                 </div>

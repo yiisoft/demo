@@ -10,7 +10,7 @@ use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -33,7 +33,7 @@ final class PostController
         $this->userService = $userService;
     }
 
-    public function index(CurrentRouteInterface $currentRoute, PostRepository $postRepository): Response
+    public function index(CurrentRoute $currentRoute, PostRepository $postRepository): Response
     {
         $canEdit = $this->userService->hasPermission('editPost');
         $slug = $currentRoute->getArgument('slug');
@@ -71,7 +71,7 @@ final class PostController
         Request $request,
         PostRepository $postRepository,
         ValidatorInterface $validator,
-        CurrentRouteInterface $currentRoute
+        CurrentRoute $currentRoute
     ): Response {
         $slug = $currentRoute->getArgument('slug');
         $post = $postRepository->fullPostPage($slug);

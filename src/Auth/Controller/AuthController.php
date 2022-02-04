@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\User\Login\Cookie\CookieLogin;
+use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -30,7 +32,8 @@ final class AuthController
     public function login(
         ServerRequestInterface $request,
         TranslatorInterface $translator,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        CookieLogin $cookieLogin
     ): ResponseInterface {
         if (!$this->authService->isGuest()) {
             return $this->redirectToMain();
@@ -44,6 +47,12 @@ final class AuthController
             && $loginForm->load(is_array($body) ? $body : [])
             && $validator->validate($loginForm)->isValid()
         ) {
+            $identity = $this->authService->getIdentity();
+
+            if ($identity instanceof CookieLoginIdentityInterface && $loginForm->getAttributeValue('rememberMe')) {
+                return $cookieLogin->addCookie($identity, $this->redirectToMain());
+            }
+
             return $this->redirectToMain();
         }
 

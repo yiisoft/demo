@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use App\Widget\LanguageSelector;
 use Yiisoft\Form\Widget\Field;
 use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
@@ -14,7 +13,7 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRouteInterface $currentRoute
+ * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var \Yiisoft\Translator\TranslatorInterface $translator
@@ -34,7 +33,8 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
+$currentRouteName = $currentRoute->getName() ?? '';
+$isGuest = $user === null || $user->getId() === null;
 
 $this->beginPage();
 ?>
@@ -94,44 +94,42 @@ $this->beginPage();
                 ->currentPath($currentRoute->getUri()->getPath())
                 ->options(['class' => 'navbar-nav'])
                 ->items(
-                    $user === null || $user->getId() === null
-                    ? [
+                    [
+                        [
+                            'label' => $translator->translate('menu.language'),
+                            'url' => '#',
+                            'items' => [
+                                [
+                                    'label' => $translator->translate('layout.language.english'),
+                                    'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], 'site/index'),
+                                ],
+                                [
+                                    'label' => $translator->translate('layout.language.russian'),
+                                    'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
+                                ],
+                            ],
+                        ],
                         [
                             'label' => $translator->translate('menu.login'),
                             'url' => $urlGenerator->generate('auth/login'),
+                            'visible' => $isGuest,
                         ],
                         [
                             'label' => $translator->translate('menu.signup'),
                             'url' => $urlGenerator->generate('auth/signup'),
+                            'visible' => $isGuest,
                         ],
-                        ['label' => $translator->translate('menu.language'), 'url' => '#', 'items' => [
-                            [
-                                'label' => $translator->translate('layout.language.english'),
-                                'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'en']),
-                            ],
-                            [
-                                'label' => $translator->translate('layout.language.russian'),
-                                'url' => $urlGenerator->generate($currentRouteName, ['_language' => 'ru']),
-                            ],
-                        ]]
-                    ]
-                    : [
-                        Form::widget()
+                        $isGuest ? '' : Form::widget()
                             ->action($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
                             ->begin()
                         . Field::widget()
+                            ->attributes(['class' => 'btn btn-primary'])
                             ->containerClass('mb-1')
-                            ->submitButton(
-                                [
-                                    'class' => 'btn btn-primary',
-                                    'value' => $translator->translate(
-                                        'menu.logout',
-                                        ['login' => Html::encode($user->getLogin())],
-                                    ),
-                                ],
-                            )
-                        . Form::end()],
+                            ->submitButton()
+                            ->value($translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())]))
+                        . Form::end()
+                    ],
                 ) ?>
             <?= NavBar::end() ?>
         </header>
@@ -166,7 +164,7 @@ $this->beginPage();
                         <i class="bi bi-twitter text-white"></i>
                     </a>
                     <a class='text-decoration-none px-1' href='https://t.me/yii3ru' target='_blank' rel='noopener'>
-                        <i class="bi bi-twitter text-white"></i>
+                        <i class="bi bi-telegram text-white"></i>
                     </a>
                 </div>
             </div>

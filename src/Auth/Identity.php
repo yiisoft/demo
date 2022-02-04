@@ -11,29 +11,18 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Yiisoft\Security\Random;
 use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
 
-/**
- * @Entity(repository="App\Auth\IdentityRepository")
- */
+#[Entity(repository: IdentityRepository::class)]
 class Identity implements CookieLoginIdentityInterface
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     private ?int $id = null;
 
-    /**
-     * @Column(type="string(32)")
-     */
+    #[Column(type: 'string(32)')]
     private string $authKey;
 
-    /**
-     * @BelongsTo(target="App\User\User", nullable=false, load="eager")
-     *
-     * @var \Cycle\ORM\Promise\Reference|User
-     */
-    private $user = null;
+    #[BelongsTo(target: User::class, nullable: false, load: 'eager')]
+    private ?User $user = null;
     private ?int $user_id = null;
-    private bool $shouldAddCookie = false;
 
     public function __construct()
     {
@@ -53,16 +42,6 @@ class Identity implements CookieLoginIdentityInterface
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    public function shouldLoginByCookie(): bool
-    {
-        return $this->shouldAddCookie;
-    }
-
-    public function setShouldLoginByCookie(bool $value): void
-    {
-        $this->shouldAddCookie = $value;
     }
 
     public function validateCookieLoginKey(string $key): bool

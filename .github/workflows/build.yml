@@ -1,6 +1,26 @@
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'infection.json.dist'
+      - 'psalm.xml'
+
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - '.gitignore'
+      - '.env.example'
+      - '.gitattributes'
+      - 'infection.json.dist'
+      - 'psalm.xml'
+
   schedule:
     - cron: '0 0 * * *'
 
@@ -24,6 +44,7 @@ jobs:
 
         php:
           - 8.0
+          - 8.1
 
     steps:
       - name: Checkout

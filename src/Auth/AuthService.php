@@ -7,6 +7,7 @@ namespace App\Auth;
 use App\User\User;
 use App\User\UserRepository;
 use Throwable;
+use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\User\CurrentUser;
 
 final class AuthService
@@ -25,7 +26,7 @@ final class AuthService
         $this->identityRepository = $identityRepository;
     }
 
-    public function login(string $login, string $password, bool $rememberMe = false): bool
+    public function login(string $login, string $password): bool
     {
         $user = $this->userRepository->findByLoginWithAuthIdentity($login);
 
@@ -33,10 +34,7 @@ final class AuthService
             return false;
         }
 
-        $identity = $user->getIdentity();
-        $identity->setShouldLoginByCookie($rememberMe);
-
-        return $this->currentUser->login($identity);
+        return $this->currentUser->login($user->getIdentity());
     }
 
     /**
@@ -69,6 +67,11 @@ final class AuthService
         $this->userRepository->save($user);
 
         return true;
+    }
+
+    public function getIdentity(): IdentityInterface
+    {
+        return $this->currentUser->getIdentity();
     }
 
     public function isGuest(): bool

@@ -55,7 +55,8 @@ final class LoginForm extends FormModel
             function (): Result {
                 $result = new Result();
 
-                if (!$this->authService->login($this->login, $this->password, $this->rememberMe)) {
+                if (!$this->authService->login($this->login, $this->password)) {
+                    $this->getFormErrors()->addError('login', '');
                     $result->addError($this->translator->translate('validator.invalid.login.password'));
                 }
 

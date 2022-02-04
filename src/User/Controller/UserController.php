@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Router\CurrentRouteInterface;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
@@ -24,11 +24,8 @@ final class UserController
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(
-        CurrentRouteInterface $currentRoute,
-        ServerRequestInterface $request,
-        UserRepository $userRepository
-    ): Response {
+    public function index(UserRepository $userRepository, CurrentRoute $currentRoute): Response
+    {
         $pageNum = (int)$currentRoute->getArgument('page', '1');
         $sortOrderString = $request->getQueryParams();
 
@@ -44,7 +41,7 @@ final class UserController
         );
     }
 
-    public function profile(CurrentRouteInterface $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
+    public function profile(CurrentRoute $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
     {
         $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);

@@ -10,6 +10,6 @@
         <directory name="src" />
         <file name="public/index.php"/>
         <file name="yii"/>
-        <file name="preload.php"/>
+        <file name="autoload.php"/>
     </projectFiles>
 </psalm>
