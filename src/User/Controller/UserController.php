@@ -24,8 +24,11 @@ final class UserController
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(UserRepository $userRepository, CurrentRoute $currentRoute): Response
-    {
+    public function index(
+        UserRepository $userRepository,
+        CurrentRoute $currentRoute,
+        ServerRequestInterface $request
+    ): Response {
         $pageNum = (int)$currentRoute->getArgument('page', '1');
         $sortOrderString = $request->getQueryParams();
 
