@@ -73,9 +73,10 @@ $this->setTitle($translator->translate('menu.users'));
                 ],
             ]
         )
-        ->currentPage($currentPage)
+        ->currentPage($page)
+        ->pageArgument(true)
         ->paginator($paginator)
-        ->pageSize($pageSize)
+        ->requestArguments(['sort' => $sortOrder, 'page' => $page])
         ->rowOptions(['class' => 'align-middle'])
         ->summaryOptions(['class' => 'mt-3 me-3 summary text-end'])
         ->tableOptions(['class' => 'table table-striped text-center h-75']) ?>
