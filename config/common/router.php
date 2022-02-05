@@ -18,11 +18,14 @@ return [
         $collector
             ->middleware(CsrfMiddleware::class)
             ->middleware(FormatDataResponse::class)
-            ->middleware(ToolbarMiddleware::class)
             ->addGroup(
                 Group::create('/{_language}')
                     ->routes(...$config->get('routes'))
             );
+
+        if (empty($_ENV['YII_ENV']) || str_starts_with($_ENV['YII_ENV'], 'prod') === false) {
+            $collector->middleware(ToolbarMiddleware::class);
+        }
 
         return new RouteCollection($collector);
     },
