@@ -82,6 +82,10 @@ return [
         ],
     ],
 
+    'yiisoft/rbac-rules-container' => [
+        'rules' => require __DIR__ . '/rbac-rules.php',
+    ],
+
     'yiisoft/router-fastroute' => [
         'enableCache' => false,
     ],
