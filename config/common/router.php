@@ -13,6 +13,11 @@ use Yiisoft\Yii\Debug\Viewer\Middleware\ToolbarMiddleware;
 
 /** @var Config $config */
 
+$env = getenv('YII_ENV');
+if ($env === false) {
+    $env = '';
+}
+
 return [
     RouteCollectionInterface::class => static function (RouteCollectorInterface $collector) use ($config) {
         $collector
@@ -23,7 +28,7 @@ return [
                     ->routes(...$config->get('routes'))
             );
 
-        if (empty($_ENV['YII_ENV']) || str_starts_with($_ENV['YII_ENV'], 'prod') === false) {
+        if (!str_starts_with($env, 'prod')) {
             $collector->middleware(ToolbarMiddleware::class);
         }
 
