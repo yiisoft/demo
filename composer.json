@@ -20,9 +20,9 @@
         "ext-mbstring": "*",
         "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
-        "cycle/orm": "^2.0",
         "cycle/database": "^2.0",
         "cycle/entity-behavior": "^1.0",
+        "cycle/orm": "^2.0",
         "doctrine/collections": "^1.6",
         "fakerphp/faker": "^1.14",
         "httpsoft/http-message": "^1.0.5",
@@ -59,6 +59,7 @@
         "yiisoft/mailer-symfony": "^1.0",
         "yiisoft/rbac": "^3.0@dev",
         "yiisoft/rbac-php": "^3.0@dev",
+        "yiisoft/rbac-rules-container": "dev-master",
         "yiisoft/router": "^1.0",
         "yiisoft/router-fastroute": "^1.0",
         "yiisoft/security": "^1.0",
@@ -188,7 +189,15 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "codeception/c3": true,
+            "infection/extension-installer": true,
+            "composer/package-versions-deprecated": true,
+            "yiisoft/config": true,
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
     },
     "repositories": [
         {
