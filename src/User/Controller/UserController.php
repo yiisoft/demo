@@ -7,6 +7,7 @@ namespace App\User\Controller;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\CurrentRoute;
@@ -16,27 +17,40 @@ final class UserController
 {
     private const PAGINATION_INDEX = 5;
 
-    private ViewRenderer $viewRenderer;
-
-    public function __construct(ViewRenderer $viewRenderer)
+    public function __construct(private ViewRenderer $viewRenderer)
     {
         $this->viewRenderer = $viewRenderer->withControllerName('user');
     }
 
-    public function index(UserRepository $userRepository, CurrentRoute $currentRoute): Response
-    {
-        $pageNum = (int)$currentRoute->getArgument('page', '1');
+    public function index(
+        CurrentRoute $currentRoute,
+        ServerRequestInterface $request,
+        UserRepository $userRepository
+    ): Response {
+        $page = (int)$currentRoute->getArgument('page', '1');
+        $sortOrderString = $request->getQueryParams();
 
-        $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
-        $paginator = (new OffsetPaginator($dataReader))
-            ->withPageSize(self::PAGINATION_INDEX)
-            ->withCurrentPage($pageNum);
+        $dataReader = $userRepository
+            ->findAll()
+            ->withSort(Sort::only(['id', 'login'])->withOrderString($sortOrderString['sort'] ?? ''));
 
-        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
+        $paginator = (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX);
+
+        return $this->viewRenderer->render(
+            'index',
+            [
+                'page' => $page,
+                'paginator' => $paginator,
+                'sortOrder' => $sortOrderString['sort'] ?? '',
+            ]
+        );
     }
 
-    public function profile(CurrentRoute $currentRoute, UserRepository $userRepository, ResponseFactoryInterface $responseFactory): Response
-    {
+    public function profile(
+        CurrentRoute $currentRoute,
+        ResponseFactoryInterface $responseFactory,
+        UserRepository $userRepository
+    ): Response {
         $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
         if ($item === null) {
