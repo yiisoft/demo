@@ -6,8 +6,6 @@ use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Php\AssignmentsStorage;
 use Yiisoft\Rbac\Php\ItemsStorage;
-use Yiisoft\Rbac\ClassNameRuleFactory;
-use Yiisoft\Rbac\RuleFactoryInterface;
 use Yiisoft\Rbac\AssignmentsStorageInterface;
 use Yiisoft\Rbac\ItemsStorageInterface;
 
@@ -26,6 +24,5 @@ return [
             'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],
-    RuleFactoryInterface::class => ClassNameRuleFactory::class,
     AccessCheckerInterface::class => Manager::class,
 ];
