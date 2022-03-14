@@ -190,20 +190,20 @@ return [
          * ]
          */
         'schema-providers' => (Env::getBoolean('YII_DEBUG') ? [] : [
-                \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
-            ]) + [
-                // Store generated Schema in the file
-                \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
-                    'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
-                    'file' => 'runtime/schema.php',
-                ],
+            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+        ]) + [
+            // Store generated Schema in the file
+            \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
+                'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
+                'file' => 'runtime/schema.php',
+            ],
 
-                \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
-                    'generators' => [
-                        Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
-                    ],
+            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+                'generators' => [
+                    Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
             ],
+        ],
 
         /**
          * Config for {@see \Yiisoft\Yii\Cycle\Schema\Conveyor\AnnotatedSchemaConveyor}
