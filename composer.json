@@ -114,6 +114,9 @@
         "post-create-project-cmd": [
             "App\\Installer::copyEnvFile"
         ],
+        "post-autoload-dump": [
+            "App\\Env::load"
+        ],
         "test": "phpunit --testdox --no-interaction",
         "test-watch": "phpunit-watcher watch"
     },
