@@ -193,11 +193,11 @@
         "sort-packages": true,
         "allow-plugins": {
             "codeception/c3": true,
-            "infection/extension-installer": true,
-            "composer/package-versions-deprecated": true,
-            "yiisoft/config": true,
+            "oomphinc/composer-installers-extender": true,
             "composer/installers": true,
-            "oomphinc/composer-installers-extender": true
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": true,
+            "yiisoft/config": true
         }
     },
     "repositories": [
