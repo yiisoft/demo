@@ -54,7 +54,7 @@ final class ContactMailer
         $attachFiles = $request->getUploadedFiles();
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
-                if ($file->getError() === UPLOAD_ERR_OK) {
+                if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
                         File::fromContent(
                             (string)$file->getStream(),

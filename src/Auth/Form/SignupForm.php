@@ -53,8 +53,8 @@ final class SignupForm extends FormModel
     public function getRules(): array
     {
         return [
-            'login' => [Required::rule()],
-            'password' => [Required::rule()],
+            'login' => [new Required()],
+            'password' => [new Required()],
             'passwordVerify' => $this->passwordVerifyRules(),
         ];
     }
@@ -62,7 +62,7 @@ final class SignupForm extends FormModel
     private function passwordVerifyRules(): array
     {
         return [
-            Required::rule(),
+            new Required(),
 
             function (): Result {
                 $result = new Result();
