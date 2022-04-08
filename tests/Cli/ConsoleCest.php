@@ -23,6 +23,13 @@ final class ConsoleCest
         $I->seeResultCodeIs(ExitCode::OK);
     }
 
+    public function testRunCommandFixtureAddMultipleTimes(CliTester $I): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $this->testCommandFixtureAdd($I);
+        }
+    }
+
     public function testCommandListCommand(CliTester $I): void
     {
         $command = dirname(__DIR__, 2) . '/yii';
