@@ -8,7 +8,7 @@ use App\Auth\AuthService;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
-use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\Rule\Required\Required;
 
 final class LoginForm extends FormModel
 {
