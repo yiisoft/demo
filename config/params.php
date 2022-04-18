@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Env;
 use App\Middleware\LocaleMiddleware;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
@@ -87,7 +88,7 @@ return [
     ],
 
     'yiisoft/router-fastroute' => [
-        'enableCache' => false,
+        'enableCache' => !Env::getBoolean('YII_DEBUG'),
     ],
 
     'yiisoft/translator' => [
@@ -188,10 +189,9 @@ return [
          *     ],
          * ]
          */
-        'schema-providers' => [
-            // Uncomment next line to enable a Schema caching in the common cache
-            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
-
+        'schema-providers' => (Env::getBoolean('YII_DEBUG') ? [] : [
+            \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+        ]) + [
             // Store generated Schema in the file
             \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
                 'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,

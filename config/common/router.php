@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Env;
 use Yiisoft\Config\Config;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Csrf\CsrfMiddleware;
@@ -23,7 +24,7 @@ return [
                     ->routes(...$config->get('routes'))
             );
 
-        if (!str_starts_with(getenv('YII_ENV') ?: '', 'prod')) {
+        if (!str_starts_with(Env::get('YII_ENV', ''), 'prod')) {
             $collector->middleware(ToolbarMiddleware::class);
         }
 
