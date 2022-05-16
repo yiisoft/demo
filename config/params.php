@@ -55,30 +55,36 @@ return [
         ],
     ],
 
-    'yiisoft/forms' => [
-        'field' => [
-            'ariaDescribedBy' => [true],
-            'containerClass' => ['form-floating mb-3'],
-            'errorClass' => ['fw-bold fst-italic invalid-feedback'],
-            'hintClass' => ['form-text'],
-            'inputClass' => ['form-control'],
-            'invalidClass' => ['is-invalid'],
-            'labelClass' => ['floatingInput'],
-            'template' => ['{input}{label}{hint}{error}'],
-            'validClass' => ['is-valid'],
-            'defaultValues' => [
-                [
-                    'submit' => [
-                        'definitions' => [
-                            'class()' => ['btn btn-primary btn-lg mt-3'],
-                        ],
-                        'containerClass' => 'd-grid gap-2 form-floating',
+    'yiisoft/form' => [
+        'configs' => [
+            'default' => [
+                'containerClass' => ['form-floating mb-3'],
+                'inputClass' => ['form-control'],
+                'invalidClass' => 'is-invalid',
+                'validClass' => 'is-valid',
+                'template' => '{input}{label}{hint}{error}',
+                'labelConfig' => [
+                    'tagAttributes()' => [[
+                        'class' => 'floatingInput',
+                    ]],
+                ],
+                'errorConfig' => [
+                    'tagAttributes()' => [[
+                        'class' => 'fw-bold fst-italic',
+                    ]],
+                ],
+                'hintConfig' => [
+                    'tagAttributes()' => [[
+                        'class' => 'form-text',
+                    ]],
+                ],
+                'fieldConfigs' => [
+                    \Yiisoft\Form\Field\SubmitButton::class => [
+                        'buttonClass()' => ['btn btn-primary btn-lg mt-3'],
+                        'containerClass()' => ['d-grid gap-2 form-floating'],
                     ],
                 ],
             ],
-        ],
-        'form' => [
-            'attributes' => [['enctype' => 'multipart/form-data']],
         ],
     ],
 

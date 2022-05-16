@@ -50,7 +50,7 @@
         "yiisoft/error-handler": "^2.0",
         "yiisoft/factory": "^1.0",
         "yiisoft/form": "^1.0@dev",
-        "yiisoft/html": "^2.0",
+        "yiisoft/html": "dev-master as 2.4.0",
         "yiisoft/http": "^1.2",
         "yiisoft/injector": "^1.0",
         "yiisoft/log": "^1.0",
