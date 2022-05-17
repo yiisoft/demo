@@ -38,9 +38,7 @@ $error = $error ?? null;
                     <?= Field::checkbox($formModel, 'rememberMe')
                         ->replaceContainerClass('form-check form-switch text-start mt-2')
                         ->inputClass('form-check-input')
-                        ->labelConfig([
-                            'labelClass()' => ['form-check-label']
-                        ]) ?>
+                        ->inputLabelClass('form-check-label') ?>
                     <?= Field::submitButton()
                         ->buttonId('login-button')
                         ->name('login-button')

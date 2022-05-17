@@ -58,26 +58,14 @@ return [
     'yiisoft/form' => [
         'configs' => [
             'default' => [
-                'containerClass' => ['form-floating mb-3'],
-                'inputClass' => ['form-control'],
+                'containerClass' => 'form-floating mb-3',
+                'inputClass' => 'form-control',
                 'invalidClass' => 'is-invalid',
                 'validClass' => 'is-valid',
                 'template' => '{input}{label}{hint}{error}',
-                'labelConfig' => [
-                    'tagAttributes()' => [[
-                        'class' => 'floatingInput',
-                    ]],
-                ],
-                'errorConfig' => [
-                    'tagAttributes()' => [[
-                        'class' => 'fw-bold fst-italic',
-                    ]],
-                ],
-                'hintConfig' => [
-                    'tagAttributes()' => [[
-                        'class' => 'form-text',
-                    ]],
-                ],
+                'labelClass' => 'floatingInput',
+                'errorClass' => 'fw-bold fst-italic',
+                'hintClass' => 'form-text',
                 'fieldConfigs' => [
                     \Yiisoft\Form\Field\SubmitButton::class => [
                         'buttonClass()' => ['btn btn-primary btn-lg mt-3'],
