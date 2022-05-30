@@ -36,7 +36,7 @@ $error = $error ?? null;
                     <?= Field::text($formModel, 'login')->autofocus() ?>
                     <?= Field::password($formModel, 'password') ?>
                     <?= Field::checkbox($formModel, 'rememberMe')
-                        ->replaceContainerClass('form-check form-switch text-start mt-2')
+                        ->containerClass('form-check form-switch text-start mt-2')
                         ->inputClass('form-check-input')
                         ->inputLabelClass('form-check-label') ?>
                     <?= Field::submitButton()

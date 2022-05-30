@@ -39,14 +39,14 @@ $this->setTitle($translator->translate('menu.contact'));
                     <?= Field::text($form, 'name') ?>
                     <?= Field::email($form, 'email') ?>
                     <?= Field::text($form, 'subject') ?>
-                    <?= Field::textarea($form, 'body')->inputAttributes(['style' => 'height: 100px']) ?>
+                    <?= Field::textarea($form, 'body')->addInputAttributes(['style' => 'height: 100px']) ?>
                     <?= Field::file($form, 'attachFiles')
-                        ->replaceContainerClass('mb-3')
+                        ->containerClass('mb-3')
                         ->multiple()
                         ->hideLabel()
                     ?>
                     <?= Field::buttonGroup()
-                        ->containerClass('btn-group btn-toolbar float-end')
+                        ->addContainerClass('btn-group btn-toolbar float-end')
                         ->buttonsData([
                             [
                                 'Reset',
