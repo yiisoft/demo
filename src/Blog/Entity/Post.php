@@ -63,7 +63,6 @@ class Post
      */
     #[ManyToMany(target: Tag::class, though: PostTag::class, fkAction: 'CASCADE')]
     private PivotedCollection $tags;
-    private ?int $tag_id = null;
 
     /**
      * @var ArrayCollection<array-key, Comment>

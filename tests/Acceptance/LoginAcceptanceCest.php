@@ -30,7 +30,7 @@ final class LoginAcceptanceCest
         $I->expectTo('see validations errors.');
         $I->see('Value cannot be blank');
         $I->see('Value cannot be blank');
-        $I->seeInField('login-button', 'Submit');
+        $I->seeElement('button', ['name' => 'login-button']);
     }
 
     public function testLoginSubmitFormWrongDataUsername(AcceptanceTester $I): void
@@ -46,7 +46,7 @@ final class LoginAcceptanceCest
 
         $I->expectTo('see validations errors.');
         $I->see('Invalid login or password');
-        $I->seeInField('login-button', 'Submit');
+        $I->seeElement('button', ['name' => 'login-button']);
     }
 
     public function testLoginSubmitFormWrongDataPassword(AcceptanceTester $I): void
@@ -62,7 +62,7 @@ final class LoginAcceptanceCest
 
         $I->expectTo('see validations errors.');
         $I->see('Invalid login or password');
-        $I->seeInField('login-button', 'Submit');
+        $I->seeElement('button', ['name' => 'login-button']);
     }
 
     /**

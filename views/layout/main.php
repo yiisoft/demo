@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use Yiisoft\Form\Widget\Field;
-use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\Form;
 use Yiisoft\Strings\StringHelper;
 use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
@@ -119,16 +119,17 @@ $this->beginPage();
                             'url' => $urlGenerator->generate('auth/signup'),
                             'visible' => $isGuest,
                         ],
-                        $isGuest ? '' : Form::widget()
-                            ->action($urlGenerator->generate('auth/logout'))
-                            ->csrf($csrf)
-                            ->begin()
-                        . Field::widget()
-                            ->attributes(['class' => 'btn btn-primary'])
-                            ->containerClass('mb-1')
-                            ->submitButton()
-                            ->value($translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())]))
-                        . Form::end()
+                        $isGuest ? '' : Form::tag()
+                                ->post($urlGenerator->generate('auth/logout'))
+                                ->csrf($csrf)
+                                ->open()
+                            . '<div class="mb-1">'
+                            . Button::submit(
+                                $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
+                            )
+                                ->class('btn btn-primary')
+                            . '</div>'
+                            . Form::tag()->close()
                     ],
                 ) ?>
             <?= NavBar::end() ?>
