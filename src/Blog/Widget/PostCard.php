@@ -66,7 +66,7 @@ final class PostCard extends Widget
                 ->getLogin(),
             $this->urlGenerator->generate('user/profile', ['login' => $this->post
                 ->getUser()
-                ->getLogin()])
+                ->getLogin(), ])
         )->class('mb-1 text-muted');
 
         $return .= Html::p(

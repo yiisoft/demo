@@ -45,7 +45,7 @@ final class ApiUserController
         foreach ($users as $user) {
             $items[] = ['login' => $user->getLogin(), 'created_at' => $user
                 ->getCreatedAt()
-                ->format('H:i:s d.m.Y')];
+                ->format('H:i:s d.m.Y'), ];
         }
 
         return $this->responseFactory->createResponse($items);
@@ -77,7 +77,7 @@ final class ApiUserController
         return $this->responseFactory->createResponse(
             ['login' => $user->getLogin(), 'created_at' => $user
                 ->getCreatedAt()
-                ->format('H:i:s d.m.Y')]
+                ->format('H:i:s d.m.Y'), ]
         );
     }
 }
