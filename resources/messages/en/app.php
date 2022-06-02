@@ -9,7 +9,9 @@ return [
     'layout.archive' => 'Archive',
     'layout.no-records' => 'No records',
     'layout.archive.for-year' => 'Archive for {year}',
-    'layout.total.posts' => 'Total {count} posts',    
+    'layout.total.posts' => 'Total {count} posts',  
+    'layout.total.posts' => 'Total {count} posts',
+    'menu.comments-feed' => 'Comments Feed',
     'layout.show-more' => 'show more',
     'layout.blog' => 'Blog',
     'layout.pagination-summary' => 'Showing {pageSize} out of {total} posts',
@@ -34,6 +36,8 @@ return [
     'layout.language.english' => 'English',
     'layout.language.japanese' => 'Japanese',  
     'layout.language.russian' => 'Russian',
+    'layout.language.english' => 'English',
+    'layout.language.russian' => 'Русский',
     'signup' => 'Signup',
     'layout.not-found' => 'Not found',
     'layout.page.not-found' => 'The page {url} could not be found.',
@@ -163,3 +167,4 @@ return [
     'invoice.vendor.nikic.fast-route'=>'Building Faster Routes',
     'invoice.view'=>'View',    
     ];
+

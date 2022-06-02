@@ -158,5 +158,5 @@ return [
     'invoice.user.account'=>'User Account',
     'invoice.utility.assets.clear'=>'Очистить кеш активов',
     'invoice.vendor.nikic.fast-route'=>'Создание более быстрых маршрутов',
-    'invoice.view'=>'Вид',    
+    'invoice.view'=>'Вид', 
 ];
