@@ -15,7 +15,7 @@ as a test platform.
 <p>The userinv table is an extension of yii/demo's user table and contains all the critical user information.</p>
 </p>
 <b>Setting Up</b>
-<p>The settings table builds up initially with a default array of settings via the InvoiceController if they do not exit ie. setting 'default_settings_exist' does not exist.</p>
+<p>The settings table builds up initially with a default array of settings via the InvoiceController if they do not exist ie. setting 'default_settings_exist' does not exist.</p>
 <b>Generator</b>
 <p>The code generator templates have been adapted according to the latest demo updates.</p>
 <b>Annotations</b>
