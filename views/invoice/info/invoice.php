@@ -1,4 +1,4 @@
-<h6 id="invoice">Development Summary: (...views/info/invoice.php)</h6>
+<h6 id="invoice">Development Summary: (...views/invoice/info/invoice.php)</h6>
 <b>2nd June 2022</b>
 <p>Aim: To develop a similar invoicing system to InvoicePlane integrating with the latest Jquery, and security features of Yii3 using wampserver
 as a test platform.

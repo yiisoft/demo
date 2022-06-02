@@ -148,7 +148,6 @@ echo Nav::widget()
                      'items' => [
                                  ['label' => $translator->translate('invoice.platform.editor'). ': Netbeans 12.4 64 bit'], 
                                  ['label' => $translator->translate('invoice.platform.server'). ': Wampserver 3.2.8 64 bit'],
-                                 ['label' => $translator->translate('invoice.platform.sqlPath'). ': src\Invoice\Sql\settings.sql'],
                                  ['label' => $translator->translate('invoice.platform.mySqlVersion'). ': 5.7.31 || 8.0.29 '],
                                  ['label' => $translator->translate('invoice.platform.PhpVersion'). ': 8.1.6 (Compatable with PhpAdmin 5.1.3)'],
                                  ['label' => $translator->translate('invoice.platform.PhpMyAdmin'). ': 5.1.3 (Compatable with php 8.1.6)'],
