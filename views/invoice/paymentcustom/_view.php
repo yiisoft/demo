@@ -25,15 +25,15 @@ if (!empty($errors)) {
 <h1><?= Html::encode($title) ?></h1>
 <div class="row">
  <div class="mb3 form-group">
-<label for="fieldid" class="form-label" style="background:lightblue"><?= $s->trans('fieldid'); ?></label>
-   <?= Html::encode($body['fieldid'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
-<label for="fieldvalue" class="form-label" style="background:lightblue"><?= $s->trans('fieldvalue'); ?></label>
-   <?= Html::encode($body['fieldvalue'] ?? ''); ?>
+<label for="value" class="form-label" style="background:lightblue"><?= $s->trans('value'); ?></label>
+   <?= Html::encode($body['value'] ?? ''); ?>
  </div>
  <div class="mb3 form-group">
    <label for="payment_id" class="form-label" style="background:lightblue"><?= $s->trans('payment'); ?></label>
-   <?= $paymentcustom->getPayment()->id;?>
+   <?= $paymentcustom->getPayment()->amount;?>
+ </div>
+ <div class="mb3 form-group">
+   <label for="custom_field_id" class="form-label" style="background:lightblue"><?= $s->trans('custom_field'); ?></label>
+   <?= $paymentcustom->getCustomField()->location;?>
  </div>
 </div>

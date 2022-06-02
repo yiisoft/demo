@@ -8,6 +8,7 @@ use App\Invoice\Entity\Product;
 use Cycle\ORM\Select;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Spiral\Database\Injection\Parameter;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
@@ -75,7 +76,7 @@ final class ProductRepository extends Select\Repository
         );
     }
     
-    public function repoProductquery(string $product_id): Product
+    public function repoProductquery($product_id): Product
     {
         $query = $this
             ->select()
@@ -84,5 +85,60 @@ final class ProductRepository extends Select\Repository
             ->load('unit')
             ->where(['id' => $product_id]);
         return  $query->fetchOne();        
+    }
+    
+    /**
+     * Get products with filter
+     *
+     * @psalm-return DataReaderInterface<int, Product>
+     */
+    
+    public function repoProductwithfamilyquery(string $product_name, string $family_id): DataReaderInterface
+    {
+        $query = $this
+            ->select()
+            ->load('family')
+            ->load('tax_rate')
+            ->load('unit');
+
+        //lookup without filters eg. product/lookup
+        if (empty($product_name)&&(empty($family_id)||$family_id===(string)0)) {}
+                
+        //eg. product/lookup?fp=Cleaning%20Services
+        if ((!empty($product_name))&&(empty($family_id))) {      
+            $query = $query->where(['product_name' => ltrim(rtrim($product_name))]);
+        }
+        
+        //eg. product/lookup?Cleaning%20Services&ff=4
+        if (!empty($product_name)&&($family_id>(string)0)) {      
+            $query = $query->where(['family_id'=>$family_id])->andWhere(['product_name' => ltrim(rtrim($product_name))]);
+        }
+        
+        //eg. product/lookup?ff=4
+        if (empty($product_name)&&($family_id>(string)0)) {                  
+            $query = $query->where(['family_id'=>$family_id]);
+        }
+        
+        return $this->prepareDataReader($query);
+    } 
+    
+     /**
+     * Get selection of products from all products
+     *
+     * @psalm-return DataReaderInterface<int, Product>
+     */
+    
+    public function findinProducts($product_ids) : DataReaderInterface {
+        $query = $this
+        ->select()
+        ->where(['id'=>['in'=> new Parameter($product_ids)]]);
+        return $this->prepareDataReader($query);    
+    } 
+    
+    public function repoCount($product_id): int {
+        $count = $this->select()
+                      ->where(['id' => $product_id])
+                      ->count();
+        return $count;   
     }
 }

@@ -11,81 +11,54 @@ use App\Invoice\Entity\Inv;
 use DateTime;
 use DateTimeImmutable;
 
-  
- /**
-* @Entity(
- * repository="App\Invoice\Merchant\MerchantRepository",
- * )
- */
- 
+#[Entity(repository: \App\Invoice\Merchant\MerchantRepository::class)]
  class Merchant
- {
-       
-   
-    /**
-     * @BelongsTo(target="Inv", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Inv
-     */
-     private $inv = null;
+ {    
+    #[BelongsTo(target:Inv::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Inv $inv = null;
     
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
+     
+    #[Column(type: 'integer(11)',nullable: false)] 
+    private ?int $inv_id =  null;
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'boolean',nullable: true, default:1)] 
+    private ?bool $successful = true;
+    
+    #[Column(type: 'date',nullable: false)] 
+    private $date =  '';
+    
+    #[Column(type: 'string(35)',nullable: false)] 
+    private string $driver =  '';
+    
+    #[Column(type: 'string(151)',nullable: false)] 
+    private string $response =  '';
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $inv_id =  null;
+    #[Column(type: 'string(151)',nullable: false)] 
+    private string $reference =  '';
      
-    /**
-     * @Column(type="boolean",default=1,nullable=true)
-     */
-     private ?bool $successful = true;
-     
-    /**
-     * @Column(type="date", nullable=false)
-     */
-     private $date =  '';
-     
-    /**
-     * @Column(type="string(35)", nullable=false)
-     */
-     private string $driver =  '';
-     
-    /**
-     * @Column(type="string(255)", nullable=false)
-     */
-     private string $response =  '';
-     
-    /**
-     * @Column(type="string(255)", nullable=false)
-     */
-     private string $reference =  '';
-     
-     public function __construct(
-         int $id = null,
-         int $inv_id = null,
-         bool $successful = true,
-         string $date = '',
-         string $driver = '',
-         string $response = '',
-         string $reference = ''
-     )
-     {
-         $this->id=$id;
-         $this->inv_id=$inv_id;
-         $this->successful=$successful;
-         $this->date=$date;
-         $this->driver=$driver;
-         $this->response=$response;
-         $this->reference=$reference;
+    public function __construct(
+        int $id = null,
+        int $inv_id = null,
+        bool $successful = true,
+        string $date = '',
+        string $driver = '',
+        string $response = '',
+        string $reference = ''
+    )
+    {
+        $this->id=$id;
+        $this->inv_id=$inv_id;
+        $this->successful=$successful;
+        $this->date=$date;
+        $this->driver=$driver;
+        $this->response=$response;
+        $this->reference=$reference;
      }
     
     public function getInv() : ?Inv
- {
+    {
       return $this->inv;
     }
     
@@ -123,7 +96,7 @@ use DateTimeImmutable;
     {
       if (isset($this->date) && !empty($this->date)){
        return $this->date;
-     };
+     }
     }
     
     public function setDate(DateTime $date) : void

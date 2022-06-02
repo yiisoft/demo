@@ -1,28 +1,23 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Invoice\Quote;
 
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
-use App\Invoice\Quote\QuoteRepository;
-use \DateTime;
-use \DateTimeImmutable;
 
 final class QuoteForm extends FormModel
 {    
-    private string $date_created = '';
     private string $number ='';
-    private ?int $inv_id=0;
-    private ?int $client_id=null;
+    private ?int $inv_id=null;
     private ?int $group_id=null;
+    private ?int $client_id=null;    
     private ?int $status_id=1;
     private ?float $discount_amount=0;
     private ?float $discount_percent=0;
     private ?string $url_key='';
     private ?string $password='';
-    private ?string $notes='';
+    private ?string $notes='';    
 
     public function getInv_id() : int
     {
@@ -43,15 +38,7 @@ final class QuoteForm extends FormModel
     {
       return $this->status_id;
     }
-    
-    //mysql date must get converted to datetime
-    public function getDate_created() : ?\DateTime
-    {
-       if (isset($this->date_created) && !empty($this->date_created)) {
-          return new DateTime($this->date_created);
-       }
-    }
-    
+        
     public function getNumber() : string
     {
       return $this->number;
@@ -86,18 +73,11 @@ final class QuoteForm extends FormModel
     {
       return '';
     }
-
+    
     public function getRules(): array    {
       return [
-        'date_created' => [
-            Required::rule(),
-        ],
-        'client_id' => [
-            Required::rule(),
-        ],
-        'group_id' => [
-            Required::rule(),
-        ],
-    ];
-}
+         'client_id'=> [new Required()],
+         'group_id'=> [new Required()],
+      ];
+     }
 }

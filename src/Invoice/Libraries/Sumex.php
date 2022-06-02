@@ -1,8 +1,7 @@
 <?php
-
 declare(strict_types=1);
 
-Namespace frontend\modules\invoice\application\libraries;
+Namespace App\Invoice\Libraries;
 
 class Sumex
 {
@@ -28,14 +27,14 @@ class Sumex
         'naturopathicdoctor',
         'naturopathictherapist',
         'other');
-    const PLACES = array(
+    const PLACES = [
         'practice',
         'hospital',
         'lab',
         'association',
         'company'
-    );
-    const CANTONS = array(
+    ];
+    const CANTONS = [
         "AG",
         "AI",
         "AR",
@@ -67,7 +66,7 @@ class Sumex
         "D",
         "F",
         "I"
-    );
+    ];
     public $invoice;
     public $doc;
     public $root;
@@ -82,7 +81,7 @@ class Sumex
     public $_canton = "TI";
     public $_esrType = "9";
 
-    public $_patient = array(
+    public $_patient = [
         'gender' => 'male',
         'birthdate' => '1970-01-01',
         'familyName' => 'FamilyName',
@@ -92,20 +91,20 @@ class Sumex
         'city' => 'ClientCity',
         'phone' => '000 000 00 00',
         'avs' => '7000000000000'
-    );
+    ];
 
     public $_casedate = "1970-01-01";
     public $_casenumber = "0";
     public $_insuredid = '1234567';
 
-    public $_treatment = array(
+    public $_treatment = [
         'start' => '',
         'end' => '',
         'reason' => 'disease',
         'diagnosis' => '.'
-    );
+    ];
 
-    public $_company = array(
+    public $_company = [
         'name' => 'SomeCompany GmbH',
         'street' => 'Via Cantonale 5',
         'zip' => '6900',
@@ -113,25 +112,23 @@ class Sumex
         'phone' => '091 902 11 00',
         'gln' => '123456789123', // EAN 13
         'rcc' => 'C000002'
-    );
+    ];
 
-    public $_insurance = array(
+    public $_insurance = [
         'gln' => '7634567890000',
         'name' => 'SUVA',
         'street' => 'ChangeMe 12',
         'zip' => '6900',
         'city' => 'Lugano'
-    );
+    ];
 
-    public $_options = array(
+    public $_options = [
         'copy' => "0",
         'storno' => "0"
-    );
+    ];
 
     public function __construct($params)
     {
-        $CI = &get_instance();
-
         $CI->load->helper('invoice');
 
         $this->invoice = $params['invoice'];

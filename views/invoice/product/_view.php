@@ -44,15 +44,15 @@ use Yiisoft\Html\Html;
     </div>    
     <div class="mb-3 form-group">
         <label for="tax_rate_id" class="form-label" style="background:lightblue"><?= $s->trans('tax_rate'); ?></label>
-        <?= $product->getTaxrate()->tax_rate_name;?>
+        <?= $product->getTaxrate()->getTax_rate_name();?>
     </div>    
     <div class="mb-3 form-group">
         <label for="unit_id" class="form-label" style="background:lightblue"><?= $s->trans('unit'); ?></label>
-        <?= $product->getUnit()->unit_name;?>
+        <?= $product->getUnit()->getUnit_name();?>
     </div>
     <div class="mb-3 form-group">
         <label for="family_id" class="form-label" style="background:lightblue"><?= $s->trans('family'); ?></label>
-        <?= $product->getFamily()->family_name;?>
+        <?= $product->getFamily()->getFamily_name();?>
     </div>        
     <div class="mb-3 form-group">
         <label for="product_tariff" class="form-label" style="background:lightblue"><?= $s->trans('product_tariff'); ?></label>

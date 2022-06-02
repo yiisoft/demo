@@ -34,8 +34,9 @@ private EntityWriter $entityWriter;
         <?php if (!empty($relations)) {
             echo '$query = $this->select()';
             foreach ($relations as $relation) {
-                    echo "->load('".$relation->getLowercase_name()."')"."\n";
+                    echo "            ->load('".$relation->getLowercase_name()."')";
             }
+            echo ";";
         } else {
             echo '$query = $this->select();';    
         }
@@ -86,9 +87,9 @@ private EntityWriter $entityWriter;
         <?php if (!empty($relations)) {
             echo '$query = $this->select()';
             foreach ($relations as $relation) {
-                    echo "->load('".$relation->getLowercase_name()."')"."\n";
-                    echo "->where(['id' =>".'$id]);';
+                    echo "->load('".$relation->getLowercase_name()."')"."\n";                   
             }
+            echo "->where(['id' =>".'$id]);';
         } else {
             echo '$query = $this->select()'."\n";
             echo "->where(['id' =>".'$id]);';
@@ -96,4 +97,10 @@ private EntityWriter $entityWriter;
         ?>
         return  $query->fetchOne();        
     }
+    
+    public function repoCount(string $id) : int {
+        $query = $this->select()
+                      ->where(['id' => $id]);
+        return $query->count();
+    }   
 }

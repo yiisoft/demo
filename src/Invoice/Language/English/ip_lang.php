@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 $lang = array(
     'account_information'                          => 'Account Information',
     'active'                                       => 'Active',

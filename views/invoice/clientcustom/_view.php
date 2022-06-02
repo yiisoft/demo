@@ -25,19 +25,15 @@ if (!empty($errors)) {
 <h1><?= Html::encode($title) ?></h1>
 <div class="row">
  <div class="mb3 form-group">
-<label for="id" class="form-label" style="background:lightblue"><?= $s->trans('id'); ?></label>
-   <?= Html::encode($body['id'] ?? ''); ?>
+<label for="value" class="form-label" style="background:lightblue"><?= $s->trans('value'); ?></label>
+   <?= Html::encode($body['value'] ?? ''); ?>
  </div>
  <div class="mb3 form-group">
-<label for="fieldid" class="form-label" style="background:lightblue"><?= $s->trans('field'). " ID"; ?></label>
-   <?= Html::encode($body['fieldid'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
-<label for="fieldvalue" class="form-label" style="background:lightblue"><?= $s->trans('fieldvalue'). " Value "; ?></label>
-   <?= Html::encode($body['fieldvalue'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
-   <label for="client_id" class="form-label" style="background:lightblue"><?= $s->trans('client_name'); ?></label>
+   <label for="client_id" class="form-label" style="background:lightblue"><?= $s->trans('client'); ?></label>
    <?= $clientcustom->getClient()->client_name;?>
+ </div>
+ <div class="mb3 form-group">
+   <label for="custom_field_id" class="form-label" style="background:lightblue"><?= $s->trans('custom_field'); ?></label>
+   <?= $clientcustom->getCustomField()->location;?>
  </div>
 </div>

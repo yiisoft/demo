@@ -7,19 +7,18 @@ use Yiisoft\Html\Html;
  * @var \Yiisoft\View\View $this
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var array $body
- * @var string $csrf
- * @var string $action
- * @var string $title
- * @var $s
  */
 ?>
 
-<h1><?= Html::encode($title) ?></h1>
-
+<h1><?= Html::encode($body['title']) ?></h1>
   <div class="row">
     <div class="mb-3 form-group">
-        <label for="family_name" class="form-label" style="background:lightblue">Family Name</label>
+        <label for="family_name" name="family_name" id="family_name" class="form-label" style="background:lightblue" value="<?= Html::encode($body['family_name'] ?? '') ?>">Family Name</label>
         <?= Html::encode($body['family_name'] ?? '') ?>
+    </div>
+    <div class="mb-3 form-group">
+        <label for="id" name="id" id="id" class="form-label" style="background:lightblue" value="<?= Html::encode($body['id'] ?? '') ?>">Family Id</label>
+        <?= Html::encode($body['id'] ?? '') ?>
     </div>  
-  </div> 
-
+  </div>
+<button name="xyz" id="xyz">xyz</button>

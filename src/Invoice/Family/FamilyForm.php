@@ -24,9 +24,7 @@ final class FamilyForm extends FormModel
     public function getRules(): array
     {
         return [
-            'family_name' => [
-                Required::rule(),
-            ],
+            'family_name' => [new Required()],
         ];
     }
 }

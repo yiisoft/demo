@@ -31,9 +31,21 @@ if (!empty($errors)) {
         <input type="text" class="form-control" name="setting_key" id="setting_key" placeholder="Setting Key" value="<?= Html::encode($body['setting_key'] ?? '') ?>" required>
     </div>
     <div class="mb-3 form-group">
-        <label for="setting_value" class="form-label">Setting Value<span style="color:red">*</span></label>
+        <label for="setting_value" class="form-label">Setting Value</label>
         <input type="text" class="form-control" name="setting_value" id="setting_value" placeholder="Setting Value" value="<?= Html::encode($body['setting_value'] ?? '') ?>">
-    </div>      
+    </div>
+    <div class="mb-3 form-group">
+        <label for="setting_trans" class="form-label">Setting Trans<span style="color:red">*</span></label>
+        <input type="text" class="form-control" name="setting_trans" id="setting_trans" placeholder="Setting Trans" value="<?= Html::encode($body['setting_trans'] ?? '') ?>">
+    </div>
+    <div class="mb-3 form-group">
+        <label for="setting_section" class="form-label">Setting Section<span style="color:red">*</span></label>
+        <input type="text" class="form-control" name="setting_section" id="setting_section" placeholder="Setting Section" value="<?= Html::encode($body['setting_section'] ?? '') ?>">
+    </div>
+    <div class="mb-3 form-group">
+        <label for="setting_subsection" class="form-label">Setting Subsection<span style="color:red">*</span></label>
+        <input type="text" class="form-control" name="setting_subsection" id="setting_subsection" placeholder="Setting Subsection" value="<?= Html::encode($body['setting_subsection'] ?? '') ?>">
+    </div>
   </div>    
   <button type="submit" class="btn btn-primary"><?= $s->trans('submit'); ?></button>
 </form>

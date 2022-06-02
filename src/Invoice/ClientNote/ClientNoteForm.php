@@ -42,12 +42,9 @@ final class ClientNoteForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'date' => [
-            Required::rule(),
-        ],
-        'note' => [
-            Required::rule(),
-        ],
+        'client_id' => [new Required()],  
+        'date' => [new Required()],
+        'note' => [new Required()],
     ];
 }
 }

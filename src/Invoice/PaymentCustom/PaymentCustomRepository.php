@@ -29,7 +29,7 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()->load('payment')->load('custom_field');
         return $this->prepareDataReader($query);
     }
     
@@ -72,7 +72,37 @@ private EntityWriter $entityWriter;
     }
     
     public function repoPaymentCustomquery(string $id): PaymentCustom    {
-        $query = $this->select()->load('payment')->where(['id' => $id]);
+        $query = $this->select()->load('payment')
+            ->load('custom_field')
+            ->where(['id' =>$id]);
         return  $query->fetchOne();        
+    }
+    
+    public function repoFormValuequery(string $payment_id, string $custom_field_id): PaymentCustom {
+        $query = $this->select()->where(['payment_id' =>$payment_id])
+                                ->andWhere(['custom_field_id' =>$custom_field_id]);
+        return  $query->fetchOne();        
+    }
+    
+    public function repoPaymentCustomCount(string $payment_id, string $custom_field_id) : int {
+        $query = $this->select()->where(['payment_id' =>$payment_id])
+                                ->andWhere(['custom_field_id' =>$custom_field_id]);
+        return $query->count();
+    } 
+    
+    public function repoPaymentCount(string $payment_id) : int {
+        $query = $this->select()->where(['payment_id' =>$payment_id]);
+        return $query->count();
+    }   
+    
+    /**
+     * Get all fields that have been setup for a particular payment
+     *
+     * @psalm-return DataReaderInterface<int,PaymentCustom>
+     */
+    public function repoFields(string $payment_id): DataReaderInterface
+    {
+        $query = $this->select()->where(['payment_id'=>$payment_id]);                
+        return $this->prepareDataReader($query);
     }
 }

@@ -36,15 +36,9 @@ final class ItemLookupForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'name' => [
-            Required::rule(),
-        ],
-        'description' => [
-            Required::rule(),
-        ],
-        'price' => [
-            Required::rule(),
-        ],
+        'name' => [new Required()],
+        'description' => [new Required()],
+        'price' => [new Required()],
     ];
 }
 }

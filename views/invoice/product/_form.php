@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use Yiisoft\Html\Html;
@@ -33,20 +32,19 @@ if (!empty($errors)) {
             $response = $head->renderPartial('invoice/layout/header_buttons',['s'=>$s, 'hide_submit_button'=>false ,'hide_cancel_button'=>false]);
             echo (string)$response->getBody();
         ?>
-        <div class="mb-3 form-group">
-    </div>
+        <div class="mb-3 form-group btn-group-sm"></div>
     </div>
 
     <div id="content">
 
         <div class="row">
-            <div class="mb-3 form-group">
+            <div class="mb-3 form-group btn-group-sm">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
 
-                        <?php if (!empty($body['product_id'])) : ?>
-                            #<?php echo Html::encode($body['product_id'] ?? ''); ?>&nbsp;
+                        <?php if (!empty($body['id'])) : ?>
+                            #<?php echo Html::encode($body['id'] ?? ''); ?>&nbsp;
                             <?php echo Html::encode($body['product_name'] ?? ''); ?>
                         <?php else : ?>
                             <?= $s->trans('new_product'); ?>
@@ -59,12 +57,12 @@ if (!empty($errors)) {
                             <label for="family_id">
                                 <?= $s->trans('family'); ?>
                             </label>
-                            <select name="family_id" id="family_id" class="form-control simple-select">
-                                <option value="0"><?= $s->trans('select_family'); ?></option>
+                            <select name="family_id" id="family_id" class="form-control" required>
+                                <option value=""><?= $s->trans('select_family'); ?></option>
                                 <?php foreach ($families as $family) { ?>
-                                    <option value="<?= $family->id; ?>"
-                                        <?php $s->check_select(Html::encode($body['family_id'] ?? ''), $family->id) ?>
-                                    ><?= $family->family_name; ?></option>
+                                    <option value="<?= $family->getFamily_id(); ?>"
+                                        <?php $s->check_select(Html::encode($body['family_id'] ?? ''), $family->getFamily_id()) ?>
+                                    ><?= $family->getFamily_name(); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -112,29 +110,27 @@ if (!empty($errors)) {
                             <label for="unit_id">
                                 <?= $s->trans('product_unit'); ?>
                             </label>
-
-                            <select name="unit_id" id="unit_id" class="form-control simple-select">
-                                <option value="0"><?= $s->trans('select_unit'); ?></option>
+                            <select name="unit_id" id="unit_id" class="form-control" required>
+                                <option value=""><?= $s->trans('select_unit'); ?></option>
                                 <?php foreach ($units as $unit) { ?>
-                                    <option value="<?= $unit->id; ?>"
-                                        <?php $s->check_select(Html::encode($body['unit_id'] ?? ''), $unit->id); ?>
-                                    ><?= $unit->unit_name . '/' . $unit->unit_name_plrl; ?></option>
+                                    <option value="<?= $unit->getUnit_id(); ?>"
+                                        <?php $s->check_select(Html::encode($body['unit_id'] ?? ''), $unit->getUnit_id()); ?>
+                                    ><?= $unit->getUnit_name() . '/' . $unit->getUnit_name_plrl(); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="tax_rate_id">
-                                <?= $s->trans('tax_rate'); ?>
+                            <label for="tax_rate_id" required>
+                                <?= $s->trans('tax_rate'); ?>  (Tip: Create a zero tax rate <a href="<?= $urlGenerator->generate('taxrate/add');?>">here</a>)
                             </label>
-
-                            <select name="tax_rate_id" id="tax_rate_id" class="form-control simple-select">
-                                <option value="0"><?= $s->trans('none'); ?></option>
+                            <select name="tax_rate_id" id="tax_rate_id" class="form-control" required>
+                                <option value=""> <?= $s->trans('tax_rate'); ?></option>
                                 <?php foreach ($tax_rates as $tax_rate) { ?>
-                                    <option value="<?= $tax_rate->id; ?>"
-                                        <?= $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->id); ?>>
-                                        <?= $tax_rate->tax_rate_name
-                                            . ' (' . $s->format_amount($tax_rate->tax_rate_percent) . '%)'; ?>
+                                    <option value="<?= $tax_rate->getTax_rate_id(); ?>"
+                                        <?php $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->getTax_rate_id()); ?>>
+                                        <?= $tax_rate->getTax_rate_name()
+                                            . ' (' . ($s->format_amount($tax_rate->getTax_rate_percent()) ?: '0.00') . '%)'; ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -196,7 +192,5 @@ if (!empty($errors)) {
 
             </div>
         </div>
-
     </div>
-
 </form>

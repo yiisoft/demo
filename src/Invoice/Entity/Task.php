@@ -9,82 +9,86 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use DateTime;
 use DateTimeImmutable;
-
-/**
- * @Entity( 
- * repository="App\Invoice\Task\TaskRepository",
- * )
- */
+use App\Invoice\Entity\Project;
+use App\Invoice\Entity\TaxRate;
  
- class Task
- { 
-     /**
-     * @Column(type="primary", nullable=false)
-     */
-     public ?int $id =  null;
+#[Entity(repository: \App\Invoice\Task\TaskRepository::class)]
+class Task
+{
+    #[BelongsTo(target:Project::class, nullable: false, fkAction:'NO ACTION')]
+    private ?Project $project = null;    
+    
+    #[BelongsTo(target:TaxRate::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?TaxRate $tax_rate = null;
+    
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="integer", nullable=false)
-     */
-     private ?int $project_id =  null;
+    #[Column(type:'integer(11)', nullable: false)] 
+    private ?int $project_id =  null;
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     public ?string $task_name =  '';
+    #[Column(type:'text', nullable: true)] 
+    private ?string $name =  '';
      
-    /**
-     * @Column(type="longText", nullable=false)
-     */
-     public string $task_description =  '';
+    #[Column(type:'longText', nullable: false)] 
+    private string $description =  '';
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $task_price =  null;
+    #[Column(type:'decimal(20,2)', nullable: true)] 
+    private ?float $price =  null;
+    
+    #[Column(type:'date', nullable: false)] 
+    private  $finish_date;
+    
+    #[Column(type:'boolean', nullable: false)] 
+    private bool $status = false;
      
-    /**
-     * @Column(type="date", nullable=false)
-     */
-     private $task_finish_date =  '';
+    #[Column(type:'integer(11)', nullable: false)]
+    private ?int $tax_rate_id =  null;
      
-    /**
-     * @Column(type="boolean", nullable=false)
-     */
-     private bool $task_status = false;
-     
-    /**
-     * @Column(type="integer", nullable=false)
-     */
-     private ?int $tax_rate_id =  null;
-     
-     public function __construct(
-         int $project_id = null,
-         string $task_name = '',
-         string $task_description = '',
-         float $task_price = null,
-         $task_finish_date = '',
-         bool $task_status = false,
-         int $tax_rate_id = null
-     )
-     {
-         $this->project_id=$project_id;
-         $this->task_name=$task_name;
-         $this->task_description=$task_description;
-         $this->task_price=$task_price;
-         $this->task_finish_date=$task_finish_date;
-         $this->task_status=$task_status;
-         $this->tax_rate_id=$tax_rate_id;
-     }
+    public function __construct(
+        int $id = null,
+        int $project_id = null,
+        string $name = '',
+        string $description = '',
+        float $price = null,
+        $finish_date = '',
+        bool $status = false,
+        int $tax_rate_id = null
+    )
+    {
+        $this->id=$id;
+        $this->project_id=$project_id;
+        $this->name=$name;
+        $this->description=$description;
+        $this->price=$price;
+        $this->finish_date=$finish_date;
+        $this->status=$status;
+        $this->tax_rate_id=$tax_rate_id;
+    }
+    
+    public function getProject() : ?Project
+    {
+      return $this->project;
+    }
+    
+    public function getTaxRate() : ?TaxRate
+    {
+      return $this->tax_rate;
+    }
     
     public function getId(): string
     {
-      return (string)$this->id;
+     return (string)$this->id;
     }
     
-    public function getProject_id(): int
+    public function setId(int $id) : void
     {
-      return $this->project_id;
+      $this->id =  $id;
+    }
+    
+    public function getProject_id(): string
+    {
+     return (string)$this->project_id;
     }
     
     public function setProject_id(int $project_id) : void
@@ -92,64 +96,59 @@ use DateTimeImmutable;
       $this->project_id =  $project_id;
     }
     
-    public function getTask_name(): string
+    public function getName(): ?string
     {
-      return $this->task_name;
+       return $this->name;
     }
     
-    public function setTask_name(string $task_name) : void
+    public function setName(string $name) : void
     {
-      $this->task_name =  $task_name;
+      $this->name =  $name;
     }
     
-    public function getTask_description(): string
+    public function getDescription(): string
     {
-      return $this->task_description;
+       return $this->description;
     }
     
-    public function setTask_description(string $task_description) : void
+    public function setDescription(string $description) : void
     {
-      $this->task_description =  $task_description;
+      $this->description =  $description;
     }
     
-    public function getTask_price(): float
+    public function getPrice(): ?float
     {
-      return $this->task_price;
+       return $this->price;
     }
     
-    public function setTask_price(float $task_price) : void
+    public function setPrice(float $price) : void
     {
-      $this->task_price =  $task_price;
+      $this->price =  $price;
     }
     
-    public function getTask_finish_date(): ?DateTimeImmutable  
+    public function getFinish_date(): DateTimeImmutable
     {
-       if (isset($this->task_finish_date) && !empty($this->task_finish_date)){
-            return $this->task_finish_date;            
-        }
-        if (empty($this->task_finish_date)){
-            return $this->task_finish_date = null;
-        }
+      return $this->finish_date;
     }
     
-    public function setTask_finish_date(?DateTime $task_finish_date): void
+    public function setFinish_date(DateTime $finish_date) : void
     {
-      $this->task_finish_date =  $task_finish_date;
+      $this->finish_date =  $finish_date;
     }
     
-    public function getTask_status(): bool
+    public function getStatus(): bool
     {
-      return $this->task_status;
+      return $this->status;
     }
     
-    public function setTask_status(bool $task_status) : void
+    public function setStatus(bool $status) : void
     {
-      $this->task_status =  $task_status;
+      $this->status =  $status;
     }
     
-    public function getTax_rate_id(): int
+    public function getTax_rate_id(): string
     {
-      return $this->tax_rate_id;
+     return (string)$this->tax_rate_id;
     }
     
     public function setTax_rate_id(int $tax_rate_id) : void
@@ -157,5 +156,3 @@ use DateTimeImmutable;
       $this->tax_rate_id =  $tax_rate_id;
     }
 }
-                     
-    

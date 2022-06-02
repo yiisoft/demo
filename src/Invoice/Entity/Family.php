@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Invoice\Entity;
@@ -7,21 +6,13 @@ namespace App\Invoice\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 
-/**
- * @Entity(
- *     repository="App\Invoice\Family\FamilyRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\Family\FamilyRepository::class)] 
 class Family
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     public ?int $id = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
+    #[Column(type: 'text', nullable: true)]
     public ?string $family_name = null;
     
     public function __construct(

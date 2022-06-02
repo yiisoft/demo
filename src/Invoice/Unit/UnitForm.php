@@ -31,12 +31,8 @@ final class UnitForm extends FormModel
     public function getRules(): array
     {
         return [
-            'unit_name' => [
-                Required::rule(),
-            ],
-            'unit_name_plrl' => [
-                Required::rule(),
-            ],
+            'unit_name' => [new Required()],
+            'unit_name_plrl' => [new Required()],
         ];
     }
 }

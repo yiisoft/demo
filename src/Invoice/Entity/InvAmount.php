@@ -8,105 +8,68 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\Inv;
-  
-/**
- * @Entity(
- * repository="App\Invoice\InvAmount\InvAmountRepository",
- * )
- */
- 
- class InvAmount
- {
-    /**
-     * @BelongsTo(target="Inv", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Inv
-     */
-     private $inv = null;
+
+#[Entity(repository: \App\Invoice\InvAmount\InvAmountRepository::class)] 
+class InvAmount
+{
     
-    /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[BelongsTo(target:Inv::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Inv $inv = null;
+    
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $inv_id =  null;
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $inv_id =  null;
+    
+    #[Column(type: 'enum(1,-1)', nullable: false, default: '1')]
+    private string $sign =  '1';
+    
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $item_subtotal =  0.00;
      
-    /**
-     * @Column(type="enum(1,-1)", nullable=false)
-     */
-     private string $sign =  '';
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $item_tax_total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $item_sub_total =  null;
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $tax_total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $item_tax_total =  null;
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $tax_total =  null;
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $paid =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $invoice_total =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $invoice_paid =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $invoice_balance =  null;
-     
-     /**
-     * @param int $inv_id
-     * @param string $sign
-     * @param float $item_sub_total
-     * @param float $item_tax_total
-     * @param float $tax_total
-     * @param float $invoice_total
-     * @param float $invoice_paid
-     * @param float $invoice_balance
-     */
-     
-     public function __construct(
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $balance =  0.00;
+    
+    public function __construct(
          int $inv_id = null,
          string $sign = '',
-         float $item_sub_total = null,
-         float $item_tax_total = null,
-         float $tax_total = null,
-         float $invoice_total = null,
-         float $invoice_paid = null,
-         float $invoice_balance = null
-     )
-     {
+         float $item_subtotal = 0.00,
+         float $item_tax_total = 0.00,
+         float $tax_total = 0.00,
+         float $total = 0.00,
+         float $paid = 0.00,
+         float $balance = 0.00
+    )
+    {
          $this->inv_id=$inv_id;
          $this->sign=$sign;
-         $this->item_sub_total=$item_sub_total;
+         $this->item_subtotal=$item_subtotal;
          $this->item_tax_total=$item_tax_total;
          $this->tax_total=$tax_total;
-         $this->invoice_total=$invoice_total;
-         $this->invoice_paid=$invoice_paid;
-         $this->invoice_balance=$invoice_balance;
-     }
+         $this->total=$total;
+         $this->paid=$paid;
+         $this->balance=$balance;
+    }
     
     public function getInv() : ?Inv
- {
+    {
       return $this->inv;
     }
     
-    public function getId(): string
+    public function getId(): ?string
     {
      return (string)$this->id;
     }
@@ -116,9 +79,9 @@ use App\Invoice\Entity\Inv;
       $this->id =  $id;
     }
     
-    public function getInv_id(): int
+    public function getInv_id(): string
     {
-     return $this->inv_id;
+     return (string)$this->inv_id;
     }
     
     public function setInv_id(int $inv_id) : void
@@ -136,14 +99,14 @@ use App\Invoice\Entity\Inv;
       $this->sign =  $sign;
     }
     
-    public function getItem_sub_total() : float
+    public function getItem_subtotal() : float
     {
-     return $this->item_sub_total;
+     return $this->item_subtotal;
     }
     
-    public function setItem_sub_total(float $item_sub_total) : void
+    public function setItem_subtotal(float $item_subtotal) : void
     {
-      $this->item_sub_total =  $item_sub_total;
+      $this->item_subtotal =  $item_subtotal;
     }
     
     public function getItem_tax_total() : float
@@ -166,33 +129,33 @@ use App\Invoice\Entity\Inv;
       $this->tax_total =  $tax_total;
     }
     
-    public function getInvoice_total(): float
+    public function getTotal(): float
     {
-     return $this->invoice_total;
+     return $this->total;
     }
     
-    public function setInvoice_total(float $invoice_total) : void
+    public function setTotal(float $total) : void
     {
-      $this->invoice_total =  $invoice_total;
+      $this->total =  $total;
     }
     
-    public function getInvoice_paid(): float
+    public function getPaid(): float
     {
-     return $this->invoice_paid;
+     return $this->paid;
     }
     
-    public function setInvoice_paid(float $invoice_paid) : void
+    public function setPaid(float $paid) : void
     {
-      $this->invoice_paid =  $invoice_paid;
+      $this->paid =  $paid;
     }
     
-    public function getInvoice_balance(): float
+    public function getBalance(): float
     {
-     return $this->invoice_balance;
+     return $this->balance;
     }
     
-    public function setInvoice_balance(float $invoice_balance) : void
+    public function setBalance(float $balance) : void
     {
-      $this->invoice_balance =  $invoice_balance;
+      $this->balance =  $balance;
     }
 }

@@ -6,16 +6,12 @@ namespace App\Invoice\QuoteItem;
 
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
-use \DateTime;
-use \DateTimeImmutable;
 
 final class QuoteItemForm extends FormModel
-{    
-    
+{        
     private ?int $quote_id=null;
     private ?int $tax_rate_id=null;
     private ?int $product_id=null;
-    private ?string $date_added='';
     private ?string $name='';
     private ?string $description='';
     private ?float $quantity=null;
@@ -38,13 +34,6 @@ final class QuoteItemForm extends FormModel
     public function getProduct_id() : int
     {
       return $this->product_id;
-    }
-
-    public function getDate_added() : ?\DateTime
-    {
-       if (isset($this->date_added) && !empty($this->date_added)) {
-          return new DateTime($this->date_added);
-       }
     }
 
     public function getName() : string
@@ -91,45 +80,16 @@ final class QuoteItemForm extends FormModel
     {
       return '';
     }
-
-    public function getRules(): array    {
+    
+    public function getRule(): array    {
       return [
-        'tax_rate_id' => [
-            Required::rule(),
-        ],          
-        'product_id' => [
-            Required::rule(),
-        ],          
-        'quote_id' => [
-            Required::rule(),
-        ],  
-        'date_added' => [
-            Required::rule(),
-        ],
-        'name' => [
-            Required::rule(),
-        ],
-        'description' => [
-            Required::rule(),
-        ],
-        'quantity' => [
-            Required::rule(),
-        ],
-        'price' => [
-            Required::rule(),
-        ],
-        'discount_amount' => [
-            Required::rule(),
-        ],
-        'order' => [
-            Required::rule(),
-        ],
-        'product_unit' => [
-            Required::rule(),
-        ],
-        'product_unit_id' => [
-            Required::rule(),
-        ],
+        'tax_rate_id' => [new Required()],
+        'product_id' => [new Required()],
+        'quantity' => [new Required()],
+        'price' => [new Required()],
+        'discount_amount' => [new Required()],
+        'order' => [new Required()],
+        'product_unit_id' => [new Required()],
     ];
-}
+    }
 }

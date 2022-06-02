@@ -1,34 +1,32 @@
 <?php
-
 declare(strict_types=1);
 
-use App\Invoice\Asset\CompactAsset;
+use App\Invoice\Asset\InvoiceAsset;
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use Yiisoft\Form\Widget\Form;
+use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\Form;
 use Yiisoft\Html\Html;
 use Yiisoft\Strings\StringHelper;
 use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
-use Yiisoft\Yii\Bootstrap5\Breadcrumbs;
 
 /**
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var \Yiisoft\Router\CurrentRoute $currentRoute
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Assets\AssetManager $assetManager
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var string $content
- *
  * @see \App\ApplicationViewInjection
- * @var \App\User\User $user 
- * @var string $csrf;
+ * @var \App\User\User|null $user
+ * @var string $csrf
  * @var string $brandLabel
  */
 
-$assetManager->register([
-    CompactAsset::class,
-    AppAsset::class
-]);
+$assetManager->register(AppAsset::class);
+$assetManager->register(InvoiceAsset::class);
+$assetManager->register(Yiisoft\Yii\Bootstrap5\Assets\BootstrapAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addCssStrings($assetManager->getCssStrings());
@@ -36,7 +34,15 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
+$currentRouteName = $currentRoute->getName() ?? '';
+
+$isGuest = $user === null || $user->getId() === null;
+
+$xdebug = extension_loaded('xdebug') ? 'php.ini zend_extension Installed: Performance compromised!' : 'php.ini zend_extension Commented out: Performance NOT compromised';
+
+// Platform, Performance, and Clear Assets Cache, and links Menu will disappear if set to false;
+$debug_mode = true;
+
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="en">
@@ -44,8 +50,7 @@ $this->beginPage();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yii Demo<?= $this->getTitle() ? ' - ' . $this->getTitle() : '' ?></title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">    
+    <title>Yii Demo<?= $this->getTitle() ? ' - ' . $this->getTitle() : '' ?></title> 
     <?php $this->head() ?>
 </head>
 <body>
@@ -61,7 +66,7 @@ echo Nav::widget()
         ->currentPath($currentRoute->getUri()->getPath())
         ->options(['class' => 'navbar-nav mx-auto', 'style'=>'background-color: #e3f2fd;'])
         ->items( 
-            $user->getId() === null
+            $isGuest
                 ? [
                 ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
                 ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
@@ -69,48 +74,12 @@ echo Nav::widget()
                 ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
                 ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],                
             ] :
-            [
-                ['label' => $translator->translate('invoice.home'), 'url' => $urlGenerator->generate('invoice/index'),'active' => StringHelper::startsWith($currentRouteName, 'invoice/') && $currentRouteName !== 'invoice/index',
-                    'items' => [
-                                ['label' => $translator->translate('invoice.generator'),'url'=>$urlGenerator->generate('generator/index')],
-                                ['label' => $translator->translate('invoice.generators.relation'),'url'=>$urlGenerator->generate('generatorrelation/index')],  
-                                ['label' => $translator->translate('invoice.setting'),'url'=>$urlGenerator->generate('setting/index')],
-                                ['label' => $translator->translate('invoice.client'),'url'=>$urlGenerator->generate('client/index')],
-                                ['label' => $translator->translate('invoice.client.custom'),'url'=>$urlGenerator->generate('clientcustom/index')],
-                                ['label' => $translator->translate('invoice.client.note'),'url'=>$urlGenerator->generate('clientnote/index')],
-                                ['label' => $translator->translate('invoice.email.template'),'url'=>$urlGenerator->generate('emailtemplate/index')],
-                                ['label' => $translator->translate('invoice.family'),'url'=>$urlGenerator->generate('family/index')],
-                                ['label' => $translator->translate('invoice.tax.rate'),'url'=>$urlGenerator->generate('taxrate/index')],
-                                ['label' => $translator->translate('invoice.unit'),'url'=>$urlGenerator->generate('unit/index')],
-                                ['label' => $translator->translate('invoice.product'),'url'=>$urlGenerator->generate('product/index')],
-                                ['label' => $translator->translate('invoice.project'),'url'=>$urlGenerator->generate('project/index')],
-                                ['label' => $translator->translate('invoice.task'),'url'=>$urlGenerator->generate('task/index')],
-                                ['label' => $translator->translate('invoice.group'),'url'=>$urlGenerator->generate('group/index')],
-                                ['label' => $translator->translate('invoice.invoice'),'url'=>$urlGenerator->generate('inv/index')],
-                                ['label' => $translator->translate('invoice.invoice.item'),'url'=>$urlGenerator->generate('invitem/index')],
-                                ['label' => $translator->translate('invoice.invoice.amount'),'url'=>$urlGenerator->generate('invamount/index')],
-                                ['label' => $translator->translate('invoice.invoice.tax.rate'),'url'=>$urlGenerator->generate('invtaxrate/index')],
-                                ['label' => $translator->translate('invoice.invoice.recurring'),'url'=>$urlGenerator->generate('recurring/index')],
-                                ['label' => $translator->translate('invoice.invoice.item.lookup'),'url'=>$urlGenerator->generate('itemlookup/index')],
-                                ['label' => $translator->translate('invoice.quote'),'url'=>$urlGenerator->generate('quote/index')],
-                                ['label' => $translator->translate('invoice.quote.item'),'url'=>$urlGenerator->generate('quoteitem/index')],
-                                ['label' => $translator->translate('invoice.quote.amount'),'url'=>$urlGenerator->generate('quoteamount/index')],
-                                ['label' => $translator->translate('invoice.quote.item.amount'),'url'=>$urlGenerator->generate('quoteitemamount/index')],
-                                ['label' => $translator->translate('invoice.quote.tax.rate'),'url'=>$urlGenerator->generate('quotetaxrate/index')],
-                                ['label' => $translator->translate('invoice.sumex'),'url'=>$urlGenerator->generate('sumex/index')],
-                                ['label' => $translator->translate('invoice.merchant'),'url'=>$urlGenerator->generate('merchant/index')],
-                                ['label' => $translator->translate('invoice.invoice.custom'),'url'=>$urlGenerator->generate('invcust/index')], 
-                                ['label' => $translator->translate('invoice.custom.field'),'url'=>$urlGenerator->generate('customfield/index')],
-                                ['label' => $translator->translate('invoice.custom.value'),'url'=>$urlGenerator->generate('customvalue/index')],
-                                ['label' => $translator->translate('invoice.payment'),'url'=>$urlGenerator->generate('payment/index')],
-                                ['label' => $translator->translate('invoice.payment.method'),'url'=>$urlGenerator->generate('paymentmethod/index')],
-                                ['label' => $translator->translate('invoice.payment.custom'),'url'=>$urlGenerator->generate('paymentcustom/index')],
-                               ]
-                ],
+            [               
                 ['label' => $translator->translate('invoice.client'), 
                      'items' => [
                                 ['label' => $translator->translate('invoice.add'),'url'=>$urlGenerator->generate('client/add')],
-                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('client/index')],
+                                ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('client/index')],                                
+                                ['label' => $translator->translate('invoice.client.note.add'),'url'=>$urlGenerator->generate('clientnote/add')],
                                ],
                     ],
                     ['label' => $translator->translate('invoice.quote'), 
@@ -123,7 +92,7 @@ echo Nav::widget()
                      'items' => [
                                 ['label' => $translator->translate('invoice.add'),'url'=>$urlGenerator->generate('inv/add')],
                                 ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('inv/index')],
-                                ['label' => $translator->translate('invoice.recurring'),'url'=>$urlGenerator->generate('recurring/index')], 
+                                ['label' => $translator->translate('invoice.recurring'),'url'=>$urlGenerator->generate('invrecurring/index')], 
                                ],
                     ],
                     ['label' => $translator->translate('invoice.payment'), 
@@ -159,82 +128,112 @@ echo Nav::widget()
                                 ['label' => $translator->translate('invoice.view'),'url'=>'#'],
                                ],
                     ],
-                    ['label' => 'Setting', 
-                     'items' => [
-                                 ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('setting/index')],
+                    ['label' => $translator->translate('invoice.setting'), 
+                     'items' => [['label' => $translator->translate('invoice.view'),'options'=>['style'=>'background-color: #ffcccb'],'url'=>$urlGenerator->generate('setting/debug_index'),'visible'=>$debug_mode],
+                                 ['label' => $translator->translate('invoice.setting.add'),'options'=>['style'=>'background-color: #ffcccb'], 'url'=>$urlGenerator->generate('setting/add'),'visible'=>$debug_mode],    
+                                 ['label' => $translator->translate('invoice.view'),'url'=>$urlGenerator->generate('setting/tab_index')],                         
+                                 ['label' => $translator->translate('invoice.email.template'),'url'=>$urlGenerator->generate('emailtemplate/index')],
+                                 ['label' => $translator->translate('invoice.custom.field'),'url'=>$urlGenerator->generate('customfield/index')],
+                                 ['label' => $translator->translate('invoice.group'),'url'=>$urlGenerator->generate('group/index')],
+                                 ['label' => $translator->translate('invoice.archive'),'url'=>$urlGenerator->generate('inv/archive')],
+                                 ['label' => $translator->translate('invoice.payment.method'),'url'=>$urlGenerator->generate('paymentmethod/index')],   
+                                 ['label' => $translator->translate('invoice.tax.rate'),'url'=>$urlGenerator->generate('taxrate/index')],
+                                 ['label' => $translator->translate('invoice.user.account'),'url'=>$urlGenerator->generate('userinv/index')],
+                                 ['label' => $translator->translate('invoice.setting.company'),'url'=>$urlGenerator->generate('company/index')],
+                                 ['label' => $translator->translate('invoice.setting.company.private'),'url'=>$urlGenerator->generate('companyprivate/index')],
+                                 ['label' => $translator->translate('invoice.setting.company.profile'),'url'=>$urlGenerator->generate('profile/index')],
                                ],
                     ],
-                
+                    ['label' => $translator->translate('invoice.platform'), 'options'=>['style'=>'background-color: #ffcccb'],'visible'=>$debug_mode,
+                     'items' => [
+                                 ['label' => $translator->translate('invoice.platform.editor'). ': Netbeans 12.4 64 bit'], 
+                                 ['label' => $translator->translate('invoice.platform.server'). ': Wampserver 3.2.8 64 bit'],
+                                 ['label' => $translator->translate('invoice.platform.sqlPath'). ': src\Invoice\Sql\settings.sql'],
+                                 ['label' => $translator->translate('invoice.platform.mySqlVersion'). ': 5.7.31 || 8.0.29 '],
+                                 ['label' => $translator->translate('invoice.platform.PhpVersion'). ': 8.1.6 (Compatable with PhpAdmin 5.1.3)'],
+                                 ['label' => $translator->translate('invoice.platform.PhpMyAdmin'). ': 5.1.3 (Compatable with php 8.1.6)'],
+                                 ['label' => $translator->translate('invoice.platform.PhpSupport'), 'url'=>'https://php.net/supported-versions'],
+                                 ['label' => $translator->translate('invoice.platform.update'), 'url'=>'https://wampserver.aviatechno.net/'], 
+                                 ['label' => $translator->translate('invoice.vendor.nikic.fast-route'), 'url'=>'https://github.com/nikic/FastRoute'],
+                                 ['label' => $translator->translate('invoice.platform.netbeans.UTF-8'), 'url'=>'https://stackoverflow.com/questions/59800221/gradle-netbeans-howto-set-encoding-to-utf-8-in-editor-and-compiler'],
+                               ],
+                    ],
+                     ['label' => $translator->translate('invoice.performance'),  'options'=>['style'=>'background-color: #ffcccb'],'visible'=>$debug_mode,
+                     'items' => [
+                                 ['label' => $translator->translate('invoice.platform.xdebug'). ' '.$xdebug],  
+                                 ['label' => 'php.ini: opcache.memory_consumption=128'],
+                                 ['label' => 'php.ini: oopcache.interned_strings_buffer=8'],
+                                 ['label' => 'php.ini: opcache.max_accelerated_files=4000'],
+                                 ['label' => 'php.ini: opcache.revalidate_freq=60'],
+                                 ['label' => 'php.ini: opcache.enable=1'],
+                                 ['label' => 'php.ini: opcache.enable_cli=1'],
+                                 ['label' => 'config.params: yiisoft/yii-debug: enabled , disable for improved performance'], 
+                                 ['label' => 'config.params: yiisoft/yii-debug-api: enabled, disable for improved performance'],
+                               ],
+                    ],
+                     ['label' => $translator->translate('invoice.generator'),  'options'=>['style'=>'background-color: #ffcccb'],'visible'=>$debug_mode,
+                     'items' => [
+                                   ['label' => $translator->translate('invoice.generator'),'url'=>$urlGenerator->generate('generator/index')],
+                                   ['label' => $translator->translate('invoice.generator.add'),'url'=>$urlGenerator->generate('generator/add')],
+                                   ['label' => $translator->translate('invoice.generator.relations.add'),'url'=>$urlGenerator->generate('generatorrelation/add')],                                                                    
+                                   ['label' => $translator->translate('invoice.development.progress'),'url'=>$urlGenerator->generate('invoice/index')]
+                               ],
+                    ],
+                    ['label' => $translator->translate('invoice.utility.assets.clear'),
+                     'url'=>$urlGenerator->generate('setting/clear'),'options'=>['data-toggle'=>'tooltip', 
+                     'title'=>'Clear the assets cache which resides in /public/assets.','style'=>'background-color: #ffcccb'],
+                     'visible'=>$debug_mode],
+                    ['label' => $translator->translate('invoice.debug'),
+                     'url'=>'',
+                     'options'=>['data-toggle'=>'tooltip', 'title'=>'Disable in Invoice/Layout/main.php. Red background links and menus will disappear.','style'=>'background-color: #ffcccb'],
+                     'visible'=>$debug_mode],
+                    ['label' => $translator->translate('menu.blog'),
+                     'url'=>$urlGenerator->generate('blog/index'),'options'=>['data-toggle'=>'tooltip', 'title'=>'Change the locale here.'] 
+                     ],
             ]       
         );
 
 echo Nav::widget()
-        ->currentPath($currentRoute->getUri()->getPath())
-        ->options(['class' => 'navbar-nav'])
-        ->items(
-            $user->getId() === null
-                ? [
-                 ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
-                 ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
-            ]
-                : [Form::widget()
-                    ->action($urlGenerator->generate('site/logout'))
-                    ->options(['csrf' => $csrf])
-                    ->begin()
-                    . Html::submitButton($translator->translate('menu.logout ({login})', ['login' => Html::encode($user->getLogin())]), ['class' => 'dropdown-item'])
-                    . Form::end()],
-        );
-echo NavBar::end();
+                ->currentPath($currentRoute->getUri()->getPath())
+                ->options(['class' => 'navbar-nav'])
+                ->items(
+                    [
+                        [
+                            'label' => $translator->translate('menu.login'),
+                            'url' => $urlGenerator->generate('auth/login'),
+                            'visible' => $isGuest,
+                        ],
+                        [
+                            'label' => $translator->translate('menu.signup'),
+                            'url' => $urlGenerator->generate('auth/signup'),
+                            'visible' => $isGuest,
+                        ],
+                       $isGuest ? '' : Form::tag()
+                                ->post($urlGenerator->generate('auth/logout'))
+                                ->csrf($csrf)
+                                ->open()
+                            . '<div class="mb-1">'
+                            . Button::submit(
+                                $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
+                            )
+                                ->class('btn btn-primary')
+                            . '</div>'
+                            . Form::tag()->close()
+                    ],
+                );
 
-?><main class="container py-4">
-<?php if ($user->getId() <> null) {
-    echo Breadcrumbs::widget()->links([
-                                   ['label' => $translator->translate('invoice.generator.add'),'url'=>$urlGenerator->generate('generator/add')],
-                                   ['label' => $translator->translate('invoice.generator.relations.add'),'url'=>$urlGenerator->generate('generatorrelation/add')],
-                                   ['label' => $translator->translate('invoice.setting.add'),'url'=>$urlGenerator->generate('setting/add')],
-                                   ['label' => $translator->translate('invoice.client.add'),'url'=>$urlGenerator->generate('client/add')],
-                                   ['label' => $translator->translate('invoice.client.custom.add'),'url'=>$urlGenerator->generate('clientcustom/add')],
-                                   ['label' => $translator->translate('invoice.client.note.add'),'url'=>$urlGenerator->generate('clientnote/add')], 
-                                   ['label' => $translator->translate('invoice.email.template.add'),'url'=>$urlGenerator->generate('emailtemplate/add')],
-                                   ['label' => $translator->translate('invoice.family.add'),'url'=>$urlGenerator->generate('family/add')],
-                                   ['label' => $translator->translate('invoice.tax.rate.add'),'url'=>$urlGenerator->generate('taxrate/add')],
-                                   ['label' => $translator->translate('invoice.unit.add'),'url'=>$urlGenerator->generate('unit/add')],
-                                   ['label' => $translator->translate('invoice.product.add'),'url'=>$urlGenerator->generate('product/add')],
-                                   ['label' => $translator->translate('invoice.project.add'),'url'=>$urlGenerator->generate('project/add')],
-                                   ['label' => $translator->translate('invoice.task.add'),'url'=>$urlGenerator->generate('task/add')],
-                                   ['label' => $translator->translate('invoice.group.add'),'url'=>$urlGenerator->generate('group/add')],
-                                   ['label' => $translator->translate('invoice.invoice.add'),'url'=>$urlGenerator->generate('inv/add')],
-                                   ['label' => $translator->translate('invoice.invoice.item.add'),'url'=>$urlGenerator->generate('invitem/add')],
-                                   ['label' => $translator->translate('invoice.invoice.amount.add'),'url'=>$urlGenerator->generate('invamount/add')],
-                                   ['label' => $translator->translate('invoice.invoice.tax.rate.add'),'url'=>$urlGenerator->generate('invtaxrate/add')],
-                                   ['label' => $translator->translate('invoice.item.lookup'),'url'=>$urlGenerator->generate('itemlookup/index')],
-                                   ['label' => $translator->translate('invoice.quote.add'),'url'=>$urlGenerator->generate('quote/add')],
-                                   ['label' => $translator->translate('invoice.quote.item.add'),'url'=>$urlGenerator->generate('quoteitem/add')],
-                                   ['label' => $translator->translate('invoice.quote.item.amount'),'url'=>$urlGenerator->generate('quoteitemamount/add')],
-                                   ['label' => $translator->translate('invoice.quote.amount.add'),'url'=>$urlGenerator->generate('quoteamount/add')],
-                                   ['label' => $translator->translate('invoice.quote.tax.rate.add'),'url'=>$urlGenerator->generate('quotetaxrate/add')],
-                                   ['label' => $translator->translate('invoice.sumex.add'),'url'=>$urlGenerator->generate('sumex/add')],
-                                   ['label' => $translator->translate('invoice.merchant.add'),'url'=>$urlGenerator->generate('merchant/add')],
-                                   ['label' => $translator->translate('invoice.custom.invoice.add'),'url'=>$urlGenerator->generate('invcust/add')],
-                                   ['label' => $translator->translate('invoice.custom.field.add'),'url'=>$urlGenerator->generate('customfield/add')],
-                                   ['label' => $translator->translate('invoice.custom.value.add'),'url'=>$urlGenerator->generate('customvalue/add')],
-                                   ['label' => $translator->translate('invoice.invoice.recurring.add'),'url'=>$urlGenerator->generate('recurring/add')],
-                                   ['label' => $translator->translate('invoice.payment.method.add'),'url'=>$urlGenerator->generate('paymentmethod/add')],
-                                   ['label' => $translator->translate('invoice.payment.custom.add'),'url'=>$urlGenerator->generate('paymentcustom/add')],
-                                   ['label' => $translator->translate('invoice.payment.add'),'url'=>$urlGenerator->generate('payment/add')],
-                                  ])
-                          ->activeItemTemplate("<li class=\"breadcrumb-item active\" aria-current=\"page\">{link}</li>\n")
-                          ->homelink(['label' => $translator->translate('invoice.home'),'url'=>$urlGenerator->generate('invoice/index')]);
-    echo $content;
-}
-?></main>
-
+echo NavBar::end();?>
+<main class="container py-4">
+    <?php 
+       echo $content;
+    ?>
+</main>
 <footer class="container py-4">
-    <?= PerformanceMetrics::widget() ?>
+    <?= PerformanceMetrics::widget() ?>    
 </footer>
-<?php
-$this->endBody();
-?>
+    <?php
+        $this->endBody();
+    ?>
 </body>
 </html>
 <?php

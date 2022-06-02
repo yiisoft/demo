@@ -35,9 +35,9 @@ if (!empty($errors)) {
     <select name="quote_item_id" id="quote_item_id" class="form-control simple-select">
        <option value="0">Quote item</option>
          <?php foreach ($quote_items as $quote_item) { ?>
-          <option value="<?= $quote_item->id; ?>"
-           <?php $s->check_select(Html::encode($body['quote_item_id'] ?? ''), $quote_item->id) ?>
-           ><?= $quote_item->id; ?></option>
+          <option value="<?= $quote_item->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['quote_item_id'] ?? ''), $quote_item->getId()) ?>
+           ><?= $quote_item->getId(); ?></option>
          <?php } ?>
     </select>
  </div>

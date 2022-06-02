@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Contact;
 
 use Yiisoft\Form\FormModel;
-use Yiisoft\Form\HtmlOptions\EmailHtmlOptions;
-use Yiisoft\Form\HtmlOptions\RequiredHtmlOptions;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Required;
 
@@ -36,10 +34,10 @@ final class ContactForm extends FormModel
     public function getRules(): array
     {
         return [
-            'name' => [new RequiredHtmlOptions(Required::rule())],
-            'email' => [new RequiredHtmlOptions(Required::rule()), new EmailHtmlOptions(Email::rule())],
-            'subject' => [new RequiredHtmlOptions(Required::rule())],
-            'body' => [new RequiredHtmlOptions(Required::rule())],
+            'name' => [new Required()],
+            'email' => [new Required(), new Email()],
+            'subject' => [new Required()],
+            'body' => [new Required()],
         ];
     }
 }

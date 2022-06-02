@@ -42,12 +42,12 @@ final class <?= $generator->getCamelcase_capital_name();?>Form extends FormModel
                 {
                    if ($column->hasDefaultValue()) {
                       $init  = $column->getDefaultValue();
-                      if ($init === 1) {$init = false;}
-                      if ($init === 0) {$init = true;}
+                      if ($init === 1) {$init = 'true';}
+                      if ($init === 0) {$init = 'false';}
                       break;
                    }
                    else {
-                       $init = false;
+                       $init = 'false';
                        break;
                    }
                 }

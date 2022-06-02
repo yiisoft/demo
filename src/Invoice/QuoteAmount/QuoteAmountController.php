@@ -9,15 +9,19 @@ use App\Invoice\QuoteAmount\QuoteAmountService;
 use App\Invoice\QuoteAmount\QuoteAmountRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\Invoice\Quote\QuoteRepository;
+
 use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class QuoteAmountController
 {
@@ -25,12 +29,14 @@ final class QuoteAmountController
     private WebControllerService $webService;
     private UserService $userService;
     private QuoteAmountService $quoteamountService;
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        QuoteAmountService $quoteamountService
+        QuoteAmountService $quoteamountService,
+        TranslatorInterface $translator,
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/quoteamount')
@@ -38,13 +44,14 @@ final class QuoteAmountController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->quoteamountService = $quoteamountService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, QuoteAmountRepository $quoteamountRepository, SettingRepository $settingRepository, Request $request, QuoteAmountService $service): Response
     {
        
          $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'dummy' , 'Flash message!.');
+         $flash = $this->flash($session, '','');
          $parameters = [
       
           's'=>$settingRepository,
@@ -52,10 +59,6 @@ final class QuoteAmountController
           'quoteamounts' => $this->quoteamounts($quoteamountRepository),
           'flash'=> $flash
          ];
-
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_quoteamounts', ['data' => $paginator]);
-        }
         
         return $this->viewRenderer->render('index', $parameters);
     }
@@ -90,12 +93,12 @@ final class QuoteAmountController
                 $this->quoteamountService->saveQuoteAmount(new QuoteAmount(),$form);
                 return $this->webService->getRedirectResponse('quoteamount/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute,
                         ValidatorInterface $validator,
                         QuoteAmountRepository $quoteamountRepository, 
                         SettingRepository $settingRepository,                        
@@ -104,45 +107,44 @@ final class QuoteAmountController
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['quoteamount/edit', ['id' => $this->quoteamount($request, $quoteamountRepository)->getId()]],
+            'action' => ['quoteamount/edit', ['id' => $this->quoteamount($currentRoute, $quoteamountRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->quoteamount($request, $quoteamountRepository)),
+            'body' => $this->body($this->quoteamount($currentRoute, $quoteamountRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-                        'quotes'=>$quoteRepository->findAllPreloaded()
+            'quotes'=>$quoteRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new QuoteAmountForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->quoteamountService->saveQuoteAmount($this->quoteamount($request,$quoteamountRepository), $form);
+                $this->quoteamountService->saveQuoteAmount($this->quoteamount($currentRoute, $quoteamountRepository), $form);
                 return $this->webService->getRedirectResponse('quoteamount/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,QuoteAmountRepository $quoteamountRepository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute, QuoteAmountRepository $quoteamountRepository 
     ): Response {
-        $this->rbac($session);
-       
-        $this->quoteamountService->deleteQuoteAmount($this->quoteamount($request,$quoteamountRepository));               
+        $this->rbac($session);       
+        $this->quoteamountService->deleteQuoteAmount($this->quoteamount($currentRoute, $quoteamountRepository));               
         return $this->webService->getRedirectResponse('quoteamount/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,QuoteAmountRepository $quoteamountRepository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, QuoteAmountRepository $quoteamountRepository,
         SettingRepository $settingRepository,
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['quoteamount/edit', ['id' => $this->quoteamount($request, $quoteamountRepository)->getId()]],
+            'action' => ['quoteamount/edit', ['id' => $this->quoteamount($currentRoute, $quoteamountRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->quoteamount($request, $quoteamountRepository)),
+            'body' => $this->body($this->quoteamount($currentRoute, $quoteamountRepository)),
             's'=>$settingRepository,             
-            'quoteamount'=>$quoteamountRepository->repoQuoteAmountquery($this->quoteamount($request, $quoteamountRepository)->getId()),
+            'quoteamount'=>$quoteamountRepository->repoQuoteAmountquery($this->quoteamount($currentRoute, $quoteamountRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
@@ -151,15 +153,15 @@ final class QuoteAmountController
     {
         $canEdit = $this->userService->hasPermission('editQuoteAmount');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('quoteamount/index');
         }
         return $canEdit;
     }
     
-    private function quoteamount(Request $request,QuoteAmountRepository $quoteamountRepository) 
+    private function quoteamount(CurrentRoute $currentRoute, QuoteAmountRepository $quoteamountRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $quoteamount = $quoteamountRepository->repoQuoteAmountquery($id);
         if ($quoteamount === null) {
             return $this->webService->getNotFoundResponse();
@@ -172,7 +174,7 @@ final class QuoteAmountController
         $quoteamounts = $quoteamountRepository->findAllPreloaded();        
         if ($quoteamounts === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $quoteamounts;
     }
     
@@ -185,7 +187,7 @@ final class QuoteAmountController
           'item_tax_total'=>$quoteamount->getItem_tax_total(),
           'tax_total'=>$quoteamount->getTax_total(),
           'total'=>$quoteamount->getTotal()
-                ];
+        ];
         return $body;
     }
     
@@ -195,5 +197,3 @@ final class QuoteAmountController
         return $flash;
     }
 }
-
-?>

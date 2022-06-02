@@ -8,74 +8,50 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\Quote;
-  
- /**
- * @Entity(
- * repository="App\Invoice\QuoteAmount\QuoteAmountRepository",
- * )
- */
- 
- class QuoteAmount
- {
-       
-   
-    /**
-     * @BelongsTo(target="Quote", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Quote
-     */
-     private $quote = null;
+
+#[Entity(repository: \App\Invoice\QuoteAmount\QuoteAmountRepository::class)]
+class QuoteAmount
+{
+    #[BelongsTo(target:Quote::class, nullable: false, fkAction:'NO ACTION')]
+    private ?Quote $quote = null;    
     
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
+     
+    #[Column(type: 'integer(11)', nullable:false)]
+    private ?int $quote_id =  null;
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'decimal(20,2)', nullable:false, default: 0.00)]
+    private ?float $item_subtotal =  0.00;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $quote_id =  null;
+    #[Column(type: 'decimal(20,2)', nullable:false, default: 0.00)]
+    private ?float $item_tax_total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $item_subtotal =  null;
+    #[Column(type: 'decimal(20,2)', nullable:false, default: 0.00)]
+    private ?float $tax_total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $item_tax_total =  null;
+    #[Column(type: 'decimal(20,2)', nullable:false, default: 0.00)]
+    private ?float $total =  0.00;
      
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $tax_total =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $total =  null;
-     
-     public function __construct(
-          int $id = null,
-         int $quote_id = null,
-         float $item_subtotal = null,
-         float $item_tax_total = null,
-         float $tax_total = null,
-         float $total = null
-     )
-     {
-         $this->id=$id;
-         $this->quote_id=$quote_id;
-         $this->item_subtotal=$item_subtotal;
-         $this->item_tax_total=$item_tax_total;
-         $this->tax_total=$tax_total;
-         $this->total=$total;
-     }
+    public function __construct(
+        int $id = null,
+        int $quote_id = null,
+        float $item_subtotal = 0.00,
+        float $item_tax_total = 0.00,
+        float $tax_total = 0.00,
+        float $total = 0.00
+    )
+    {
+        $this->id=$id;
+        $this->quote_id=$quote_id;
+        $this->item_subtotal=$item_subtotal;
+        $this->item_tax_total=$item_tax_total;
+        $this->tax_total=$tax_total;
+        $this->total=$total;
+    }
     
     public function getQuote() : ?Quote
- {
+    {
       return $this->quote;
     }
     

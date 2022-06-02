@@ -54,19 +54,19 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($clientnotes as $clientnote){
       echo Html::br();
-      $label = $clientnote->id . " ";
+      $label = $clientnote->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('clientnote/edit', ['id' => $clientnote->id]),
+      $urlGenerator->generate('clientnote/edit', ['id' => $clientnote->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('clientnote/view', ['id' => $clientnote->id]),
+      $urlGenerator->generate('clientnote/view', ['id' => $clientnote->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record# '.$clientnote->id)
+      ->title('Please confirm that you want to delete this record# '.$clientnote->getId())
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('clientnote/delete', ['id' => $clientnote->id]),
+                   $urlGenerator->generate('clientnote/delete', ['id' => $clientnote->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

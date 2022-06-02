@@ -11,113 +11,60 @@ use App\Invoice\Entity\TaxRate;
 use App\Invoice\Entity\Unit;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 
-/**
- * @Entity(
- *     repository="App\Invoice\Product\ProductRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\Product\ProductRepository::class)]
 class Product
 {
-    /**
-     * @Column(type="primary")
-     */
-    public ?int $id = null;
+    #[Column(type: 'primary')]
+    private ?int $id = null;
         
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $product_sku = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $product_sku = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $product_name = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $product_name = '';
     
-    /**
-     * @Column(type="longText", nullable=false)
-     */
-    public ?string $product_description = '';
+    #[Column(type: 'longText', nullable: false)]
+    private ?string $product_description = '';
+        
+    #[Column(type: 'decimal(20,2)', nullable: true)]
+    private ?float $product_price = null;
     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-    public ?float $product_price = null;
-    
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
+    #[Column(type: 'decimal(20,2)', nullable: true)]
     private ?float $purchase_price = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
+    #[Column(type: 'text', nullable: true)]
     private ?string $provider_name = '';
     
-    /**
-     * @BelongsTo(target="App\Invoice\Entity\Family", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Family
-     */
-    private $family = null;
-    
-    /**
-     * @Column(type="integer(11)", nullable=true, default=null)
-     */
+    #[BelongsTo(target:Family::class, nullable: false, fkAction: "NO ACTION")]
+    private ?Family $family = null;        
+    #[Column(type: 'integer(11)', nullable: true)]
     private ?int $family_id = null;
     
-    /**
-     * @BelongsTo(target="TaxRate", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|TaxRate
-     */
-    private $tax_rate = null;
-    
-    /**
-     * @Column(type="integer(11)", nullable=true, default=null)
-     */
+    // A product has to have a tax rate before it can be created even if it is a zero tax rate    
+    #[BelongsTo(target:TaxRate::class, nullable: false, fkAction: "NO ACTION")]
+    private ?TaxRate $tax_rate = null;    
+    #[Column(type: 'integer(11)', nullable: true)]
     private ?int $tax_rate_id = null;
-    
-    /**
-     * @BelongsTo(target="Unit", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Unit
-     */
-    private $unit = null;
-    
-    /**
-     * @Column(type="integer(11)", nullable=true, default=null)
-     */
+        
+    #[BelongsTo(target:Unit::class, nullable: false, fkAction: "NO ACTION")]
+    private ?Unit $unit = null;    
+    #[Column(type: 'integer(11)', nullable: true)]
     private ?int $unit_id = null;
     
-    /**
-     * @Column(type="integer(11)", nullable=true)
-     */
+    #[Column(type: 'integer(11)', nullable: true)]
     private ?int $product_tariff = null;
     
-    /**
-     * @param string $product_sku
-     * @param string $product_name
-     * @param string $product_description
-     * @param float $product_price
-     * @param float $purchase_price
-     * @param string $provider_name
-     * @param int $product_tariff
-     * @param int $tax_rate_id
-     * @param int $family_id
-     * @param int $unit_id
-     */
-    
     public function __construct(
-            string $product_sku = '',
-            string $product_name = '',
-            string $product_description = '',
-            float $product_price = null,
-            float $purchase_price = null,
-            string $provider_name = '',
-            int $product_tariff = null,
-            int $tax_rate_id = null,
-            int $family_id = null,
-            int $unit_id = null            
+        string $product_sku = '',
+        string $product_name = '',
+        string $product_description = '',
+        float $product_price = null,
+        float $purchase_price = null,
+        string $provider_name = '',
+        int $product_tariff = null,
+        int $tax_rate_id = null,
+        int $family_id = null,
+        int $unit_id = null            
     )
     {
         $this->product_sku = $product_sku;  
@@ -150,11 +97,6 @@ class Product
     public function getProduct_id(): ?string
     {
         return (string)$this->id;
-    }
-
-    public function getFamily_id(): ?int
-    {
-        return $this->family_id;
     }
     
     public function setFamily_id(int $family_id): void
@@ -240,6 +182,11 @@ class Product
     public function getUnit_id(): ?int
     {
         return $this->unit_id;
+    }
+
+    public function getFamily_id(): ?int
+    {
+        return $this->family_id;
     }
     
     public function getProduct_tariff(): int

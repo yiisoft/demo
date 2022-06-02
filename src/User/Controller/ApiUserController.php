@@ -6,12 +6,19 @@ namespace App\User\Controller;
 
 use App\User\User;
 use App\User\UserRepository;
+use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Router\CurrentRoute;
 
-class ApiUserController
+/**
+ * @OA\Tag(
+ *     name="user",
+ *     description="User"
+ * )
+ */
+final class ApiUserController
 {
     private DataResponseFactoryInterface $responseFactory;
 
@@ -20,6 +27,13 @@ class ApiUserController
         $this->responseFactory = $responseFactory;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/user",
+     *     tags={"user"},
+     *     @OA\Response(response="200", description="Get users list")
+     * )
+     */
     public function index(UserRepository $userRepository): ResponseInterface
     {
         $dataReader = $userRepository->findAll()->withSort(Sort::only(['login'])->withOrderString('login'));
@@ -33,9 +47,22 @@ class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    public function profile(ServerRequestInterface $request, UserRepository $userRepository): ResponseInterface
+    /**
+     * @OA\Get(
+     *     path="/api/user/{login}",
+     *     tags={"user"},
+     *     @OA\Parameter(
+     *     @OA\Schema(type="string"),
+     *     in="path",
+     *     name="login",
+     *     parameter="login"
+     *     ),
+     *     @OA\Response(response="200", description="Get user info")
+     * )
+     */
+    public function profile(UserRepository $userRepository, CurrentRoute $currentRoute): ResponseInterface
     {
-        $login = $request->getAttribute('login', null);
+        $login = $currentRoute->getArgument('login');
 
         /** @var User $user */
         $user = $userRepository->findByLogin($login);

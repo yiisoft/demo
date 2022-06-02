@@ -8,15 +8,21 @@ use App\Invoice\Entity\Group;
 use App\Invoice\Group\GroupService;
 use App\Invoice\Group\GroupRepository;
 use App\Invoice\Setting\SettingRepository;
-use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
+use App\User\UserService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
+
+use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class GroupController
 {
@@ -24,12 +30,14 @@ final class GroupController
     private WebControllerService $webService;
     private UserService $userService;
     private GroupService $groupService;
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        GroupService $groupService
+        GroupService $groupService,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/group')
@@ -37,25 +45,24 @@ final class GroupController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->groupService = $groupService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, GroupRepository $groupRepository, SettingRepository $settingRepository, Request $request, GroupService $service): Response
-    {
-       
-         $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'success' , 'Change the type from success to info and you will get a flash message!.');
-         $parameters = [
-      
-          's'=>$settingRepository,
-          'canEdit' => $canEdit,
-          'groups' => $this->groups($groupRepository),
-          'flash'=> $flash
-         ];
-
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_groups', ['data' => $paginator]);
-        }
-        
+    {    
+        $pageNum = (int)$request->getAttribute('page', '1');
+        $paginator = (new OffsetPaginator($this->groups($groupRepository)))
+        ->withPageSize((int)$settingRepository->setting('default_list_limit'))
+        ->withCurrentPage($pageNum);
+        $canEdit = $this->rbac($session);
+        $flash = $this->flash($session, '','');
+        $parameters = [
+              'paginator' => $paginator,
+              's'=>$settingRepository,
+              'canEdit' => $canEdit,
+              'groups' => $this->groups($groupRepository),
+              'flash'=> $flash
+        ];  
         return $this->viewRenderer->render('index', $parameters);
     }
     
@@ -87,12 +94,12 @@ final class GroupController
                 $this->groupService->saveGroup(new Group(),$form);
                 return $this->webService->getRedirectResponse('group/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute,
                         ValidatorInterface $validator,
                         GroupRepository $groupRepository, 
                         SettingRepository $settingRepository                       
@@ -101,9 +108,9 @@ final class GroupController
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['group/edit', ['id' => $this->group($request, $groupRepository)->getId()]],
+            'action' => ['group/edit', ['id' => $this->group($currentRoute, $groupRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->group($request, $groupRepository)),
+            'body' => $this->body($this->group($currentRoute, $groupRepository)),
             'head'=>$head,
             's'=>$settingRepository,
             'head'=>$head
@@ -113,20 +120,20 @@ final class GroupController
             $form = new GroupForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->groupService->saveGroup($this->group($request,$groupRepository), $form);
+                $this->groupService->saveGroup($this->group($currentRoute,$groupRepository), $form);
                 return $this->webService->getRedirectResponse('group/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,GroupRepository $groupRepository 
+    public function delete(SessionInterface $session,CurrentRoute $currentRoute, GroupRepository $groupRepository 
     ): Response {
         $this->rbac($session);
         try {
-              $this->groupService->deleteGroup($this->group($request,$groupRepository));               
+              $this->groupService->deleteGroup($this->group($currentRoute, $groupRepository));               
               return $this->webService->getRedirectResponse('group/index'); 
 	} catch (Exception $e) {
               unset($e);
@@ -135,18 +142,17 @@ final class GroupController
         }
     }
     
-    public function view(SessionInterface $session,Request $request,GroupRepository $groupRepository,
-        SettingRepository $settingRepository,
-        ValidatorInterface $validator
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, GroupRepository $groupRepository,
+        SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['invoice/edit', ['id' => $this->group($request, $groupRepository)->getId()]],
+            'action' => ['invoice/edit', ['id' => $this->group($currentRoute, $groupRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->group($request, $groupRepository)),
+            'body' => $this->body($this->group($currentRoute, $groupRepository)),
             's'=>$settingRepository,            
-            'group'=>$groupRepository->repoGroupquery($this->group($request, $groupRepository)->getId()),
+            'group'=>$groupRepository->repoGroupquery($this->group($currentRoute, $groupRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
@@ -155,15 +161,15 @@ final class GroupController
     {
         $canEdit = $this->userService->hasPermission('editGroup');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('group/index');
         }
         return $canEdit;
     }
     
-    private function group(Request $request,GroupRepository $groupRepository) 
+    private function group(CurrentRoute $currentRoute, GroupRepository $groupRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $group = $groupRepository->repoGroupquery($id);
         if ($group === null) {
             return $this->webService->getNotFoundResponse();
@@ -176,7 +182,7 @@ final class GroupController
         $groups = $groupRepository->findAllPreloaded();        
         if ($groups === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $groups;
     }
     
@@ -198,5 +204,3 @@ final class GroupController
         return $flash;
     }
 }
-
-?>

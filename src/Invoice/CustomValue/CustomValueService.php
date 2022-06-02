@@ -18,16 +18,14 @@ final class CustomValueService
     }
 
     public function saveCustomValue(CustomValue $model, CustomValueForm $form): void
-    {
-        
-       $model->setField($form->getField());
+    { 
+       $model->setCustom_field_id($form->getCustom_field_id());
        $model->setValue($form->getValue());
- 
-        $this->repository->save($model);
+       $this->repository->save($model);
     }
     
     public function deleteCustomValue(CustomValue $model): void
     {
-        $this->repository->delete($model);
+       $this->repository->delete($model);
     }
 }

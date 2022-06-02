@@ -27,7 +27,7 @@ if (!empty($errors)) {
 <input type="hidden" name="_csrf" value="<?= $csrf ?>">
   <div class="row">
     <div class="mb-3 form-group">
-        <input type="text" class="form-control" name="family_name" id="family_name" placeholder="Family Name" value="<?= Html::encode($body['family_name'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="family_name" id="family_name" placeholder="Family Name" value="<?= Html::encode($body['family_name'] ?? '') ?>">
     </div>      
   </div>    
   <button type="submit" class="btn btn-primary"><?= $s->trans('submit'); ?></button>

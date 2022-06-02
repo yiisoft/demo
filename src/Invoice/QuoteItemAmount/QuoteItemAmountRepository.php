@@ -29,7 +29,7 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()->load('quote_item');
         return $this->prepareDataReader($query);
     }
     
@@ -69,10 +69,21 @@ private EntityWriter $entityWriter;
             Sort::only(['id'])
                 ->withOrder(['id' => 'asc'])
         );
+    } 
+    
+    public function repoQuoteItemAmountquery(string $quote_item_id): QuoteItemAmount {
+        $query = $this->select()->load(['quote_item'])->where(['quote_item_id' => $quote_item_id]);
+        return  $query->fetchOne();        
     }
     
-    public function repoQuoteItemAmountquery(string $id): QuoteItemAmount    {
-        $query = $this->select()->load('quote_item')->where(['id' => $id]);
-        return  $query->fetchOne();        
+    /**
+     * Determine if a quote amount summary exists for a specific quote item
+     * @param string $quote_item_id 
+     * @psalm-return DataReaderInterface<int,QuoteItemAmount>
+     */
+    public function repoCount(string $quote_item_id): int {
+        $query = $this->select()
+                      ->where(['quote_item_id'=>$quote_item_id]);
+        return $query->count(); 
     }
 }

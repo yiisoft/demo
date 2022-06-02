@@ -42,6 +42,6 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="quote_item_id" class="form-label" style="background:lightblue"><?= $s->trans('quote_item'); ?></label>
-   <?= $quoteitemamount->getQuoteItem()->id;?>
+   <?= $quoteitemamount->getQuoteItem()->getId();?>
  </div>
 </div>

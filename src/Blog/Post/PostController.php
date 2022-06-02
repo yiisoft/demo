@@ -10,6 +10,7 @@ use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -32,10 +33,10 @@ final class PostController
         $this->userService = $userService;
     }
 
-    public function index(Request $request, PostRepository $postRepository): Response
+    public function index(CurrentRoute $currentRoute, PostRepository $postRepository): Response
     {
         $canEdit = $this->userService->hasPermission('editPost');
-        $slug = $request->getAttribute('slug', null);
+        $slug = $currentRoute->getArgument('slug');
         $item = $postRepository->fullPostPage($slug);
         if ($item === null) {
             return $this->webService->getNotFoundResponse();
@@ -69,9 +70,10 @@ final class PostController
     public function edit(
         Request $request,
         PostRepository $postRepository,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        CurrentRoute $currentRoute
     ): Response {
-        $slug = $request->getAttribute('slug', null);
+        $slug = $currentRoute->getArgument('slug');
         $post = $postRepository->fullPostPage($slug);
         if ($post === null) {
             return $this->webService->getNotFoundResponse();

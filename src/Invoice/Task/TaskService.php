@@ -6,6 +6,7 @@ namespace App\Invoice\Task;
 
 use App\Invoice\Entity\Task;
 
+
 final class TaskService
 {
 
@@ -18,14 +19,16 @@ final class TaskService
 
     public function saveTask(Task $model, TaskForm $form): void
     {
+        
        $model->setProject_id($form->getProject_id());
-       $model->setTask_name($form->getTask_name());
-       $model->setTask_description($form->getTask_description());
-       $model->setTask_price($form->getTask_price());
-       $model->setTask_finish_date($form->getTask_finish_date());
-       $model->setTask_status($form->getTask_status());
+       $model->setName($form->getName());
+       $model->setDescription($form->getDescription());
+       $model->setPrice($form->getPrice());
+       $model->setFinish_date($form->getFinish_date());
+       $model->setStatus($form->getStatus());
        $model->setTax_rate_id($form->getTax_rate_id());
-       $this->repository->save($model);
+ 
+        $this->repository->save($model);
     }
     
     public function deleteTask(Task $model): void

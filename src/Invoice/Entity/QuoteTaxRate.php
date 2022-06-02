@@ -9,80 +9,54 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\Quote;
 use App\Invoice\Entity\TaxRate;
-  
- /**
- * @Entity(
- * repository="App\Invoice\QuoteTaxRate\QuoteTaxRateRepository",
- * )
- */
- 
- class QuoteTaxRate
- {
-       
-   
-    /**
-     * @BelongsTo(target="Quote", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Quote
-     */
-     private $quote = null;
-    
 
-    /**
-     * @BelongsTo(target="TaxRate", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|TaxRate
-     */
-     private $tax_rate = null;
+#[Entity(repository: \App\Invoice\QuoteTaxRate\QuoteTaxRateRepository::class)] 
+
+class QuoteTaxRate
+{       
+    #[BelongsTo(target:Quote::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Quote $quote = null;
     
+    #[BelongsTo(target:TaxRate::class, nullable: false)]
+    private ?TaxRate $tax_rate = null;    
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $quote_id =  null;
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $quote_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $tax_rate_id =  null;
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $tax_rate_id =  null;
+    
+    #[Column(type: 'integer(1)', nullable: false, default:0)]
+    private ?int $include_item_tax =  null;
+    
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $quote_tax_rate_amount =  0.00;
      
-    /**
-     * @Column(type="integer(1)", nullable=false,default=0)
-     */
-     private ?int $include_item_tax =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $quote_tax_rate_amount =  null;
-     
-     public function __construct(
-         int $id = null,
-         int $quote_id = null,
-         int $tax_rate_id = null,
-         int $include_item_tax = null,
-         float $quote_tax_rate_amount = null
-     )
-     {
-         $this->id=$id;
-         $this->quote_id=$quote_id;
-         $this->tax_rate_id=$tax_rate_id;
-         $this->include_item_tax=$include_item_tax;
-         $this->quote_tax_rate_amount=$quote_tax_rate_amount;
-     }
+    public function __construct(
+        int $id = null,
+        int $quote_id = null,
+        int $tax_rate_id = null,
+        int $include_item_tax = null,
+        float $quote_tax_rate_amount = 0.00
+    )
+    {
+        $this->id=$id;
+        $this->quote_id=$quote_id;
+        $this->tax_rate_id=$tax_rate_id;
+        $this->include_item_tax=$include_item_tax;
+        $this->quote_tax_rate_amount=$quote_tax_rate_amount;
+    }
     
     public function getQuote() : ?Quote
- {
+    {
       return $this->quote;
     }
     
     public function getTaxRate() : ?TaxRate
- {
+    {
       return $this->tax_rate;
     }
     

@@ -19,19 +19,32 @@ if (!empty($errors)) {
     }
 }
 ?>
-
-<h1><?= Html::encode($title) ?></h1>
-
 <form id="taxrateForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data">
 <input type="hidden" name="_csrf" value="<?= $csrf ?>">
+<div id="headerbar">
+        <h1 class="headerbar-title"><?= $title; ?></h1>
+        <?php
+            $response = $head->renderPartial('invoice/layout/header_buttons',['s'=>$s, 'hide_submit_button'=>false ,'hide_cancel_button'=>false]);
+            echo (string)$response->getBody();
+        ?>
+        <div class="mb-3 form-group btn-group-sm">
+        </div>
+</div>
   <div class="row">
     <div class="mb-3 form-group">
-        <input type="text" class="form-control" name="tax_rate_name" id="tax_rate_name" placeholder="Tax Rate Name" value="<?= Html::encode($body['tax_rate_name'] ?? '') ?>" required>
+        <input type="text" class="form-control" name="tax_rate_name" id="tax_rate_name" placeholder="Tax Rate Name" value="<?= Html::encode($body['tax_rate_name'] ?? ''); ?>" required>
     </div>
     <div class="mb-3 form-group">
-        <input type="text" class="form-control" name="tax_rate_percent" id="tax_rate_percent" placeholder="Tax Rate Percent" value="<?= $s->format_amount($body['tax_rate_percent'] ?? 0) ?>" required>
+        <input type="text" class="form-control" name="tax_rate_percent" id="tax_rate_percent" placeholder="Tax Rate Percent" value="<?= Html::encode($body['tax_rate_percent'] ?? ''); ?>" required>
         <span class="form-control-feedback">%</span>
-    </div>           
-  </div>    
-  <button type="submit" class="btn btn-primary"><?= $s->trans('submit'); ?></button>
+    </div>
+    <div  class="p-2">
+        <label for="tax_rate_default" class="control-label ">
+            <?= $translator->translate('invoice.default'); ?>
+            <input id="tax_rate_default" name="tax_rate_default" type="checkbox" value="1"
+            <?php $s->check_select(Html::encode($body['tax_rate_default'] ?? ''), 1, '==', true) ?>>
+        </label>   
+    </div>        
+  </div>      
 </form>
+ 

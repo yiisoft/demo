@@ -72,15 +72,9 @@ final class EmailTemplateForm extends FormModel
     public function getRules(): array
     {
         return [
-            'email_template_title' => [
-                Required::rule(),
-            ],
-            'email_template_from_name' => [
-                Required::rule(),
-            ],
-            'email_template_from_email' => [
-                Required::rule(),
-            ],
+            'email_template_title' => [new Required()],
+            'email_template_from_name' => [new Required()],
+            'email_template_from_email' =>[new Required()],
         ];
     }
 }

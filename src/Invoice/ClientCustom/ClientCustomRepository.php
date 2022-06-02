@@ -29,7 +29,9 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()
+                ->load('client')
+                ->load('custom_field');
         return $this->prepareDataReader($query);
     }
     
@@ -70,9 +72,39 @@ private EntityWriter $entityWriter;
                 ->withOrder(['id' => 'asc'])
         );
     }
-    
+   
     public function repoClientCustomquery(string $id): ClientCustom    {
-        $query = $this->select()->load('client')->where(['id' => $id]);
+        $query = $this->select()->load('client')
+        ->load('custom_field')
+        ->where(['id' =>$id]);
         return  $query->fetchOne();        
+    }
+    
+    public function repoClientCount(string $client_id) : int {
+        $query = $this->select()->where(['client_id' =>$client_id]);
+        return $query->count();
+    }
+    
+    public function repoFormValuequery(string $client_id, string $custom_field_id): ClientCustom {
+        $query = $this->select()->where(['client_id' =>$client_id])
+                                ->andWhere(['custom_field_id' =>$custom_field_id]);
+        return  $query->fetchOne();        
+    }
+    
+    public function repoClientCustomCount(string $client_id, string $custom_field_id) : int {
+        $query = $this->select()->where(['client_id' =>$client_id])
+                                ->andWhere(['custom_field_id' =>$custom_field_id]);
+        return $query->count();
+    } 
+    
+    /**
+     * Get all fields that have been setup for a particular client
+     *
+     * @psalm-return DataReaderInterface<int,ClientCustom>
+     */
+    public function repoFields(string $client_id): DataReaderInterface
+    {
+        $query = $this->select()->where(['client_id'=>$client_id]);                
+        return $this->prepareDataReader($query);
     }
 }

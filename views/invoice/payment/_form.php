@@ -1,94 +1,131 @@
 <?php
+    declare(strict_types=1); 
+    
+    use Yiisoft\Html\Html;
+    use App\Invoice\Helpers\DateHelper;
+    use DateTimeImmutable;
+?>        
+    <form method="post" id="form-payment" class="form-horizontal" action="<?= $urlGenerator->generate(...$action) ?>"  enctype="multipart/form-data">
 
-declare(strict_types=1); 
+    <input type="hidden" id="_csrf" name="_csrf" value="<?= $csrf ?>">   
 
-use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap5\Alert;
-use App\Invoice\Helpers\DateHelper;
+    <div id="headerbar">
+        <h1 class="headerbar-title"><?= $s->trans('payment_form'); ?></h1>
+        <?php
+            $response = $head->renderPartial('invoice/layout/header_buttons',['s'=>$s, 'hide_submit_button'=>false ,'hide_cancel_button'=>false]);
+            echo (string)$response->getBody();
+        ?>
+    </div>
 
-/**
- * @var \Yiisoft\View\View $this
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var array $body
- * @var string $csrf
- * @var string $action
- * @var string $title
- */
+    <div id="content">
+        <?= $alert; ?>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="inv_id" class="control-label" required><?= $s->trans('invoice'); ?></label>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <select name="inv_id" id="inv_id" class="form-control" required <?= $edit ? 'readonly' : ''; ?>>
+                            <?php foreach ($open_invs as $inv) { 
+                                $inv_amount = $iaR->repoInvquery($inv->getId());                                        
+                            ?>
+                            <option value=""><?= $s->trans('none'); ?></option> 
+                            <option value="<?=  $inv->getId(); ?>"
+                                <?php $s->check_select($body['inv_id'] ?? '', $inv->getId()); ?>>
+                                <?=  $inv->getNumber() . ' - ' . 
+                                     $clienthelper->format_client($cR->repoClientquery($inv->getClient_id())) . 
+                                     ' - ' . 
+                                     $numberhelper->format_currency($inv_amount->getBalance()); 
+                                ?>
+                            </option>
+                        <?php } ?>
+                </select>
+            </div>
+        </div>
 
-if (!empty($errors)) {
-    foreach ($errors as $field => $error) {
-        echo Alert::widget()->options(['class' => 'alert-danger'])->body(Html::encode($field . ':' . $error));
-    }
-}
+        <div class="form-group">
+            <?php
+                $pdate = $body['payment_date'] ?? new DateTimeImmutable('now');
+                if ($pdate && $pdate !== "0000-00-00") {
+                    //use the DateHelper
+                    $datehelper = new DateHelper($s);
+                    $pdate = $datehelper->date_from_mysql($pdate);
+                } else {
+                    $pdate = null;
+                }
+            ?>
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_date" class="control-label" required><?= $s->trans('date'); ?></label>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <input name="payment_date" id="payment_date" placeholder="<?= ' ('.$datehelper->display().')';?>"
+                           class="form-control input-sm datepicker" readonly
+                           value="<?php if ($pdate <> null) {echo Html::encode($pdate);} ?>" required role="presentation" autocomplete="off">
+                    <span class="input-group-text">
+                        <i class="fa fa-calendar fa-fw"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
 
-?>
-<h1><?= Html::encode($title) ?></h1>
-<form id="PaymentForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data">
-<input type="hidden" name="_csrf" value="<?= $csrf ?>">
-<div id="headerbar">
-<h1 class="headerbar-title"><?= $s->trans('payments_form'); ?></h1>
-<?php $response = $head->renderPartial('invoice/layout/header_buttons',['s'=>$s, 'hide_submit_button'=>false ,'hide_cancel_button'=>false]); ?>        
-<?php echo (string)$response->getBody(); ?><div id="content">
-<div class="row">
- <div class="mb3 form-group">
-    <label for="inv_id">Inv</label>
-    <select name="inv_id" id="inv_id" class="form-control simple-select">
-       <option value="0">Inv</option>
-         <?php foreach ($invs as $inv) { ?>
-          <option value="<?= $inv->id; ?>"
-           <?php $s->check_select(Html::encode($body['inv_id'] ?? ''), $inv->id) ?>
-           ><?= $inv->id; ?></option>
-         <?php } ?>
-    </select>
- </div>
- <div class="mb3 form-group">
-    <label for="payment_method_id">Payment method</label>
-    <select name="payment_method_id" id="payment_method_id" class="form-control simple-select">
-       <option value="0">Payment method</option>
-         <?php foreach ($payment_methods as $payment_method) { ?>
-          <option value="<?= $payment_method->id; ?>"
-           <?php $s->check_select(Html::encode($body['payment_method_id'] ?? ''), $payment_method->id) ?>
-           ><?= $payment_method->id; ?></option>
-         <?php } ?>
-    </select>
- </div>
- <div class="mb3 form-group">
-   <input type="hidden" name="id" id="id" class="form-control"
- value="<?= Html::encode($body['id'] ??  ''); ?>">
- </div>
- <div class="mb-3 form-group has-feedback"> <?php  $date = $body['date'] ?? null; 
-$datehelper = new DateHelper($s); 
-if ($date && $date !== "0000-00-00") { 
-    $date = $datehelper->date_from_mysql($date); 
-} else { 
-    $date = null; 
-} 
-   ?>  
-<label form-label for="date"><?= $s->trans('date') ." (".  $datehelper->date_format_datepicker($s).") "; ?></label><div class="mb3 input-group"> 
-<input type="text" name="date" id="date" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
-       class="form-control data-datepicker" 
-       value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> 
-<span class="input-group-text"> 
-<i class="fa fa-calendar fa-fw"></i> 
- </span> 
-</div>
-</div>  <div class="form-group">
-  <label for="amount"><?= $s->trans('amount'); ?></label>
-      <div class="input-group has-feedback">
-          <input type="text" name="amount" id="amount" class="form-control"
-              value="<?= $s->format_amount($body['amount'] ?? ''); ?>">
-              <span class="input-group-text"><?= $s->get_setting('currency_symbol'); ?></span>
-      </div>
-</div>
- <div class="mb3 form-group">
-   <label for="note"><?= $s->trans('note'); ?></label>
-   <input type="text" name="note" id="note" class="form-control"
- value="<?= Html::encode($body['note'] ??  ''); ?>">
- </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="amount" class="control-label" required><?= $s->trans('amount'); ?></label>
+            </div>
+            <div class="col-xs-12 col-sm-6">               
+                <input type="number" name="amount" id="amount" class="form-control" min="0" step=".500" value="<?= $s->format_amount($body['amount'] ?? "0.001"); ?>" required>
+            </div>
+        </div>
 
-</div>
-
-</div>
-
-</div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_method_id" class="control-label" required>
+                    <?= $s->trans('payment_method'); ?>
+                </label>
+            </div>
+            <div class="col-xs-12 col-sm-6 payment-method-wrapper">                
+                <select id="payment_method_id" name="payment_method_id" class="form-control" required>
+                    <?php foreach ($payment_methods as $payment_method) { ?>
+                        <option value="<?=  $payment_method->getId(); ?>"
+                            <?php $s->check_select(Html::encode($body['payment_method_id'] ?? ''), $payment_method->getId()) ?>>
+                            <?=  $payment_method->getName(); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="note" class="control-label" required><?= $s->trans('note'); ?></label>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <textarea name="note" class="form-control" required><?=  $body['note'] ?? ''; ?></textarea>
+            </div>
+        </div>
+        <?php foreach ($custom_fields as $custom_field): ?>            
+        <div class="form-group">
+        <?= $cvH->print_field_for_form($payment_custom_values,
+                                       $custom_field,
+                                       // Custom values to fill drop down list if a dropdown box has been created
+                                       $custom_values, 
+                                       // Class for div surrounding input
+                                       'col-xs-12 col-sm-6',
+                                       // Class surrounding above div
+                                       'form-group',
+                                       // Label class similar to above
+                                       'control-label'); ?>
+        </div>    
+        <?php endforeach; ?>
+        
+    </div>  
+    <?php $js64 = "$(function () {".
+            '$(".form-control.input-sm.datepicker").datepicker({dateFormat:"'.$datehelper->datepicker().'"});'.
+          '});';
+          echo Html::script($js64)->type('module');
+    ?>
+    <?php $js65 = "$(function () {".
+        '$("#payment_date.form-control.input-sm.datepicker").datepicker({dateFormat:"'.$datehelper->datepicker().'"});'.
+      '});';
+      echo Html::script($js65)->type('module');
+    ?>
 </form>

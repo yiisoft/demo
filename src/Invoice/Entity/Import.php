@@ -6,36 +6,24 @@ namespace App\Invoice\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\BelongsTo;
-use DateTime;
 use DateTimeImmutable;  
- /**
- * @Entity(
- * repository="App\Invoice\Import\ImportRepository",
- * )
- */
- 
+
+ #[Entity(repository: \App\Invoice\Import\ImportRepository::class)] 
  class Import
- {
-       
-       
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+ {   
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="datetime", nullable=false)
-     */
-     private DateIimeImmutable $date;
+    #[Column(type: 'datetime', nullable: false)]
+    private DateIimeImmutable $date;
      
-     public function __construct(
+    public function __construct(
           int $id = null
-     )
-     {
+    )
+    {
          $this->id=$id;
          $this->date=new DateTimeImmutable();
-     }
+    }
     
     public function getId(): string
     {

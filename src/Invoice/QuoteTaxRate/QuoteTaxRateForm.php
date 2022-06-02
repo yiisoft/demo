@@ -32,7 +32,7 @@ final class QuoteTaxRateForm extends FormModel
 
     public function getQuote_tax_rate_amount() : float
     {
-      return $this->quote_tax_rate_amount;
+      return $this->quote_tax_rate_amount ?? 0.00;
     }
 
     public function getFormName(): string
@@ -40,14 +40,9 @@ final class QuoteTaxRateForm extends FormModel
       return '';
     }
 
-    public function getRules(): array    {
+    public function getRules(): array  {
       return [
-        'include_item_tax' => [
-            Required::rule(),
-        ],
-        'quote_tax_rate_amount' => [
-            Required::rule(),
-        ],
-    ];
-}
+         'tax_rate_id'=> [new Required()],
+      ];
+    }
 }

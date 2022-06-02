@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1); 
 
 use Yiisoft\Html\Html;
@@ -36,8 +35,8 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="identifier_format"><?= $s->trans('identifier_format'); ?></label>
-   <input type="text" name="identifier_format" id="identifier_format" class="form-control"
- value="<?= Html::encode($body['identifier_format'] ??  ''); ?>">
+   <input type="text" name="identifier_format" id="identifier_format" class="form-control taggable"
+    value="<?= Html::encode($body['identifier_format'] ??  ''); ?>" placeholder="INV-{{{id}}}">
  </div>
  <div class="mb3 form-group">
    <label for="left_pad"><?= $s->trans('left_pad'); ?></label>
@@ -50,4 +49,26 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['next_id'] ??  ''); ?>">
  </div>
 </div>
+<hr>
+<div class="mb3 form-group">
+    <label for="tags_client"><?= $s->trans('identifier_format_template_tags'); ?></label>
+    <p class="small"><?= $s->trans('identifier_format_template_tags_instructions'); ?></p>
+    <select id="tags_client" class="form-control">
+        <option value="{{{id}}}">
+            <?= $s->trans('id'); ?>
+        </option>
+        <option value="{{{year}}}">
+            <?= $s->trans('current_year'); ?>
+        </option>
+        <option value="{{{yy}}}">
+            <?= $s->trans('current_yy'); ?>
+        </option>
+        <option value="{{{month}}}">
+            <?= $s->trans('current_month'); ?>
+        </option>
+        <option value="{{{day}}}">
+            <?= $s->trans('current_day'); ?>
+        </option>
+    </select>
+</div>    
 </form>

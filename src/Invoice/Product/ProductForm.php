@@ -20,11 +20,6 @@ final class ProductForm extends FormModel
     private ?int $unit_id = null;
     private ?int $product_tariff = null;
                
-    public function getFamily_id(): int
-    {
-        return $this->family_id;
-    }
-
     public function getProduct_sku(): string
     {
         return $this->product_sku;
@@ -55,6 +50,11 @@ final class ProductForm extends FormModel
         return $this->provider_name;
     }
     
+    public function getFamily_id(): int
+    {
+        return $this->family_id;
+    }
+    
     public function getTax_rate_id(): int
     {
         return $this->tax_rate_id;
@@ -63,7 +63,7 @@ final class ProductForm extends FormModel
     public function getUnit_id(): int
     {
         return $this->unit_id;
-    }
+    }  
     
     public function getProduct_tariff(): int
     {
@@ -78,9 +78,9 @@ final class ProductForm extends FormModel
     public function getRules(): array
     {
         return [
-            'product_name' => [
-                Required::rule(),
-            ]
+            'family_id' => [new Required()],
+            'product_name' => [new Required()],
+            'tax_rate_id' => [new Required()],
         ];
     }
 }

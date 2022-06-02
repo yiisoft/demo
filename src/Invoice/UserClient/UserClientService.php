@@ -19,10 +19,10 @@ final class UserClientService
         $this->repository = $repository;
     }
 
-    public function saveUserClient(UserClient $model, $user_id, $client_id): void
+    public function saveUserClient(UserClient $model, $form): void
     {        
-       $model->setUser_id((int)$user_id);
-       $model->setClient_id($client_id);
+       $model->setUser_id($form->getUser_id());
+       $model->setClient_id($form->getClient_id());
        $this->repository->save($model);
     }
     

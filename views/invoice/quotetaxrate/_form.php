@@ -35,9 +35,9 @@ if (!empty($errors)) {
     <select name="quote_id" id="quote_id" class="form-control simple-select">
        <option value="0">Quote</option>
          <?php foreach ($quotes as $quote) { ?>
-          <option value="<?= $quote->id; ?>"
-           <?php $s->check_select(Html::encode($body['quote_id'] ?? ''), $quote->id) ?>
-           ><?= $quote->id; ?></option>
+          <option value="<?= $quote->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['quote_id'] ?? ''), $quote->getId()) ?>
+           ><?= $quote->getId(); ?></option>
          <?php } ?>
     </select>
  </div>
@@ -46,8 +46,8 @@ if (!empty($errors)) {
     <select name="tax_rate_id" id="tax_rate_id" class="form-control simple-select">
        <option value="0">Tax rate</option>
          <?php foreach ($tax_rates as $tax_rate) { ?>
-          <option value="<?= $tax_rate->id; ?>"
-           <?php $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->id) ?>
+          <option value="<?= $tax_rate->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->getId()) ?>
            ><?= $tax_rate->tax_rate_name; ?></option>
          <?php } ?>
     </select>

@@ -21,55 +21,57 @@ if (!empty($errors)) {
     }
 }
 
+$datehelper = new DateHelper($s); 
 ?>
 <h1><?= Html::encode($title) ?></h1>
 <div class="row">
+<div class="mb3 form-group">
+  <label for="date_created" class="form-label" style="background:lightblue"><?= $s->trans('date_created'); ?>  </label>
+<?php $date = $body['date_created']; if ($date && $date != "0000-00-00") { $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
  <div class="mb3 form-group">
-   <label for="password" class="form-label" style="background:lightblue"><?= $s->trans('password'); ?></label>
+<label for="date_modified" class="form-label" style="background:lightblue">Date Modified</label>
+   <?php $date = $body['date_modified']; if ($date && $date != "0000-00-00") {  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+ </div>
+<div class="mb3 form-group">
+  <label for="date_expires" class="form-label" style="background:lightblue">Date Expires</label>
+<?php $date = $body['date_expires']; if ($date && $date != "0000-00-00") {  $date = $datehelper->date_from_mysql($date);} else {  $date = null;}?><?= Html::encode($date); ?></div>
+ <div class="mb3 form-group">
+<label for="number" class="form-label" style="background:lightblue">Number</label>
+   <?= Html::encode($body['number'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+<label for="discount_amount" class="form-label" style="background:lightblue">Discount Amount</label>
+   <?= Html::encode($body['discount_amount'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+<label for="discount_percent" class="form-label" style="background:lightblue">Discount Percent</label>
+   <?= Html::encode($body['discount_percent'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+<label for="url_key" class="form-label" style="background:lightblue">Url Key</label>
+   <?= Html::encode($body['url_key'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+<label for="password" class="form-label" style="background:lightblue"><?= $s->trans('password'); ?></label>
    <?= Html::encode($body['password'] ?? ''); ?>
  </div>
- <div class="mb-3 form-group has-feedback">
-        <label for="date_created" class="form-label" style="background:lightblue"><?= $s->trans('date_created'); ?></label>
-        <?php
-            $date_created = $body['date_created'];
-            if ($date_created && $date_created != "0000-00-00") {
-                //use the DateHelper
-                $datehelper = new DateHelper($s);
-                $date_created = $datehelper->date_from_mysql($date_created);
-            } else {
-                $date_created = null;
-            }
-        ?>      
-        <?= Html::encode($date_created); ?>        
- </div>
- <div class="mb3 form-group">
-   <label for="date_due" class="form-label" style="background:lightblue"><?= $s->trans('due_date'); ?></label>
-        <?php
-            $date_due = $body['date_due'];
-            if ($date_due && $date_due != "0000-00-00") {
-                //use the DateHelper
-                $datehelper = new DateHelper($s);
-                $date_due = $datehelper->date_from_mysql($date_due);
-            } else {
-                $date_due = null;
-            }
-        ?>      
-        <?= Html::encode($date_due); ?>
- </div>
- <div class="mb3 form-group">
-   <label for="terms" class="form-label" style="background:lightblue"><?= $s->trans('terms'); ?></label>
-   <?= Html::encode($body['terms'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
-   <label for="payment_method" class="form-label" style="background:lightblue"><?= $s->trans('payment_method'); ?></label>
+<label for="payment_method" class="form-label" style="background:lightblue"><?= $s->trans('payment_method'); ?></label>
    <?= Html::encode($body['payment_method'] ?? ''); ?>
  </div>
  <div class="mb3 form-group">
-   <label for="group_id" class="form-label" style="background:lightblue"><?= $s->trans('invoice_group'); ?></label>
-   <?= $inv->getGroup()->getName();?>
+<label for="terms" class="form-label" style="background:lightblue"><?= $s->trans('terms'); ?></label>
+   <?= Html::encode($body['terms'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+   <label for="inv_id" class="form-label" style="background:lightblue">Invoice</label>
+  <?= Html::encode($body['inv_id'] ?? ''); ?>
  </div>
  <div class="mb3 form-group">
    <label for="client_id" class="form-label" style="background:lightblue"><?= $s->trans('client'); ?></label>
-   <?= $inv->getClient()->getClient_name();?>
+   <?= $quote->getClient()->client_name; ?>
+ </div>
+ <div class="mb3 form-group">
+   <label for="group_id" class="form-label" style="background:lightblue">Group</label>
+   <?= $quote->getGroup()->name; ?>
  </div>
 </div>

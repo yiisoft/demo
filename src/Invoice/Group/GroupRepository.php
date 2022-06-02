@@ -72,24 +72,21 @@ private EntityWriter $entityWriter;
     }
     
     /**
-     * @param $invoice_group_id
+     * @param $id
      * @param bool $set_next
      * @return mixed
      */
-    public function generate_invoice_number($invoice_group_id, $set_next = true)
+    public function generate_invoice_number($id, $set_next = true)
     {
-        $invoice_group = $this->repoGroupquery((string)$invoice_group_id);
-
+        $invoice_group = $this->repoGroupquery((string)$id);
         $invoice_identifier = $this->parse_identifier_format(
-            $invoice_group->identifier_format,
-            $invoice_group->next_id,
-            $invoice_group->left_pad
+            $invoice_group->getIdentifier_format(),
+            $invoice_group->getNext_id(),
+            $invoice_group->getLeft_pad()
         );
-
         if ($set_next) {
-            $this->set_next_invoice_number($invoice_group_id);
+            $this->set_next_invoice_number((int)$id);
         }
-
         return $invoice_identifier;
     }
     
@@ -117,16 +114,14 @@ private EntityWriter $entityWriter;
                         $replace = date('d');
                         break;
                     case 'id':
-                        $replace = str_pad($next_id, $left_pad, '0', STR_PAD_LEFT);
+                        $replace = str_pad((string)$next_id, $left_pad, '0', STR_PAD_LEFT);
                         break;
                     default:
                         $replace = '';
                 }
-
                 $identifier_format = str_replace('{{{' . $var . '}}}', $replace, $identifier_format);
             }
         }
-
         return $identifier_format;
     }
     
@@ -136,12 +131,14 @@ private EntityWriter $entityWriter;
     }
     
     /**
-     * @param $invoice_group_id
+     * @param $id
      */
-    public function set_next_invoice_number(int $id)
+    public function set_next_invoice_number(int $id) : string
     {
         $result = $this->repoGroupquery((string)$id);
-        $next_id = $result->getNext_id() + 1;
-        $result->setNext_id($next_id);            
+        $incremented_next_id = $result->getNext_id() + 1;
+        $result->setNext_id($incremented_next_id); 
+        $this->save($result);
+        return $result->getNext_id();
     }
 }

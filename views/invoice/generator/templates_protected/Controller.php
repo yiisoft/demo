@@ -9,7 +9,6 @@ namespace <?= $generator->getNamespace_path().DIRECTORY_SEPARATOR.$generator->ge
 use <?= $generator->getNamespace_path(). DIRECTORY_SEPARATOR. 'Entity'. DIRECTORY_SEPARATOR. $generator->getCamelcase_capital_name(); ?>;
 use <?= $generator->getNamespace_path().DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name().DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name(); ?>Service;
 use <?= $generator->getNamespace_path().DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name().DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name(); ?>Repository;
-use \Exception;
 <?php 
   if (!empty($generator->getRepo_extra_camelcase_name())) {
     echo 'use ' . $generator->getNamespace_path() .DIRECTORY_SEPARATOR.$generator->getRepo_extra_camelcase_name().DIRECTORY_SEPARATOR.$generator->getRepo_extra_camelcase_name() . 'Repository;'."\n"; 
@@ -19,17 +18,23 @@ use \Exception;
   } 
 ?>
 use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
+
+use \Exception;
 <?php 
   if (!empty($generator->isOffset_paginator_include())) {
-    echo 'use Yiisoft\Data\Paginator\OffsetPaginator;'."/n"; 
+    echo 'use Yiisoft\Data\Paginator\OffsetPaginator;'."\n"; 
   }
 ?>
 
@@ -43,12 +48,14 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
             echo 'private const '.strtoupper($generator->getSmall_plural_name())."_PER_PAGE = 1;"."\n";
           }
     ?>
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        <?= $generator->getCamelcase_capital_name(); ?>Service $<?= $generator->getSmall_singular_name(); ?>Service
+        <?= $generator->getCamelcase_capital_name(); ?>Service $<?= $generator->getSmall_singular_name(); ?>Service,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('<?= $generator->getRoute_prefix().'/'.$generator->getRoute_suffix(); ?>')
@@ -56,17 +63,19 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         $this->webService = $webService;
         $this->userService = $userService;
         $this-><?= $generator->getSmall_singular_name(); ?>Service = $<?= $generator->getSmall_singular_name(); ?>Service;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, <?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name(); ?>Repository, <?= $generator->getRepo_extra_camelcase_name(); ?>Repository $<?= strtolower($generator->getRepo_extra_camelcase_name()); ?>Repository, Request $request, <?= $generator->getCamelcase_capital_name(); ?>Service $service): Response
     {      
       <?php
-              echo '   $canEdit = $this->rbac($session);'."\n";
-              echo '         $flash = $this->flash($session, '."'dummy'"." , 'Flash message!.');"."\n";
+              echo '         $canEdit = $this->rbac($session);'."\n";
+              echo '         $flash = $this->flash($session, '."''"." , '');"."\n";
               echo '         $parameters = ['."\n";
       ?>      
-      <?php if ($generator->getRepo_extra_camelcase_name()) {  
-           echo "    's'=>". '$'.lcfirst($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
+      <?php if ($generator->getRepo_extra_camelcase_name()) {
+           echo "\n";
+           echo "          's'=>". '$'.lcfirst($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
            echo "          'canEdit' => ".'$canEdit,'."\n";
            echo "          '".$generator->getSmall_plural_name()."'".' => $'.'this->'.$generator->getSmall_plural_name().'($'.$generator->getSmall_singular_name().'Repository),'."\n"; 
            echo "          'flash'=> ".'$flash'."\n";
@@ -81,18 +90,18 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         return $this->viewRenderer->render('index', $parameters);
     }
     
-    public function index_adv_paginator(SessionInterface $session, <?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name(); ?>Repository, <?= $generator->getRepo_extra_camelcase_name(); ?>Repository $<?= strtolower($generator->getRepo_extra_camelcase_name()); ?>Repository, Request $request, <?= $generator->getCamelcase_capital_name(); ?>Service $service): Response
+    public function index_adv_paginator(SessionInterface $session, <?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name(); ?>Repository, <?= $generator->getRepo_extra_camelcase_name(); ?>Repository $<?= strtolower($generator->getRepo_extra_camelcase_name()); ?>Repository, CurrentRoute $currentRoute, <?= $generator->getCamelcase_capital_name(); ?>Service $service): Response
     {
       <?php if ($generator->isKeyset_paginator_include()) { 
             echo "\n";
             echo '        $paginator = $service->getFeedPaginator();'."\n";
-            echo '        if ($request->getAttribute('."'".$generator->getPaginator_next_page_attribute()."') !== null) {"."\n";
-            echo '         $paginator = $paginator->withNextPageToken((string)$request->getAttribute('."'".$generator->getPaginator_next_page_attribute()."'));"."\n";
+            echo '        if ($currentRoute->getArgument('."'".$generator->getPaginator_next_page_attribute()."') !== null) {"."\n";
+            echo '         $paginator = $paginator->withNextPageToken((string)$currentRoute->getArgument('."'".$generator->getPaginator_next_page_attribute()."'));"."\n";
             }
       ?>
       <?php if ($generator->isOffset_paginator_include()) { 
             echo "\n";
-            echo '        $pageNum = (int)$request->getAttribute('."'".'page'."', 1);"."\n";
+            echo '        $pageNum = (int)$currentRoute->getArgument('."'".'page'."', '1');"."\n";
             echo '        $paginator = (new OffsetPaginator($this->'.$generator->getSmall_plural_name().'($'.$generator->getSmall_singular_name().'Repository)))'."\n";
             echo '        ->withPageSize(self::'.strtoupper($generator->getSmall_plural_name())."_PER_PAGE)"."\n";
             echo '        ->withCurrentPage($pageNum);'."\n";
@@ -101,7 +110,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
       <?php
             echo "\n";
             echo '        $canEdit = $this->rbac($session);'."\n";
-            echo '        $flash = $this->flash($session, '."'dummy'"." , 'Flash message!.');"."\n";
+            echo '        $flash = $this->flash($session, '."''"." , '');"."\n";
             echo '        $parameters = ['."\n";            
       ?>
       <?php if (($generator->isKeyset_paginator_include()) || ($generator->isOffset_paginator_include())) {
@@ -148,7 +157,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
                         }
                         echo rtrim($rel,",\n")."\n";        
                         ?>
-    )
+    ) : Response
     {
         $this->rbac($session);
         $parameters = [
@@ -175,12 +184,12 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
                 $this-><?= $generator->getSmall_singular_name(); ?>Service->save<?= $generator->getCamelcase_capital_name(); ?>(new <?= $generator->getCamelcase_capital_name(); ?>(),$form);
                 return $this->webService->getRedirectResponse('<?= $generator->getSmall_singular_name(); ?>/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute, 
                         ValidatorInterface $validator,
                         <?php if ($generator->getCamelcase_capital_name()) {  
                             echo $generator->getCamelcase_capital_name().'Repository '. '$'.$generator->getSmall_singular_name().'Repository,';
@@ -202,9 +211,9 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['<?= $generator->getSmall_singular_name(); ?>/edit', ['id' => $this-><?= $generator->getSmall_singular_name();?>($request, $<?= $generator->getSmall_singular_name(); ?>Repository)->getId()]],
+            'action' => ['<?= $generator->getSmall_singular_name(); ?>/edit', ['id' => $this-><?= $generator->getSmall_singular_name();?>($currentRoute, $<?= $generator->getSmall_singular_name(); ?>Repository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this-><?= $generator->getSmall_singular_name();?>($request, $<?= $generator->getSmall_singular_name();?>Repository)),
+            'body' => $this->body($this-><?= $generator->getSmall_singular_name();?>($currentRoute, $<?= $generator->getSmall_singular_name();?>Repository)),
             'head'=>$head,
             <?php if ($generator->getRepo_extra_camelcase_name()) {  
                  echo "'s'=>". '$'.lcfirst($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
@@ -222,20 +231,21 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
             $form = new <?= $generator->getCamelcase_capital_name(); ?>Form();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this-><?= $generator->getSmall_singular_name();?>Service->save<?= $generator->getCamelcase_capital_name(); ?>($this-><?= $generator->getSmall_singular_name();?>($request,$<?= $generator->getSmall_singular_name();?>Repository), $form);
+                $this-><?= $generator->getSmall_singular_name();?>Service->save<?= $generator->getCamelcase_capital_name(); ?>($this-><?= $generator->getSmall_singular_name();?>($currentRoute,$<?= $generator->getSmall_singular_name();?>Repository), $form);
                 return $this->webService->getRedirectResponse('<?= $generator->getSmall_singular_name(); ?>/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,<?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name();?>Repository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute,<?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name();?>Repository 
     ): Response {
         $this->rbac($session);
         try {
-            $this-><?= $generator->getSmall_singular_name();?>Service->delete<?= $generator->getCamelcase_capital_name(); ?>($this-><?= $generator->getSmall_singular_name();?>($request,$<?= $generator->getSmall_singular_name();?>Repository));               
+            $this-><?= $generator->getSmall_singular_name();?>Service->delete<?= $generator->getCamelcase_capital_name(); ?>($this-><?= $generator->getSmall_singular_name();?>($currentRoute,$<?= $generator->getSmall_singular_name();?>Repository));               
+            $this->flash($session, 'info', 'Deleted.');
             return $this->webService->getRedirectResponse('<?= $generator->getSmall_singular_name();?>/index'); 
 	} catch (Exception $e) {
             //unset($e);
@@ -244,7 +254,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         }
     }
     
-    public function view(SessionInterface $session,Request $request,<?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name();?>Repository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute,<?= $generator->getCamelcase_capital_name(); ?>Repository $<?= $generator->getSmall_singular_name();?>Repository,
         <?php if ($generator->getRepo_extra_camelcase_name()) {  
             echo $generator->getRepo_extra_camelcase_name().'Repository '. '$'.strtolower($generator->getRepo_extra_camelcase_name()).'Repository,'."\n";
         }
@@ -253,9 +263,9 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['<?= $generator->getSmall_singular_name(); ?>/view', ['id' => $this-><?= $generator->getSmall_singular_name();?>($request, $<?= $generator->getSmall_singular_name();?>Repository)->getId()]],
+            'action' => ['<?= $generator->getSmall_singular_name(); ?>/view', ['id' => $this-><?= $generator->getSmall_singular_name();?>($currentRoute, $<?= $generator->getSmall_singular_name();?>Repository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this-><?= $generator->getSmall_singular_name();?>($request, $<?= $generator->getSmall_singular_name();?>Repository)),
+            'body' => $this->body($this-><?= $generator->getSmall_singular_name();?>($currentRoute, $<?= $generator->getSmall_singular_name();?>Repository)),
             's'=>$settingRepository,             
             '<?= $generator->getSmall_singular_name();?>'=>$<?= $generator->getSmall_singular_name();?>Repository->repo<?= $generator->getCamelcase_capital_name();?>query($this-><?= $generator->getSmall_singular_name();?>($request, $<?= $generator->getSmall_singular_name();?>Repository)->getId()),
         ];
@@ -266,15 +276,16 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
     {
         $canEdit = $this->userService->hasPermission('edit<?= $generator->getCamelcase_capital_name(); ?>');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('<?= $generator->getSmall_singular_name(); ?>/index');
         }
         return $canEdit;
     }
     
-    private function <?= $generator->getSmall_singular_name();?>(Request $request,<?= $generator->getCamelcase_capital_name();?>Repository $<?= $generator->getSmall_singular_name();?>Repository) 
+    private function <?= $generator->getSmall_singular_name();?>(CurrentRoute $currentRoute,<?= $generator->getCamelcase_capital_name();?>Repository $<?= $generator->getSmall_singular_name();?>Repository) 
     {
-        $id = $request->getAttribute('id');       
+        //$id = $request->getAttribute('id');
+        $id = $currentRoute->getArgument('id');       
         $<?= $generator->getSmall_singular_name();?> = $<?= $generator->getSmall_singular_name();?>Repository->repo<?= $generator->getCamelcase_capital_name();?>query($id);
         if ($<?= $generator->getSmall_singular_name();?> === null) {
             return $this->webService->getNotFoundResponse();
@@ -287,7 +298,7 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
         $<?= $generator->getSmall_plural_name();?> = $<?= $generator->getSmall_singular_name();?>Repository->findAllPreloaded();        
         if ($<?= $generator->getSmall_plural_name();?> === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $<?= $generator->getSmall_plural_name();?>;
     }
     
@@ -312,6 +323,3 @@ final class <?= $generator->getCamelcase_capital_name(); ?>Controller
     }
 }
 
-<?php
-   echo "?>";             
-?>

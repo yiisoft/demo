@@ -1,3 +1,6 @@
+<?php
+    declare(strict_types=1);
+?>
 <div class="panel panel-default">
     <div class="panel-heading"><?= $s->trans('email_template_tags'); ?></div>
     <div class="panel-body">
@@ -6,7 +9,7 @@
 
         <div class="form-group">
             <label for="tags_client"><?= $s->trans('client'); ?></label>
-            <select id="tags_client" class="tag-select form-control">
+            <select id="tags_client" class="taginv-select form-control">
                 <option value="{{{client_name}}}">
                     <?= $s->trans('client_name'); ?>
                 </option>
@@ -68,18 +71,18 @@
                     </option>
                 </optgroup>
                 <optgroup label="<?= $s->trans('custom_fields'); ?>">
-                    <?php //foreach (//$custom_fields['ip_client_custom'] as $custom) { ?>
-                        <option value="{{{<?php //echo 'ip_cf_' . $custom->custom_field_id; ?>}}}">
-                            <?php //echo $custom->custom_field_label . ' (ID ' . $custom->custom_field_id . ')'; ?>
+                    <?php foreach ($custom_fields['client_custom'] as $custom) { ?>
+                        <option value="{{{<?= 'cf_' . $custom->getId(); ?>}}}">
+                            <?= $custom->getLabel() . ' (ID ' . $custom->getId() . ')'; ?>
                         </option>
-                    <?php //} ?>
+                    <?php } ?>
                 </optgroup>
             </select>
         </div>
 
         <div class="form-group">
             <label for="tags_user"><?= $s->trans('user'); ?></label>
-            <select id="tags_user" class="tag-select form-control">
+            <select id="tags_user" class="taginv-select form-control">
                 <option value="{{{user_name}}}">
                     <?= $s->trans('name'); ?>
                 </option>
@@ -137,19 +140,21 @@
                         <?= $s->trans('sumex_rcc'); ?>
                     </option>
                 </optgroup>
-                <optgroup label="<?///= $s->trans('custom_fields'); ?>">
-                    <?php ///foreach ($custom_fields['ip_user_custom'] as $custom) { ?>
-                        <option value="{{{<?php/// echo 'ip_cf_' . $custom->custom_field_id; ?>}}}">
-                            <?php/// echo $custom->custom_field_label . ' (ID ' . $custom->custom_field_id . ')'; ?>
+                <!--
+                <optgroup label="<?//= //$s->trans('custom_fields'); ?>">
+                    <?//php //foreach ($custom_fields['user_custom'] as $custom) { ?>
+                        <option value="{{{<?//= //'cf_' . $custom->getCustom_field_id(); ?>}}}">
+                            <?//= //$custom->getCustom_field_label() . ' (ID ' . $custom->getCustom_field_id() . ')'; ?>
                         </option>
-                    <?php/// } ?>
+                    <?//php } ?>
                 </optgroup>
+                -->
             </select>
         </div>
 
         <div class="form-group">
             <label for="tags_invoice"><?= $s->trans('invoices'); ?></label>
-            <select id="tags_invoice" class="tag-select form-control">
+            <select id="tags_invoice" class="taginv-select form-control">
                 <option value="{{{invoice_number}}}">
                     <?= $s->trans('id'); ?>
                 </option>
@@ -186,26 +191,23 @@
                         <?= $s->trans('invoice_terms'); ?>
                     </option>
                 <option value="{{{invoice_guest_url}}}">
-                    <?= $s->trans('guest_url'); ?>
+                        <?= $s->trans('guest_url'); ?>
                 </option>
-<!--                 <option value="{{{payment_method}}}"> -->
-<!--                     <?= $s->trans('payment_method'); ?> -->
-<!--                 </option> -->
+                        <?= $s->trans('payment_method'); ?>
                 </optgroup>
-
-                <optgroup label="<?///= $s->trans('custom_fields'); ?>">
-                    <?php ///foreach ($custom_fields['ip_invoice_custom'] as $custom) { ?>
-                        <option value="{{{<?php/// echo 'ip_cf_' . $custom->custom_field_id; ?>}}}">
-                            <?php ///echo $custom->custom_field_label . ' (ID ' . $custom->custom_field_id . ')'; ?>
+                <optgroup label="<?= $s->trans('custom_fields'); ?>">
+                    <?php foreach ($custom_fields['invoice_custom'] as $custom) { ?>
+                        <option value="{{{<?= 'cf_' . $custom->getId(); ?>}}}">
+                            <?= $custom->getLabel() . ' (ID ' . $custom->getId() . ')'; ?>
                         </option>
-                    <?php ///} ?>
+                    <?php } ?>
                 </optgroup>
             </select>
         </div>
 
         <div class="form-group">
             <label for="tags_quote"><?= $s->trans('quotes'); ?></label>
-            <select id="tags_quote" class="tag-select form-control">
+            <select id="tags_quote" class="taginv-select form-control">
                 <option value="{{{quote_number}}}">
                     <?= $s->trans('id'); ?>
                 </option>
@@ -239,18 +241,18 @@
                 </optgroup>
 
                 <optgroup label="<?= $s->trans('custom_fields'); ?>">
-                    <?php ///foreach ($custom_fields['ip_quote_custom'] as $custom) { ?>
-                        <option value="{{{<?php ///echo 'ip_cf_' . $custom->custom_field_id; ?>}}}">
-                            <?php ///echo $custom->custom_field_label . ' (ID ' . $custom->custom_field_id . ')'; ?>
+                    <?php foreach ($custom_fields['quote_custom'] as $custom) { ?>
+                        <option value="{{{<?= 'cf_' . $custom->getId(); ?>}}}">
+                            <?= $custom->getLabel() . ' (ID ' . $custom->getId() . ')'; ?>
                         </option>
-                    <?php ///} ?>
+                    <?php } ?>
                 </optgroup>
             </select>
         </div>
 
         <div class="form-group">
             <label for="tags_sumex"><?= $s->trans('invoice_sumex'); ?></label>
-            <select id="tags_sumex" class="tag-select form-control">
+            <select id="tags_sumex" class="taginv-select form-control">
                 <option value="{{{sumex_reason}}}">
                     <?= $s->trans('reason'); ?>
                 </option>

@@ -29,7 +29,7 @@ $pagination = OffsetPagination::widget()
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::p(
-                $translator->translate('layout.showing {pageSize} out of {total} posts', [
+                $translator->translate('layout.pagination-summary', [
                     'pageSize' => $pageSize,
                     'total' => $paginator->getTotalItems(),
                 ]),
@@ -37,7 +37,7 @@ $pagination = OffsetPagination::widget()
             );
         } else {
             echo Html::p(
-                $translator->translate('layout.no records')
+                $translator->translate('layout.no-records')
         );
         }
         /** @var Post $item */
@@ -53,7 +53,7 @@ $pagination = OffsetPagination::widget()
         <?php
         if (!$isGuest) {
             echo Html::a(
-                $translator->translate('layout.add post'),
+                $translator->translate('layout.add.post'),
                 $urlGenerator->generate('blog/add'),
                 ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
             );

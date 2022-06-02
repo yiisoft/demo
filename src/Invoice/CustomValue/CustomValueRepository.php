@@ -39,7 +39,7 @@ private EntityWriter $entityWriter;
     public function getReader(): DataReaderInterface
     {
         return (new EntityReader($this->select()))
-            ->withSort($this->getSort());
+                    ->withSort($this->getSort());
     }
     
     private function getSort(): Sort
@@ -71,8 +71,37 @@ private EntityWriter $entityWriter;
         );
     }
     
-    public function repoCustomValuequery(string $id): CustomValue    {
-        $query = $this->select()->where(['id' => $id]);
+    public function repoCustomValuequery(string $id): CustomValue {
+        $query = $this->select()->where(['id' =>$id]);
         return  $query->fetchOne();        
     }
+    
+    public function repoCount($id): int {
+        $count = $this->select()
+                      ->where(['id' => $id])
+                      ->count();
+        return $count;   
+    }
+        
+    /**
+     * Get customvalues  with filter
+     *
+     * @psalm-return DataReaderInterface<int,CustomValue>
+     */
+    public function repoCustomFieldquery(int $custom_field_id): DataReaderInterface    {
+        $query = $this->select()->where(['custom_field_id' =>$custom_field_id]);
+        return $this->prepareDataReader($query);        
+    }
+    
+    public function attach_hard_coded_custom_field_values_to_custom_field($custom_fields) : array{
+        $custom_values  = [];
+        foreach ($custom_fields as $custom_field) {
+            if (in_array($custom_field->getType(),['SINGLE-CHOICE','MULTIPLE-CHOICE'])) {
+                // build the $custom_values array with the eg. dropdown values for the field whether it be a multiple-choice field or a single-choice field
+                $custom_values[$custom_field->getId()] = $this->repoCustomFieldquery((integer)$custom_field->getId());
+            }
+        }
+        return $custom_values;
+    }
+    
 }

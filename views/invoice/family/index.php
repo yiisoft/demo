@@ -9,7 +9,8 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  * @var \App\Invoice\Entity\Family $item
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var bool $canEdit
- * @var string $family_id
+ * @var string $id
+ * @var App\Invoice\Setting\SettingRepository $s
  * @var \Yiisoft\Session\Flash\Flash $flash 
  */
 ?>
@@ -58,15 +59,15 @@ use Yiisoft\Yii\Bootstrap5\Modal;
             //list all the settings
             foreach ($familys as $family){
                 echo Html::br();
-                $label = $family->id . " ";
+                $label = $family->getFamily_id() . " ";
                 echo Html::label($label);
-                echo Html::a($family->family_name,$urlGenerator->generate('family/view',['family_id' => $family->id]),['class' => 'btn btn-success btn-sm ms-2']);
+                echo Html::a($family->getFamily_name(),$urlGenerator->generate('family/view',['id' => $family->getFamily_id()]),['class' => 'btn btn-success btn-sm ms-2']);
                 echo Html::a($s->trans('edit'),
-                $urlGenerator->generate('family/edit', ['family_id' => $family->id]),
+                $urlGenerator->generate('family/edit', ['id' => $family->getFamily_id()]),
                 ['class' => 'btn btn-info btn-sm ms-2']
                 );                
                 echo Html::a($s->trans('view'),
-                $urlGenerator->generate('family/view',['family_id' => $family->id]),
+                $urlGenerator->generate('family/view',['id' => $family->getFamily_id()]),
                 ['class' => 'btn btn-warning btn-sm ms-2']
                 );
                 
@@ -91,7 +92,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                                     ]
                                 ) . "\n" .                
                                 Html::a('Yes Delete it Please ... I am sure!',
-                                $urlGenerator->generate('family/delete',['family_id' => $family->id]),
+                                $urlGenerator->generate('family/delete',['id' => $family->getFamily_id()]),
                                 ['class' => 'btn btn-danger btn-sm ms-2']
                                 )
                             )

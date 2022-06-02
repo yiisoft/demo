@@ -29,7 +29,7 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()->load('client');
         return $this->prepareDataReader($query);
     }
     
@@ -72,7 +72,7 @@ private EntityWriter $entityWriter;
     }
     
     public function repoProjectquery(string $id): Project    {
-        $query = $this->select()->load('client')->where(['id' => $id]);
+        $query = $this->select()->load('client')->where(['id' =>$id]);
         return  $query->fetchOne();        
     }
 }

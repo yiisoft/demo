@@ -6,12 +6,8 @@ namespace App\Invoice\Product;
 
 use App\Invoice\Entity\Product;
 
-use Yiisoft\Data\Paginator\KeysetPaginator;
-
 final class ProductService
 {
-    private const PRODUCTS_FEED_PER_PAGE = 10;
-    
     private ProductRepository $repository;
 
     public function __construct(ProductRepository $repository)
@@ -19,12 +15,6 @@ final class ProductService
         $this->repository = $repository;
     }
 
-    public function getFeedPaginator(): KeysetPaginator
-    {
-        return (new KeysetPaginator($this->repository->getReader()))
-            ->withPageSize(self::PRODUCTS_FEED_PER_PAGE);
-    }
-    
     public function saveProduct(Product $model, ProductForm $form): void
     {
         $model->setProduct_sku($form->getProduct_sku());

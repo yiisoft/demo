@@ -29,7 +29,8 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()->load('project')
+                                ->load('tax_rate');
         return $this->prepareDataReader($query);
     }
     
@@ -72,7 +73,9 @@ private EntityWriter $entityWriter;
     }
     
     public function repoTaskquery(string $id): Task    {
-        $query = $this->select()->where(['id' => $id]);
+        $query = $this->select()->load('project')
+                                ->load('tax_rate')
+                                ->where(['id' =>$id]);
         return  $query->fetchOne();        
     }
 }

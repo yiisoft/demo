@@ -10,14 +10,18 @@ use App\Invoice\Sumex\SumexForm;
 use App\Invoice\Sumex\SumexRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Validator\ValidatorInterface;
 
 final class SumexController
 {
@@ -25,12 +29,14 @@ final class SumexController
     private WebControllerService $webService;
     private UserService $userService;
     private SumexService $sumexService;
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        SumexService $sumexService
+        SumexService $sumexService,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/sumex')
@@ -38,12 +44,13 @@ final class SumexController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->sumexService = $sumexService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, SumexRepository $sumexRepository, SettingRepository $settingRepository, Request $request, SumexService $service): Response
     {
          $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'dummy' , 'Flash message!.');
+         $flash = $this->flash($session, '','');
          $parameters = [
       
           's'=>$settingRepository,
@@ -87,12 +94,12 @@ final class SumexController
                 $this->sumexService->saveSumex(new Sumex(),$form);
                 return $this->webService->getRedirectResponse('sumex/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute,
                         ValidatorInterface $validator,
                         SumexRepository $sumexRepository, 
                         SettingRepository $settingRepository
@@ -100,9 +107,9 @@ final class SumexController
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['sumex/edit', ['id' => $this->sumex($currentRoute, $sumexRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->sumex($currentRoute, $sumexRepository)),
             's'=>$settingRepository,
             'head'=>$head,
             
@@ -111,34 +118,33 @@ final class SumexController
             $form = new SumexForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->sumexService->saveSumex($this->sumex($request,$sumexRepository), $form);
+                $this->sumexService->saveSumex($this->sumex($currentRoute, $sumexRepository), $form);
                 return $this->webService->getRedirectResponse('sumex/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,SumexRepository $sumexRepository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute, SumexRepository $sumexRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->sumexService->deleteSumex($this->sumex($request,$sumexRepository));               
+        $this->sumexService->deleteSumex($this->sumex($currentRoute, $sumexRepository));               
         return $this->webService->getRedirectResponse('sumex/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,SumexRepository $sumexRepository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, SumexRepository $sumexRepository,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['sumex/edit', ['id' => $this->sumex($request, $sumexRepository)->getId()]],
+            'action' => ['sumex/edit', ['id' => $this->sumex($currentRoute, $sumexRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->sumex($request, $sumexRepository)),
+            'body' => $this->body($this->sumex($currentRoute, $sumexRepository)),
             's'=>$settingRepository,             
-            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($request, $sumexRepository)->getId()),
+            'sumex'=>$sumexRepository->repoSumexquery($this->sumex($currentRoute, $sumexRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
@@ -147,15 +153,15 @@ final class SumexController
     {
         $canEdit = $this->userService->hasPermission('editSumex');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('sumex/index');
         }
         return $canEdit;
     }
     
-    private function sumex(Request $request,SumexRepository $sumexRepository) 
+    private function sumex(CurrenRoute $currentRoute, SumexRepository $sumexRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $sumex = $sumexRepository->repoSumexquery($id);
         if ($sumex === null) {
             return $this->webService->getNotFoundResponse();
@@ -168,7 +174,7 @@ final class SumexController
         $sumexs = $sumexRepository->findAllPreloaded();        
         if ($sumexs === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $sumexs;
     }
     
@@ -182,7 +188,7 @@ final class SumexController
           'treatmentend'=>$sumex->getTreatmentend(),
           'casedate'=>$sumex->getCasedate(),
           'casenumber'=>$sumex->getCasenumber()
-                ];
+        ];
         return $body;
     }
     
@@ -192,5 +198,3 @@ final class SumexController
         return $flash;
     }
 }
-
-?>

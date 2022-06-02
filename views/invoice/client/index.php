@@ -17,15 +17,36 @@ use Yiisoft\Html\Html;
 <?php
   $pagination = OffsetPagination::widget()
   ->paginator($paginator)
-  ->urlGenerator(fn ($page) => $urlGenerator->generate('client/index', ['page' => $page]));
+  ->urlGenerator(fn ($page) => $urlGenerator->generate('client/index', ['page' => $page, 'active'=>$active]));
 ?>
+<div>
+    <?php 
+        echo $modal_create_client;
+    ?>
+</div>
 
 <div>
     <h5><?= $s->trans('clients'); ?></h5>
     <div class="btn-group">
-        <a class="btn btn-success" href="<?= $urlGenerator->generate('client/add'); ?>">
-            <i class="fa fa-plus"></i> <?= $s->trans('new'); ?>
-        </a>
+        <a href="#create-client" class="btn btn-success" data-toggle="modal"  style="text-decoration:none"><i class="fa fa-plus"></i> <?= $s->trans('new'); ?></a>
+    </div>
+    <br>
+    <br>
+    <div class="submenu-row">
+            <div class="btn-group index-options">
+                <a href="<?= $urlGenerator->generate('client/index',['page'=>1, 'active'=>2]); ?>"
+                   class="btn <?php echo $active == 2 ? 'btn-primary' : 'btn-default' ?>">
+                    <?= $s->trans('all'); ?>
+                </a>
+                <a href="<?= $urlGenerator->generate('client/index',['page'=>1, 'active'=>1]); ?>" style="text-decoration:none"
+                   class="btn  <?php echo $active == 1 ? 'btn-primary' : 'btn-default' ?>">
+                    <?= $s->trans('active'); ?>
+                </a>
+                <a href="<?= $urlGenerator->generate('client/index',['page'=>1, 'active'=>0]); ?>" style="text-decoration:none"
+                   class="btn  <?php echo $active == 0 ? 'btn-primary' : 'btn-default' ?>">
+                    <?= $s->trans('inactive'); ?>
+                </a>    
+            </div>
     </div>
 </div>
 <div>
@@ -85,12 +106,12 @@ use Yiisoft\Html\Html;
             <?php foreach ($paginator->read() as $client) { ?>
             <tr>
 		<td>
-		    <?= ($client->client_active) ? '<span class="label active">' . $s->trans('yes') . '</span>' : '<span class="label inactive">' . $s->trans('no') . '</span>'; ?>
+		    <?= ($client->getClient_active()) ? '<span class="label active">' . $s->trans('yes') . '</span>' : '<span class="label inactive">' . $s->trans('no') . '</span>'; ?>
 		</td>
-                <td><?= Html::a($client->client_name." ".$client->client_surname,$urlGenerator->generate('client/view',['id' => $client->id]),['class' => 'btn btn-warning ms-2']);?></td>
-                <td><?= Html::encode($client->client_email); ?></td>
-                <td><?= Html::encode($client->client_phone ? $client->client_phone : ($client->client_mobile ? $client->client_mobile : '')); ?></td>
-                <td class="amount"><?php // $s->format_currency($client->client_invoice_balance); ?></td>
+                <td><?= Html::a($client->getClient_name()." ".$client->getClient_surname(),$urlGenerator->generate('client/view',['id' => $client->getClient_id()]),['class' => 'btn btn-warning ms-2']);?></td>
+                <td><?= Html::encode($client->getClient_email()); ?></td>
+                <td><?= Html::encode($client->getClient_phone() ? $client->getClient_phone() : ($client->getClient_mobile() ? $client->getClient_mobile() : '')); ?></td>
+                <td class="amount"><?php echo $s->format_currency($iR->with_total($client->getClient_id(), $iaR)); ?></td>
                 <td>
                     <div class="options btn-group">
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" style="text-decoration:none">
@@ -98,28 +119,33 @@ use Yiisoft\Html\Html;
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?= $urlGenerator->generate('client/view',['id' => $client->id]); ?>" style="text-decoration:none">
+                                <a href="<?= $urlGenerator->generate('client/view',['id' => $client->getClient_id()]); ?>" style="text-decoration:none">
                                     <i class="fa fa-eye fa-margin"></i> <?= $s->trans('view'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $urlGenerator->generate('client/edit', ['id' => $client->id]); ?>" style="text-decoration:none">
+                                <a href="<?= $urlGenerator->generate('client/view_client_custom_fields',['id' => $client->getClient_id()]); ?>" style="text-decoration:none">
+                                    <i class="fa fa-edit fa-margin"></i><?= $s->trans('custom_values_edit'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('client/edit', ['id' => $client->getClient_id()]); ?>" style="text-decoration:none">
                                     <i class="fa fa-edit fa-margin"></i> <?= $s->trans('edit'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $urlGenerator->generate('quote/add'); ?>" class="client-create-quote" data-client-id="<?= $client->id; ?>" style="text-decoration:none">
+                                <a href="<?= $urlGenerator->generate('quote/add'); ?>" class="client-create-quote" data-client-id="<?= $client->getClient_id(); ?>" style="text-decoration:none">
                                     <i class="fa fa-file fa-margin"></i><?= $s->trans('create_quote'); ?>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= $urlGenerator->generate('inv/add'); ?>" class="client-create-invoice" style="text-decoration:none"
-                                    data-client-id="<?= $client->id; ?>">
+                                    data-client-id="<?= $client->getClient_id(); ?>">
                                     <i class="fa fa-file-text fa-margin"></i><?= $s->trans('create_invoice'); ?>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $urlGenerator->generate('client/delete',['id' => $client->id]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
+                                <a href="<?= $urlGenerator->generate('client/delete',['id' => $client->getClient_id()]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
                                     <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
                                 </a>
                             </li>

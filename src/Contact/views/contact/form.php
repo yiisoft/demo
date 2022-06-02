@@ -3,56 +3,68 @@
 declare(strict_types=1);
 
 use App\Widget\FlashMessage;
-use Yiisoft\Form\Widget\Form;
+use Yiisoft\Form\Field;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Form;
 use Yiisoft\View\WebView;
+
 /**
- * @var string $csrf
+ * @var Yiisoft\Yii\View\Csrf $csrf
  * @var \App\Contact\ContactForm $form
  * @var \Yiisoft\Router\UrlGeneratorInterface $url
- * @var \Yiisoft\Form\Widget\Field $field
  * @var WebView $this
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  */
+
 $this->setTitle($translator->translate('menu.contact'));
 ?>
 
-<h1><?= Html::encode($this->getTitle()) ?></h1>
-
 <?= FlashMessage::widget() ?>
 
-<div>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-8">
+            <div class="card border border-dark shadow-2-strong rounded-3">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="fw-normal h3 text-center"><?= Html::encode($this->getTitle()) ?></h1>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <?= Form::tag()
+                        ->post($url->generate('site/contact'))
+                        ->csrf($csrf)
+                        ->id('form-contact')
+                        ->open()
+                    ?>
 
-    <?= Form::widget()
-        ->action($url->generate('site/contact'))
-        ->options(
-            [
-                'id' => 'form-contact',
-                'csrf' => $csrf,
-                'enctype' => 'multipart/form-data',
-            ]
-        )
-        ->begin() ?>
+                    <?= Field::text($form, 'name') ?>
+                    <?= Field::email($form, 'email') ?>
+                    <?= Field::text($form, 'subject') ?>
+                    <?= Field::textarea($form, 'body')->addInputAttributes(['style' => 'height: 100px']) ?>
+                    <?= Field::file($form, 'attachFiles')
+                        ->containerClass('mb-3')
+                        ->multiple()
+                        ->hideLabel()
+                    ?>
+                    <?= Field::buttonGroup()
+                        ->addContainerClass('btn-group btn-toolbar float-end')
+                        ->buttonsData([
+                            [
+                                'Reset',
+                                'type' => 'reset',
+                                'class' => 'btn btn-lg btn-danger',
+                            ],
+                            [
+                                'Submit',
+                                'type' => 'submit',
+                                'class' => 'btn btn-lg btn-primary',
+                                'name' => 'contact-button',
+                            ],
+                        ]) ?>
 
-    <?= $field->config($form, 'name') ?>
-    <?= $field->config($form, 'email')->input('email') ?>
-    <?= $field->config($form, 'subject') ?>
-    <?= $field->config($form, 'body')
-        ->textArea(['class' => 'form-control textarea', 'rows' => 2]) ?>
-    <?= $field->config($form, 'attachFiles')
-        ->inputCssClass('form-control')
-        ->fileInput(
-            ['type' => 'file', 'multiple' => 'multiple', 'name' => 'attachFiles[]'],
-            true,
-        ) ?>
-
-    <?= Html::submitButton(
-        'Submit',
-        [
-            'class' => 'btn btn-primary mt-3',
-        ]
-    ) ?>
-
-    <?= Form::end() ?>
-
+                    <?= Form::tag()->close() ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

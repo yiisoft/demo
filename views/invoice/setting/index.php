@@ -6,10 +6,13 @@ use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
 use App\Widget\OffsetPagination;
 
+ 
+
 /**
  * @var \App\Invoice\Entity\Setting $setting
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Session\Flash\FlashInterface $flash 
+ * @var \Yiisoft\Session\Flash\FlashInterface $flash
+ * @var \Yiisoft\Translator\TranslatorInterface $translator 
  */
 
 ?>
@@ -47,8 +50,6 @@ $pagination = OffsetPagination::widget()
             ->render();
             echo $alert;
         }
-        
-
 ?>
 
 <?php
@@ -65,9 +66,10 @@ $pagination = OffsetPagination::widget()
     <tr>
                 
         <th><?= 'Key'; ?></th>
-        <th><?= $s->trans('value'); ?></th>
-                
-
+        <th><?= $s->trans('value'); ?></th>        
+        <th><?= $trans; ?></th>        
+        <th><?= $section; ?></th>
+        <th><?= $subsection; ?></th>        
         <th><?= $s->trans('options'); ?></th>
     </tr>
    </thead>
@@ -78,9 +80,10 @@ $pagination = OffsetPagination::widget()
                 
       <td><?= Html::encode($setting->getSetting_key()); ?></td>
       <td><?= Html::encode($setting->getSetting_value()); ?></td>
-                
-
-        <td>
+      <td><?= Html::encode($setting->getSetting_trans()); ?></td>
+      <td><?= Html::encode($setting->getSetting_section()); ?></td>
+      <td><?= Html::encode($setting->getSetting_subsection()); ?></td>
+      <td>
           <div class="options btn-group">
           <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-cog"></i>
@@ -88,22 +91,18 @@ $pagination = OffsetPagination::widget()
           </a>
           <ul class="dropdown-menu">
               <li>
-                  <a href="<?= $urlGenerator->generate('setting/edit',['setting_id'=>$setting->id]); ?>">                       <i class="fa fa-edit fa-margin"></i>
+                  <a href="<?= $urlGenerator->generate('setting/edit',['setting_id'=>$setting->getSetting_id()]); ?>"><i class="fa fa-edit fa-margin"></i>
                        <?= $s->trans('edit'); ?>
                   </a>
               </li>
               <li>
-                  <form action="<?= $urlGenerator->generate('setting/delete',['setting_id'=>$setting->id]); ?>"  method="POST">
-                      <?php $csrf; ?>
-                      <button type="submit" class="dropdown-button" onclick="return confirm('<?= $s->trans('delete_record_warning');?>');">
-                       <i class="fa fa-trash fa-margin"></i>
-                       <?= $s->trans('delete'); ?>
-                      </button>
-                  </form>
-               </li>
+                  <a href="<?= $urlGenerator->generate('setting/delete',['setting_id'=>$setting->getSetting_id()]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_client_warning'); ?>');">
+                        <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
+                  </a>
+              </li>
           </ul>
           </div>
-         </td>
+      </td>
      </tr>
 <?php } ?>
 </tbody>
@@ -119,5 +118,4 @@ $pagination = OffsetPagination::widget()
       echo Html::p('No records');
     }
 ?>
-</div>
 </div>

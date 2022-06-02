@@ -6,7 +6,7 @@ namespace App\ViewInjection;
 
 use Yiisoft\Yii\View\MetaTagsInjectionInterface;
 
-class MetaTagsViewInjection implements MetaTagsInjectionInterface
+final class MetaTagsViewInjection implements MetaTagsInjectionInterface
 {
     public function getMetaTags(): array
     {

@@ -8,8 +8,7 @@ use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
 
 final class QuoteAmountForm extends FormModel
-{    
-    
+{       
     private ?int $quote_id=null;
     private ?float $item_subtotal=null;
     private ?float $item_tax_total=null;
@@ -48,21 +47,11 @@ final class QuoteAmountForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'item_subtotal' => [
-            Required::rule(),
-        ],
-        'item_tax_total' => [
-            Required::rule(),
-        ],
-        'tax_total' => [
-            Required::rule(),
-        ],
-        'total' => [
-            Required::rule(),
-        ],
-        'quote_id' => [
-            Required::rule(),
-        ],
+        'item_subtotal' => [new Required()],
+        'item_tax_total' => [new Required()],
+        'tax_total' => [new Required()],
+        'total' => [new Required()],
+        'quote_id' => [new Required()],
     ];
 }
 }

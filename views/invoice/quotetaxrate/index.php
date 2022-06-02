@@ -54,19 +54,19 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($quotetaxrates as $quotetaxrate){
       echo Html::br();
-      $label = $quotetaxrate->id . " ";
+      $label = $quotetaxrate->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('quotetaxrate/edit', ['id' => $quotetaxrate->id]),
+      $urlGenerator->generate('quotetaxrate/edit', ['id' => $quotetaxrate->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('quotetaxrate/view', ['id' => $quotetaxrate->id]),
+      $urlGenerator->generate('quotetaxrate/view', ['id' => $quotetaxrate->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record# '.$quotetaxrate->id)
+      ->title('Please confirm that you want to delete this record# '.$quotetaxrate->getId())
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('quotetaxrate/delete', ['id' => $quotetaxrate->id]),
+                   $urlGenerator->generate('quotetaxrate/delete', ['id' => $quotetaxrate->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

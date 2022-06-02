@@ -74,5 +74,13 @@ private EntityWriter $entityWriter;
     public function repoClientNotequery(string $id): ClientNote    {
         $query = $this->select()->load('client')->where(['id' => $id]);
         return  $query->fetchOne();        
+    }    
+    
+    /**
+     * @psalm-return DataReaderInterface<int, ClientNote>
+     */
+    public function repoClientquery(string $client_id): DataReaderInterface    {
+        $query = $this->select()->load('client')->where(['client_id' => $client_id]);
+        return $this->prepareDataReader($query);
     }
 }

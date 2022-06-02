@@ -1,148 +1,95 @@
 <?php
-
 declare(strict_types=1); 
 
 namespace App\Invoice\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\BelongsTo;
+use Cycle\ORM\Entity\Behavior;
 use DateTime;
-use DateTimeImmutable;  
- /**
- * @Entity(
- * repository="App\Invoice\Client\ClientRepository",
- * )
- */
- 
- class Client
+use DateTimeImmutable; 
+
+#[Entity(repository:\App\Invoice\Client\ClientRepository::class)]
+#[Behavior\CreatedAt(field: 'client_date_created', column: 'client_date_created')]
+#[Behavior\UpdatedAt(field: 'client_date_modified', column: 'client_date_modified')]    
+class Client
  {
-    /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'primary')]
+    public ?int $id = null;
      
-    /**
-     * @Column(type="datetime")
-     */    
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $client_date_created;
     
-    /**
-     * @Column(type="datetime")
-     */    
+    #[Column(type: 'datetime')]    
     private DateTimeImmutable $client_date_modified;
      
-    /**
-     * @Column(type="text")
-     */ 
-    public string $client_name = '';
+    #[Column(type: 'text')]
+    private string $client_name = '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_address_1 =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_address_1 =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_address_2 =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_address_2 =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_city =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_city =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_state =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_state =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_zip =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_zip =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_country =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_country =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     public ?string $client_phone =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_phone =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_fax =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_fax =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_mobile =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_mobile =  '';
      
-    /**
-     * @Column(type="text", nullable=false)
-     */
-     public string $client_email =  '';
+    #[Column(type: 'text', nullable: true)]
+    private string $client_email =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_web =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_web =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_vat_id =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_vat_id =  '';
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $client_tax_code =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $client_tax_code =  '';
      
-    /**
-     * @Column(type="string(255)", nullable=true)
-     */
-     private ?string $client_language =  '';
+    #[Column(type: 'string(151)', nullable: true)]
+    private ?string $client_language =  '';
      
-     /**
-     * @Column(type="bool", default="false")
-     */
-     public bool $client_active = false;
+    #[Column(type: 'bool', default: false)]
+    private bool $client_active = false;
      
-    /**
-     * @Column(type="string(255)", nullable=true)
-     */
-    public ?string $client_surname = '';
+    #[Column(type: 'string(151)', nullable: true)]
+    private ?string $client_surname = '';
      
-    /**
-     * @Column(type="string(16)", nullable=true)
-     */
-     private ?string $client_avs =  '';
+    #[Column(type: 'string(16)', nullable: true)]
+    private ?string $client_avs =  '';
      
-    /**
-     * @Column(type="string(30)", nullable=true)
-     */
-     private ?string $client_insurednumber =  '';
+    #[Column(type: 'string(151)', nullable: true)]
+    private ?string $client_insurednumber =  '';
      
-    /**
-     * @Column(type="string(30)", nullable=true)
-     */
-     private ?string $client_veka =  '';
+    #[Column(type: 'string(30)', nullable: true)]
+    private ?string $client_veka =  '';  
+    
+    #[Column(type:'date', nullable: true)]
+    private $client_birthdate;
+    
+    #[Column(type: 'tinyInteger(4)', nullable: false, default: 0)]
+    private ?int $client_gender = null;
      
-    /**
-     * @Column(type="date", nullable=true)
-     */
-     private  $client_birthdate;
-     
-    /**
-     * @Column(type="tinyInteger(4)", nullable=false,default=0)
-     */
-     private ?int $client_gender =  null;
-     
-     public function __construct(string $client_name = '', string $client_address_1='',string $client_address_2='',string $client_city='',
+    public function __construct(string $client_name = '', string $client_address_1='',string $client_address_2='',string $client_city='',
             string $client_state='',string $client_zip='',string $client_country='',string $client_phone='',string $client_fax='',
             string $client_mobile='', string $client_email ='', string $client_web='', string $client_vat_id='', string $client_tax_code='',
             string $client_language='', bool $client_active=false, string $client_surname='', string $client_avs='', string $client_insurednumber='',
@@ -197,7 +144,7 @@ use DateTimeImmutable;
     
     public function setClient_name(string $client_name) : void
     {
-      $this->client_name =  $client_name;
+       $this->client_name =  $client_name;
     }
     
     public function getClient_address_1(): ?string
@@ -337,7 +284,7 @@ use DateTimeImmutable;
     
     public function setClient_language(string $client_language) : void
     {
-      $this->client_language =  $client_language;
+       $this->client_language =  $client_language;
     }
     
     public function getClient_active(): bool
@@ -388,7 +335,7 @@ use DateTimeImmutable;
     public function setClient_veka(string $client_veka) : void
     {
       $this->client_veka =  $client_veka;
-    }
+    } 
     
     //cycle 
     public function getClient_birthdate() : ?DateTimeImmutable  

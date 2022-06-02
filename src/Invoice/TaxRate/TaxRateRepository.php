@@ -72,4 +72,17 @@ final class TaxRateRepository extends Select\Repository
             ->where(['tax_rate_name' => $tax_rate_name]);
         return  $query->fetchOne();
     }
+    
+    public function repoCount($tax_rate_id): int {
+        $count = $this->select()
+                      ->where(['id' => $tax_rate_id])
+                      ->count();
+        return $count;   
+    }
+    
+    public function repoCountAll(): int {
+        $countall = $this->select()
+                         ->count();
+        return $countall;
+    }
 }

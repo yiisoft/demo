@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1); 
 
 namespace App\Invoice\Entity;
@@ -8,89 +7,61 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use DateTime;
-use DateTimeImmutable;use App\Invoice\Entity\Inv;
+use DateTimeImmutable;
+use App\Invoice\Entity\Inv;
 use App\Invoice\Entity\PaymentMethod;
-  
- /**
- * @Entity(
- * repository="App\Invoice\Payment\PaymentRepository",
- * )
- */
- 
- class Payment
- {
-       
-   
-    /**
-     * @BelongsTo(target="Inv", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Inv
-     */
-     private $inv = null;
-    
 
-    /**
-     * @BelongsTo(target="PaymentMethod", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|PaymentMethod
-     */
-     private $payment_method = null;
+#[Entity(repository: \App\Invoice\Payment\PaymentRepository::class)] 
+class Payment
+{  
+    #[BelongsTo(target:Inv::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Inv $inv = null;    
     
+    #[BelongsTo(target:PaymentMethod::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?PaymentMethod $payment_method = null;    
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
+    
+    #[Column(type: 'integer(11)', nullable:false, default:0)]
+    private ?int $payment_method_id =  null;
+    
+    #[Column(type: 'date', nullable: true)]
+    private $payment_date;
+    
+    #[Column(type: 'decimal(20,2)', nullable:true, default: 0.00)]
+    private ?float $amount =  0.00;
+    
+    #[Column(type: 'longText', nullable:false)]
+    private string $note =  '';
+    
+    #[Column(type: 'integer(11)', nullable:false)]
+    private ?int $inv_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false,default=0)
-     */
-     private ?int $payment_method_id =  null;
-     
-    /**
-     * @Column(type="date", nullable=false)
-     */
-     private  $date;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $amount =  null;
-     
-    /**
-     * @Column(type="longText", nullable=false)
-     */
-     private string $note =  '';
-     
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $inv_id =  null;
-     
-     public function __construct(
-         int $id = null,
-         int $inv_id = null,
-         int $payment_method_id = null,
-          $date = '',
-         float $amount = null,
-         string $note = ''
-     )
-     {
-         $this->id=$id;
-         $this->inv_id=$inv_id;
-         $this->payment_method_id=$payment_method_id;
-         $this->date=$date;
-         $this->amount=$amount;
-         $this->note=$note;
-     }
+    public function __construct(
+        int $id = null,
+        int $inv_id = null,
+        int $payment_method_id = null,
+        $payment_date = '',
+        float $amount = 0.00,
+        string $note = ''
+    )
+    {
+        $this->id=$id;
+        $this->inv_id=$inv_id;
+        $this->payment_method_id=$payment_method_id;
+        $this->payment_date=$payment_date;
+        $this->amount=$amount;
+        $this->note=$note;
+    }
     
     public function getInv() : ?Inv
- {
+    {
       return $this->inv;
     }
     
     public function getPaymentMethod() : ?PaymentMethod
- {
+    {
       return $this->payment_method;
     }
     
@@ -114,16 +85,19 @@ use App\Invoice\Entity\PaymentMethod;
       $this->payment_method_id =  $payment_method_id;
     }
     
-    public function getDate(): DateTimeImmutable
+    public function getPayment_date(): ?DateTimeImmutable
     {
-      if (isset($this->date) && !empty($this->date)){
-       return $this->date;
-     };
+      if (isset($this->payment_date) && !empty($this->payment_date)){
+       return $this->payment_date;
+      }
+      if (empty($this->payment_date)){
+       return $this->payment_date = null;
+      }
     }
     
-    public function setDate(DateTime $date) : void
+    public function setPayment_date(?DateTime $payment_date) : void
     {
-      $this->date =  $date;
+      $this->payment_date =  $payment_date;
     }
     
     public function getAmount(): ?float

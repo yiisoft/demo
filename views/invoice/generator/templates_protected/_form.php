@@ -43,11 +43,11 @@ if (!empty($errors)) {
           echo ' <div class="mb3 form-group">'."\n";
           echo '    <label for="'.$relation->getLowercase_name().'_id">';
           echo ucfirst(str_replace('_', ' ', $relation->getLowercase_name())).'</label>'."\n";
-          echo '    <select name="'.$relation->getLowercase_name().'_id" id="'.$relation->getLowercase_name().'_id" class="form-control simple-select">'."\n";
+          echo '    <select name="'.$relation->getLowercase_name().'_id" id="'.$relation->getLowercase_name().'_id" class="form-control">'."\n";
           echo '       <option value="0">'. ucfirst(str_replace('_', ' ', $relation->getLowercase_name())).'</option>'."\n";
           echo '         <?php foreach ($'.$relation->getLowercase_name().'s as $'.$relation->getLowercase_name().') { ?>'."\n";
-          echo '          <option value="<?= $'.$relation->getLowercase_name().'->id; ?>"'."\n";
-          echo '           <?php $s->check_select(Html::encode($body['."'".$relation->getLowercase_name()."_id'] ?? ''), $".$relation->getLowercase_name().'->id) ?>'."\n";
+          echo '          <option value="<?= $'.$relation->getLowercase_name().'->getId(); ?>"'."\n";
+          echo '           <?php $s->check_select(Html::encode($body['."'".$relation->getLowercase_name()."_id'] ?? ''), $".$relation->getLowercase_name().'->getId()) ?>'."\n";
           echo '           ><?= $'.$relation->getLowercase_name().'->'.$relation->getView_field_name().'; ?></option>'."\n";
           echo '         <?php } ?>'."\n";
           echo '    </select>'."\n";
@@ -78,9 +78,9 @@ if (!empty($errors)) {
             echo '    $date = null; '."\n";
             echo '} '."\n";
             echo '   ?>  '."\n";            
-            echo '<label form-label for='.'"'.$column->getName().'"'.'><?= $s->trans('."'".$column->getName()."'".') ." (".  $datehelper->date_format_datepicker($s).") "; ?></label>';
+            echo '<label form-label for='.'"'.$column->getName().'"'.'><?= $s->trans('."'".$column->getName()."'".') ." (".  $datehelper->display().") "; ?></label>';
             echo '<div class="mb3 input-group"> '."\n";
-            echo '<input type="text" name="'.$column->getName().'" id="'.$column->getName().'" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" '."\n";
+            echo '<input type="text" name="'.$column->getName().'" id="'.$column->getName().'" placeholder="<?= $datehelper->display(); ?>" '."\n";
             echo '       class="form-control data-datepicker" '."\n";
             echo '       value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> '."\n";
             echo '<span class="input-group-text"> '."\n";

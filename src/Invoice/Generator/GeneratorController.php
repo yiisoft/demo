@@ -13,17 +13,23 @@ use App\Invoice\Helpers\GenerateCodeFileHelper;
 use App\Invoice\Setting\SettingRepository;
 use App\Service\WebControllerService;
 use App\User\UserService;
-use Exception;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Spiral\Database\DatabaseManager;
+
+use Cycle\Database\DatabaseManager;
+
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Http\Method;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\Flash\Flash;
 use Yiisoft\Session\SessionInterface as Session;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\View\View;
 use Yiisoft\Yii\View\ViewRenderer;
+
+use Exception;
 
 final class GeneratorController
 {
@@ -31,6 +37,7 @@ final class GeneratorController
     private WebControllerService $webService;
     private GeneratorService $generatorService;    
     private UserService $userService;
+    private TranslatorInterface $translator;
     const ENTITY = 'Entity.php';
     const REPO = 'Repository.php';
     const FORM = 'Form.php';
@@ -40,6 +47,7 @@ final class GeneratorController
     const CONTROLLER = 'Controller.php';
     const INDEX = 'index.php';
     const INDEX_ADV_PAGINATOR = 'index_adv_paginator.php';
+    const INDEX_ADV_PAGINATOR_WITH_FILTER = 'index_adv_paginator_with_filter.php';
     const _FORM = '_form.php';     
     const _VIEW = '_view.php';
     const _ROUTE = '_route.php';
@@ -48,20 +56,22 @@ final class GeneratorController
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         GeneratorService $generatorService,
-        UserService $userService    
+        UserService $userService,
+        TranslatorInterface $translator,
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/generator')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->generatorService = $generatorService;
         $this->userService = $userService;
+        $this->translator = $translator;
     }
 
     public function index(Session $session,GeneratorRepository $generatorRepository, GeneratorRelationRepository $grr, SettingRepository $settingRepository): Response
     {
         $canEdit = $this->rbac($session);
         $generators = $this->generators($generatorRepository);
-        $flash = $this->flash($session, 'dummy', 'Help information can appear here.');
+        $flash = $this->flash($session, 'info' , $this->viewRenderer->renderPartialAsString('/invoice/info/generator'));        
         $parameters = [
             's'=>$settingRepository,
             'canEdit' => $canEdit,
@@ -90,23 +100,23 @@ final class GeneratorController
                 $this->generatorService->saveGenerator(new Gentor(), $form);
                 return $this->webService->getRedirectResponse('generator/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('__form', $parameters);
     }
 
-    public function edit(Session $session, Request $request, GeneratorRepository $generatorRepository, SettingRepository $settingRepository, ValidatorInterface $validator, DatabaseManager $dbal): Response 
+    public function edit(Session $session, CurrentRoute $currentRoute, Request $request, GeneratorRepository $generatorRepository, SettingRepository $settingRepository, ValidatorInterface $validator, DatabaseManager $dbal): Response 
     {
         $this->rbac($session);
-        $generator = $this->generator($request, $generatorRepository);
+        $generator = $this->generator($currentRoute, $generatorRepository);
         $parameters = [
             'title' => $settingRepository->trans('edit'),
             'action' => ['generator/edit', ['id' => $generator->getGentor_id()]],
             'errors' => [],
-            'body' => $this->body($this->generator($request, $generatorRepository)),
+            'body' => $this->body($this->generator($currentRoute, $generatorRepository)),
             's'=>$settingRepository,
             'tables'=>$dbal->database('default')->getTables(),
-            'selected_table'=>$this->generator($request, $generatorRepository)->getPre_entity_table(),
+            'selected_table'=>$this->generator($currentRoute, $generatorRepository)->getPre_entity_table(),
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new GeneratorForm();
@@ -117,15 +127,15 @@ final class GeneratorController
                 return $this->webService->getRedirectResponse('generator/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('__form', $parameters);
     }
     
-    public function delete(Session $session, Request $request, GeneratorRepository $generatorRepository, GeneratorRelationRepository $grr): Response 
+    public function delete(Session $session, CurrentRoute $currentRoute, GeneratorRepository $generatorRepository): Response 
     {
         $this->rbac($session);
-        $generator = $this->generator($request, $generatorRepository);
+        $generator = $this->generator($currentRoute, $generatorRepository);
         $this->flash($session,'danger','This record has been deleleted.');
         try {
            $this->generatorService->deleteGenerator($generator);
@@ -137,17 +147,17 @@ final class GeneratorController
         return $this->webService->getRedirectResponse('generator/index');   
     }
     
-    public function view(Session $session,Request $request,GeneratorRepository $generatorRepository, SettingRepository $settingRepository,ValidatorInterface $validator): Response {
+    public function view(Session $session, CurrentRoute $currentRoute, GeneratorRepository $generatorRepository, SettingRepository $settingRepository,ValidatorInterface $validator): Response {
         $this->rbac($session);        
-        $generator = $this->generator($request, $generatorRepository);
+        $generator = $this->generator($currentRoute, $generatorRepository);
         $parameters = [
             'title' => $settingRepository->trans('view'),
             'action' => ['generator/view', ['id' => $generator->getGentor_id()]],
             'errors' => [],
-            'generator'=>$this->generator($request,$generatorRepository),
+            'generator'=>$this->generator($currentRoute, $generatorRepository),
             's'=>$settingRepository,     
-            'body' => $this->body($this->generator($request, $generatorRepository)),            
-            'selected_table'=>$this->generator($request, $generatorRepository)->getPre_entity_table(),            
+            'body' => $this->body($this->generator($currentRoute, $generatorRepository)),            
+            'selected_table'=>$this->generator($currentRoute, $generatorRepository)->getPre_entity_table(),            
         ];
         return $this->viewRenderer->render('__view', $parameters);
     }
@@ -156,14 +166,14 @@ final class GeneratorController
     private function rbac(Session $session) {
         $canEdit = $this->userService->hasPermission('editGenerator');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('generator/index');
         }
         return $canEdit;
     }
     
-    private function generator(Request $request, GeneratorRepository $generatorRepository){
-        $id = $request->getAttribute('id');
+    private function generator(CurrentRoute $currentRoute, GeneratorRepository $generatorRepository){
+        $id = $currentRoute->getArgument('id');
         $generator = $generatorRepository->repoGentorQuery($id);
         if ($generator === null) {
             return $this->webService->getNotFoundResponse();
@@ -205,20 +215,23 @@ final class GeneratorController
                 'deleted_include' => $generator->isDeleted_include(),
                 'constrain_index_field'=> $generator->getConstrain_index_field(),
                 'keyset_paginator_include' => $generator->isKeyset_paginator_include(),
-                'offset_paginator_include' => $generator->isOffset_paginator_include(),            
+                'offset_paginator_include' => $generator->isOffset_paginator_include(),
+                'filter_field' => $generator->getFilter_field(),           
+                'filter_field_start_position' => $generator->getFilter_field_start_position(),
+                'filter_field_end_position' => $generator->getFilter_field_end_position(),
                 'flash_include' => $generator->isFlash_include(),
                 'headerline_include' => $generator->isHeaderline_include(),
         ];
         return $body;
     }
     
-    public function entity(Session $session,Request $request, GeneratorRepository $gr, 
+    public function entity(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::ENTITY;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -239,13 +252,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function repo(Session $session,Request $request, GeneratorRepository $gr, 
+    public function repo(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::REPO;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -266,13 +279,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function service(Session $session,Request $request, GeneratorRepository $gr, 
+    public function service(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::SERVICE;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -293,13 +306,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function form(Session $session,Request $request, GeneratorRepository $gr, 
+    public function form(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::FORM;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -320,13 +333,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
         
-    public function mapper(Session $session,Request $request, GeneratorRepository $gr, 
+    public function mapper(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::MAPPER;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -347,13 +360,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function scope(Session $session,Request $request, GeneratorRepository $gr, 
+    public function scope(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::SCOPE;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -374,13 +387,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function controller(Session $session,Request $request, GeneratorRepository $gr, 
+    public function controller(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::CONTROLLER;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -401,13 +414,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
         
-    public function _index(Session $session,Request $request, GeneratorRepository $gr, 
+    public function _index(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::INDEX;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -428,13 +441,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function _index_adv_paginator(Session $session,Request $request, GeneratorRepository $gr, 
+    public function _index_adv_paginator(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::INDEX_ADV_PAGINATOR;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -455,13 +468,40 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
     
-    public function _form(Session $session,Request $request, GeneratorRepository $gr, 
+    public function _index_adv_paginator_with_filter(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
+                            ): Response {
+        $file = self::INDEX_ADV_PAGINATOR_WITH_FILTER;
+        $path = $this->getAliases();
+        $g = $this->generator($currentRoute, $gr);
+        $id = $g->getGentor_id();
+        $relations = $grr->findRelations($id);
+        $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
+        $content = $this->getContent($view,$g,$relations,$orm,$file);
+        $flash = $this->flash($session,'success',$file.' generated at '.$path.'/'.$file);
+        $build_file = $this->build_and_save($path,$content,$file,'');
+        $parameters = [
+            'canEdit'=>$this->rbac($session),
+            's'=> $settingRepository,
+            'title' => 'Generate '.$file,
+            'body' => $this->body($g),
+            'generator'=> $g,
+            'orm_schema'=>$orm,
+            'relations'=>$relations,
+            'flash'=> $flash,
+            'generated'=>$build_file,
+        ];
+        return $this->viewRenderer->render('__results', $parameters);
+    }
+    
+    public function _form(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
+                             SettingRepository $settingRepository, GeneratorRelationRepository $grr,
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::_FORM;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -482,13 +522,13 @@ final class GeneratorController
         return $this->viewRenderer->render('__results', $parameters);
     }
         
-    public function _view(Session $session,Request $request, GeneratorRepository $gr, 
+    public function _view(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                             ): Response {
         $file = self::_VIEW;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();
@@ -510,13 +550,13 @@ final class GeneratorController
     }
     
     //generate this individual route. Append to config/routes file.  
-    public function _route(Session $session,Request $request, GeneratorRepository $gr, 
+    public function _route(Session $session,CurrentRoute $currentRoute, GeneratorRepository $gr, 
                              SettingRepository $settingRepository, GeneratorRelationRepository $grr,
-                             ValidatorInterface $validator, DatabaseManager $dbal, View $view
+                             DatabaseManager $dbal, View $view
                            ): Response {
         $file = self::_ROUTE;
         $path = $this->getAliases();
-        $g = $this->generator($request, $gr);
+        $g = $this->generator($currentRoute, $gr);
         $id = $g->getGentor_id();
         $relations = $grr->findRelations($id);
         $orm = $dbal->database('default')->table($g->getPre_entity_table())->getSchema();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
-use App\Invoice\Helpers\DateHelper;
 
 /**
  * @var \Yiisoft\View\View $this
@@ -31,9 +30,19 @@ if (!empty($errors)) {
 <?php echo (string)$response->getBody(); ?><div id="content">
 <div class="row">
  <div class="mb3 form-group">
-   <label for="field"><?= $s->trans('field'); ?></label>
-   <input type="text" name="field" id="field" class="form-control"
- value="<?= Html::encode($body['field'] ??  ''); ?>">
+    <label for="custom_field_id">Custom field</label>
+    <select name="custom_field_id" id="custom_field_id" class="form-control">
+       <option value="0">Custom field</option>
+         <?php foreach ($custom_fields as $custom_field) { ?>
+          <option value="<?= $custom_field->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['custom_field_id'] ?? ''), $custom_field->getId()) ?>
+           ><?= $custom_field->getId(); ?></option>
+         <?php } ?>
+    </select>
+ </div>
+ <div class="mb3 form-group">
+   <input type="hidden" name="id" id="id" class="form-control"
+ value="<?= Html::encode($body['id'] ??  ''); ?>">
  </div>
  <div class="mb3 form-group">
    <label for="value"><?= $s->trans('value'); ?></label>

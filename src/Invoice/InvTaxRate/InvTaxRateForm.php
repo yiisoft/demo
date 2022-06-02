@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Invoice\InvTaxRate;
@@ -8,12 +7,11 @@ use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
 
 final class InvTaxRateForm extends FormModel
-{    
-    
+{        
     private ?int $inv_id=null;
     private ?int $tax_rate_id=null;
     private ?int $include_item_tax=null;
-    private ?float $amount=null;
+    private ?float $inv_tax_rate_amount=null;
 
     public function getInv_id() : int
     {
@@ -30,9 +28,9 @@ final class InvTaxRateForm extends FormModel
       return $this->include_item_tax;
     }
 
-    public function getAmount() : float
+    public function getInv_tax_rate_amount() : float
     {
-      return $this->amount;
+      return $this->inv_tax_rate_amount;
     }
 
     public function getFormName(): string
@@ -42,18 +40,8 @@ final class InvTaxRateForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'include_item_tax' => [
-            Required::rule(),
-        ],
-        'amount' => [
-            Required::rule(),
-        ],
-        'inv_id' => [
-            Required::rule(),
-        ],  
-        'tax_rate_id' => [
-            Required::rule(),
-        ],
+        'include_item_tax' => [new Required()],
+        'inv_tax_rate_amount' => [new Required()],
     ];
 }
 }

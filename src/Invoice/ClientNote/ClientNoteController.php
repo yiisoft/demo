@@ -9,15 +9,18 @@ use App\Invoice\ClientNote\ClientNoteService;
 use App\Invoice\ClientNote\ClientNoteRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\Invoice\Client\ClientRepository;
+use App\Invoice\Helpers\DateHelper;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
 
 final class ClientNoteController
 {
@@ -25,12 +28,14 @@ final class ClientNoteController
     private WebControllerService $webService;
     private UserService $userService;
     private ClientNoteService $clientnoteService;
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        ClientNoteService $clientnoteService
+        ClientNoteService $clientnoteService,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/clientnote')
@@ -38,15 +43,15 @@ final class ClientNoteController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->clientnoteService = $clientnoteService;
+        $this->translator = $translator;
     }
     
-    public function index(SessionInterface $session, ClientNoteRepository $clientnoteRepository, SettingRepository $settingRepository, Request $request, ClientNoteService $service): Response
+    public function index(SessionInterface $session, ClientNoteRepository $clientnoteRepository, DateHelper $dateHelper, SettingRepository $settingRepository, Request $request, ClientNoteService $service): Response
     {
-       
          $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'dummy' , 'Flash message!.');
+         $flash = $this->flash($session, '','');
          $parameters = [
-      
+          'd'=>$dateHelper,
           's'=>$settingRepository,
           'canEdit' => $canEdit,
           'clientnotes' => $this->clientnotes($clientnoteRepository),
@@ -67,6 +72,7 @@ final class ClientNoteController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
+                        DateHelper $dateHelper, 
                         SettingRepository $settingRepository,                        
                         ClientRepository $clientRepository
     )
@@ -77,9 +83,9 @@ final class ClientNoteController
             'action' => ['clientnote/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
+            'd'=>$dateHelper,
             's'=>$settingRepository,
             'head'=>$head,
-            
             'clients'=>$clientRepository->findAllPreloaded(),
         ];
         
@@ -90,7 +96,7 @@ final class ClientNoteController
                 $this->clientnoteService->saveClientNote(new ClientNote(),$form);
                 return $this->webService->getRedirectResponse('clientnote/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
@@ -99,50 +105,54 @@ final class ClientNoteController
                         ValidatorInterface $validator,
                         ClientNoteRepository $clientnoteRepository, 
                         SettingRepository $settingRepository,                        
-                        ClientRepository $clientRepository
+                        ClientRepository $clientRepository,
+                        DateHelper $dateHelper, 
+                        CurrentRoute $currentRoute
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['clientnote/edit', ['id' => $this->clientnote($request, $clientnoteRepository)->getId()]],
+            'action' => ['clientnote/edit', ['id' => $this->clientnote($currentRoute, $clientnoteRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->clientnote($request, $clientnoteRepository)),
+            'body' => $this->body($this->clientnote($currentRoute, $clientnoteRepository)),
             'head'=>$head,
+            'd'=>$dateHelper,
             's'=>$settingRepository,
-                        'clients'=>$clientRepository->findAllPreloaded()
+            'clients'=>$clientRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new ClientNoteForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientnoteService->saveClientNote($this->clientnote($request,$clientnoteRepository), $form);
+                $this->clientnoteService->saveClientNote($this->clientnote($currentRoute,$clientnoteRepository), $form);
                 return $this->webService->getRedirectResponse('clientnote/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,ClientNoteRepository $clientnoteRepository 
+    public function delete(SessionInterface $session, ClientNoteRepository $clientnoteRepository, CurrentRoute $currentRoute
     ): Response {
         $this->rbac($session);
        
-        $this->clientnoteService->deleteClientNote($this->clientnote($request,$clientnoteRepository));               
+        $this->clientnoteService->deleteClientNote($this->clientnote($currentRoute,$clientnoteRepository));               
         return $this->webService->getRedirectResponse('clientnote/index');        
     }
     
-    public function view(SessionInterface $session,Request $request,ClientNoteRepository $clientnoteRepository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, ClientNoteRepository $clientnoteRepository, DateHelper $dateHelper,
         SettingRepository $settingRepository
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['clientnote/edit', ['id' => $this->clientnote($request, $clientnoteRepository)->getId()]],
+            'action' => ['clientnote/edit', ['id' => $this->clientnote($currentRoute, $clientnoteRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->clientnote($request, $clientnoteRepository)),
+            'body' => $this->body($this->clientnote($currentRoute, $clientnoteRepository)),
+            'd'=>$dateHelper,
             's'=>$settingRepository,             
-            'clientnote'=>$clientnoteRepository->repoClientNotequery($this->clientnote($request, $clientnoteRepository)->getId()),
+            'clientnote'=>$clientnoteRepository->repoClientNotequery($this->clientnote($currentRoute, $clientnoteRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
@@ -151,15 +161,15 @@ final class ClientNoteController
     {
         $canEdit = $this->userService->hasPermission('editClientNote');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('clientnote/index');
         }
         return $canEdit;
     }
     
-    private function clientnote(Request $request,ClientNoteRepository $clientnoteRepository) 
+    private function clientnote(CurrentRoute $currentRoute,ClientNoteRepository $clientnoteRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $clientnote = $clientnoteRepository->repoClientNotequery($id);
         if ($clientnote === null) {
             return $this->webService->getNotFoundResponse();
@@ -193,5 +203,3 @@ final class ClientNoteController
         return $flash;
     }
 }
-
-?>

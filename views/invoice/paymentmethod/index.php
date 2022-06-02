@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use Yiisoft\Html\Html;
-use Yiisoft\Yii\Bootstrap5\Alert;
-use Yiisoft\Yii\Bootstrap5\Modal;
 
 /**
  * @var \App\Invoice\Entity\PaymentMethod $paymentmethod
@@ -15,89 +13,55 @@ use Yiisoft\Yii\Bootstrap5\Modal;
  */
 
 ?>
-<h1>Payment Method</h1>
-<?php
-        $danger = $flash->get('danger');
-        if ($danger != null) {
-            $alert =  Alert::widget()
-            ->body($danger)
-            ->options(['class' => ['alert-danger shadow'],])
-            ->render();
-            echo $alert;
-        }
-        $info = $flash->get('info');
-        if ($info != null) {
-            $alert =  Alert::widget()
-            ->body($info)
-            ->options(['class' => ['alert-info shadow'],])
-            ->render();
-            echo $alert;
-        }
-        $warning = $flash->get('warning');
-        if ($warning != null) {
-            $alert =  Alert::widget()
-            ->body($warning)
-            ->options(['class' => ['alert-warning shadow'],])
-            ->render();
-            echo $alert;
-        }
-        
+<div id="headerbar">
+    <h1 class="headerbar-title"><?= $s->trans('payment_methods'); ?></h1>
+    <div class="headerbar-item pull-right">
+        <?= Html::a($s->trans('new'),$urlGenerator->generate('paymentmethod/add'),['class' => 'btn btn-outline-secondary btn-md-12 mb-3']); ?>
+    </div>
+</div>
 
-?>
-<div>
-<?php
-    if ($canEdit) {
-        echo Html::a('Add',
-        $urlGenerator->generate('paymentmethod/add'),
-            ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
-     );
-    //list all the items
-    foreach ($paymentmethods as $paymentmethod){
-      echo Html::br();
-      $label = $paymentmethod->id . " ";
-      echo Html::label($label);
-      echo Html::a('Edit',
-      $urlGenerator->generate('paymentmethod/edit', ['id' => $paymentmethod->id]),
-            ['class' => 'btn btn-info btn-sm ms-2']
-          );
-      echo Html::a('View',
-      $urlGenerator->generate('paymentmethod/view', ['id' => $paymentmethod->id]),
-      ['class' => 'btn btn-warning btn-sm ms-2']
-             );
-      //modal delete button
-      echo Modal::widget()
-      ->title('Please confirm that you want to delete this record# '.$paymentmethod->id)
-      ->titleOptions(['class' => 'text-center'])
-      ->options(['class' => 'testMe'])
-      ->size(Modal::SIZE_SMALL)
-      ->headerOptions(['class' => 'text-danger'])
-      ->bodyOptions(['class' => 'modal-body', 'style' => 'text-align:center;',])
-      ->footerOptions(['class' => 'text-dark'])
-      ->footer(
-                  Html::button(
-                  'Close',
-                  [
-                              'type' => 'button',
-                              'class' => ['btn btn-success btn-sm ms-2'],
-                              'data' => [
-                              'bs-dismiss' => 'modal',
-                   ],
-                   ]
-                   ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('paymentmethod/delete', ['id' => $paymentmethod->id]),
-                   ['class' => 'btn btn-danger btn-sm ms-2']
-                              )
-                        )
-      ->withoutCloseButton()
-      ->toggleButton([
-                      'class' => ['btn btn-danger btn-sm ms-2'],
-                      'label' => 'Delete',
-                      ])
-      ->begin();
-      echo '<p>Are you sure you want to delete this record? </p>';
-      echo Modal::end();
-      echo Html::br();
-    }
-    }
-?>
+<div id="content" class="table-content">
+    <?= $alert; ?>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th><?= $s->trans('payment_method'); ?></th>
+                <th><?= $s->trans('options'); ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($payment_methods as $payment_method) { ?>
+                <tr>
+                    <td><?= Html::encode($payment_method->getName()); ?></td>
+                    <td>
+                        <div class="options btn-group">
+                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+                              <i class="fa fa-cog"></i>
+                              <?= $s->trans('options'); ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="<?= $urlGenerator->generate('paymentmethod/view',['id'=>$payment_method->getId()]); ?>" style="text-decoration:none"><i class="fa fa-eye fa-margin"></i>
+                                     <?= $s->trans('view'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('paymentmethod/edit',['id'=>$payment_method->getId()]); ?>" style="text-decoration:none"><i class="fa fa-edit fa-margin"></i>
+                                     <?= $s->trans('edit'); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $urlGenerator->generate('paymentmethod/delete',['id'=>$payment_method->getId()]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_record_warning'); ?>');">
+                                     <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
+                                </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
 </div>

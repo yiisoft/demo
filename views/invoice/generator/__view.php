@@ -115,6 +115,18 @@ use Yiisoft\Html\Html;
            <?php $s->check_select(Html::encode($body['offset_paginator_include'] ?? ''), 1, '==', true) ?>    
                disabled="true">
     </div>
+    <div class="mb-3 form-group">
+        <label for="filter_field" class="form-label" style="background:lightblue">Filter Field</label>
+        <?= Html::encode($body['filter_field'] ?? '') ?>
+    </div>
+    <div class="mb-3 form-group">
+        <label for="filter_field_start_position" class="form-label" style="background:lightblue">Filter Field Start Position</label>
+        <?= Html::encode($body['filter_field_start_position'] ?? '') ?>
+    </div>
+    <div class="mb-3 form-group">
+        <label for="filter_field_end_position" class="form-label" style="background:lightblue">Filter Field End Position</label>
+        <?= Html::encode($body['filter_field_end_position'] ?? '') ?>
+    </div>  
     <div class="mb-3">
         <label for="flash_include" class="form-label">Include Flash Message</label>
         <input type="hidden" name="flash_include" value="0">

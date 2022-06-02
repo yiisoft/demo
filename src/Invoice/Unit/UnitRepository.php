@@ -57,6 +57,13 @@ final class UnitRepository extends Select\Repository
         );
     }
     
+    public function repoCount($unit_id): int {
+        $count = $this->select()
+                      ->where(['id' => $unit_id])
+                      ->count();
+        return $count;   
+    }
+    
     public function repoUnitquery(string $unit_id): Unit
     {
         $query = $this
@@ -71,5 +78,25 @@ final class UnitRepository extends Select\Repository
             ->select()
             ->where(['unit_name' => $unit_name]);
         return  $query->fetchOne();
+    }
+    
+    /**
+     * Return either the singular unit name or the plural unit name,
+     * depending on the quantity
+     *
+     * @param $unit_id
+     * @param $quantity
+     * @return mixed
+     */
+    public function singular_or_plural_name($unit_id, $quantity)
+    {
+        if ((int)$unit_id === 0) { return '';} else {
+            $unit = $this->repoUnitquery($unit_id);
+            if ($quantity == -1 || $quantity == 1) {
+                return $unit->getUnit_name();
+            } else {
+                return $unit->getUnit_name_plrl();
+            }        
+        }
     }
 }

@@ -12,6 +12,8 @@ final class TaxRateForm extends FormModel
     
     private ?float $tax_rate_percent = 0.00;
     
+    private ?bool $tax_rate_default = false;
+    
     public function getTax_rate_name(): string
     {
         return $this->tax_rate_name;
@@ -20,6 +22,11 @@ final class TaxRateForm extends FormModel
     public function getTax_rate_percent() : float
     {
         return $this->tax_rate_percent;
+    }
+    
+    public function getTax_rate_default() : bool
+    {
+        return $this->tax_rate_default;
     }
     
     public function getFormName(): string

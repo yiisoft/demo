@@ -26,7 +26,7 @@ final class ConsoleCest
     public function testCommandListCommand(CliTester $I): void
     {
         $command = dirname(__DIR__, 2) . '/yii';
-        $I->runShellCommand($command . ' fixture/add');
+        $I->runShellCommand($command . ' list');
         $I->seeResultCodeIs(ExitCode::OK);
     }
 }

@@ -51,7 +51,7 @@ use Yiisoft\Html\Html;
         echo Html::a('Open archive', $urlGenerator->generate('blog/archive/index'), ['class' => 'mt-2']);
         echo $blockEnd;
     } else {
-        echo $blockBegin, $translator->translate('layout.no records'), $blockEnd;
+        echo $blockBegin, $translator->translate('layout.no-records'), $blockEnd;
     }
     ?>
 </ul>

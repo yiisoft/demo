@@ -7,31 +7,21 @@ namespace App\Invoice\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 
-/**
- * @Entity(
- *     repository="App\Invoice\Unit\UnitRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\Unit\UnitRepository::class)]
 class Unit
-{
-    /**
-     * @Column(type="primary")
-     */
+{    
+    #[Column(type: 'primary')]
     public ?int $id = null;
     
-    /**
-     * @Column(type="string(50)")
-     */
-    public string $unit_name = '';
+    #[Column(type: 'string(50)')]
+    private string $unit_name = '';
     
-    /**
-     * @Column(type="string(50)")
-     */
-    public string $unit_name_plrl = '';
+    #[Column(type: 'string(50)')]
+    private string $unit_name_plrl = '';
         
     public function __construct(
-            string $unit_name='',
-            string $unit_name_plrl=''
+        string $unit_name='',
+        string $unit_name_plrl=''
     )
     {
         $this->unit_name = $unit_name;

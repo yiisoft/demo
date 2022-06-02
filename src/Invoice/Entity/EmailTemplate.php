@@ -7,70 +7,49 @@ namespace App\Invoice\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 
-/**
- * @Entity(
- *     repository="App\Invoice\EmailTemplate\EmailTemplateRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\EmailTemplate\EmailTemplateRepository::class)] 
 class EmailTemplate
 {
-    /**
-     * @Column(type="primary")
-     */
-    public ?int $id = null;
+    #[Column(type: 'primary')]
+    private ?int $id = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_title = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_title = '';
     
-    /**
-     * @Column(type="string(255)", nullable=true)
-     */
-    public ?string $email_template_type = '';
+    #[Column(type: 'string(151)', nullable: true)]
+    private ?string $email_template_type = '';
     
-    /**
-     * @Column(type="longText")
-     */
-    public string $email_template_body = '';
+    #[Column(type: 'longText')]
+    private string $email_template_body = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_subject = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_subject = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_from_name = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_from_name = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_from_email = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_from_email = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_cc = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_cc = '';
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $email_template_bcc = '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $email_template_bcc = '';
     
-    /**
-     * @Column(type="string(255)", nullable=true)
-     */
-    public ?string $email_template_pdf_template = '';
+    #[Column(type: 'string(151)', nullable: true)]
+    private ?string $email_template_pdf_template = '';
        
-    public function __construct(string $email_template_title='',string $email_template_type='',string $email_template_body='',
-            string $email_template_subject='',
-            string $email_template_from_name='',
-            string $email_template_from_email='',
-            string $email_template_cc='',
-            string $email_template_bcc='',
-            string $email_template_pdf_template=''            
+    public function __construct(
+        string $email_template_title='',
+        string $email_template_type='',
+        string $email_template_body='',
+        string $email_template_subject='',
+        string $email_template_from_name='',
+        string $email_template_from_email='',
+        string $email_template_cc='',
+        string $email_template_bcc='',
+        string $email_template_pdf_template=''            
     ) 
     
     {

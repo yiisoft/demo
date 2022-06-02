@@ -54,14 +54,14 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($amounts as $amount){
       echo Html::br();
-      $label = $amount->id . " ";
+      $label = $amount->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('invamount/edit', ['id' => $amount->id]),
+      $urlGenerator->generate('invamount/edit', ['id' => $amount->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('invamount/view', ['id' => $amount->id]),
+      $urlGenerator->generate('invamount/view', ['id' => $amount->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('invamount/delete', ['id' => $amount->id]),
+                   $urlGenerator->generate('invamount/delete', ['id' => $amount->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

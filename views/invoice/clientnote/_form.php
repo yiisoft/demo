@@ -31,13 +31,13 @@ if (!empty($errors)) {
 <?php echo (string)$response->getBody(); ?><div id="content">
 <div class="row">
  <div class="mb3 form-group">
-    <label for="client_id">Client</label>
-    <select name="client_id" id="client_id" class="form-control simple-select">
-       <option value="0">Client</option>
+    <label for="client_id" required>Client</label>
+    <select name="client_id" id="client_id" class="form-control" required>   
+        <option value=""><?= $s->trans('client'); ?></option>
          <?php foreach ($clients as $client) { ?>
-          <option value="<?= $client->id; ?>"
-           <?php $s->check_select(Html::encode($body['client_id'] ?? ''), $client->id) ?>
-           ><?= $client->client_name; ?></option>
+          <option value="<?= $client->getClient_id(); ?>"
+           <?php $s->check_select(Html::encode($body['client_id'] ?? ''), $client->getClient_id()) ?>
+           ><?= $client->getClient_name(); ?></option>
          <?php } ?>
     </select>
  </div>
@@ -53,17 +53,18 @@ if ($date && $date !== "0000-00-00") {
     $date = null; 
 } 
    ?>  
-<label form-label for="date"><?= $s->trans('date') ." (".  $datehelper->date_format_datepicker($s).") "; ?></label><div class="mb3 input-group"> 
-<input type="text" name="date" id="date" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
-       class="form-control data-datepicker" 
-       value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> 
+<label form-label for="date" required><?= $s->trans('date') ." (".  $datehelper->display().") "; ?></label><div class="mb3 input-group"> 
+<input type="text" name="date" id="date" placeholder="<?= $datehelper->display(); ?>" 
+       class="form-control input-sm datepicker" required 
+       value="<?php if ($date <> null) {echo Html::encode($date);} ?>" role="presentation" autocomplete="off"> 
 <span class="input-group-text"> 
 <i class="fa fa-calendar fa-fw"></i> 
  </span> 
 </div>
-</div>   <div class="mb3 form-group">
-   <label for="note"><?= $s->trans('note'); ?></label>
-   <input type="text" name="note" id="note" class="form-control"
+</div>
+<div class="mb3 form-group">
+   <label for="note" required><?= $s->trans('note'); ?></label>
+   <input type="text" name="note" id="note" class="form-control" required
  value="<?= Html::encode($body['note'] ??  ''); ?>">
  </div>
 
@@ -73,3 +74,8 @@ if ($date && $date !== "0000-00-00") {
 
 </div>
 </form>
+<?php $js15 = "$(function () {".
+        '$("#date.form-control.input-sm.datepicker").datepicker({dateFormat:"'.$datehelper->display().'"});'.
+      '});';
+      echo Html::script($js15)->type('module');
+?>

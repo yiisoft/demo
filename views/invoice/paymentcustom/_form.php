@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types=1); 
 
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
@@ -34,9 +34,20 @@ if (!empty($errors)) {
     <select name="payment_id" id="payment_id" class="form-control simple-select">
        <option value="0">Payment</option>
          <?php foreach ($payments as $payment) { ?>
-          <option value="<?= $payment->id; ?>"
-           <?php $s->check_select(Html::encode($body['payment_id'] ?? ''), $payment->id) ?>
-           ><?= $payment->id; ?></option>
+          <option value="<?= $payment->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['payment_id'] ?? ''), $payment->getId()) ?>
+           ><?= $payment->getAmount(); ?></option>
+         <?php } ?>
+    </select>
+ </div>
+ <div class="mb3 form-group">
+    <label for="custom_field_id">Custom field</label>
+    <select name="custom_field_id" id="custom_field_id" class="form-control simple-select">
+       <option value="0">Custom field</option>
+         <?php foreach ($custom_fields as $custom_field) { ?>
+          <option value="<?= $custom_field->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['custom_field_id'] ?? ''), $custom_field->getId()) ?>
+           ><?= $custom_field->getLocation(); ?></option>
          <?php } ?>
     </select>
  </div>
@@ -45,14 +56,9 @@ if (!empty($errors)) {
  value="<?= Html::encode($body['id'] ??  ''); ?>">
  </div>
  <div class="mb3 form-group">
-   <label for="fieldid">Field Id</label>
-   <input type="text" name="fieldid" id="fieldid" class="form-control"
- value="<?= Html::encode($body['fieldid'] ??  ''); ?>">
- </div>
- <div class="mb3 form-group">
-   <label for="fieldvalue">Field Value</label>
-   <input type="text" name="fieldvalue" id="fieldvalue" class="form-control"
- value="<?= Html::encode($body['fieldvalue'] ??  ''); ?>">
+   <label for="value"><?= $s->trans('value'); ?></label>
+   <input type="text" name="value" id="value" class="form-control"
+ value="<?= Html::encode($body['value'] ??  ''); ?>">
  </div>
 
 </div>

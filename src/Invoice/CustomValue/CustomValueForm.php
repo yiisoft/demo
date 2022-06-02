@@ -10,12 +10,12 @@ use Yiisoft\Validator\Rule\Required;
 final class CustomValueForm extends FormModel
 {    
     
-    private ?int $field=null;
+    private ?int $custom_field_id=null;
     private ?string $value='';
 
-    public function getField() : int
+    public function getCustom_field_id() : int
     {
-      return $this->field;
+      return $this->custom_field_id;
     }
 
     public function getValue() : string
@@ -30,12 +30,7 @@ final class CustomValueForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'field' => [
-            Required::rule(),
-        ],
-        'value' => [
-            Required::rule(),
-        ],
+        'value' =>[new Required()],
     ];
 }
 }

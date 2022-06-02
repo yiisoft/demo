@@ -21,8 +21,8 @@ final class ClientCustomService
     {
         
        $model->setClient_id($form->getClient_id());
-       $model->setFieldid($form->getFieldid());
-       $model->setFieldvalue($form->getFieldvalue());
+       $model->setCustom_field_id($form->getCustom_field_id());
+       $model->setValue($form->getValue());
  
         $this->repository->save($model);
     }

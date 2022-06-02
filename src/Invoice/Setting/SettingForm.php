@@ -20,8 +20,7 @@ final class SettingForm extends FormModel
     public function getSetting_value(): string
     {
         return $this->setting_value;
-    }
-    
+    }   
        
     public function getFormName(): string
     {
@@ -31,12 +30,7 @@ final class SettingForm extends FormModel
     public function getRules(): array
     {
         return [
-            'setting_key' => [
-                Required::rule(),
-            ],
-            'setting_value' => [
-                Required::rule(),
-            ],
+            'setting_key' => [new Required()],
         ];
     }
 }

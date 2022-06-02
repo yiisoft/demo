@@ -4,20 +4,27 @@ declare(strict_types=1);
 
 namespace App\Invoice\PaymentCustom;
 
+use App\Invoice\CustomField\CustomFieldRepository;
 use App\Invoice\Entity\PaymentCustom;
+use App\Invoice\Helpers\DateHelper;
 use App\Invoice\PaymentCustom\PaymentCustomService;
 use App\Invoice\PaymentCustom\PaymentCustomRepository;
-use App\Invoice\Setting\SettingRepository;
 use App\Invoice\Payment\PaymentRepository;
+use App\Invoice\Setting\SettingRepository;
 use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
-use App\Service\WebControllerService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Yiisoft\Http\Method;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use App\Service\WebControllerService;
+use \Exception;
 
 final class PaymentCustomController
 {
@@ -25,37 +32,36 @@ final class PaymentCustomController
     private WebControllerService $webService;
     private UserService $userService;
     private PaymentCustomService $paymentcustomService;
-    
+    private TranslatorInterface $translator;
+        
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        PaymentCustomService $paymentcustomService
+        PaymentCustomService $paymentcustomService,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/paymentcustom')
-                                           ->withLayout(dirname(dirname(__DIR__)) .'/Invoice/Layout/main.php');
+                                           ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->userService = $userService;
         $this->paymentcustomService = $paymentcustomService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, PaymentCustomRepository $paymentcustomRepository, SettingRepository $settingRepository, Request $request, PaymentCustomService $service): Response
-    {
-       
+    {      
          $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'dummy' , 'Flash message!.');
+         $flash = $this->flash($session, '','');
          $parameters = [
+      
       
           's'=>$settingRepository,
           'canEdit' => $canEdit,
           'paymentcustoms' => $this->paymentcustoms($paymentcustomRepository),
           'flash'=> $flash
          ];
-
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_paymentcustoms', ['data' => $paginator]);
-        }
         
         return $this->viewRenderer->render('index', $parameters);
     }
@@ -68,7 +74,8 @@ final class PaymentCustomController
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
                         SettingRepository $settingRepository,                        
-                        PaymentRepository $paymentRepository
+                        PaymentRepository $paymentRepository,
+                        CustomFieldRepository $custom_fieldRepository
     )
     {
         $this->rbac($session);
@@ -78,9 +85,10 @@ final class PaymentCustomController
             'errors' => [],
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
-            'head'=>$head,
-            
+            'datehelper'=>new DateHelper($settingRepository),
+            'head'=>$head,            
             'payments'=>$paymentRepository->findAllPreloaded(),
+            'custom_fields'=>$custom_fieldRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
@@ -90,76 +98,84 @@ final class PaymentCustomController
                 $this->paymentcustomService->savePaymentCustom(new PaymentCustom(),$form);
                 return $this->webService->getRedirectResponse('paymentcustom/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute,
                         ValidatorInterface $validator,
                         PaymentCustomRepository $paymentcustomRepository, 
                         SettingRepository $settingRepository,                        
-                        PaymentRepository $paymentRepository
+                        PaymentRepository $paymentRepository,
+                        CustomFieldRepository $custom_fieldRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['paymentcustom/edit', ['id' => $this->paymentcustom($request, $paymentcustomRepository)->getId()]],
+            'action' => ['paymentcustom/edit', ['id' => $this->paymentcustom($currentRoute, $paymentcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->paymentcustom($request, $paymentcustomRepository)),
+            'body' => $this->body($this->paymentcustom($currentRoute, $paymentcustomRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-                        'payments'=>$paymentRepository->findAllPreloaded()
+                        'payments'=>$paymentRepository->findAllPreloaded(),
+            'custom_fields'=>$custom_fieldRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new PaymentCustomForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->paymentcustomService->savePaymentCustom($this->paymentcustom($request,$paymentcustomRepository), $form);
+                $this->paymentcustomService->savePaymentCustom($this->paymentcustom($currentRoute,$paymentcustomRepository), $form);
                 return $this->webService->getRedirectResponse('paymentcustom/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,PaymentCustomRepository $paymentcustomRepository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute, PaymentCustomRepository $paymentcustomRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->paymentcustomService->deletePaymentCustom($this->paymentcustom($request,$paymentcustomRepository));               
-        return $this->webService->getRedirectResponse('paymentcustom/index');        
+        try {
+            $this->paymentcustomService->deletePaymentCustom($this->paymentcustom($currentRoute, $paymentcustomRepository));               
+            $this->flash($session, 'info', 'Deleted.');
+            return $this->webService->getRedirectResponse('paymentcustom/index'); 
+	} catch (Exception $e) {
+            //unset($e);
+            $this->flash($session, 'danger', $e);
+            return $this->webService->getRedirectResponse('paymentcustom/index'); 
+        }
     }
     
-    public function view(SessionInterface $session,Request $request,PaymentCustomRepository $paymentcustomRepository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, PaymentCustomRepository $paymentcustomRepository,
         SettingRepository $settingRepository,
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['paymentcustom/edit', ['id' => $this->paymentcustom($request, $paymentcustomRepository)->getId()]],
+            'action' => ['paymentcustom/view', ['id' => $this->paymentcustom($currentRoute, $paymentcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->paymentcustom($request, $paymentcustomRepository)),
+            'body' => $this->body($this->paymentcustom($currentRoute, $paymentcustomRepository)),
             's'=>$settingRepository,             
-            'paymentcustom'=>$paymentcustomRepository->repoPaymentCustomquery($this->paymentcustom($request, $paymentcustomRepository)->getId()),
+            'paymentcustom'=>$paymentcustomRepository->repoPaymentCustomquery($this->paymentcustom($currentRoute, $paymentcustomRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
-    
+        
     private function rbac(SessionInterface $session) 
     {
         $canEdit = $this->userService->hasPermission('editPaymentCustom');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('paymentcustom/index');
         }
         return $canEdit;
     }
     
-    private function paymentcustom(Request $request,PaymentCustomRepository $paymentcustomRepository) 
+    private function paymentcustom(CurrentRoute $currentRoute, PaymentCustomRepository $paymentcustomRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $paymentcustom = $paymentcustomRepository->repoPaymentCustomquery($id);
         if ($paymentcustom === null) {
             return $this->webService->getNotFoundResponse();
@@ -172,18 +188,17 @@ final class PaymentCustomController
         $paymentcustoms = $paymentcustomRepository->findAllPreloaded();        
         if ($paymentcustoms === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $paymentcustoms;
     }
     
     private function body($paymentcustom) {
-        $body = [
-                
+        $body = [                
           'id'=>$paymentcustom->getId(),
           'payment_id'=>$paymentcustom->getPayment_id(),
-          'fieldid'=>$paymentcustom->getFieldid(),
-          'fieldvalue'=>$paymentcustom->getFieldvalue()
-                ];
+          'custom_field_id'=>$paymentcustom->getCustom_field_id(),
+          'value'=>$paymentcustom->getValue()
+        ];
         return $body;
     }
     
@@ -194,4 +209,3 @@ final class PaymentCustomController
     }
 }
 
-?>

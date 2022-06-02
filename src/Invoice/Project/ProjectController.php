@@ -4,20 +4,27 @@ declare(strict_types=1);
 
 namespace App\Invoice\Project;
 
+
+use App\Invoice\Client\ClientRepository;
 use App\Invoice\Entity\Project;
 use App\Invoice\Project\ProjectService;
 use App\Invoice\Project\ProjectRepository;
 use App\Invoice\Setting\SettingRepository;
-use App\Invoice\Client\ClientRepository;
-use App\User\UserService;
-use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
+use App\User\UserService;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
+use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Http\Method;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
+use \Exception;
 
 final class ProjectController
 {
@@ -25,12 +32,14 @@ final class ProjectController
     private WebControllerService $webService;
     private UserService $userService;
     private ProjectService $projectService;
+    private TranslatorInterface $translator;
     
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        ProjectService $projectService
+        ProjectService $projectService,
+        TranslatorInterface $translator,
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/project')
@@ -38,25 +47,26 @@ final class ProjectController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->projectService = $projectService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, ProjectRepository $projectRepository, SettingRepository $settingRepository, Request $request, ProjectService $service): Response
-    {
-       
-         $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'success' , 'Change the type from success to info and you will get a flash message!.');
-         $parameters = [      
-          's'=>$settingRepository,
-          'canEdit' => $canEdit,
-          'projects' => $this->projects($projectRepository),
-          'flash'=> $flash
-         ];
-
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_projects', ['data' => $paginator]);
-        }
-        
+    {            
+        $pageNum = (int)$request->getAttribute('page', '1');
+        $paginator = (new OffsetPaginator($this->projects($projectRepository)))
+        ->withPageSize((int)$settingRepository->setting('default_list_limit'))
+        ->withCurrentPage($pageNum);      
+        $canEdit = $this->rbac($session);
+        $flash = $this->flash($session, '','');
+        $parameters = [
+              'paginator' => $paginator,  
+              's'=>$settingRepository,
+              'canEdit' => $canEdit,
+              'projects' => $this->projects($projectRepository),
+              'flash'=> $flash
+        ];  
         return $this->viewRenderer->render('index', $parameters);
+  
     }
     
     private function isAjaxRequest(Request $request): bool
@@ -66,7 +76,7 @@ final class ProjectController
     
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
-                        SettingRepository $SettingRepository,                        
+                        SettingRepository $settingRepository,                        
                         ClientRepository $clientRepository
     )
     {
@@ -76,8 +86,9 @@ final class ProjectController
             'action' => ['project/add'],
             'errors' => [],
             'body' => $request->getParsedBody(),
-            's'=>$SettingRepository,
-            'head'=>$head,            
+            's'=>$settingRepository,
+            'head'=>$head,
+            
             'clients'=>$clientRepository->findAllPreloaded(),
         ];
         
@@ -88,12 +99,12 @@ final class ProjectController
                 $this->projectService->saveProject(new Project(),$form);
                 return $this->webService->getRedirectResponse('project/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, CurrentRoute $currentRoute,
                         ValidatorInterface $validator,
                         ProjectRepository $projectRepository, 
                         SettingRepository $settingRepository,                        
@@ -102,64 +113,67 @@ final class ProjectController
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['project/edit', ['id' => $this->project($request, $projectRepository)->getId()]],
+            'action' => ['project/edit', ['id' => $this->project($currentRoute, $projectRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->project($request, $projectRepository)),
+            'body' => $this->body($this->project($currentRoute, $projectRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-            'head'=>$head,
             'clients'=>$clientRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new ProjectForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->projectService->saveProject($this->project($request,$projectRepository), $form);
+                $this->projectService->saveProject($this->project($currentRoute, $projectRepository), $form);
                 return $this->webService->getRedirectResponse('project/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,ProjectRepository $projectRepository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute, ProjectRepository $projectRepository 
     ): Response {
         $this->rbac($session);
-       
-        $this->projectService->deleteProject($this->project($request,$projectRepository));               
-        return $this->webService->getRedirectResponse('project/index');        
+        try {
+            $this->projectService->deleteProject($this->project($currentRoute, $projectRepository));               
+            return $this->webService->getRedirectResponse('project/index'); 
+	} catch (Exception $e) {
+            //unset($e);
+            $this->flash($session, 'danger', $e);
+            return $this->webService->getRedirectResponse('project/index'); 
+        }
     }
     
-    public function view(SessionInterface $session,Request $request,ProjectRepository $projectRepository,
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, ProjectRepository $projectRepository,
         SettingRepository $settingRepository,
-        ValidatorInterface $validator
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['invoice/edit', ['id' => $this->project($request, $projectRepository)->getId()]],
+            'action' => ['project/view', ['id' => $this->project($currentRoute, $projectRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->project($request, $projectRepository)),
-            's'=>$settingRepository,      
-            'project'=>$projectRepository->repoProjectquery($this->project($request, $projectRepository)->getId()),
+            'body' => $this->body($this->project($currentRoute, $projectRepository)),
+            's'=>$settingRepository,             
+            'project'=>$projectRepository->repoProjectquery($this->project($currentRoute, $projectRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
-    
+        
     private function rbac(SessionInterface $session) 
     {
         $canEdit = $this->userService->hasPermission('editProject');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('project/index');
         }
         return $canEdit;
     }
     
-    private function project(Request $request,ProjectRepository $projectRepository) 
+    private function project(CurrentRoute $currentRoute, ProjectRepository $projectRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $project = $projectRepository->repoProjectquery($id);
         if ($project === null) {
             return $this->webService->getNotFoundResponse();
@@ -177,10 +191,10 @@ final class ProjectController
     }
     
     private function body($project) {
-        $body = [
+        $body = [                
           'id'=>$project->getId(),
           'client_id'=>$project->getClient_id(),
-          'project_name'=>$project->getProject_name()
+          'name'=>$project->getName()
                 ];
         return $body;
     }
@@ -191,5 +205,3 @@ final class ProjectController
         return $flash;
     }
 }
-
-?>

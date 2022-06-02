@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1); 
 
 namespace App\Invoice\Entity;
@@ -8,152 +7,100 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use DateTime;
-use DateTimeImmutable;use App\Invoice\Entity\TaxRate;
+use DateTimeImmutable;
+use App\Invoice\Entity\TaxRate;
 use App\Invoice\Entity\Product;
 use App\Invoice\Entity\Quote;
-  
- /**
- * @Entity(
- * repository="App\Invoice\QuoteItem\QuoteItemRepository",
- * )
- */
- 
- class QuoteItem
- {
-       
-   
-    /**
-     * @BelongsTo(target="TaxRate", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|TaxRate
-     */
-     private $tax_rate = null;
-    
 
-    /**
-     * @BelongsTo(target="Product", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Product
-     */
-     private $product = null;
+#[Entity(repository: \App\Invoice\QuoteItem\QuoteItemRepository::class)]
+class QuoteItem
+{    
+    #[BelongsTo(target:\App\Invoice\Entity\TaxRate::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?TaxRate $tax_rate = null;
     
-
-    /**
-     * @BelongsTo(target="Quote", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Quote
-     */
-     private $quote = null;
+    #[BelongsTo(target:\App\Invoice\Entity\Product::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Product $product = null;
     
+    #[BelongsTo(target:\App\Invoice\Entity\Quote::class, nullable: false, fkAction: 'NO ACTION')]
+    private ?Quote $quote = null;
+        
+    #[Column(type: 'primary')]
+    public ?int $id =  null;
+     
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $quote_id =  null;
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
-     
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $quote_id =  null;
-     
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $tax_rate_id =  null;
-     
-    /**
-     * @Column(type="integer(11)", nullable=true)
-     */
-     private ?int $product_id =  null;
-     
-    /**
-     * @Column(type="date", nullable=false)
-     */
-     private $date_added;
-     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $name =  '';
-     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $description =  '';
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $quantity =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $price =  null;
-     
-    /**
-     * @Column(type="decimal(20,2)", nullable=true)
-     */
-     private ?float $discount_amount =  null;
-     
-    /**
-     * @Column(type="integer(2)", nullable=false,default=0)
-     */
-     private ?int $order =  null;
-     
-    /**
-     * @Column(type="string(50)", nullable=true)
-     */
-     private ?string $product_unit =  '';
-     
-    /**
-     * @Column(type="integer(11)", nullable=true)
-     */
-     private ?int $product_unit_id =  null;
-     
-     public function __construct(
-          int $id = null,
-         int $quote_id = null,
-         int $tax_rate_id = null,
-         int $product_id = null,
-          $date_added = '',
-         string $name = '',
-         string $description = '',
-         float $quantity = null,
-         float $price = null,
-         float $discount_amount = null,
-         int $order = null,
-         string $product_unit = '',
-         int $product_unit_id = null
-     )
-     {
-         $this->id=$id;
-         $this->quote_id=$quote_id;
-         $this->tax_rate_id=$tax_rate_id;
-         $this->product_id=$product_id;
-         $this->date_added=$date_added;
-         $this->name=$name;
-         $this->description=$description;
-         $this->quantity=$quantity;
-         $this->price=$price;
-         $this->discount_amount=$discount_amount;
-         $this->order=$order;
-         $this->product_unit=$product_unit;
-         $this->product_unit_id=$product_unit_id;
-     }
+    // Mandatory: The item MUST have a tax rate even if it is a zero rate
+    #[Column(type: 'integer(11)', nullable: false)]
+    private int $tax_rate_id;
     
-    public function getTaxRate() : ?TaxRate
- {
+    // Mandatory: The item MUST have a product
+    #[Column(type: 'integer(11)', nullable: false)]
+    private int $product_id;
+     
+    #[Column(type: 'date', nullable: false)]
+    private $date_added;
+     
+    #[Column(type: 'text', nullable: true)]
+    private ?string $name =  '';
+     
+    #[Column(type: 'text', nullable: true)]
+    private ?string $description =  '';
+    
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 1.00)]
+    private ?float $quantity = 1.00;
+     
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $price =  0.00;
+     
+    #[Column(type: 'decimal(20,2)', nullable: false, default: 0.00)]
+    private ?float $discount_amount = 0.00;
+    
+    #[Column(type: 'integer(2)', nullable: false, default:0)]
+    private ?int $order =  null;
+    
+    #[Column(type: 'string(50)', nullable: true)]
+    private ?string $product_unit =  '';
+    
+    #[Column(type: 'integer(11)', nullable: false)]
+    private int $product_unit_id;
+     
+    public function __construct(
+        int $id = null,
+        int $quote_id = null,
+        string $name = '',
+        string $description = '',
+        float $quantity = 1.00,
+        float $price = 0.00,
+        float $discount_amount = 0.00,
+        int $order = null,
+        string $product_unit = ''
+    )
+    {
+        $this->id=$id;
+        $this->quote_id=$quote_id;
+        $this->date_added= new DateTimeImmutable();
+        $this->name=$name;
+        $this->description=$description;
+        $this->quantity=$quantity;
+        $this->price=$price;
+        $this->discount_amount=$discount_amount;
+        $this->order=$order;
+        $this->product_unit=$product_unit;
+    }
+    
+    public function getTaxRate() : TaxRate
+    {
       return $this->tax_rate;
     }
     
-    public function getProduct() : ?Product
- {
+    public function getProduct() : Product
+    {
       return $this->product;
     }
     
-    public function getQuote() : ?Quote
- {
+    public function getQuote() : Quote
+    {
       return $this->quote;
     }
     
@@ -164,7 +111,7 @@ use App\Invoice\Entity\Quote;
     
     public function setId(int $id) : void
     {
-      $this->id =  $id;
+      $this->id = $id;
     }
     
     public function getQuote_id(): string
@@ -199,9 +146,7 @@ use App\Invoice\Entity\Quote;
     
     public function getDate_added(): DateTimeImmutable
     {
-      if (isset($this->date_added) && !empty($this->date_added)){
-       return $this->date_added;
-     };
+      return $this->date_added;
     }
     
     public function setDate_added(DateTime $date_added) : void

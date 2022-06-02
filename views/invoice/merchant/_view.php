@@ -56,6 +56,6 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="inv_id" class="form-label" style="background:lightblue">Inv</label>
-   <?= $merchant->getInv()->id;?>
+   <?= $merchant->getInv()->getId();?>
  </div>
 </div>

@@ -9,6 +9,7 @@ use App\Invoice\ClientCustom\ClientCustomService;
 use App\Invoice\ClientCustom\ClientCustomRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\Invoice\Client\ClientRepository;
+use App\Invoice\CustomField\CustomFieldRepository;
 use App\User\UserService;
 use Yiisoft\Validator\ValidatorInterface;
 use App\Service\WebControllerService;
@@ -18,6 +19,8 @@ use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use \Exception;
 
 final class ClientCustomController
 {
@@ -25,12 +28,14 @@ final class ClientCustomController
     private WebControllerService $webService;
     private UserService $userService;
     private ClientCustomService $clientcustomService;
-    
+    private TranslatorInterface $translator;
+        
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         UserService $userService,
-        ClientCustomService $clientcustomService
+        ClientCustomService $clientcustomService,
+        TranslatorInterface $translator
     )    
     {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/clientcustom')
@@ -38,28 +43,23 @@ final class ClientCustomController
         $this->webService = $webService;
         $this->userService = $userService;
         $this->clientcustomService = $clientcustomService;
+        $this->translator = $translator;
     }
     
     public function index(SessionInterface $session, ClientCustomRepository $clientcustomRepository, SettingRepository $settingRepository, Request $request, ClientCustomService $service): Response
-    {
-       
-         $canEdit = $this->rbac($session);
-         $flash = $this->flash($session, 'dummy' , 'Flash message!.');
-         $parameters = [
-      
-          's'=>$settingRepository,
-          'canEdit' => $canEdit,
-          'clientcustoms' => $this->clientcustoms($clientcustomRepository),
-          'flash'=> $flash
-         ];
-
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_clientcustoms', ['data' => $paginator]);
-        }
+    {      
+        $canEdit = $this->rbac($session);
+        $flash = $this->flash($session, '','');
+        $parameters = [
+         's'=>$settingRepository,
+         'canEdit' => $canEdit,
+         'clientcustoms' => $this->clientcustoms($clientcustomRepository),
+         'flash'=> $flash
+        ];
         
         return $this->viewRenderer->render('index', $parameters);
-    }
-    
+    } 
+  
     private function isAjaxRequest(Request $request): bool
     {
         return $request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
@@ -68,7 +68,8 @@ final class ClientCustomController
     public function add(ViewRenderer $head,SessionInterface $session, Request $request, 
                         ValidatorInterface $validator,
                         SettingRepository $settingRepository,                        
-                        ClientRepository $clientRepository
+                        ClientRepository $clientRepository,
+                        CustomFieldRepository $custom_fieldRepository
     )
     {
         $this->rbac($session);
@@ -79,7 +80,9 @@ final class ClientCustomController
             'body' => $request->getParsedBody(),
             's'=>$settingRepository,
             'head'=>$head,
+            
             'clients'=>$clientRepository->findAllPreloaded(),
+            'custom_fields'=>$custom_fieldRepository->findAllPreloaded(),
         ];
         
         if ($request->getMethod() === Method::POST) {
@@ -89,75 +92,84 @@ final class ClientCustomController
                 $this->clientcustomService->saveClientCustom(new ClientCustom(),$form);
                 return $this->webService->getRedirectResponse('clientcustom/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function edit(ViewRenderer $head, SessionInterface $session, Request $request, 
+    public function edit(ViewRenderer $head, SessionInterface $session, CurrentRoute $currentRoute, Request $request,
                         ValidatorInterface $validator,
                         ClientCustomRepository $clientcustomRepository, 
                         SettingRepository $settingRepository,                        
-                        ClientRepository $clientRepository
+                        ClientRepository $clientRepository,
+                        CustomFieldRepository $custom_fieldRepository
     ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => 'Edit',
-            'action' => ['clientcustom/edit', ['id' => $this->clientcustom($request, $clientcustomRepository)->getId()]],
+            'action' => ['clientcustom/edit', ['id' => $this->clientcustom($currentRoute, $clientcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->clientcustom($request, $clientcustomRepository)),
+            'body' => $this->body($this->clientcustom($currentRoute, $clientcustomRepository)),
             'head'=>$head,
             's'=>$settingRepository,
-                        'clients'=>$clientRepository->findAllPreloaded()
+                        'clients'=>$clientRepository->findAllPreloaded(),
+            'custom_fields'=>$custom_fieldRepository->findAllPreloaded()
         ];
         if ($request->getMethod() === Method::POST) {
             $form = new ClientCustomForm();
             $body = $request->getParsedBody();
             if ($form->load($body) && $validator->validate($form)->isValid()) {
-                $this->clientcustomService->saveClientCustom($this->clientcustom($request,$clientcustomRepository), $form);
+                $this->clientcustomService->saveClientCustom($this->clientcustom($currentRoute, $clientcustomRepository), $form);
                 return $this->webService->getRedirectResponse('clientcustom/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('_form', $parameters);
     }
     
-    public function delete(SessionInterface $session,Request $request,ClientCustomRepository $clientcustomRepository 
+    public function delete(SessionInterface $session, CurrentRoute $currentRoute, ClientCustomRepository $clientcustomRepository 
     ): Response {
         $this->rbac($session);
-        $this->clientcustomService->deleteClientCustom($this->clientcustom($request,$clientcustomRepository));               
-        return $this->webService->getRedirectResponse('clientcustom/index');        
+        try {
+            $this->clientcustomService->deleteClientCustom($this->clientcustom($currentRoute,$clientcustomRepository));               
+            $this->flash($session, 'info', 'Deleted.');
+            return $this->webService->getRedirectResponse('clientcustom/index'); 
+	} catch (Exception $e) {
+            //unset($e);
+            $this->flash($session, 'danger', $e);
+            return $this->webService->getRedirectResponse('clientcustom/index'); 
+        }
     }
     
-    public function view(SessionInterface $session,Request $request,ClientCustomRepository $clientcustomRepository,
-        SettingRepository $settingRepository
+    public function view(SessionInterface $session, CurrentRoute $currentRoute, ClientCustomRepository $clientcustomRepository,
+        SettingRepository $settingRepository,
         ): Response {
         $this->rbac($session);
         $parameters = [
             'title' => $settingRepository->trans('view'),
-            'action' => ['clientcustom/edit', ['id' => $this->clientcustom($request, $clientcustomRepository)->getId()]],
+            'action' => ['clientcustom/view', ['id' => $this->clientcustom($currentRoute, $clientcustomRepository)->getId()]],
             'errors' => [],
-            'body' => $this->body($this->clientcustom($request, $clientcustomRepository)),
+            'body' => $this->body($this->clientcustom($currentRoute, $clientcustomRepository)),
             's'=>$settingRepository,             
-            'clientcustom'=>$clientcustomRepository->repoClientCustomquery($this->clientcustom($request, $clientcustomRepository)->getId()),
+            'clientcustom'=>$clientcustomRepository->repoClientCustomquery($this->clientcustom($currentRoute, $clientcustomRepository)->getId()),
         ];
         return $this->viewRenderer->render('_view', $parameters);
     }
-    
+        
     private function rbac(SessionInterface $session) 
     {
         $canEdit = $this->userService->hasPermission('editClientCustom');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('clientcustom/index');
         }
         return $canEdit;
     }
     
-    private function clientcustom(Request $request,ClientCustomRepository $clientcustomRepository) 
+    private function clientcustom(CurrentRoute $currentRoute,ClientCustomRepository $clientcustomRepository) 
     {
-        $id = $request->getAttribute('id');       
+        $id = $currentRoute->getArgument('id');       
         $clientcustom = $clientcustomRepository->repoClientCustomquery($id);
         if ($clientcustom === null) {
             return $this->webService->getNotFoundResponse();
@@ -170,7 +182,7 @@ final class ClientCustomController
         $clientcustoms = $clientcustomRepository->findAllPreloaded();        
         if ($clientcustoms === null) {
             return $this->webService->getNotFoundResponse();
-        };
+        }
         return $clientcustoms;
     }
     
@@ -179,8 +191,8 @@ final class ClientCustomController
                 
           'id'=>$clientcustom->getId(),
           'client_id'=>$clientcustom->getClient_id(),
-          'fieldid'=>$clientcustom->getFieldid(),
-          'fieldvalue'=>$clientcustom->getFieldvalue()
+          'custom_field_id'=>$clientcustom->getCustom_field_id(),
+          'value'=>$clientcustom->getValue()
                 ];
         return $body;
     }
@@ -192,4 +204,3 @@ final class ClientCustomController
     }
 }
 
-?>

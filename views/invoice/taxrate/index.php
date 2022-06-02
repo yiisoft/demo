@@ -4,110 +4,117 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
-use Yiisoft\Yii\Bootstrap5\Modal;
+use App\Widget\OffsetPagination;
+
 /**
- * @var \App\Invoice\Entity\TaxRate $item
+ * @var \App\Invoice\Entity\TaxRate $taxrate
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var bool $canEdit
- * @var string $tax_rate_id
- * @var \App\Invoice\Setting\SettingRepository $s
- * @var \Yiisoft\Session\Flash\Flash $flash 
+ * @var \Yiisoft\Session\Flash\FlashInterface $flash 
  */
-?>
-    <h1><?= Html::encode($s->trans('tax_rates')); ?></h1>
-    <?php
-      if (!empty($flash)) {
-        $danger = $flash->get('danger');
-        if ($danger !== null) {
+ 
+ $danger = $flash->get('danger');
+        if ($danger != null) {
             $alert =  Alert::widget()
-                ->body($danger)
-                ->options([
-                    'class' => ['alert-danger shadow'],
-                ])
+            ->body($danger)
+            ->options(['class' => ['alert-danger shadow'],])
             ->render();
             echo $alert;
         }
         $info = $flash->get('info');
-        if ($info !== null) {
+        if ($info != null) {
             $alert =  Alert::widget()
-                ->body($info)
-                ->options([
-                    'class' => ['alert-info shadow'],
-                ])
+            ->body($info)
+            ->options(['class' => ['alert-info shadow'],])
             ->render();
             echo $alert;
         }
         $warning = $flash->get('warning');
-        if ($warning !== null) {
+        if ($warning != null) {
             $alert =  Alert::widget()
-                ->body($warning)
-                ->options([
-                    'class' => ['alert-warning shadow'],
-                ])
+            ->body($warning)
+            ->options(['class' => ['alert-warning shadow'],])
             ->render();
             echo $alert;
         }
-      }
-    ?>
-    <div>        
-        <?php
-        if ($canEdit) {
-            echo Html::a('Add Tax Rate',
-                $urlGenerator->generate('taxrate/add'),
-                ['class' => 'btn btn-outline-secondary btn-md-12 mb-3']
-            );
-            //list all the settings
-            foreach ($taxrates as $taxrate){
-                echo Html::br();
-                $label = $taxrate->id . " ";
-                echo Html::label($label);
-                echo Html::a($taxrate->tax_rate_name ." ".$s->format_amount($taxrate->tax_rate_percent)."%", $urlGenerator->generate('taxrate/view',['tax_rate_id' => $taxrate->id]),['class' => 'btn btn-success btn-sm ms-2']);
-                echo Html::a($s->trans('edit'),
-                $urlGenerator->generate('taxrate/edit', ['tax_rate_id' => $taxrate->id]),
-                ['class' => 'btn btn-info btn-sm ms-2']
-                );                
-                echo Html::a($s->trans('view'),
-                $urlGenerator->generate('taxrate/view',['tax_rate_id' => $taxrate->id]),
-                ['class' => 'btn btn-warning btn-sm ms-2']
-                );
-                                
-                //modal delete button
-                echo Modal::widget()
-                ->title('Please confirm that you want to delete this record')
-                ->titleOptions(['class' => 'text-center'])
-                ->options(['class' => 'testMe'])
-                ->size(Modal::SIZE_SMALL)        
-                ->headerOptions(['class' => 'text-danger'])
-                ->bodyOptions(['class' => 'modal-body', 'style' => 'text-align:center;',])
-                ->footerOptions(['class' => 'text-dark'])
-                ->footer(
-                                Html::button(
-                                    'Close',
-                                    [
-                                        'type' => 'button',
-                                        'class' => ['btn btn-success btn-sm ms-2'],
-                                        'data' => [
-                                            'bs-dismiss' => 'modal',
-                                        ],
-                                    ]
-                                ) . "\n" .                
-                                Html::a('Yes Delete it Please ... I am sure!',
-                                $urlGenerator->generate('taxrate/delete',['tax_rate_id' => $taxrate->id]),
-                                ['class' => 'btn btn-danger btn-sm ms-2']
-                                )
-                            )
-                ->withoutCloseButton()
-                ->toggleButton([
-                                'class' => ['btn btn-danger btn-sm ms-2'],
-                                'label' => $s->trans('delete'),
-                            ])
-                ->begin();
-                echo '<p>Are you sure you want to delete this record? </p>';
-                echo Modal::end();
-                echo Html::br();
-            }           
-        }
-        ?>
-    </div>
+?>
+<div>
+ <h5><?= $s->trans('tax_rate');?></h5>
+ <a class="btn btn-success" href="<?= $urlGenerator->generate('taxrate/add'); ?>">
+      <i class="fa fa-plus"></i> <?= $s->trans('new'); ?> </a></div>
+
 <?php
-echo Html::closeTag('div');
+    $pagination = OffsetPagination::widget()
+    ->paginator($paginator)
+    ->urlGenerator(fn ($page) => $urlGenerator->generate('taxrate/index', ['page' => $page]));
+?>
+
+<?php
+    if ($pagination->isRequired()) {
+       echo $pagination;
+    }
+
+?>
+ 
+                
+<div class="table-responsive">
+<table class="table table-hover table-striped">
+   <thead>
+    <tr>
+                
+        <th><?= $s->trans('tax_rate_name'); ?></th>
+        <th><?= $s->trans('tax_rate_percent'); ?></th>
+        <th><?= $translator->translate('invoice.default'); ?></th>
+        <th><?= $s->trans('options'); ?></th>
+    </tr>
+   </thead>
+<tbody>
+
+<?php foreach ($paginator->read() as $taxrate) { ?>
+     <tr>
+                
+      <td><?= Html::encode($taxrate->getTax_rate_name()); ?></td>
+      <td><?= Html::encode($taxrate->getTax_rate_percent()); ?></td>
+      <td><?= ($taxrate->getTax_rate_default()) ? '<span class="label active">' . $s->trans('yes') . '</span>' : '<span class="label inactive">' . $s->trans('no') . '</span>'; ?></td>          
+
+        <td>
+          <div class="options btn-group">
+          <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-cog"></i>
+                <?= $s->trans('options'); ?>
+          </a>
+          <ul class="dropdown-menu">
+              <li>
+                  <a href="<?= $urlGenerator->generate('taxrate/edit',['tax_rate_id'=>$taxrate->getTax_rate_id()]); ?>" style="text-decoration:none"><i class="fa fa-edit fa-margin"></i>
+                       <?= $s->trans('edit'); ?>
+                  </a>
+              </li>
+              <li>
+                  <a href="<?= $urlGenerator->generate('taxrate/view',['tax_rate_id'=>$taxrate->getTax_rate_id()]); ?>" style="text-decoration:none"><i class="fa fa-eye fa-margin"></i>
+                       <?= $s->trans('view'); ?>
+                  </a>
+              </li>
+              <li>
+                  <a href="<?= $urlGenerator->generate('taxrate/delete',['tax_rate_id'=>$taxrate->getTax_rate_id()]); ?>" style="text-decoration:none"><i class="fa fa-trash fa-margin"></i>
+                       <?= $s->trans('delete'); ?>
+                  </a>
+              </li>
+          </ul>
+          </div>
+         </td>
+     </tr>
+<?php } ?>
+</tbody>
+</table>
+<?php
+    $pageSize = $paginator->getCurrentPageSize();
+    if ($pageSize > 0) {
+      echo Html::p(
+        sprintf('Showing %s out of %s taxrates', $pageSize, $paginator->getTotalItems()),
+        ['class' => 'text-muted']
+    );
+    } else {
+      echo Html::p('No records');
+    }
+?>
+</div>
+

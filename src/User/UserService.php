@@ -22,7 +22,13 @@ final class UserService
 
     public function getUser(): ?User
     {
-        return $this->repository->findIdentity($this->currentUser->getId());
+        $userId = $this->currentUser->getId();
+
+        if ($userId === null) {
+            return null;
+        }
+
+        return $this->repository->findById($this->currentUser->getId());
     }
 
     public function hasPermission(string $permission): bool

@@ -10,11 +10,10 @@ Class ClientHelper
 {
     public function format_client($client)
     {
-        if ($client->client_surname != "") {
-            return $client->client_name . " " . $client->client_surname;
+        if ($client->getClient_surname() != "") {
+            return $client->getClient_name() . " " . $client->getClient_surname();
         }
-
-        return $client->client_name;
+        return $client->getClient_name();
     }
 
     public function format_gender($gender, SettingRepository $s)

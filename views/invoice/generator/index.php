@@ -154,11 +154,18 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                 ['class' => 'btn btn-secondary btn-sm ms-2']
                 );
                 if (!empty($generator->isKeyset_paginator_include()) || !empty($generator->isOffset_paginator_include())) {
+                  if (!empty($generator->getFilter_field())) {  
+                    echo Html::a('index_adv_paginator_with_filter',
+                    $urlGenerator->generate('generator/_index_adv_paginator_with_filter',['id' => $generator->getGentor_id()]),
+                    ['class' => 'btn btn-secondary btn-sm ms-2']
+                    );
+                  } else {  
                     echo Html::a('index_adv_paginator',
                     $urlGenerator->generate('generator/_index_adv_paginator',['id' => $generator->getGentor_id()]),
                     ['class' => 'btn btn-secondary btn-sm ms-2']
                     );
-                }
+                  }
+                }                
                 echo Html::a('_view',
                 $urlGenerator->generate('generator/_view',['id' => $generator->getGentor_id()]),
                 ['class' => 'btn btn-secondary btn-sm ms-2']

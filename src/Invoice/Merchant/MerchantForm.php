@@ -58,21 +58,11 @@ final class MerchantForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'successful' => [
-            Required::rule(),
-        ],
-        'date' => [
-            Required::rule(),
-        ],
-        'driver' => [
-            Required::rule(),
-        ],
-        'response' => [
-            Required::rule(),
-        ],
-        'reference' => [
-            Required::rule(),
-        ],
+        'successful' => [new Required()],
+        'date' => [new Required()],
+        'driver' => [new Required()],
+        'response' => [new Required()],
+        'reference' => [new Required()],
     ];
 }
 }

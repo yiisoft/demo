@@ -6,6 +6,7 @@ namespace App\Invoice\Client;
 
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\Rule\Email;
 use \DateTimeImmutable;
 use \DateTime;
 
@@ -32,7 +33,7 @@ final class ClientForm extends FormModel
     private ?string $client_surname='';
     private ?string $client_avs='';
     private ?string $client_insurednumber='';
-    private ?string $client_veka='';
+    private ?string $client_veka='';    
     private ?string $client_birthdate='';
     private ?int $client_gender=null;
 
@@ -145,15 +146,10 @@ final class ClientForm extends FormModel
     {
       return $this->client_veka;
     }
-
+    
     public function getClient_birthdate() : ?\DateTime
     {
-       if (isset($this->client_birthdate) && !empty($this->client_birthdate)) {
-          return new DateTime($this->client_birthdate);
-       }
-       if (empty($this->client_birthdate)){
-          return null;
-        }
+        return new DateTime($this->client_birthdate);
     }
 
     public function getClient_gender() : int
@@ -168,12 +164,8 @@ final class ClientForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'client_name' => [
-            Required::rule(),
-        ],
-        'client_email' => [
-            Required::rule(),
-        ],
+        'client_name' => [new Required()],
+        'client_email' => [new Required(),new Email()],
     ];
 }
 }

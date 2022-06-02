@@ -11,8 +11,8 @@ Class CountryHelper
 public function get_country_list($cldr)
 {
     $new_aliases = new Aliases(['@helpers' => __DIR__, '@country_list' => '@helpers/Country-list']);
-    $file = $new_aliases->get('@country_list') .'/'. $cldr . '\country.php';
-    $default_english = $new_aliases->get('@country_list') . '/en/country.php';
+    $file = $new_aliases->get('@country_list') .DIRECTORY_SEPARATOR. $cldr . '\country.php';
+    $default_english = $new_aliases->get('@country_list') . '\en\country.php';
     if (file_exists($file)) {
         return (include $file);
     } else {

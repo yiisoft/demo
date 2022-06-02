@@ -34,10 +34,10 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="inv_id" class="form-label" style="background:lightblue"><?= $s->trans('inv'); ?></label>
-   <?= $invtaxrate->getInv()->id;?>
+   <?= $invtaxrate->getInv()->getId();?>
  </div>
  <div class="mb3 form-group">
    <label for="tax_rate_id" class="form-label" style="background:lightblue"><?= $s->trans('tax_rate'); ?></label>
-   <?= $invtaxrate->getTaxRate()->id;?>
+   <?= $invtaxrate->getTaxRate()->getId();?>
  </div>
 </div>

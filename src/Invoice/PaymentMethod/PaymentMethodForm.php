@@ -24,9 +24,7 @@ final class PaymentMethodForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'name' => [
-            Required::rule(),
-        ],
+        'name' => [new Required()],
     ];
 }
 }

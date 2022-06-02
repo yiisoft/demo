@@ -5,66 +5,46 @@ declare(strict_types=1);
 namespace App\Invoice\Entity;
 
 use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\BelongsTo;
-  
- /**
-* @Entity(
- * repository="App\Invoice\CustomField\CustomFieldRepository",
- * )
- */
- 
- class CustomField
- {
-       
-       
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+use Cycle\Annotated\Annotation\Entity;  
+
+#[Entity(repository: \App\Invoice\CustomField\CustomFieldRepository::class)] 
+class CustomField
+{
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="string(50)", nullable=true)
-     */
-     private ?string $table =  '';
+    #[Column(type: 'string(50)',nullable:true)]
+    private ?string $table =  '';
      
-    /**
-     * @Column(type="string(50)", nullable=true)
-     */
-     private ?string $label =  '';
+    #[Column(type: 'string(50)',nullable:true)]
+    private ?string $label =  '';
+    
+    #[Column(type: 'string(151)',nullable:false,default: 'TEXT')]
+    private string $type =  '';
      
-    /**
-     * @Column(type="string(255)", nullable=false,default="TEXT")
-     */
-     private string $type =  '';
+    #[Column(type: 'integer(11)',nullable:true, default:0)]
+    private ?int $location =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=true,default=0)
-     */
-     private ?int $location =  null;
+    #[Column(type: 'integer(11)',nullable:true, default:999)] 
+    private ?int $order =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=true,default=999)
-     */
-     private ?int $order =  null;
-     
-     public function __construct(
+    public function __construct(
          int $id = null,
          string $table = '',
          string $label = '',
          string $type = '',
          int $location = null,
          int $order = null
-     )
-     {
+    )
+    {
          $this->id=$id;
          $this->table=$table;
          $this->label=$label;
          $this->type=$type;
          $this->location=$location;
-         $this->order=$order;
-     }
-    
+         $this->order=$order;         
+    }
+     
     public function getId(): string
     {
      return (string)$this->id;

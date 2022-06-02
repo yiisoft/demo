@@ -9,13 +9,17 @@ use App\Invoice\Generator\GeneratorRepository;
 use App\Invoice\Setting\SettingRepository;
 use App\Service\WebControllerService;
 use App\User\UserService;
+
 use Yiisoft\Http\Method;
-use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Yii\View\ViewRenderer;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Session\SessionInterface as Session;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Yii\View\ViewRenderer;
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 
 final class GeneratorRelationController
 {
@@ -23,18 +27,21 @@ final class GeneratorRelationController
     private WebControllerService $webService;
     private GeneratorRelationService $generatorrelationService;    
     private UserService $userService;
+    private TranslatorInterface $translator;
 
     public function __construct(
         ViewRenderer $viewRenderer,
         WebControllerService $webService,
         GeneratorRelationService $generatorrelationService,
-        UserService $userService    
+        UserService $userService,
+        TranslatorInterface $translator
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('invoice/generatorrelation')
                                            ->withLayout(dirname(dirname(__DIR__)).'/Invoice/Layout/main.php');
         $this->webService = $webService;
         $this->generatorrelationService = $generatorrelationService;
         $this->userService = $userService;
+        $this->translator = $translator;
     }
 
     public function index(Session $session,GeneratorRelationRepository $generatorrelationRepository, SettingRepository $settingRepository): Response
@@ -68,15 +75,15 @@ final class GeneratorRelationController
                 $this->generatorrelationService->saveGeneratorRelation(new GentorRelation(), $form);
                 return $this->webService->getRedirectResponse('generatorrelation/index');
             }
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('__form', $parameters);
     }
 
-    public function edit(Session $session, Request $request,GeneratorRelationRepository $generatorrelationRepository, GeneratorRepository $generatorRepository, SettingRepository $settingRepository, ValidatorInterface $validator): Response 
+    public function edit(Session $session, Request $request, CurrentRoute $currentRoute,GeneratorRelationRepository $generatorrelationRepository, GeneratorRepository $generatorRepository, SettingRepository $settingRepository, ValidatorInterface $validator): Response 
     {
         $this->rbac($session);
-        $generatorrelation = $this->generatorrelation($request, $generatorrelationRepository);
+        $generatorrelation = $this->generatorrelation($currentRoute, $generatorrelationRepository);
         $parameters = [
             'title' => $settingRepository->trans('edit'),
             'action' => ['generatorrelation/edit', ['id' => $generatorrelation->getRelation_id()]],
@@ -100,27 +107,27 @@ final class GeneratorRelationController
                 return $this->webService->getRedirectResponse('generatorrelation/index');
             }
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
         return $this->viewRenderer->render('__form', $parameters);
     }
     
-    public function delete(Session $session, Request $request, GeneratorRelationRepository $generatorrelationRepository): Response 
+    public function delete(Session $session, CurrentRoute $currentRoute, GeneratorRelationRepository $generatorrelationRepository): Response 
     {
         $this->rbac($session);
-        $generatorrelation = $this->generatorrelation($request,$generatorrelationRepository);
+        $generatorrelation = $this->generatorrelation($currentRoute, $generatorrelationRepository);
         $this->generatorrelationService->deleteGeneratorRelation($generatorrelation);               
         return $this->webService->getRedirectResponse('generatorrelation/index');        
     }
     
-    public function view(Session $session,Request $request,GeneratorRepository $generatorRepository, GeneratorRelationRepository $generatorrelationRepository,SettingRepository $settingRepository,ValidatorInterface $validator): Response {
+    public function view(Session $session, CurrentRoute $currentRoute, GeneratorRelationRepository $generatorrelationRepository,SettingRepository $settingRepository,ValidatorInterface $validator): Response {
         $this->rbac($session);        
-        $generatorrelation = $this->generatorrelation($request, $generatorrelationRepository);
+        $generatorrelation = $this->generatorrelation($currentRoute, $generatorrelationRepository);
         $parameters = [
             'title' => $settingRepository->trans('view'),
             'action' => ['generatorrelation/view', ['id' => $generatorrelation->getRelation_id()]],
             'errors' => [],
-            'generatorrelation'=>$this->generatorrelation($request,$generatorrelationRepository),
+            'generatorrelation'=>$this->generatorrelation($currentRoute, $generatorrelationRepository),
             's'=>$settingRepository,     
             'body' => [
                 'id'=>$generatorrelation->getRelation_id(),
@@ -129,7 +136,7 @@ final class GeneratorRelationController
                 'view_field_name'=>$generatorrelation->getView_field_name(),
                 'gentor_id'=>$generatorrelation->getGentor_id()                
             ],
-            'egrs'=>$generatorrelationRepository->repoGeneratorRelationquery($this->generatorrelation($request, $generatorrelationRepository)->getRelation_id()),
+            'egrs'=>$generatorrelationRepository->repoGeneratorRelationquery($this->generatorrelation($currentRoute, $generatorrelationRepository)->getRelation_id()),
         ];
         return $this->viewRenderer->render('__view', $parameters);
     }
@@ -138,15 +145,15 @@ final class GeneratorRelationController
     private function rbac(Session $session) {
         $canEdit = $this->userService->hasPermission('editGeneratorRelation');
         if (!$canEdit){
-            $this->flash($session,'warning', 'You do not have the required permission.');
+            $this->flash($session,'warning', $this->translator->translate('invoice.permission'));
             return $this->webService->getRedirectResponse('generatorrelation/index');
         }
         return $canEdit;
     }
     
     //$generatorrelation = $this->generatorrelation();
-    private function generatorrelation(Request $request, GeneratorRelationRepository $generatorrelationRepository){
-        $generatorrelation_id = $request->getAttribute('id');
+    private function generatorrelation(CurrentRoute $currentRoute, GeneratorRelationRepository $generatorrelationRepository){
+        $generatorrelation_id = $currentRoute->getArgument('id');
         $generatorrelation = $generatorrelationRepository->repoGeneratorRelationquery($generatorrelation_id);
         if ($generatorrelation === null) {
             return $this->webService->getNotFoundResponse();

@@ -35,9 +35,9 @@ if (!empty($errors)) {
     <select name="inv_id" id="inv_id" class="form-control simple-select">
        <option value="0">Inv</option>
          <?php foreach ($invs as $inv) { ?>
-          <option value="<?= $inv->id; ?>"
-           <?php $s->check_select(Html::encode($body['inv_id'] ?? ''), $inv->id) ?>
-           ><?= $inv->id; ?></option>
+          <option value="<?= $inv->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['inv_id'] ?? ''), $inv->getId()) ?>
+           ><?= $inv->getId(); ?></option>
          <?php } ?>
     </select>
  </div>
@@ -46,8 +46,8 @@ if (!empty($errors)) {
     <select name="tax_rate_id" id="tax_rate_id" class="form-control simple-select">
        <option value="0">Tax rate</option>
          <?php foreach ($tax_rates as $tax_rate) { ?>
-          <option value="<?= $tax_rate->id; ?>"
-           <?php $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->id) ?>
+          <option value="<?= $tax_rate->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['tax_rate_id'] ?? ''), $tax_rate->getId()) ?>
            ><?= $tax_rate->tax_rate_name; ?></option>
          <?php } ?>
     </select>
@@ -57,8 +57,8 @@ if (!empty($errors)) {
     <select name="product_id" id="product_id" class="form-control simple-select">
        <option value="0">Product</option>
          <?php foreach ($products as $product) { ?>
-          <option value="<?= $product->id; ?>"
-           <?php $s->check_select(Html::encode($body['product_id'] ?? ''), $product->id) ?>
+          <option value="<?= $product->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['product_id'] ?? ''), $product->getId()) ?>
            ><?= $product->product_name; ?></option>
          <?php } ?>
     </select>
@@ -68,8 +68,8 @@ if (!empty($errors)) {
     <select name="unit_id" id="unit_id" class="form-control simple-select">
        <option value="0">Unit</option>
          <?php foreach ($units as $unit) { ?>
-          <option value="<?= $unit->id; ?>"
-           <?php $s->check_select(Html::encode($body['unit_id'] ?? ''), $unit->id) ?>
+          <option value="<?= $unit->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['unit_id'] ?? ''), $unit->getId()) ?>
            ><?= $unit->unit_name; ?></option>
          <?php } ?>
     </select>
@@ -79,13 +79,14 @@ if (!empty($errors)) {
     <select name="task_id" id="task_id" class="form-control simple-select">
        <option value="0">Task</option>
          <?php foreach ($tasks as $task) { ?>
-          <option value="<?= $task->id; ?>"
-           <?php $s->check_select(Html::encode($body['task_id'] ?? ''), $task->id) ?>
+          <option value="<?= $task->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['task_id'] ?? ''), $task->getId()) ?>
            ><?= $task->task_name; ?></option>
          <?php } ?>
     </select>
  </div> 
- <div class="mb-3 form-group has-feedback"> <label form-label for="date_added"><?= $s->trans('date_created'); ?></label><?php  $date_add = $body['date_added'] ?? null; 
+ <div class="mb-3 form-group has-feedback"> <label form-label for="date_added"><?= $s->trans('date_created'); ?></label>
+<?php  $date_add = $body['date_added'] ?? null; 
 $datehelper = new DateHelper($s); 
 if ($date_add && $date_add !== "0000-00-00") { 
     $date_add = $datehelper->date_from_mysql($date_add); 
@@ -94,7 +95,7 @@ if ($date_add && $date_add !== "0000-00-00") {
 } 
    ?>  
 <div class="mb3 input-group">
-<input type="text" name="date_added" id="date_added" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<input type="text" name="date_added" id="date_added" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" value="<?php if ($date_add <> null) {echo Html::encode($date_add);} ?>"> 
 <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span> 
 </div> 
@@ -152,7 +153,7 @@ if ($ddate && $ddate !== "0000-00-00") {
 } 
    ?>  
 <div class="mb3 input-group">   
-<input type="text" name="date" id="date" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" class="form-control data-datepicker" 
+<input type="text" name="date" id="date" placeholder="<?= $datehelper->display(); ?>" class="form-control data-datepicker" 
        value="<?php 
                     echo Html::encode($ddate); 
               ?>"> 

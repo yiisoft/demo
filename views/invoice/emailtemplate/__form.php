@@ -77,13 +77,13 @@ if (!empty($errors)) {
 
     <div class="mb-3 form-group">
                     <select name="email_template_pdf_template" id="email_template_pdf_template"
-                            class="form-control simple-select">
+                            class="form-control">
                         <option value=""><?= $s->trans('pdf_template'); ?></option>
 
                         <optgroup label="<?= $s->trans('invoices'); ?>">
                             <?php foreach ($invoice_templates as $template): ?>
                                 <option class="hidden-invoice" value="<?= $template; ?>"
-                                    <?php $s->check_select($selected_pdf_template, $template); ?>>
+                                    <?php $s->check_select($body['email_template_pdf_template'] ?? $selected_pdf_template, $template); ?>>
                                     <?= $template; ?>
                                 </option>
                             <?php endforeach; ?>
@@ -92,7 +92,7 @@ if (!empty($errors)) {
                         <optgroup label="<?= $s->trans('quotes'); ?>">
                             <?php foreach ($quote_templates as $template): ?>
                                 <option class="hidden-quote" value="<?= $template; ?>"
-                                    <?php $s->check_select($selected_pdf_template, $template); ?>>
+                                    <?php $s->check_select($body['email_template_pdf_template'] ?? $selected_pdf_template, $template); ?>>
                                     <?= $template; ?>
                                 </option>
                             <?php endforeach; ?>
@@ -153,64 +153,10 @@ if (!empty($errors)) {
 
     </div>
     <div class="mb-3 form-group">
-       <?php
-            $response = $tag->renderPartial('invoice/emailtemplate/template-tags',['s'=>$s]);
-            echo (string)$response->getBody();
+       <?=
+            $email_template_tags;
        ?>  
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
-<?php
-$js = <<< 'SCRIPT'
-    $(function () {
-        var email_template_type = "<?php echo $body['email_template_type']; ?>";
-        var $email_template_type_options = $("[name=email_template_type]");
-        $email_template_type_options.click(function () {
-            // remove class "show" and deselect any selected elements.
-            $(".show").removeClass("show").parent("select").each(function () {
-                this.options.selectedIndex = 0;
-            });
-            // add show class to corresponding class
-            $(".hidden-" + $(this).val()).addClass("show");
-        });
-        if (email_template_type === "") {
-            $email_template_type_options.first().click();
-        } else {
-            $email_template_type_options.each(function () {
-                if ($(this).val() === email_template_type) {
-                    $(this).click();
-                }
-            });
-        }
-    });
-    $(document).ready(function() {
-    	// find the type of template that has been loaded and enable/disable
-        // the invoice and quote selects as required
-        var inputValue = $('input[type="radio"]:checked').attr("value");
-        if (inputValue === 'quote') {
-            $('#tags_invoice').prop('disabled', 'disabled');
-            $('#tags_quote').prop('disabled', false);
-        } else {
-            // inputValue === 'invoice'
-            $('#tags_invoice').prop('disabled', false);
-            $('#tags_quote').prop('disabled', 'disabled');
-        }
-        // if the radio input for 'type of template' gets clicked, check the
-        // new value and enable/disable the invoice and quote selects as required.
-    	$('input[type="radio"]').click(function() {
-            var inputValue = $(this).attr("value");
-            if (inputValue === 'quote') {
-            	$('#tags_invoice').prop('disabled', 'disabled');
-            	$('#tags_quote').prop('disabled', false);
-            } else {
-                // inputValue === 'invoice'
-            	$('#tags_invoice').prop('disabled', false);
-            	$('#tags_quote').prop('disabled', 'disabled');
-            }
-        });
-    });
-    SCRIPT;
-      $this->registerJsFile($js,3);
-?>

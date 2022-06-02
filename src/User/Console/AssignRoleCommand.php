@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\User\Console;
 
 use App\User\User;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,23 +14,23 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Role;
-use Yiisoft\Rbac\StorageInterface;
+use Yiisoft\Rbac\ItemsStorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
-class AssignRoleCommand extends Command
+final class AssignRoleCommand extends Command
 {
     private CycleDependencyProxy $promise;
     private Manager $manager;
-    private StorageInterface $storage;
+    private ItemsStorageInterface $itemsStorage;
 
     protected static $defaultName = 'user/assignRole';
 
-    public function __construct(CycleDependencyProxy $promise, Manager $manager, StorageInterface $storage)
+    public function __construct(CycleDependencyProxy $promise, Manager $manager, ItemsStorageInterface $itemsStorage)
     {
         $this->promise = $promise;
         $this->manager = $manager;
-        $this->storage = $storage;
+        $this->itemsStorage = $itemsStorage;
         parent::__construct();
     }
 
@@ -55,13 +56,13 @@ class AssignRoleCommand extends Command
             /** @var User|null $user */
             $user = $userRepo->findByPK($userId);
             if (null === $user) {
-                throw new \Exception('Can\'t find user');
+                throw new InvalidArgumentException('Can\'t find user');
             }
             if (null === $user->getId()) {
-                throw new \Exception('User Id is NULL');
+                throw new InvalidArgumentException('User Id is NULL');
             }
 
-            $role = $this->storage->getRoleByName($roleName);
+            $role = $this->itemsStorage->getRole($roleName);
 
             if (null === $role) {
                 $helper = $this->getHelper('question');
@@ -75,7 +76,7 @@ class AssignRoleCommand extends Command
                 $this->manager->addRole($role);
             }
 
-            $this->manager->assign($role, $userId);
+            $this->manager->assign($roleName, $userId);
 
             $io->success('Role was assigned to given user');
         } catch (\Throwable $t) {

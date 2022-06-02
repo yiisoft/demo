@@ -7,118 +7,81 @@ namespace App\Invoice\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 
-/**
- * @Entity(
- *     repository="App\Invoice\Generator\GeneratorRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\Generator\GeneratorRepository::class)] 
 class Gentor
 {
-    /**
-     * @Column(type="primary")
-     */
-    public ?int $id = null;
+    #[Column(type: 'primary')]
+    private ?int $id = null;
     
-    /**
-     * @Column(type="string(20)")
-     */
+    #[Column(type: 'string(20)')]
     private ?string $route_prefix = '';
     
-    /**
-     * @Column(type="string(20)")
-     */
+    #[Column(type: 'string(20)')]
     private ?string $route_suffix = '';
     
-    /**
-     * @Column(type="string(20)")
-     */
-    public ?string $camelcase_capital_name = '';
+    #[Column(type: 'string(20)')]
+    private ?string $camelcase_capital_name = '';
     
-    /**
-     * @Column(type="string(20)")
-     */
-    public ?string $small_singular_name = '';
+    #[Column(type: 'string(20)')]
+    private ?string $small_singular_name = '';
     
-    /**
-     * @Column(type="string(20)")
-     */
+    #[Column(type: 'string(20)')]
     private ?string $small_plural_name = '';
     
-    /**
-     * @Column(type="string(100)")
-     */
+    #[Column(type: 'string(100)')]
     private ?string $namespace_path = '';
     
-    /**
-     * @Column(type="string(100)")
-     */
+    #[Column(type: 'string(100)')]
     private ?string $controller_layout_dir = '';
     
-    /**
-     * @Column(type="string(100)")
-     */
+    #[Column(type: 'string(100)')]
     private ?string $controller_layout_dir_dot_path = '';  
     
-    /**
-     * @Column(type="string(50)")
-     */
+    #[Column(type: 'string(50)')]
     private ?string $repo_extra_camelcase_name = '';
     
-    /**
-     * @Column(type="string(50)")
-     */
+    #[Column(type: 'string(50)')]
     private ?string $paginator_next_page_attribute = '';
     
-    /**
-     * @Column(type="string(50)")
-     */
+    #[Column(type: 'string(50)')]
     private string $constrain_index_field = '';
     
-    /**
-     * @Column(type="string(50)")
-     */
-    public ?string $pre_entity_table = '';
+    #[Column(type: 'string(20)')]
+    private ?string $filter_field = '';
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'tinyInteger(4)', nullable:true)]
+    private ?int $filter_field_start_position = null;
+    
+    #[Column(type: 'tinyInteger(4)', nullable:true)]
+    private ?int $filter_field_end_position = null;
+    
+    #[Column(type: 'string(50)')]
+    private ?string $pre_entity_table = '';
+    
+    #[Column(type: 'bool', default: false)]
     private bool $modified_include = false;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $created_include = false;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $updated_include = false;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $deleted_include = false;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $keyset_paginator_include = false;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $offset_paginator_include = false;
     
-    /**
-     * @Column(type="bool", default="true")
-     */
+    #[Column(type: 'bool', default: true)]
     private bool $flash_include = true;
     
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: false)]
     private bool $headerline_include = false;
-        
+    
     public function __construct(
       string $route_prefix='',
       string $route_suffix='',
@@ -132,6 +95,9 @@ class Gentor
       string $paginator_next_page_attribute = '',
       string $pre_entity_table = '',
       string $constrain_index_field = '',
+      string $filter_field = '',
+      int $filter_field_start_position = null,
+      int $filter_field_end_position = null,      
       bool $created_include = false,
       bool $updated_include = false,
       bool $modified_include = false,
@@ -154,6 +120,9 @@ class Gentor
       $this->paginator_next_page_attribute = $paginator_next_page_attribute;
       $this->pre_entity_table = $pre_entity_table;      
       $this->constrain_index_field = $constrain_index_field;      
+      $this->filter_field = $filter_field;
+      $this->filter_field_start_position = $filter_field_start_position;
+      $this->filter_field_end_position = $filter_field_end_position;
       $this->created_include = $created_include;
       $this->updated_include = $updated_include;
       $this->modified_include = $modified_include;
@@ -286,6 +255,36 @@ class Gentor
     public function setConstrain_index_field(string $constrain_index_field): void
     {
         $this->constrain_index_field = $constrain_index_field;
+    }
+    
+    public function getFilter_field(): string
+    {
+        return $this->filter_field;
+    }
+    
+    public function setFilter_field(string $filter_field): void
+    {
+        $this->filter_field = $filter_field;
+    }
+    
+    public function getFilter_field_start_position(): ?int
+    {
+        return $this->filter_field_start_position;
+    }
+    
+    public function setFilter_field_start_position (?int $filter_field_start_position): void
+    {
+        $this->filter_field_start_position = $filter_field_start_position;
+    }
+    
+    public function getFilter_field_end_position(): ?int
+    {
+        return $this->filter_field_end_position;
+    }
+    
+    public function setFilter_field_end_position (?int $filter_field_end_position): void
+    {
+        $this->filter_field_end_position = $filter_field_end_position;
     }
     
     public function isCreated_include(): bool

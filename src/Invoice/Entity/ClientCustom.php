@@ -8,66 +8,55 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\Client;
+use App\Invoice\Entity\CustomField;
   
- /**
-* @Entity(
- * repository="App\Invoice\ClientCustom\ClientCustomRepository",
- * )
- */
- 
+ #[Entity(repository: \App\Invoice\ClientCustom\ClientCustomRepository::class)]
  class ClientCustom
  {
-       
-   
-    /**
-     * @BelongsTo(target="Client", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Client
-     */
-     private $client = null;
+    #[BelongsTo(target:Client::class, nullable: false)]
+    private ?Client $client = null;
     
+    #[BelongsTo(target:CustomField::class, nullable: false)]
+    private ?CustomField $custom_field = null;
+        
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
+        
+    #[Column(type:'integer(11)', nullable: false)] 
+    private ?int $client_id =  null;
     
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type:'integer(11)', nullable: false)] 
+    private ?int $custom_field_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $client_id =  null;
+    #[Column(type:'text', nullable: true)] 
+    private ?string $value =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $fieldid =  null;
-     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $fieldvalue =  '';
-     
-     public function __construct(
-          int $id = null,
+    public function __construct(
+         int $id = null,
          int $client_id = null,
-         int $fieldid = null,
-         string $fieldvalue = ''
-     )
-     {
+         int $custom_field_id = null,
+         string $value = null
+    )
+    {
          $this->id=$id;
          $this->client_id=$client_id;
-         $this->fieldid=$fieldid;
-         $this->fieldvalue=$fieldvalue;
+         $this->custom_field_id=$custom_field_id;
+         $this->value=$value;
      }
     
     public function getClient() : ?Client
- {
+    {
       return $this->client;
+    }
+    
+    public function getCustomField() : ?CustomField
+    {
+      return $this->custom_field;
     }
     
     public function getId(): string
     {
-     return (string)$this->id;
+      return (string)$this->id;
     }
     
     public function setId(int $id) : void
@@ -85,23 +74,23 @@ use App\Invoice\Entity\Client;
       $this->client_id =  $client_id;
     }
     
-    public function getFieldid(): string
+    public function getCustom_field_id(): string
     {
-     return (string)$this->fieldid;
+     return (string)$this->custom_field_id;
     }
     
-    public function setFieldid(int $fieldid) : void
+    public function setCustom_field_id(int $custom_field_id) : void
     {
-      $this->fieldid =  $fieldid;
+      $this->custom_field_id =  $custom_field_id;
     }
     
-    public function getFieldvalue(): ?string
+    public function getValue(): ?string
     {
-       return $this->fieldvalue;
+       return $this->value;
     }
     
-    public function setFieldvalue(string $fieldvalue) : void
+    public function setValue(string $value) : void
     {
-      $this->fieldvalue =  $fieldvalue;
+      $this->value =  $value;
     }
 }

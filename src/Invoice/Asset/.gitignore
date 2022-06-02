@@ -8,5 +8,5 @@
 # Base themes
 !invoice
 !invoice/**/*
-!invoice_blue
-!invoice_blue/**/*
+!jquery-ui-1.13.0
+!rebuild-1.13

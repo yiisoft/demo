@@ -54,19 +54,19 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($quoteitemamounts as $quoteitemamount){
       echo Html::br();
-      $label = $quoteitemamount->id . " ";
+      $label = $quoteitemamount->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('quoteitemamount/edit', ['id' => $quoteitemamount->id]),
+      $urlGenerator->generate('quoteitemamount/edit', ['id' => $quoteitemamount->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('quoteitemamount/view', ['id' => $quoteitemamount->id]),
+      $urlGenerator->generate('quoteitemamount/view', ['id' => $quoteitemamount->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record# '.$quoteitemamount->id)
+      ->title('Please confirm that you want to delete this record# '.$quoteitemamount->getId())
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('quoteitemamount/delete', ['id' => $quoteitemamount->id]),
+                   $urlGenerator->generate('quoteitemamount/delete', ['id' => $quoteitemamount->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

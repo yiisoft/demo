@@ -54,14 +54,14 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($items as $item){
       echo Html::br();
-      $label = $item->id . " ";
+      $label = $item->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('invitem/edit', ['id' => $item->id]),
+      $urlGenerator->generate('invitem/edit', ['id' => $item->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('invitem/view', ['id' => $item->id]),
+      $urlGenerator->generate('invitem/view', ['id' => $item->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('invitem/delete', ['id' => $item->id]),
+                   $urlGenerator->generate('invitem/delete', ['id' => $item->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

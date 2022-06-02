@@ -54,19 +54,19 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($itemlookups as $itemlookup){
       echo Html::br();
-      $label = $itemlookup->id . " ";
+      $label = $itemlookup->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('itemlookup/edit', ['id' => $itemlookup->id]),
+      $urlGenerator->generate('itemlookup/edit', ['id' => $itemlookup->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('itemlookup/view', ['id' => $itemlookup->id]),
+      $urlGenerator->generate('itemlookup/view', ['id' => $itemlookup->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
       echo Modal::widget()
-      ->title('Please confirm that you want to delete this record# '.$itemlookup->id)
+      ->title('Please confirm that you want to delete this record# '.$itemlookup->getId())
       ->titleOptions(['class' => 'text-center'])
       ->options(['class' => 'testMe'])
       ->size(Modal::SIZE_SMALL)
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('itemlookup/delete', ['id' => $itemlookup->id]),
+                   $urlGenerator->generate('itemlookup/delete', ['id' => $itemlookup->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

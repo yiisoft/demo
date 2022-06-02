@@ -8,60 +8,40 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\User;
-  
- /**
- * @Entity(
- * repository="App\Invoice\UserCustom\UserCustomRepository",
- * )
- */
- 
- class UserCustom
- {
-       
-   
-    /**
-     * @BelongsTo(target="App\User\User", nullable=false)
-     *
-     * @var \Cycle\ORM\Promise\Reference|User
-     */
-     private $user = null;
+
+#[Entity(repository: \App\Invoice\UserCustom\UserCustomRepository::class)]
+class UserCustom
+{
+    #[BelongsTo(target: \App\User\User::class, nullable: false)]
+    private ?User $user = null;
     
-    
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $user_id =  null;
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $user_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $fieldid =  null;
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $fieldid =  null;
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $fieldvalue =  '';
+    #[Column(type: 'text', nullable: true)]
+    private ?string $fieldvalue =  '';
      
-     public function __construct(
-         int $id = null,
-         int $user_id = null,
-         int $fieldid = null,
-         string $fieldvalue = ''
-     )
-     {
-         $this->id=$id;
-         $this->user_id=$user_id;
-         $this->fieldid=$fieldid;
-         $this->fieldvalue=$fieldvalue;
-     }
+    public function __construct(
+        int $id = null,
+        int $user_id = null,
+        int $fieldid = null,
+        string $fieldvalue = ''
+    )
+    {
+        $this->id=$id;
+        $this->user_id=$user_id;
+        $this->fieldid=$fieldid;
+        $this->fieldvalue=$fieldvalue;
+    }
     
     public function getUser() : ?User
- {
+    {
       return $this->user;
     }
     

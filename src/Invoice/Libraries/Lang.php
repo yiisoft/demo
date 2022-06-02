@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 Namespace App\Invoice\Libraries;
@@ -57,7 +56,6 @@ class Lang
 			{
 				$this->load($value, $idiom, $return, $add_suffix, $alt_path);
 			}
-
 			return;
 		}
 

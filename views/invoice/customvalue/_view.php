@@ -25,15 +25,11 @@ if (!empty($errors)) {
 <h1><?= Html::encode($title) ?></h1>
 <div class="row">
  <div class="mb3 form-group">
-<label for="id" class="form-label" style="background:lightblue"><?= $s->trans('id'); ?></label>
-   <?= Html::encode($body['id'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
-<label for="field" class="form-label" style="background:lightblue"><?= $s->trans('field'); ?></label>
-   <?= Html::encode($body['field'] ?? ''); ?>
- </div>
- <div class="mb3 form-group">
 <label for="value" class="form-label" style="background:lightblue"><?= $s->trans('value'); ?></label>
    <?= Html::encode($body['value'] ?? ''); ?>
+ </div>
+ <div class="mb3 form-group">
+   <label for="custom_field_id" class="form-label" style="background:lightblue"><?= $s->trans('custom_field'); ?></label>
+   <?= $customvalue->getCustomField()->getId();?>
  </div>
 </div>

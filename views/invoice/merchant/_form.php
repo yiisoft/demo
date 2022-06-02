@@ -35,9 +35,9 @@ if (!empty($errors)) {
     <select name="inv_id" id="inv_id" class="form-control simple-select">
        <option value="0">Inv</option>
          <?php foreach ($invs as $inv) { ?>
-          <option value="<?= $inv->id; ?>"
-           <?php $s->check_select(Html::encode($body['inv_id'] ?? ''), $inv->id) ?>
-           ><?= $inv->id; ?></option>
+          <option value="<?= $inv->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['inv_id'] ?? ''), $inv->getId()) ?>
+           ><?= $inv->getId(); ?></option>
          <?php } ?>
     </select>
  </div>
@@ -54,8 +54,8 @@ if ($date && $date !== "0000-00-00") {
     $date = null; 
 } 
    ?>  
-<label form-label for="date"><?= $s->trans('date') ." (". $datehelper->date_format_datepicker($s).") "; ?></label><div class="mb3 input-group"> 
-<input type="text" name="date" id="date" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<label form-label for="date"><?= $s->trans('date') ." (". $datehelper->display().") "; ?></label><div class="mb3 input-group"> 
+<input type="text" name="date" id="date" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" 
        value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> 
 <span class="input-group-text"> 

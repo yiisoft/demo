@@ -47,18 +47,10 @@ final class GeneratorRelationForm extends FormModel
     public function getRules(): array
     {
         return [
-            'lowercasename' => [
-                Required::rule(),
-            ],
-            'camelcasename' => [
-                Required::rule(),
-            ],
-            'view_field_name' => [
-                Required::rule(),
-            ],
-            'gentor_id' => [
-                Required::rule(),
-            ],
+            'lowercasename' => [new Required()],
+            'camelcasename' => [new Required()],
+            'view_field_name' => [new Required()],
+            'gentor_id' => [new Required()],
         ];
     }
 }

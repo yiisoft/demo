@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Invoice\Helpers\DateHelper;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Arrays\ArrayHelper;
-use App\Invoice\Helpers\DateHelper;
 
 
 /**
@@ -28,6 +28,15 @@ if (!empty($errors)) {
 
 <form id="clientForm" method="POST" action="<?= $urlGenerator->generate(...$action) ?>" enctype="multipart/form-data" >
 <input type="hidden" name="_csrf" value="<?= $csrf ?>">
+<div id="headerbar">
+        <h1 class="headerbar-title"><?= $s->trans('clients_form'); ?></h1>
+        <?php
+            $response = $head->renderPartial('invoice/layout/header_buttons',['s'=>$s, 'hide_submit_button'=>false ,'hide_cancel_button'=>false]);
+            echo (string)$response->getBody();
+        ?>
+        <div class="mb-3 form-group btn-group-sm">
+        </div>
+</div>
 <div class="card">
   <div class="card-header d-flex justify-content-between">
       <?= $s->trans('personal_information'); ?>
@@ -52,19 +61,15 @@ if (!empty($errors)) {
         <label for="client_language" class="form-label">
             <?php echo $s->trans('language'); ?>
         </label>
-        <select name="client_language" id="client_language" class="form-control">
-                <option value="system">
-                    <?= Html::encode($body['client_language'] ??  $s->trans('language')); ?>
-                </option>
-                    <?php foreach (ArrayHelper::map($s->expandDirectoriesMatrix($aliases->get('@language'), $level = 0),'name','name') as $language) {
-                       Html::encode($body['client_language'] ?? ''); 
-                    ?>
-                        <option value="<?php echo $language; ?>"
-                            <?php $s->check_select($s->get_setting('client_language'), $language) ?>>
-                            <?php echo ucfirst($language); ?>
-                        </option>
-                    <?php } ?>
-        </select> 
+        <select name="client_language" id="client_language" class="form-control" required>
+                <option><?php Html::encode($body['client_language'] ?? ''); ?></option>
+                <?php foreach (ArrayHelper::map($s->expandDirectoriesMatrix($aliases->get('@language'), $level = 0),'name','name') as $language) { ?>
+                    <option value="<?php echo $language; ?>"
+                        <?php $s->check_select(Html::encode($body['client_language'] ?? ''), $language) ?>>
+                        <?php echo ucfirst($language); ?>
+                    </option>
+                <?php } ?>
+        </select>
     </div>  
   </div>
  
@@ -201,11 +206,11 @@ if (!empty($errors)) {
                 $bdate = null;
             }
         ?>
-        <label form-label for="client_birthdate"><?= $s->trans('birthdate') .' ('.$datehelper->date_format_datepicker($s).')'; ?></label>
+        <label form-label for="client_birthdate"><?= $s->trans('birthdate') .' ('.$datehelper->display().')'; ?></label>
         <div class="input-group">
-            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="<?= ' ('.$datehelper->date_format_datepicker($s).')';?>"
-                   class="form-control data-datepicker"
-                   value="<?php if ($bdate <> null) {echo Html::encode($bdate);} ?>">
+            <input type="text" name="client_birthdate" id="client_birthdate" placeholder="<?= ' ('.$datehelper->display().')';?>"
+                   class="form-control input-sm datepicker"
+                   value="<?php if ($bdate <> null) {echo Html::encode($bdate);} ?>" role="presentation" autocomplete="off">
             <span class="input-group-text">
             <i class="fa fa-calendar fa-fw"></i>
         </span>
@@ -228,6 +233,9 @@ if (!empty($errors)) {
     
   </div>
 </div>
-    
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</form>     
+<?php $js11 = "$(function () {".
+        '$("#client_birthdate.form-control.input-sm.datepicker").datepicker({dateFormat:"'.$datehelper->datepicker().'"});'.
+      '});';
+      echo Html::script($js11)->type('module');
+?>

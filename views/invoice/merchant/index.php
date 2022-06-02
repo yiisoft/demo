@@ -54,14 +54,14 @@ use Yiisoft\Yii\Bootstrap5\Modal;
     //list all the items
     foreach ($merchants as $merchant){
       echo Html::br();
-      $label = $merchant->id . " ";
+      $label = $merchant->getId() . " ";
       echo Html::label($label);
       echo Html::a('Edit',
-      $urlGenerator->generate('merchant/edit', ['id' => $merchant->id]),
+      $urlGenerator->generate('merchant/edit', ['id' => $merchant->getId()]),
             ['class' => 'btn btn-info btn-sm ms-2']
           );
       echo Html::a('View',
-      $urlGenerator->generate('merchant/view', ['id' => $merchant->id]),
+      $urlGenerator->generate('merchant/view', ['id' => $merchant->getId()]),
       ['class' => 'btn btn-warning btn-sm ms-2']
              );
       //modal delete button
@@ -84,7 +84,7 @@ use Yiisoft\Yii\Bootstrap5\Modal;
                    ],
                    ]
                    ).                   Html::a('Yes Delete it Please ... I am sure!',
-                   $urlGenerator->generate('merchant/delete', ['id' => $merchant->id]),
+                   $urlGenerator->generate('merchant/delete', ['id' => $merchant->getId()]),
                    ['class' => 'btn btn-danger btn-sm ms-2']
                               )
                         )

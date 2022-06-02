@@ -11,22 +11,22 @@ final class PaymentCustomForm extends FormModel
 {    
     
     private ?int $payment_id=null;
-    private ?int $fieldid=null;
-    private ?string $fieldvalue='';
+    private ?int $custom_field_id=null;
+    private ?string $value='';
 
     public function getPayment_id() : int
     {
       return $this->payment_id;
     }
 
-    public function getFieldid() : int
+    public function getCustom_field_id() : int
     {
-      return $this->fieldid;
+      return $this->custom_field_id;
     }
 
-    public function getFieldvalue() : string
+    public function getValue() : string
     {
-      return $this->fieldvalue;
+      return $this->value;
     }
 
     public function getFormName(): string
@@ -36,9 +36,7 @@ final class PaymentCustomForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'fieldvalue' => [
-            Required::rule(),
-        ],
+        'value' => [new Required()],
     ];
 }
 }

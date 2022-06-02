@@ -11,7 +11,7 @@
  * If you are not sure take a look at the ip_lang.php file or visit the
  * community forums.
  */
-
+declare(strict_types=1);
 $lang = array(
 
 );

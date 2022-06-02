@@ -1,7 +1,5 @@
 <?php
-/**
- * Contains the language translations for the payment gateways
- */
+declare(strict_types=1);
 $lang = array(
     // General strings
     'online_payment'                     => 'Online Payment',

@@ -29,7 +29,8 @@ private EntityWriter $entityWriter;
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select();
+        $query = $this->select()->load('inv')
+                                ->load('payment_method');
         return $this->prepareDataReader($query);
     }
     
@@ -75,4 +76,22 @@ private EntityWriter $entityWriter;
         $query = $this->select()->load('inv')->load('payment_method')->where(['id' => $id]);
         return  $query->fetchOne();        
     }
+    
+    /**
+     * Get payments  without filter
+     *
+     * @psalm-return DataReaderInterface<int,Payment>
+     */    
+    public function repoInvquery(string $inv_id): DataReaderInterface {
+        $query = $this->select()->where(['inv_id' => $inv_id]);
+        return $this->prepareDataReader($query);   
+    }
+    
+    public function repoCount(string $inv_id) : int {
+        $count = $this->select()
+                      ->where(['inv_id' => $inv_id])                                
+                      ->count();
+        return $count; 
+    }
+    
 }

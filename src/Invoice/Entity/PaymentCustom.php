@@ -8,66 +8,55 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use App\Invoice\Entity\Payment;
-  
- /**
- * @Entity(
- * repository="App\Invoice\PaymentCustom\PaymentCustomRepository",
- * )
- */
- 
- class PaymentCustom
- {
-       
-   
-    /**
-     * @BelongsTo(target="Payment", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Payment
-     */
-     private $payment = null;
+use App\Invoice\Entity\CustomField;
+
+#[Entity(repository: \App\Invoice\PaymentCustom\PaymentCustomRepository::class)]
+class PaymentCustom
+{
+    #[BelongsTo(target:Payment::class, nullable: false)]
+    private ?Payment $payment = null;
     
-    
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+    #[BelongsTo(target:CustomField::class, nullable: false)]
+    private ?CustomField $custom_field = null;
+        
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $payment_id =  null;
+    #[Column(type: 'integer(11)', nullable:false)]
+    private ?int $payment_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $fieldid =  null;
+    #[Column(type: 'integer(11)', nullable:false)]
+    private ?int $custom_field_id =  null;
      
-    /**
-     * @Column(type="text", nullable=true)
-     */
-     private ?string $fieldvalue =  '';
+    #[Column(type: 'text', nullable:true)]
+    private string $value =  '';
      
-     public function __construct(
-          int $id = null,
-         int $payment_id = null,
-         int $fieldid = null,
-         string $fieldvalue = ''
-     )
-     {
-         $this->id=$id;
-         $this->payment_id=$payment_id;
-         $this->fieldid=$fieldid;
-         $this->fieldvalue=$fieldvalue;
-     }
+    public function __construct(
+        int $id = null,
+        int $payment_id = null,
+        int $custom_field_id = null,
+        string $value = ''
+    )
+    {
+        $this->id=$id;
+        $this->payment_id=$payment_id;
+        $this->custom_field_id=$custom_field_id;
+        $this->value=$value;
+    }
     
     public function getPayment() : ?Payment
- {
+    {
       return $this->payment;
+    }
+    
+    public function getCustomField() : ?CustomField
+    {
+      return $this->custom_field;
     }
     
     public function getId(): string
     {
-     return (string)$this->id;
+      return (string)$this->id;
     }
     
     public function setId(int $id) : void
@@ -77,7 +66,7 @@ use App\Invoice\Entity\Payment;
     
     public function getPayment_id(): string
     {
-     return (string)$this->payment_id;
+      return (string)$this->payment_id;
     }
     
     public function setPayment_id(int $payment_id) : void
@@ -85,23 +74,23 @@ use App\Invoice\Entity\Payment;
       $this->payment_id =  $payment_id;
     }
     
-    public function getFieldid(): string
+    public function getCustom_field_id(): string
     {
-     return (string)$this->fieldid;
+      return (string)$this->custom_field_id;
     }
     
-    public function setFieldid(int $fieldid) : void
+    public function setCustom_field_id(int $custom_field_id) : void
     {
-      $this->fieldid =  $fieldid;
+      $this->custom_field_id =  $custom_field_id;
     }
     
-    public function getFieldvalue(): ?string
+    public function getValue(): string
     {
-       return $this->fieldvalue;
+       return $this->value;
     }
     
-    public function setFieldvalue(string $fieldvalue) : void
+    public function setValue(string $value) : void
     {
-      $this->fieldvalue =  $fieldvalue;
+      $this->value =  $value;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Invoice\InvAmount;
@@ -9,28 +8,23 @@ use Yiisoft\Validator\Rule\Required;
 
 final class InvAmountForm extends FormModel
 {    
-    private ?string $sign = '';
-    private ?float $item_sub_total = null;
-    private ?float $item_tax_total = null;
-    private ?float $tax_total = null;
-    private ?float $invoice_total = null;
-    private ?float $invoice_paid = null;
-    private ?float $invoice_balance = null;
-    private ?int $inv_id = null;
+    
+    private ?int $inv_id=null;
+    private ?float $item_subtotal=null;
+    private ?float $item_tax_total=null;
+    private ?float $tax_total=null;
+    private ?float $total=null;
+    private ?float $paid=null;
+    private ?float $balance=null;
 
     public function getInv_id() : int
     {
       return $this->inv_id;
     }
 
-    public function getSign() : string
+    public function getItem_subtotal() : float
     {
-      return $this->sign;
-    }
-
-    public function getItem_sub_total() : float
-    {
-      return $this->item_sub_total;
+      return $this->item_subtotal;
     }
 
     public function getItem_tax_total() : float
@@ -43,19 +37,19 @@ final class InvAmountForm extends FormModel
       return $this->tax_total;
     }
 
-    public function getInvoice_total() : float
+    public function getTotal() : float
     {
-      return $this->invoice_total;
+      return $this->total;
     }
-
-    public function getInvoice_paid() : float
+    
+    public function getPaid() : float
     {
-      return $this->invoice_paid;
+      return $this->paid;
     }
-
-    public function getInvoice_balance() : float
+    
+    public function getBalance() : float
     {
-      return $this->invoice_balance;
+      return $this->balance;
     }
 
     public function getFormName(): string
@@ -65,9 +59,11 @@ final class InvAmountForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'sign' => [
-            Required::rule(),
-        ],
+        'item_subtotal' => [new Required()],
+        'item_tax_total' => [new Required()],
+        'tax_total' => [new Required()],
+        'total' => [new Required()],
+        'inv_id' => [new Required()],
     ];
 }
 }

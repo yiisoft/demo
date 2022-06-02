@@ -22,51 +22,50 @@ use Yiisoft\Html\Html;
         </a>
     </div>
 </div>
-
+<?php
+    $danger = $flash->get('danger');
+    if ($danger != null) {
+        $alert =  Alert::widget()
+            ->body($danger)
+            ->options([
+                'class' => ['alert-danger shadow'],
+            ])
+        ->render();
+        echo $alert;
+    }
+    $info = $flash->get('info');
+    if ($info != null) {
+        $alert =  Alert::widget()
+            ->body($info)
+            ->options([
+                'class' => ['alert-info shadow'],
+            ])
+        ->render();
+        echo $alert;
+    }
+    $warning = $flash->get('warning');
+    if ($warning != null) {
+        $alert =  Alert::widget()
+            ->body($warning)
+            ->options([
+                'class' => ['alert-warning shadow'],
+            ])
+        ->render();
+        echo $alert;
+    }
+?>
 <?php
   $pagination = OffsetPagination::widget()
   ->paginator($paginator)
   ->urlGenerator(fn ($page) => $urlGenerator->generate('product/index', ['page' => $page]));
 ?>
-
+<?php 
+        if ($pagination->isRequired()) {
+           echo $pagination;
+        }
+?> 
 <div id="content" class="table-content">
-    <?php
-        $danger = $flash->get('danger');
-        if ($danger != null) {
-            $alert =  Alert::widget()
-                ->body($danger)
-                ->options([
-                    'class' => ['alert-danger shadow'],
-                ])
-            ->render();
-            echo $alert;
-        }
-        $info = $flash->get('info');
-        if ($info != null) {
-            $alert =  Alert::widget()
-                ->body($info)
-                ->options([
-                    'class' => ['alert-info shadow'],
-                ])
-            ->render();
-            echo $alert;
-        }
-        $warning = $flash->get('warning');
-        if ($warning != null) {
-            $alert =  Alert::widget()
-                ->body($warning)
-                ->options([
-                    'class' => ['alert-warning shadow'],
-                ])
-            ->render();
-            echo $alert;
-        }
-    ?>    
-    <?php 
-                if ($pagination->isRequired()) {
-                   echo $pagination;
-                }
-    ?>  
+    
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
@@ -87,15 +86,15 @@ use Yiisoft\Html\Html;
             <tbody>
             <?php foreach ($paginator->read() as $product) { ?>
                 <tr>
-                    <td><?= Html::encode($product->getFamily()->family_name); ?></td>
-                    <td><?= Html::encode($product->product_sku); ?></td>
-                    <td><?= Html::encode($product->product_name); ?></td>
-                    <td><?php echo nl2br(Html::encode($product->product_description)); ?></td>
-                    <td class="amount"><?php echo $s->format_currency($product->product_price); ?></td>
-                    <td><?= Html::encode($product->getUnit()->unit_name); ?></td>
-                    <td><?php echo ($product->getTaxrate()->id) ? Html::encode($product->getTaxrate()->tax_rate_name) : trans('none'); ?></td>
+                    <td><?= Html::encode($product->getFamily()->getFamily_name()); ?></td>
+                    <td><?= Html::encode($product->getProduct_sku()); ?></td>
+                    <td><?= Html::encode($product->getProduct_name()); ?></td>
+                    <td><?= Html::encode($product->getProduct_description()); ?></td>
+                    <td class="amount"><?php echo $s->format_currency($product->getProduct_price()); ?></td>
+                    <td><?= Html::encode($product->getUnit()->getUnit_name()); ?></td>
+                    <td><?php echo ($product->getTaxrate()->getTax_rate_id()) ? Html::encode($product->getTaxrate()->getTax_rate_name()) : $s->trans('none'); ?></td>
                     <?php if ($s->get_setting('sumex')) : ?>
-                        <td><?= Html::encode($product->tariff); ?></td>
+                        <td><?= Html::encode($product->getTariff()); ?></td>
                     <?php endif; ?>
                     <td>
                         <div class="options btn-group">
@@ -105,17 +104,17 @@ use Yiisoft\Html\Html;
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?= $urlGenerator->generate('product/view',['product_id'=>$product->id]); ?>" style="text-decoration:none">
+                                    <a href="<?= $urlGenerator->generate('product/view',['id'=>$product->getProduct_id()]); ?>" style="text-decoration:none">
                                         <i class="fa fa-eye fa-margin"></i> <?= $s->trans('view'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= $urlGenerator->generate('product/edit',['product_id'=>$product->id]); ?>" style="text-decoration:none">
+                                    <a href="<?= $urlGenerator->generate('product/edit',['id'=>$product->getProduct_id()]); ?>" style="text-decoration:none">
                                         <i class="fa fa-edit fa-margin"></i> <?= $s->trans('edit'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= $urlGenerator->generate('product/delete',['product_id' =>$product->id]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_record_warning'); ?>');">
+                                    <a href="<?= $urlGenerator->generate('product/delete',['id' =>$product->getProduct_id()]); ?>" style="text-decoration:none" onclick="return confirm('<?= $s->trans('delete_record_warning'); ?>');">
                                         <i class="fa fa-trash fa-margin"></i><?= $s->trans('delete'); ?>                                    
                                     </a>
                                 </li>

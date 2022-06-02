@@ -6,8 +6,10 @@ namespace App\Invoice\Project;
 
 use App\Invoice\Entity\Project;
 
+
 final class ProjectService
 {
+
     private ProjectRepository $repository;
 
     public function __construct(ProjectRepository $repository)
@@ -16,10 +18,12 @@ final class ProjectService
     }
 
     public function saveProject(Project $model, ProjectForm $form): void
-    { 
+    {
+        
        $model->setClient_id($form->getClient_id());
-       $model->setProject_name($form->getProject_name());
-       $this->repository->save($model);
+       $model->setName($form->getName());
+ 
+        $this->repository->save($model);
     }
     
     public function deleteProject(Project $model): void

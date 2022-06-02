@@ -12,6 +12,7 @@ use App\Invoice\Helpers\DateHelper;
  * @var string $action
  * @var string $title
  */
+$datehelper = new DateHelper($s);
 ?>
 
 <h1><?= Html::encode($title) ?></h1>
@@ -20,82 +21,80 @@ use App\Invoice\Helpers\DateHelper;
     <div class="mb-3 form-group">
         <label for="client_active" class="control-label" style="background:lightblue"><?= $s->trans('active_client'); ?> </label>
                                 
-                                    <?php if (Html::encode($body['client_active'] ?? "1")
-                                        || !is_numeric($body['client_active'])
-                                    ) {
-                                        echo $s->trans('yes');
-                                    } else {echo $s->trans('no');} ?>
+        <?php if (($client->getClient_active() == "1") || !is_numeric($client->getClient_active())) {
+            echo $s->trans('yes');
+        } else {echo $s->trans('no');} ?>
           
     </div>      
     <div class="mb-3 form-group">
         <label for="client_name" class="form-label" style="background:lightblue"><?= $s->trans('client_name'); ?></label>
-        <?= Html::encode($body['client_name'] ?? '') ?>
+        <?= Html::encode($client->getClient_name()); ?>
     </div>
     <div class="mb-3 form-group">
         <label for="client_surname" class="form-label" style="background:lightblue"><?= $s->trans('client_surname'); ?></label>
-        <?= Html::encode($body['client_surname'] ?? '') ?>
+        <?= Html::encode($client->getClient_surname()); ?>
     </div>
     <div class="mb-3 form-group no-margin">
         <label for="client_language" class="form-label" style="background:lightblue"><?php echo $s->trans('language'); ?></label>
-        <?= Html::encode($body['client_language'] ?? '') ?>         
+        <?= Html::encode($client->getClient_language()); ?>         
     </div>  
   </div>
   <div class="row">
     <div class="mb-3 form-group">
         <label for="client_address_1" class="form-label" style="background:lightblue"><?= $s->trans('street_address'); ?></label>
-        <?= Html::encode($body['client_address_1'] ?? '') ?>
+        <?= Html::encode($client->getClient_address_1()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_address_2" class="form-label" style="background:lightblue"><?= $s->trans('street_address_2'); ?></label>
-        <?= Html::encode($body['client_address_2'] ?? '') ?>
+        <?= Html::encode($client->getClient_address_2()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_city" class="form-label" style="background:lightblue"><?= $s->trans('city'); ?></label>
-        <?= Html::encode($body['client_city'] ?? '') ?>
+        <?= Html::encode($client->getClient_city()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_state" class="form-label" style="background:lightblue"><?= $s->trans('state'); ?></label>
-        <?= Html::encode($body['client_state'] ?? '') ?>
+        <?= Html::encode($client->getClient_state()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_zip" class="form-label" style="background:lightblue"><?= $s->trans('zip'); ?></label>
-        <?= Html::encode($body['client_zip'] ?? '') ?>
+        <?= Html::encode($client->getClient_zip()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_zip" class="form-label" style="background:lightblue"><?= $s->trans('country'); ?></label>
-        <?= Html::encode($body['client_country'] ?? '') ?>            
+        <?= Html::encode($client->getClient_country()); ?>            
     </div>
   </div>
   <div class="row">
     <div class="mb-3 form-group">
         <label for="client_zip" class="form-label" style="background:lightblue"><?= $s->trans('phone'); ?></label>        
-        <?= Html::encode($body['client_phone'] ?? '') ?>
+        <?= Html::encode($client->getClient_phone()); ?>
     </div>            
     <div class="mb-3 form-group">
         <label for="client_fax" class="form-label" style="background:lightblue"><?= $s->trans('fax'); ?></label>
-        <?= Html::encode($body['client_fax'] ?? '') ?>
+        <?= Html::encode($client->getClient_fax()); ?>
     </div>      
     <div class="mb-3 form-group">
         <label for="client_mobile" class="form-label" style="background:lightblue"><?= $s->trans('mobile'); ?></label>
-        <?= Html::encode($body['client_mobile'] ?? '') ?>
+        <?= Html::encode($client->getClient_mobile()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_email" class="form-label" style="background:lightblue"><?= $s->trans('email'); ?></label>
-        <?= Html::encode($body['client_email'] ?? '') ?>
+        <?= Html::encode($client->getClient_email()); ?>
     </div>       
     <div class="mb-3 form-group">
         <label for="client_web" class="form-label" style="background:lightblue"><?= $s->trans('web'); ?></label>
-        <?= Html::encode($body['client_web'] ?? '') ?>
+        <?= Html::encode($client->getClient_web()); ?>
     </div>
   </div>    
   <div class="row">     
     <div class="mb-3 form-group">
         <label for="client_vat_id" class="form-label" style="background:lightblue"><?= $s->trans('vat_id'); ?></label>
-        <?= Html::encode($body['client_vat_id'] ?? '') ?>
+        <?= Html::encode($client->getClient_vat_id()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_tax_code" class="form-label" style="background:lightblue"><?= $s->trans('tax_code'); ?></label>
-        <?= Html::encode($body['client_tax_code'] ?? '') ?>
+        <?= Html::encode($client->getClient_tax_code()); ?>
     </div>
   </div>
   <div class="row">
@@ -108,7 +107,7 @@ use App\Invoice\Helpers\DateHelper;
                     $s->trans('gender_other'),
                 ];
                 foreach ($genders as $key => $val) { 
-                        if ($key == $body['client_gender']){
+                        if ($key == $client->getClient_gender()){
                             echo Html::encode($val ?? '');
                         } 
                 }    
@@ -130,15 +129,14 @@ use App\Invoice\Helpers\DateHelper;
     </div>  
     <div class="mb-3 form-group">
         <label class="form-label" style="background:lightblue" for="client_avs"><?= $s->trans('sumex_ssn'); ?></label>
-        <?= Html::encode($body['client_avs'] ?? '') ?>
+        <?= Html::encode($client->getClient_avs()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_insurednumber" class="form-label" style="background:lightblue"><?= $s->trans('sumex_insurednumber'); ?></label>
-        <?= Html::encode($body['client_insurednumber'] ?? '') ?>
+        <?= Html::encode($client->getClient_insurednumber()); ?>
     </div>    
     <div class="mb-3 form-group">
         <label for="client_veka" class="form-label" style="background:lightblue"><?= $s->trans('sumex_veka'); ?></label>
-        <?= Html::encode($body['client_veka'] ?? '') ?>
+        <?= Html::encode($client->getClient_veka()); ?>
     </div>
-  </div>    
-
+  </div>  

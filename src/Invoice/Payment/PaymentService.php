@@ -20,7 +20,7 @@ final class PaymentService
     public function savePayment(Payment $model, PaymentForm $form): void
     {
        $model->setPayment_method_id($form->getPayment_method_id());
-       $model->setDate($form->getDate());
+       $model->setPayment_date($form->getPayment_date());
        $model->setAmount($form->getAmount());
        $model->setNote($form->getNote());
        $model->setInv_id($form->getInv_id()); 

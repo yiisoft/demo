@@ -9,43 +9,25 @@ use Cycle\Annotated\Annotation\Entity;
 use App\Invoice\Entity\Gentor;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 
-/**
- * @Entity(
- *     repository="App\Invoice\GeneratorRelation\GeneratorRelationRepository",
- * )
- */
+#[Entity(repository: \App\Invoice\GeneratorRelation\GeneratorRelationRepository::class)] 
 class GentorRelation
 {
-    /**
-     * @Column(type="primary")
-     */
-    public ?int $id = null;
+    #[Column(type: 'primary')]
+    private ?int $id = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $lowercasename = null;
+    #[Column(type: 'text',nullable: true)]
+    private ?string $lowercasename = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $camelcasename = null;
+    #[Column(type: 'text',nullable: true)]
+    private ?string $camelcasename = null;
     
-    /**
-     * @Column(type="text", nullable=true)
-     */
-    public ?string $view_field_name = null;
+    #[Column(type: 'text',nullable: true)]
+    private ?string $view_field_name = null;
     
-    /**
-     * @BelongsTo(target="Gentor", nullable=false, fkAction="NO ACTION")
-     *
-     * @var \Cycle\ORM\Promise\Reference|Gentor
-     */
-    private $gentor = null;
+    #[BelongsTo(target: Gentor::class, nullable: false, fkAction:'NO ACTION')]
+    private ?Gentor $gentor = null;
     
-    /**
-     * @Column(type="integer(11)", nullable=true, default=null)
-     */
+    #[Column(type: 'integer(11)',nullable: true, default: null)]
     private ?int $gentor_id = null;
     
     public function __construct(

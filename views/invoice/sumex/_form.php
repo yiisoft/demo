@@ -57,9 +57,9 @@ if ($tdate && $tdate !== "0000-00-00") {
 } else { 
     $tdate = null; } 
 ?>
-<label form-label for="treatmentstart"><?= $s->trans('treatment_start') ." (". $datehelper->date_format_datepicker($s).") "; ?></label>
+<label form-label for="treatmentstart"><?= $s->trans('treatment_start') ." (". $datehelper->display().") "; ?></label>
 <div class="mb3 input-group">
-<input type="text" name="treatmentstart" id="treatmentstart" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<input type="text" name="treatmentstart" id="treatmentstart" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" 
        value="<?php if ($tdate <> null) {echo Html::encode($tdate);} ?>"> 
 <span class="input-group-text"> 
@@ -75,9 +75,9 @@ if ($edate && $edate !== "0000-00-00") {
 } 
    ?>
 
-<label form-label for="treatmentend"><?= $s->trans('treatment_end')." (". $datehelper->date_format_datepicker($s).") "; ?></label> 
+<label form-label for="treatmentend"><?= $s->trans('treatment_end')." (". $datehelper->display().") "; ?></label> 
 <div class="mb3 input-group">
-<input type="text" name="treatmentend" id="treatmentend" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<input type="text" name="treatmentend" id="treatmentend" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" 
        value="<?php if ($edate <> null) {echo Html::encode($edate);} ?>"> 
 <span class="input-group-text"> 
@@ -93,9 +93,9 @@ if ($cdate && $cdate !== "0000-00-00") {
 } 
    ?>
 
-<label form-label for="casedate"><?= $s->trans('case_date')." (". $datehelper->date_format_datepicker($s).") "; ?></label> 
+<label form-label for="casedate"><?= $s->trans('case_date')." (". $datehelper->display().") "; ?></label> 
 <div class="mb3 input-group">
-<input type="text" name="casedate" id="casedate" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<input type="text" name="casedate" id="casedate" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" 
        value="<?php if ($cdate <> null) {echo Html::encode($cdate);} ?>"> 
 <span class="input-group-text"> 

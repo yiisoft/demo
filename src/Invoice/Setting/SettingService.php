@@ -12,7 +12,7 @@ final class SettingService
 
     public function __construct(SettingRepository $repository)
     {
-        $this->repository = $repository;;
+        $this->repository = $repository;
     }
 
     public function saveSetting(Setting $model, SettingForm $form): void

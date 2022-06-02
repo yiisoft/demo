@@ -72,7 +72,28 @@ private EntityWriter $entityWriter;
     }
     
     public function repoCustomFieldquery(string $id): CustomField    {
-        $query = $this->select()->where(['id' => $id]);
+        $query = $this->select()
+                      ->where(['id' => $id]);
         return  $query->fetchOne();        
+    }
+    
+    /**
+     * Get customfields  with table filter
+     *
+     * @psalm-return DataReaderInterface<int,CustomField>
+     */
+    
+    // Retrieve all custom fields built for the entity    
+    public function repoTablequery(string $table): DataReaderInterface {
+        $query = $this->select()
+                      ->where(['table' => $table]);
+        return $this->prepareDataReader($query); 
+    }
+    
+    public function repoTableCountquery(string $table): int {
+        $count = $this->select()
+                      ->where(['table' => $table])
+                      ->count();
+        return $count; 
     }
 }

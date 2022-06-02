@@ -22,6 +22,9 @@ final class GeneratorForm extends FormModel
     private ?string $paginator_next_page_attribute = '';
     private ?string $pre_entity_table = '';
     private ?string $constrain_index_field = '';
+    private ?string $filter_field = '';
+    private ?int $filter_field_start_position = null;
+    private ?int $filter_field_end_position = null;
     private bool $created_include = false;
     private bool $updated_include = false;
     private bool $modified_include = false;
@@ -91,6 +94,21 @@ final class GeneratorForm extends FormModel
         return $this->constrain_index_field;
     }
     
+    public function getFilter_field(): string
+    {
+        return $this->filter_field;
+    }
+    
+    public function getFilter_field_start_position(): int
+    {
+        return $this->filter_field_start_position;
+    }
+    
+    public function getFilter_field_end_position(): int
+    {
+        return $this->filter_field_end_position;
+    }
+    
     public function getCreated_include(): bool
     {
         return $this->created_include;
@@ -139,33 +157,15 @@ final class GeneratorForm extends FormModel
     public function getRules(): array
     {
         return [
-            'route_prefix' => [
-                Required::rule(),
-            ],
-            'route_suffix' => [
-                Required::rule(),
-            ],
-            'camelcase_capital_name' => [
-                Required::rule(),
-            ],
-            'small_singular_name' => [
-                Required::rule(),
-            ],
-            'small_plural_name' => [
-                Required::rule(),
-            ],
-            'namespace_path' => [
-                Required::rule(),
-            ],
-            'controller_layout_dir' => [
-                Required::rule(),
-            ],
-            'controller_layout_dir_dot_path' => [
-                Required::rule(),
-            ],
-            'pre_entity_table' => [
-                Required::rule(),
-            ]
+            'route_prefix' => [new Required()],
+            'route_suffix' =>[new Required()],
+            'camelcase_capital_name' =>[new Required()],
+            'small_singular_name' => [new Required()],
+            'small_plural_name' => [new Required()],
+            'namespace_path' => [new Required()],
+            'controller_layout_dir' => [new Required()],
+            'controller_layout_dir_dot_path' => [new Required()],
+            'pre_entity_table' => [new Required()],
         ];
     }
 }

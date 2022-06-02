@@ -72,30 +72,14 @@ final class SumexForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'invoice' => [
-            Required::rule(),
-        ],
-        'reason' => [
-            Required::rule(),
-        ],
-        'diagnosis' => [
-            Required::rule(),
-        ],
-        'observations' => [
-            Required::rule(),
-        ],
-        'treatmentstart' => [
-            Required::rule(),
-        ],
-        'treatmentend' => [
-            Required::rule(),
-        ],
-        'casedate' => [
-            Required::rule(),
-        ],
-        'casenumber' => [
-            Required::rule(),
-        ],
+        'invoice' => [new Required()],
+        'reason' => [new Required()],
+        'diagnosis' => [new Required()],
+        'observations' => [new Required()],
+        'treatmentstart' => [new Required()],
+        'treatmentend' => [new Required()],
+        'casedate' => [new Required()],
+        'casenumber' => [new Required()],
     ];
 }
 }

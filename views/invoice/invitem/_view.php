@@ -86,7 +86,7 @@ if (!empty($errors)) {
  </div>  
  <div class="mb3 form-group">
    <label for="inv_id" class="form-label" style="background:lightblue"><?= $s->trans('invoice'); ?></label>
-   <?= $item->getInv()->id;?>
+   <?= $item->getInv()->getId();?>
  </div>
  <div class="mb3 form-group">
    <label for="tax_rate_id" class="form-label" style="background:lightblue"><?= $s->trans('tax_rate'); ?></label>

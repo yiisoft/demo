@@ -7,42 +7,33 @@ namespace App\Invoice\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
-  
- /**
-* @Entity(
- * repository="App\Invoice\CustomValue\CustomValueRepository",
- * )
- */
- 
- class CustomValue
- {
-       
-       
-        /**
-     * @Column(type="primary")
-     */
-     public ?int $id =  null;
+use App\Invoice\Entity\CustomField;  
+
+#[Entity(repository: \App\Invoice\CustomValue\CustomValueRepository::class)] 
+class CustomValue
+{
+    #[Column(type: 'primary')]
+    private ?int $id =  null;
+    
+    #[BelongsTo(target: CustomField::class, nullable: false, fkAction:'NO ACTION')]
+    private ?CustomField $custom_field = null;
+    
+    #[Column(type: 'integer(11)', nullable: false)]
+    private ?int $custom_field_id =  null;
      
-    /**
-     * @Column(type="integer(11)", nullable=false)
-     */
-     private ?int $field =  null;
+    #[Column(type: 'text', nullable: false)]
+    private string $value =  '';
      
-    /**
-     * @Column(type="text", nullable=false)
-     */
-     private string $value =  '';
-     
-     public function __construct(
-          int $id = null,
-         int $field = null,
+    public function __construct(
+         int $id = null,
+         int $custom_field_id = null,
          string $value = ''
-     )
-     {
+    )
+    {
          $this->id=$id;
-         $this->field=$field;
+         $this->custom_field_id=$custom_field_id;
          $this->value=$value;
-     }
+    }
     
     public function getId(): string
     {
@@ -54,14 +45,19 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
       $this->id =  $id;
     }
     
-    public function getField(): int
+    public function getCustomField(): CustomField
     {
-       return $this->field;
+       return $this->custom_field;
     }
     
-    public function setField(int $field) : void
+    public function getCustom_field_id(): int
     {
-      $this->field =  $field;
+       return $this->custom_field_id;
+    }
+    
+    public function setCustom_field_id(int $custom_field_id) : void
+    {
+      $this->custom_field_id = $custom_field_id;
     }
     
     public function getValue(): string

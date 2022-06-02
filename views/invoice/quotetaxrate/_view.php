@@ -34,7 +34,7 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="quote_id" class="form-label" style="background:lightblue">Quote</label>
-   <?= $quotetaxrate->getQuote()->id;?>
+   <?= $quotetaxrate->getQuote()->getId();?>
  </div>
  <div class="mb3 form-group">
    <label for="tax_rate_id" class="form-label" style="background:lightblue">Tax Rate</label>

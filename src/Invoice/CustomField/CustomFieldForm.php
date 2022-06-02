@@ -48,21 +48,11 @@ final class CustomFieldForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'table' => [
-            Required::rule(),
-        ],
-        'label' => [
-            Required::rule(),
-        ],
-        'type' => [
-            Required::rule(),
-        ],
-        'location' => [
-            Required::rule(),
-        ],
-        'order' => [
-            Required::rule(),
-        ],
+        'table' => [new Required()],
+        'label' => [new Required()],
+        'type' => [new Required()],
+        'location' => [new Required()],
+        'order' => [new Required()],
     ];
 }
 }

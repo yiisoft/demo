@@ -27,10 +27,10 @@ if (!empty($errors)) {
  <div class="mb3 form-group">
     <label for="client_id">Client</label>
     <select name="client_id" id="client_id" class="form-control simple-select">
-       <option value="0">Client</option>
+       <option value=""><?= $s->trans('client'); ?></option>
          <?php foreach ($clients as $client) { ?>
-          <option value="<?= $client->id; ?>"
-           <?php $s->check_select(Html::encode($body['client_id'] ?? ''), $client->id) ?>
+          <option value="<?= $client->getId(); ?>"
+           <?php $s->check_select(Html::encode($body['client_id'] ?? ''), $client->getId()) ?>
            ><?= $client->client_name; ?></option>
          <?php } ?>
     </select>
@@ -47,8 +47,8 @@ if ($date && $date !== "0000-00-00") {
     $date = null; 
 } 
    ?>  
-<label form-label for="date"><?= $s->trans('date') ." (".  $datehelper->date_format_datepicker($s).") "; ?></label><div class="mb3 input-group"> 
-<input type="text" name="date" id="date" placeholder="<?= $datehelper->date_format_datepicker($s); ?>" 
+<label form-label for="date"><?= $s->trans('date') ." (".  $datehelper->display().") "; ?></label><div class="mb3 input-group"> 
+<input type="text" name="date" id="date" placeholder="<?= $datehelper->display(); ?>" 
        class="form-control data-datepicker" 
        value="<?php if ($date <> null) {echo Html::encode($date);} ?>"> 
 <span class="input-group-text"> 

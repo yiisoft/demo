@@ -1,79 +1,100 @@
 <?php
-Namespace frontend\modules\invoice\application\helpers;
+declare(strict_types=1);
 
-Use  frontend\modules\invoice\application\models\ci\Mdl_settings;
-Use  yii\base\Component;
+use App\Invoice\Setting\SettingRepository as SR;
+use Yiisoft\Aliases\Aliases;
 
-Class InvoiceHelper extends Component
+
+Class InvoiceHelper
 {
-        public static function invoice_logo()
-        {
-            $mdl_settings = new Mdl_settings();
-            $mdl_settings->load_settings();
-            $string = $mdl_settings->get_setting('invoice_logo','',false);
-            $result = trim(preg_replace('/\s+/','',$string));
-            return $result;
+    private SR $s;
+    
+    public function __construct(SR $s) {
+        $this->s = $s;        
+    }
+    
+    public function invoice_logo()
+    {
+        $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@img' => '@invoice/Asset/core/img']);
+        if (!empty($this->s->get_setting('invoice_logo'))) {
+            return '<img src="'. $aliases->get('@img') . $this->s->get_setting('invoice_logo') . '">';
+        }
+        return '';
+    }
+
+    /**
+     * Returns the invoice logo for PDF files
+     *
+     * @return string
+     */
+    public function invoice_logo_pdf()
+    {
+        $aliases = new Aliases(['@invoice' => dirname(__DIR__), '@img' => '@invoice/Asset/core/img']);
+        if (!empty($this->s->get_setting('invoice_logo'))) {
+            return '<img src="file://' . getcwd() . $aliases->get('@img'). $this->s->get_setting('invoice_logo')  . '" id="invoice-logo">';
+        }
+        return '';
+    }
+
+    /**
+     * Returns a Swiss IS / IS+ code line
+     * Documentation: https://www.postfinance.ch/binp/postfinance/public/dam.M26m_i6_6ceYcN2XtAN4w8OHMynQG7FKxJVK8TtQzr0.spool/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_en.pdf
+     *
+     * @param string $slipType
+     * @param $amount
+     * @param string $rnumb
+     * @param $subNumb
+     * @return string
+     * @throws Error
+     */
+    public function invoice_genCodeline($slipType, $amount, $rnumb, $subNumb)
+    {
+        $isEur = false;
+
+        if ((int)$slipType > 14) {
+            $isEur = true;
+        } else {
+            $amount = .5 * round((float)$amount / .5, 1);
         }
 
-         /**
-         * Returns a Swiss IS / IS+ code line
-         * Documentation: https://www.postfinance.ch/binp/postfinance/public/dam.M26m_i6_6ceYcN2XtAN4w8OHMynQG7FKxJVK8TtQzr0.spool/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_en.pdf
-         *
-         * @param string $slipType
-         * @param $amount
-         * @param string $rnumb
-         * @param $subNumb
-         * @return string
-         * @throws Error
-         */
-        public static function invoice_genCodeline($slipType, $amount, $rnumb, $subNumb)
-        {
-            $isEur = false;
-
-            if ((int)$slipType > 14) {
-                $isEur = true;
-            } else {
-                $amount = .5 * round((float)$amount / .5, 1);
-            }
-
-            if (!$isEur && $amount > 99999999.95) {
-                throw new Error("Invalid amount");
-            } elseif ($isEur && $amount > 99999999.99) {
-                throw new Error("Invalid amount");
-            }
-
-            $amountLine = sprintf("%010d", $amount * 100);
-            $checkSlAmount = invoice_recMod10($slipType . $amountLine);
-
-            if (!preg_match("/\d{2}-\d{1,6}-\d{1}/", $subNumb)) {
-                throw new Error("Invalid subscriber number");
-            }
-
-            $subNumb = explode("-", $subNumb);
-            $fullSub = $subNumb[0] . sprintf("%06d", $subNumb[1]) . $subNumb[2];
-            $rnumb = preg_replace('/\s+/', '', $rnumb);
-
-            return $slipType . $amountLine . $checkSlAmount . ">" . $rnumb . "+ " . $fullSub . ">";
+        if (!$isEur && $amount > 99999999.95) {
+            throw new Error("Invalid amount");
+        } elseif ($isEur && $amount > 99999999.99) {
+            throw new Error("Invalid amount");
         }
 
-        /**
-         * Calculate checksum using Recursive Mod10
-         * See https://www.postfinance.ch/binp/postfinance/public/dam.Ii-X5NgtAixO8cQPvja46blV6d7cZCyGUscxO15L5S8.spool/content/dam/pf/de/doc/consult/manual/dldata/efin_recdescr_man_en.pdf
-         * Page 5
-         *
-         * @param string $in
-         * @return integer
-         */
-        public static function invoice_recMod10($in)
-        {
-            $line = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5];
-            $carry = 0;
-            $chars = str_split($in);
+        $amountLine = sprintf("%010d", $amount * 100);
+        $checkSlAmount = invoice_recMod10($slipType . $amountLine);
 
-            foreach ($chars as $char) {
-                $carry = $line[($carry + intval($char)) % 10];
-            }
-
-            return (10 - $carry) % 10;
+        if (!preg_match("/\d{2}-\d{1,6}-\d{1}/", $subNumb)) {
+            throw new Error("Invalid subscriber number");
         }
+
+        $subNumb = explode("-", $subNumb);
+        $fullSub = $subNumb[0] . sprintf("%06d", $subNumb[1]) . $subNumb[2];
+        $rnumb = preg_replace('/\s+/', '', $rnumb);
+
+        return $slipType . $amountLine . $checkSlAmount . ">" . $rnumb . "+ " . $fullSub . ">";
+    }
+
+    /**
+     * Calculate checksum using Recursive Mod10
+     * See https://www.postfinance.ch/binp/postfinance/public/dam.Ii-X5NgtAixO8cQPvja46blV6d7cZCyGUscxO15L5S8.spool/content/dam/pf/de/doc/consult/manual/dldata/efin_recdescr_man_en.pdf
+     * Page 5
+     *
+     * @param string $in
+     * @return integer
+     */
+    function invoice_recMod10($in)
+    {
+        $line = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5];
+        $carry = 0;
+        $chars = str_split($in);
+
+        foreach ($chars as $char) {
+            $carry = $line[($carry + intval($char)) % 10];
+        }
+
+        return (10 - $carry) % 10;
+    }
 }

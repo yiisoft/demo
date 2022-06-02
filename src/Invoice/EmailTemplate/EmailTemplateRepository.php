@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Invoice\EmailTemplate;
@@ -12,7 +11,6 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Files\FileHelper;
 
 final class EmailTemplateRepository extends Select\Repository
@@ -66,6 +64,17 @@ final class EmailTemplateRepository extends Select\Repository
         return  $query->fetchOne();        
     }
     
+     /**
+     * @psalm-return DataReaderInterface<int, EmailTemplate>
+     */
+    public function repoEmailTemplateType(string $email_template_type): DataReaderInterface
+    {
+        $query = $this
+            ->select()
+            ->where(['email_template_type' => $email_template_type]);
+        return $this->prepareDataReader($query);      
+    }
+    
     public static function getSettings(SettingRepository $setting)
     {
         $setting->load_settings();
@@ -74,8 +83,8 @@ final class EmailTemplateRepository extends Select\Repository
     
     public function get_invoice_templates($type = 'pdf')
     {
-        $pdf_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/template_invoice/pdf'; 
-        $public_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/template_invoice/public';
+        $pdf_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/invoice/pdf'; 
+        $public_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/invoice/public';
         if ($type == 'pdf') {
               $templates = FileHelper::findFiles($pdf_template_directory, [
                                         'only' => ['*.php'],
@@ -94,8 +103,8 @@ final class EmailTemplateRepository extends Select\Repository
     
     public function get_quote_templates($type = 'pdf')
     {
-        $pdf_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/template_quote/pdf'; 
-        $public_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/template_quote/public';
+        $pdf_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/quote/pdf'; 
+        $public_template_directory = dirname(dirname(dirname(__DIR__))).'/views/invoice/template/quote/public';
         if ($type == 'pdf') {
             $templates = FileHelper::findFiles($pdf_template_directory, [
                                         'only' => ['*.pdf'],

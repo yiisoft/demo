@@ -7,33 +7,23 @@ namespace App\Invoice\Payment;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Required;
 use \DateTime;
-use \DateTimeImmutable;
 
 final class PaymentForm extends FormModel
 {    
-    
-    private ?int $invoice_id=null;
     private ?int $payment_method_id=null;
-    private ?string $date='';
+    private ?string $payment_date='';
     private ?float $amount=null;
     private ?string $note='';
     private ?int $inv_id=null;
-
-    public function getInvoice_id() : int
-    {
-      return $this->invoice_id;
-    }
 
     public function getPayment_method_id() : int
     {
       return $this->payment_method_id;
     }
 
-    public function getDate() : ?\DateTime
+    public function getPayment_date() : ?\DateTime
     {
-       if (isset($this->date) && !empty($this->date)) {
-          return new DateTime($this->date);
-       }
+       return new DateTime($this->payment_date);      
     }
 
     public function getAmount() : float
@@ -58,15 +48,10 @@ final class PaymentForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'date' => [
-            Required::rule(),
-        ],
-        'amount' => [
-            Required::rule(),
-        ],
-        'note' => [
-            Required::rule(),
-        ],
+        'payment_method_id' => [new Required()],
+        'payment_date' => [new Required()],
+        'amount' => [new Required()],
+        'note' => [new Required()],
     ];
 }
 }

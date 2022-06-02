@@ -6,3 +6,9 @@ https://vimeo.psalm
 https://roave/you-are-using-it-wrong
 https://thephp.cc/dates/2019/10/international-php-conference/the-future-comes-preloaded
 
+Uri Routing
+https://datatracker.ietf.org/doc/html/rfc3986
+
+Running yii-invoice
+Type 'invoice' in the browser url section. This will invoke the InvoiceController.php file by means of the route located in 
+config/routes.php with the route name 'invoice'.

@@ -1,7 +1,4 @@
-<?php           
-   //interal type = eg. appearing in mysql
-   //abstract type = eg. doctrine/cycle appearing IN annotation
-   //type = eg. doctrine/cycle appearing BELOW annotation
+<?php
    echo "<?php\n";             
 ?>
 
@@ -25,34 +22,20 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
 } ?>
   
  <?php 
-    echo '/**'."\n";
-    echo ' * @Entity('."\n";
-    echo ' * repository="' . $generator->getNamespace_path() .DIRECTORY_SEPARATOR. $generator->getCamelcase_capital_name().DIRECTORY_SEPARATOR. $generator->getCamelcase_capital_name() .'Repository",'."\n";
-    if (!empty($generator->isCreated_include()) ||
-            !empty($generator->isUpdated_include()) || 
-            !empty($generator->isModified_include())){
-            {
-               echo ' * mapper="'.$generator->getNamespace_path().DIRECTORY_SEPARATOR.'Entity'.DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name().'Mapper",'."\n";       
-            }
-    }
-    if (!empty($generator->getConstrain_index_field())){
-               echo ' * constrain="'.$generator->getNamespace_path().DIRECTORY_SEPARATOR.'Entity'.DIRECTORY_SEPARATOR.'Scope'.DIRECTORY_SEPARATOR.$generator->getCamelcase_capital_name().'Scope"'."\n";       
+    echo '#[Entity(repository: '.DIRECTORY_SEPARATOR. $generator->getNamespace_path() .DIRECTORY_SEPARATOR. $generator->getCamelcase_capital_name().DIRECTORY_SEPARATOR. $generator->getCamelcase_capital_name() .'Repository::class)]'."\n";
+    if (!empty($generator->isCreated_include()) || !empty($generator->isUpdated_include()) || !empty($generator->isModified_include())){
+        echo (!empty($generator->isCreated_include()) ? '#[Behavior\CreatedAt(field: '. "'". 'date_created'."',column:'".'date_created'.')]' : '');          
+        echo (!empty($generator->isUpdated_include()) ? '#[Behavior\UpdatedAt(field: '. "'". 'date_updated'."',column:'".'date_updated'.')]' : '');          
+        echo (!empty($generator->isModified_include()) ? '#[Behavior\ModifiedAt(field: '. "'". 'date_modified'."',column:'".'date_modified'.')]' : '');          
     }       
  ?>
- * )
- */
  
  class <?= $generator->getCamelcase_capital_name()."\n"; ?>
  {
        
    <?php foreach ($relations as $relation) {
-         echo "\n";
-         echo '    /**'."\n";
-         echo '     * @BelongsTo(target="'.$relation->getCamelcase_name().'", nullable=false)'."\n";
-         echo '     *'."\n";
-         echo '     * @var \Cycle\ORM\Promise\Reference|'.$relation->getCamelcase_name()."\n";
-         echo '     */'."\n"; 
-         echo '     private $'.$relation->getLowercase_name().' = null;'."\n";
+         echo '     #[BelongsTo(target:'.$relation->getCamelcase_name()."::class, nullable: false, fkAction:"."'NO ACTION'".  ")]"."\n";
+         echo '     private ?'.$relation->getCamelcase_name()." $".$relation->getLowercase_name().' = null;'."\n";
          echo '    '."\n";
     } ?>
     
@@ -83,12 +66,12 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                     {
                        if ($column->hasDefaultValue()) {
                           $init  = $column->getDefaultValue();
-                          if ($init === 1) {$init = false;}
-                          if ($init === 0) {$init = true;}
+                          if ($init === 1) {$init = 'false';}
+                          if ($init === 0) {$init = 'true';}
                           break;
                        }
                        else {
-                          $init = false;
+                          $init = 'false';
                           break;
                        }
                     }
@@ -99,13 +82,13 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
             switch ($column->getAbstractType()) {
                 //Special column type, usually mapped as integer + auto-incrementing flag and added as table primary index column. You can define only one primary column in your table (you can still create a compound primary key, see below).
                 case 'primary':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'")'."\n";
-                    $ate_or_lic='public ';
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType()."')]"."\n";
+                    $ate_or_lic='private ';
                     break;
                 //Same as primary but uses bigInteger to store its values.
                 case 'bigPrimary':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'")'."\n";
-                    $ate_or_lic='public ';;
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType()."')]"."\n";
+                    $ate_or_lic='private ';
                     break;
                 //Boolean type, some databases store it as an integer (1/0).
                 case 'boolean':
@@ -116,113 +99,111 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
                        else {
                            $default = 'false';
                     }
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'"'.($column->hasDefaultvalue() ? ',default='.$default  : '').($column->isNullable() ? ',nullable=true'  : ',nullable=false').')'."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType()."'".($column->hasDefaultvalue() ? ',default:'.$default  : '').($column->isNullable() ? ',nullable: true'  : ',nullable: false').')]'."\n";
                     $ate_or_lic='private ';
                     break;
                 }
                 //Database specific integer (usually 32 bits).    
                 case 'integer':
                     $result = $column->getSize();
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().'('.$result.")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Small/tiny integer, check your DBMS to check its size.    
                 case 'tinyInteger':
                     $result = $column->getSize();
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().'('.$result.")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     break;
                 //Big/long integer (usually 64 bits), check your DBMS to check its size.    
                 case 'bigInteger':
                     $result = $column->getSize();
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().'('.$result.")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //length:255] String with specified length, a perfect type for emails and usernames as it can be indexed.    
                 Case 'string':
                     $result = $column->getSize();
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().'('.$result.")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Database specific type to store text data. Check DBMS to find size limitations.    
                 case 'text':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Tiny text, same as "text" for most of the databases. Differs only in MySQL.    
                 case 'tinyText':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Long text, same as "text" for most of the databases. Differs only in MySQL.    
                 case 'longText':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //[Double precision number.] (https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
                 case 'double':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Single precision number, usually mapped into "real" type in the database.
                 case 'float':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //precision, [scale:0]	Number with specified precision and scale.    
                 case 'decimal':
                     $result = $column->getPrecision() .','. $column->getScale();
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'('.$result.')", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().'('.$result.")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //To store specific date and time, DBAL will automatically force UTC timezone for such columns.    
                 case 'datetime':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //To store date only, DBAL will automatically force UTC timezone for such columns.    
                 case 'date':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //To store time only.    
                 case 'time':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.'"'.$column->getDefaultvalue().'"'.")"  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.'"'.$column->getDefaultvalue().'"'.")]"  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Timestamp without a timezone, DBAL will automatically convert incoming values into UTC timezone. 
                 //Do not use such column in your objects to store time (use DateTime instead) as timestamps will behave very specific to select DBMS.    
                 case 'timestamp':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //To store binary data. Check specific DBMS to find size limitations.    
                 case 'binary':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Tiny binary, same as "binary" for most of the databases. Differs only in MySQL.    
                 case 'tinyBinary':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //Long binary, same as "binary" for most of the databases. Differs only in MySQL.    
                 case 'longBinary':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 //To store JSON structures, usually mapped to "text", only Postgres supports it natively.    
                 case 'json':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType().")', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
                 case 'enum':
-                    $ab = '     * @Column(type="'.$column->getAbstractType().'(-1,1)", nullable='.$nullable.($column->hasDefaultvalue() ? ',default='.$column->getDefaultvalue().')'  : ')')."\n";
+                    $ab = '     #[Column(type:'."'".$column->getAbstractType()."(-1,1)', nullable: ".$nullable.($column->hasDefaultvalue() ? ',default: '.$column->getDefaultvalue().')]'  : ')]')."\n";
                     $ate_or_lic='private ';
                     break;
-            }  
-            echo '    /**'."\n";
-            echo $ab;
-            echo '     */'."\n";
+            }
+            echo $ab;            
             if ($init === 'null') {$questionmark = '?';}
             if ($column->getAbstractType() === 'boolean'){
              echo '     '.$ate_or_lic. $questionmark.$column->getType()." $".$column->getName(). ' =  '.$init.';'."\n";   
@@ -230,7 +211,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
             }
             
             if ($column->getAbstractType() === 'datetime') {
-              echo '     '.$ate_or_lic. 'DateIimeImmutable'." $".$column->getName().';'."\n";
+              echo '     '.$ate_or_lic. 'DateTimeImmutable'." $".$column->getName().';'."\n";
               $construct .= "      $".$column->getName(). ' = '.$init.','."\n    "; 
             }
             

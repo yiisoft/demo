@@ -42,18 +42,10 @@ final class GroupForm extends FormModel
 
     public function getRules(): array    {
       return [
-        'name' => [
-            Required::rule(),
-        ],
-        'identifier_format' => [
-            Required::rule(),
-        ],
-        'next_id' => [
-            Required::rule(),
-        ],
-        'left_pad' => [
-            Required::rule(),
-        ],
+        'name' => [new Required()],
+        'identifier_format' => [new Required()],
+        'next_id' => [new Required()],
+        'left_pad' => [new Required()],
     ];
 }
 }

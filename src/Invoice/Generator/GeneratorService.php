@@ -37,6 +37,9 @@ final class GeneratorService
         $model->setDeleted_include($form->getDeleted_include());
         $model->setKeyset_paginator_include($form->getKeyset_paginator_include());
         $model->setOffset_paginator_include($form->getOffset_paginator_include());
+        $model->setFilter_field($form->getFilter_field());
+        $model->setFilter_field_start_position($form->getFilter_field_start_position());
+        $model->setFilter_field_end_position($form->getFilter_field_end_position());
         $model->setFlash_include($form->getFlash_include());
         $model->setHeaderline_include($form->getHeaderline_include());
         $this->repository->save($model);

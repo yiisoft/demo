@@ -5,7 +5,17 @@
 use App\Invoice\<?= $generator->getCamelcase_capital_name(); ?>\<?= $generator->getCamelcase_capital_name().'Controller'; ?>
 
     // <?= $generator->getCamelcase_capital_name(); ?>
-    Route::get('/<?= $generator->getRoute_suffix(); ?>')
+    Route::get('/<?= $generator->getRoute_suffix(); ?>
+         <?php if ($generator->isOffset_paginator_include() && empty($generator->getFilter_field())) {
+             echo '[/page/{page:\d+}]';
+         } ?>
+         <?php if ($generator->isOffset_paginator_include() && !empty($generator->getFilter_field())) {
+             echo '[/page/{page:\d+}[/'.$generator->getFilter_field().'/{'.$generator->getFilter_field().':\d+}]]'."'";
+         } ?>
+         <?php if (!$generator->isOffset_paginator_include() && empty($generator->getFilter_field())) {
+             echo "'";
+         } ?>
+         )
         ->middleware(Authentication::class)
         ->action([<?= $generator->getCamelcase_capital_name(); ?>Controller::class, 'index'])
         ->name('<?= $generator->getRoute_suffix(); ?>/index'),    
@@ -30,7 +40,6 @@ use App\Invoice\<?= $generator->getCamelcase_capital_name(); ?>\<?= $generator->
         ->middleware(fn (AccessChecker $checker) => $checker->withPermission('edit<?= $generator->getCamelcase_capital_name(); ?>'))
         ->middleware(Authentication::class)
         ->action([<?= $generator->getCamelcase_capital_name(); ?>Controller::class, 'view']),
-
 <?php  
      echo "?>";             
 ?>        

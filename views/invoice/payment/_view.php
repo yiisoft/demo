@@ -37,10 +37,10 @@ if (!empty($errors)) {
  </div>
  <div class="mb3 form-group">
    <label for="inv_id" class="form-label" style="background:lightblue">Invoice Number</label>
-   <?= $payment->getInv()->id;?>
+   <?= $payment->getInv()->getId();?>
  </div>
  <div class="mb3 form-group">
    <label for="payment_method_id" class="form-label" style="background:lightblue"><?= $s->trans('payment_method'); ?></label>
-   <?= $payment->getPaymentMethod()->id;?>
+   <?= $payment->getPaymentMethod()->getId();?>
  </div>
 </div>
