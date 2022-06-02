@@ -21,6 +21,8 @@ final class NotFoundHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->viewRenderer->render('404')->withStatus(Status::NOT_FOUND);
+        return $this->viewRenderer
+            ->render('404')
+            ->withStatus(Status::NOT_FOUND);
     }
 }

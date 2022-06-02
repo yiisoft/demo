@@ -45,7 +45,9 @@ final class AuthController
         if (
             $request->getMethod() === Method::POST
             && $loginForm->load(is_array($body) ? $body : [])
-            && $validator->validate($loginForm)->isValid()
+            && $validator
+                ->validate($loginForm)
+                ->isValid()
         ) {
             $identity = $this->authService->getIdentity();
 

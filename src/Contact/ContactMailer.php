@@ -40,12 +40,13 @@ final class ContactMailer
 
     public function send(FormModelInterface $form, ServerRequestInterface $request)
     {
-        $message = $this->mailer->compose(
-            'contact-email',
-            [
-                'content' => $form->getAttributeValue('body'),
-            ]
-        )
+        $message = $this->mailer
+            ->compose(
+                'contact-email',
+                [
+                    'content' => $form->getAttributeValue('body'),
+                ]
+            )
             ->withSubject($form->getAttributeValue('subject'))
             ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
             ->withSender($this->sender)

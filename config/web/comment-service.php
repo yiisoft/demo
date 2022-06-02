@@ -13,7 +13,9 @@ return [
         /**
          * @var CommentRepository $repository
          */
-        $repository = $container->get(ORMInterface::class)->getRepository(Comment::class);
+        $repository = $container
+            ->get(ORMInterface::class)
+            ->getRepository(Comment::class);
 
         return new CommentService($repository);
     },

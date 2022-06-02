@@ -41,7 +41,9 @@ final class ArchiveController
             'year' => $year,
             'month' => $month,
             'paginator' => $paginator,
-            'archive' => $archiveRepo->getFullArchive()->withLimit(12),
+            'archive' => $archiveRepo
+                ->getFullArchive()
+                ->withLimit(12),
             'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
         return $this->viewRenderer->render('monthly-archive', $data);

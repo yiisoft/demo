@@ -97,7 +97,9 @@ final class AddCommand extends Command
     private function addTags(int $count): void
     {
         /** @var TagRepository $tagRepository */
-        $tagRepository = $this->promise->getORM()->getRepository(Tag::class);
+        $tagRepository = $this->promise
+            ->getORM()
+            ->getRepository(Tag::class);
         $this->tags = [];
         $tagWords = [];
         for ($i = 0, $fails = 0; $i < $count; ++$i) {

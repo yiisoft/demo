@@ -19,7 +19,9 @@ use Yiisoft\Router\UrlGeneratorInterface;
 <?php foreach ($data->read() as $comment) { ?>
     <div class="card mb-3" data-id="<?= $comment->getId(); ?>">
         <div class="card-header">
-            #<?= $comment->getId() ?> <?= $comment->getCreatedAt()->format('Y.m.d') ?>
+            #<?= $comment->getId() ?> <?= $comment
+                ->getCreatedAt()
+                ->format('Y.m.d') ?>
         </div>
         <div class="card-body">
             <p class="card-text"><?= Html::encode($comment->getContent()) ?></p>
