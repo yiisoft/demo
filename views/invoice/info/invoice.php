@@ -4,10 +4,12 @@
 as a test platform.
 </p>
 <p><a href="https://github.com/yiisoft/demo/issues/439" >Issue 439: BelongsTo relation not updating on edit of relation field eg. Product' relation field tax rate is not editing and updating.</a> 
+<p>Absolute Clear Cache path is located under SettingsController clear function and it will have to be adjusted to your setup in debug mode. </p>   
+<code>public function clear() $directory = "C:\wamp64\www\yii-invoice\public\assets";</code>
 <p>Quote - The Quote is functional ie. can be pdf'd but the emailing aspect has to be developed.</p>
 <p>Invoice - The Invoice is functional ie. can be pdf'd and archived but the emailing aspect has to be developed.</p> 
 <p>Recurring invoices - Functional but not fully tested.</p>
-<p>Payment - Can be recorded against an Invoice. The latest version in League/Omnipay v3.2 has been setup with a few of the major payment providers added to the composer.json</p>
+<p>Payment - Can be recorded against an Invoice. The latest version in League/Omnipay v3.2 will be setup with a few of the major payment providers added to the composer.json</p>
 <p>User Custom Fields - not started yet.</p>
 <p>File Attachments - not started yet. </p>
 <p>Settings...View(Debug mode ie. Red) - These are being used.</p>

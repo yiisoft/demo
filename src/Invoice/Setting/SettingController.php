@@ -348,7 +348,7 @@ final class SettingController
     public function clear() : Response
     {
         // In debug_mode alter this absolute path
-        $directory = "C:\wamp64\www\yii-inv\public\assets";
+        $directory = "C:\wamp64\www\yii-invoice\public\assets";
         $filehelper = new FileHelper;
         $filehelper->clearDirectory($directory);
         $this->flash($this->session,'info', 'Assets cleared at '.$directory);
