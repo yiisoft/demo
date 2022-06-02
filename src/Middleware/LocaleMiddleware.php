@@ -74,7 +74,8 @@ final class LocaleMiddleware implements MiddlewareInterface
 
             $response = $handler->handle($request);
             if ($this->isDefaultLocale($locale, $country) && $request->getMethod() === 'GET') {
-                $response = $this->responseFactory->createResponse(Status::FOUND)
+                $response = $this->responseFactory
+                    ->createResponse(Status::FOUND)
                     ->withHeader(Header::LOCATION, $newPath);
             }
             if ($this->enableSaveLocale) {
@@ -96,7 +97,8 @@ final class LocaleMiddleware implements MiddlewareInterface
         $this->urlGenerator->setDefaultArgument($this->queryParameterName, $locale);
 
         if ($request->getMethod() === 'GET') {
-            return $this->responseFactory->createResponse(Status::FOUND)
+            return $this->responseFactory
+                ->createResponse(Status::FOUND)
                 ->withHeader(Header::LOCATION, '/' . $locale . $path);
         }
 

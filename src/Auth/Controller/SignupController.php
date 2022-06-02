@@ -42,7 +42,9 @@ final class SignupController
         if (
             $request->getMethod() === Method::POST
             && $signupForm->load(is_array($body) ? $body : [])
-            && $validator->validate($signupForm)->isValid()
+            && $validator
+                ->validate($signupForm)
+                ->isValid()
         ) {
             return $this->redirectToMain();
         }
