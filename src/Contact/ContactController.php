@@ -41,7 +41,9 @@ final class ContactController
     ): ResponseInterface {
         $body = $request->getParsedBody();
         $form = new ContactForm();
-        if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator->validate($form)->isValid()) {
+        if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator
+                ->validate($form)
+                ->isValid()) {
             $this->mailer->send($form, $request);
 
             return $this->responseFactory

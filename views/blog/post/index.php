@@ -20,13 +20,19 @@ $this->setTitle($item->getTitle());
     <div>
         <span class="text-muted"><?= $item->getPublishedAt() === null
                 ? 'not published'
-                : $item->getPublishedAt()->format('H:i:s d.m.Y') ?> by</span>
+                : $item
+                    ->getPublishedAt()
+                    ->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
-    $item->getUser()->getLogin(),
-    $urlGenerator->generate('user/profile', ['login' => $item->getUser()->getLogin()]),
-    ['class' => 'mr-3']
-);
+            $item
+                ->getUser()
+                ->getLogin(),
+            $urlGenerator->generate('user/profile', ['login' => $item
+                ->getUser()
+                ->getLogin()]),
+            ['class' => 'mr-3']
+        );
         if ($canEdit) {
             echo Html::a(
                 'Edit',
@@ -61,15 +67,23 @@ if ($item->getComments()) {
             <div class="media-body">
                 <div>
                     <?= Html::a(
-            $comment->getUser()->getLogin(),
-            $urlGenerator->generate('user/profile', ['login' => $comment->getUser()->getLogin()])
-        ) ?>
+                        $comment
+                            ->getUser()
+                            ->getLogin(),
+                        $urlGenerator->generate('user/profile', ['login' => $comment
+                            ->getUser()
+                            ->getLogin()])
+                    ) ?>
                     <span class="text-muted">
-                        <i>created at</i> <?= $comment->getCreatedAt()->format('H:i d.m.Y') ?>
+                        <i>created at</i> <?= $comment
+                            ->getCreatedAt()
+                            ->format('H:i d.m.Y') ?>
                     </span>
                     <?php if ($comment->isPublic()) { ?>
                         <span class="text-muted">
-                            <i>published at</i> <?= $comment->getPublishedAt()->format('d.m.Y') ?>
+                            <i>published at</i> <?= $comment
+                                ->getPublishedAt()
+                                ->format('d.m.Y') ?>
                         </span>
                     <?php } ?>
                     <span><?= $comment->isPublic()

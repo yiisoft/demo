@@ -31,7 +31,8 @@ final class PostRepository extends Select\Repository
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select()
+        $query = $this
+            ->select()
             ->load(['user', 'tags']);
         return $this->prepareDataReader($query);
     }
@@ -63,12 +64,17 @@ final class PostRepository extends Select\Repository
 
     public function getMaxUpdatedAt(): DateTimeInterface
     {
-        return new DateTimeImmutable($this->select()->max('updated_at') ?? 'now');
+        return new DateTimeImmutable($this
+                ->select()
+                ->max('updated_at') ?? 'now');
     }
 
     public function findBySlug(string $slug): ?Post
     {
-        return $this->select()->where(['slug' => $slug])->fetchOne();
+        return $this
+            ->select()
+            ->where(['slug' => $slug])
+            ->fetchOne();
     }
 
     /**

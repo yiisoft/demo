@@ -32,7 +32,9 @@ $this->setTitle($translator->translate('layout.archive.for-year', ['year' => $ye
         $monthName = '';
         /** @var Post $item */
         foreach ($items as $item) {
-            $month = (int)$item->getPublishedAt()->format('m');
+            $month = (int)$item
+                ->getPublishedAt()
+                ->format('m');
 
             if ($currentMonth !== $month) {
                 $currentMonth = $month;
@@ -45,7 +47,9 @@ $this->setTitle($translator->translate('layout.archive.for-year', ['year' => $ye
                 $urlGenerator->generate('blog/post', ['slug' => $item->getSlug()])
             );
             echo ' by ';
-            $login = $item->getUser()->getLogin();
+            $login = $item
+                ->getUser()
+                ->getLogin();
             echo Html::a(Html::encode($login), $urlGenerator->generate(
                 'user/profile',
                 ['login' => $login]
