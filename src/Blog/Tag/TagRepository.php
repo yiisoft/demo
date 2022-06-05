@@ -33,9 +33,10 @@ final class TagRepository extends Repository
 
     public function findByLabel(string $label): ?Tag
     {
-        return $this->select()
-                    ->where(['label' => $label])
-                    ->fetchOne();
+        return $this
+            ->select()
+            ->where(['label' => $label])
+            ->fetchOne();
     }
 
     /**
@@ -70,8 +71,11 @@ final class TagRepository extends Repository
             ->select()
             ->buildQuery()
             ->columns(['t.label', 'count(*) count'])
-            ->innerJoin('post', 'p')->on('p.id', 'postTag.post_id')->onWhere(['p.public' => true])
-            ->innerJoin('tag', 't')->on('t.id', 'postTag.tag_id')
+            ->innerJoin('post', 'p')
+            ->on('p.id', 'postTag.post_id')
+            ->onWhere(['p.public' => true])
+            ->innerJoin('tag', 't')
+            ->on('t.id', 'postTag.tag_id')
             ->groupBy('t.label, tag_id');
 
         /**
@@ -132,6 +136,8 @@ final class TagRepository extends Repository
             ->columns(['label', 'count(*) count']);
 
         $sort = Sort::only(['count', 'label'])->withOrder(['count' => 'desc']);
-        return (new EntityReader($case3))->withSort($sort)->withLimit($limit);
+        return (new EntityReader($case3))
+            ->withSort($sort)
+            ->withLimit($limit);
     }
 }

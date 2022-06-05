@@ -22,7 +22,10 @@ final class UserRepository extends Select\Repository
 
     public function findAll(array $scope = [], array $orderBy = []): DataReaderInterface
     {
-        return new EntityReader($this->select()->where($scope)->orderBy($orderBy));
+        return new EntityReader($this
+            ->select()
+            ->where($scope)
+            ->orderBy($orderBy));
     }
 
     /**
@@ -42,7 +45,11 @@ final class UserRepository extends Select\Repository
 
     public function findByLoginWithAuthIdentity(string $login): ?User
     {
-        return $this->select()->where(['login' => $login])->load('identity')->fetchOne();
+        return $this
+            ->select()
+            ->where(['login' => $login])
+            ->load('identity')
+            ->fetchOne();
     }
 
     /**
