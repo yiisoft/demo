@@ -6,7 +6,6 @@ use App\Handler\NotFoundHandler;
 use App\Middleware\LocaleMiddleware;
 use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Definitions\Reference;
-use Yiisoft\Injector\Injector;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 
 /** @var array $params */
@@ -14,10 +13,10 @@ use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 return [
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
-            'dispatcher' => DynamicReference::to(static function (Injector $injector) use ($params) {
-                return ($injector->make(MiddlewareDispatcher::class))
-                    ->withMiddlewares($params['middlewares']);
-            }),
+            'dispatcher' => DynamicReference::to([
+                'class' => MiddlewareDispatcher::class,
+                'withMiddlewares()' => [$params['middlewares']],
+            ]),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],
