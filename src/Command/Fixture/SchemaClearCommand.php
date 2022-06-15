@@ -9,11 +9,11 @@ use App\Blog\Entity\Tag;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
 use App\User\User;
-use function count;
 
 
 final class SchemaClearCommand extends Command
@@ -69,26 +69,33 @@ final class SchemaClearCommand extends Command
             ->delete('comment')
             ->run();
 
-        return count($this->promise
+        return 0 === $this->promise
                 ->getORM()
                 ->getRepository(Post::class)
-                ->findAll()) +
-            count($this->promise
+                ->select()
+                ->count() +
+            $this->promise
                 ->getORM()
                 ->getRepository(PostTag::class)
-                ->findAll())+
-            count($this->promise
+                ->select()
+                ->count() +
+            $this->promise
                 ->getORM()
                 ->getRepository(Tag::class)
-                ->findAll())+
-            count($this->promise
+                ->select()
+                ->count() +
+            $this->promise
                 ->getORM()
                 ->getRepository(User::class)
-                ->findAll())+
-            count($this->promise
+                ->select()
+                ->count() +
+            $this->promise
                 ->getORM()
                 ->getRepository(Comment::class)
-                ->findAll());
+                ->select()
+                ->count()
+            ? ExitCode::OK
+            : ExitCode::UNSPECIFIED_ERROR;
 
     }
 
