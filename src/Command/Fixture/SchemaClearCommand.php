@@ -15,13 +15,11 @@ use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
 use App\User\User;
 
-
 final class SchemaClearCommand extends Command
 {
     protected static $defaultName = 'fixture/schema/clear';
 
     private CycleDependencyProxy $promise;
-
 
     public function __construct(
         CycleDependencyProxy $promise,
@@ -96,7 +94,5 @@ final class SchemaClearCommand extends Command
                 ->count()
             ? ExitCode::OK
             : ExitCode::UNSPECIFIED_ERROR;
-
     }
-
 }
