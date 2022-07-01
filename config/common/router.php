@@ -24,7 +24,7 @@ return [
             );
 
         if (!str_starts_with(getenv('YII_ENV') ?: '', 'prod')) {
-            // $collector->middleware(ToolbarMiddleware::class);
+            $collector->middleware(ToolbarMiddleware::class);
         }
 
         return new RouteCollection($collector);
