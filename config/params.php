@@ -23,7 +23,7 @@ use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
+    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID'],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',

@@ -111,6 +111,10 @@ $this->beginPage();
                                 'label' => $translator->translate('layout.language.russian'),
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
                             ],
+                            [
+                                'label' => $translator->translate('layout.language.indonesian'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], 'site/index'),
+                            ],
                         ],
                     ],
                     [
