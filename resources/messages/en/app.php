@@ -30,6 +30,7 @@ return [
     'layout.change-language' => 'Change language',
     'layout.language.english' => 'English',
     'layout.language.russian' => 'Русский',
+    'layout.language.indonesian' => 'Indonesia',
     'signup' => 'Signup',
     'layout.not-found' => 'Not found',
     'layout.page.not-found' => 'The page {url} could not be found.',
