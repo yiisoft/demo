@@ -21,7 +21,9 @@ use Yiisoft\User\Login\Cookie\CookieLogin;
 
 return [
     IdentityRepositoryInterface::class => static function (ContainerInterface $container): IdentityRepository {
-        return $container->get(ORMInterface::class)->getRepository(Identity::class);
+        return $container
+            ->get(ORMInterface::class)
+            ->getRepository(Identity::class);
     },
 
     CookieMiddleware::class => static fn (CookieLogin $cookieLogin, LoggerInterface $logger) => new CookieMiddleware(

@@ -8,6 +8,7 @@ use App\Auth\AuthService;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
+use Yiisoft\Validator\Rule\Callback;
 use Yiisoft\Validator\Rule\Required;
 
 final class LoginForm extends FormModel
@@ -52,16 +53,21 @@ final class LoginForm extends FormModel
     {
         return [
             new Required(),
-            function (): Result {
-                $result = new Result();
+            new Callback(
+                callback: function (): Result {
+                    $result = new Result();
 
-                if (!$this->authService->login($this->login, $this->password)) {
-                    $this->getFormErrors()->addError('login', '');
-                    $result->addError($this->translator->translate('validator.invalid.login.password'));
-                }
+                    if (!$this->authService->login($this->login, $this->password)) {
+                        $this
+                            ->getFormErrors()
+                            ->addError('login', '');
+                        $result->addError($this->translator->translate('validator.invalid.login.password'));
+                    }
 
-                return $result;
-            },
+                    return $result;
+                },
+                skipOnEmpty: true,
+            ),
         ];
     }
 }

@@ -23,7 +23,7 @@ use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
+    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID'],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
@@ -55,30 +55,24 @@ return [
         ],
     ],
 
-    'yiisoft/forms' => [
-        'field' => [
-            'ariaDescribedBy' => [true],
-            'containerClass' => ['form-floating mb-3'],
-            'errorClass' => ['fw-bold fst-italic invalid-feedback'],
-            'hintClass' => ['form-text'],
-            'inputClass' => ['form-control'],
-            'invalidClass' => ['is-invalid'],
-            'labelClass' => ['floatingInput'],
-            'template' => ['{input}{label}{hint}{error}'],
-            'validClass' => ['is-valid'],
-            'defaultValues' => [
-                [
-                    'submit' => [
-                        'definitions' => [
-                            'class()' => ['btn btn-primary btn-lg mt-3'],
-                        ],
-                        'containerClass' => 'd-grid gap-2 form-floating',
+    'yiisoft/form' => [
+        'configs' => [
+            'default' => [
+                'containerClass' => 'form-floating mb-3',
+                'inputClass' => 'form-control',
+                'invalidClass' => 'is-invalid',
+                'validClass' => 'is-valid',
+                'template' => '{input}{label}{hint}{error}',
+                'labelClass' => 'floatingInput',
+                'errorClass' => 'fw-bold fst-italic',
+                'hintClass' => 'form-text',
+                'fieldConfigs' => [
+                    \Yiisoft\Form\Field\SubmitButton::class => [
+                        'buttonClass()' => ['btn btn-primary btn-lg mt-3'],
+                        'containerClass()' => ['d-grid gap-2 form-floating'],
                     ],
                 ],
             ],
-        ],
-        'form' => [
-            'attributes' => [['enctype' => 'multipart/form-data']],
         ],
     ],
 
@@ -136,6 +130,7 @@ return [
             'user/create' => App\User\Console\CreateCommand::class,
             'user/assignRole' => App\User\Console\AssignRoleCommand::class,
             'fixture/add' => App\Command\Fixture\AddCommand::class,
+            'fixture/schema/clear' => App\Command\Fixture\SchemaClearCommand::class,
             'router/list' => App\Command\Router\ListCommand::class,
             'translator/translate' => App\Command\Translation\TranslateCommand::class,
         ],

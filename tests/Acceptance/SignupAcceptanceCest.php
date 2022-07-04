@@ -47,7 +47,7 @@ final class SignupAcceptanceCest
         $I->see('Value cannot be blank');
         $I->see('Value cannot be blank');
         $I->see('Value cannot be blank');
-        $I->seeInField('register-button', 'Submit');
+        $I->seeElement('button', ['name' => 'register-button']);
     }
 
     public function testRegisterUsernameExistData(AcceptanceTester $I): void
@@ -63,7 +63,7 @@ final class SignupAcceptanceCest
 
         $I->expectTo('see registration register validation.');
         $I->see('User with this login already exists');
-        $I->seeInField('register-button', 'Submit');
+        $I->seeElement('button', ['name' => 'register-button']);
     }
 
     public function testRegisterWrongPassword(AcceptanceTester $I): void

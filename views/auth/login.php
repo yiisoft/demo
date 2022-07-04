@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Form\Helper\HtmlFormErrors;
-use Yiisoft\Form\FormModelInterface;
-use Yiisoft\Form\Widget\Field;
-use Yiisoft\Form\Widget\Form;
+use Yiisoft\Form\Field;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Form;
 
 /**
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var string $csrf
- * @var FormModelInterface $formModel
+ * @var \App\Auth\Form\LoginForm $formModel
  */
 
 $this->setTitle($translator->translate('layout.login'));
@@ -29,28 +27,24 @@ $error = $error ?? null;
                     <h1 class="fw-normal h3 text-center"><?= Html::encode($this->getTitle()) ?></h1>
                 </div>
                 <div class="card-body p-5 text-center">
-                    <?= Form::widget()
-                        ->action($urlGenerator->generate('auth/login'))
+                    <?= Form::tag()
+                        ->post($urlGenerator->generate('auth/login'))
                         ->csrf($csrf)
                         ->id('loginForm')
-                        ->begin() ?>
+                        ->open() ?>
 
-                        <?= Field::widget()->autofocus()->text($formModel, 'login') ?>
-                        <?= Field::widget()->password($formModel, 'password') ?>
-                        <?= Field::widget()
-                            ->checkbox($formModel, 'rememberMe')
-                            ->containerClass('form-check form-switch text-start mt-2')
-                            ->inputClass('form-check-input')
-                            ->labelClass('form-check-label')
-                        ?>
-                        <?= Field::widget()
-                            ->id('login-button')
-                            ->name('login-button')
-                            ->submitButton()
-                            ->value($translator->translate('layout.submit'))
-                        ?>
+                    <?= Field::text($formModel, 'login')->autofocus() ?>
+                    <?= Field::password($formModel, 'password') ?>
+                    <?= Field::checkbox($formModel, 'rememberMe')
+                        ->containerClass('form-check form-switch text-start mt-2')
+                        ->inputClass('form-check-input')
+                        ->inputLabelClass('form-check-label') ?>
+                    <?= Field::submitButton()
+                        ->buttonId('login-button')
+                        ->name('login-button')
+                        ->content($translator->translate('layout.submit')) ?>
 
-                    <?= Form::end() ?>
+                    <?= Form::tag()->close() ?>
                 </div>
             </div>
         </div>

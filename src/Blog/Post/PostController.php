@@ -56,7 +56,9 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
-            if ($form->load($parameters['body']) && $validator->validate($form)->isValid()) {
+            if ($form->load($parameters['body']) && $validator
+                    ->validate($form)
+                    ->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
@@ -93,7 +95,9 @@ final class PostController
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
             $body = $request->getParsedBody();
-            if ($form->load($body) && $validator->validate($form)->isValid()) {
+            if ($form->load($body) && $validator
+                    ->validate($form)
+                    ->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
                 return $this->webService->getRedirectResponse('blog/index');
             }
