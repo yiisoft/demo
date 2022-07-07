@@ -19,12 +19,13 @@ phpunit.phar
 
 # local config
 /.env
-/docker-compose.local.yml
+/docker-compose.override.yml
 
 # evolving files
 /vendor
 /composer.lock
 /node_modules
+/config/.merge-plan.php
 
 # Codeception
 c3.php
