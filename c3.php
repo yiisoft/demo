@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // @codingStandardsIgnoreFile
 // @codeCoverageIgnoreStart
 
@@ -25,7 +27,7 @@ if (isset($_COOKIE['CODECEPTION_CODECOVERAGE'])) {
     if ($cookie) {
         foreach ($cookie as $key => $value) {
             if (!empty($value)) {
-                $_SERVER["HTTP_X_CODECEPTION_" . strtoupper($key)] = $value;
+                $_SERVER['HTTP_X_CODECEPTION_' . strtoupper($key)] = $value;
             }
         }
     }
@@ -71,7 +73,7 @@ if (!class_exists('\\Codeception\\Codecept') || !function_exists('codecept_is_pa
 }
 
 // phpunit codecoverage shimming
-if (!class_exists('PHP_CodeCoverage') and class_exists('SebastianBergmann\CodeCoverage\CodeCoverage')) {
+if (!class_exists('PHP_CodeCoverage') && class_exists('SebastianBergmann\CodeCoverage\CodeCoverage')) {
     class_alias('SebastianBergmann\CodeCoverage\CodeCoverage', 'PHP_CodeCoverage');
     class_alias('SebastianBergmann\CodeCoverage\Report\Text', 'PHP_CodeCoverage_Report_Text');
     class_alias('SebastianBergmann\CodeCoverage\Report\PHP', 'PHP_CodeCoverage_Report_PHP');
@@ -108,7 +110,6 @@ try {
 }
 
 if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
-
     // workaround for 'zend_mm_heap corrupted' problem
     gc_disable();
 
@@ -175,7 +176,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
     function __c3_build_cobertura_report(PHP_CodeCoverage $codeCoverage, $path)
     {
         if (!class_exists(\SebastianBergmann\CodeCoverage\Report\Cobertura::class)) {
-            throw new Exception("Cobertura report requires php-code-coverage >= 9.2");
+            throw new Exception('Cobertura report requires php-code-coverage >= 9.2');
         }
         $writer = new \SebastianBergmann\CodeCoverage\Report\Cobertura();
         $writer->process($codeCoverage, $path . '.cobertura.xml');
@@ -185,7 +186,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
 
     function __c3_build_phpunit_report(PHP_CodeCoverage $codeCoverage, $path)
     {
-        $writer = new PHP_CodeCoverage_Report_XML(\PHPUnit_Runner_Version::id());
+        $writer = new PHP_CodeCoverage_Report_XML(\PHPUnit\Runner\Version::id());
         $writer->process($codeCoverage, $path . 'phpunit');
 
         if (file_exists($path . '.tar')) {
@@ -226,6 +227,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
     /**
      * @param $filename
      * @param bool $lock Lock the file for writing?
+     *
      * @return [null|PHP_CodeCoverage|\SebastianBergmann\CodeCoverage\CodeCoverage, resource]
      */
     function __c3_factory($filename, $lock = false)
@@ -243,18 +245,18 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
                 $phpCoverage = unserialize(file_get_contents($filename));
             }
 
-            return array($phpCoverage, $file);
-        } else {
-            if (method_exists(Driver::class, 'forLineCoverage')) {
-                //php-code-coverage 9+
-                $filter = new CodeCoverageFilter();
-                $driver = Driver::forLineCoverage($filter);
-                $phpCoverage = new PHP_CodeCoverage($driver, $filter);
-            } else {
-                //php-code-coverage 8 or older
-                $phpCoverage = new PHP_CodeCoverage();
-            }
+            return [$phpCoverage, $file];
         }
+        if (method_exists(Driver::class, 'forLineCoverage')) {
+            //php-code-coverage 9+
+            $filter = new CodeCoverageFilter();
+            $driver = Driver::forLineCoverage($filter);
+            $phpCoverage = new PHP_CodeCoverage($driver, $filter);
+        } else {
+            //php-code-coverage 8 or older
+            $phpCoverage = new PHP_CodeCoverage();
+        }
+
 
         if (isset($_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_SUITE'])) {
             $suite = $_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_SUITE'];
@@ -275,7 +277,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
             __c3_error($e->getMessage());
         }
 
-        return array($phpCoverage, $file);
+        return [$phpCoverage, $file];
     }
 
     function __c3_exit()
@@ -314,7 +316,7 @@ if ($requestedC3Report) {
         return __c3_exit();
     }
 
-    list($codeCoverage, ) = __c3_factory($completeReport);
+    [$codeCoverage, ] = __c3_factory($completeReport);
 
     switch ($route) {
         case 'html':
@@ -361,7 +363,7 @@ if ($requestedC3Report) {
             return __c3_exit();
     }
 } else {
-    list($codeCoverage, ) = __c3_factory(null);
+    [$codeCoverage, ] = __c3_factory(null);
     $codeCoverage->start(C3_CODECOVERAGE_TESTNAME);
     if (!array_key_exists('HTTP_X_CODECEPTION_CODECOVERAGE_DEBUG', $_SERVER)) {
         register_shutdown_function(
@@ -386,7 +388,7 @@ if ($requestedC3Report) {
                 // read/write to the file at the same time as this request (leading to a corrupt file). flock() is a
                 // blocking call, so it waits until an exclusive lock can be acquired before continuing.
 
-                list($existingCodeCoverage, $file) = __c3_factory($currentReport, true);
+                [$existingCodeCoverage, $file] = __c3_factory($currentReport, true);
                 $existingCodeCoverage->merge($codeCoverage);
 
                 if ($file === null) {
