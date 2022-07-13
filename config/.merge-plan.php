@@ -21,6 +21,9 @@ return [
             'yiisoft/yii-cycle' => [
                 'config/common.php',
             ],
+            'yiisoft/yii-sentry' => [
+                'config/common.php',
+            ],
             'yiisoft/log-target-file' => [
                 'config/common.php',
             ],
@@ -92,6 +95,9 @@ return [
             'yiisoft/yii-debug-api' => [
                 'config/params.php',
             ],
+            'yiisoft/yii-sentry' => [
+                'config/params.php',
+            ],
             'yiisoft/yii-swagger' => [
                 'config/params.php',
             ],
@@ -147,6 +153,9 @@ return [
         ],
         'bootstrap' => [
             'yiisoft/form' => [
+                'config/bootstrap.php',
+            ],
+            'yiisoft/yii-sentry' => [
                 'config/bootstrap.php',
             ],
             'yiisoft/widget' => [
@@ -230,6 +239,9 @@ return [
         ],
         'events-console' => [
             'yiisoft/yii-cycle' => [
+                'config/events-console.php',
+            ],
+            'yiisoft/yii-sentry' => [
                 'config/events-console.php',
             ],
             'yiisoft/log' => [

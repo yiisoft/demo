@@ -20,6 +20,7 @@ use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
+use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
@@ -30,6 +31,7 @@ return [
     ],
     'middlewares' => [
         ErrorCatcher::class,
+        SentryMiddleware::class,
         SessionMiddleware::class,
         CookieMiddleware::class,
         CookieLoginMiddleware::class,
@@ -214,6 +216,11 @@ return [
         'annotation-paths' => [
             '@src/Controller',
             '@src/User/Controller',
+        ],
+    ],
+    'yiisoft/yii-sentry' => [
+        'options' => [
+            'dsn' => $_ENV['SENTRY_DSN'] ?? null,
         ],
     ],
 ];
