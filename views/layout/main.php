@@ -124,6 +124,10 @@ $this->beginPage();
                                     'url' => $urlGenerator->generateFromCurrent(['_language' => 'ja'], 'site/index'),
                                 ],
                             ],
+                            [
+                                'label' => $translator->translate('layout.language.indonesian'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], 'site/index'),
+                            ],
                         ],
                         [
                             'label' => $translator->translate('menu.login'),

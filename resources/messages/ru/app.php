@@ -30,6 +30,7 @@ return [
     'layout.change-language' => 'Change language',
     'layout.language.english' => 'English',
     'layout.language.russian' => 'Русский',
+    'layout.language.indonesian' => 'Indonesia',
     'signup' => 'Регистрация',
     'layout.not-found' => 'Не найдено',
     'layout.page.not-found' => 'Страница {url} не найдена.',

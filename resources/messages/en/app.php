@@ -38,6 +38,7 @@ return [
     'layout.language.russian' => 'Russian',
     'layout.language.english' => 'English',
     'layout.language.russian' => 'Русский',
+    'layout.language.indonesian' => 'Indonesia',
     'signup' => 'Signup',
     'layout.not-found' => 'Not found',
     'layout.page.not-found' => 'The page {url} could not be found.',
