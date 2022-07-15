@@ -13,7 +13,7 @@ return [
     HttpAsyncClient::class => [
         'class' => GuzzleClientAdapter::class,
         '__construct()' => [
-            Reference::to(GuzzleClient::class),
+            Reference::to(HttpClient::class),
         ],
     ],
 ];
