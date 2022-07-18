@@ -17,11 +17,8 @@ use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class TagRepository extends Repository
 {
-    private ORMInterface $orm;
-
-    public function __construct(Select $select, ORMInterface $orm)
+    public function __construct(private ORMInterface $orm, Select $select,)
     {
-        $this->orm = $orm;
         parent::__construct($select);
     }
 

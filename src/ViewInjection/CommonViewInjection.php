@@ -9,11 +9,8 @@ use Yiisoft\Yii\View\CommonParametersInjectionInterface;
 
 final class CommonViewInjection implements CommonParametersInjectionInterface
 {
-    private UrlGeneratorInterface $url;
-
-    public function __construct(UrlGeneratorInterface $url)
+    public function __construct(private UrlGeneratorInterface $url)
     {
-        $this->url = $url;
     }
 
     public function getCommonParameters(): array

@@ -27,8 +27,6 @@ final class AddCommand extends Command
 {
     protected static $defaultName = 'fixture/add';
 
-    private CycleDependencyProxy $promise;
-    private EntityManager $entityManager;
     private Generator $faker;
     /** @var User[] */
     private array $users = [];
@@ -38,11 +36,9 @@ final class AddCommand extends Command
     private const DEFAULT_COUNT = 10;
 
     public function __construct(
-        CycleDependencyProxy $promise,
-        EntityManager $entityManager
+        private CycleDependencyProxy $promise,
+        private EntityManager $entityManager
     ) {
-        $this->promise = $promise;
-        $this->entityManager = $entityManager;
         parent::__construct();
     }
 

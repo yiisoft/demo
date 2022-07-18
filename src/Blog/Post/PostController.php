@@ -17,20 +17,14 @@ use Yiisoft\Yii\View\ViewRenderer;
 final class PostController
 {
     private ViewRenderer $viewRenderer;
-    private WebControllerService $webService;
-    private PostService $postService;
-    private UserService $userService;
 
     public function __construct(
+        private WebControllerService $webService,
+        private PostService $postService,
+        private UserService $userService,
         ViewRenderer $viewRenderer,
-        WebControllerService $webService,
-        PostService $postService,
-        UserService $userService
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
-        $this->webService = $webService;
-        $this->postService = $postService;
-        $this->userService = $userService;
     }
 
     public function index(CurrentRoute $currentRoute, PostRepository $postRepository): Response

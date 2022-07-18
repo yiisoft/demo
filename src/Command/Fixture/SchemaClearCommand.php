@@ -19,12 +19,9 @@ final class SchemaClearCommand extends Command
 {
     protected static $defaultName = 'fixture/schema/clear';
 
-    private CycleDependencyProxy $promise;
-
     public function __construct(
-        CycleDependencyProxy $promise,
+        private CycleDependencyProxy $promise,
     ) {
-        $this->promise = $promise;
         parent::__construct();
     }
 

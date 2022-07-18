@@ -9,11 +9,8 @@ use Yiisoft\Widget\Widget;
 
 final class PerformanceMetrics extends Widget
 {
-    private Timer $timer;
-
-    public function __construct(Timer $timer)
+    public function __construct(private Timer $timer)
     {
-        $this->timer = $timer;
     }
 
     protected function run(): string

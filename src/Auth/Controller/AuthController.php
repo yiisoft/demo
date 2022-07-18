@@ -18,15 +18,14 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class AuthController
 {
-    private WebControllerService $webService;
     private ViewRenderer $viewRenderer;
-    private AuthService $authService;
 
-    public function __construct(ViewRenderer $viewRenderer, AuthService $authService, WebControllerService $webService)
-    {
+    public function __construct(
+        private AuthService $authService,
+        private WebControllerService $webService,
+        ViewRenderer $viewRenderer,
+    ) {
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
-        $this->authService = $authService;
-        $this->webService = $webService;
     }
 
     public function login(

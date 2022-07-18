@@ -12,18 +12,11 @@ use Yiisoft\User\CurrentUser;
 
 final class AuthService
 {
-    private CurrentUser $currentUser;
-    private UserRepository $userRepository;
-    private IdentityRepository $identityRepository;
-
     public function __construct(
-        CurrentUser $currentUser,
-        UserRepository $userRepository,
-        IdentityRepository $identityRepository,
+        private CurrentUser $currentUser,
+        private UserRepository $userRepository,
+        private IdentityRepository $identityRepository,
     ) {
-        $this->currentUser = $currentUser;
-        $this->userRepository = $userRepository;
-        $this->identityRepository = $identityRepository;
     }
 
     public function login(string $login, string $password): bool

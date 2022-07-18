@@ -17,12 +17,10 @@ use Yiisoft\Yii\View\ViewRenderer;
 final class SignupController
 {
     private ViewRenderer $viewRenderer;
-    private WebControllerService $webService;
 
-    public function __construct(ViewRenderer $viewRenderer, WebControllerService $webService)
+    public function __construct(private WebControllerService $webService, ViewRenderer $viewRenderer)
     {
         $this->viewRenderer = $viewRenderer->withControllerName('signup');
-        $this->webService = $webService;
     }
 
     public function signup(
