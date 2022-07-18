@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Auth\Controller\AuthController;
+use App\Auth\Controller\SignupController;
 use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\CommentController;
@@ -10,13 +12,12 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\Actions\ApiInfo;
-use App\Auth\Controller\AuthController;
-use App\Auth\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use App\User\Controller\ApiUserController;
 use App\User\Controller\UserController;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -30,6 +31,9 @@ use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Yii\Middleware\HttpCache;
+use Yiisoft\Yii\RateLimiter\Counter;
+use Yiisoft\Yii\RateLimiter\LimitRequestsMiddleware;
+use Yiisoft\Yii\RateLimiter\Storage\StorageInterface;
 
 return [
     // Lonely pages of site
@@ -42,12 +46,18 @@ return [
 
     // Auth
     Route::methods([Method::GET, Method::POST], '/login')
+        ->middleware(LimitRequestsMiddleware::class)
         ->action([AuthController::class, 'login'])
         ->name('auth/login'),
     Route::post('/logout')
         ->action([AuthController::class, 'logout'])
         ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
+        ->middleware(fn(\Psr\Container\ContainerInterface $container) => new LimitRequestsMiddleware(
+            new Counter($container->get(StorageInterface::class), 2, 3),
+            $container->get(ResponseFactoryInterface::class
+            )
+        ))
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
@@ -82,11 +92,6 @@ return [
                 ->action(ApiInfo::class),
             Route::get('/user')
                 ->name('api/user/index')
-                ->middleware(function () {
-                    $cache = new \Yiisoft\Cache\File\FileCache(__DIR__ . '/../runtime/rate-limit/');
-                    $storage = new \Yiisoft\Yii\RateLimiter\Storage\SimpleCacheStorage($cache);
-                    return new \App\User\Controller\RateLimitToUserApiMiddleware($storage);
-                })
                 ->action([ApiUserController::class, 'index']),
             Route::get('/user/{login}')
                 ->name('api/user/profile')
