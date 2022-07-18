@@ -35,11 +35,11 @@ $pagination = OffsetPagination::widget()
         $pageSize = $paginator->getCurrentPageSize();
         if ($pageSize > 0) {
             echo Html::p(
-                sprintf('Showing %s out of %s posts', $pageSize, $paginator->getTotalItems()),
+                $translator->translate('layout.pagination-summary', ['pageSize' => $pageSize, 'total' => $paginator->getTotalItems()]),
                 ['class' => 'text-muted']
             );
         } else {
-            echo Html::p($translator->translate('layout.no records'));
+            echo Html::p($translator->translate('layout.no-records'));
         }
         /** @var Post $item */
         foreach ($paginator->read() as $item) {

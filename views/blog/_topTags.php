@@ -37,7 +37,7 @@ use Yiisoft\Html\Html;
             echo Html::closeTag('div');
         }
     } else {
-        echo 'tags not found';
+        echo $translator->translate('tags not found');
     }
     echo $blockEnd;
     ?>

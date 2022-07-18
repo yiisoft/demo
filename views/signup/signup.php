@@ -2,42 +2,47 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Form\Field;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Form;
 
 /**
  * @var \Yiisoft\View\WebView $this
  * @var \Yiisoft\Translator\TranslatorInterface $translator
  * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var string $csrf
+ * @var \App\Auth\Form\SignupForm $formModel
  */
 
 $this->setTitle($translator->translate('Signup'));
-$error = $error ?? null;
 ?>
 
-<?php if ($error !== null) : ?>
-  <div class="alert alert-danger" role="alert">
-    <?= Html::encode($error) ?>
-  </div>
-<?php endif ?>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card border border-dark shadow-2-strong rounded-3">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="fw-normal h3 text-center"><?= Html::encode($this->getTitle()) ?></h1>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <?= Form::tag()
+                        ->post($urlGenerator->generate('auth/signup'))
+                        ->csrf($csrf)
+                        ->id('signupForm')
+                        ->open() ?>
 
-<form id="signupForm" method="POST" action="<?= $urlGenerator->generate('site/signup') ?>" enctype="multipart/form-data">
-  <input type="hidden" name="_csrf" value="<?= $csrf ?>">
-  <div class="mb-3">
-    <label for="login" class="form-label required"><?= $translator->translate('layout.login') ?></label>
-    <?= Html::textInput('login', $body['login'] ?? '', [
-      'id' => 'login',
-      'class' => 'form-control',
-      'required' => true,
-    ]) ?>
-  </div>
-  <div class="mb-3">
-    <label for="password" class="form-label required"><?= $translator->translate('layout.password') ?></label>
-    <?= Html::passwordInput('password', $body['password'] ?? '', [
-      'id' => 'password',
-      'class' => 'form-control',
-      'required' => true,
-    ]) ?>
-  </div>
-  <button type="submit" class="btn btn-primary"><?= $translator->translate('layout.submit') ?></button>
-</form>
+                    <?= Field::text($formModel, 'login')->autofocus() ?>
+                    <?= Field::password($formModel, 'password') ?>
+                    <?= Field::password($formModel, 'passwordVerify') ?>
+                    <?= Field::submitButton()
+                        ->buttonId('register-button')
+                        ->name('register-button')
+                        ->content($translator->translate('layout.submit'))
+                    ?>
+
+                    <?= Form::tag()->close() ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

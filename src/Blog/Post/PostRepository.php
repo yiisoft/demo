@@ -6,6 +6,8 @@ namespace App\Blog\Post;
 
 use App\Blog\Entity\Post;
 use Cycle\ORM\Select;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -29,7 +31,8 @@ final class PostRepository extends Select\Repository
      */
     public function findAllPreloaded(): DataReaderInterface
     {
-        $query = $this->select()
+        $query = $this
+            ->select()
             ->load(['user', 'tags']);
         return $this->prepareDataReader($query);
     }
@@ -57,6 +60,21 @@ final class PostRepository extends Select\Repository
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
             ->load('comments', ['method' => Select::OUTER_QUERY]);
         return  $query->fetchOne();
+    }
+
+    public function getMaxUpdatedAt(): DateTimeInterface
+    {
+        return new DateTimeImmutable($this
+                ->select()
+                ->max('updated_at') ?? 'now');
+    }
+
+    public function findBySlug(string $slug): ?Post
+    {
+        return $this
+            ->select()
+            ->where(['slug' => $slug])
+            ->fetchOne();
     }
 
     /**

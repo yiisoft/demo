@@ -9,7 +9,7 @@ use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\Bootstrap5\Widget;
 
-class PostCard extends Widget
+final class PostCard extends Widget
 {
     private ?Post $post = null;
 
@@ -48,7 +48,7 @@ class PostCard extends Widget
             $this->urlGenerator->generate('blog/post', ['slug' => $this->post->getSlug()]),
             ['class' => 'mb-0 h4 text-decoration-none'] // stretched-link
         )
-        ->render();
+            ->render();
     }
 
     protected function renderBody(): string
@@ -56,11 +56,17 @@ class PostCard extends Widget
         $return = Html::openTag('div', ['class' => 'card-text mb-auto']);
         $return .= $this->post->getPublishedAt() === null
             ? 'not published'
-            : $this->post->getPublishedAt()->format('M, d');
+            : $this->post
+                ->getPublishedAt()
+                ->format('M, d');
         $return .= ' by ';
         $return .= Html::a(
-            $this->post->getUser()->getLogin(),
-            $this->urlGenerator->generate('user/profile', ['login' => $this->post->getUser()->getLogin()])
+            $this->post
+                ->getUser()
+                ->getLogin(),
+            $this->urlGenerator->generate('user/profile', ['login' => $this->post
+                ->getUser()
+                ->getLogin(), ])
         )->class('mb-1 text-muted');
 
         $return .= Html::p(

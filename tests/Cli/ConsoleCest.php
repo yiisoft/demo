@@ -26,7 +26,21 @@ final class ConsoleCest
     public function testCommandListCommand(CliTester $I): void
     {
         $command = dirname(__DIR__, 2) . '/yii';
-        $I->runShellCommand($command . ' fixture/add');
+        $I->runShellCommand($command . ' list');
         $I->seeResultCodeIs(ExitCode::OK);
+    }
+
+    /**
+     * Clear all data created with testCommandFixtureAdd().
+     * Clearing database prevents from getting errors during multiple continuous testing with other test,
+     * what are based on empty database (eg, BlogPageCest)
+     *
+     * @param \App\Tests\CliTester $I
+     */
+    public function testCommandCycleSchemaClear(CliTester $I): void
+    {
+        $command = dirname(__DIR__, 2) . '/yii';
+        $I->runShellCommand($command . ' fixture/schema/clear');
+        $I->seeResultCodeIs(0);
     }
 }

@@ -14,7 +14,7 @@ use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
-class ContactController
+final class ContactController
 {
     private ContactMailer $mailer;
     private ResponseFactoryInterface $responseFactory;
@@ -41,7 +41,9 @@ class ContactController
     ): ResponseInterface {
         $body = $request->getParsedBody();
         $form = new ContactForm();
-        if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator->validate($form)->isValid()) {
+        if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator
+                ->validate($form)
+                ->isValid()) {
             $this->mailer->send($form, $request);
 
             return $this->responseFactory

@@ -16,7 +16,7 @@ use Yiisoft\Session\Flash\FlashInterface;
 /**
  * ContactMailer sends an email from the contact form
  */
-class ContactMailer
+final class ContactMailer
 {
     private FlashInterface $flash;
     private LoggerInterface $logger;
@@ -40,12 +40,13 @@ class ContactMailer
 
     public function send(FormModelInterface $form, ServerRequestInterface $request)
     {
-        $message = $this->mailer->compose(
-            'contact-email',
-            [
-                'content' => $form->getAttributeValue('body'),
-            ]
-        )
+        $message = $this->mailer
+            ->compose(
+                'contact-email',
+                [
+                    'content' => $form->getAttributeValue('body'),
+                ]
+            )
             ->withSubject($form->getAttributeValue('subject'))
             ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
             ->withSender($this->sender)
@@ -54,7 +55,7 @@ class ContactMailer
         $attachFiles = $request->getUploadedFiles();
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
-                if ($file->getError() === UPLOAD_ERR_OK) {
+                if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
                         File::fromContent(
                             (string)$file->getStream(),
