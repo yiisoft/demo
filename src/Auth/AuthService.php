@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
+use App\Auth\Form\LoginExistException;
 use App\User\User;
 use App\User\UserRepository;
 use Throwable;
@@ -54,19 +55,20 @@ final class AuthService
 
     /**
      * @throws Throwable
+     * @throws LoginExistException
      */
-    public function signup(string $login, string $password): bool
+    public function signup(string $login, string $password): User
     {
         $user = $this->userRepository->findByLogin($login);
 
         if ($user !== null) {
-            return false;
+           throw new LoginExistException();
         }
 
         $user = new User($login, $password);
         $this->userRepository->save($user);
 
-        return true;
+        return $user;
     }
 
     public function getIdentity(): IdentityInterface

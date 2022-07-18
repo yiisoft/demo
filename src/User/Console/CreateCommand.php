@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Console;
 
-use App\User\User;
-use App\User\UserRepository;
+use App\Auth\AuthService;
+use App\Auth\Form\LoginExistException;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,21 +18,14 @@ use Yiisoft\Yii\Console\ExitCode;
 
 final class CreateCommand extends Command
 {
-    private Manager $manager;
-    private UserRepository $userRepository;
-
     protected static $defaultName = 'user/create';
 
-    public function __construct(
-        Manager $manager,
-        UserRepository $userRepository
-    ) {
-        $this->manager = $manager;
-        $this->userRepository = $userRepository;
+    public function __construct(private AuthService $authService, private Manager $manager,)
+    {
         parent::__construct();
     }
 
-    public function configure(): void
+    protected function configure(): void
     {
         $this
             ->setDescription('Creates a user')
@@ -50,9 +43,13 @@ final class CreateCommand extends Command
         $password = $input->getArgument('password');
         $isAdmin = (bool)$input->getArgument('isAdmin');
 
-        $user = new User($login, $password);
         try {
-            $this->userRepository->save($user);
+            try {
+                $user = $this->authService->signup($login, $password);
+            } catch (LoginExistException $exception) {
+                $io->error($exception->getMessage());
+                return ExitCode::DATAERR;
+            }
 
             if ($isAdmin) {
                 $userId = $user->getId();

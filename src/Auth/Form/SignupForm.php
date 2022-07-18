@@ -73,8 +73,12 @@ final class SignupForm extends FormModel
                     $result->addError($this->translator->translate('validator.password.not.match'));
                 }
 
-                if ($result->getErrors() === [] && !$this->authService->signup($this->login, $this->password)) {
-                    $result->addError($this->translator->translate('validator.user.exist'));
+                if ($result->getErrors() === []) {
+                    try {
+                        $this->authService->signup($this->login, $this->password);
+                    } catch (LoginExistException) {
+                        $result->addError($this->translator->translate('validator.user.exist'));
+                    }
                 }
 
                 return $result;
