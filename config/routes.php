@@ -53,7 +53,7 @@ return [
         ->action([AuthController::class, 'logout'])
         ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
-        ->middleware(fn(\Psr\Container\ContainerInterface $container) => new LimitRequestsMiddleware(
+        ->middleware(fn(ResponseFactoryInterface $responseFactory, StorageInterface $storage) => new LimitRequestsMiddleware(
             new Counter($container->get(StorageInterface::class), 5, 5),
             $container->get(ResponseFactoryInterface::class)
         ))
