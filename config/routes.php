@@ -53,10 +53,10 @@ return [
         ->action([AuthController::class, 'logout'])
         ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
-        ->middleware(fn(ResponseFactoryInterface $responseFactory, StorageInterface $storage) => new LimitRequestsMiddleware(
-            new Counter($container->get(StorageInterface::class), 5, 5),
-            $container->get(ResponseFactoryInterface::class)
-        ))
+        ->middleware(fn(
+            ResponseFactoryInterface $responseFactory,
+            StorageInterface $storage
+        ) => new LimitRequestsMiddleware(new Counter($storage, 5, 5), $responseFactory))
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
