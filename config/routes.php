@@ -17,6 +17,7 @@ use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use App\User\Controller\ApiUserController;
 use App\User\Controller\UserController;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -30,6 +31,9 @@ use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Yii\Middleware\HttpCache;
+use Yiisoft\Yii\RateLimiter\Counter;
+use Yiisoft\Yii\RateLimiter\LimitRequestsMiddleware;
+use Yiisoft\Yii\RateLimiter\Storage\StorageInterface;
 
 return [
     // Lonely pages of site
@@ -42,12 +46,17 @@ return [
 
     // Auth
     Route::methods([Method::GET, Method::POST], '/login')
+        ->middleware(LimitRequestsMiddleware::class)
         ->action([AuthController::class, 'login'])
         ->name('auth/login'),
     Route::post('/logout')
         ->action([AuthController::class, 'logout'])
         ->name('auth/logout'),
     Route::methods([Method::GET, Method::POST], '/signup')
+        ->middleware(fn(
+            ResponseFactoryInterface $responseFactory,
+            StorageInterface $storage
+        ) => new LimitRequestsMiddleware(new Counter($storage, 5, 5), $responseFactory))
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
