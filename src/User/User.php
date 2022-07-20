@@ -15,7 +15,6 @@ use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Yiisoft\Security\PasswordHasher;
 
 #[Entity(repository: \App\User\UserRepository::class)]
 #[Index(columns: ['login'], unique: true)]
@@ -53,12 +52,12 @@ class User
     #[HasMany(target: \App\Blog\Entity\Comment::class)]
     private ArrayCollection $comments;
 
-    public function __construct(string $login, string $password)
+    public function __construct(UserLogin $login, UserPassword $password)
     {
-        $this->login = $login;
+        $this->login = $login->value();
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
-        $this->setPassword($password);
+        $this->passwordHash = $password->getHash();
         $this->identity = new Identity();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -81,12 +80,16 @@ class User
 
     public function validatePassword(string $password): bool
     {
-        return (new PasswordHasher())->validate($password, $this->passwordHash);
+        try {
+            return UserPassword::createNew($password)->isEqualHash($this->passwordHash);
+        } catch (UserPasswordException) {
+            return false;
+        }
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(UserPassword $password): void
     {
-        $this->passwordHash = (new PasswordHasher())->hash($password);
+        $this->passwordHash = $password->getHash();
     }
 
     public function getCreatedAt(): DateTimeImmutable

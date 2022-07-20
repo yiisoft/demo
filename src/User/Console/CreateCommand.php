@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\User\Console;
 
 use App\Auth\AuthService;
-use App\Auth\Form\LoginExistException;
-use InvalidArgumentException;
+use App\User\UserLoginException;
+use App\User\UserPasswordException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +20,7 @@ final class CreateCommand extends Command
 {
     protected static $defaultName = 'user/create';
 
-    public function __construct(private AuthService $authService, private Manager $manager,)
+    public function __construct(private AuthService $authService, private Manager $manager)
     {
         parent::__construct();
     }
@@ -44,24 +44,22 @@ final class CreateCommand extends Command
         $isAdmin = (bool)$input->getArgument('isAdmin');
 
         try {
-            try {
-                $user = $this->authService->signup($login, $password);
-            } catch (LoginExistException $exception) {
-                $io->error($exception->getMessage());
-                return ExitCode::DATAERR;
-            }
+            $user = $this->authService->signup($login, $password);
 
             if ($isAdmin) {
                 $userId = $user->getId();
 
                 if ($userId === null) {
-                    throw new InvalidArgumentException('User Id is NULL');
+                    throw new \LogicException('User Id is NULL');
                 }
 
                 $this->manager->assign('admin', $userId);
             }
 
             $io->success('User created');
+        } catch (UserLoginException|UserPasswordException $exception) {
+            $io->error($exception::class . ' ' . $exception->getMessage());
+            return ExitCode::DATAERR;
         } catch (Throwable $t) {
             $io->error($t->getMessage());
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;

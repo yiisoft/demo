@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use App\Auth\Form\LoginExistException;
 use App\User\User;
+use App\User\UserLogin;
+use App\User\UserPassword;
 use App\User\UserRepository;
 use Throwable;
 use Yiisoft\Auth\IdentityInterface;
@@ -54,20 +55,17 @@ final class AuthService
     }
 
     /**
+     * @throws \App\User\UserLoginException
+     * @throws \App\User\UserPasswordException
      * @throws Throwable
-     * @throws LoginExistException
      */
     public function signup(string $login, string $password): User
     {
-        $user = $this->userRepository->findByLogin($login);
-
-        if ($user !== null) {
-           throw new LoginExistException();
-        }
-
-        $user = new User($login, $password);
+        $user = new User(
+            UserLogin::createNew($login, $this->userRepository),
+            UserPassword::createNew($password)
+        );
         $this->userRepository->save($user);
-
         return $user;
     }
 

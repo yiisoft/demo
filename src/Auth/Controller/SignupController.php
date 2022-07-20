@@ -7,6 +7,8 @@ namespace App\Auth\Controller;
 use App\Auth\AuthService;
 use App\Auth\Form\SignupForm;
 use App\Service\WebControllerService;
+use App\User\UserLoginException;
+use App\User\UserPasswordException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Http\Method;
@@ -37,7 +39,7 @@ final class SignupController
 
         $body = $request->getParsedBody();
 
-        $signupForm = new SignupForm($authService, $translator);
+        $signupForm = new SignupForm($translator);
 
         if (
             $request->getMethod() === Method::POST
@@ -46,7 +48,14 @@ final class SignupController
                 ->validate($signupForm)
                 ->isValid()
         ) {
-            return $this->redirectToMain();
+            try {
+                $authService->signup($signupForm->getLogin(), $signupForm->getPassword());
+                return $this->redirectToMain();
+            } catch (UserLoginException $exception) {
+                $signupForm->getFormErrors()->addError('login', $exception->getMessage());
+            } catch (UserPasswordException $exception) {
+                $signupForm->getFormErrors()->addError('password', $exception->getMessage());
+            }
         }
 
         return $this->viewRenderer->render('signup', ['formModel' => $signupForm]);

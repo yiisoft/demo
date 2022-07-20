@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Auth\Form;
 
-use App\Auth\AuthService;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\Validator\Result;
+use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Required;
 
 final class SignupForm extends FormModel
@@ -15,15 +14,11 @@ final class SignupForm extends FormModel
     private string $login = '';
     private string $password = '';
     private string $passwordVerify = '';
-    private AuthService $authService;
-    private TranslatorInterface $translator;
 
-    public function __construct(AuthService $authService, TranslatorInterface $translator)
-    {
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {
         parent::__construct();
-
-        $this->authService = $authService;
-        $this->translator = $translator;
     }
 
     public function getAttributeLabels(): array
@@ -55,34 +50,11 @@ final class SignupForm extends FormModel
         return [
             'login' => [new Required()],
             'password' => [new Required()],
-            'passwordVerify' => $this->passwordVerifyRules(),
-        ];
-    }
-
-    private function passwordVerifyRules(): array
-    {
-        return [
-            new Required(),
-
-            function (): Result {
-                $result = new Result();
-                if ($this->password !== $this->passwordVerify) {
-                    $this
-                        ->getFormErrors()
-                        ->addError('password', '');
-                    $result->addError($this->translator->translate('validator.password.not.match'));
-                }
-
-                if ($result->getErrors() === []) {
-                    try {
-                        $this->authService->signup($this->login, $this->password);
-                    } catch (LoginExistException) {
-                        $result->addError($this->translator->translate('validator.user.exist'));
-                    }
-                }
-
-                return $result;
-            },
+            'passwordVerify' => [
+                new Required(),
+                new Equal(targetValue: $this->password,
+                    message: $this->translator->translate('validator.password.not.match')),
+            ],
         ];
     }
 }

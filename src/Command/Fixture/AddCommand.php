@@ -9,6 +9,10 @@ use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
 use App\User\User;
+use App\User\UserLogin;
+use App\User\UserLoginException;
+use App\User\UserPassword;
+use App\User\UserPasswordException;
 use Cycle\ORM\EntityManager;
 use DateTimeImmutable;
 use Exception;
@@ -87,10 +91,26 @@ final class AddCommand extends Command
 
     private function addUsers(int $count): void
     {
+        /** @var \App\User\UserRepository $userRepository */
+        $userRepository = $this->promise
+            ->getORM()
+            ->getRepository(User::class);
         for ($i = 0; $i < $count; ++$i) {
-            $login = $this->faker->firstName . rand(0, 9999);
-            $user = new User($login, $login);
+            $user = $this->tryCreateUser($userRepository);
             $this->users[] = $user;
+        }
+    }
+
+    private function tryCreateUser(\App\User\UserRepository $userRepository): User
+    {
+        $login = $this->faker->firstName . rand(0, 9999);
+        try {
+            return new User(
+                UserLogin::createNew($login, $userRepository),
+                UserPassword::createNew($login)
+            );
+        } catch (UserLoginException|UserPasswordException) {
+            return $this->tryCreateUser($userRepository);
         }
     }
 
