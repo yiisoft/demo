@@ -90,7 +90,7 @@ jobs:
       - name: Archive codeception results
         uses: actions/upload-artifact@v2
         with:
-           name: output
+          name: output
           path: ./runtime/tests/_output
 
       - name: Download all workflow run artifacts
