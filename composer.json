@@ -76,7 +76,7 @@
         "yiisoft/widget": "^1.0",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^1.0",
-        "yiisoft/yii-cycle": "2.0.x-dev",
+        "yiisoft/yii-cycle": "3.0.x-dev",
         "yiisoft/yii-dataview": "^3.0@dev",
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-debug-api": "^3.0@dev",
