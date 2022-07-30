@@ -220,7 +220,8 @@ final class LocaleMiddleware implements MiddlewareInterface
         return $new;
     }
 
-    public function withCookieSecure(bool $secure) : self {
+    public function withCookieSecure(bool $secure): self
+    {
         $new = clone $this;
         $new->cookieSecure = $secure;
         return $new;
