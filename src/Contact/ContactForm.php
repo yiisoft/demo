@@ -14,7 +14,7 @@ final class ContactForm extends FormModel
     private string $email = '';
     private string $subject = '';
     private string $body = '';
-    private ?array $attachFiles = null;
+    private mixed $attachFiles = null;
 
     public function getAttributeLabels(): array
     {
