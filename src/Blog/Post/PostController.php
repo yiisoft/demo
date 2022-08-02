@@ -16,13 +16,11 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class PostController
 {
-    private ViewRenderer $viewRenderer;
-
     public function __construct(
         private WebControllerService $webService,
         private PostService $postService,
         private UserService $userService,
-        ViewRenderer $viewRenderer,
+        private ViewRenderer $viewRenderer,
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('blog/post');
     }

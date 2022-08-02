@@ -16,13 +16,11 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class ContactController
 {
-    private ViewRenderer $viewRenderer;
-
     public function __construct(
         private ContactMailer $mailer,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $url,
-        ViewRenderer $viewRenderer
+        private ViewRenderer $viewRenderer
     ) {
         $this->viewRenderer = $viewRenderer
             ->withControllerName('contact')
