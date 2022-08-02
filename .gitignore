@@ -25,8 +25,6 @@ phpunit.phar
 /vendor
 /composer.lock
 /node_modules
-# For demo only. Remove in real projects.
-/config/.merge-plan.php
 
 # Codeception
 c3.php
