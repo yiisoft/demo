@@ -40,7 +40,10 @@ final class ContactController
         ServerRequestInterface $request
     ): ResponseInterface {
         $body = $request->getParsedBody();
+        $files = $request->getUploadedFiles();
+//        var_dump($files);die();
         $form = new ContactForm();
+        $form->setAttribute('attachFiles', $files);
         if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator
                 ->validate($form)
                 ->isValid()) {

@@ -41,7 +41,7 @@ $this->setTitle($translator->translate('menu.contact'));
                     <?= Field::email($form, 'email') ?>
                     <?= Field::text($form, 'subject') ?>
                     <?= Field::textarea($form, 'body')->addInputAttributes(['style' => 'height: 100px']) ?>
-                    <?= Field::file($form, 'attachFiles')
+                    <?= Field::file($form, 'attachFiles[]')
                         ->containerClass('mb-3')
                         ->multiple()
                         ->hideLabel()
