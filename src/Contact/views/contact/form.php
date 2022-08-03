@@ -32,6 +32,7 @@ $this->setTitle($translator->translate('menu.contact'));
                     <?= Form::tag()
                         ->post($url->generate('site/contact'))
                         ->csrf($csrf)
+                        ->enctypeMultipartFormData()
                         ->id('form-contact')
                         ->open()
                     ?>
@@ -66,5 +67,4 @@ $this->setTitle($translator->translate('menu.contact'));
             </div>
         </div>
     </div>
-</div>
 </div>
