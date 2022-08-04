@@ -11,7 +11,7 @@ use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class IdentityRepository extends Select\Repository implements IdentityRepositoryInterface
 {
-    public function __construct(private EntityWriter $entityWriter, Select $select,)
+    public function __construct(private EntityWriter $entityWriter, Select $select)
     {
         parent::__construct($select);
     }

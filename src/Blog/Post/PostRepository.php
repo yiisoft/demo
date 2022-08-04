@@ -16,7 +16,7 @@ use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class PostRepository extends Select\Repository
 {
-    public function __construct(private EntityWriter $entityWriter,Select $select)
+    public function __construct(private EntityWriter $entityWriter, Select $select)
     {
         parent::__construct($select);
     }
