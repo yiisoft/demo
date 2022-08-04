@@ -31,6 +31,7 @@ $this->setTitle($translator->translate('menu.contact'));
                 <div class="card-body p-5 text-center">
                     <?= Form::tag()
                         ->post($url->generate('site/contact'))
+                        ->enctypeMultipartFormData()
                         ->csrf($csrf)
                         ->id('form-contact')
                         ->open()
@@ -40,7 +41,7 @@ $this->setTitle($translator->translate('menu.contact'));
                     <?= Field::email($form, 'email') ?>
                     <?= Field::text($form, 'subject') ?>
                     <?= Field::textarea($form, 'body')->addInputAttributes(['style' => 'height: 100px']) ?>
-                    <?= Field::file($form, 'attachFiles')
+                    <?= Field::file($form, 'attachFiles[]')
                         ->containerClass('mb-3')
                         ->multiple()
                         ->hideLabel()
@@ -66,5 +67,4 @@ $this->setTitle($translator->translate('menu.contact'));
             </div>
         </div>
     </div>
-</div>
 </div>
