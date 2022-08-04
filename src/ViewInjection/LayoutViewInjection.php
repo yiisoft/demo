@@ -10,11 +10,8 @@ use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
 
 final class LayoutViewInjection implements LayoutParametersInjectionInterface
 {
-    private CurrentUser $currentUser;
-
-    public function __construct(CurrentUser $currentUser)
+    public function __construct(private CurrentUser $currentUser)
     {
-        $this->currentUser = $currentUser;
     }
 
     public function getLayoutParameters(): array

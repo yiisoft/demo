@@ -14,16 +14,12 @@ use Yiisoft\Http\Status;
 
 final class AccessChecker implements MiddlewareInterface
 {
-    private ResponseFactoryInterface $responseFactory;
-    private UserService $userService;
     private ?string $permission = null;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        UserService $userService
+        private ResponseFactoryInterface $responseFactory,
+        private UserService $userService
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->userService = $userService;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

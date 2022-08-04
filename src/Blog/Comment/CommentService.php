@@ -9,11 +9,9 @@ use Yiisoft\Data\Paginator\KeysetPaginator;
 final class CommentService
 {
     private const COMMENTS_FEED_PER_PAGE = 10;
-    private CommentRepository $repository;
 
-    public function __construct(CommentRepository $repository)
+    public function __construct(private CommentRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function getFeedPaginator(): KeysetPaginator

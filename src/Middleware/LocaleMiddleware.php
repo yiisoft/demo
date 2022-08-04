@@ -23,12 +23,6 @@ final class LocaleMiddleware implements MiddlewareInterface
     private const DEFAULT_LOCALE = 'en';
     private const DEFAULT_LOCALE_NAME = '_language';
 
-    private TranslatorInterface $translator;
-    private UrlGeneratorInterface $urlGenerator;
-    private SessionInterface $session;
-    private ResponseFactoryInterface $responseFactory;
-    private LoggerInterface $logger;
-    private array $locales;
     private bool $enableSaveLocale = true;
     private bool $enableDetectLocale = false;
     private string $defaultLocale = self::DEFAULT_LOCALE;
@@ -37,20 +31,14 @@ final class LocaleMiddleware implements MiddlewareInterface
     private ?DateInterval $cookieDuration;
 
     public function __construct(
-        TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator,
-        SessionInterface $session,
-        LoggerInterface $logger,
-        ResponseFactoryInterface $responseFactory,
-        array $locales = [],
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
+        private SessionInterface $session,
+        private LoggerInterface $logger,
+        private ResponseFactoryInterface $responseFactory,
+        private array $locales = [],
         private bool $cookieSecure = false
     ) {
-        $this->translator = $translator;
-        $this->urlGenerator = $urlGenerator;
-        $this->session = $session;
-        $this->logger = $logger;
-        $this->responseFactory = $responseFactory;
-        $this->locales = $locales;
         $this->cookieDuration = new DateInterval('P30D');
     }
 

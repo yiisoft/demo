@@ -20,17 +20,13 @@ use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
 final class AssignRoleCommand extends Command
 {
-    private CycleDependencyProxy $promise;
-    private Manager $manager;
-    private ItemsStorageInterface $itemsStorage;
-
     protected static $defaultName = 'user/assignRole';
 
-    public function __construct(CycleDependencyProxy $promise, Manager $manager, ItemsStorageInterface $itemsStorage)
-    {
-        $this->promise = $promise;
-        $this->manager = $manager;
-        $this->itemsStorage = $itemsStorage;
+    public function __construct(
+        private CycleDependencyProxy $promise,
+        private Manager $manager,
+        private ItemsStorageInterface $itemsStorage
+    ) {
         parent::__construct();
     }
 

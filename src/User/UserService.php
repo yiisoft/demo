@@ -9,15 +9,11 @@ use Yiisoft\User\CurrentUser;
 
 final class UserService
 {
-    private CurrentUser $currentUser;
-    private UserRepository $repository;
-    private AccessCheckerInterface $accessChecker;
-
-    public function __construct(CurrentUser $currentUser, UserRepository $repository, AccessCheckerInterface $accessChecker)
-    {
-        $this->currentUser = $currentUser;
-        $this->repository = $repository;
-        $this->accessChecker = $accessChecker;
+    public function __construct(
+        private CurrentUser $currentUser,
+        private UserRepository $repository,
+        private AccessCheckerInterface $accessChecker
+    ) {
     }
 
     public function getUser(): ?User

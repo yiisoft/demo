@@ -16,15 +16,10 @@ final class LoginForm extends FormModel
     private string $login = '';
     private string $password = '';
     private bool $rememberMe = false;
-    private AuthService $authService;
-    private TranslatorInterface $translator;
 
-    public function __construct(AuthService $authService, TranslatorInterface $translator)
+    public function __construct(private AuthService $authService, private TranslatorInterface $translator)
     {
         parent::__construct();
-
-        $this->authService = $authService;
-        $this->translator = $translator;
     }
 
     public function getAttributeLabels(): array
