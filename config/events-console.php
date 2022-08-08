@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Timer;
+use App\Services\Timer;
 use Yiisoft\Yii\Console\Event\ApplicationStartup;
 
 return [

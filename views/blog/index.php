@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var Yiisoft\Data\Paginator\OffsetPaginator $paginator;
+ * @var Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
+ * @var Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\WebView $this
  * @var bool $isGuest
  */
 
-use App\Blog\Entity\Post;
-use App\Blog\Widget\PostCard;
+use App\Modules\Blog\Entity\Post;
+use App\Modules\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 

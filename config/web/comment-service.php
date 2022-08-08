@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Blog\Comment\CommentRepository;
-use App\Blog\Comment\CommentService;
-use App\Blog\Entity\Comment;
+use App\Modules\Blog\Comment\CommentRepository;
+use App\Modules\Blog\Comment\CommentService;
+use App\Modules\Blog\Entity\Comment;
 use Cycle\ORM\ORMInterface;
 use Psr\Container\ContainerInterface;
 

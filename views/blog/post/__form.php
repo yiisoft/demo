@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\View\View $this
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\View $this
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var array $body
  * @var string $csrf
  * @var string $action

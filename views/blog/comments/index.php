@@ -10,7 +10,7 @@ use Yiisoft\View\WebView;
 
 /**
  * @var KeysetPaginator $data
- * @var \Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Translator\TranslatorInterface $translator
  * @var UrlGeneratorInterface $urlGenerator
  * @var AssetManager $assetManager
  * @var WebView $this

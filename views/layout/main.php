@@ -12,15 +12,15 @@ use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
 
 /**
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRoute $currentRoute
- * @var \Yiisoft\View\WebView $this
- * @var \Yiisoft\Assets\AssetManager $assetManager
- * @var \Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\Router\CurrentRoute $currentRoute
+ * @var Yiisoft\View\WebView $this
+ * @var Yiisoft\Assets\AssetManager $assetManager
+ * @var Yiisoft\Translator\TranslatorInterface $translator
  * @var string $content
  *
- * @see \App\ApplicationViewInjection
- * @var \App\User\User|null $user
+ * @see App\ApplicationViewInjection
+ * @var App\Modules\User\User|null $user
  * @var string $csrf
  * @var string $brandLabel
  */

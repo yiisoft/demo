@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-use App\Blog\Archive\ArchiveController;
-use App\Blog\BlogController;
-use App\Blog\CommentController;
-use App\Blog\Post\PostController;
-use App\Blog\Post\PostRepository;
-use App\Blog\Tag\TagController;
-use App\Contact\ContactController;
-use App\Controller\Actions\ApiInfo;
-use App\Auth\Controller\AuthController;
-use App\Auth\Controller\SignupController;
-use App\Controller\SiteController;
-use App\Middleware\AccessChecker;
-use App\Middleware\ApiDataWrapper;
-use App\User\Controller\ApiUserController;
-use App\User\Controller\UserController;
+use App\Http\Actions\ApiInfo;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\SignupController;
+use App\Http\Controllers\Blog\ArchiveController;
+use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\Blog\CommentController;
+use App\Http\Controllers\Blog\PostController;
+use App\Http\Controllers\Blog\TagController;
+use App\Http\Controllers\Contact\ContactController;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\User\ApiUserController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Middleware\AccessChecker;
+use App\Http\Middleware\ApiDataWrapper;
+use App\Modules\Blog\Post\PostRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Middleware\Authentication;
@@ -131,8 +131,8 @@ return [
                     fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRoute $currentRoute) =>
                     $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
                         $post = $postRepository->findBySlug($currentRoute->getArgument('slug'));
-                        return $post->getSlug() . '-' . $post
-                                ->getUpdatedAt()
+                        return $post?->getSlug() . '-' . $post
+                                ?->getUpdatedAt()
                                 ->getTimestamp();
                     })
                 )

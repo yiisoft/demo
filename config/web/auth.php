@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Auth\Identity;
-use App\Auth\IdentityRepository;
+use App\Modules\Auth\Identity;
+use App\Modules\Auth\IdentityRepository;
 use Cycle\ORM\ORMInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
-use Yiisoft\Definitions\Reference;
 use Yiisoft\Cookies\CookieEncryptor;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Cookies\CookieSigner;
+use Yiisoft\Definitions\Reference;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\User\Login\Cookie\CookieLogin;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Middleware\LocaleMiddleware;
-use App\ViewInjection\CommonViewInjection;
-use App\ViewInjection\LayoutViewInjection;
-use App\ViewInjection\LinkTagsViewInjection;
-use App\ViewInjection\MetaTagsViewInjection;
+use App\Http\Middleware\LocaleMiddleware;
+use App\Http\ViewInjection\CommonViewInjection;
+use App\Http\ViewInjection\LayoutViewInjection;
+use App\Http\ViewInjection\LinkTagsViewInjection;
+use App\Http\ViewInjection\MetaTagsViewInjection;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
@@ -129,8 +129,8 @@ return [
         'autoExit' => false,
         'commands' => [
             'serve' => Serve::class,
-            'user/create' => App\User\Console\CreateCommand::class,
-            'user/assignRole' => App\User\Console\AssignRoleCommand::class,
+            'user/create' => App\Console\User\CreateCommand::class,
+            'user/assignRole' => App\Console\User\AssignRoleCommand::class,
             'fixture/add' => App\Command\Fixture\AddCommand::class,
             'fixture/schema/clear' => App\Command\Fixture\SchemaClearCommand::class,
             'router/list' => App\Command\Router\ListCommand::class,

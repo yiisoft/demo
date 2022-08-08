@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Widget;
 
-use App\Timer;
+use App\Services\Timer;
 use Yiisoft\Widget\Widget;
 
 final class PerformanceMetrics extends Widget

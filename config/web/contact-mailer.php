@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Contact\ContactMailer;
+use App\Modules\Mail\MailSender;
 
 /** @var array $params */
 
 return [
-    ContactMailer::class => [
-        'class' => ContactMailer::class,
+    MailSender::class => [
+        'class' => MailSender::class,
         '__construct()' => [
             'sender' => $params['mailer']['senderEmail'],
             'to' => $params['mailer']['adminEmail'],

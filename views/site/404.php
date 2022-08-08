@@ -5,10 +5,10 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 
 /**
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRoute $currentRoute
- * @var \Yiisoft\View\WebView $this
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\Router\CurrentRoute $currentRoute
+ * @var Yiisoft\View\WebView $this
  */
 
 $this->setTitle($translator->translate('layout.not-found'));

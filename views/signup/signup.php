@@ -7,11 +7,11 @@ use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Form;
 
 /**
- * @var \Yiisoft\View\WebView $this
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\WebView $this
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var string $csrf
- * @var \App\Auth\Form\SignupForm $formModel
+ * @var App\Modules\Auth\Form\SignupForm $formModel
  */
 
 $this->setTitle($translator->translate('Signup'));

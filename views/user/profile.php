@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @var \App\User\User $item
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var App\Modules\User\User $item
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\WebView $this
  */
 
 use Yiisoft\Html\Html;

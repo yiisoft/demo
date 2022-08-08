@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Yiisoft\Yii\Bootstrap5\Carousel;
 
 /**
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\View\WebView $this
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\View\WebView $this
  */
 
 $this->setTitle('Home');

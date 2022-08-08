@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var Yiisoft\Data\Paginator\OffsetPaginator $paginator;
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\WebView $this
  * @var int $currentPage
  */
 
-use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\DataView\GridView;
 
@@ -76,10 +75,10 @@ $this->setTitle($translator->translate('menu.users'));
                     ],
                 ]
             )
-            ->currentPage($page)
+            ->currentPage($currentPage)
             ->pageArgument(true)
             ->paginator($paginator)
-            ->requestArguments(['sort' => $sortOrder, 'page' => $page])
+            ->requestArguments(['sort' => $sortOrder, 'page' => $currentPage])
             ->rowOptions(['class' => 'align-middle'])
             ->summaryOptions(['class' => 'mt-3 me-3 summary text-end'])
             ->tableOptions(['class' => 'table table-striped text-center h-75']) ?>

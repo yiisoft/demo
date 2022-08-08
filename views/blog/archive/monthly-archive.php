@@ -5,14 +5,15 @@ declare(strict_types=1);
 /**
  * @var int $year
  * @var int $month
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var Yiisoft\Data\Paginator\OffsetPaginator $paginator
+ * @var Yiisoft\Translator\TranslatorInterface $translator
+ * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Yiisoft\View\WebView $this
+ * @var Post $item
  */
 
-use App\Blog\Entity\Post;
-use App\Blog\Widget\PostCard;
+use App\Modules\Blog\Entity\Post;
+use App\Modules\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
 use Yiisoft\Html\Html;
 
@@ -41,7 +42,7 @@ $pagination = OffsetPagination::widget()
         } else {
             echo Html::p($translator->translate('layout.no-records'));
         }
-        /** @var Post $item */
+
         foreach ($paginator->read() as $item) {
             echo PostCard::widget()->post($item);
         }
