@@ -30,7 +30,7 @@ return [
     'layout.change-language' => 'Change language',
     'layout.language.english' => 'English',
     'layout.language.russian' => 'Русский',
-    'layout.language.slovak' => 'Slovak',
+    'layout.language.slovak' => 'Slovenský',
     'layout.language.indonesian' => 'Indonesia',
     'signup' => 'Signup',
     'layout.not-found' => 'Not found',
@@ -49,3 +49,4 @@ return [
     'validator.password.not.match' => 'Passwords do not match',
     'validator.user.exist' => 'User with this login already exists',
 ];
+

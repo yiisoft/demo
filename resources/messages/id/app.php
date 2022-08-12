@@ -30,7 +30,7 @@ return [
     'layout.change-language' => 'Ubah bahasa',
     'layout.language.english' => 'English',
     'layout.language.russian' => 'Русский',
-    'layout.language.slovak' => 'Slovak',
+    'layout.language.slovak' => 'Slovenský',
     'layout.language.indonesian' => 'Indonesia',
     'Signup' => 'Daftar',
     'Login' => 'Masuk',
