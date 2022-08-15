@@ -24,7 +24,7 @@ use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID'],
+    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',

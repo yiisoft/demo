@@ -18,27 +18,17 @@ use Yiisoft\Session\Flash\FlashInterface;
  */
 final class ContactMailer
 {
-    private FlashInterface $flash;
-    private LoggerInterface $logger;
-    private MailerInterface $mailer;
-    private string $sender;
-    private string $to;
-
     public function __construct(
-        FlashInterface $flash,
-        LoggerInterface $logger,
-        MailerInterface $mailer,
-        string $sender,
-        string $to
+        private FlashInterface $flash,
+        private LoggerInterface $logger,
+        private MailerInterface $mailer,
+        private string $sender,
+        private string $to
     ) {
-        $this->flash = $flash;
-        $this->logger = $logger;
-        $this->mailer = $mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
-        $this->sender = $sender;
-        $this->to = $to;
+        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
-    public function send(FormModelInterface $form, ServerRequestInterface $request)
+    public function send(FormModelInterface $form, ServerRequestInterface $request): void
     {
         $message = $this->mailer
             ->compose(

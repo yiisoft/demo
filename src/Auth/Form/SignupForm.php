@@ -15,9 +15,8 @@ final class SignupForm extends FormModel
     private string $password = '';
     private string $passwordVerify = '';
 
-    public function __construct(
-        private TranslatorInterface $translator
-    ) {
+    public function __construct(private TranslatorInterface $translator)
+    {
         parent::__construct();
     }
 

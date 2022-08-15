@@ -20,11 +20,8 @@ use Yiisoft\Router\CurrentRoute;
  */
 final class ApiUserController
 {
-    private DataResponseFactoryInterface $responseFactory;
-
-    public function __construct(DataResponseFactoryInterface $responseFactory)
+    public function __construct(private DataResponseFactoryInterface $responseFactory)
     {
-        $this->responseFactory = $responseFactory;
     }
 
     /**

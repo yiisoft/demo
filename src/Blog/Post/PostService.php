@@ -11,13 +11,8 @@ use App\User\User;
 
 final class PostService
 {
-    private PostRepository $repository;
-    private TagRepository $tagRepository;
-
-    public function __construct(PostRepository $repository, TagRepository $tagRepository)
+    public function __construct(private PostRepository $repository, private TagRepository $tagRepository)
     {
-        $this->repository = $repository;
-        $this->tagRepository = $tagRepository;
     }
 
     public function savePost(User $user, Post $model, PostForm $form): void

@@ -15,13 +15,10 @@ use Yiisoft\Yii\Console\ExitCode;
 
 final class ListCommand extends Command
 {
-    private RouteCollectionInterface $routeCollection;
-
     protected static $defaultName = 'router/list';
 
-    public function __construct(RouteCollectionInterface $routeCollection)
+    public function __construct(private RouteCollectionInterface $routeCollection)
     {
-        $this->routeCollection = $routeCollection;
         parent::__construct();
     }
 
@@ -58,6 +55,8 @@ final class ListCommand extends Command
             }
         }
 
+        $table->setColumnMaxWidth(2, 15);
+        $table->setColumnMaxWidth(3, 15);
         $table->render();
         return ExitCode::OK;
     }
