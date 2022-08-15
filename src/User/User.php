@@ -16,7 +16,12 @@ use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[Entity(repository: \App\User\UserRepository::class)]
+#[Entity(
+    repository: \App\User\UserRepository::class,
+    typecast: [
+        \Cycle\ORM\Parser\Typecast::class,
+        LoginTypecast::class,
+    ])]
 #[Index(columns: ['login'], unique: true)]
 #[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
 #[Behavior\UpdatedAt(field: 'updated_at', column: 'updated_at')]
@@ -25,8 +30,8 @@ class User
     #[Column(type: 'primary')]
     private ?int $id = null;
 
-    #[Column(type: 'string(48)')]
-    private string $login;
+    #[Column(type: 'string(48)', typecast: 'login')]
+    private UserLogin $login;
 
     #[Column(type: 'string')]
     private string $passwordHash;
@@ -54,7 +59,7 @@ class User
 
     public function __construct(UserLogin $login, UserPassword $password)
     {
-        $this->login = $login->value();
+        $this->login = $login;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->passwordHash = $password->getHash();
@@ -70,10 +75,10 @@ class User
 
     public function getLogin(): string
     {
-        return $this->login;
+        return $this->login->value();
     }
 
-    public function setLogin(string $login): void
+    public function setLogin(UserLogin $login): void
     {
         $this->login = $login;
     }
