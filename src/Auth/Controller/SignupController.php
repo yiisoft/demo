@@ -7,6 +7,7 @@ namespace App\Auth\Controller;
 use App\Auth\AuthService;
 use App\Auth\Form\SignupForm;
 use App\Service\WebControllerService;
+use App\User\SignupService;
 use App\User\UserLoginException;
 use App\User\UserPasswordException;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +26,7 @@ final class SignupController
 
     public function signup(
         AuthService $authService,
+        SignupService $signupService,
         ServerRequestInterface $request,
         TranslatorInterface $translator,
         ValidatorInterface $validator
@@ -45,7 +47,7 @@ final class SignupController
                 ->isValid()
         ) {
             try {
-                $authService->signup($signupForm->getLogin(), $signupForm->getPassword());
+                $signupService->signup($signupForm->getLogin(), $signupForm->getPassword());
                 return $this->redirectToMain();
             } catch (UserLoginException $exception) {
                 $signupForm->getFormErrors()->addError('login', $exception->getMessage());

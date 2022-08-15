@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Console;
 
-use App\Auth\AuthService;
+use App\User\SignupService;
 use App\User\UserLoginException;
 use App\User\UserPasswordException;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ final class CreateCommand extends Command
 {
     protected static $defaultName = 'user/create';
 
-    public function __construct(private AuthService $authService, private Manager $manager)
+    public function __construct(private SignupService $signupService, private Manager $manager)
     {
         parent::__construct();
     }
@@ -44,7 +44,7 @@ final class CreateCommand extends Command
         $isAdmin = (bool)$input->getArgument('isAdmin');
 
         try {
-            $user = $this->authService->signup($login, $password);
+            $user = $this->signupService->signup($login, $password);
 
             if ($isAdmin) {
                 $userId = $user->getId();
