@@ -28,10 +28,6 @@ return [
     'menu.language' => 'Language',
     'menu.logout' => 'Logout ({login})',
     'layout.change-language' => 'Change language',
-    'layout.language.english' => 'English',
-    'layout.language.russian' => 'Русский',
-    'layout.language.slovak' => 'Slovak',
-    'layout.language.indonesian' => 'Indonesia',
     'signup' => 'Signup',
     'layout.not-found' => 'Not found',
     'layout.page.not-found' => 'The page {url} could not be found.',
@@ -49,3 +45,4 @@ return [
     'validator.password.not.match' => 'Passwords do not match',
     'validator.user.exist' => 'User with this login already exists',
 ];
+

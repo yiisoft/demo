@@ -104,19 +104,19 @@ $this->beginPage();
                         'url' => '#',
                         'items' => [
                             [
-                                'label' => $translator->translate('layout.language.english'),
+                                'label' => 'English',
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], 'site/index'),
                             ],
                             [
-                                'label' => $translator->translate('layout.language.russian'),
+                                'label' => 'Русский',
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
                             ],
                             [
-                                'label' => $translator->translate('layout.language.slovak'),
+                                'label' => 'Slovenský',
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'sk'], 'site/index'),
                             ],
                             [
-                                'label' => $translator->translate('layout.language.indonesian'),
+                                'label' => 'Indonesia',
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], 'site/index'),
                             ],
                         ],
