@@ -44,7 +44,10 @@ final class CreateCommand extends Command
         $isAdmin = (bool)$input->getArgument('isAdmin');
 
         try {
-            $user = $this->signupService->signup($login, $password);
+            $user = $this->signupService
+                ->setLogin($login)
+                ->setPassword($password)
+                ->signup();
 
             if ($isAdmin) {
                 $userId = $user->getId();
