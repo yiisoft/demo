@@ -27,10 +27,10 @@ class LoginTypecast implements CastableInterface, UncastableInterface
         return $rules;
     }
 
-    public function cast(array $values): array
+    public function cast(array $data): array
     {
         foreach ($this->rules as $column => $rule) {
-            if (!isset($values[$column])) {
+            if (!isset($data[$column])) {
                 continue;
             }
 
@@ -38,23 +38,23 @@ class LoginTypecast implements CastableInterface, UncastableInterface
             $constructor = $class->getConstructor();
             $constructor->setAccessible(true);
             $object = $class->newInstanceWithoutConstructor();
-            $constructor->invoke($object, (string)$values[$column]);
-            $values[$column] = $object;
+            $constructor->invoke($object, (string)$data[$column]);
+            $data[$column] = $object;
         }
 
-        return $values;
+        return $data;
     }
 
-    public function uncast(array $values): array
+    public function uncast(array $data): array
     {
         foreach ($this->rules as $column => $rule) {
-            if (!isset($values[$column]) || !$values[$column] instanceof UserLogin) {
+            if (!isset($data[$column]) || !$data[$column] instanceof UserLogin) {
                 continue;
             }
 
-            $values[$column] = $values[$column]->value();
+            $data[$column] = $data[$column]->value();
         }
 
-        return $values;
+        return $data;
     }
 }
