@@ -84,7 +84,7 @@ final class AddCommand extends Command
     private function addUsers(int $count): void
     {
         for ($i = 0; $i < $count; ++$i) {
-            $login = $this->faker->firstName . rand(0, 9999);
+            $login = $this->faker->unique()->firstName;
             $user = new User($login, $login);
             $this->users[] = $user;
         }

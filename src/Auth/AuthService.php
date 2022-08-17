@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use App\User\User;
 use App\User\UserRepository;
 use Throwable;
 use Yiisoft\Auth\IdentityInterface;
@@ -43,23 +42,6 @@ final class AuthService
         }
 
         return $this->currentUser->logout();
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function signup(string $login, string $password): bool
-    {
-        $user = $this->userRepository->findByLogin($login);
-
-        if ($user !== null) {
-            return false;
-        }
-
-        $user = new User($login, $password);
-        $this->userRepository->save($user);
-
-        return true;
     }
 
     public function getIdentity(): IdentityInterface

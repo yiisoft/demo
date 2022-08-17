@@ -10,8 +10,6 @@ use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Http\Method;
-use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
@@ -24,23 +22,15 @@ final class SignupController
     public function signup(
         AuthService $authService,
         ServerRequestInterface $request,
-        TranslatorInterface $translator,
-        ValidatorInterface $validator
+        SignupForm $signupForm
     ): ResponseInterface {
         if (!$authService->isGuest()) {
             return $this->redirectToMain();
         }
 
-        $body = $request->getParsedBody();
-
-        $signupForm = new SignupForm($authService, $translator);
-
-        if (
-            $request->getMethod() === Method::POST
-            && $signupForm->load(is_array($body) ? $body : [])
-            && $validator
-                ->validate($signupForm)
-                ->isValid()
+        if ($request->getMethod() === Method::POST
+            && $signupForm->load($request->getParsedBody())
+            && $signupForm->signup()
         ) {
             return $this->redirectToMain();
         }

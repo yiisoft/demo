@@ -66,7 +66,7 @@ final class LoginAcceptanceCest
     }
 
     /**
-     * @depends App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
+     * @depends \App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
      */
     public function testLoginUsernameSubmitFormSuccessData(AcceptanceTester $I): void
     {
@@ -74,7 +74,7 @@ final class LoginAcceptanceCest
         $I->amOnPage('/login');
 
         $I->fillField('#login-login', 'admin');
-        $I->fillField('#login-password', '123456');
+        $I->fillField('#login-password', '12345678');
         $I->checkOption('#login-rememberme');
 
         $I->click('Submit', '#loginForm');

@@ -23,8 +23,8 @@ final class SignupAcceptanceCest
         $I->amOnPage('/signup');
 
         $I->fillField('#signup-login', 'admin');
-        $I->fillField('#signup-password', '123456');
-        $I->fillField('#signup-passwordverify', '123456');
+        $I->fillField('#signup-password', '12345678');
+        $I->fillField('#signup-passwordverify', '12345678');
 
         $I->click('Submit', '#signupForm');
 
@@ -56,8 +56,8 @@ final class SignupAcceptanceCest
         $I->amOnPage('/signup');
 
         $I->fillField('#signup-login', 'admin');
-        $I->fillField('#signup-password', '123456');
-        $I->fillField('#signup-passwordverify', '123456');
+        $I->fillField('#signup-password', '12345678');
+        $I->fillField('#signup-passwordverify', '12345678');
 
         $I->click('Submit', '#signupForm');
 
@@ -72,7 +72,7 @@ final class SignupAcceptanceCest
         $I->amOnPage('/signup');
 
         $I->fillField('#signup-login', 'admin1');
-        $I->fillField('#signup-password', '123456');
+        $I->fillField('#signup-password', '12345678');
         $I->fillField('#signup-passwordverify', '12345');
 
         $I->click('Submit', '#signupForm');
