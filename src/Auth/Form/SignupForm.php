@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Auth\Form;
 
-use App\User\SignupService;
-use App\User\UserLoginException;
-use App\User\UserPasswordException;
+use App\User\User;
+use App\User\UserRepository;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Equal;
+use Yiisoft\Validator\Rule\HasLength;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\ValidatorInterface;
 
@@ -21,9 +21,9 @@ final class SignupForm extends FormModel
     private string $passwordVerify = '';
 
     public function __construct(
-        private SignupService $signupService,
         private ValidatorInterface $validator,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private UserRepository $userRepository,
     ) {
         parent::__construct();
     }
@@ -52,11 +52,12 @@ final class SignupForm extends FormModel
         return $this->password;
     }
 
-    public function signup(): bool
+    public function signup(): false|User
     {
         if ($this->validator->validate($this)->isValid()) {
-            $this->signupService->signup();
-            return true;
+            $user = new User($this->getLogin(), $this->getPassword());
+            $this->userRepository->save($user);
+            return $user;
         }
         return false;
     }
@@ -64,8 +65,21 @@ final class SignupForm extends FormModel
     public function getRules(): array
     {
         return [
-            'login' => fn() => $this->fillLogin(),
-            'password' => fn() => $this->fillPassword(),
+            'login' => [
+                new Required(),
+                new HasLength(min: 1, max: 48, skipOnError: true),
+                function ($value): Result {
+                    $result = new Result();
+                    if ($this->userRepository->findByLogin($value) !== null) {
+                        $result->addError('User with this login already exists.');
+                    }
+                    return $result;
+                },
+            ],
+            'password' => [
+                new Required(),
+                new HasLength(min: 8),
+            ],
             'passwordVerify' => [
                 new Required(),
                 new Equal(
@@ -74,27 +88,5 @@ final class SignupForm extends FormModel
                 ),
             ],
         ];
-    }
-
-    private function fillLogin(): Result
-    {
-        $result = new Result();
-        try {
-            $this->signupService->setLogin($this->login);
-        } catch (UserLoginException $exception) {
-            $result->addError($exception->getMessage());
-        }
-        return $result;
-    }
-
-    private function fillPassword(): Result
-    {
-        $result = new Result();
-        try {
-            $this->signupService->setPassword($this->password);
-        } catch (UserPasswordException $exception) {
-            $result->addError($exception->getMessage());
-        }
-        return $result;
     }
 }

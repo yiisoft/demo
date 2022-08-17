@@ -15,13 +15,9 @@ use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Yiisoft\Security\PasswordHasher;
 
-#[Entity(
-    repository: \App\User\UserRepository::class,
-    typecast: [
-        \Cycle\ORM\Parser\Typecast::class,
-        LoginTypecast::class,
-    ])]
+#[Entity(repository: \App\User\UserRepository::class)]
 #[Index(columns: ['login'], unique: true)]
 #[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
 #[Behavior\UpdatedAt(field: 'updated_at', column: 'updated_at')]
@@ -30,8 +26,8 @@ class User
     #[Column(type: 'primary')]
     private ?int $id = null;
 
-    #[Column(type: 'string(48)', typecast: 'login')]
-    private UserLogin $login;
+    #[Column(type: 'string(48)')]
+    private string $login;
 
     #[Column(type: 'string')]
     private string $passwordHash;
@@ -57,12 +53,12 @@ class User
     #[HasMany(target: \App\Blog\Entity\Comment::class)]
     private ArrayCollection $comments;
 
-    public function __construct(UserLogin $login, UserPassword $password)
+    public function __construct(string $login, string $password)
     {
         $this->login = $login;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
-        $this->passwordHash = $password->getHash();
+        $this->setPassword($password);
         $this->identity = new Identity();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -75,26 +71,22 @@ class User
 
     public function getLogin(): string
     {
-        return $this->login->value();
+        return $this->login;
     }
 
-    public function setLogin(UserLogin $login): void
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
     public function validatePassword(string $password): bool
     {
-        try {
-            return UserPassword::createNew($password)->isEqualHash($this->passwordHash);
-        } catch (UserPasswordException) {
-            return false;
-        }
+        return (new PasswordHasher())->validate($password, $this->passwordHash);
     }
 
-    public function setPassword(UserPassword $password): void
+    public function setPassword(string $password): void
     {
-        $this->passwordHash = $password->getHash();
+        $this->passwordHash = (new PasswordHasher())->hash($password);
     }
 
     public function getCreatedAt(): DateTimeImmutable

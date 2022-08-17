@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Console;
 
-use App\User\SignupService;
-use App\User\UserLoginException;
-use App\User\UserPasswordException;
+use App\Auth\Form\SignupForm;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +18,7 @@ final class CreateCommand extends Command
 {
     protected static $defaultName = 'user/create';
 
-    public function __construct(private SignupService $signupService, private Manager $manager)
+    public function __construct(private SignupForm $signupForm, private Manager $manager)
     {
         parent::__construct();
     }
@@ -39,34 +37,37 @@ final class CreateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $login = $input->getArgument('login');
-        $password = $input->getArgument('password');
+        $login = (string)$input->getArgument('login');
+        $password = (string)$input->getArgument('password');
         $isAdmin = (bool)$input->getArgument('isAdmin');
 
+        $this->signupForm->load([
+            'login' => $login,
+            'password' => $password,
+            'passwordVerify' => $password,
+        ], '');
+
         try {
-            $user = $this->signupService
-                ->setLogin($login)
-                ->setPassword($password)
-                ->signup();
-
-            if ($isAdmin) {
-                $userId = $user->getId();
-
-                if ($userId === null) {
-                    throw new \LogicException('User Id is NULL');
-                }
-
-                $this->manager->assign('admin', $userId);
-            }
-
-            $io->success('User created');
-        } catch (UserLoginException|UserPasswordException $exception) {
-            $io->error($exception::class . ' ' . $exception->getMessage());
-            return ExitCode::DATAERR;
+            $user = $this->signupForm->signup();
         } catch (Throwable $t) {
-            $io->error($t->getMessage());
+            $io->error($t->getMessage() . ' ' . $t->getFile() . ' ' . $t->getLine());
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
+
+        if ($user === false) {
+            $errors = $this->signupForm->getFormErrors()->getFirstErrors();
+            array_walk($errors, fn($error, $attribute) => $io->error("$attribute: $error"));
+            return ExitCode::DATAERR;
+        }
+
+        if ($isAdmin) {
+            $userId = $user->getId();
+            if ($userId === null) {
+                throw new \LogicException('User Id is NULL');
+            }
+            $this->manager->assign('admin', $userId);
+        }
+        $io->success('User created');
         return ExitCode::OK;
     }
 }
