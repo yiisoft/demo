@@ -56,7 +56,7 @@ final class CreateCommand extends Command
 
         if ($user === false) {
             $errors = $this->signupForm->getFormErrors()->getFirstErrors();
-            array_walk($errors, fn($error, $attribute) => $io->error("$attribute: $error"));
+            array_walk($errors, fn ($error, $attribute) => $io->error("$attribute: $error"));
             return ExitCode::DATAERR;
         }
 
