@@ -41,7 +41,7 @@ return [
 
     'yiisoft/aliases' => [
         'aliases' => [
-            '@root' => dirname(__DIR__),
+            '@root' => dirname(__DIR__, 2),
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '@baseUrl/assets',
             '@baseUrl' => '/',
@@ -79,7 +79,7 @@ return [
     ],
 
     'yiisoft/rbac-rules-container' => [
-        'rules' => require __DIR__ . '/rbac-rules.php',
+        'rules' => require __DIR__ . '/params-files/rbac-rules.php',
     ],
 
     'yiisoft/router-fastroute' => [

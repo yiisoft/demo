@@ -128,11 +128,11 @@
             "source-directory": "config"
         },
         "config-plugin": {
-            "common": "common/*.php",
             "params": [
-                "params.php",
-                "?params-local.php"
+                "params/params.php",
+                "?params/params-local.php"
             ],
+            "common": "common/*.php",
             "web": [
                 "$common",
                 "web/*.php"
@@ -141,45 +141,45 @@
                 "$common",
                 "console/*.php"
             ],
-            "events": "events.php",
-            "events-web": [
-                "$events",
-                "events-web.php"
-            ],
-            "events-console": [
-                "$events",
-                "events-console.php"
-            ],
-            "providers": "providers.php",
+            "providers": "common/definition/providers.php",
             "providers-web": [
                 "$providers",
-                "providers-web.php"
+                "web/definition/providers.php"
             ],
             "providers-console": [
                 "$providers",
-                "providers-console.php"
+                "console/definition/providers.php"
             ],
-            "delegates": "delegates.php",
+            "delegates": "common/definition/delegates.php",
             "delegates-web": [
                 "$delegates",
-                "delegates-web.php"
+                "web/definition/delegates.php"
             ],
             "delegates-console": [
                 "$delegates",
-                "delegates-console.php"
+                "console/definition/delegates.php"
             ],
-            "routes": [
-                "routes-backend.php",
-                "routes.php"
-            ],
-            "bootstrap": "bootstrap.php",
+            "bootstrap": "common/application/bootstrap.php",
             "bootstrap-web": [
                 "$bootstrap",
-                "bootstrap-web.php"
+                "web/application/bootstrap.php"
             ],
             "bootstrap-console": [
                 "$bootstrap",
-                "bootstrap-console.php"
+                "console/application/bootstrap.php"
+            ],
+            "events": "common/application/events.php",
+            "events-web": [
+                "$events",
+                "web/application/events.php"
+            ],
+            "events-console": [
+                "$events",
+                "console/application/events.php"
+            ],
+            "routes": [
+                "routes/routes-backend.php",
+                "routes/routes.php"
             ],
             "widgets": "widgets.php"
         },
