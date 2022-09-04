@@ -55,7 +55,7 @@ final class PostController
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
-            $parameters['errors'] = $form->getFirstErrors();
+            $parameters['errors'] = $form->getFormErrors();
         }
 
         return $this->viewRenderer->render('__form', $parameters);
