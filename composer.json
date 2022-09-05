@@ -62,6 +62,7 @@
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^1.0",
+        "yiisoft/request-model": "1.0.x-dev",
         "yiisoft/router": "^1.0",
         "yiisoft/router-fastroute": "^1.0",
         "yiisoft/security": "^1.0",
