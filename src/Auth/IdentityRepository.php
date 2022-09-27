@@ -16,11 +16,6 @@ final class IdentityRepository extends Select\Repository implements IdentityRepo
         parent::__construct($select);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Identity|null
-     */
     public function findIdentity(string $id): ?Identity
     {
         return $this->findOne(['user_id' => $id]);

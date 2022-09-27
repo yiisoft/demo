@@ -35,9 +35,7 @@ final class ListCommand extends Command
         $routes = $this->routeCollection->getRoutes();
         uasort(
             $routes,
-            static function (Route $a, Route $b) {
-                return ($a->getData('host') <=> $b->getData('host')) ?: ($a->getData('name') <=> $b->getData('name'));
-            }
+            static fn(Route $a, Route $b) => ($a->getData('host') <=> $b->getData('host')) ?: ($a->getData('name') <=> $b->getData('name'))
         );
         $table->setHeaders(['Host', 'Methods', 'Name', 'Pattern', 'Defaults']);
         foreach ($routes as $route) {

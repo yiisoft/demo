@@ -20,9 +20,6 @@ class Tag
     #[Column(type: 'primary')]
     private ?int $id = null;
 
-    #[Column(type: 'string(191)')]
-    private string $label;
-
     #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
@@ -32,9 +29,8 @@ class Tag
     #[ManyToMany(target: Post::class, though: PostTag::class, fkAction: 'CASCADE', indexCreate: false)]
     private PivotedCollection $posts;
 
-    public function __construct(string $label)
+    public function __construct(#[Column(type: 'string(191)')] private string $label)
     {
-        $this->label = $label;
         $this->created_at = new DateTimeImmutable();
         $this->posts = new PivotedCollection();
     }

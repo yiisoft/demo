@@ -14,11 +14,8 @@ use Cycle\ORM\Select\QueryBuilder;
  */
 final class PublicScope implements ConstrainInterface
 {
-    private ?array $publicOrCondition;
-
-    public function __construct(?array $publicOrCondition = null)
+    public function __construct(private ?array $publicOrCondition = null)
     {
-        $this->publicOrCondition = $publicOrCondition;
     }
 
     public function apply(QueryBuilder $query): void

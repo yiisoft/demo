@@ -92,8 +92,6 @@ final class ArchiveRepository
 
     /**
      * @param string $attr Can be 'day', 'month' or 'year'
-     *
-     * @return FragmentInterface
      */
     private function extractFromDateColumn(string $attr): FragmentInterface
     {
@@ -122,11 +120,9 @@ final class ArchiveRepository
     /**
      * @psalm-suppress UndefinedDocblockClass
      *
-     * @param Select|SelectQuery $query
      *
-     * @return EntityReader
      */
-    private function prepareDataReader($query): EntityReader
+    private function prepareDataReader(\Cycle\ORM\Select|\Cycle\Database\Query\SelectQuery $query): EntityReader
     {
         return (new EntityReader($query))->withSort(Sort::only(['published_at'])->withOrder(['published_at' => 'desc']));
     }

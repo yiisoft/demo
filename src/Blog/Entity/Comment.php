@@ -28,9 +28,6 @@ class Comment
     #[Column(type: 'bool', default: 'false', typecast: 'bool')]
     private bool $public = false;
 
-    #[Column(type: 'text')]
-    private string $content;
-
     #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
@@ -51,9 +48,8 @@ class Comment
     private ?Post $post = null;
     private ?int $post_id = null;
 
-    public function __construct(string $content)
+    public function __construct(#[Column(type: 'text')] private string $content)
     {
-        $this->content = $content;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
     }
