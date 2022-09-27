@@ -26,9 +26,6 @@ class User
     #[Column(type: 'primary')]
     private ?int $id = null;
 
-    #[Column(type: 'string(48)')]
-    private string $login;
-
     #[Column(type: 'string')]
     private string $passwordHash;
 
@@ -53,9 +50,8 @@ class User
     #[HasMany(target: \App\Blog\Entity\Comment::class)]
     private ArrayCollection $comments;
 
-    public function __construct(string $login, string $password)
+    public function __construct(#[Column(type: 'string(48)')] private string $login, string $password)
     {
-        $this->login = $login;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->setPassword($password);

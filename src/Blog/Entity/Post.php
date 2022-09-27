@@ -33,14 +33,8 @@ class Post
     #[Column(type: 'string(128)')]
     private string $slug;
 
-    #[Column(type: 'string(191)', default: '')]
-    private string $title = '';
-
     #[Column(type: 'bool', default: 'false', typecast: 'bool')]
     private bool $public = false;
-
-    #[Column(type: 'text')]
-    private string $content = '';
 
     #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
@@ -70,10 +64,8 @@ class Post
     #[HasMany(target: Comment::class)]
     private ArrayCollection $comments;
 
-    public function __construct(string $title = '', string $content = '')
+    public function __construct(#[Column(type: 'string(191)', default: '')] private string $title = '', #[Column(type: 'text')] private string $content = '')
     {
-        $this->title = $title;
-        $this->content = $content;
         $this->created_at = new DateTimeImmutable();
         $this->updated_at = new DateTimeImmutable();
         $this->tags = new PivotedCollection();

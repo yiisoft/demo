@@ -25,11 +25,6 @@ final class UserRepository extends Select\Repository
             ->orderBy($orderBy));
     }
 
-    /**
-     * @param string $id
-     *
-     * @return User|null
-     */
     public function findById(string $id): ?User
     {
         return $this->findByPK($id);
