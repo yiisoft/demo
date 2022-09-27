@@ -31,7 +31,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo, pdo, pdo_sqlite, intl
+      extensions: fileinfo, pdo, pdo_sqlite, intl-70.1
       key: cache-v1
 
     runs-on: ${{ matrix.os }}
