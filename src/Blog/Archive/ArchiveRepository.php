@@ -119,10 +119,8 @@ final class ArchiveRepository
 
     /**
      * @psalm-suppress UndefinedDocblockClass
-     *
-     *
      */
-    private function prepareDataReader(\Cycle\ORM\Select|\Cycle\Database\Query\SelectQuery $query): EntityReader
+    private function prepareDataReader(Select|SelectQuery $query): EntityReader
     {
         return (new EntityReader($query))->withSort(Sort::only(['published_at'])->withOrder(['published_at' => 'desc']));
     }
