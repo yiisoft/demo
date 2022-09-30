@@ -27,22 +27,29 @@ final class UserController
         ServerRequestInterface $request,
         UserRepository $userRepository
     ): Response {
-        $page = (int)$currentRoute->getArgument('page', '1');
+        /** @var array */
+        $body = $request->getParsedBody();
         $sortOrderString = $request->getQueryParams();
 
         $dataReader = $userRepository
             ->findAll()
-            ->withSort(Sort::only(['id', 'login'])->withOrderString($sortOrderString['sort'] ?? ''));
+            ->withSort(Sort::only(['id', 'login'])
+            ->withOrderString($sortOrderString['sort'] ?? 'id'));
 
         $paginator = (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX);
 
+        $page = (int) $currentRoute->getArgument('page', '1');
+
+        $pageSize = (int) $currentRoute->getArgument(
+            'pagesize',
+            $body['pageSize'] ?? (string) OffSetPaginator::DEFAULT_PAGE_SIZE,
+        );
+
+        $paginator = $paginator->withPageSize($pageSize)->withNextPageToken((string) $page);
+
         return $this->viewRenderer->render(
             'index',
-            [
-                'page' => $page,
-                'paginator' => $paginator,
-                'sortOrder' => $sortOrderString['sort'] ?? '',
-            ]
+            ['page' => $page, 'paginator' => $paginator, 'pageSize' => $pageSize],
         );
     }
 

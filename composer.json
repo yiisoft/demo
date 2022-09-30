@@ -39,8 +39,8 @@
         "yiisoft/aliases": "^2.0",
         "yiisoft/assets": "^2.0",
         "yiisoft/auth": "^3.0",
-        "yiisoft/cache": "^1.0",
-        "yiisoft/cache-file": "^1.0",
+        "yiisoft/cache": "^2.0",
+        "yiisoft/cache-file": "^2.0",
         "yiisoft/config": "^1.0",
         "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.2",
@@ -58,7 +58,7 @@
         "yiisoft/log-target-file": "^2.0",
         "yiisoft/mailer": "^4.0",
         "yiisoft/mailer-symfony": "^2.0",
-        "yiisoft/rate-limiter": "^2.0",
+        "yiisoft/rate-limiter": "dev-update-80",
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^1.0",
@@ -77,7 +77,7 @@
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^1.0",
         "yiisoft/yii-cycle": "dev-master",
-        "yiisoft/yii-dataview": "^3.0@dev",
+        "yiisoft/yii-dataview": "dev-rework-all-code",
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-event": "^1.0",
@@ -207,6 +207,10 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "path",
+            "url": "d:/GitHub/yii-dataview"
         }
     ]
 }
