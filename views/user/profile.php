@@ -23,17 +23,17 @@ $title = Html::encode($this->getTitle());
         [
             [
                 'attribute' => 'id',
-                'label' => 'ID',
+                'label' => 'Id',
                 'value' => $item->getId(),
             ],
             [
                 'attribute' => 'login',
-                'label' => 'Login',
+                'label' => $translator->translate('gridview.login'),
                 'value' => $item->getLogin(),
             ],
             [
                 'attribute' => 'created_at',
-                'label' => 'Created at',
+                'label' => $translator->translate('gridview.create.at'),
                 'value' => $item->getCreatedAt()->format('H:i:s d.m.Y'),
             ],
         ],
