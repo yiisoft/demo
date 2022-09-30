@@ -65,7 +65,6 @@ return [
             // User
             Route::methods(['GET', 'POST'], '[/{page:\d+}/{pagesize:\d+}]')
                 ->name('user/index')
-                ->middleware(Authentication::class)
                 ->action([UserController::class, 'index']),
             // Profile page
             Route::get('/{login}')
