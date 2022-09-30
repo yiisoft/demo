@@ -207,10 +207,6 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
-        },
-        {
-            "type": "path",
-            "url": "d:/GitHub/yii-dataview"
         }
     ]
 }
