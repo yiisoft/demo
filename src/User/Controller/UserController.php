@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\ViewRenderer;
@@ -36,8 +38,6 @@ final class UserController
             ->withSort(Sort::only(['id', 'login'])
             ->withOrderString($sortOrderString['sort'] ?? 'id'));
 
-        $paginator = (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX);
-
         $page = (int) $currentRoute->getArgument('page', '1');
 
         $pageSize = (int) $currentRoute->getArgument(
@@ -45,12 +45,10 @@ final class UserController
             $body['pageSize'] ?? (string) OffSetPaginator::DEFAULT_PAGE_SIZE,
         );
 
-        $paginator = $paginator->withPageSize($pageSize)->withNextPageToken((string) $page);
+        $paginator = (new OffsetPaginator($dataReader));
+        $paginator = $paginator->withNextPageToken((string) $page)->withPageSize($pageSize);
 
-        return $this->viewRenderer->render(
-            'index',
-            ['page' => $page, 'paginator' => $paginator, 'pageSize' => $pageSize],
-        );
+        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 
     public function profile(

@@ -25,8 +25,5 @@ $this->setTitle($translator->translate('menu.users'));
         <?= Html::a('API Users List Data', $urlGenerator->generate('api/user/index'), ['class' => 'btn btn-link'])?>
     </div>
 
-    <?= $this->render(
-        '_gridview',
-        ['csrf' => $csrf, 'page' => $page, 'paginator' => $paginator, 'pageSize' => $pageSize],
-    ) ?>
+    <?= $this->render('_gridview', ['csrf' => $csrf, 'paginator' => $paginator]) ?>
 </div>

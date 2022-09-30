@@ -55,7 +55,7 @@ $toolbarSelect = Select::tag()
             '25' => '25',
         ],
     )
-    ->value($pageSize)
+    ->value($paginator->getPageSize())
     ->render();
 
 $toolbar = Div::tag();
@@ -110,7 +110,6 @@ $toolbar = Div::tag();
     ->paginator($paginator)
     ->pagination(
         OffsetPagination::widget()
-            ->currentPage($page)
             ->menuClass('pagination justify-content-center')
             ->paginator($paginator)
             ->urlArguments([])
