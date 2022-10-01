@@ -19,7 +19,7 @@ phpunit.phar
 
 # local config
 /.env
-/docker-compose.local.yml
+/docker-compose.override.yml
 
 # evolving files
 /vendor

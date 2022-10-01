@@ -9,18 +9,16 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollectionInterface;
 use Yiisoft\Yii\Console\ExitCode;
 
-class ListCommand extends Command
+final class ListCommand extends Command
 {
-    private RouteCollectionInterface $routeCollection;
-
     protected static $defaultName = 'router/list';
 
-    public function __construct(RouteCollectionInterface $routeCollection)
+    public function __construct(private RouteCollectionInterface $routeCollection)
     {
-        $this->routeCollection = $routeCollection;
         parent::__construct();
     }
 
@@ -37,19 +35,19 @@ class ListCommand extends Command
         $routes = $this->routeCollection->getRoutes();
         uasort(
             $routes,
-            static function ($a, $b) {
-                return ($a->getHost() <=> $b->getHost()) ?: ($a->getName() <=> $b->getName());
+            static function (Route $a, Route $b) {
+                return ($a->getData('host') <=> $b->getData('host')) ?: ($a->getData('name') <=> $b->getData('name'));
             }
         );
         $table->setHeaders(['Host', 'Methods', 'Name', 'Pattern', 'Defaults']);
         foreach ($routes as $route) {
             $table->addRow(
                 [
-                    $route->getHost(),
-                    implode(',', $route->getMethods()),
-                    $route->getName(),
-                    $route->getPattern(),
-                    implode(',', $route->getDefaults()),
+                    $route->getData('host'),
+                    implode(',', $route->getData('methods')),
+                    $route->getData('name'),
+                    $route->getData('pattern'),
+                    implode(',', $route->getData('defaults')),
                 ]
             );
             if (next($routes) !== false) {
@@ -57,6 +55,8 @@ class ListCommand extends Command
             }
         }
 
+        $table->setColumnMaxWidth(2, 15);
+        $table->setColumnMaxWidth(3, 15);
         $table->render();
         return ExitCode::OK;
     }

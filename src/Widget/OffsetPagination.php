@@ -9,7 +9,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator as Paginator;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\Bootstrap5\Widget;
 
-class OffsetPagination extends Widget
+final class OffsetPagination extends Widget
 {
     private array $options = [];
 

@@ -9,6 +9,9 @@ use App\Blog\Entity\Post;
 use App\Blog\Entity\Tag;
 use App\Blog\Tag\TagRepository;
 use App\User\User;
+use Cycle\ORM\EntityManager;
+use DateTimeImmutable;
+use Exception;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\Console\Command\Command;
@@ -20,11 +23,10 @@ use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
-class AddCommand extends Command
+final class AddCommand extends Command
 {
     protected static $defaultName = 'fixture/add';
 
-    private CycleDependencyProxy $promise;
     private Generator $faker;
     /** @var User[] */
     private array $users = [];
@@ -33,9 +35,10 @@ class AddCommand extends Command
 
     private const DEFAULT_COUNT = 10;
 
-    public function __construct(CycleDependencyProxy $promise)
-    {
-        $this->promise = $promise;
+    public function __construct(
+        private CycleDependencyProxy $promise,
+        private EntityManager $entityManager
+    ) {
         parent::__construct();
     }
 
@@ -75,13 +78,13 @@ class AddCommand extends Command
 
     private function saveEntities(): void
     {
-        (new EntityWriter($this->promise->getORM()))->write($this->users);
+        (new EntityWriter($this->entityManager))->write($this->users);
     }
 
     private function addUsers(int $count): void
     {
         for ($i = 0; $i < $count; ++$i) {
-            $login = $this->faker->firstName . rand(0, 9999);
+            $login = $this->faker->unique()->firstName;
             $user = new User($login, $login);
             $this->users[] = $user;
         }
@@ -90,7 +93,9 @@ class AddCommand extends Command
     private function addTags(int $count): void
     {
         /** @var TagRepository $tagRepository */
-        $tagRepository = $this->promise->getORM()->getRepository(Tag::class);
+        $tagRepository = $this->promise
+            ->getORM()
+            ->getRepository(Tag::class);
         $this->tags = [];
         $tagWords = [];
         for ($i = 0, $fails = 0; $i < $count; ++$i) {
@@ -111,8 +116,8 @@ class AddCommand extends Command
 
     private function addPosts(int $count): void
     {
-        if (count($this->users) === 0) {
-            throw new \Exception('No users');
+        if (empty($this->users)) {
+            throw new Exception('No users');
         }
         for ($i = 0; $i < $count; ++$i) {
             /** @var User $postUser */
@@ -122,7 +127,7 @@ class AddCommand extends Command
             $public = rand(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
-                $post->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
+                $post->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
             }
             // link tags
             $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
@@ -139,7 +144,7 @@ class AddCommand extends Command
                 $commentPublic = rand(0, 3) > 0;
                 $comment->setPublic($commentPublic);
                 if ($commentPublic) {
-                    $comment->setPublishedAt(new \DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
+                    $comment->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
                 }
                 $commentUser = $this->users[array_rand($this->users)];
                 $commentUser->addComment($comment);

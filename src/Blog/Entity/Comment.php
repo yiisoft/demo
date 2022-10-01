@@ -8,73 +8,47 @@ use App\User\User;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 
-/**
- * @Entity(
- *     repository="App\Blog\Comment\CommentRepository",
- *     mapper="App\Blog\Comment\CommentMapper",
- *     constrain="App\Blog\Comment\Scope\PublicScope"
- * )
- * @Table(
- *     indexes={
- *         @Index(columns={"public","published_at"})
- *     }
- * )
- */
+#[Entity(
+    repository: \App\Blog\Comment\CommentRepository::class,
+    scope: \App\Blog\Comment\Scope\PublicScope::class
+)]
+#[Index(columns: ['public', 'published_at'])]
+#[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
+#[Behavior\UpdatedAt(field: 'updated_at', column: 'updated_at')]
+#[Behavior\SoftDelete(field: 'deleted_at', column: 'deleted_at')]
 class Comment
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     private ?int $id = null;
 
-    /**
-     * @Column(type="bool", default="false")
-     */
+    #[Column(type: 'bool', default: 'false', typecast: 'bool')]
     private bool $public = false;
 
-    /**
-     * @Column(type="text")
-     */
+    #[Column(type: 'text')]
     private string $content;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $updated_at;
 
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
+    #[Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $published_at = null;
 
-    /**
-     * @Column(type="datetime", nullable=true)
-     */
+    #[Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $deleted_at = null;
 
-    /**
-     * @BelongsTo(target="App\User\User", nullable=false, load="eager")
-     *
-     * @var \Cycle\ORM\Promise\Reference|User
-     */
-    private $user = null;
+    #[BelongsTo(target: User::class, nullable: false, load: 'eager')]
+    private ?User $user = null;
     private ?int $user_id = null;
 
-    /**
-     * @BelongsTo(target="App\Blog\Entity\Post", nullable=false)
-     *
-     * @var \Cycle\ORM\Promise\Reference|Post
-     */
-    private $post = null;
+    #[BelongsTo(target: Post::class, nullable: false)]
+    private ?Post $post = null;
     private ?int $post_id = null;
 
     public function __construct(string $content)

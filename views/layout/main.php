@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use App\Asset\AppAsset;
 use App\Widget\PerformanceMetrics;
-use App\Widget\LanguageSelector;
-use Yiisoft\Form\Widget\Field;
-use Yiisoft\Form\Widget\Form;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\Form;
 use Yiisoft\Strings\StringHelper;
 use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
@@ -21,14 +20,12 @@ use Yiisoft\Yii\Bootstrap5\NavBar;
  * @var string $content
  *
  * @see \App\ApplicationViewInjection
- * @var \App\User\User $user
+ * @var \App\User\User|null $user
  * @var string $csrf
  * @var string $brandLabel
  */
 
-$assetManager->register([
-    AppAsset::class,
-]);
+$assetManager->register(AppAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addCssStrings($assetManager->getCssStrings());
@@ -36,78 +33,158 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$currentRouteName = $currentRoute->getRoute() === null ? '' : $currentRoute->getRoute()->getName();
+$currentRouteName = $currentRoute->getName() ?? '';
+$isGuest = $user === null || $user->getId() === null;
 
 $this->beginPage();
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yii Demo<?= $this->getTitle() ? ' - ' . $this->getTitle() : '' ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-<?php
-$this->beginBody();
+?>
+    <!DOCTYPE html>
+    <html class="h-100" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Yii Demo<?= $this->getTitle() ? ' - ' . Html::encode($this->getTitle()) : '' ?></title>
+        <?php $this->head() ?>
+    </head>
+    <body class="cover-container-fluid d-flex w-100 h-100 mx-auto flex-column">
+    <header class="mb-auto">
+        <?php $this->beginBody() ?>
 
-echo NavBar::widget()
-    ->brandText($brandLabel)
-    ->brandUrl($urlGenerator->generate('site/index'))
-    ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
-    ->begin();
-echo Nav::widget()
-    ->currentPath($currentRoute->getUri()->getPath())
-    ->options(['class' => 'navbar-nav mx-auto'])
-    ->items(
-        [
-            ['label' => $translator->translate('menu.blog'), 'url' => $urlGenerator->generate('blog/index'), 'active' => StringHelper::startsWith($currentRouteName, 'blog/') && $currentRouteName !== 'blog/comment/index'],
-            ['label' => $translator->translate('menu.comments_feed'), 'url' => $urlGenerator->generate('blog/comment/index')],
-            ['label' => $translator->translate('menu.users'), 'url' => $urlGenerator->generate('user/index'), 'active' => StringHelper::startsWith($currentRouteName, 'user/')],
-            ['label' => $translator->translate('menu.contact'), 'url' => $urlGenerator->generate('site/contact')],
-            ['label' => $translator->translate('menu.swagger'), 'url' => $urlGenerator->generate('swagger/index')],
-        ]
-    );
+        <?= NavBar::widget()
+            ->brandText($brandLabel)
+            ->brandUrl($urlGenerator->generate('site/index'))
+            ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
+            ->begin() ?>
 
-echo Nav::widget()
-    ->currentPath($currentRoute->getUri()->getPath())
-    ->options(['class' => 'navbar-nav'])
-    ->items(
-        $user->getId() === null
-            ? [
-            ['label' => $translator->translate('menu.login'), 'url' => $urlGenerator->generate('site/login')],
-            ['label' => $translator->translate('menu.signup'), 'url' => $urlGenerator->generate('site/signup')],
-        ]
-            : [Form::widget()
-                ->action($urlGenerator->generate('site/logout'))
-                ->csrf($csrf)
-                ->begin()
-            . Field::widget()->submitButton(
+        <?= Nav::widget()
+            ->currentPath($currentRoute
+                ->getUri()
+                ->getPath())
+            ->options(['class' => 'navbar-nav mx-auto'])
+            ->items(
                 [
-                    'class' => 'btn btn-primary',
-                    'value' => $translator->translate(
-                        'menu.logout ({login})',
-                        ['login' => Html::encode($user->getLogin())],
-                    ),
+                    [
+                        'label' => $translator->translate('menu.blog'),
+                        'url' => $urlGenerator->generate('blog/index'),
+                        'active' => StringHelper::startsWith(
+                                $currentRouteName,
+                                'blog/'
+                            ) && $currentRouteName !== 'blog/comment/index',
+                    ],
+                    [
+                        'label' => $translator->translate('menu.comments-feed'),
+                        'url' => $urlGenerator->generate('blog/comment/index'),
+                    ],
+                    [
+                        'label' => $translator->translate('menu.users'),
+                        'url' => $urlGenerator->generate('user/index'),
+                        'active' => StringHelper::startsWith($currentRouteName, 'user/'),
+                    ],
+                    [
+                        'label' => $translator->translate('menu.contact'),
+                        'url' => $urlGenerator->generate('site/contact'),
+                    ],
+                    [
+                        'label' => $translator->translate('menu.swagger'),
+                        'url' => $urlGenerator->generate('swagger/index'),
+                    ],
+                ]
+            ) ?>
+
+        <?= Nav::widget()
+            ->currentPath($currentRoute
+                ->getUri()
+                ->getPath())
+            ->options(['class' => 'navbar-nav'])
+            ->items(
+                [
+                    [
+                        'label' => $translator->translate('menu.language'),
+                        'url' => '#',
+                        'items' => [
+                            [
+                                'label' => 'English',
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], 'site/index'),
+                            ],
+                            [
+                                'label' => 'Русский',
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], 'site/index'),
+                            ],
+                            [
+                                'label' => 'Slovenský',
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'sk'], 'site/index'),
+                            ],
+                            [
+                                'label' => 'Indonesia',
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], 'site/index'),
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => $translator->translate('menu.login'),
+                        'url' => $urlGenerator->generate('auth/login'),
+                        'visible' => $isGuest,
+                    ],
+                    [
+                        'label' => $translator->translate('menu.signup'),
+                        'url' => $urlGenerator->generate('auth/signup'),
+                        'visible' => $isGuest,
+                    ],
+                    $isGuest ? '' : Form::tag()
+                            ->post($urlGenerator->generate('auth/logout'))
+                            ->csrf($csrf)
+                            ->open()
+                        . '<div class="mb-1">'
+                        . Button::submit(
+                            $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
+                        )
+                            ->class('btn btn-primary')
+                        . '</div>'
+                        . Form::tag()->close()
                 ],
-            )
-            . Form::end()],
-    );
-echo NavBar::end();
+            ) ?>
+        <?= NavBar::end() ?>
+    </header>
 
-?>
-<main class="container py-4"><?= $content ?></main>
+    <main class="container py-3">
+        <?= $content ?>
+    </main>
 
-<footer class="container py-4">
-    <?= LanguageSelector::widget() ?>
-    <?= PerformanceMetrics::widget() ?>
-</footer>
-<?php
+    <footer class='mt-auto bg-dark py-3'>
+        <div class = 'd-flex flex-fill align-items-center container-fluid'>
+            <div class = 'd-flex flex-fill float-start'>
+                <i class=''></i>
+                <a class='text-decoration-none' href='https://www.yiiframework.com/' target='_blank' rel='noopener'>
+                    Yii Framework - <?= date('Y') ?> -
+                </a>
+                <div class="ms-2 text-white">
+                    <?= PerformanceMetrics::widget() ?>
+                </div>
+            </div>
 
-$this->endBody();
-?>
-</body>
-</html>
+            <div class='float-end'>
+                <a class='text-decoration-none px-1' href='https://github.com/yiisoft' target='_blank' rel='noopener' >
+                    <i class="bi bi-github text-white"></i>
+                </a>
+                <a class='text-decoration-none px-1' href='https://join.slack.com/t/yii/shared_invite/enQtMzQ4MDExMDcyNTk2LTc0NDQ2ZTZhNjkzZDgwYjE4YjZlNGQxZjFmZDBjZTU3NjViMDE4ZTMxNDRkZjVlNmM1ZTA1ODVmZGUwY2U3NDA' target='_blank' rel='noopener'>
+                    <i class="bi bi-slack text-white"></i>
+                </a>
+                <a class='text-decoration-none px-1' href='https://www.facebook.com/groups/yiitalk' target='_blank' rel='noopener'>
+                    <i class="bi bi-facebook text-white"></i>
+                </a>
+                <a class='text-decoration-none px-1' href='https://twitter.com/yiiframework' target='_blank' rel='noopener'>
+                    <i class="bi bi-twitter text-white"></i>
+                </a>
+                <a class='text-decoration-none px-1' href='https://t.me/yii3ru' target='_blank' rel='noopener'>
+                    <i class="bi bi-telegram text-white"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <?php $this->endBody() ?>
+    </body>
+    </html>
 <?php
 $this->endPage(true);

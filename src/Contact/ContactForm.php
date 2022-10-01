@@ -34,10 +34,10 @@ final class ContactForm extends FormModel
     public function getRules(): array
     {
         return [
-            'name' => [Required::rule()],
-            'email' => [Required::rule(), Email::rule()],
-            'subject' => [Required::rule()],
-            'body' => [Required::rule()],
+            'name' => [new Required()],
+            'email' => [new Required(), new Email()],
+            'subject' => [new Required()],
+            'body' => [new Required()],
         ];
     }
 }

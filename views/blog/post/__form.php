@@ -18,7 +18,9 @@ use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {
-        echo Alert::widget()->options(['class' => 'alert-danger'])->body(Html::encode($field . ':' . $error));
+        echo Alert::widget()
+            ->options(['class' => 'alert-danger'])
+            ->body(Html::encode($field . ':' . $error));
     }
 }
 ?>
@@ -38,8 +40,8 @@ if (!empty($errors)) {
     </div>
 
     <div class="mb-3">
-        <label for="addTag" class="form-label"><?= $translator->translate('layout.add tag') ?></label>
-        <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('layout.add tag') ?>" value="">
+        <label for="addTag" class="form-label"><?= $translator->translate('layout.add.tag') ?></label>
+        <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('layout.add.tag') ?>" value="">
         <?= Html::button(
             $translator->translate('layout.add'),
             ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']

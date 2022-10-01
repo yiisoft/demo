@@ -7,42 +7,30 @@ namespace App\Blog\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
-use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
-use Cycle\ORM\Relation\Pivoted\PivotedCollection;
+use Cycle\ORM\Collection\Pivoted\PivotedCollection;
+use Cycle\ORM\Entity\Behavior;
 use DateTimeImmutable;
 
-/**
- * @Entity(repository="App\Blog\Tag\TagRepository")
- * @Table(
- *     indexes={
- *         @Index(columns={"label"}, unique=true)
- *     }
- * )
- */
+#[Entity(repository: \App\Blog\Tag\TagRepository::class)]
+#[Index(columns: ['label'], unique: true)]
+#[Behavior\CreatedAt(field: 'created_at', column: 'created_at')]
 class Tag
 {
-    /**
-     * @Column(type="primary")
-     */
+    #[Column(type: 'primary')]
     private ?int $id = null;
 
-    /**
-     * @Column(type="string(255)")
-     */
+    #[Column(type: 'string(191)')]
     private string $label;
 
-    /**
-     * @Column(type="datetime")
-     */
+    #[Column(type: 'datetime')]
     private DateTimeImmutable $created_at;
 
     /**
-     * @ManyToMany(target="App\Blog\Entity\Post", though="PostTag", fkAction="CASCADE", indexCreate=false)
-     *
-     * @var PivotedCollection|Post[]
+     * @var PivotedCollection<array-key, Post, PostTag>
      */
-    private $posts;
+    #[ManyToMany(target: Post::class, though: PostTag::class, fkAction: 'CASCADE', indexCreate: false)]
+    private PivotedCollection $posts;
 
     public function __construct(string $label)
     {

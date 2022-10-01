@@ -16,36 +16,27 @@ use Yiisoft\Session\Flash\FlashInterface;
 /**
  * ContactMailer sends an email from the contact form
  */
-class ContactMailer
+final class ContactMailer
 {
-    private FlashInterface $flash;
-    private LoggerInterface $logger;
-    private MailerInterface $mailer;
-    private string $sender;
-    private string $to;
-
     public function __construct(
-        FlashInterface $flash,
-        LoggerInterface $logger,
-        MailerInterface $mailer,
-        string $sender,
-        string $to
+        private FlashInterface $flash,
+        private LoggerInterface $logger,
+        private MailerInterface $mailer,
+        private string $sender,
+        private string $to
     ) {
-        $this->flash = $flash;
-        $this->logger = $logger;
-        $this->mailer = $mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
-        $this->sender = $sender;
-        $this->to = $to;
+        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
-    public function send(FormModelInterface $form, ServerRequestInterface $request)
+    public function send(FormModelInterface $form, ServerRequestInterface $request): void
     {
-        $message = $this->mailer->compose(
-            'contact-email',
-            [
-                'content' => $form->getAttributeValue('body'),
-            ]
-        )
+        $message = $this->mailer
+            ->compose(
+                'contact-email',
+                [
+                    'content' => $form->getAttributeValue('body'),
+                ]
+            )
             ->withSubject($form->getAttributeValue('subject'))
             ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
             ->withSender($this->sender)
@@ -54,7 +45,7 @@ class ContactMailer
         $attachFiles = $request->getUploadedFiles();
         foreach ($attachFiles as $attachFile) {
             foreach ($attachFile as $file) {
-                if ($file->getError() === UPLOAD_ERR_OK) {
+                if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
                         File::fromContent(
                             (string)$file->getStream(),

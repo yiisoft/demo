@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Rbac\Manager;
-use Yiisoft\Rbac\Php\Storage;
-use Yiisoft\Rbac\RuleFactory\ClassNameRuleFactory;
-use Yiisoft\Rbac\RuleFactoryInterface;
-use Yiisoft\Rbac\StorageInterface;
+use Yiisoft\Rbac\Php\AssignmentsStorage;
+use Yiisoft\Rbac\Php\ItemsStorage;
+use Yiisoft\Rbac\AssignmentsStorageInterface;
+use Yiisoft\Rbac\ItemsStorageInterface;
 
 /** @var array $params */
 
 return [
-    StorageInterface::class => [
-        'class' => Storage::class,
+    ItemsStorageInterface::class => [
+        'class' => ItemsStorage::class,
         '__construct()' => [
             'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],
-    RuleFactoryInterface::class => ClassNameRuleFactory::class,
+    AssignmentsStorageInterface::class => [
+        'class' => AssignmentsStorage::class,
+        '__construct()' => [
+            'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
+        ],
+    ],
     AccessCheckerInterface::class => Manager::class,
 ];

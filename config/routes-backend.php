@@ -13,4 +13,8 @@ return [
         )
         ->host('backend.{_host}')
         ->namePrefix('backend/'),
+
+    Route::get('/backend')
+        ->action([\App\Backend\Controller\SiteController::class, 'index'])
+        ->name('index'),
 ];

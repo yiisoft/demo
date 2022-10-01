@@ -16,7 +16,8 @@ final class ContactCest
     public function openContactPage(FunctionalTester $I)
     {
         $I->wantTo('ensure that contact page works');
-        $I->seeInField('contact-button', 'Submit');
+        $I->seeElement('button', ['name' => 'contact-button']);
+        $I->see('Submit', ['name' => 'contact-button']);
     }
 
     public function submitEmptyForm(FunctionalTester $I)
