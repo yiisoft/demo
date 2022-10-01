@@ -7,13 +7,10 @@ namespace App\Widget;
 use App\Timer;
 use Yiisoft\Widget\Widget;
 
-class PerformanceMetrics extends Widget
+final class PerformanceMetrics extends Widget
 {
-    private Timer $timer;
-
-    public function __construct(Timer $timer)
+    public function __construct(private Timer $timer)
     {
-        $this->timer = $timer;
     }
 
     protected function run(): string

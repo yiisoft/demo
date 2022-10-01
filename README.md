@@ -22,7 +22,7 @@ It's intended to show and test all Yii features.
 You'll need at least PHP 8.0.
 
 1. Clone this repository.
-2. Run `composer update` in project root directory.
+2. Run `composer install` in project root directory.
 3. Run `./yii serve` (on Windows `yii serve`). The application will be started on http://localhost:8080/.
 4. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
    If you want to disable this behavior then comment out line with `Generator\SyncTables::class` in the `config/packges/yiisoft/yii-cycle/params.php`.

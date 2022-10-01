@@ -8,12 +8,12 @@ use App\Blog\Entity\Post;
 use App\Blog\Post\PostRepository;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
-use Spiral\Database\DatabaseInterface;
-use Spiral\Database\Driver\DriverInterface;
-use Spiral\Database\Driver\SQLite\SQLiteDriver;
-use Spiral\Database\Injection\Fragment;
-use Spiral\Database\Injection\FragmentInterface;
-use Spiral\Database\Query\SelectQuery;
+use Cycle\Database\DatabaseInterface;
+use Cycle\Database\Driver\DriverInterface;
+use Cycle\Database\Driver\SQLite\SQLiteDriver;
+use Cycle\Database\Injection\Fragment;
+use Cycle\Database\Injection\FragmentInterface;
+use Cycle\Database\Query\SelectQuery;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
@@ -39,19 +39,28 @@ final class ArchiveRepository
 
     public function getMonthlyArchive(int $year, int $month): DataReaderInterface
     {
-        $begin = (new \DateTimeImmutable())->setDate($year, $month, 1)->setTime(0, 0, 0);
-        $end = $begin->setDate($year, $month + 1, 1)->setTime(0, 0, -1);
+        $begin = (new \DateTimeImmutable())
+            ->setDate($year, $month, 1)
+            ->setTime(0, 0, 0);
+        $end = $begin
+            ->setDate($year, $month + 1, 1)
+            ->setTime(0, 0, -1);
 
-        $query = $this->select()
-                    ->andWhere('published_at', 'between', $begin, $end)
-                    ->load(['user', 'tags']);
+        $query = $this
+            ->select()
+            ->andWhere('published_at', 'between', $begin, $end)
+            ->load(['user', 'tags']);
         return $this->prepareDataReader($query);
     }
 
     public function getYearlyArchive(int $year): DataReaderInterface
     {
-        $begin = (new \DateTimeImmutable())->setDate($year, 1, 1)->setTime(0, 0, 0);
-        $end = $begin->setDate($year + 1, 1, 1)->setTime(0, 0, -1);
+        $begin = (new \DateTimeImmutable())
+            ->setDate($year, 1, 1)
+            ->setTime(0, 0, 0);
+        $end = $begin
+            ->setDate($year + 1, 1, 1)
+            ->setTime(0, 0, -1);
 
         $query = $this
             ->select()
@@ -89,7 +98,9 @@ final class ArchiveRepository
     private function extractFromDateColumn(string $attr): FragmentInterface
     {
         $driver = $this->getDriver();
-        $wrappedField = $driver->getQueryCompiler()->quoteIdentifier($attr);
+        $wrappedField = $driver
+            ->getQueryCompiler()
+            ->quoteIdentifier($attr);
         if ($driver instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
             return new Fragment("strftime('{$str}', post.published_at) {$wrappedField}");
@@ -99,12 +110,13 @@ final class ArchiveRepository
 
     private function getDriver(): DriverInterface
     {
-        return $this->select()
-                    ->getBuilder()
-                    ->getLoader()
-                    ->getSource()
-                    ->getDatabase()
-                    ->getDriver(DatabaseInterface::READ);
+        return $this
+            ->select()
+            ->getBuilder()
+            ->getLoader()
+            ->getSource()
+            ->getDatabase()
+            ->getDriver(DatabaseInterface::READ);
     }
 
     /**

@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 use App\Handler\NotFoundHandler;
 use App\Middleware\LocaleMiddleware;
-use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\Definitions\Reference;
 use Yiisoft\Definitions\DynamicReference;
-use Yiisoft\Injector\Injector;
+use Yiisoft\Definitions\Reference;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
-use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Session\SessionMiddleware;
+
+/** @var array $params */
 
 return [
-    Yiisoft\Yii\Web\Application::class => [
+    Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
-            'dispatcher' => DynamicReference::to(static function (Injector $injector) {
-                return ($injector->make(MiddlewareDispatcher::class))
-                    ->withMiddlewares(
-                        [
-                            Router::class,
-                            SessionMiddleware::class,
-                            ErrorCatcher::class,
-                            LocaleMiddleware::class,
-                        ]
-                    );
-            }),
+            'dispatcher' => DynamicReference::to([
+                'class' => MiddlewareDispatcher::class,
+                'withMiddlewares()' => [$params['middlewares']],
+            ]),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
+        ],
+    ],
+    LocaleMiddleware::class => [
+        '__construct()' => [
+            'locales' => $params['locales'],
         ],
     ],
 ];

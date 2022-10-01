@@ -12,13 +12,10 @@ use Yiisoft\Router\UrlGeneratorInterface;
 
 final class WebControllerService
 {
-    private ResponseFactoryInterface $responseFactory;
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(ResponseFactoryInterface $responseFactory, UrlGeneratorInterface $urlGenerator)
-    {
-        $this->responseFactory = $responseFactory;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(
+        private ResponseFactoryInterface $responseFactory,
+        private UrlGeneratorInterface $urlGenerator
+    ) {
     }
 
     public function getRedirectResponse(string $url): ResponseInterface

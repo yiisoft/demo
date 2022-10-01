@@ -9,20 +9,22 @@ use Yiisoft\User\CurrentUser;
 
 final class UserService
 {
-    private CurrentUser $currentUser;
-    private UserRepository $repository;
-    private AccessCheckerInterface $accessChecker;
-
-    public function __construct(CurrentUser $currentUser, UserRepository $repository, AccessCheckerInterface $accessChecker)
-    {
-        $this->currentUser = $currentUser;
-        $this->repository = $repository;
-        $this->accessChecker = $accessChecker;
+    public function __construct(
+        private CurrentUser $currentUser,
+        private UserRepository $repository,
+        private AccessCheckerInterface $accessChecker
+    ) {
     }
 
     public function getUser(): ?User
     {
-        return $this->repository->findIdentity($this->currentUser->getId());
+        $userId = $this->currentUser->getId();
+
+        if ($userId === null) {
+            return null;
+        }
+
+        return $this->repository->findById($this->currentUser->getId());
     }
 
     public function hasPermission(string $permission): bool
