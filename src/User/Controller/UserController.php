@@ -56,6 +56,7 @@ final class UserController
     ): Response {
         $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
+
         if ($item === null) {
             return $responseFactory->createResponse(404);
         }

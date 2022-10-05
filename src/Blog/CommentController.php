@@ -7,6 +7,7 @@ namespace App\Blog;
 use App\Blog\Comment\CommentService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -19,22 +20,24 @@ final class CommentController
         $this->viewRenderer = $viewRenderer->withControllerName('blog/comments');
     }
 
-    public function index(Request $request, CommentService $service, CurrentRoute $currentRoute): Response
+    public function index(Request $request, CommentService $commentService, CurrentRoute $currentRoute): Response
     {
-        $paginator = $service->getFeedPaginator();
-        if ($currentRoute->getArgument('next') !== null) {
-            $paginator = $paginator->withNextPageToken((string)$currentRoute->getArgument('next'));
+        $body = $request->getParsedBody();
+        $paginator = $commentService->getFeedPaginator();
+
+        $pageSize = (int) $currentRoute->getArgument(
+            'pagesize',
+            $body['pageSize'] ?? (string) PaginatorInterface::DEFAULT_PAGE_SIZE,
+        );
+
+        $paginator = $paginator->withPageSize($pageSize);
+
+        if ($currentRoute->getArgument('page') !== null) {
+            $paginator = $paginator
+                ->withNextPageToken((string) $currentRoute->getArgument('page'))
+                ->withPageSize($pageSize);
         }
 
-        if ($this->isAjaxRequest($request)) {
-            return $this->viewRenderer->renderPartial('_comments', ['data' => $paginator]);
-        }
-
-        return $this->viewRenderer->render('index', ['data' => $paginator]);
-    }
-
-    private function isAjaxRequest(Request $request): bool
-    {
-        return $request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
+        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 }

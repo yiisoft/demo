@@ -17,8 +17,7 @@ final class CommentRepository extends Select\Repository
      */
     public function getReader(): DataReaderInterface
     {
-        return (new EntityReader($this->select()))
-            ->withSort($this->getSort());
+        return (new EntityReader($this->select()))->withSort($this->getSort());
     }
 
     private function getSort(): Sort

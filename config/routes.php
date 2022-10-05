@@ -158,7 +158,7 @@ return [
                         ->name('blog/archive/month'),
                 ),
             // comments
-            Route::get('/comments/[next/{next}]')
+            Route::methods(['GET', 'POST'], '/comments[/{page:\d+}/{pagesize:\d+}]')
                 ->action([CommentController::class, 'index'])
                 ->name('blog/comment/index')
         ),
