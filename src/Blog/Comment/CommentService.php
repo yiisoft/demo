@@ -14,6 +14,6 @@ final class CommentService
 
     public function getFeedPaginator(): KeysetPaginator
     {
-        return (new KeysetPaginator($this->repository->getReader()));
+        return new KeysetPaginator($this->repository->getReader());
     }
 }
