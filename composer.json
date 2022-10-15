@@ -85,7 +85,7 @@
         "yiisoft/yii-middleware": "dev-master",
         "yiisoft/yii-runner-console": "^1.0",
         "yiisoft/yii-runner-http": "^1.1",
-        "yiisoft/yii-sentry": "dev-master",
+        "yiisoft/yii-sentry": "^1.0",
         "yiisoft/yii-swagger": "^1.0",
         "yiisoft/yii-view": "^5.0"
     },

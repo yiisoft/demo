@@ -214,8 +214,13 @@ return [
         ],
     ],
     'yiisoft/yii-sentry' => [
+        'handleConsoleErrors' => false, // Add to disable console errors.
         'options' => [
+            // Set to `null` to disable error sending (note that in case of web application errors it only prevents
+            // sending them via HTTP). To disable interactions with Sentry SDK completely, remove middleware and the
+            // rest of the config.
             'dsn' => $_ENV['SENTRY_DSN'] ?? null,
+            'environment' => $_ENV['YII_ENV'] ?? null, // Add to separate "production" / "staging" environment errors.
         ],
     ],
 ];
