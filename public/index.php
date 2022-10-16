@@ -27,6 +27,7 @@ if (PHP_SAPI === 'cli-server') {
     $_SERVER['SCRIPT_NAME'] = '/index.php';
 }
 
+chdir(dirname(__DIR__));
 require_once dirname(__DIR__) . '/autoload.php';
 
 // Run HTTP application runner
