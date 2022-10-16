@@ -1,0 +1,36 @@
+###
+GET http://localhost:8080/gii/api/controller
+Accept: application/json
+
+###
+POST localhost:8080/gii/api/controller/preview
+Accept: application/json
+Content-Type: application/json
+
+{
+    "parameters": {
+        "controllerClass": "GiiTestController"
+    }
+}
+
+###
+POST localhost:8080/gii/api/controller/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "parameters": {
+        "controllerClass": "GiiTestController"
+    }
+}
+
+###
+POST localhost:8080/gii/api/controller/diff
+Accept: application/json
+Content-Type: application/json
+
+{
+    "parameters": {
+        "controllerClass": "GiiTestController"
+    }
+}
