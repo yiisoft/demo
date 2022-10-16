@@ -31,7 +31,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo
+      extensions: fileinfo, pdo, pdo_sqlite, intl
       key: cache-v1
       YII_C3: true
 
@@ -92,6 +92,7 @@ jobs:
         run: |
           php -S 127.0.0.1:8080 -t public > ./runtime/yii.log 2>&1 &
           vendor/bin/codecept run --coverage-xml
+
       - name: Upload coverage to codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
         uses: codecov/codecov-action@v3
