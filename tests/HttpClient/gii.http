@@ -1,20 +1,13 @@
 ###
-GET {{ host }}/gii/api/controller
+GET {{ host }}/gii/api/generator/
 Accept: application/json
 
 ###
-POST {{ host }}/gii/api/controller/preview
+GET {{ host }}/gii/api/generator/controller
 Accept: application/json
-Content-Type: application/json
-
-{
-    "parameters": {
-        "controllerClass": "GiiTestController"
-    }
-}
 
 ###
-POST {{ host }}/gii/api/controller/generate
+POST {{ host }}/gii/api/generator/controller/preview
 Accept: application/json
 Content-Type: application/json
 
@@ -25,7 +18,18 @@ Content-Type: application/json
 }
 
 ###
-POST {{ host }}/gii/api/controller/diff
+POST {{ host }}/gii/api/generator/controller/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "parameters": {
+        "controllerClass": "GiiTestController"
+    }
+}
+
+###
+POST {{ host }}/gii/api/generator/controller/diff
 Accept: application/json
 Content-Type: application/json
 
