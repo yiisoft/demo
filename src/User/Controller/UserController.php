@@ -27,23 +27,26 @@ final class UserController
         ServerRequestInterface $request,
         UserRepository $userRepository
     ): Response {
-        $page = (int)$currentRoute->getArgument('page', '1');
+        /** @var array */
+        $body = $request->getParsedBody();
         $sortOrderString = $request->getQueryParams();
 
         $dataReader = $userRepository
             ->findAll()
-            ->withSort(Sort::only(['id', 'login'])->withOrderString($sortOrderString['sort'] ?? ''));
+            ->withSort(Sort::only(['id', 'login'])
+            ->withOrderString($sortOrderString['sort'] ?? 'id'));
 
-        $paginator = (new OffsetPaginator($dataReader))->withPageSize(self::PAGINATION_INDEX);
+        $page = (int) $currentRoute->getArgument('page', '1');
 
-        return $this->viewRenderer->render(
-            'index',
-            [
-                'page' => $page,
-                'paginator' => $paginator,
-                'sortOrder' => $sortOrderString['sort'] ?? '',
-            ]
+        $pageSize = (int) $currentRoute->getArgument(
+            'pagesize',
+            $body['pageSize'] ?? (string) OffSetPaginator::DEFAULT_PAGE_SIZE,
         );
+
+        $paginator = (new OffsetPaginator($dataReader));
+        $paginator = $paginator->withNextPageToken((string) $page)->withPageSize($pageSize);
+
+        return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
 
     public function profile(
@@ -53,6 +56,7 @@ final class UserController
     ): Response {
         $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
+
         if ($item === null) {
             return $responseFactory->createResponse(404);
         }

@@ -9,13 +9,38 @@ declare(strict_types=1);
  */
 
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\H2;
+use Yiisoft\Yii\DataView\DetailView;
 
-$this->setTitle($item->getLogin());
+$this->setTitle('Profile');
 
-echo Html::tag('h1', Html::encode($this->getTitle()));
+$title = Html::encode($this->getTitle());
 ?>
-<div>
-    <span class="text-muted">Created at <?= $item
-            ->getCreatedAt()
-            ->format('H:i:s d.m.Y') ?></span>
-</div>
+
+<?= DetailView::widget()
+    ->attributes(['class' => 'container'])
+    ->columns(
+        [
+            [
+                'attribute' => 'id',
+                'label' => 'Id',
+                'value' => $item->getId(),
+            ],
+            [
+                'attribute' => 'login',
+                'label' => $translator->translate('gridview.login'),
+                'value' => $item->getLogin(),
+            ],
+            [
+                'attribute' => 'created_at',
+                'label' => $translator->translate('gridview.create.at'),
+                'value' => $item->getCreatedAt()->format('H:i:s d.m.Y'),
+            ],
+        ],
+    )
+    ->containerAttributes(['class' => 'row flex-column justify-content-center align-items-center'])
+    ->data($item)
+    ->dataAttributes(['class' => 'col-xl-5'])
+    ->header(H2::tag()->class('text-center')->content("<strong>$title</strong>")->encode(false)->render())
+    ->labelAttributes(['class' => 'fw-bold'])
+    ->valueAttributes(['class' => 'alert alert-info']);
