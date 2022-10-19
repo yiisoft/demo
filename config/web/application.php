@@ -23,7 +23,7 @@ return [
     Locale::class => [
         '__construct()' => [
             'locales' => $params['locale']['locales'],
-            'ignoredRequests' => $params['locale']['ignoredRequests']
+            'ignoredRequests' => $params['locale']['ignoredRequests'],
         ],
     ],
 ];
