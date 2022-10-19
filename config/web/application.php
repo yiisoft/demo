@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use App\Handler\NotFoundHandler;
-use App\Middleware\LocaleMiddleware;
 use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
+use Yiisoft\Yii\Middleware\Locale;
 
 /** @var array $params */
 
@@ -20,9 +20,10 @@ return [
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],
-    LocaleMiddleware::class => [
+    Locale::class => [
         '__construct()' => [
-            'locales' => $params['locales'],
+            'locales' => $params['locale']['locales'],
+            'ignoredRequests' => $params['locale']['ignoredRequests']
         ],
     ],
 ];
