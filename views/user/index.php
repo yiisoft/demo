@@ -137,7 +137,6 @@ $toolbar = Div::tag();
             ->menuClass('pagination justify-content-center')
             ->paginator($paginator)
             ->urlArguments([])
-            ->urlGenerator($urlGenerator)
             ->urlName($currentRoute->getName())
             ->render(),
     )
@@ -151,5 +150,4 @@ $toolbar = Div::tag();
         Div::tag()->addClass('float-end m-3')->content($toolbarApplyChange . $toolbarReset)->encode(false)->render() .
         Form::tag()->close()
     )
-    ->urlGenerator($urlGenerator)
     ->urlName($currentRoute->getName());
