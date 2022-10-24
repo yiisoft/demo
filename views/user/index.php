@@ -142,7 +142,6 @@ $toolbar = Div::tag();
     ->rowAttributes(['class' => 'align-middle'])
     ->summaryAttributes(['class' => 'summary text-end mb-5'])
     ->tableAttributes(['class' => 'table table-hover'])
-    ->translator($translator)
     ->toolbar(
         Form::tag()->post($urlGenerator->generate('user/index'))->csrf($csrf)->open() .
         Div::tag()->addClass('float-start m-3')->content($toolbarSelect)->encode(false)->render() .
