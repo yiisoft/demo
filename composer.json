@@ -110,7 +110,10 @@
         }
     },
     "scripts": {
-        "serve": "./yii serve",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "./yii serve"
+        ],
         "post-update-cmd": [
             "App\\Installer::postUpdate",
             "App\\Installer::copyEnvFile"
