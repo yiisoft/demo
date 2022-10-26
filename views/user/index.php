@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Html\Html;
-use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\View\WebView;
 use Yiisoft\Html\Tag\A;
 use Yiisoft\Html\Tag\Button;
 use Yiisoft\Html\Tag\Div;
@@ -14,10 +11,13 @@ use Yiisoft\Html\Tag\Form;
 use Yiisoft\Html\Tag\H5;
 use Yiisoft\Html\Tag\I;
 use Yiisoft\Html\Tag\Select;
-use Yiisoft\Yii\DataView\Column\DataColumn;
+use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
+use Yiisoft\Yii\DataView\Column\GridView\DataColumn;
 use Yiisoft\Yii\DataView\GridView;
 use Yiisoft\Yii\DataView\Widget\OffsetPagination;
-use Yiisoft\Router\CurrentRoute;
 
 /**
  * @var string $csrf

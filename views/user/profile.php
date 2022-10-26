@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\H2;
+use Yiisoft\Yii\DataView\Column\DetailView\DataColumn;
 use Yiisoft\Yii\DataView\DetailView;
 
 $this->setTitle('Profile');
@@ -20,23 +21,18 @@ $title = Html::encode($this->getTitle());
 <?= DetailView::widget()
     ->attributes(['class' => 'container'])
     ->columns(
-        [
-            [
-                'attribute' => 'id',
-                'label' => 'Id',
-                'value' => $item->getId(),
-            ],
-            [
-                'attribute' => 'login',
-                'label' => $translator->translate('gridview.login'),
-                'value' => $item->getLogin(),
-            ],
-            [
-                'attribute' => 'created_at',
-                'label' => $translator->translate('gridview.create.at'),
-                'value' => $item->getCreatedAt()->format('H:i:s d.m.Y'),
-            ],
-        ],
+        DataColumn::create()
+            ->attribute('id')
+            ->label('ID')
+            ->value($item->getId()),
+        DataColumn::create()
+            ->attribute('login')
+            ->label($translator->translate('gridview.login'))
+            ->value($item->getLogin()),
+        DataColumn::create()
+            ->attribute('create_at')
+            ->label($translator->translate('gridview.create.at'))
+            ->value($item->getCreatedAt()->format('H:i:s d.m.Y')),
     )
     ->containerAttributes(['class' => 'row flex-column justify-content-center align-items-center'])
     ->data($item)
