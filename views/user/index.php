@@ -26,7 +26,6 @@ use Yiisoft\Yii\DataView\Widget\OffsetPagination;
  * @var TranslatorInterface $translator
  * @var UrlGeneratorInterface $urlGenerator
  * @var WebView $this
- * @var int $currentPage
  */
 
 $this->setTitle($translator->translate('menu.users'));
