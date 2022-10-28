@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\H2;
-use Yiisoft\Yii\DataView\Column\DetailView\DataColumn;
+use Yiisoft\Yii\DataView\Column\DetailColumn;
 use Yiisoft\Yii\DataView\DetailView;
 
 $this->setTitle('Profile');
@@ -20,15 +20,15 @@ $title = Html::encode($this->getTitle());
 <?= DetailView::widget()
     ->attributes(['class' => 'container'])
     ->columns(
-        DataColumn::create()
+        DetailColumn::create()
             ->attribute('id')
             ->label('ID')
             ->value($item->getId()),
-        DataColumn::create()
+        DetailColumn::create()
             ->attribute('login')
             ->label($translator->translate('gridview.login'))
             ->value($item->getLogin()),
-        DataColumn::create()
+        DetailColumn::create()
             ->attribute('create_at')
             ->label($translator->translate('gridview.create.at'))
             ->value($item->getCreatedAt()->format('H:i:s d.m.Y')),

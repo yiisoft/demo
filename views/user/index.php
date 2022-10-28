@@ -15,9 +15,9 @@ use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\DataView\Column\GridView\DataColumn;
+use Yiisoft\Yii\DataView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView;
-use Yiisoft\Yii\DataView\Widget\OffsetPagination;
+use Yiisoft\Yii\DataView\OffsetPagination;
 
 /**
  * @var string $csrf
