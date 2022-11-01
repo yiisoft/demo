@@ -14,7 +14,7 @@ use Yiisoft\Html\Tag\Form;
  * @var \App\Auth\Form\SignupForm $formModel
  */
 
-$this->setTitle($translator->translate('Signup'));
+$this->setTitle($translator->translate('signup'));
 ?>
 
 <div class="container py-5 h-100">
