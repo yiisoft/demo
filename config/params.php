@@ -6,20 +6,21 @@ use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
-use Yiisoft\Assets\AssetManager;
+use Cycle\Database\Config\SQLite\FileConnectionConfig;
+use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Form\Field\SubmitButton;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\SessionMiddleware;
-use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Middleware\Locale;
+use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
+use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
 use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
@@ -74,7 +75,7 @@ return [
                 'errorClass' => 'fw-bold fst-italic',
                 'hintClass' => 'form-text',
                 'fieldConfigs' => [
-                    \Yiisoft\Form\Field\SubmitButton::class => [
+                    SubmitButton::class => [
                         'buttonClass()' => ['btn btn-primary btn-lg mt-3'],
                         'containerClass()' => ['d-grid gap-2 form-floating'],
                     ],
@@ -156,8 +157,8 @@ return [
                 'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
-                'sqlite' => new \Cycle\Database\Config\SQLiteDriverConfig(
-                    connection: new \Cycle\Database\Config\SQLite\FileConnectionConfig(
+                'sqlite' => new SQLiteDriverConfig(
+                    connection: new FileConnectionConfig(
                         database: 'runtime/database.db'
                     )
                 ),
@@ -195,12 +196,12 @@ return [
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
 
             // Store generated Schema in the file
-            \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
-                'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
+            PhpFileSchemaProvider::class => [
+                'mode' => PhpFileSchemaProvider::MODE_WRITE_ONLY,
                 'file' => 'runtime/schema.php',
             ],
 
-            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+            FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],

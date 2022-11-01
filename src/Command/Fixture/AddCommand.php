@@ -122,15 +122,15 @@ final class AddCommand extends Command
         for ($i = 0; $i < $count; ++$i) {
             /** @var User $postUser */
             $postUser = $this->users[array_rand($this->users)];
-            $post = new Post($this->faker->text(64), $this->faker->realText(rand(1000, 4000)));
+            $post = new Post($this->faker->text(64), $this->faker->realText(random_int(1000, 4000)));
             $postUser->addPost($post);
-            $public = rand(0, 2) > 0;
+            $public = random_int(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
-                $post->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
+                $post->setPublishedAt(new DateTimeImmutable(date('r', random_int(time(), strtotime('-2 years')))));
             }
             // link tags
-            $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
+            $postTags = (array)array_rand($this->tags, random_int(1, count($this->tags)));
             foreach ($postTags as $tagId) {
                 $tag = $this->tags[$tagId];
                 $post->addTag($tag);
@@ -138,13 +138,13 @@ final class AddCommand extends Command
                 // $tag->addPost($post);
             }
             // add comments
-            $commentsCount = rand(0, $count);
+            $commentsCount = random_int(0, $count);
             for ($j = 0; $j <= $commentsCount; ++$j) {
-                $comment = new Comment($this->faker->realText(rand(100, 500)));
-                $commentPublic = rand(0, 3) > 0;
+                $comment = new Comment($this->faker->realText(random_int(100, 500)));
+                $commentPublic = random_int(0, 3) > 0;
                 $comment->setPublic($commentPublic);
                 if ($commentPublic) {
-                    $comment->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
+                    $comment->setPublishedAt(new DateTimeImmutable(date('r', random_int(time(), strtotime('-1 years')))));
                 }
                 $commentUser = $this->users[array_rand($this->users)];
                 $commentUser->addComment($comment);
