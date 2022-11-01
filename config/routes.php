@@ -60,17 +60,16 @@ return [
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
-    // User
     Group::create('/user')
         ->routes(
-        // Index
-            Route::get('[/page-{page:\d+}]')
-                ->action([UserController::class, 'index'])
-                ->name('user/index'),
+            // User
+            Route::methods(['GET', 'POST'], '[/{page:\d+}/{pagesize:\d+}]')
+                ->name('user/index')
+                ->action([UserController::class, 'index']),
             // Profile page
             Route::get('/{login}')
                 ->action([UserController::class, 'profile'])
-                ->name('user/profile')
+                ->name('user/profile'),
         ),
 
     // API group.
@@ -159,7 +158,7 @@ return [
                         ->name('blog/archive/month'),
                 ),
             // comments
-            Route::get('/comments/[next/{next}]')
+            Route::methods(['GET', 'POST'], '/comments[/{page:\d+}/{pagesize:\d+}]')
                 ->action([CommentController::class, 'index'])
                 ->name('blog/comment/index')
         ),

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Middleware\LocaleMiddleware;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
@@ -20,11 +19,17 @@ use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
+use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
+    'locale' => [
+        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
+        'ignoredRequests' => [
+            '/debug**',
+        ],
+    ],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
@@ -35,7 +40,7 @@ return [
         SessionMiddleware::class,
         CookieMiddleware::class,
         CookieLoginMiddleware::class,
-        LocaleMiddleware::class,
+        Locale::class,
         Router::class,
     ],
 
@@ -219,8 +224,13 @@ return [
         ],
     ],
     'yiisoft/yii-sentry' => [
+        'handleConsoleErrors' => false, // Add to disable console errors.
         'options' => [
+            // Set to `null` to disable error sending (note that in case of web application errors it only prevents
+            // sending them via HTTP). To disable interactions with Sentry SDK completely, remove middleware and the
+            // rest of the config.
             'dsn' => $_ENV['SENTRY_DSN'] ?? null,
+            'environment' => $_ENV['YII_ENV'] ?? null, // Add to separate "production" / "staging" environment errors.
         ],
     ],
 ];

@@ -33,14 +33,14 @@
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "psr/log": "^3.0",
-        "symfony/console": "^5.4|^6.0",
+        "symfony/console": "^6.0",
         "vlucas/phpdotenv": "^5.3",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^2.0",
-        "yiisoft/assets": "^2.0",
+        "yiisoft/assets": "^2.1",
         "yiisoft/auth": "^3.0",
-        "yiisoft/cache": "^1.0",
-        "yiisoft/cache-file": "^1.0",
+        "yiisoft/cache": "^2.0",
+        "yiisoft/cache-file": "^2.0",
         "yiisoft/config": "^1.0",
         "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.2",
@@ -58,7 +58,7 @@
         "yiisoft/log-target-file": "^2.0",
         "yiisoft/mailer": "^4.0",
         "yiisoft/mailer-symfony": "^2.0",
-        "yiisoft/rate-limiter": "^2.0",
+        "yiisoft/rate-limiter": "dev-master",
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^1.0",
@@ -92,7 +92,7 @@
     },
     "require-dev": {
         "codeception/c3": "^2.6",
-        "codeception/codeception": "~5.0.0@rc",
+        "codeception/codeception": "^5.0",
         "codeception/module-asserts": "^3.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-phpbrowser": "^3.0",
@@ -102,7 +102,8 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.18",
         "yiisoft/translator-extractor": "^1.0",
-        "yiisoft/yii-debug-viewer": "^3.0@dev"
+        "yiisoft/yii-debug-viewer": "^3.0@dev",
+        "yiisoft/yii-testing": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -110,7 +111,10 @@
         }
     },
     "scripts": {
-        "serve": "./yii serve",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "./yii serve"
+        ],
         "post-update-cmd": [
             "App\\Installer::postUpdate",
             "App\\Installer::copyEnvFile"
