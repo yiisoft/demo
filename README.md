@@ -19,7 +19,7 @@ It's intended to show and test all Yii features.
 
 ## Installation
 
-You'll need at least PHP 8.0.
+You'll need at least PHP 8.1.
 
 1. Clone this repository.
 2. Run `composer install` in project root directory.
