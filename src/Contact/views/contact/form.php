@@ -50,12 +50,12 @@ $this->setTitle($translator->translate('menu.contact'));
                         ->addContainerClass('btn-group btn-toolbar float-end')
                         ->buttonsData([
                             [
-                                $translator->translate('Reset'),
+                                $translator->translate('layout.reset'),
                                 'type' => 'reset',
                                 'class' => 'btn btn-lg btn-danger',
                             ],
                             [
-                                $translator->translate('Submit'),
+                                $translator->translate('layout.submit'),
                                 'type' => 'submit',
                                 'class' => 'btn btn-lg btn-primary',
                                 'name' => 'contact-button',

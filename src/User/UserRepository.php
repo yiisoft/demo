@@ -7,6 +7,7 @@ namespace App\User;
 use Cycle\ORM\Select;
 use Throwable;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
@@ -15,6 +16,19 @@ final class UserRepository extends Select\Repository
     public function __construct(private EntityWriter $entityWriter, Select $select)
     {
         parent::__construct($select);
+    }
+
+    /**
+     * @psalm-return DataReaderInterface<int, User>
+     */
+    public function getReader(): DataReaderInterface
+    {
+        return (new EntityReader($this->select()))->withSort($this->getSort());
+    }
+
+    private function getSort(): Sort
+    {
+        return Sort::only(['id', 'login'])->withOrder(['id' => 'asc']);
     }
 
     public function findAll(array $scope = [], array $orderBy = []): DataReaderInterface
