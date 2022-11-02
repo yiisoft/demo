@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Cli;
 
-use App\Tests\CliTester;
+use App\Tests\Support\CliTester;
 use Yiisoft\Yii\Console\ExitCode;
 
 final class ConsoleCest
@@ -34,8 +34,6 @@ final class ConsoleCest
      * Clear all data created with testCommandFixtureAdd().
      * Clearing database prevents from getting errors during multiple continuous testing with other test,
      * what are based on empty database (eg, BlogPageCest)
-     *
-     * @param \App\Tests\CliTester $I
      */
     public function testCommandCycleSchemaClear(CliTester $I): void
     {

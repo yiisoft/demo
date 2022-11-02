@@ -18,7 +18,7 @@ class EventListenerConfigurationTest extends TestCase
 {
     public function testConsoleListenerConfiguration(): void
     {
-        $config = ConfigFactory::create(new ConfigPaths(dirname(__DIR__, 2), 'config'), null);
+        $config = ConfigFactory::create(new ConfigPaths(dirname(__DIR__, 2), 'config'), $_ENV['YII_ENV']);
 
         $containerConfig = ContainerConfig::create()
             ->withDefinitions($config->get('console'));
