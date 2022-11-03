@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 use Yiisoft\Yii\Bootstrap5\Carousel;
 
 /**
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\View\WebView $this
+ * @var TranslatorInterface $translator
+ * @var WebView $this
  */
 
 $this->setTitle('Home');

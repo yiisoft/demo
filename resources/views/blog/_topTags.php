@@ -3,13 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var DataReaderInterface|string[][] $tags
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  */
 
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 ?>
 <h4 class="text-muted mb-3">

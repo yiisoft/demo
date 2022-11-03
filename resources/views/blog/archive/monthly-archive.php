@@ -5,16 +5,20 @@ declare(strict_types=1);
 /**
  * @var int $year
  * @var int $month
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var OffsetPaginator $paginator
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  */
 
 use App\Blog\Entity\Post;
 use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 $monthName = DateTime::createFromFormat('!m', (string) $month)->format('F');
 $this->setTitle("Archive for $monthName $year");
