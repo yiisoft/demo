@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\View\View $this
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var View $this
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
  * @var array $body
  * @var string $csrf
  * @var string $action
@@ -14,6 +14,9 @@ declare(strict_types=1);
  */
 
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\View;
 use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (!empty($errors)) {

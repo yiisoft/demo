@@ -3,13 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var DataReaderInterface|string[][] $archive
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  */
 
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 $this->setTitle($translator->translate('layout.archive'));
 

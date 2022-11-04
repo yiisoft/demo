@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 /**
  * @var int $year
- * @var Post[]|\Yiisoft\Data\Reader\DataReaderInterface $items
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var Post[]|DataReaderInterface $items
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  */
 
 use App\Blog\Entity\Post;
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 $this->setTitle($translator->translate('layout.archive.for-year', ['year' => $year]));
 
