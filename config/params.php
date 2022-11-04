@@ -62,8 +62,8 @@ return [
             '@runtime' => '@root/runtime',
             '@src' => '@root/src',
             '@vendor' => '@root/vendor',
-            '@layout' => '@root/views/layout',
-            '@views' => '@root/views',
+            '@layout' => '@views/layout',
+            '@views' => '@resources/views',
         ],
     ],
 

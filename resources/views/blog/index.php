@@ -3,19 +3,24 @@
 declare(strict_types=1);
 
 /**
- * @var \Yiisoft\Data\Paginator\OffsetPaginator $paginator;
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $archive
- * @var \Yiisoft\Data\Reader\DataReaderInterface|string[][] $tags
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var OffsetPaginator $paginator;
+ * @var DataReaderInterface|string[][] $archive
+ * @var DataReaderInterface|string[][] $tags
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  * @var bool $isGuest
  */
 
 use App\Blog\Entity\Post;
 use App\Blog\Widget\PostCard;
 use App\Widget\OffsetPagination;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 $this->setTitle($translator->translate('layout.blog'));
 $pagination = OffsetPagination::widget()

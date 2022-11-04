@@ -3,12 +3,16 @@
 declare(strict_types=1);
 
 use Yiisoft\Html\Html;
+use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 /**
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\Router\CurrentRoute $currentRoute
- * @var \Yiisoft\View\WebView $this
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var CurrentRoute $currentRoute
+ * @var WebView $this
  */
 
 $this->setTitle($translator->translate('layout.not-found'));

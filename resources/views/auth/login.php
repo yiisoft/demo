@@ -2,19 +2,25 @@
 
 declare(strict_types=1);
 
+use App\Auth\Form\LoginForm;
 use Yiisoft\Form\Field;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Form;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 /**
- * @var \Yiisoft\View\WebView $this
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
  * @var string $csrf
- * @var \App\Auth\Form\SignupForm $formModel
+ * @var LoginForm $formModel
  */
 
-$this->setTitle($translator->translate('signup'));
+$this->setTitle($translator->translate('layout.login'));
+
+$error = $error ?? null;
 ?>
 
 <div class="container py-5 h-100">
@@ -26,19 +32,21 @@ $this->setTitle($translator->translate('signup'));
                 </div>
                 <div class="card-body p-5 text-center">
                     <?= Form::tag()
-                        ->post($urlGenerator->generate('auth/signup'))
+                        ->post($urlGenerator->generate('auth/login'))
                         ->csrf($csrf)
-                        ->id('signupForm')
+                        ->id('loginForm')
                         ->open() ?>
 
                     <?= Field::text($formModel, 'login')->autofocus() ?>
                     <?= Field::password($formModel, 'password') ?>
-                    <?= Field::password($formModel, 'passwordVerify') ?>
+                    <?= Field::checkbox($formModel, 'rememberMe')
+                        ->containerClass('form-check form-switch text-start mt-2')
+                        ->inputClass('form-check-input')
+                        ->inputLabelClass('form-check-label') ?>
                     <?= Field::submitButton()
-                        ->buttonId('register-button')
-                        ->name('register-button')
-                        ->content($translator->translate('layout.submit'))
-                    ?>
+                        ->buttonId('login-button')
+                        ->name('login-button')
+                        ->content($translator->translate('layout.submit')) ?>
 
                     <?= Form::tag()->close() ?>
                 </div>
@@ -46,3 +54,4 @@ $this->setTitle($translator->translate('signup'));
         </div>
     </div>
 </div>
+

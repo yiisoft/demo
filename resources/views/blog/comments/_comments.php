@@ -6,10 +6,11 @@ use Yiisoft\Assets\AssetManager;
 use Yiisoft\Data\Paginator\KeysetPaginator;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
 /**
  * @var KeysetPaginator $data
- * @var \Yiisoft\Translator\TranslatorInterface $translator
+ * @var TranslatorInterface $translator
  * @var UrlGeneratorInterface $urlGenerator
  * @var AssetManager $assetManager
  */

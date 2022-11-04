@@ -3,15 +3,19 @@
 declare(strict_types=1);
 
 /**
- * @var \App\Blog\Entity\Post $item
- * @var \Yiisoft\Translator\TranslatorInterface $translator
- * @var \Yiisoft\Router\UrlGeneratorInterface $urlGenerator
- * @var \Yiisoft\View\WebView $this
+ * @var Post $item
+ * @var TranslatorInterface $translator
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  * @var bool $canEdit
  * @var string $slug
  */
 
+use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 $this->setTitle($item->getTitle());
 
