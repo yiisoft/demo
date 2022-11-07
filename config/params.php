@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Middleware\LocaleMiddleware;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
+use Cycle\Database\Config\SQLite\FileConnectionConfig;
+use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
+use Yiisoft\Form\Field\SubmitButton;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
@@ -20,11 +22,19 @@ use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Console\Application;
 use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
+use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
+use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
+use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
+    'locale' => [
+        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
+        'ignoredRequests' => [
+            '/debug**',
+        ],
+    ],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
@@ -35,7 +45,7 @@ return [
         SessionMiddleware::class,
         CookieMiddleware::class,
         CookieLoginMiddleware::class,
-        LocaleMiddleware::class,
+        Locale::class,
         Router::class,
     ],
 
@@ -52,8 +62,8 @@ return [
             '@runtime' => '@root/runtime',
             '@src' => '@root/src',
             '@vendor' => '@root/vendor',
-            '@layout' => '@root/views/layout',
-            '@views' => '@root/views',
+            '@layout' => '@views/layout',
+            '@views' => '@resources/views',
         ],
     ],
 
@@ -69,7 +79,7 @@ return [
                 'errorClass' => 'fw-bold fst-italic',
                 'hintClass' => 'form-text',
                 'fieldConfigs' => [
-                    \Yiisoft\Form\Field\SubmitButton::class => [
+                    SubmitButton::class => [
                         'buttonClass()' => ['btn btn-primary btn-lg mt-3'],
                         'containerClass()' => ['d-grid gap-2 form-floating'],
                     ],
@@ -151,8 +161,8 @@ return [
                 'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
-                'sqlite' => new \Cycle\Database\Config\SQLiteDriverConfig(
-                    connection: new \Cycle\Database\Config\SQLite\FileConnectionConfig(
+                'sqlite' => new SQLiteDriverConfig(
+                    connection: new FileConnectionConfig(
                         database: 'runtime/database.db'
                     )
                 ),
@@ -190,12 +200,12 @@ return [
             // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
 
             // Store generated Schema in the file
-            \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::class => [
-                'mode' => \Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider::MODE_WRITE_ONLY,
+            PhpFileSchemaProvider::class => [
+                'mode' => PhpFileSchemaProvider::MODE_WRITE_ONLY,
                 'file' => 'runtime/schema.php',
             ],
 
-            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+            FromConveyorSchemaProvider::class => [
                 'generators' => [
                     Cycle\Schema\Generator\SyncTables::class, // sync table changes to database
                 ],
@@ -219,8 +229,13 @@ return [
         ],
     ],
     'yiisoft/yii-sentry' => [
+        'handleConsoleErrors' => false, // Add to disable console errors.
         'options' => [
+            // Set to `null` to disable error sending (note that in case of web application errors it only prevents
+            // sending them via HTTP). To disable interactions with Sentry SDK completely, remove middleware and the
+            // rest of the config.
             'dsn' => $_ENV['SENTRY_DSN'] ?? null,
+            'environment' => $_ENV['YII_ENV'] ?? null, // Add to separate "production" / "staging" environment errors.
         ],
     ],
 ];
