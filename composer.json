@@ -122,7 +122,7 @@
         "post-create-project-cmd": [
             "App\\Installer::copyEnvFile"
         ],
-        "test": "phpunit --testdox --no-interaction",
+        "test": "codecept run",
         "test-watch": "phpunit-watcher watch"
     },
     "extra": {
