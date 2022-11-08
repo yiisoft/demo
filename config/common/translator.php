@@ -19,6 +19,6 @@ return [
                 new IntlMessageFormatter(),
             );
         },
-        'tags' => ['translation.categorySource']
+        'tags' => ['translation.categorySource'],
     ],
 ];
