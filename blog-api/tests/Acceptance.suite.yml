@@ -1,0 +1,20 @@
+actor: AcceptanceTester
+extensions:
+  enabled:
+    - Codeception\Extension\RunProcess:
+        0: php -d variables_order=EGPCS -S 127.0.0.1:8080 -t public
+        sleep: 1
+modules:
+  enabled:
+    - REST:
+        url: http://127.0.0.1:8080
+        depends: PhpBrowser
+    - Db:
+        dsn: 'sqlite:tests/Support/Data/database.db'
+        user: ''
+        password: ''
+        dump: 'tests/Support/Data/dump.sql'
+        populate: true
+        cleanup: true
+    - App\Tests\Support\Helper\Acceptance
+  step_decorators: ~
