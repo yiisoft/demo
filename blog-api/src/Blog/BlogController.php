@@ -6,9 +6,9 @@ namespace App\Blog;
 
 use App\Formatter\PaginatorFormatter;
 use App\User\UserRequest;
+use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use OpenApi\Annotations as OA;
 use Yiisoft\RequestModel\Attribute\Query;
 use Yiisoft\RequestModel\Attribute\Route;
 
@@ -94,7 +94,7 @@ final class BlogController
         return $this->responseFactory->createResponse(
             [
                 'paginator' => $paginatorFormatter->format($paginator),
-                'posts' => $posts,
+                'posts'     => $posts,
             ]
         );
     }

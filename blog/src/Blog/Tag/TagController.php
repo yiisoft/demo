@@ -36,9 +36,10 @@ final class TagController
             ->withCurrentPage($pageNum);
 
         $data = [
-            'item' => $item,
+            'item'      => $item,
             'paginator' => $paginator,
         ];
+
         return $this->viewRenderer->render('index', $data);
     }
 }

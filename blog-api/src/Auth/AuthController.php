@@ -6,9 +6,9 @@ namespace App\Auth;
 
 use App\User\UserRequest;
 use App\User\UserService;
+use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface as ResponseFactory;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(
@@ -108,6 +108,7 @@ final class AuthController
     public function logout(UserRequest $request): ResponseInterface
     {
         $this->userService->logout($request->getUser());
+
         return $this->responseFactory->createResponse();
     }
 }

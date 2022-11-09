@@ -16,7 +16,7 @@ final class AuthCest
         $I->sendPOST(
             '/auth/',
             [
-                'login' => 'Opal1144',
+                'login'    => 'Opal1144',
                 'password' => 'Opal1144',
             ]
         );
@@ -24,9 +24,9 @@ final class AuthCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
+                'error_code'    => null,
             ]
         );
 
@@ -34,7 +34,7 @@ final class AuthCest
         $I->seeInDatabase(
             'user',
             [
-                'id' => 1,
+                'id'    => 1,
                 'token' => $response['data']['token'],
             ]
         );
@@ -55,16 +55,16 @@ final class AuthCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
+                'error_code'    => null,
             ]
         );
 
         $I->dontSeeInDatabase(
             'user',
             [
-                'id' => 1,
+                'id'    => 1,
                 'token' => 'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv',
             ]
         );
@@ -90,10 +90,10 @@ final class AuthCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'failed',
+                'status'        => 'failed',
                 'error_message' => 'Unauthorised request',
-                'error_code' => HttpCode::UNAUTHORIZED,
-                'data' => null,
+                'error_code'    => HttpCode::UNAUTHORIZED,
+                'data'          => null,
             ]
         );
     }

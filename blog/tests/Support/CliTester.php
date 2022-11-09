@@ -7,7 +7,7 @@ namespace App\Tests\Support;
 use Codeception\Actor;
 
 /**
- * Inherited Methods
+ * Inherited Methods.
  *
  * @method void wantToTest($text)
  * @method void wantTo($text)
@@ -21,12 +21,12 @@ use Codeception\Actor;
  * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class CliTester extends Actor
 {
     use _generated\CliTesterActions;
 
     /**
-     * Define custom actions here
+     * Define custom actions here.
      */
 }

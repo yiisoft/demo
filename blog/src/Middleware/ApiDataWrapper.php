@@ -23,11 +23,13 @@ final class ApiDataWrapper implements MiddlewareInterface
                 } else {
                     $message = 'Unknown error';
                 }
+
                 return $response->withData([
                     'status' => 'failed',
-                    'error' => ['message' => $message, 'status' => $response->getStatusCode()],
+                    'error'  => ['message' => $message, 'status' => $response->getStatusCode()],
                 ]);
             }
+
             return $response->withData(['status' => 'success', 'data' => $data]);
         }
 

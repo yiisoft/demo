@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 /**
  * @var DataReaderInterface|string[][] $tags
- * @var TranslatorInterface $translator
- * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
+ * @var TranslatorInterface            $translator
+ * @var UrlGeneratorInterface          $urlGenerator
+ * @var WebView                        $this
  */
 
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -22,9 +22,9 @@ use Yiisoft\View\WebView;
 <ul class="list-group mb-3">
     <?php
     $blockBegin = Html::openTag(
-        'li',
-        ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
-    );
+    'li',
+    ['class' => 'list-group-item d-flex flex-column justify-content-between lh-condensed']
+);
     $blockEnd = Html::closeTag('li');
     echo $blockBegin;
     if (count($tags)) {

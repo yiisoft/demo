@@ -11,13 +11,12 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 
 /**
- * @var WebView $this
- * @var TranslatorInterface $translator
+ * @var WebView               $this
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var string $csrf
- * @var SignupForm $formModel
+ * @var string                $csrf
+ * @var SignupForm            $formModel
  */
-
 $this->setTitle($translator->translate('signup'));
 ?>
 

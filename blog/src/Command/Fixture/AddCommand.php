@@ -57,10 +57,11 @@ final class AddCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $count = (int)$input->getArgument('count');
+        $count = (int) $input->getArgument('count');
         // get faker
         if (!class_exists(Factory::class)) {
             $io->error('Faker should be installed. Run `composer install --dev`');
+
             return ExitCode::UNSPECIFIED_ERROR;
         }
         $this->faker = Factory::create();
@@ -78,6 +79,7 @@ final class AddCommand extends Command
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
         $io->success('Done');
+
         return ExitCode::OK;
     }
 
@@ -88,7 +90,7 @@ final class AddCommand extends Command
 
     private function addUsers(int $count): void
     {
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             $login = $this->faker->unique()->firstName;
             $user = new User($login, $login);
             $this->users[] = $user;
@@ -103,11 +105,11 @@ final class AddCommand extends Command
             ->getRepository(Tag::class);
         $this->tags = [];
         $tagWords = [];
-        for ($i = 0, $fails = 0; $i < $count; ++$i) {
+        for ($i = 0, $fails = 0; $i < $count; $i++) {
             $word = $this->faker->word();
             if (in_array($word, $tagWords, true)) {
-                --$i;
-                ++$fails;
+                $i--;
+                $fails++;
                 if ($fails >= $count) {
                     break;
                 }
@@ -124,7 +126,7 @@ final class AddCommand extends Command
         if (empty($this->users)) {
             throw new Exception('No users');
         }
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             /** @var User $postUser */
             $postUser = $this->users[array_rand($this->users)];
             $post = new Post($this->faker->text(64), $this->faker->realText(rand(1000, 4000)));
@@ -135,7 +137,7 @@ final class AddCommand extends Command
                 $post->setPublishedAt(new DateTimeImmutable(date('r', rand(strtotime('-2 years'), time()))));
             }
             // link tags
-            $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
+            $postTags = (array) array_rand($this->tags, rand(1, count($this->tags)));
             foreach ($postTags as $tagId) {
                 $tag = $this->tags[$tagId];
                 $post->addTag($tag);
@@ -144,7 +146,7 @@ final class AddCommand extends Command
             }
             // add comments
             $commentsCount = rand(0, $count);
-            for ($j = 0; $j <= $commentsCount; ++$j) {
+            for ($j = 0; $j <= $commentsCount; $j++) {
                 $comment = new Comment($this->faker->realText(rand(100, 500)));
                 $commentPublic = rand(0, 3) > 0;
                 $comment->setPublic($commentPublic);

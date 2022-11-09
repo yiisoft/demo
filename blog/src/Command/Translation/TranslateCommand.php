@@ -32,6 +32,7 @@ final class TranslateCommand extends Command
         $locale = $input->getArgument('locale');
 
         $output->writeln($this->translator->translate($message, [], null, $locale));
+
         return 0;
     }
 }

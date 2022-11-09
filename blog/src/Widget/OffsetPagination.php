@@ -24,12 +24,14 @@ final class OffsetPagination extends Widget
     {
         $this->paginator = $paginator;
         $this->prepared = false;
+
         return $this;
     }
 
     public function urlGenerator(Closure $generator): self
     {
         $this->urlGenerator = $generator;
+
         return $this;
     }
 
@@ -119,7 +121,7 @@ final class OffsetPagination extends Widget
             if ($page === null) {
                 $result .= Html::span('…', ['class' => 'page-link']);
             } else {
-                $result .= Html::a((string)$page, $this->getPageLink($page), ['class' => 'page-link']);
+                $result .= Html::a((string) $page, $this->getPageLink($page), ['class' => 'page-link']);
             }
             $result .= Html::closeTag('li');
         }
@@ -135,7 +137,7 @@ final class OffsetPagination extends Widget
 
     protected function getPageLink(int $page): ?string
     {
-        return $this->urlGenerator === null ? null : (string)($this->urlGenerator)($page);
+        return $this->urlGenerator === null ? null : (string) ($this->urlGenerator)($page);
     }
 
     protected function initOptions(): void

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Formatter;
 
-use Yiisoft\Data\Paginator\OffsetPaginator;
 use OpenApi\Annotations as OA;
+use Yiisoft\Data\Paginator\OffsetPaginator;
 
 /**
  * @OA\Schema(
@@ -20,9 +20,9 @@ final class PaginatorFormatter
     public function format(OffsetPaginator $paginator): array
     {
         return [
-            'pageSize' => $paginator->getPageSize(),
+            'pageSize'    => $paginator->getPageSize(),
             'currentPage' => $paginator->getCurrentPage(),
-            'totalPages' => $paginator->getTotalPages(),
+            'totalPages'  => $paginator->getTotalPages(),
         ];
     }
 }

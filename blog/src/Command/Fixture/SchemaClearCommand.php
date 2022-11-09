@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Command\Fixture;
 
+use App\Blog\Entity\Comment;
+use App\Blog\Entity\Post;
 use App\Blog\Entity\PostTag;
 use App\Blog\Entity\Tag;
+use App\User\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
-use App\Blog\Entity\Comment;
-use App\Blog\Entity\Post;
-use App\User\User;
 
 final class SchemaClearCommand extends Command
 {

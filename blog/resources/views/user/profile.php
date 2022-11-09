@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @var User $item
+ * @var User    $item
  * @var WebView $this
  */
 

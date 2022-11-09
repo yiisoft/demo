@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @var View $this
- * @var TranslatorInterface $translator
+ * @var View                  $this
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var array $body
- * @var string $csrf
- * @var string $action
- * @var array $tags
- * @var string $title
+ * @var array                 $body
+ * @var string                $csrf
+ * @var string                $action
+ * @var array                 $tags
+ * @var string                $title
  */
 
 use Yiisoft\Html\Html;
@@ -23,7 +23,7 @@ if (!empty($errors)) {
     foreach ($errors as $field => $error) {
         echo Alert::widget()
             ->options(['class' => 'alert-danger'])
-            ->body(Html::encode($field . ':' . $error));
+            ->body(Html::encode($field.':'.$error));
     }
 }
 ?>
@@ -46,16 +46,16 @@ if (!empty($errors)) {
         <label for="addTag" class="form-label"><?= $translator->translate('layout.add.tag') ?></label>
         <input type="text" class="form-control" id="addTag" placeholder="<?= $translator->translate('layout.add.tag') ?>" value="">
         <?= Html::button(
-            $translator->translate('layout.add'),
-            ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
-        ) ?>
+    $translator->translate('layout.add'),
+    ['class' => 'btn btn-primary mt-2', 'id' => 'addTagButton']
+) ?>
         <div id="tags">
-            <?php foreach ($body['tags'] ?? [] as $tag) : ?>
+            <?php foreach ($body['tags'] ?? [] as $tag) { ?>
                 <button type="button" class="btn btn-sm btn-info me-2 remove-tag">
                     <input type="hidden" name="tags[]" value="<?= Html::encode($tag) ?>">
                     <?= Html::encode($tag) ?><span class="btn-close ms-1"></span>
                 </button>
-            <?php endforeach; ?>
+            <?php } ?>
         </div>
     </div>
 

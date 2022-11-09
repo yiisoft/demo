@@ -8,10 +8,10 @@ use App\Contact\ContactMailer;
 
 return [
     ContactMailer::class => [
-        'class' => ContactMailer::class,
+        'class'         => ContactMailer::class,
         '__construct()' => [
             'sender' => $params['mailer']['senderEmail'],
-            'to' => $params['mailer']['adminEmail'],
+            'to'     => $params['mailer']['adminEmail'],
         ],
     ],
 ];

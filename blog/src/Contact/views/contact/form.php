@@ -13,12 +13,11 @@ use Yiisoft\View\WebView;
 
 /**
  * @var Yiisoft\Yii\View\Csrf $csrf
- * @var ContactForm $form
+ * @var ContactForm           $form
  * @var UrlGeneratorInterface $url
- * @var WebView $this
- * @var TranslatorInterface $translator
+ * @var WebView               $this
+ * @var TranslatorInterface   $translator
  */
-
 $this->setTitle($translator->translate('menu.contact'));
 ?>
 
@@ -54,14 +53,14 @@ $this->setTitle($translator->translate('menu.contact'));
                         ->buttonsData([
                             [
                                 $translator->translate('layout.reset'),
-                                'type' => 'reset',
+                                'type'  => 'reset',
                                 'class' => 'btn btn-lg btn-danger',
                             ],
                             [
                                 $translator->translate('layout.submit'),
-                                'type' => 'submit',
+                                'type'  => 'submit',
                                 'class' => 'btn btn-lg btn-primary',
-                                'name' => 'contact-button',
+                                'name'  => 'contact-button',
                             ],
                         ]) ?>
 

@@ -33,7 +33,7 @@ final class UserLoggedInMessage implements MessageInterface
     {
         return [
             'user_id' => $this->userId,
-            'time' => $this->time,
+            'time'    => $this->time,
         ];
     }
 }

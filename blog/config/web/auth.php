@@ -9,10 +9,10 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Access\AccessCheckerInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
-use Yiisoft\Definitions\Reference;
 use Yiisoft\Cookies\CookieEncryptor;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Cookies\CookieSigner;
+use Yiisoft\Definitions\Reference;
 use Yiisoft\Session\SessionInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\User\Login\Cookie\CookieLogin;
@@ -34,9 +34,9 @@ return [
     ),
 
     CurrentUser::class => [
-        'withSession()' => [Reference::to(SessionInterface::class)],
+        'withSession()'       => [Reference::to(SessionInterface::class)],
         'withAccessChecker()' => [Reference::to(AccessCheckerInterface::class)],
-        'reset' => function () {
+        'reset'               => function () {
             $this->clear();
         },
     ],

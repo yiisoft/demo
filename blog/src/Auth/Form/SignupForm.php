@@ -31,8 +31,8 @@ final class SignupForm extends FormModel
     public function getAttributeLabels(): array
     {
         return [
-            'login' => $this->translator->translate('layout.login'),
-            'password' => $this->translator->translate('layout.password'),
+            'login'          => $this->translator->translate('layout.login'),
+            'password'       => $this->translator->translate('layout.password'),
             'passwordVerify' => $this->translator->translate('layout.password-verify'),
         ];
     }
@@ -57,8 +57,10 @@ final class SignupForm extends FormModel
         if ($this->validator->validate($this)->isValid()) {
             $user = new User($this->getLogin(), $this->getPassword());
             $this->userRepository->save($user);
+
             return $user;
         }
+
         return false;
     }
 
@@ -73,6 +75,7 @@ final class SignupForm extends FormModel
                     if ($this->userRepository->findByLogin($value) !== null) {
                         $result->addError('User with this login already exists.');
                     }
+
                     return $result;
                 },
             ],

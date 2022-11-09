@@ -10,13 +10,12 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 
 /**
- * @var KeysetPaginator $data
- * @var TranslatorInterface $translator
+ * @var KeysetPaginator       $data
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var AssetManager $assetManager
- * @var WebView $this
+ * @var AssetManager          $assetManager
+ * @var WebView               $this
  */
-
 $this->setTitle($translator->translate('menu.comments-feed'));
 
 ?>

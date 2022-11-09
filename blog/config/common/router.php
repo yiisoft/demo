@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Yiisoft\Config\Config;
-use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Csrf\CsrfMiddleware;
+use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectionInterface;

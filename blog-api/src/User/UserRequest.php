@@ -14,6 +14,6 @@ final class UserRequest extends RequestModel
         /**
          * @var User $identity
          */
-        return $this->getAttributeValue('attributes.' . Authentication::class);
+        return $this->getAttributeValue('attributes.'.Authentication::class);
     }
 }

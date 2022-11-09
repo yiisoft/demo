@@ -20,14 +20,13 @@ use Yiisoft\Yii\DataView\GridView;
 use Yiisoft\Yii\DataView\OffsetPagination;
 
 /**
- * @var string $csrf
- * @var CurrentRoute $currentRoute
- * @var OffsetPaginator $paginator
- * @var TranslatorInterface $translator
+ * @var string                $csrf
+ * @var CurrentRoute          $currentRoute
+ * @var OffsetPaginator       $paginator
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
+ * @var WebView               $this
  */
-
 $this->setTitle($translator->translate('menu.users'));
 
 // Define header gridview
@@ -37,7 +36,7 @@ $header = Div::tag()
         H5::tag()
             ->addClass('bg-primary text-white p-3 rounded-top')
             ->content(
-                I::tag()->addClass('bi bi-people-fill')->content(' ' . $translator->translate('gridview.title'))
+                I::tag()->addClass('bi bi-people-fill')->content(' '.$translator->translate('gridview.title'))
             )
     )
     ->render();
@@ -63,8 +62,8 @@ $toolbarSelect = Select::tag()
     ->name('pageSize')
     ->optionsData(
         [
-            '1' => '1',
-            '5' => '5',
+            '1'  => '1',
+            '5'  => '5',
             '10' => '10',
             '15' => '15',
             '20' => '20',
@@ -140,8 +139,8 @@ $toolbar = Div::tag();
     ->summaryAttributes(['class' => 'summary text-end mb-5'])
     ->tableAttributes(['class' => 'table table-hover'])
     ->toolbar(
-        Form::tag()->post($urlGenerator->generate('user/index'))->csrf($csrf)->open() .
-        Div::tag()->addClass('float-start m-3')->content($toolbarSelect)->encode(false)->render() .
-        Div::tag()->addClass('float-end m-3')->content($toolbarApplyChange . $toolbarReset)->encode(false)->render() .
+        Form::tag()->post($urlGenerator->generate('user/index'))->csrf($csrf)->open().
+        Div::tag()->addClass('float-start m-3')->content($toolbarSelect)->encode(false)->render().
+        Div::tag()->addClass('float-end m-3')->content($toolbarApplyChange.$toolbarReset)->encode(false)->render().
         Form::tag()->close()
     );

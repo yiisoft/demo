@@ -24,7 +24,7 @@ final class ContactController
     ) {
         $this->viewRenderer = $viewRenderer
             ->withControllerName('contact')
-            ->withViewPath(__DIR__ . '/views');
+            ->withViewPath(__DIR__.'/views');
     }
 
     public function contact(
@@ -33,7 +33,7 @@ final class ContactController
     ): ResponseInterface {
         $body = $request->getParsedBody();
         $form = new ContactForm();
-        if (($request->getMethod() === Method::POST) && $form->load((array)$body) && $validator
+        if (($request->getMethod() === Method::POST) && $form->load((array) $body) && $validator
                 ->validate($form)
                 ->isValid()) {
             $this->mailer->send($form, $request);

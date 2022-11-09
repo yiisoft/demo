@@ -20,8 +20,8 @@ final class BlogCest
         $I->sendPOST(
             '/blog/',
             [
-                'title' => 'test title',
-                'text' => 'test text',
+                'title'  => 'test title',
+                'text'   => 'test text',
                 'status' => 0,
             ]
         );
@@ -29,19 +29,19 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
-                'data' => null,
+                'error_code'    => null,
+                'data'          => null,
             ]
         );
 
         $I->seeInDatabase(
             'post',
             [
-                'title' => 'test title',
+                'title'   => 'test title',
                 'content' => 'test text',
-                'status' => 0,
+                'status'  => 0,
             ]
         );
     }
@@ -57,7 +57,7 @@ final class BlogCest
         $I->sendPOST(
             '/blog/',
             [
-                'title' => 'test title',
+                'title'  => 'test title',
                 'status' => 0,
             ]
         );
@@ -65,17 +65,17 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'failed',
+                'status'        => 'failed',
                 'error_message' => 'Value not passed.',
-                'error_code' => 400,
-                'data' => null,
+                'error_code'    => 400,
+                'data'          => null,
             ]
         );
 
         $I->dontSeeInDatabase(
             'post',
             [
-                'title' => 'test title',
+                'title'  => 'test title',
                 'status' => 0,
             ]
         );
@@ -87,8 +87,8 @@ final class BlogCest
         $I->sendPOST(
             '/blog/',
             [
-                'title' => 'test title',
-                'text' => 'test text',
+                'title'  => 'test title',
+                'text'   => 'test text',
                 'status' => 0,
             ]
         );
@@ -96,10 +96,10 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'failed',
+                'status'        => 'failed',
                 'error_message' => 'Unauthorised request',
-                'error_code' => HttpCode::UNAUTHORIZED,
-                'data' => null,
+                'error_code'    => HttpCode::UNAUTHORIZED,
+                'data'          => null,
             ]
         );
     }
@@ -115,8 +115,8 @@ final class BlogCest
         $I->sendPUT(
             '/blog/1',
             [
-                'title' => 'test title',
-                'text' => 'test text',
+                'title'  => 'test title',
+                'text'   => 'test text',
                 'status' => 0,
             ]
         );
@@ -124,20 +124,20 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
-                'data' => null,
+                'error_code'    => null,
+                'data'          => null,
             ]
         );
 
         $I->seeInDatabase(
             'post',
             [
-                'id' => 1,
-                'title' => 'test title',
+                'id'      => 1,
+                'title'   => 'test title',
                 'content' => 'test text',
-                'status' => 0,
+                'status'  => 0,
             ]
         );
     }
@@ -148,8 +148,8 @@ final class BlogCest
         $I->sendPUT(
             '/blog/1',
             [
-                'title' => 'test title',
-                'text' => 'test text',
+                'title'  => 'test title',
+                'text'   => 'test text',
                 'status' => 0,
             ]
         );
@@ -157,10 +157,10 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'failed',
+                'status'        => 'failed',
                 'error_message' => 'Unauthorised request',
-                'error_code' => HttpCode::UNAUTHORIZED,
-                'data' => null,
+                'error_code'    => HttpCode::UNAUTHORIZED,
+                'data'          => null,
             ]
         );
     }
@@ -177,18 +177,18 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
-                'data' => [
+                'error_code'    => null,
+                'data'          => [
                     'paginator' => [
-                        'pageSize' => 10,
+                        'pageSize'    => 10,
                         'currentPage' => 2,
-                        'totalPages' => 2,
+                        'totalPages'  => 2,
                     ],
                     'posts' => [
                         [
-                            'id' => 11,
+                            'id'    => 11,
                             'title' => 'Eveniet est nam sapiente odit architecto et.',
                         ],
                     ],
@@ -204,12 +204,12 @@ final class BlogCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status' => 'success',
+                'status'        => 'success',
                 'error_message' => '',
-                'error_code' => null,
-                'data' => [
+                'error_code'    => null,
+                'data'          => [
                     'post' => [
-                        'id' => 11,
+                        'id'    => 11,
                         'title' => 'Eveniet est nam sapiente odit architecto et.',
                     ],
                 ],

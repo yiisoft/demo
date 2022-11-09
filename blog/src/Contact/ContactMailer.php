@@ -14,7 +14,7 @@ use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Session\Flash\FlashInterface;
 
 /**
- * ContactMailer sends an email from the contact form
+ * ContactMailer sends an email from the contact form.
  */
 final class ContactMailer
 {
@@ -25,7 +25,7 @@ final class ContactMailer
         private string $sender,
         private string $to
     ) {
-        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
+        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__.'/mail/'));
     }
 
     public function send(FormModelInterface $form, ServerRequestInterface $request): void
@@ -48,7 +48,7 @@ final class ContactMailer
                 if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
                         File::fromContent(
-                            (string)$file->getStream(),
+                            (string) $file->getStream(),
                             $file->getClientFilename(),
                             $file->getClientMediaType()
                         ),

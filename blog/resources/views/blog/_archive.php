@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 /**
  * @var DataReaderInterface|string[][] $archive
- * @var TranslatorInterface $translator
- * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
+ * @var TranslatorInterface            $translator
+ * @var UrlGeneratorInterface          $urlGenerator
+ * @var WebView                        $this
  */
 
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -42,9 +42,9 @@ use Yiisoft\View\WebView;
             echo Html::openTag('div', ['class' => 'd-flex justify-content-between align-items-center']);
             // Print month name
             echo Html::a(
-                Date('F', mktime(0, 0, 0, (int)$month, 1, (int)$year)),
+                date('F', mktime(0, 0, 0, (int) $month, 1, (int) $year)),
                 $urlGenerator->generate('blog/archive/month', [
-                    'year' => $year,
+                    'year'  => $year,
                     'month' => $month,
                 ]),
                 ['class' => 'text-muted']

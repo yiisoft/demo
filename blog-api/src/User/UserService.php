@@ -9,9 +9,9 @@ use App\Queue\LoggingAuthorizationHandler;
 use App\Queue\UserLoggedInMessage;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\Queue\QueueFactoryInterface;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
 
 final class UserService
 {

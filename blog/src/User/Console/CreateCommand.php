@@ -38,26 +38,28 @@ final class CreateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $login = (string)$input->getArgument('login');
-        $password = (string)$input->getArgument('password');
-        $isAdmin = (bool)$input->getArgument('isAdmin');
+        $login = (string) $input->getArgument('login');
+        $password = (string) $input->getArgument('password');
+        $isAdmin = (bool) $input->getArgument('isAdmin');
 
         $this->signupForm->load([
-            'login' => $login,
-            'password' => $password,
+            'login'          => $login,
+            'password'       => $password,
             'passwordVerify' => $password,
         ], '');
 
         try {
             $user = $this->signupForm->signup();
         } catch (Throwable $t) {
-            $io->error($t->getMessage() . ' ' . $t->getFile() . ' ' . $t->getLine());
+            $io->error($t->getMessage().' '.$t->getFile().' '.$t->getLine());
+
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
 
         if ($user === false) {
             $errors = $this->signupForm->getFormErrors()->getFirstErrors();
             array_walk($errors, fn ($error, $attribute) => $io->error("$attribute: $error"));
+
             return ExitCode::DATAERR;
         }
 
@@ -69,6 +71,7 @@ final class CreateCommand extends Command
             $this->manager->assign('admin', $userId);
         }
         $io->success('User created');
+
         return ExitCode::OK;
     }
 }

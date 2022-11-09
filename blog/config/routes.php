@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Auth\Controller\AuthController;
+use App\Auth\Controller\SignupController;
 use App\Blog\Archive\ArchiveController;
 use App\Blog\BlogController;
 use App\Blog\CommentController;
@@ -10,8 +12,6 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagController;
 use App\Contact\ContactController;
 use App\Controller\Actions\ApiInfo;
-use App\Auth\Controller\AuthController;
-use App\Auth\Controller\SignupController;
 use App\Controller\SiteController;
 use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
@@ -103,8 +103,7 @@ return [
         // Index
             Route::get('[/page{page:\d+}]')
                 ->middleware(
-                    fn (HttpCache $httpCache, PostRepository $postRepository) =>
-                    $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
+                    fn (HttpCache $httpCache, PostRepository $postRepository) => $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
                         return $postRepository
                             ->getMaxUpdatedAt()
                             ->getTimestamp();
@@ -127,10 +126,10 @@ return [
             // Post page
             Route::get('/page/{slug}')
                 ->middleware(
-                    fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRoute $currentRoute) =>
-                    $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
+                    fn (HttpCache $httpCache, PostRepository $postRepository, CurrentRoute $currentRoute) => $httpCache->withEtagSeed(function (ServerRequestInterface $request, $params) use ($postRepository, $currentRoute) {
                         $post = $postRepository->findBySlug($currentRoute->getArgument('slug'));
-                        return $post->getSlug() . '-' . $post
+
+                        return $post->getSlug().'-'.$post
                                 ->getUpdatedAt()
                                 ->getTimestamp();
                     })

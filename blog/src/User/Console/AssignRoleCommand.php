@@ -13,9 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
+use Yiisoft\Rbac\ItemsStorageInterface;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Role;
-use Yiisoft\Rbac\ItemsStorageInterface;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
 
@@ -78,6 +78,7 @@ final class AssignRoleCommand extends Command
             $io->success('Role was assigned to given user');
         } catch (Throwable $t) {
             $io->error($t->getMessage());
+
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
 

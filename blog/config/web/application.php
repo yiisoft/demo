@@ -14,7 +14,7 @@ return [
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
             'dispatcher' => DynamicReference::to([
-                'class' => MiddlewareDispatcher::class,
+                'class'             => MiddlewareDispatcher::class,
                 'withMiddlewares()' => [$params['middlewares']],
             ]),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
@@ -22,7 +22,7 @@ return [
     ],
     Locale::class => [
         '__construct()' => [
-            'locales' => $params['locale']['locales'],
+            'locales'         => $params['locale']['locales'],
             'ignoredRequests' => $params['locale']['ignoredRequests'],
         ],
     ],

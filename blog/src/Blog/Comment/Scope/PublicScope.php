@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Blog\Comment\Scope;
 
-use Cycle\ORM\Select\ScopeInterface as ConstrainInterface;
 use Cycle\ORM\Select\QueryBuilder;
+use Cycle\ORM\Select\ScopeInterface as ConstrainInterface;
 
 /**
  * Not deleted
  * Public with condition
- * Sorted
+ * Sorted.
  */
 final class PublicScope implements ConstrainInterface
 {
