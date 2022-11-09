@@ -14,11 +14,11 @@ use Yiisoft\Definitions\Reference;
 /** @var array $params */
 
 return [
-    IdentityRepositoryInterface::class => UserRepository::class,
+    IdentityRepositoryInterface::class          => UserRepository::class,
     IdentityWithTokenRepositoryInterface::class => UserRepository::class,
-    AuthenticationMethodInterface::class => HttpHeader::class,
-    Authentication::class => [
-        'class' => Authentication::class,
+    AuthenticationMethodInterface::class        => HttpHeader::class,
+    Authentication::class                       => [
+        'class'         => Authentication::class,
         '__construct()' => [
             'authenticationFailureHandler' => Reference::to(AuthRequestErrorHandler::class),
         ],

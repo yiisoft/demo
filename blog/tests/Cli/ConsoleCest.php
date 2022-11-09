@@ -11,34 +11,34 @@ final class ConsoleCest
 {
     public function testCommandYii(CliTester $I): void
     {
-        $command = dirname(__DIR__, 2) . '/yii';
+        $command = dirname(__DIR__, 2).'/yii';
         $I->runShellCommand($command);
         $I->seeInShellOutput('Yii Console');
     }
 
     public function testCommandFixtureAdd(CliTester $I): void
     {
-        $command = dirname(__DIR__, 2) . '/yii';
-        $I->runShellCommand($command . ' fixture/add');
+        $command = dirname(__DIR__, 2).'/yii';
+        $I->runShellCommand($command.' fixture/add');
         $I->seeResultCodeIs(ExitCode::OK);
     }
 
     public function testCommandListCommand(CliTester $I): void
     {
-        $command = dirname(__DIR__, 2) . '/yii';
-        $I->runShellCommand($command . ' list');
+        $command = dirname(__DIR__, 2).'/yii';
+        $I->runShellCommand($command.' list');
         $I->seeResultCodeIs(ExitCode::OK);
     }
 
     /**
      * Clear all data created with testCommandFixtureAdd().
      * Clearing database prevents from getting errors during multiple continuous testing with other test,
-     * what are based on empty database (eg, BlogPageCest)
+     * what are based on empty database (eg, BlogPageCest).
      */
     public function testCommandCycleSchemaClear(CliTester $I): void
     {
-        $command = dirname(__DIR__, 2) . '/yii';
-        $I->runShellCommand($command . ' fixture/schema/clear');
+        $command = dirname(__DIR__, 2).'/yii';
+        $I->runShellCommand($command.' fixture/schema/clear');
         $I->seeResultCodeIs(0);
     }
 }

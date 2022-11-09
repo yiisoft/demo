@@ -19,10 +19,10 @@ final class ContactForm extends FormModel
     public function getAttributeLabels(): array
     {
         return [
-            'name' => 'Name',
-            'email' => 'Email',
+            'name'    => 'Name',
+            'email'   => 'Email',
             'subject' => 'Subject',
-            'body' => 'Body',
+            'body'    => 'Body',
         ];
     }
 
@@ -34,10 +34,10 @@ final class ContactForm extends FormModel
     public function getRules(): array
     {
         return [
-            'name' => [new Required()],
-            'email' => [new Required(), new Email()],
+            'name'    => [new Required()],
+            'email'   => [new Required(), new Email()],
             'subject' => [new Required()],
-            'body' => [new Required()],
+            'body'    => [new Required()],
         ];
     }
 }

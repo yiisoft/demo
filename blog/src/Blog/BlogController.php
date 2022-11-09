@@ -33,7 +33,7 @@ final class BlogController
         CurrentUser $currentUser,
         CurrentRoute $currentRoute
     ): Response {
-        $pageNum = (int)$currentRoute->getArgument('page', '1');
+        $pageNum = (int) $currentRoute->getArgument('page', '1');
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)
@@ -41,12 +41,13 @@ final class BlogController
 
         $data = [
             'paginator' => $paginator,
-            'archive' => $archiveRepo
+            'archive'   => $archiveRepo
                 ->getFullArchive()
                 ->withLimit(self::ARCHIVE_MONTHS_COUNT),
-            'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
+            'tags'    => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
             'isGuest' => $currentUser->isGuest(),
         ];
+
         return $this->viewRenderer->render('index', $data);
     }
 }

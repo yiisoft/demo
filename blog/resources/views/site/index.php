@@ -8,26 +8,25 @@ use Yiisoft\Yii\Bootstrap5\Carousel;
 
 /**
  * @var TranslatorInterface $translator
- * @var WebView $this
+ * @var WebView             $this
  */
-
 $this->setTitle('Home');
 
 echo Carousel::widget()
     ->items([
         [
-            'content' => '<div class="d-block w-100 bg-info" style="height: 200px"></div>',
-            'caption' => $translator->translate('home.caption.slide1'),
+            'content'        => '<div class="d-block w-100 bg-info" style="height: 200px"></div>',
+            'caption'        => $translator->translate('home.caption.slide1'),
             'captionOptions' => ['class' => ['d-none', 'd-md-block']],
         ],
         [
-            'content' => '<div class="d-block w-100 bg-secondary" style="height: 200px"></div>',
-            'caption' => $translator->translate('home.caption.slide2'),
+            'content'        => '<div class="d-block w-100 bg-secondary" style="height: 200px"></div>',
+            'caption'        => $translator->translate('home.caption.slide2'),
             'captionOptions' => ['class' => ['d-none', 'd-md-block']],
         ],
         [
-            'content' => '<div class="d-block w-100 bg-dark" style="height: 200px"></div>',
-            'caption' => $translator->translate('home.caption.slide3'),
+            'content'        => '<div class="d-block w-100 bg-dark" style="height: 200px"></div>',
+            'caption'        => $translator->translate('home.caption.slide3'),
             'captionOptions' => ['class' => ['d-none', 'd-md-block']],
         ],
     ]);

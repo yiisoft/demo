@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use function dirname;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Config\ConfigPaths;
@@ -11,8 +12,6 @@ use Yiisoft\Di\Container;
 use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 use Yiisoft\Yii\Runner\ConfigFactory;
-
-use function dirname;
 
 class EventListenerConfigurationTest extends TestCase
 {

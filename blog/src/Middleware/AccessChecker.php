@@ -40,6 +40,7 @@ final class AccessChecker implements MiddlewareInterface
     {
         $new = clone $this;
         $new->permission = $permission;
+
         return $new;
     }
 }

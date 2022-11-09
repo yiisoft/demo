@@ -23,7 +23,7 @@ final class CommentController
     {
         $paginator = $service->getFeedPaginator();
         if ($currentRoute->getArgument('next') !== null) {
-            $paginator = $paginator->withNextPageToken((string)$currentRoute->getArgument('next'));
+            $paginator = $paginator->withNextPageToken((string) $currentRoute->getArgument('next'));
         }
 
         if ($this->isAjaxRequest($request)) {

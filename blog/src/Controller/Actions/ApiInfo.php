@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Actions;
 
+use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(title="Yii demo API", version="2.0")

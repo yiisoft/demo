@@ -16,10 +16,10 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
 return [
-    RequestFactoryInterface::class => RequestFactory::class,
+    RequestFactoryInterface::class       => RequestFactory::class,
     ServerRequestFactoryInterface::class => ServerRequestFactory::class,
-    ResponseFactoryInterface::class => ResponseFactory::class,
-    StreamFactoryInterface::class => StreamFactory::class,
-    UriFactoryInterface::class => UriFactory::class,
-    UploadedFileFactoryInterface::class => UploadedFileFactory::class,
+    ResponseFactoryInterface::class      => ResponseFactory::class,
+    StreamFactoryInterface::class        => StreamFactory::class,
+    UriFactoryInterface::class           => UriFactory::class,
+    UploadedFileFactoryInterface::class  => UploadedFileFactory::class,
 ];

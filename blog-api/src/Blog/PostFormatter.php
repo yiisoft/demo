@@ -19,8 +19,8 @@ final class PostFormatter
     public function format(Post $post): array
     {
         return [
-            'id' => $post->getId(),
-            'title' => $post->getTitle(),
+            'id'      => $post->getId(),
+            'title'   => $post->getTitle(),
             'content' => $post->getContent(),
         ];
     }

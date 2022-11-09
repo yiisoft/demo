@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Widget;
 
 use Yiisoft\Session\Flash\FlashInterface;
-use Yiisoft\Yii\Bootstrap5\Alert;
 use Yiisoft\Widget\Widget;
+use Yiisoft\Yii\Bootstrap5\Alert;
 
 final class FlashMessage extends Widget
 {
@@ -23,8 +23,7 @@ final class FlashMessage extends Widget
             foreach ($data as $message) {
                 $html[] = Alert::widget()
                     ->options(['class' => "alert-{$type} shadow"])
-                    ->body($message['body'])
-                ;
+                    ->body($message['body']);
             }
         }
 

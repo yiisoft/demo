@@ -9,12 +9,11 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 
 /**
- * @var TranslatorInterface $translator
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var CurrentRoute $currentRoute
- * @var WebView $this
+ * @var CurrentRoute          $currentRoute
+ * @var WebView               $this
  */
-
 $this->setTitle($translator->translate('layout.not-found'));
 ?>
 
@@ -28,7 +27,7 @@ $this->setTitle($translator->translate('layout.not-found'));
                         ->getUri()
                         ->getPath()),
                     ['class' => 'text-muted']
-                )
+                ),
             ])
             ?>
         </p>

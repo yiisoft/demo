@@ -22,7 +22,7 @@ final class PostRepository extends Select\Repository
     }
 
     /**
-     * Get posts without filter with preloaded Users and Tags
+     * Get posts without filter with preloaded Users and Tags.
      *
      * @psalm-return DataReaderInterface<int, Post>
      */
@@ -31,6 +31,7 @@ final class PostRepository extends Select\Repository
         $query = $this
             ->select()
             ->load(['user', 'tags']);
+
         return $this->prepareDataReader($query);
     }
 
@@ -43,6 +44,7 @@ final class PostRepository extends Select\Repository
             ->select()
             ->where(['tags.id' => $tagId])
             ->load('user', ['method' => Select::SINGLE_QUERY]);
+
         return $this->prepareDataReader($query);
     }
 
@@ -56,6 +58,7 @@ final class PostRepository extends Select\Repository
             // force loading in single query with comments
             ->load('comments.user', ['method' => Select::SINGLE_QUERY])
             ->load('comments', ['method' => Select::OUTER_QUERY]);
+
         return  $query->fetchOne();
     }
 

@@ -58,6 +58,7 @@ final class ListCommand extends Command
         $table->setColumnMaxWidth(2, 15);
         $table->setColumnMaxWidth(3, 15);
         $table->render();
+
         return ExitCode::OK;
     }
 }

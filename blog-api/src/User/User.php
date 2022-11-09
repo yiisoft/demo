@@ -33,12 +33,12 @@ class User implements IdentityInterface
     private string $passwordHash;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * Annotations for this field placed in a mapper class.
      */
     private DateTimeImmutable $created_at;
 
     /**
-     * Annotations for this field placed in a mapper class
+     * Annotations for this field placed in a mapper class.
      */
     private DateTimeImmutable $updated_at;
 
@@ -53,7 +53,7 @@ class User implements IdentityInterface
 
     public function getId(): ?string
     {
-        return $this->id === null ? null : (string)$this->id;
+        return $this->id === null ? null : (string) $this->id;
     }
 
     public function getToken(): string

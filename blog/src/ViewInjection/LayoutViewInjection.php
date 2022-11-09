@@ -20,7 +20,7 @@ final class LayoutViewInjection implements LayoutParametersInjectionInterface
 
         return [
             'brandLabel' => 'Yii Demo',
-            'user' => $identity instanceof Identity ? $identity->getUser() : null,
+            'user'       => $identity instanceof Identity ? $identity->getUser() : null,
         ];
     }
 }

@@ -25,8 +25,8 @@ final class LoginForm extends FormModel
     public function getAttributeLabels(): array
     {
         return [
-            'login' => $this->translator->translate('layout.login'),
-            'password' => $this->translator->translate('layout.password'),
+            'login'      => $this->translator->translate('layout.login'),
+            'password'   => $this->translator->translate('layout.password'),
             'rememberMe' => $this->translator->translate('layout.remember'),
         ];
     }
@@ -39,7 +39,7 @@ final class LoginForm extends FormModel
     public function getRules(): array
     {
         return [
-            'login' => [new Required()],
+            'login'    => [new Required()],
             'password' => $this->passwordRules(),
         ];
     }

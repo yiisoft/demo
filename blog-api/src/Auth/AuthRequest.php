@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
+use OpenApi\Annotations as OA;
 use Yiisoft\RequestModel\RequestModel;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
@@ -20,12 +20,12 @@ final class AuthRequest extends RequestModel implements RulesProviderInterface
 {
     public function getLogin(): string
     {
-        return (string)$this->getAttributeValue('body.login');
+        return (string) $this->getAttributeValue('body.login');
     }
 
     public function getPassword(): string
     {
-        return (string)$this->getAttributeValue('body.password');
+        return (string) $this->getAttributeValue('body.password');
     }
 
     public function getRules(): array

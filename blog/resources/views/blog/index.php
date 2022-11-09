@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @var OffsetPaginator $paginator;
+ * @var OffsetPaginator                $paginator;
  * @var DataReaderInterface|string[][] $archive
  * @var DataReaderInterface|string[][] $tags
- * @var TranslatorInterface $translator
- * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
- * @var bool $isGuest
+ * @var TranslatorInterface            $translator
+ * @var UrlGeneratorInterface          $urlGenerator
+ * @var WebView                        $this
+ * @var bool                           $isGuest
  */
 
 use App\Blog\Entity\Post;
@@ -36,14 +36,14 @@ $pagination = OffsetPagination::widget()
             echo Html::p(
                 $translator->translate('layout.pagination-summary', [
                     'pageSize' => $pageSize,
-                    'total' => $paginator->getTotalItems(),
+                    'total'    => $paginator->getTotalItems(),
                 ]),
                 ['class' => 'text-muted']
             );
         } else {
             echo Html::p(
                 $translator->translate('layout.no-records')
-        );
+            );
         }
         /** @var Post $item */
         foreach ($paginator->read() as $item) {

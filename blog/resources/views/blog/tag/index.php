@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @var OffsetPaginator $paginator;
- * @var Tag $item
- * @var TranslatorInterface $translator
+ * @var OffsetPaginator       $paginator;
+ * @var Tag                   $item
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
+ * @var WebView               $this
  */
 
 use App\Blog\Entity\Post;

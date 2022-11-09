@@ -40,10 +40,10 @@ final class PostController
     public function add(Request $request, ValidatorInterface $validator): Response
     {
         $parameters = [
-            'title' => 'Add post',
+            'title'  => 'Add post',
             'action' => ['blog/add'],
             'errors' => [],
-            'body' => $request->getParsedBody(),
+            'body'   => $request->getParsedBody(),
         ];
 
         if ($request->getMethod() === Method::POST) {
@@ -52,6 +52,7 @@ final class PostController
                     ->validate($form)
                     ->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
+
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
@@ -74,13 +75,13 @@ final class PostController
         }
 
         $parameters = [
-            'title' => 'Edit post',
+            'title'  => 'Edit post',
             'action' => ['blog/edit', ['slug' => $slug]],
             'errors' => [],
-            'body' => [
-                'title' => $post->getTitle(),
+            'body'   => [
+                'title'   => $post->getTitle(),
                 'content' => $post->getContent(),
-                'tags' => $this->postService->getPostTags($post),
+                'tags'    => $this->postService->getPostTags($post),
             ],
         ];
 
@@ -91,6 +92,7 @@ final class PostController
                     ->validate($form)
                     ->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
+
                 return $this->webService->getRedirectResponse('blog/index');
             }
 

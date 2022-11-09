@@ -77,6 +77,7 @@ final class ApiResponseData
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -88,6 +89,7 @@ final class ApiResponseData
     public function setErrorMessage(string $errorMessage): self
     {
         $this->errorMessage = $errorMessage;
+
         return $this;
     }
 
@@ -99,6 +101,7 @@ final class ApiResponseData
     public function setErrorCode(int $errorCode): self
     {
         $this->errorCode = $errorCode;
+
         return $this;
     }
 
@@ -110,16 +113,17 @@ final class ApiResponseData
     public function setData(?array $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
     public function toArray(): array
     {
         return [
-            'status' => $this->getStatus(),
+            'status'        => $this->getStatus(),
             'error_message' => $this->getErrorMessage(),
-            'error_code' => $this->getErrorCode(),
-            'data' => $this->getData(),
+            'error_code'    => $this->getErrorCode(),
+            'data'          => $this->getData(),
         ];
     }
 }

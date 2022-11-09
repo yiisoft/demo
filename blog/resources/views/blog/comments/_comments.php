@@ -9,12 +9,11 @@ use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 
 /**
- * @var KeysetPaginator $data
- * @var TranslatorInterface $translator
+ * @var KeysetPaginator       $data
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var AssetManager $assetManager
+ * @var AssetManager          $assetManager
  */
-
 ?>
 
 <?php foreach ($data->read() as $comment) { ?>

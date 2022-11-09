@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @var int $year
- * @var int $month
- * @var OffsetPaginator $paginator
- * @var TranslatorInterface $translator
+ * @var int                   $year
+ * @var int                   $month
+ * @var OffsetPaginator       $paginator
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
+ * @var WebView               $this
  */
 
 use App\Blog\Entity\Post;

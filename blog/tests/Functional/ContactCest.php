@@ -30,10 +30,10 @@ final class ContactCest
     public function submitFormWithIncorrectEmail(FunctionalTester $I)
     {
         $I->submitForm('#form-contact', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester.email',
-            'ContactForm[subject]' => 'test subject',
-            'ContactForm[body]' => 'test content',
+            'ContactForm[name]'       => 'tester',
+            'ContactForm[email]'      => 'tester.email',
+            'ContactForm[subject]'    => 'test subject',
+            'ContactForm[body]'       => 'test content',
             'ContactForm[verifyCode]' => 'testme',
         ]);
         $I->expectTo('see that email address is wrong');
@@ -43,10 +43,10 @@ final class ContactCest
     public function submitFormSuccessfully(FunctionalTester $I)
     {
         $I->submitForm('#form-contact', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester@example.com',
+            'ContactForm[name]'    => 'tester',
+            'ContactForm[email]'   => 'tester@example.com',
             'ContactForm[subject]' => 'test subject',
-            'ContactForm[body]' => 'test content',
+            'ContactForm[body]'    => 'test content',
         ]);
         $I->see("Thank you for contacting us, we'll get in touch with you as soon as possible.");
     }

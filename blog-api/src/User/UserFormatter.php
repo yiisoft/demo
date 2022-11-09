@@ -18,7 +18,7 @@ final class UserFormatter
     public function format(User $user): array
     {
         return [
-            'login' => $user->getLogin(),
+            'login'      => $user->getLogin(),
             'created_at' => $user
                 ->getCreatedAt()
                 ->format('d.m.Y H:i:s'),

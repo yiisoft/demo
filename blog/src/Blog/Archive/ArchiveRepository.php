@@ -6,21 +6,21 @@ namespace App\Blog\Archive;
 
 use App\Blog\Entity\Post;
 use App\Blog\Post\PostRepository;
-use Cycle\ORM\ORMInterface;
-use Cycle\ORM\Select;
 use Cycle\Database\DatabaseInterface;
 use Cycle\Database\Driver\DriverInterface;
 use Cycle\Database\Driver\SQLite\SQLiteDriver;
 use Cycle\Database\Injection\Fragment;
 use Cycle\Database\Injection\FragmentInterface;
 use Cycle\Database\Query\SelectQuery;
+use Cycle\ORM\ORMInterface;
+use Cycle\ORM\Select;
 use DateTimeImmutable;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 /**
- * This repository is not associated with Post entity
+ * This repository is not associated with Post entity.
  */
 final class ArchiveRepository
 {
@@ -51,6 +51,7 @@ final class ArchiveRepository
             ->select()
             ->andWhere('published_at', 'between', $begin, $end)
             ->load(['user', 'tags']);
+
         return $this->prepareDataReader($query);
     }
 
@@ -68,6 +69,7 @@ final class ArchiveRepository
             ->andWhere('published_at', 'between', $begin, $end)
             ->load('user', ['method' => Select::SINGLE_QUERY])
             ->orderBy(['published_at' => 'asc']);
+
         return $this->prepareDataReader($query);
     }
 
@@ -104,8 +106,10 @@ final class ArchiveRepository
             ->quoteIdentifier($attr);
         if ($driver instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
+
             return new Fragment("strftime('{$str}', post.published_at) {$wrappedField}");
         }
+
         return new Fragment("extract({$attr} from post.published_at) {$wrappedField}");
     }
 

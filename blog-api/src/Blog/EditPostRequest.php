@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
+use OpenApi\Annotations as OA;
 use Yiisoft\RequestModel\RequestModel;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\HasLength;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
@@ -23,17 +23,17 @@ final class EditPostRequest extends RequestModel implements RulesProviderInterfa
 {
     public function getId(): int
     {
-        return (int)$this->getAttributeValue('router.id');
+        return (int) $this->getAttributeValue('router.id');
     }
 
     public function getTitle(): string
     {
-        return (string)$this->getAttributeValue('body.title');
+        return (string) $this->getAttributeValue('body.title');
     }
 
     public function getText(): string
     {
-        return (string)$this->getAttributeValue('body.text');
+        return (string) $this->getAttributeValue('body.text');
     }
 
     public function getStatus(): PostStatus
@@ -59,6 +59,7 @@ final class EditPostRequest extends RequestModel implements RulesProviderInterfa
                     if (!PostStatus::isValid($value)) {
                         $result->addError('Incorrect status');
                     }
+
                     return $result;
                 },
             ],

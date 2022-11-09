@@ -28,9 +28,9 @@ final class ArchiveController
 
     public function monthlyArchive(CurrentRoute $currentRoute, TagRepository $tagRepository, ArchiveRepository $archiveRepo): Response
     {
-        $pageNum = (int)$currentRoute->getArgument('page', '1');
-        $year = (int)$currentRoute->getArgument('year', '0');
-        $month = (int)$currentRoute->getArgument('month', '0');
+        $pageNum = (int) $currentRoute->getArgument('page', '1');
+        $year = (int) $currentRoute->getArgument('year', '0');
+        $month = (int) $currentRoute->getArgument('month', '0');
 
         $dataReader = $archiveRepo->getMonthlyArchive($year, $month);
         $paginator = (new OffsetPaginator($dataReader))
@@ -38,25 +38,27 @@ final class ArchiveController
             ->withCurrentPage($pageNum);
 
         $data = [
-            'year' => $year,
-            'month' => $month,
+            'year'      => $year,
+            'month'     => $month,
             'paginator' => $paginator,
-            'archive' => $archiveRepo
+            'archive'   => $archiveRepo
                 ->getFullArchive()
                 ->withLimit(12),
             'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
         ];
+
         return $this->viewRenderer->render('monthly-archive', $data);
     }
 
     public function yearlyArchive(CurrentRoute $currentRoute, ArchiveRepository $archiveRepo): Response
     {
-        $year = (int)$currentRoute->getArgument('year', '0');
+        $year = (int) $currentRoute->getArgument('year', '0');
 
         $data = [
-            'year' => $year,
+            'year'  => $year,
             'items' => $archiveRepo->getYearlyArchive($year),
         ];
+
         return $this->viewRenderer->render('yearly-archive', $data);
     }
 }

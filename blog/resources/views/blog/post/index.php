@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @var Post $item
- * @var TranslatorInterface $translator
+ * @var Post                  $item
+ * @var TranslatorInterface   $translator
  * @var UrlGeneratorInterface $urlGenerator
- * @var WebView $this
- * @var bool $canEdit
- * @var string $slug
+ * @var WebView               $this
+ * @var bool                  $canEdit
+ * @var string                $slug
  */
 
 use App\Blog\Entity\Post;
@@ -29,14 +29,14 @@ $this->setTitle($item->getTitle());
                     ->format('H:i:s d.m.Y') ?> by</span>
         <?php
         echo Html::a(
-            $item
+                        $item
                 ->getUser()
                 ->getLogin(),
-            $urlGenerator->generate('user/profile', ['login' => $item
+                        $urlGenerator->generate('user/profile', ['login' => $item
                 ->getUser()
-                ->getLogin()]),
-            ['class' => 'mr-3']
-        );
+                ->getLogin(), ]),
+                        ['class' => 'mr-3']
+                    );
         if ($canEdit) {
             echo Html::a(
                 'Edit',
@@ -71,13 +71,13 @@ if ($item->getComments()) {
             <div class="media-body">
                 <div>
                     <?= Html::a(
-                        $comment
+            $comment
                             ->getUser()
                             ->getLogin(),
-                        $urlGenerator->generate('user/profile', ['login' => $comment
+            $urlGenerator->generate('user/profile', ['login' => $comment
                             ->getUser()
-                            ->getLogin()])
-                    ) ?>
+                            ->getLogin(), ])
+        ) ?>
                     <span class="text-muted">
                         <i>created at</i> <?= $comment
                             ->getCreatedAt()

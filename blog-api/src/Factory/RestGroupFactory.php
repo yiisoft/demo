@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
+use ReflectionClass;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use ReflectionClass;
 
 final class RestGroupFactory
 {
     private const ENTITY_PATTERN = '{id:\d+}';
 
     private const METHODS = [
-        'get' => Method::GET,
-        'list' => Method::GET,
-        'post' => Method::POST,
-        'put' => Method::PUT,
-        'delete' => Method::DELETE,
-        'patch' => Method::PATCH,
+        'get'     => Method::GET,
+        'list'    => Method::GET,
+        'post'    => Method::POST,
+        'put'     => Method::PUT,
+        'delete'  => Method::DELETE,
+        'patch'   => Method::PATCH,
         'options' => Method::OPTIONS,
     ];
 

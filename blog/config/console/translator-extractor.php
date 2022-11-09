@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Translator\Message\Php\MessageSource;
-use Yiisoft\TranslatorExtractor\Extractor;
 use Yiisoft\TranslatorExtractor\CategorySource as ExtractorCategorySource;
+use Yiisoft\TranslatorExtractor\Extractor;
 
 /** @var array $params */
 
@@ -15,7 +15,7 @@ return [
         '__construct()' => [
             [
                 DynamicReference::to([
-                    'class' => ExtractorCategorySource::class,
+                    'class'         => ExtractorCategorySource::class,
                     '__construct()' => [
                         'app',
                         // Please set the following to use extractor.
