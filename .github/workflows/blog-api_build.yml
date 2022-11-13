@@ -37,6 +37,7 @@ jobs:
       extensions: fileinfo, pdo, pdo_sqlite, intl
       key: cache-v1
       YII_C3: true
+      working_directory: blog-api
 
     runs-on: ${{ matrix.os }}
 
@@ -53,6 +54,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
@@ -62,14 +65,19 @@ jobs:
           ini-values: date.timezone='UTC'
           tools: composer:v2
           coverage: pcov
+          working-directory: ${{ env.working_directory }}
 
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Determine composer cache directory on Windows
         if: matrix.os == 'windows-latest'
         run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v3
@@ -78,21 +86,33 @@ jobs:
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             php${{ matrix.php }}-composer-
+          working-directory: ${{ env.working_directory }}
+
       - name: Update composer
         run: composer self-update
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Run tests codeception
         if: matrix.os != 'ubuntu-latest' || matrix.php != '8.0'
         run: vendor/bin/codecept run
+        with:
+          working-directory: ${{ env.working_directory }}
+
       - name: Run tests codeception with coverage
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
         run: vendor/bin/codecept run --coverage-xml
+        with:
+          working-directory: ${{ env.working_directory }}
 
       - name: Upload coverage to codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
         uses: codecov/codecov-action@v3
         with:
           file: tests/_output/coverage.xml
+          working-directory: ${{ env.working_directory }}
