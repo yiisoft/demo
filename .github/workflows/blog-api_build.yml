@@ -27,7 +27,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-name: build
+name: blog-api build
 
 jobs:
   tests:
@@ -70,14 +70,12 @@ jobs:
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Determine composer cache directory on Windows
         if: matrix.os == 'windows-latest'
         run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v3
@@ -90,25 +88,21 @@ jobs:
 
       - name: Update composer
         run: composer self-update
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Run tests codeception
         if: matrix.os != 'ubuntu-latest' || matrix.php != '8.0'
         run: vendor/bin/codecept run
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Run tests codeception with coverage
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
         run: vendor/bin/codecept run --coverage-xml
-        with:
-          working-directory: ${{ env.working_directory }}
+        working-directory: ${{ env.working_directory }}
 
       - name: Upload coverage to codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
