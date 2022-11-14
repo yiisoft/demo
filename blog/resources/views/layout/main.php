@@ -111,19 +111,19 @@ $this->beginPage();
                         'items' => [
                             [
                                 'label' => 'English',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
+                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Русский',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
+                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Slovenský',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
+                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Indonesia',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
+                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
                             ],
                         ],
                     ],
