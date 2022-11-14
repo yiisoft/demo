@@ -19,14 +19,14 @@ It's intended to show and test all Yii features.
 
 ## Installation
 
-You'll need at least PHP 8.0.
+You'll need at least PHP 8.1.
 
 1. Clone this repository.
-2. Run `composer install` in project root directory.
+2. Run `composer install` in your project root directory.
 3. Run `./yii serve` (on Windows `yii serve`). The application will be started on http://localhost:8080/.
-4. Go to index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB.
-   If you want to disable this behavior then comment out line with `Generator\SyncTables::class` in the `config/packges/yiisoft/yii-cycle/params.php`.
-   In this case you should create migrations to sync changes of entities with DB.
+4. Go to the index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB for you.
+   If you want to disable this behavior then comment out the line with the `Generator\SyncTables::class` in the `config/packges/yiisoft/yii-cycle/params.php`.
+   In this case you should create migrations to sync changes that you have made to entities with the DB.
 5. Run `./yii fixture/add 20` to create some random data.
 
 ## Console
@@ -44,15 +44,15 @@ In order to register your own commands, add them to `console/params.php`, `conso
 
 ## Web application
 
-In order to run web application either built-in web server could be used by running `./yii serve` or a
-real web server could be pointed to `/public/index.php`.
+In order to run the web application, you can either use the built-in web server by running `./yii serve` or you could use a
+real web server by pointing it to `/public/index.php`.
 
 More routes could be added by editing `src/Factory/AppRouterFactory`.
 
 ## Testing
 
-The template comes with ready to use [Codeception](https://codeception.com/) configuration.
-In order to execute tests run:
+The template comes with a  ready to use [Codeception](https://codeception.com/) configuration.
+In order to execute tests run the following command:
 
 ```
 composer run serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
