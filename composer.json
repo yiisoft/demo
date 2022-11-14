@@ -46,8 +46,8 @@
         "yiisoft/csrf": "^1.2",
         "yiisoft/data": "^3.0@dev",
         "yiisoft/data-response": "^1.0",
-        "yiisoft/definitions": "^2.0",
-        "yiisoft/di": "^1.0",
+        "yiisoft/definitions": "^3.0",
+        "yiisoft/di": "^1.2",
         "yiisoft/error-handler": "^2.0",
         "yiisoft/factory": "^1.0",
         "yiisoft/form": "^1.0@dev",
@@ -61,14 +61,13 @@
         "yiisoft/rate-limiter": "dev-master",
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
-        "yiisoft/rbac-rules-container": "^1.0",
-        "yiisoft/router": "^1.0",
-        "yiisoft/router-fastroute": "^1.0",
+        "yiisoft/rbac-rules-container": "^1.1",
+        "yiisoft/router": "^2.0",
+        "yiisoft/router-fastroute": "^2.0",
         "yiisoft/security": "^1.0",
         "yiisoft/session": "^1.0",
-        "yiisoft/translator": "^1.0",
-        "yiisoft/translator-formatter-intl": "^1.0",
-        "yiisoft/translator-message-php": "^1.0",
+        "yiisoft/translator": "^2.0",
+        "yiisoft/translator-message-php": "^1.1",
         "yiisoft/user": "^1.0",
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
@@ -122,7 +121,7 @@
         "post-create-project-cmd": [
             "App\\Installer::copyEnvFile"
         ],
-        "test": "phpunit --testdox --no-interaction",
+        "test": "codecept run",
         "test-watch": "phpunit-watcher watch"
     },
     "extra": {
@@ -131,6 +130,23 @@
         },
         "config-plugin-options": {
             "source-directory": "config"
+        },
+        "config-plugin-environments": {
+            "dev": {
+                "params": [
+                    "test/params.php"
+                ]
+            },
+            "prod": {
+                "params": [
+                    "test/params.php"
+                ]
+            },
+            "test": {
+                "params": [
+                    "test/params.php"
+                ]
+            }
         },
         "config-plugin": {
             "common": "common/*.php",

@@ -62,8 +62,8 @@ return [
             '@runtime' => '@root/runtime',
             '@src' => '@root/src',
             '@vendor' => '@root/vendor',
-            '@layout' => '@root/views/layout',
-            '@views' => '@root/views',
+            '@layout' => '@views/layout',
+            '@views' => '@resources/views',
         ],
     ],
 
@@ -100,11 +100,6 @@ return [
         'locale' => 'en',
         'fallbackLocale' => 'en',
         'defaultCategory' => 'app',
-        'categorySources' => [
-            // You can add categories from your application and additional modules using `Reference::to` below
-            // Reference::to(ApplicationCategorySource::class),
-            Reference::to('translation.app'),
-        ],
     ],
 
     'yiisoft/view' => [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Tests\FunctionalTester;
+use App\Tests\Support\FunctionalTester;
 
 final class ContactCest
 {
