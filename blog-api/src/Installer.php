@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use Composer\Script\Event;
 use FilesystemIterator as FSIterator;
 use RecursiveDirectoryIterator as DirIterator;
 use RecursiveIteratorIterator as RIterator;
@@ -14,7 +13,7 @@ final class Installer
     /**
      * @psalm-suppress UndefinedClass
      */
-    public static function postUpdate(Event $event = null): void
+    public static function postUpdate(): void
     {
         self::chmodRecursive('runtime', 0777);
         self::chmodRecursive('public/assets', 0777);
