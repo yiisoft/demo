@@ -4,25 +4,25 @@ defaults:
 on:
   pull_request:
     paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.env.example'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'phpunit.xml.dist'
+      - 'blog/docs/**'
+      - 'blog/README.md'
+      - 'blog/CHANGELOG.md'
+      - 'blog/.gitignore'
+      - 'blog/.env.example'
+      - 'blog/.gitattributes'
+      - 'blog/infection.json.dist'
+      - 'blog/phpunit.xml.dist'
 
   push:
     paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.env.example'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'phpunit.xml.dist'
+      - 'blog/docs/**'
+      - 'blog/README.md'
+      - 'blog/CHANGELOG.md'
+      - 'blog/.gitignore'
+      - 'blog/.env.example'
+      - 'blog/.gitattributes'
+      - 'blog/infection.json.dist'
+      - 'blog/phpunit.xml.dist'
 
   schedule:
     - cron: '0 0 * * *'
