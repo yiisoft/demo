@@ -4,9 +4,6 @@ risky: true
 version: 8
 
 finder:
-  path:
-    - blog
-    - blog-api
   exclude:
     - */docs
     - */vendor
