@@ -34,9 +34,9 @@ return [
     ),
 
     CurrentUser::class => [
-        'withSession()'       => [Reference::to(SessionInterface::class)],
+        'withSession()' => [Reference::to(SessionInterface::class)],
         'withAccessChecker()' => [Reference::to(AccessCheckerInterface::class)],
-        'reset'               => function () {
+        'reset' => function () {
             $this->clear();
         },
     ],

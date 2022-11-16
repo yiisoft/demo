@@ -53,14 +53,14 @@ $this->setTitle($translator->translate('menu.contact'));
                         ->buttonsData([
                             [
                                 $translator->translate('layout.reset'),
-                                'type'  => 'reset',
+                                'type' => 'reset',
                                 'class' => 'btn btn-lg btn-danger',
                             ],
                             [
                                 $translator->translate('layout.submit'),
-                                'type'  => 'submit',
+                                'type' => 'submit',
                                 'class' => 'btn btn-lg btn-primary',
-                                'name'  => 'contact-button',
+                                'name' => 'contact-button',
                             ],
                         ]) ?>
 

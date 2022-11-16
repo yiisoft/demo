@@ -12,7 +12,7 @@ final class LinkTagsViewInjection implements LinkTagsInjectionInterface
     {
         return [
             'favicon' => [
-                'rel'  => 'icon',
+                'rel' => 'icon',
                 'href' => '/favicon.ico',
             ],
         ];

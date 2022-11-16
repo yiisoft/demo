@@ -31,8 +31,8 @@ final class SignupForm extends FormModel
     public function getAttributeLabels(): array
     {
         return [
-            'login'          => $this->translator->translate('layout.login'),
-            'password'       => $this->translator->translate('layout.password'),
+            'login' => $this->translator->translate('layout.login'),
+            'password' => $this->translator->translate('layout.password'),
             'passwordVerify' => $this->translator->translate('layout.password-verify'),
         ];
     }

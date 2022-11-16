@@ -20,13 +20,13 @@ final class UserCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'success',
+                'status' => 'success',
                 'error_message' => '',
-                'error_code'    => null,
-                'data'          => [
+                'error_code' => null,
+                'data' => [
                     'users' => [
                         [
-                            'login'      => 'Athena7928',
+                            'login' => 'Athena7928',
                             'created_at' => '26.07.2020 20:18:11',
                         ],
                     ],
@@ -46,12 +46,12 @@ final class UserCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'success',
+                'status' => 'success',
                 'error_message' => '',
-                'error_code'    => null,
-                'data'          => [
+                'error_code' => null,
+                'data' => [
                     'user' => [
-                        'login'      => 'Opal1144',
+                        'login' => 'Opal1144',
                         'created_at' => '26.07.2020 20:18:11',
                     ],
                 ],
@@ -70,10 +70,10 @@ final class UserCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'failed',
+                'status' => 'failed',
                 'error_message' => 'Entity not found',
-                'error_code'    => HttpCode::NOT_FOUND,
-                'data'          => null,
+                'error_code' => HttpCode::NOT_FOUND,
+                'data' => null,
             ]
         );
     }
@@ -89,10 +89,10 @@ final class UserCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'failed',
+                'status' => 'failed',
                 'error_message' => 'Method is not implemented yet',
-                'error_code'    => HttpCode::METHOD_NOT_ALLOWED,
-                'data'          => null,
+                'error_code' => HttpCode::METHOD_NOT_ALLOWED,
+                'data' => null,
             ]
         );
     }

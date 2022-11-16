@@ -94,7 +94,7 @@ final class BlogController
         return $this->responseFactory->createResponse(
             [
                 'paginator' => $paginatorFormatter->format($paginator),
-                'posts'     => $posts,
+                'posts' => $posts,
             ]
         );
     }

@@ -27,10 +27,10 @@ final class UserControllerTest extends TestCase
 
         $this->assertEquals(
             [
-                'status'        => 'success',
+                'status' => 'success',
                 'error_message' => '',
-                'error_code'    => null,
-                'data'          => ['version' => '3.0', 'author' => 'yiisoft'],
+                'error_code' => null,
+                'data' => ['version' => '3.0', 'author' => 'yiisoft'],
             ],
             $response->getContentAsJson()
         );
@@ -49,10 +49,10 @@ final class UserControllerTest extends TestCase
 
         $this->assertEquals(
             [
-                'status'        => 'success',
+                'status' => 'success',
                 'error_message' => '',
-                'error_code'    => null,
-                'data'          => ['version' => '3.0.0', 'author' => 'yiisoft'],
+                'error_code' => null,
+                'data' => ['version' => '3.0.0', 'author' => 'yiisoft'],
             ],
             $response->getContentAsJson()
         );

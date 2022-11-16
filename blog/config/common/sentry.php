@@ -9,9 +9,9 @@ use Http\Client\HttpClient;
 use Yiisoft\Definitions\Reference;
 
 return [
-    HttpClient::class      => GuzzleClient::class,
+    HttpClient::class => GuzzleClient::class,
     HttpAsyncClient::class => [
-        'class'         => GuzzleClientAdapter::class,
+        'class' => GuzzleClientAdapter::class,
         '__construct()' => [
             Reference::to(HttpClient::class),
         ],

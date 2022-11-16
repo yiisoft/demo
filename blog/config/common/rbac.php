@@ -13,15 +13,15 @@ use Yiisoft\Rbac\Php\ItemsStorage;
 
 return [
     ItemsStorageInterface::class => [
-        'class'         => ItemsStorage::class,
+        'class' => ItemsStorage::class,
         '__construct()' => [
-            'directory' => $params['yiisoft/aliases']['aliases']['@root'].DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'rbac',
+            'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],
     AssignmentsStorageInterface::class => [
-        'class'         => AssignmentsStorage::class,
+        'class' => AssignmentsStorage::class,
         '__construct()' => [
-            'directory' => $params['yiisoft/aliases']['aliases']['@root'].DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'rbac',
+            'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],
     AccessCheckerInterface::class => Manager::class,

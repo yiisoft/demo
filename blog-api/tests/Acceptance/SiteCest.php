@@ -16,12 +16,12 @@ final class SiteCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'success',
+                'status' => 'success',
                 'error_message' => '',
-                'error_code'    => null,
-                'data'          => [
+                'error_code' => null,
+                'data' => [
                     'version' => '3.0',
-                    'author'  => 'yiisoft',
+                    'author' => 'yiisoft',
                 ],
             ]
         );
@@ -34,10 +34,10 @@ final class SiteCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'failed',
+                'status' => 'failed',
                 'error_message' => 'Page not found',
-                'error_code'    => 404,
-                'data'          => null,
+                'error_code' => 404,
+                'data' => null,
             ]
         );
     }
@@ -49,10 +49,10 @@ final class SiteCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(
             [
-                'status'        => 'failed',
+                'status' => 'failed',
                 'error_message' => 'Страница не найдена',
-                'error_code'    => 404,
-                'data'          => null,
+                'error_code' => 404,
+                'data' => null,
             ]
         );
     }

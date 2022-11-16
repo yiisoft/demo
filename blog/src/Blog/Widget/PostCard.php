@@ -68,10 +68,10 @@ final class PostCard extends Widget
 
         $return .= Html::p(
             mb_substr($this->post->getContent(), 0, 400)
-            .(mb_strlen($this->post->getContent()) > 400 ? '…' : '')
+            . (mb_strlen($this->post->getContent()) > 400 ? '…' : '')
         );
 
-        return $return.Html::closeTag('div');
+        return $return . Html::closeTag('div');
     }
 
     protected function renderTags(): string
@@ -85,7 +85,7 @@ final class PostCard extends Widget
             );
         }
 
-        return $return.Html::closeTag('div');
+        return $return . Html::closeTag('div');
     }
 
     protected function initOptions(): void

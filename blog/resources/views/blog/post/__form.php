@@ -23,7 +23,7 @@ if (!empty($errors)) {
     foreach ($errors as $field => $error) {
         echo Alert::widget()
             ->options(['class' => 'alert-danger'])
-            ->body(Html::encode($field.':'.$error));
+            ->body(Html::encode($field . ':' . $error));
     }
 }
 ?>

@@ -41,10 +41,10 @@ final class BlogController
 
         $data = [
             'paginator' => $paginator,
-            'archive'   => $archiveRepo
+            'archive' => $archiveRepo
                 ->getFullArchive()
                 ->withLimit(self::ARCHIVE_MONTHS_COUNT),
-            'tags'    => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
+            'tags' => $tagRepository->getTagMentions(self::POPULAR_TAGS_COUNT),
             'isGuest' => $currentUser->isGuest(),
         ];
 

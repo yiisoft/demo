@@ -50,7 +50,7 @@ $this->beginPage();
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Yii Demo<?= $this->getTitle() ? ' - '.Html::encode($this->getTitle()) : '' ?></title>
+        <title>Yii Demo<?= $this->getTitle() ? ' - ' . Html::encode($this->getTitle()) : '' ?></title>
         <?php $this->head() ?>
     </head>
     <body class="cover-container-fluid d-flex w-100 h-100 mx-auto flex-column">
@@ -71,8 +71,8 @@ $this->beginPage();
             ->items(
                 [
                     [
-                        'label'  => $translator->translate('menu.blog'),
-                        'url'    => $urlGenerator->generate('blog/index'),
+                        'label' => $translator->translate('menu.blog'),
+                        'url' => $urlGenerator->generate('blog/index'),
                         'active' => StringHelper::startsWith(
                             $currentRouteName,
                             'blog/'
@@ -80,20 +80,20 @@ $this->beginPage();
                     ],
                     [
                         'label' => $translator->translate('menu.comments-feed'),
-                        'url'   => $urlGenerator->generate('blog/comment/index'),
+                        'url' => $urlGenerator->generate('blog/comment/index'),
                     ],
                     [
-                        'label'  => $translator->translate('menu.users'),
-                        'url'    => $urlGenerator->generate('user/index'),
+                        'label' => $translator->translate('menu.users'),
+                        'url' => $urlGenerator->generate('user/index'),
                         'active' => StringHelper::startsWith($currentRouteName, 'user/'),
                     ],
                     [
                         'label' => $translator->translate('menu.contact'),
-                        'url'   => $urlGenerator->generate('site/contact'),
+                        'url' => $urlGenerator->generate('site/contact'),
                     ],
                     [
                         'label' => $translator->translate('menu.swagger'),
-                        'url'   => $urlGenerator->generate('swagger/index'),
+                        'url' => $urlGenerator->generate('swagger/index'),
                     ],
                 ]
             ) ?>
@@ -107,47 +107,47 @@ $this->beginPage();
                 [
                     [
                         'label' => $translator->translate('menu.language'),
-                        'url'   => '#',
+                        'url' => '#',
                         'items' => [
                             [
                                 'label' => 'English',
-                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Русский',
-                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Slovenský',
-                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
                             ],
                             [
                                 'label' => 'Indonesia',
-                                'url'   => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
                             ],
                         ],
                     ],
                     [
-                        'label'   => $translator->translate('menu.login'),
-                        'url'     => $urlGenerator->generate('auth/login'),
+                        'label' => $translator->translate('menu.login'),
+                        'url' => $urlGenerator->generate('auth/login'),
                         'visible' => $isGuest,
                     ],
                     [
-                        'label'   => $translator->translate('menu.signup'),
-                        'url'     => $urlGenerator->generate('auth/signup'),
+                        'label' => $translator->translate('menu.signup'),
+                        'url' => $urlGenerator->generate('auth/signup'),
                         'visible' => $isGuest,
                     ],
                     $isGuest ? '' : Form::tag()
                             ->post($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
                             ->open()
-                        .'<div class="mb-1">'
-                        .Button::submit(
+                        . '<div class="mb-1">'
+                        . Button::submit(
                             $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
                         )
                             ->class('btn btn-primary')
-                        .'</div>'
-                        .Form::tag()->close(),
+                        . '</div>'
+                        . Form::tag()->close(),
                 ],
             ) ?>
         <?= NavBar::end() ?>

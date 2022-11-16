@@ -11,7 +11,7 @@ use Yiisoft\Log\Target\File\FileTarget;
 
 return [
     LoggerInterface::class => [
-        'class'         => Logger::class,
+        'class' => Logger::class,
         '__construct()' => [
             'targets' => ReferencesArray::from([
                 FileTarget::class,

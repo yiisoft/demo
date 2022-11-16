@@ -19,13 +19,13 @@ use Yiisoft\Yii\Queue\Adapter\SynchronousAdapter;
 
 return [
     'locale' => [
-        'locales'         => ['en' => 'en-US', 'ru' => 'ru-RU'],
+        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
         'ignoredRequests' => [
             '/debug**',
         ],
     ],
     'supportEmail' => 'support@example.com',
-    'middlewares'  => [
+    'middlewares' => [
         ErrorCatcher::class,
         SubFolder::class,
         Locale::class,
@@ -34,19 +34,19 @@ return [
 
     'yiisoft/aliases' => [
         'aliases' => [
-            '@root'      => dirname(__DIR__),
-            '@assets'    => '@public/assets',
+            '@root' => dirname(__DIR__),
+            '@assets' => '@public/assets',
             '@assetsUrl' => '@baseUrl/assets',
-            '@baseUrl'   => '/',
-            '@data'      => '@root/data',
-            '@messages'  => '@resources/messages',
-            '@public'    => '@root/public',
+            '@baseUrl' => '/',
+            '@data' => '@root/data',
+            '@messages' => '@resources/messages',
+            '@public' => '@root/public',
             '@resources' => '@root/resources',
-            '@runtime'   => '@root/runtime',
-            '@src'       => '@root/src',
-            '@tests'     => '@root/tests',
-            '@views'     => '@root/views',
-            '@vendor'    => '@root/vendor',
+            '@runtime' => '@root/runtime',
+            '@src' => '@root/src',
+            '@tests' => '@root/tests',
+            '@views' => '@root/views',
+            '@vendor' => '@root/vendor',
         ],
     ],
 
@@ -55,23 +55,23 @@ return [
     ],
 
     'yiisoft/translator' => [
-        'locale'          => 'en',
-        'fallbackLocale'  => 'en',
+        'locale' => 'en',
+        'fallbackLocale' => 'en',
         'defaultCategory' => 'app',
     ],
 
     // Console commands
     'yiisoft/yii-console' => [
         'commands' => [
-            'cycle/schema'         => Schema\SchemaCommand::class,
-            'cycle/schema/php'     => Schema\SchemaPhpCommand::class,
-            'cycle/schema/clear'   => Schema\SchemaClearCommand::class,
+            'cycle/schema' => Schema\SchemaCommand::class,
+            'cycle/schema/php' => Schema\SchemaPhpCommand::class,
+            'cycle/schema/clear' => Schema\SchemaClearCommand::class,
             'cycle/schema/rebuild' => Schema\SchemaRebuildCommand::class,
-            'migrate/create'       => Migration\CreateCommand::class,
-            'migrate/generate'     => Migration\GenerateCommand::class,
-            'migrate/up'           => Migration\UpCommand::class,
-            'migrate/down'         => Migration\DownCommand::class,
-            'migrate/list'         => Migration\ListCommand::class,
+            'migrate/create' => Migration\CreateCommand::class,
+            'migrate/generate' => Migration\GenerateCommand::class,
+            'migrate/up' => Migration\UpCommand::class,
+            'migrate/down' => Migration\DownCommand::class,
+            'migrate/list' => Migration\ListCommand::class,
         ],
     ],
 
@@ -82,14 +82,14 @@ return [
             // For example, \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class
             'query-logger' => null,
             // Default database
-            'default'   => 'default',
-            'aliases'   => [],
+            'default' => 'default',
+            'aliases' => [],
             'databases' => [
                 'default' => ['connection' => 'sqlite'],
             ],
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
-                    new FileConnectionConfig(dirname(__DIR__).'/runtime/database.db')
+                    new FileConnectionConfig(dirname(__DIR__) . '/runtime/database.db')
                 ),
             ],
         ],
@@ -98,8 +98,8 @@ return [
         'migrations' => [
             'directory' => '@root/migrations',
             'namespace' => 'App\\Migration',
-            'table'     => 'migration',
-            'safe'      => false,
+            'table' => 'migration',
+            'safe' => false,
         ],
 
         /**
