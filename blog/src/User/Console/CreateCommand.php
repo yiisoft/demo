@@ -43,15 +43,15 @@ final class CreateCommand extends Command
         $isAdmin = (bool) $input->getArgument('isAdmin');
 
         $this->signupForm->load([
-            'login'          => $login,
-            'password'       => $password,
+            'login' => $login,
+            'password' => $password,
             'passwordVerify' => $password,
         ], '');
 
         try {
             $user = $this->signupForm->signup();
         } catch (Throwable $t) {
-            $io->error($t->getMessage().' '.$t->getFile().' '.$t->getLine());
+            $io->error($t->getMessage() . ' ' . $t->getFile() . ' ' . $t->getLine());
 
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }

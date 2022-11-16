@@ -15,12 +15,12 @@ use Yiisoft\DataResponse\Middleware\ContentNegotiator;
 
 return [
     DataResponseFormatterInterface::class => ApiResponseFormatter::class,
-    DataResponseFactoryInterface::class   => DataResponseFactory::class,
-    ContentNegotiator::class              => [
+    DataResponseFactoryInterface::class => DataResponseFactory::class,
+    ContentNegotiator::class => [
         '__construct()' => [
             'contentFormatters' => [
-                'text/html'        => new HtmlDataResponseFormatter(),
-                'application/xml'  => new XmlDataResponseFormatter(),
+                'text/html' => new HtmlDataResponseFormatter(),
+                'application/xml' => new XmlDataResponseFormatter(),
                 'application/json' => new JsonDataResponseFormatter(),
             ],
         ],

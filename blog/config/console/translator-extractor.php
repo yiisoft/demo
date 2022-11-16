@@ -15,7 +15,7 @@ return [
         '__construct()' => [
             [
                 DynamicReference::to([
-                    'class'         => ExtractorCategorySource::class,
+                    'class' => ExtractorCategorySource::class,
                     '__construct()' => [
                         'app',
                         // Please set the following to use extractor.

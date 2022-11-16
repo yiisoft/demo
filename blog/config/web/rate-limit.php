@@ -18,9 +18,9 @@ return [
         return new SimpleCacheStorage($cache);
     },
     CounterInterface::class => [
-        'class'         => Counter::class,
+        'class' => Counter::class,
         '__construct()' => [
-            'limit'           => 7,
+            'limit' => 7,
             'periodInSeconds' => 10,
         ],
     ],

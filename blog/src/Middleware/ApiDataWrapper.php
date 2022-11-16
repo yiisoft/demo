@@ -26,7 +26,7 @@ final class ApiDataWrapper implements MiddlewareInterface
 
                 return $response->withData([
                     'status' => 'failed',
-                    'error'  => ['message' => $message, 'status' => $response->getStatusCode()],
+                    'error' => ['message' => $message, 'status' => $response->getStatusCode()],
                 ]);
             }
 

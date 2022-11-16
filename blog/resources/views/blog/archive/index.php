@@ -54,7 +54,7 @@ $this->setTitle($translator->translate('layout.archive'));
                 echo Html::a(
                     date('F', mktime(0, 0, 0, (int) $month, 1, (int) $year)),
                     $urlGenerator->generate('blog/archive/month', [
-                        'year'  => $year,
+                        'year' => $year,
                         'month' => $month,
                     ]),
                     ['class' => 'text-muted']

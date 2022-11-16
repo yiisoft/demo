@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @var int                        $year
- * @var Post[]|DataReaderInterface $items
+ * @var DataReaderInterface|Post[] $items
  * @var TranslatorInterface        $translator
  * @var UrlGeneratorInterface      $urlGenerator
  * @var WebView                    $this
@@ -20,7 +20,7 @@ use Yiisoft\View\WebView;
 $this->setTitle($translator->translate('layout.archive.for-year', ['year' => $year]));
 
 ?>
-<h1><?= $translator->translate('layout.archive.for-year', ['year' => '<small class="text-muted">'.$year.'</small>']) ?></h1>
+<h1><?= $translator->translate('layout.archive.for-year', ['year' => '<small class="text-muted">' . $year . '</small>']) ?></h1>
 <div class="row">
     <div class="col-sm-8 col-md-8 col-lg-9">
         <?php

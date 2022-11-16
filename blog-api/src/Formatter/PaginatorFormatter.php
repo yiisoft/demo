@@ -20,9 +20,9 @@ final class PaginatorFormatter
     public function format(OffsetPaginator $paginator): array
     {
         return [
-            'pageSize'    => $paginator->getPageSize(),
+            'pageSize' => $paginator->getPageSize(),
             'currentPage' => $paginator->getCurrentPage(),
-            'totalPages'  => $paginator->getTotalPages(),
+            'totalPages' => $paginator->getTotalPages(),
         ];
     }
 }

@@ -25,7 +25,7 @@ final class ContactMailer
         private string $sender,
         private string $to
     ) {
-        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__.'/mail/'));
+        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
     public function send(FormModelInterface $form, ServerRequestInterface $request): void

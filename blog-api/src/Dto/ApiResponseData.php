@@ -120,10 +120,10 @@ final class ApiResponseData
     public function toArray(): array
     {
         return [
-            'status'        => $this->getStatus(),
+            'status' => $this->getStatus(),
             'error_message' => $this->getErrorMessage(),
-            'error_code'    => $this->getErrorCode(),
-            'data'          => $this->getData(),
+            'error_code' => $this->getErrorCode(),
+            'data' => $this->getData(),
         ];
     }
 }

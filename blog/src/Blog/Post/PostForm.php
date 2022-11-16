@@ -36,7 +36,7 @@ final class PostForm extends FormModel
     public function getRules(): array
     {
         return [
-            'title'   => [new Required()],
+            'title' => [new Required()],
             'content' => [new Required()],
         ];
     }

@@ -24,7 +24,7 @@ final class ContactController
     ) {
         $this->viewRenderer = $viewRenderer
             ->withControllerName('contact')
-            ->withViewPath(__DIR__.'/views');
+            ->withViewPath(__DIR__ . '/views');
     }
 
     public function contact(
