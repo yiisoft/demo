@@ -39,7 +39,7 @@ final class AddCommand extends Command
     public function __construct(
         private CycleDependencyProxy $promise,
         private EntityManager $entityManager,
-        private readonly LoggerInterface $log,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
