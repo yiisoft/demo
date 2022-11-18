@@ -14,6 +14,7 @@ use DateTimeImmutable;
 use Exception;
 use Faker\Factory;
 use Faker\Generator;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +38,8 @@ final class AddCommand extends Command
 
     public function __construct(
         private CycleDependencyProxy $promise,
-        private EntityManager $entityManager
+        private EntityManager $entityManager,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -70,6 +72,8 @@ final class AddCommand extends Command
             $this->saveEntities();
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
+            $this->logger->error($t->getMessage(), ['exception' => $t]);
+
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
         $io->success('Done');
@@ -127,7 +131,7 @@ final class AddCommand extends Command
             $public = rand(0, 2) > 0;
             $post->setPublic($public);
             if ($public) {
-                $post->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-2 years')))));
+                $post->setPublishedAt(new DateTimeImmutable(date('r', rand(strtotime('-2 years'), time()))));
             }
             // link tags
             $postTags = (array)array_rand($this->tags, rand(1, count($this->tags)));
@@ -144,7 +148,7 @@ final class AddCommand extends Command
                 $commentPublic = rand(0, 3) > 0;
                 $comment->setPublic($commentPublic);
                 if ($commentPublic) {
-                    $comment->setPublishedAt(new DateTimeImmutable(date('r', rand(time(), strtotime('-1 years')))));
+                    $comment->setPublishedAt(new DateTimeImmutable(date('r', rand(strtotime('-1 years'), time()))));
                 }
                 $commentUser = $this->users[array_rand($this->users)];
                 $commentUser->addComment($comment);
