@@ -72,7 +72,7 @@ final class AddCommand extends Command
             $this->saveEntities();
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
-            $this->log->error($t->getMessage(), ['exception' => $t]);
+            $this->logger->error($t->getMessage(), ['exception' => $t]);
 
             return $t->getCode() ?: ExitCode::UNSPECIFIED_ERROR;
         }
