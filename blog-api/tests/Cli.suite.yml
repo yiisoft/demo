@@ -1,0 +1,6 @@
+actor: CliTester
+modules:
+  enabled:
+    - Cli
+    - \App\Tests\Support\Helper\Cli
+  step_decorators: ~
