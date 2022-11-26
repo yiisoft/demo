@@ -6,6 +6,9 @@ use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 
 return [
+    'yiisoft/yii-debug' => [
+        'enabled' => false,
+    ],
     'yiisoft/yii-cycle' => [
         // DBAL config
         'dbal' => [
