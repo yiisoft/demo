@@ -22,6 +22,7 @@ return [
         'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
         'ignoredRequests' => [
             '/debug**',
+            '/inspect**',
         ],
     ],
     'supportEmail' => 'support@example.com',
