@@ -23,7 +23,7 @@
         "cycle/database": "^2.0",
         "cycle/entity-behavior": "^1.0",
         "cycle/orm": "^2.0",
-        "doctrine/collections": "^2.0",
+        "doctrine/collections": "^1.8 || ^2.0",
         "fakerphp/faker": "^1.14",
         "httpsoft/http-message": "^1.0.5",
         "php-http/guzzle7-adapter": "^1.0",
