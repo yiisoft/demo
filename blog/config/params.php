@@ -33,6 +33,7 @@ return [
         'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
         'ignoredRequests' => [
             '/debug**',
+            '/inspect**',
         ],
     ],
     'mailer' => [
