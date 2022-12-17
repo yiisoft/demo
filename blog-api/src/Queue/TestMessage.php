@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Queue;
 
 use Yiisoft\Yii\Queue\Message\MessageInterface;
 
-final class UserLoggedInMessage implements MessageInterface
+class TestMessage implements MessageInterface
 {
     private ?string $id = null;
 
-    public function __construct(private string $userId, private int $time)
+    public function __construct(private string $some_id, private int $time)
     {
     }
 
@@ -26,13 +24,13 @@ final class UserLoggedInMessage implements MessageInterface
 
     public function getHandlerName(): string
     {
-        return LoggingAuthorizationHandler::NAME;
+        return TestHandler::NAME;
     }
 
     public function getData(): array
     {
         return [
-            'user_id' => $this->userId,
+            'some_id' => $this->some_id,
             'time' => $this->time,
         ];
     }

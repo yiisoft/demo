@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Command\QueueTestCommand;
 use App\Queue\LoggingAuthorizationHandler;
+use App\Queue\TestHandler;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
@@ -73,6 +75,7 @@ return [
             'migrate/up' => Migration\UpCommand::class,
             'migrate/down' => Migration\DownCommand::class,
             'migrate/list' => Migration\ListCommand::class,
+            QueueTestCommand::$defaultName => QueueTestCommand::class
         ],
     ],
 
@@ -156,10 +159,12 @@ return [
 
     'yiisoft/yii-queue' => [
         'handlers' => [
-            LoggingAuthorizationHandler::NAME => [LoggingAuthorizationHandler::class, 'handle'],
+            TestHandler::NAME => [TestHandler::class, 'handle'],
+            //LoggingAuthorizationHandler::NAME => [LoggingAuthorizationHandler::class, 'handle'],
         ],
         'channel-definitions' => [
-            LoggingAuthorizationHandler::CHANNEL => SynchronousAdapter::class,
+            TestHandler::CHANNEL => \Yiisoft\Yii\Queue\AMQP\Adapter::class
+            //LoggingAuthorizationHandler::CHANNEL => SynchronousAdapter::class,
         ],
     ],
 ];
