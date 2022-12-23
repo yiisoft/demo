@@ -36,4 +36,9 @@ final class UserLoggedInMessage implements MessageInterface
             'time' => $this->time,
         ];
     }
+
+    public function getMetadata(): array
+    {
+        return [];
+    }
 }
