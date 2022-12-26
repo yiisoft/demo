@@ -1,0 +1,5 @@
+- import_tasks: swap.yml
+- import_tasks: install_dependencies.yml
+- import_tasks: install_docker.yml
+- import_tasks: install_docker_sdk.yml
+- import_tasks: create_user.yml

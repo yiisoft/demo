@@ -1,0 +1,6 @@
+---
+- name: Deploy services
+  hosts: all
+  remote_user: root
+  roles:
+    - deploy

@@ -1,0 +1,12 @@
+---
+- name: Create folder
+  file:
+    path: /home/deploy/demo.yiiframework.com/var/ssl/dhparam
+    state: directory
+    recurse: true
+
+- name: Generate dhparam
+  command: openssl dhparam -out ./var/ssl/dhparam/dhparam-2048.pem 2048
+  args:
+    chdir: /home/deploy/demo.yiiframework.com
+    creates: ./var/ssl/dhparam/dhparam-2048.pem

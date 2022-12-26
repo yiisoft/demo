@@ -7,3 +7,4 @@
 .settings
 Thumbs.db
 nbproject
+.env
