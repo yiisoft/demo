@@ -55,7 +55,7 @@ return [
             '@root' => dirname(__DIR__),
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '@baseUrl/assets',
-            '@baseUrl' => '/',
+            '@baseUrl' => $_ENV['BASE_URL'],
             '@messages' => '@resources/messages',
             '@npm' => '@root/node_modules',
             '@public' => '@root/public',
@@ -233,5 +233,9 @@ return [
             'dsn' => $_ENV['SENTRY_DSN'] ?? null,
             'environment' => $_ENV['YII_ENV'] ?? null, // Add to separate "production" / "staging" environment errors.
         ],
+    ],
+
+    'yiisoft/yii-debug-api' => [
+        'allowedIPs' => ['172.0.0.1/10'],
     ],
 ];
