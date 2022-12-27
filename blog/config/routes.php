@@ -168,7 +168,7 @@ return [
         ->routes(
             Route::get('')
                 ->middleware(FormatDataResponseAsHtml::class)
-                ->action(function (SwaggerUi $swaggerUi, UrlGeneratorInterface $urlGenerator){
+                ->action(function (SwaggerUi $swaggerUi, UrlGeneratorInterface $urlGenerator) {
                     return $swaggerUi->withJsonUrl($urlGenerator->getUriPrefix() . '/docs/openapi.json');
                 })
                 ->name('swagger/index'),
