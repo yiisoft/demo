@@ -1,0 +1,46 @@
+version: "3.4"
+
+services:
+  blog-backend:
+    build:
+      context: blog
+      dockerfile: docker/dev/php/Dockerfile
+      target: stage
+    environment:
+      YII_ENV: dev
+      YII_DEBUG: "true"
+    volumes:
+      - ./blog:/app:delegated
+
+  blog-nginx:
+    build:
+      context: blog
+      dockerfile: docker/dev/nginx/Dockerfile
+
+  blog-api-backend:
+    build:
+      context: blog-api
+      dockerfile: docker/dev/php/Dockerfile
+      target: stage
+    environment:
+      YII_ENV: dev
+      YII_DEBUG: "true"
+    volumes:
+      - ./blog-api:/app:delegated
+
+  blog-api-nginx:
+    build:
+      context: blog-api
+      dockerfile: docker/dev/nginx/Dockerfile
+
+  demo:
+    restart: unless-stopped
+    volumes:
+      - ./demo/html:/usr/share/nginx
+
+  gateway:
+    build:
+      context: gateway/nginx
+      dockerfile: dev/Dockerfile
+    volumes:
+      - ./gateway/nginx/dev/templates:/etc/nginx/templates:ro

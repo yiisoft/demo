@@ -38,7 +38,7 @@ return [
             '@root' => dirname(__DIR__),
             '@assets' => '@public/assets',
             '@assetsUrl' => '@baseUrl/assets',
-            '@baseUrl' => '/',
+            '@baseUrl' => $_ENV['BASE_URL'],
             '@data' => '@root/data',
             '@messages' => '@resources/messages',
             '@public' => '@root/public',
@@ -161,5 +161,9 @@ return [
         'channel-definitions' => [
             LoggingAuthorizationHandler::CHANNEL => SynchronousAdapter::class,
         ],
+    ],
+
+    'yiisoft/yii-debug-api' => [
+        'allowedIPs' => ['172.0.0.1/10'],
     ],
 ];

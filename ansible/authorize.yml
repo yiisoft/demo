@@ -1,0 +1,14 @@
+---
+- name: Add authorized key
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Add user authorized key
+      authorized_key:
+        user: deploy
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Add deploy user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/deploy"
+    content: "deploy  ALL=(ALL)  NOPASSWD: ALL"

@@ -1,0 +1,72 @@
+server {
+    listen 80;
+    server_tokens off;
+
+    return 404;
+}
+
+server {
+    listen 80;
+    server_name ${DOMAIN};
+
+    client_max_body_size 15m;
+    server_tokens off;
+    root /app/public;
+    resolver 127.0.0.11 ipv6=off;
+
+    # To allow special characters in headers
+    ignore_invalid_headers off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied expired no-cache no-store private auth;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml;
+    gzip_disable "MSIE [1-6]\.";
+
+    location /.well-known/acme-challenge/  {
+        alias /etc/letsencrypt/www/.well-known/acme-challenge/;
+    }
+
+    location /health {
+        add_header Content-Type text/plain;
+        access_log off;
+        return 200 'alive';
+    }
+
+    location ~ ^/blog(/.*) {
+        set $upstream http://blog-nginx;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+
+    location ~ ^/blog-api(/.*) {
+        set $upstream http://blog-api-nginx;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+
+    location / {
+        set $upstream http://demo;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+}

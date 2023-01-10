@@ -12,6 +12,7 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 
@@ -55,7 +56,9 @@ return [
         ->routes(
             Route::get('')
                 ->middleware(FormatDataResponseAsHtml::class)
-                ->action(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/docs/openapi.json')),
+                ->action(function (SwaggerUi $swaggerUi, UrlGeneratorInterface $urlGenerator) {
+                    return $swaggerUi->withJsonUrl($urlGenerator->getUriPrefix() . '/docs/openapi.json');
+                }),
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
                 ->action(SwaggerJson::class),

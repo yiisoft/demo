@@ -28,6 +28,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Yii\Middleware\HttpCache;
@@ -163,13 +164,15 @@ return [
         ),
 
     // Swagger routes
-    Group::create('/swagger')
+    Group::create('/docs')
         ->routes(
             Route::get('')
                 ->middleware(FormatDataResponseAsHtml::class)
-                ->action(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+                ->action(function (SwaggerUi $swaggerUi, UrlGeneratorInterface $urlGenerator) {
+                    return $swaggerUi->withJsonUrl($urlGenerator->getUriPrefix() . '/docs/openapi.json');
+                })
                 ->name('swagger/index'),
-            Route::get('/json-url')
+            Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
                 ->action(SwaggerJson::class),
         ),
