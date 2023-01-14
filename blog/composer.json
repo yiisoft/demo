@@ -44,7 +44,7 @@
         "yiisoft/config": "^1.0",
         "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^1.2",
-        "yiisoft/data": "^3.0@dev",
+        "yiisoft/data": "^1.0",
         "yiisoft/data-response": "^1.0",
         "yiisoft/definitions": "^3.0",
         "yiisoft/di": "^1.2",
