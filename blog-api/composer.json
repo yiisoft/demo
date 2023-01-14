@@ -41,7 +41,7 @@
         "yiisoft/cache": "^2.0",
         "yiisoft/cache-file": "^2.0",
         "yiisoft/config": "^1.0",
-        "yiisoft/data": "^3.0@dev",
+        "yiisoft/data": "^1.0",
         "yiisoft/data-response": "^1.0",
         "yiisoft/definitions": "^3.0",
         "yiisoft/di": "^1.0",
