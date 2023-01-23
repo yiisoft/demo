@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="http://www.yiiframework.com/" target="_blank">
+    <a href="https://www.yiiframework.com/" target="_blank">
         <img src="https://www.yiiframework.com/image/yii_logo_light.png" width="400" alt="Yii Framework" />
     </a>
     <h1 align="center">Yii Framework Demo Project</h1>
