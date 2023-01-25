@@ -31,5 +31,5 @@ chdir(dirname(__DIR__));
 require_once dirname(__DIR__) . '/autoload.php';
 
 // Run HTTP application runner
-$runner = new HttpApplicationRunner(dirname(__DIR__), $_ENV['YII_DEBUG'], $_ENV['YII_ENV']);
+$runner = new HttpApplicationRunner(dirname(__DIR__), $_ENV['YII_DEBUG'], environment: $_ENV['YII_ENV']);
 $runner->run();

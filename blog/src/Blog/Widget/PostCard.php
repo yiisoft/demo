@@ -19,7 +19,7 @@ final class PostCard extends Widget
     {
     }
 
-    protected function run(): string
+    public function render(): string
     {
         if (!isset($this->options['id'])) {
             $this->options['id'] = "{$this->getId()}-post-card";

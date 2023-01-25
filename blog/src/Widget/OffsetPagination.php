@@ -52,7 +52,7 @@ final class OffsetPagination extends Widget
         return $this;
     }
 
-    protected function run(): string
+    public function render(): string
     {
         if ($this->paginator === null) {
             return '';
