@@ -11,5 +11,5 @@ use Yiisoft\Middleware\Dispatcher\ParametersResolverInterface;
 use Yiisoft\RequestModel\HandlerParametersResolver;
 
 return [
-    ParametersResolverInterface::class => HandlerParametersResolver::class
+    ParametersResolverInterface::class => HandlerParametersResolver::class,
 ];
