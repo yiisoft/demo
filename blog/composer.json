@@ -59,6 +59,7 @@
         "yiisoft/mailer": "^5.0",
         "yiisoft/mailer-symfony": "^2.1",
         "yiisoft/rate-limiter": "dev-master",
+        "yiisoft/request-model": "dev-master",
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^1.1",

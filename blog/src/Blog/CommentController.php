@@ -7,7 +7,7 @@ namespace App\Blog;
 use App\Blog\Comment\CommentService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\RequestModel\Attribute\Route;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class CommentController
@@ -19,11 +19,11 @@ final class CommentController
         $this->viewRenderer = $viewRenderer->withControllerName('blog/comments');
     }
 
-    public function index(Request $request, CommentService $service, CurrentRoute $currentRoute): Response
+    public function index(Request $request, CommentService $service, #[Route('next')] ?string $next): Response
     {
         $paginator = $service->getFeedPaginator();
-        if ($currentRoute->getArgument('next') !== null) {
-            $paginator = $paginator->withNextPageToken((string) $currentRoute->getArgument('next'));
+        if ($next !== null) {
+            $paginator = $paginator->withNextPageToken($next);
         }
 
         if ($this->isAjaxRequest($request)) {
