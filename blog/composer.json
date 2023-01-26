@@ -73,7 +73,7 @@
         "yiisoft/validator": "3.0.x-dev",
         "yiisoft/var-dumper": "^1.0",
         "yiisoft/view": "^7.0",
-        "yiisoft/widget": "^1.1",
+        "yiisoft/widget": "^2.0",
         "yiisoft/yii-bootstrap5": "^3.0@dev",
         "yiisoft/yii-console": "^1.0",
         "yiisoft/yii-cycle": "dev-master",
