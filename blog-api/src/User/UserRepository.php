@@ -13,6 +13,9 @@ use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
+/**
+ * @extends Select\Repository<User>
+ */
 final class UserRepository extends Select\Repository implements IdentityWithTokenRepositoryInterface, IdentityRepositoryInterface
 {
     private ORMInterface $orm;
@@ -23,6 +26,9 @@ final class UserRepository extends Select\Repository implements IdentityWithToke
         parent::__construct($select);
     }
 
+    /**
+     * @psalm-return EntityReader<array-key, User>
+     */
     public function findAllOrderByLogin(): EntityReader
     {
         return (new EntityReader($this->select()))

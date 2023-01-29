@@ -9,6 +9,9 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Transaction;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
+/**
+ * @extends Select\Repository<Post>
+ */
 final class PostRepository extends Select\Repository
 {
     private ORMInterface $orm;
@@ -19,6 +22,9 @@ final class PostRepository extends Select\Repository
         parent::__construct($select);
     }
 
+    /**
+     * @psalm-return EntityReader<array-key, Post>
+     */
     public function findAll(array $scope = [], array $orderBy = []): EntityReader
     {
         return new EntityReader(

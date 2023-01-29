@@ -18,6 +18,9 @@ final class BlogService
         $this->postRepository = $postRepository;
     }
 
+    /**
+     * @psalm-return PaginatorInterface<array-key, Post>
+     */
     public function getPosts(int $page): PaginatorInterface
     {
         $dataReader = $this->postRepository->findAll();
