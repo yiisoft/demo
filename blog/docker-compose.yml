@@ -8,5 +8,8 @@ services:
             - ./:/app
             # host-volume for composer cache
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            - /projects/yii-dev-tool/dev/yii-runner:/app/vendor/yiisoft/yii-runner
+            - /projects/yii-dev-tool/dev/yii-runner-http:/app/vendor/yiisoft/yii-runner-http
+            - /projects/yii-dev-tool/dev/yii-runner-console:/app/vendor/yiisoft/yii-runner-console
         ports:
             - '30080:80'

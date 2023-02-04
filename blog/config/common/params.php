@@ -9,50 +9,25 @@ use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\Assets\AssetManager;
-use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\Definitions\Reference;
-use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Form\Field\SubmitButton;
 use Yiisoft\Router\CurrentRoute;
-use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
-use Yiisoft\Yii\Console\Application;
-use Yiisoft\Yii\Console\Command\Serve;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
-use Yiisoft\Yii\Middleware\Locale;
-use Yiisoft\Yii\Sentry\SentryMiddleware;
 use Yiisoft\Yii\View\CsrfViewInjection;
 
 return [
-    'locale' => [
-        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
-        'ignoredRequests' => [
-            '/debug**',
-            '/inspect**',
-        ],
-    ],
     'mailer' => [
         'adminEmail' => 'admin@example.com',
         'senderEmail' => 'sender@example.com',
     ],
-    'middlewares' => [
-        ErrorCatcher::class,
-        SentryMiddleware::class,
-        SessionMiddleware::class,
-        CookieMiddleware::class,
-        CookieLoginMiddleware::class,
-        Locale::class,
-        Router::class,
-    ],
 
     'yiisoft/aliases' => [
         'aliases' => [
-            '@root' => dirname(__DIR__),
+            '@root' => dirname(__DIR__, 2),
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '@baseUrl/assets',
             '@baseUrl' => $_ENV['BASE_URL'],
@@ -126,21 +101,6 @@ return [
             Reference::to(LayoutViewInjection::class),
             Reference::to(LinkTagsViewInjection::class),
             Reference::to(MetaTagsViewInjection::class),
-        ],
-    ],
-
-    'yiisoft/yii-console' => [
-        'name' => Application::NAME,
-        'version' => Application::VERSION,
-        'autoExit' => false,
-        'commands' => [
-            'serve' => Serve::class,
-            'user/create' => App\User\Console\CreateCommand::class,
-            'user/assignRole' => App\User\Console\AssignRoleCommand::class,
-            'fixture/add' => App\Command\Fixture\AddCommand::class,
-            'fixture/schema/clear' => App\Command\Fixture\SchemaClearCommand::class,
-            'router/list' => App\Command\Router\ListCommand::class,
-            'translator/translate' => App\Command\Translation\TranslateCommand::class,
         ],
     ],
 
