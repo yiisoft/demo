@@ -37,7 +37,7 @@ final class OffsetPagination extends Widget
 
     public function isRequired(): bool
     {
-        return $this->paginator === null ? false : $this->paginator->isRequired();
+        return $this->paginator !== null && $this->paginator->isRequired();
     }
 
     /**
@@ -52,7 +52,7 @@ final class OffsetPagination extends Widget
         return $this;
     }
 
-    protected function run(): string
+    public function render(): string
     {
         if ($this->paginator === null) {
             return '';

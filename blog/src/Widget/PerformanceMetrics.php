@@ -13,7 +13,7 @@ final class PerformanceMetrics extends Widget
     {
     }
 
-    protected function run(): string
+    public function render(): string
     {
         $time = round($this->timer->get('overall'), 4);
         $memory = round(memory_get_peak_usage() / (1024 * 1024), 4);

@@ -7,10 +7,11 @@ namespace App\User\Controller;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\RequestModel\Attribute\Body;
+use Yiisoft\RequestModel\Attribute\Query;
+use Yiisoft\RequestModel\Attribute\Route;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
@@ -23,25 +24,20 @@ final class UserController
     }
 
     public function index(
-        CurrentRoute $currentRoute,
-        ServerRequestInterface $request,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        #[Body] array $body,
+        #[Query] array $sortOrder,
+        #[Route('page')] int $page = 1,
+        #[Route('pagesize')] int $pageSize = null,
     ): Response {
-        /** @var array */
-        $body = $request->getParsedBody();
-        $sortOrderString = $request->getQueryParams();
-
         $dataReader = $userRepository
             ->findAll()
             ->withSort(Sort::only(['id', 'login'])
-            ->withOrderString($sortOrderString['sort'] ?? 'id'));
+            ->withOrderString($sortOrder['sort'] ?? 'id'));
 
-        $page = (int) $currentRoute->getArgument('page', '1');
-
-        $pageSize = (int) $currentRoute->getArgument(
-            'pagesize',
-            $body['pageSize'] ?? (string) OffSetPaginator::DEFAULT_PAGE_SIZE,
-        );
+        if ($pageSize === null) {
+            $pageSize = (int) ($body['pageSize'] ?? OffSetPaginator::DEFAULT_PAGE_SIZE);
+        }
 
         $paginator = (new OffsetPaginator($dataReader));
         $paginator = $paginator->withNextPageToken((string) $page)->withPageSize($pageSize);
@@ -50,11 +46,10 @@ final class UserController
     }
 
     public function profile(
-        CurrentRoute $currentRoute,
+        #[Route('login')] string $login,
         ResponseFactoryInterface $responseFactory,
         UserRepository $userRepository
     ): Response {
-        $login = $currentRoute->getArgument('login');
         $item = $userRepository->findByLogin($login);
 
         if ($item === null) {

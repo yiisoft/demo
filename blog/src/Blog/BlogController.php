@@ -9,7 +9,7 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Router\CurrentRoute;
+use Yiisoft\RequestModel\Attribute\Route;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -31,9 +31,8 @@ final class BlogController
         TagRepository $tagRepository,
         ArchiveRepository $archiveRepo,
         CurrentUser $currentUser,
-        CurrentRoute $currentRoute
+        #[Route('page')] $pageNum = 1,
     ): Response {
-        $pageNum = (int) $currentRoute->getArgument('page', '1');
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)
