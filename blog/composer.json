@@ -110,6 +110,11 @@
             "App\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests"
+        }
+    },
     "scripts": {
         "serve": [
             "Composer\\Config::disableProcessTimeout",
