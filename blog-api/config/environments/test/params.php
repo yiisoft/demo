@@ -14,7 +14,7 @@ return [
         'dbal' => [
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
-                    new FileConnectionConfig(dirname(__DIR__, 2) . '/tests/Support/Data/database.db')
+                    new FileConnectionConfig(dirname(__DIR__, 3) . '/tests/Support/Data/database.db')
                 ),
             ],
         ],
