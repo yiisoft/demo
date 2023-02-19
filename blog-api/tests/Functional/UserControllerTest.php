@@ -22,7 +22,7 @@ final class UserControllerTest extends TestCase
         $method = 'GET';
         $url = '/';
 
-        $this->tester->bootstrapApplication('web', dirname(__DIR__, 2));
+        $this->tester->bootstrapApplication(dirname(__DIR__, 2));
         $response = $this->tester->doRequest($method, $url);
 
         $this->assertEquals(
@@ -41,7 +41,7 @@ final class UserControllerTest extends TestCase
         $method = 'GET';
         $url = '/';
 
-        $this->tester->bootstrapApplication('web', dirname(__DIR__, 2));
+        $this->tester->bootstrapApplication(dirname(__DIR__, 2));
 
         $this->tester->mockService(VersionProvider::class, new VersionProvider('3.0.0'));
 

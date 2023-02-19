@@ -10,7 +10,7 @@ use Yiisoft\Form\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Equal;
-use Yiisoft\Validator\Rule\HasLength;
+use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\ValidatorInterface;
 
@@ -69,7 +69,7 @@ final class SignupForm extends FormModel
         return [
             'login' => [
                 new Required(),
-                new HasLength(min: 1, max: 48, skipOnError: true),
+                new Length(min: 1, max: 48, skipOnError: true),
                 function ($value): Result {
                     $result = new Result();
                     if ($this->userRepository->findByLogin($value) !== null) {
@@ -81,7 +81,7 @@ final class SignupForm extends FormModel
             ],
             'password' => [
                 new Required(),
-                new HasLength(min: 8),
+                new Length(min: 8),
             ],
             'passwordVerify' => [
                 new Required(),

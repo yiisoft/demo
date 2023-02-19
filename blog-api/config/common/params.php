@@ -7,8 +7,6 @@ use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Yii\Cycle\Command\Migration;
-use Yiisoft\Yii\Cycle\Command\Schema;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
@@ -35,7 +33,7 @@ return [
 
     'yiisoft/aliases' => [
         'aliases' => [
-            '@root' => dirname(__DIR__),
+            '@root' => dirname(__DIR__, 2),
             '@assets' => '@public/assets',
             '@assetsUrl' => '@baseUrl/assets',
             '@baseUrl' => $_ENV['BASE_URL'],
@@ -61,21 +59,6 @@ return [
         'defaultCategory' => 'app',
     ],
 
-    // Console commands
-    'yiisoft/yii-console' => [
-        'commands' => [
-            'cycle/schema' => Schema\SchemaCommand::class,
-            'cycle/schema/php' => Schema\SchemaPhpCommand::class,
-            'cycle/schema/clear' => Schema\SchemaClearCommand::class,
-            'cycle/schema/rebuild' => Schema\SchemaRebuildCommand::class,
-            'migrate/create' => Migration\CreateCommand::class,
-            'migrate/generate' => Migration\GenerateCommand::class,
-            'migrate/up' => Migration\UpCommand::class,
-            'migrate/down' => Migration\DownCommand::class,
-            'migrate/list' => Migration\ListCommand::class,
-        ],
-    ],
-
     'yiisoft/yii-cycle' => [
         // DBAL config
         'dbal' => [
@@ -90,7 +73,7 @@ return [
             ],
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
-                    new FileConnectionConfig(dirname(__DIR__) . '/runtime/database.db')
+                    new FileConnectionConfig(dirname(__DIR__, 2) . '/runtime/database.db')
                 ),
             ],
         ],
