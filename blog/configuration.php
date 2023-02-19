@@ -15,31 +15,20 @@ return [
             '$params',
             'console/params.php',
         ],
-        'di' => [
-            '$common',
-            'common/di/*.php',
-        ],
+        'di' => 'common/di/*.php',
         'di-web' => [
             '$di',
-            '$web',
             'web/di/*.php',
         ],
-        'di-console' => [
-            '$di',
-            '$console',
-        ],
-        'di-providers' => [
-            '$providers',
-        ],
+        'di-console' => '$di',
+        'di-providers' => [],
         'di-providers-web' => [
             '$di-providers',
         ],
         'di-providers-console' => [
             '$di-providers',
         ],
-        'di-delegates' => [
-            '$delegates',
-        ],
+        'di-delegates' => [],
         'di-delegates-web' => [
             '$di-delegates',
         ],
