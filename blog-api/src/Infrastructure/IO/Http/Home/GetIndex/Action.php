@@ -53,8 +53,7 @@ final class Action
 {
     public function __construct(
         private readonly VersionProvider $versionProvider,
-    )
-    {
+    ) {
     }
 
     public function __invoke(DataResponseFactoryInterface $responseFactory): ResponseInterface
