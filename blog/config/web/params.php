@@ -8,6 +8,7 @@ use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Session\SessionMiddleware;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 use Yiisoft\Yii\Middleware\Locale;
+use Yiisoft\Yii\Middleware\SubFolder;
 use Yiisoft\Yii\Sentry\SentryMiddleware;
 
 return [
@@ -17,6 +18,7 @@ return [
         SessionMiddleware::class,
         CookieMiddleware::class,
         CookieLoginMiddleware::class,
+        SubFolder::class,
         Locale::class,
         Router::class,
     ],
