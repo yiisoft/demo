@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Auth\AuthController;
-use App\Blog\BlogController;
-use App\Factory\RestGroupFactory;
-use App\InfoController;
-use App\User\UserController;
+use App\Infrastructure\IO\Http;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
@@ -18,37 +14,44 @@ use Yiisoft\Swagger\Middleware\SwaggerUi;
 
 return [
     Route::get('/')
-        ->action([InfoController::class, 'index'])
+        ->action([Http\Home\GetIndex\Action::class, '__invoke'])
         ->name('api/info'),
 
     Route::get('/blog/')
-        ->action([BlogController::class, 'index'])
+        ->action([Http\Blog\GetIndex\Action::class, '__invoke'])
         ->name('blog/index'),
 
     Route::get('/blog/{id:\d+}')
-        ->action([BlogController::class, 'view'])
+        ->action([Http\Blog\GetView\Action::class, '__invoke'])
         ->name('blog/view'),
 
     Route::post('/blog/')
         ->middleware(Authentication::class)
-        ->action([BlogController::class, 'create'])
+        ->action([Http\Blog\PostCreate\Action::class, '__invoke'])
         ->name('blog/create'),
 
     Route::put('/blog/{id:\d+}')
         ->middleware(Authentication::class)
-        ->action([BlogController::class, 'update'])
+        ->action([Http\Blog\PutUpdate\Action::class, '__invoke'])
         ->name('blog/update'),
 
-    RestGroupFactory::create('/users/', UserController::class)
-        ->prependMiddleware(Authentication::class),
+    Route::get('/users/')
+        ->middleware(Authentication::class)
+        ->action([Http\User\GetIndex\Action::class, '__invoke'])
+        ->name('users/index'),
 
-    Route::post('/auth/')
-        ->action([AuthController::class, 'login'])
+    Route::get('/users/{id:\d+}')
+        ->middleware(Authentication::class)
+        ->action([Http\User\GetView\Action::class, '__invoke'])
+        ->name('users/view'),
+
+    Route::post('/auth/login')
+        ->action([Http\Auth\PostLogin\Action::class, '__invoke'])
         ->name('auth'),
 
-    Route::post('/logout/')
+    Route::post('/auth/logout')
         ->middleware(Authentication::class)
-        ->action([AuthController::class, 'logout'])
+        ->action([Http\Auth\PostLogout\Action::class, '__invoke'])
         ->name('logout'),
 
     // Swagger routes

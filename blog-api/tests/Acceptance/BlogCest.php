@@ -11,7 +11,6 @@ final class BlogCest
 {
     public function create(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->haveHttpHeader(
             'X-Api-Key',
             'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
@@ -48,7 +47,6 @@ final class BlogCest
 
     public function createBadParams(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->haveHttpHeader(
             'X-Api-Key',
             'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
@@ -83,7 +81,6 @@ final class BlogCest
 
     public function createBadAuth(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/blog/',
             [
@@ -106,7 +103,6 @@ final class BlogCest
 
     public function update(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->haveHttpHeader(
             'X-Api-Key',
             'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
@@ -144,7 +140,6 @@ final class BlogCest
 
     public function updateBadAuth(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPUT(
             '/blog/1',
             [
