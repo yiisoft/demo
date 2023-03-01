@@ -26,4 +26,9 @@ return [
             'ignoredRequests' => $params['locale']['ignoredRequests'],
         ],
     ],
+    \Yiisoft\Yii\Middleware\SubFolder::class => [
+        '__construct()' => [
+            'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
+        ],
+    ],
 ];
