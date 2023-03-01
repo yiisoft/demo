@@ -36,7 +36,7 @@ return [
             '@root' => dirname(__DIR__, 2),
             '@assets' => '@public/assets',
             '@assetsUrl' => '@baseUrl/assets',
-            '@baseUrl' => $_ENV['BASE_URL'],
+            '@baseUrl' => '',
             '@data' => '@root/data',
             '@messages' => '@resources/messages',
             '@public' => '@root/public',
