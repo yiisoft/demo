@@ -10,8 +10,9 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Callback;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class LoginForm extends FormModel
+final class LoginForm extends FormModel implements RulesProviderInterface
 {
     private string $login = '';
     private string $password = '';
