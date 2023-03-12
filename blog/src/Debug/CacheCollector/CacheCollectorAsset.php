@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\CacheCollector;
 
 use Yiisoft\Assets\AssetBundle;
@@ -24,7 +25,7 @@ class CacheCollectorAsset extends AssetBundle
         'debug-panel' => [
             'command' => '-I {path} --style compressed',
             'path' => '@resources/debug/cache',
-        ]
+        ],
     ];
     public array $depends = [];
 }
