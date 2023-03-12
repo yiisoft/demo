@@ -17,8 +17,7 @@ final class SiteController
 
     public function index(
         CacheInterface $cache
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $cache->get('123');
         $cache->set('123', ['1' => 2, new \stdClass()]);
         $cache->get('123');
