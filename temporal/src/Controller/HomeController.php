@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -12,10 +13,9 @@ class HomeController
 {
     public function index(
         ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface   $streamFactory,
+        StreamFactoryInterface $streamFactory,
         UrlGeneratorInterface $urlGenerator
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $urlParameters = ['name' => 'World'];
         $simpleActionUrl = $urlGenerator->generate('temporal/simple', $urlParameters);
         $complicatedActionUrl = $urlGenerator->generate('temporal/complicated', $urlParameters);
@@ -48,6 +48,5 @@ class HomeController
             )
             ->withHeader('Content-Type', 'text/html')
             ;
-
     }
 }

@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Auth\AuthController;
-use App\Blog\BlogController;
-use App\Factory\RestGroupFactory;
-use App\InfoController;
-use App\User\UserController;
-use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;

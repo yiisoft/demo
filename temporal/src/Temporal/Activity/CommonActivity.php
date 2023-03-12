@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Temporal\Activity;
 
-#[\Temporal\Activity\ActivityInterface(prefix: "app.")]
+#[\Temporal\Activity\ActivityInterface(prefix: 'app.')]
 class CommonActivity
 {
     public function fast(string $name): string

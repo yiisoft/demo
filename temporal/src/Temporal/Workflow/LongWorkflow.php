@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Temporal\Workflow;
@@ -35,7 +36,7 @@ final class LongWorkflow
         ];
     }
 
-    #[\Temporal\Workflow\WorkflowMethod("long_workflow")]
+    #[\Temporal\Workflow\WorkflowMethod('long_workflow')]
     public function run(string $name, int $count): \Generator
     {
         $activity = Workflow::newActivityStub(

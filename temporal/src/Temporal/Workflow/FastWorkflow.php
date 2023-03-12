@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Temporal\Workflow;
@@ -11,7 +12,7 @@ use Temporal\Workflow;
 #[\Temporal\Workflow\WorkflowInterface]
 final class FastWorkflow
 {
-    #[\Temporal\Workflow\WorkflowMethod("fast_workflow")]
+    #[\Temporal\Workflow\WorkflowMethod('fast_workflow')]
     public function run(string $name, int $count): \Generator
     {
         $activity = Workflow::newActivityStub(

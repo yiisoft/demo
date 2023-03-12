@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -19,11 +20,10 @@ final class WorkflowController
     private StreamFactoryInterface $streamFactory;
 
     public function __construct(
-        WorkflowClientInterface  $workflowClient,
+        WorkflowClientInterface $workflowClient,
         ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface   $streamFactory,
-    )
-    {
+        StreamFactoryInterface $streamFactory,
+    ) {
         $this->workflowClient = $workflowClient;
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
