@@ -30,4 +30,12 @@ return [
             '/inspect**',
         ],
     ],
+    'yiisoft/assets' => [
+        'assetConverter' => [
+            'commands' => [
+                'debug-panel' => ['js', 'npm run build'],
+            ],
+            'forceConvert' => false,
+        ],
+    ],
 ];
