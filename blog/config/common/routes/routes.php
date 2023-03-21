@@ -101,7 +101,7 @@ return [
     // Blog routes
     Group::create('/blog')
         ->routes(
-        // Index
+            // Index
             Route::get('[/page{page:\d+}]')
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository) => $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
@@ -144,7 +144,7 @@ return [
             // Archive
             Group::create('/archive')
                 ->routes(
-                // Index page
+                    // Index page
                     Route::get('')
                         ->action([ArchiveController::class, 'index'])
                         ->name('blog/archive/index'),
