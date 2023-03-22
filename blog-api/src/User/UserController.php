@@ -42,19 +42,24 @@ final class UserController
      *     summary="Returns paginated users",
      *     description="",
      *     security={{"ApiKey": {}}},
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\JsonContent(
      *              allOf={
+     *
      *                  @OA\Schema(ref="#/components/schemas/Response"),
      *                  @OA\Schema(
+     *
      *                      @OA\Property(
      *                          property="data",
      *                          type="object",
      *                          @OA\Property(
      *                              property="users",
      *                              type="array",
+     *
      *                              @OA\Items(ref="#/components/schemas/User")
      *                          ),
      *                      ),
@@ -86,19 +91,25 @@ final class UserController
      *     summary="Returns a user with a given ID",
      *     description="",
      *     security={{"ApiKey": {}}},
+     *
      *     @OA\Parameter(
+     *
      *          @OA\Schema(type="int", example="2"),
      *          in="path",
      *          name="id",
      *          parameter="id"
      *     ),
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\JsonContent(
      *              allOf={
+     *
      *                  @OA\Schema(ref="#/components/schemas/Response"),
      *                  @OA\Schema(
+     *
      *                      @OA\Property(
      *                          property="data",
      *                          type="object",
