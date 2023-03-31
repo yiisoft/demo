@@ -47,6 +47,6 @@ class HomeController
                 $streamFactory->createStream($response)
             )
             ->withHeader('Content-Type', 'text/html')
-            ;
+        ;
     }
 }
