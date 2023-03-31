@@ -5,8 +5,12 @@ version: 8.1
 
 finder:
   exclude:
-    - docs
-    - vendor
+    - "*/docs"
+    - "*/vendor"
+    - "*/resources"
+    - "*/views"
+    - "*/public"
+    - "*/templates"
 
 enabled:
   - alpha_ordered_traits
