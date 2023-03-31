@@ -9,6 +9,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Schema(
  *      schema="User",
+ *
  *      @OA\Property(example="UserName", property="login", format="string"),
  *      @OA\Property(example="13.12.2020 00:04:20", property="created_at", format="string"),
  * )
