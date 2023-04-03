@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {Alert} from '@mui/material';
+import {Alert, Typography} from '@mui/material';
+import Button from '@mui/material/Button';
 
 type Level = 'success' | 'error';
 type LogEntry = {
@@ -19,10 +20,16 @@ export const LogPanel = ({data}: LogPanelProps) => {
             setLogs([]);
         }, 1000);
     }, []);
+
     return (
         <>
             {!logs || logs.length === 0 ? (
-                <>Nothing here</>
+                <>
+                    <Typography>Nothing here</Typography>
+                    <Button variant="contained" color="primary" onClick={()=>setLogs(data)}>
+                        Restore
+                    </Button>
+                </>
             ) : (
                 logs.map((entry, index) => (
                     <Alert key={index} variant="outlined" severity={entry.severity} icon={false}>

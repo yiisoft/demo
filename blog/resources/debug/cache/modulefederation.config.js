@@ -5,7 +5,7 @@ module.exports = {
   exposes: {
     './LogPanel': './src/LogPanel',
   },
-  filename: 'remoteEntry.js',
+  filename: 'external.js',
   shared: {
     // ...dependencies,
     react: {
