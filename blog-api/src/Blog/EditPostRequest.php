@@ -14,6 +14,7 @@ use Yiisoft\Validator\RulesProviderInterface;
 /**
  * @OA\Schema(
  *      schema="EditPostRequest",
+ *
  *      @OA\Property(example="Title post", property="title", format="string"),
  *      @OA\Property(example="Text post", property="text", format="string"),
  *      @OA\Property(example=1, property="status", format="int"),

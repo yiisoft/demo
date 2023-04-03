@@ -10,6 +10,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 /**
  * @OA\Schema(
  *      schema="Paginator",
+ *
  *      @OA\Property(example="10", property="pageSize", format="int"),
  *      @OA\Property(example="1", property="currentPage", format="int"),
  *      @OA\Property(example="3", property="totalPages", format="int"),

@@ -26,6 +26,7 @@ final class ApiInfo implements MiddlewareInterface
     /**
      * @OA\Get(
      *     path="/api/info/v2",
+     *
      *     @OA\Response(response="200", description="Get api version")
      * )
      */
