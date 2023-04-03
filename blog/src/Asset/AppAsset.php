@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Asset;
 
-use App\CacheCollector\CacheCollectorAsset;
 use Yiisoft\Assets\AssetBundle;
 use Yiisoft\Yii\Bootstrap5\Assets\BootstrapAsset;
 
@@ -27,6 +26,5 @@ final class AppAsset extends AssetBundle
     public array $depends = [
         BootstrapAsset::class,
         Bootstrap5IconsAsset::class,
-        CacheCollectorAsset::class,
     ];
 }

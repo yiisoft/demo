@@ -2,30 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\CacheCollector;
+namespace App\Debug\CacheCollector;
 
-use Yiisoft\Assets\AssetBundle;
+use Yiisoft\Yii\Debug\Api\ModuleFederationAssetBundle;
 
-class CacheCollectorAsset extends AssetBundle
+final class CacheCollectorAsset extends ModuleFederationAssetBundle
 {
     public ?string $basePath = '@assets';
-
     public ?string $baseUrl = '@assetsUrl';
-
-    public ?string $sourcePath = '@resources/debug/cache';
-
-    //public array $css = [
-    //    'css/site.css',
-    //];
+    public ?string $sourcePath = '@resources/debug/cache/build';
 
     public array $js = [
-        'build/remoteEntry.js',
+        'external.js',
     ];
-    public array $converterOptions = [
-        'debug-panel' => [
-            'command' => '-I {path} --style compressed',
-            'path' => '@resources/debug/cache',
-        ],
-    ];
-    public array $depends = [];
+
+    public static function getModule(): string
+    {
+        return 'remote';
+    }
+
+    public static function getScope(): string
+    {
+        return './LogPanel';
+    }
 }

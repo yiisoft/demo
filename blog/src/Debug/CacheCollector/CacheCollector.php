@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Debug\CacheCollector;
 
 use DateInterval;
-use Yiisoft\Yii\Debug\Api\ViewProviderInterface;
-use Yiisoft\Yii\Debug\Collector\CollectorInterface;
+use Yiisoft\Yii\Debug\Api\HtmlViewProviderInterface;
+use Yiisoft\Yii\Debug\Api\ModuleFederationProviderInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorTrait;
-use Yiisoft\Yii\Debug\Collector\IndexCollectorInterface;
 
-class CacheCollector implements CollectorInterface, IndexCollectorInterface, ViewProviderInterface
+class CacheCollector implements HtmlViewProviderInterface, ModuleFederationProviderInterface
 {
     use CollectorTrait;
 
@@ -58,5 +57,10 @@ class CacheCollector implements CollectorInterface, IndexCollectorInterface, Vie
     public static function getView(): string
     {
         return '@views/debug/index';
+    }
+
+    public static function getAsset(): CacheCollectorAsset
+    {
+        return new CacheCollectorAsset();
     }
 }
