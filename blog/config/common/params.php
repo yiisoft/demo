@@ -205,7 +205,7 @@ return [
     'yiisoft/yii-debug' => [
         'enabled' => true,
         'collectors' => [
-            CacheCollector::class
+            CacheCollector::class,
         ],
         'trackedServices' => [
             CacheInterface::class => [SimpleCacheInterfaceProxy::class, CacheCollector::class],
