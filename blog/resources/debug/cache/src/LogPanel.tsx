@@ -26,7 +26,7 @@ export const LogPanel = ({data}: LogPanelProps) => {
             {!logs || logs.length === 0 ? (
                 <>
                     <Typography>Nothing here</Typography>
-                    <Button variant="contained" color="primary" onClick={()=>setLogs(data)}>
+                    <Button variant="contained" color="primary" onClick={() => setLogs(data)}>
                         Restore
                     </Button>
                 </>

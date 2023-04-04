@@ -22,6 +22,7 @@ final class SiteController
         $cache->get('123');
         $cache->set('123', ['1' => 2, new \stdClass()]);
         $cache->get('123');
+        $cache->set('123', ['1' => 2, new \stdClass()]);
 
         return $this->viewRenderer->render('index');
     }

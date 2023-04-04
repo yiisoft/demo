@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Debug\CacheCollector;
 
 use DateInterval;
-use Yiisoft\Yii\Debug\Api\HtmlViewProviderInterface;
 use Yiisoft\Yii\Debug\Api\ModuleFederationProviderInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorTrait;
 
-class CacheCollector implements HtmlViewProviderInterface, ModuleFederationProviderInterface
+class CacheCollector implements ModuleFederationProviderInterface
 {
     use CollectorTrait;
 
@@ -18,15 +17,19 @@ class CacheCollector implements HtmlViewProviderInterface, ModuleFederationProvi
 
     public function collectGet(string $key): void
     {
-        $this->get[$key] = $key;
+        $this->get[$key] = [
+            'key' => $key,
+            'count' => ($this->get[$key]['count'] ?? 0) + 1,
+        ];
     }
 
-    public function collectSet(string $key, mixed $value, DateInterval|int|null $ttl)
+    public function collectSet(string $key, mixed $value, DateInterval|int|null $ttl): void
     {
         $this->set[$key] = [
             'key' => $key,
             'value' => $value,
             'ttl' => $ttl,
+            'count' => ($this->set[$key]['count'] ?? 0) + 1,
         ];
     }
 

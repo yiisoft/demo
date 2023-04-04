@@ -13,16 +13,17 @@ final class CacheCollectorAsset extends ModuleFederationAssetBundle
     public ?string $sourcePath = '@resources/debug/cache/build';
 
     public array $js = [
+        'external.js.map',
         'external.js',
     ];
 
     public static function getModule(): string
     {
-        return 'remote';
+        return './CachePanel';
     }
 
     public static function getScope(): string
     {
-        return './LogPanel';
+        return 'remote';
     }
 }
