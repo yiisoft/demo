@@ -42,13 +42,17 @@ final class AuthController
      *     path="/auth/",
      *     summary="Authenticate by params",
      *     description="",
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\JsonContent(
      *              allOf={
+     *
      *                  @OA\Schema(ref="#/components/schemas/Response"),
      *                  @OA\Schema(
+     *
      *                      @OA\Property(
      *                          property="data",
      *                          type="object",
@@ -58,15 +62,20 @@ final class AuthController
      *              },
      *          )
      *    ),
+     *
      *    @OA\Response(
      *          response="400",
      *          description="Bad request",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/BadResponse")
      *     ),
+     *
      *     @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(ref="#/components/schemas/AuthRequest"),
      *          ),
      *     ),
@@ -93,14 +102,18 @@ final class AuthController
      *     summary="Logout",
      *     description="",
      *     security={{"ApiKey": {}}},
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Response")
      *    ),
+     *
      *    @OA\Response(
      *          response="400",
      *          description="Bad request",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/BadResponse")
      *     ),
      * )
