@@ -26,6 +26,7 @@
         "doctrine/collections": "^1.6",
         "fakerphp/faker": "^1.14",
         "httpsoft/http-message": "^1.0.5",
+        "olvlvl/composer-attribute-collector": "dev-main",
         "php-http/guzzle7-adapter": "^1.0",
         "psr/container": "^2.0",
         "psr/http-factory": "^1.0",
@@ -33,6 +34,7 @@
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "psr/log": "^3.0",
+        "spatie/file-system-watcher": "^1.1",
         "symfony/console": "^6.0",
         "vlucas/phpdotenv": "^5.3",
         "yiisoft/access": "^1.0",
@@ -63,7 +65,7 @@
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^2.0",
-        "yiisoft/router": "^3.0",
+        "yiisoft/router": "dev-attributes as 3.0",
         "yiisoft/router-fastroute": "^3.0",
         "yiisoft/security": "^1.0",
         "yiisoft/session": "^2.0",
@@ -152,10 +154,15 @@
             "composer/installers": true,
             "composer/package-versions-deprecated": true,
             "infection/extension-installer": true,
-            "yiisoft/config": true
+            "yiisoft/config": true,
+            "olvlvl/composer-attribute-collector": true
         }
     },
     "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/yiisoft/router"
+        },
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
