@@ -57,7 +57,7 @@ class CacheCollector implements ModuleFederationProviderInterface
         ];
     }
 
-    public static function getView(): string
+    public static function getViewPath(): string
     {
         return '@views/debug/index';
     }
