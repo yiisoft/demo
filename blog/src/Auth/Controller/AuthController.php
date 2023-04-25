@@ -9,12 +9,14 @@ use App\Auth\Form\LoginForm;
 use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Form\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
-use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
+
+use function is_array;
 
 final class AuthController
 {
@@ -29,7 +31,7 @@ final class AuthController
     public function login(
         ServerRequestInterface $request,
         TranslatorInterface $translator,
-        ValidatorInterface $validator,
+        FormHydrator $formHydrator,
         CookieLogin $cookieLogin
     ): ResponseInterface {
         if (!$this->authService->isGuest()) {
@@ -41,10 +43,8 @@ final class AuthController
 
         if (
             $request->getMethod() === Method::POST
-            && $loginForm->load(is_array($body) ? $body : [])
-            && $validator
-                ->validate($loginForm)
-                ->isValid()
+            && $formHydrator->populate($loginForm, is_array($body) ? $body : [])
+            && $loginForm->isValid()
         ) {
             $identity = $this->authService->getIdentity();
 

@@ -18,9 +18,11 @@ final class LoginForm extends FormModel implements RulesProviderInterface
     private string $password = '';
     private bool $rememberMe = false;
 
-    public function __construct(private AuthService $authService, private TranslatorInterface $translator)
+    public function __construct(
+        private AuthService $authService,
+        private TranslatorInterface $translator
+    )
     {
-        parent::__construct();
     }
 
     public function getAttributeLabels(): array
@@ -54,9 +56,6 @@ final class LoginForm extends FormModel implements RulesProviderInterface
                     $result = new Result();
 
                     if (!$this->authService->login($this->login, $this->password)) {
-                        $this
-                            ->getFormErrors()
-                            ->addError('login', '');
                         $result->addError($this->translator->translate('validator.invalid.login.password'));
                     }
 
