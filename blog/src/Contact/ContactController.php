@@ -7,11 +7,11 @@ namespace App\Contact;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Form\FormHydrator;
 use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class ContactController
@@ -28,15 +28,16 @@ final class ContactController
     }
 
     public function contact(
-        ValidatorInterface $validator,
+        FormHydrator $formHydrator,
         ServerRequestInterface $request
-    ): ResponseInterface {
-        $body = $request->getParsedBody();
+    ): ResponseInterface
+    {
         $form = new ContactForm();
-        if (($request->getMethod() === Method::POST) && $form->load((array) $body) && $validator
-                ->validate($form)
-                ->isValid()) {
-            $this->mailer->send($form, $request);
+        if ($request->getMethod() === Method::POST
+            && $formHydrator->populate($form, (array)$request->getParsedBody())
+            && $form->isValid()
+        ) {
+            $this->mailer->send($form);
 
             return $this->responseFactory
                 ->createResponse(Status::FOUND)

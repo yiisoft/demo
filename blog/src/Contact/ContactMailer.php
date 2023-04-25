@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Contact;
 
 use Exception;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyTemplate;
@@ -28,7 +26,7 @@ final class ContactMailer
         $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
-    public function send(FormModelInterface $form, ServerRequestInterface $request): void
+    public function send(ContactForm $form): void
     {
         $message = $this->mailer
             ->compose(
@@ -42,8 +40,7 @@ final class ContactMailer
             ->withSender($this->sender)
             ->withTo($this->to);
 
-        $attachFiles = $request->getUploadedFiles();
-        foreach ($attachFiles as $attachFile) {
+        foreach ($form->getAttributeValue('attachFiles') as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(
