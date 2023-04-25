@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Blog;
 
 use App\Blog\Comment\CommentService;
+use App\RouteAttribute\Route;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\RequestModel\Attribute\Route;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class CommentController
