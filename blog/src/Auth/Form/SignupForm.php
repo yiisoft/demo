@@ -23,8 +23,7 @@ final class SignupForm extends FormModel implements RulesProviderInterface
     public function __construct(
         private TranslatorInterface $translator,
         private UserRepository $userRepository,
-    )
-    {
+    ) {
     }
 
     public function getAttributeLabels(): array

@@ -30,8 +30,7 @@ final class ContactController
     public function contact(
         FormHydrator $formHydrator,
         ServerRequestInterface $request
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $form = new ContactForm();
         if ($request->getMethod() === Method::POST
             && $formHydrator->populate($form, (array)$request->getParsedBody())

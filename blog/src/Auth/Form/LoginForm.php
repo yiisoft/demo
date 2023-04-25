@@ -21,8 +21,7 @@ final class LoginForm extends FormModel implements RulesProviderInterface
     public function __construct(
         private AuthService $authService,
         private TranslatorInterface $translator
-    )
-    {
+    ) {
     }
 
     public function getAttributeLabels(): array

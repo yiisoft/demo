@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\RouteAttribute;
 
-use App\RouteAttribute\RouteResolver;
 use Attribute;
 use Vjik\InputHydrator\ParameterAttributeInterface;
 
@@ -25,5 +24,4 @@ final class Route implements ParameterAttributeInterface
     {
         return RouteResolver::class;
     }
-
 }
