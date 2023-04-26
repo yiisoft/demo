@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\User;
 
+use Vjik\InputHttp\Attribute\Parameter\Request;
+use Vjik\InputHttp\RequestModelInterface;
 use Yiisoft\Auth\Middleware\Authentication;
-use Yiisoft\RequestModel\RequestModel;
 
-final class UserRequest extends RequestModel
+final class UserRequest implements RequestModelInterface
 {
+    #[Request(Authentication::class)]
+    private User $user;
+
     public function getUser(): User
     {
-        /**
-         * @var User $identity
-         */
-        return $this->getAttributeValue('attributes.' . Authentication::class);
+        return $this->user;
     }
 }

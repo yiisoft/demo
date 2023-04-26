@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Blog;
 
 use App\Formatter\PaginatorFormatter;
+use App\RouteAttribute\Route;
 use App\User\UserRequest;
 use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface as Response;
+use Vjik\InputHttp\Attribute\Parameter\Query;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\RequestModel\Attribute\Query;
-use Yiisoft\RequestModel\Attribute\Route;
 
 /**
  * @OA\Tag(

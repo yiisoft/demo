@@ -8,6 +8,7 @@ use App\User\UserRequest;
 use App\User\UserService;
 use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface as ResponseFactory;
 
 /**
