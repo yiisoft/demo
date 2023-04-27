@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 use Vjik\InputHttp\ParametersResolver\InputAttributeParametersResolver;
 use Vjik\InputHttp\ParametersResolver\ValidatedRequestModelParametersResolver;
-use Vjik\InputHttp\RequestCatcher\RequestCatcherParametersResolver;
+use Vjik\InputHttp\Request\Catcher\RequestCatcherParametersResolver;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Middleware\Dispatcher\CompositeParametersResolver;
 use Yiisoft\Middleware\Dispatcher\ParametersResolverInterface;

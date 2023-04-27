@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Vjik\InputHttp\RequestCatcherMiddleware;
+use Vjik\InputHttp\Request\Catcher\RequestCatcherMiddleware;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\Middleware\Router;
