@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-use App\RouteAttribute\Route;
 use OpenApi\Annotations as OA;
-use Vjik\InputHttp\Attribute\Parameter\Body;
-use Vjik\InputHttp\RequestModelInterface;
-use Vjik\InputValidation\Attribute\PreValidate;
-use Vjik\InputValidation\ValidatedModelInterface;
-use Vjik\InputValidation\ValidatedModelTrait;
+use Yiisoft\Hydrator\Validator\Attribute\Validate;
+use Yiisoft\Hydrator\Validator\ValidatedInputInterface;
+use Yiisoft\Hydrator\Validator\ValidatedInputTrait;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\RequestInputInterface;
+use Yiisoft\Router\HydratorAttribute\Route;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
@@ -25,23 +25,23 @@ use Yiisoft\Validator\RulesProviderInterface;
  *      @OA\Property(example=1, property="status", format="int"),
  * )
  */
-final class EditPostRequest implements RequestModelInterface, ValidatedModelInterface, RulesProviderInterface
+final class EditPostRequest implements RequestInputInterface, ValidatedInputInterface, RulesProviderInterface
 {
-    use ValidatedModelTrait;
+    use ValidatedInputTrait;
 
     #[Route('id')]
     private int $id;
 
     #[Body('title')]
-    #[PreValidate(new Required())]
+    #[Validate(new Required())]
     private string $title = '';
 
     #[Body('text')]
-    #[PreValidate(new Required())]
+    #[Validate(new Required())]
     private string $text = '';
 
     #[Body('status')]
-    #[PreValidate(new Required())]
+    #[Validate(new Required())]
     private int $status;
 
     public function getId(): int

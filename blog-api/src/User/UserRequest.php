@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\User;
 
-use Vjik\InputHttp\Attribute\Parameter\Request;
-use Vjik\InputHttp\RequestModelInterface;
 use Yiisoft\Auth\Middleware\Authentication;
+use Yiisoft\Input\Http\Attribute\Parameter\Request;
+use Yiisoft\Input\Http\RequestInputInterface;
 
-final class UserRequest implements RequestModelInterface
+final class UserRequest implements RequestInputInterface
 {
     #[Request(Authentication::class)]
     private User $user;

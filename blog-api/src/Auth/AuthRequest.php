@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Auth;
 
 use OpenApi\Annotations as OA;
-use Vjik\InputHttp\Attribute\Parameter\Body;
-use Vjik\InputHttp\RequestModelInterface;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\RequestInputInterface;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
@@ -18,7 +18,7 @@ use Yiisoft\Validator\RulesProviderInterface;
  *      @OA\Property(example="Opal1144", property="password", format="string"),
  * )
  */
-final class AuthRequest implements RequestModelInterface, RulesProviderInterface
+final class AuthRequest implements RequestInputInterface, RulesProviderInterface
 {
     #[Body('login')]
     private string $login = '';

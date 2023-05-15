@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Vjik\InputHttp\RequestValidationException;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Http\Status;
+use Yiisoft\Input\Http\InputValidationException;
 
 final class ExceptionMiddleware implements MiddlewareInterface
 {
@@ -28,7 +28,7 @@ final class ExceptionMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         } catch (ApplicationException $e) {
             return $this->dataResponseFactory->createResponse($e->getMessage(), $e->getCode());
-        } catch (RequestValidationException $e) {
+        } catch (InputValidationException $e) {
             $messages = $e->getResult()->getErrorMessages();
             return $this->dataResponseFactory->createResponse($messages[0], Status::BAD_REQUEST);
         }

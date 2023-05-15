@@ -6,10 +6,10 @@ declare(strict_types=1);
  * @var array $params
  */
 
-use Vjik\InputHttp\ParametersResolver\InputAttributeParametersResolver;
-use Vjik\InputHttp\ParametersResolver\ValidatedRequestModelParametersResolver;
-use Vjik\InputHttp\Request\Catcher\RequestCatcherParametersResolver;
 use Yiisoft\Definitions\Reference;
+use Yiisoft\Input\Http\HydratorAttributeParametersResolver;
+use Yiisoft\Input\Http\Request\Catcher\RequestCatcherParametersResolver;
+use Yiisoft\Input\Http\RequestInputParametersResolver;
 use Yiisoft\Middleware\Dispatcher\CompositeParametersResolver;
 use Yiisoft\Middleware\Dispatcher\ParametersResolverInterface;
 
@@ -18,8 +18,8 @@ return [
         'class' => CompositeParametersResolver::class,
         '__construct()' => [
             Reference::to(RequestCatcherParametersResolver::class),
-            Reference::to(InputAttributeParametersResolver::class),
-            Reference::to(ValidatedRequestModelParametersResolver::class),
+            Reference::to(HydratorAttributeParametersResolver::class),
+            Reference::to(RequestInputParametersResolver::class),
         ],
     ],
 ];

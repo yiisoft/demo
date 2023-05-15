@@ -6,10 +6,10 @@ namespace App\User;
 
 use App\Exception\NotFoundException;
 use App\RestControllerTrait;
-use App\RouteAttribute\Route;
 use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Router\HydratorAttribute\Route;
 
 /**
  * @OA\Tag(
