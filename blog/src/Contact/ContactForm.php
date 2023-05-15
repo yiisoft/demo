@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
-use Vjik\InputHttp\Attribute\Parameter\UploadedFiles;
 use Yiisoft\Form\FormModel;
+use Yiisoft\Input\Http\Attribute\Parameter\UploadedFiles;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;

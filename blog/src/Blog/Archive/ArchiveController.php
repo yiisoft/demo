@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Blog\Archive;
 
 use App\Blog\Tag\TagRepository;
-use App\RouteAttribute\Route;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Router\HydratorAttribute\Route;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class ArchiveController

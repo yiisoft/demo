@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\User\Controller;
 
-use App\RouteAttribute\Route;
 use App\User\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Vjik\InputHttp\Attribute\Parameter\Body;
-use Vjik\InputHttp\Attribute\Parameter\Query;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\Attribute\Parameter\Query;
+use Yiisoft\Router\HydratorAttribute\Route;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController

@@ -6,10 +6,10 @@ namespace App\Blog;
 
 use App\Blog\Archive\ArchiveRepository;
 use App\Blog\Post\PostRepository;
-use App\RouteAttribute\Route;
 use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Router\HydratorAttribute\Route;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
