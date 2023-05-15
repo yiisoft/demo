@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Vjik\InputHttp\Request\Catcher\RequestCatcherMiddleware;
 use Yiisoft\Cookies\CookieMiddleware;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\Middleware\Router;
@@ -21,7 +20,6 @@ return [
         CookieLoginMiddleware::class,
         SubFolder::class,
         Locale::class,
-        RequestCatcherMiddleware::class,
         Router::class,
     ],
 
