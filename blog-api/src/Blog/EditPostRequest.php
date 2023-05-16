@@ -10,7 +10,7 @@ use Yiisoft\Hydrator\Validator\ValidatedInputInterface;
 use Yiisoft\Hydrator\Validator\ValidatedInputTrait;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
 use Yiisoft\Input\Http\RequestInputInterface;
-use Yiisoft\Router\HydratorAttribute\Route;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
@@ -29,7 +29,7 @@ final class EditPostRequest implements RequestInputInterface, ValidatedInputInte
 {
     use ValidatedInputTrait;
 
-    #[Route('id')]
+    #[RouteArgument('id')]
     private int $id;
 
     #[Body('title')]

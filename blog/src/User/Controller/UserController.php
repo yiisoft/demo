@@ -11,7 +11,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
-use Yiisoft\Router\HydratorAttribute\Route;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
@@ -27,8 +27,8 @@ final class UserController
         UserRepository $userRepository,
         #[Body] array $body,
         #[Query] array $sortOrder,
-        #[Route('page')] int $page = 1,
-        #[Route('pagesize')] int $pageSize = null,
+        #[RouteArgument('page')] int $page = 1,
+        #[RouteArgument('pagesize')] int $pageSize = null,
     ): Response {
         $dataReader = $userRepository
             ->findAll()
@@ -46,7 +46,7 @@ final class UserController
     }
 
     public function profile(
-        #[Route('login')] string $login,
+        #[RouteArgument('login')] string $login,
         ResponseFactoryInterface $responseFactory,
         UserRepository $userRepository
     ): Response {
