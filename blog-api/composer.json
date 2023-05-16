@@ -51,7 +51,7 @@
         "yiisoft/http": "^1.2",
         "yiisoft/hydrator-validator": "dev-master",
         "yiisoft/injector": "^1.0",
-        "yiisoft/input-http": "dev-config",
+        "yiisoft/input-http": "dev-master",
         "yiisoft/log": "^2.0",
         "yiisoft/log-target-file": "^3.0",
         "yiisoft/middleware-dispatcher": "^5.1",

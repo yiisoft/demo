@@ -54,7 +54,7 @@
         "yiisoft/html": "^3.0",
         "yiisoft/http": "^1.2",
         "yiisoft/injector": "^1.0",
-        "yiisoft/input-http": "dev-config",
+        "yiisoft/input-http": "dev-master",
         "yiisoft/log": "^2.0",
         "yiisoft/log-target-file": "^3.0",
         "yiisoft/mailer": "^5.0",
