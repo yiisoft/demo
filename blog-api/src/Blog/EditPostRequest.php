@@ -6,15 +6,12 @@ namespace App\Blog;
 
 use OpenApi\Annotations as OA;
 use Yiisoft\Hydrator\Validator\Attribute\Validate;
-use Yiisoft\Hydrator\Validator\ValidatedInputInterface;
-use Yiisoft\Hydrator\Validator\ValidatedInputTrait;
+use Yiisoft\Input\Http\AbstractInput;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
-use Yiisoft\Input\Http\RequestInputInterface;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
-use Yiisoft\Validator\RulesProviderInterface;
 
 /**
  * @OA\Schema(
@@ -25,10 +22,8 @@ use Yiisoft\Validator\RulesProviderInterface;
  *      @OA\Property(example=1, property="status", format="int"),
  * )
  */
-final class EditPostRequest implements RequestInputInterface, ValidatedInputInterface, RulesProviderInterface
+final class EditPostRequest extends AbstractInput
 {
-    use ValidatedInputTrait;
-
     #[RouteArgument('id')]
     private int $id;
 
