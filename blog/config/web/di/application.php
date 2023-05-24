@@ -7,7 +7,7 @@ use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 use Yiisoft\Yii\Middleware\Locale;
-use Yiisoft\Yii\Middleware\SubFolder;
+use Yiisoft\Yii\Middleware\Subfolder;
 
 /** @var array $params */
 
@@ -27,7 +27,7 @@ return [
             'ignoredRequestUrlPatterns' => $params['locale']['ignoredRequests'],
         ],
     ],
-    SubFolder::class => [
+    Subfolder::class => [
         '__construct()' => [
             'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
         ],
