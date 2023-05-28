@@ -14,7 +14,7 @@
         "issues": "https://github.com/yiisoft/demo-api/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
+        "irc": "ircs://irc.libera.chat:6697/yii",
         "source": "https://github.com/yiisoft/demo-api"
     },
     "minimum-stability": "dev",
@@ -68,7 +68,7 @@
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-event": "^2.0",
         "yiisoft/yii-http": "^1.0",
-        "yiisoft/yii-middleware": "dev-master",
+        "yiisoft/yii-middleware": "^1.0",
         "yiisoft/yii-queue": "3.0.x-dev",
         "yiisoft/yii-runner-console": "^2.0",
         "yiisoft/yii-runner-http": "^2.0",
