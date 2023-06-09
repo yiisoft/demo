@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Debug\CacheCollector;
 
 use DateInterval;
-use Yiisoft\Yii\Debug\Api\ViewProviderInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorTrait;
-use Yiisoft\Yii\Debug\Collector\IndexCollectorInterface;
+use Yiisoft\Yii\Debug\Collector\SummaryCollectorInterface;
 
-class CacheCollector implements CollectorInterface, IndexCollectorInterface, ViewProviderInterface
+class CacheCollector implements CollectorInterface, SummaryCollectorInterface
 {
     use CollectorTrait;
 
@@ -41,7 +40,7 @@ class CacheCollector implements CollectorInterface, IndexCollectorInterface, Vie
         ];
     }
 
-    public function getIndexData(): array
+    public function getSummary(): array
     {
         return [
             'cache' => [
