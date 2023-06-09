@@ -7,8 +7,9 @@ namespace App\Contact;
 use Yiisoft\Form\FormModel;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class ContactForm extends FormModel
+final class ContactForm extends FormModel implements RulesProviderInterface
 {
     private string $name = '';
     private string $email = '';

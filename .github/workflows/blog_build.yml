@@ -37,7 +37,7 @@ jobs:
       extensions: fileinfo, pdo, pdo_sqlite, intl
       key: cache-v1
       YII_C3: true
-      working_directory: blog-api
+      working_directory: blog
 
     runs-on: ${{ matrix.os }}
 

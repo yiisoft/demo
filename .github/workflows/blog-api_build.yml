@@ -34,7 +34,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo, pdo, pdo_sqlite, intl
+      extensions: fileinfo, pdo, pdo_sqlite, intl, pcntl
       key: cache-v1
       YII_C3: true
       working_directory: blog-api

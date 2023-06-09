@@ -12,7 +12,7 @@ use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\SchemaProviderInterface;
 use Yiisoft\Yii\Middleware\Locale;
-use Yiisoft\Yii\Middleware\SubFolder;
+use Yiisoft\Yii\Middleware\Subfolder;
 use Yiisoft\Yii\Queue\Adapter\SynchronousAdapter;
 
 return [
@@ -26,7 +26,7 @@ return [
     'supportEmail' => 'support@example.com',
     'middlewares' => [
         ErrorCatcher::class,
-        SubFolder::class,
+        Subfolder::class,
         Locale::class,
         Router::class,
     ],

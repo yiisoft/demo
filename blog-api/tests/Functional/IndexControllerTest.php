@@ -8,7 +8,7 @@ use App\VersionProvider;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Yii\Testing\FunctionalTester;
 
-final class UserControllerTest extends TestCase
+final class IndexControllerTest extends TestCase
 {
     private ?FunctionalTester $tester;
 
@@ -17,7 +17,7 @@ final class UserControllerTest extends TestCase
         $this->tester = new FunctionalTester();
     }
 
-    public function testGetIndex()
+    public function testGetIndex(): void
     {
         $method = 'GET';
         $url = '/';
@@ -36,7 +36,7 @@ final class UserControllerTest extends TestCase
         );
     }
 
-    public function testGetIndexMockVersion()
+    public function testGetIndexMockVersion(): void
     {
         $method = 'GET';
         $url = '/';

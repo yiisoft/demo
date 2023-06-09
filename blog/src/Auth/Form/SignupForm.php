@@ -12,9 +12,10 @@ use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 use Yiisoft\Validator\ValidatorInterface;
 
-final class SignupForm extends FormModel
+final class SignupForm extends FormModel implements RulesProviderInterface
 {
     private string $login = '';
     private string $password = '';
