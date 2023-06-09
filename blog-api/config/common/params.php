@@ -11,6 +11,7 @@ use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\SchemaProviderInterface;
+use Yiisoft\Yii\Middleware\CorsAllowAll;
 use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Middleware\Subfolder;
 use Yiisoft\Yii\Queue\Adapter\SynchronousAdapter;
@@ -28,6 +29,7 @@ return [
         ErrorCatcher::class,
         Subfolder::class,
         Locale::class,
+        CorsAllowAll::class,
         Router::class,
     ],
 
