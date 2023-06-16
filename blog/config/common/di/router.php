@@ -18,9 +18,9 @@ return [
         $collector
             ->middleware(CsrfMiddleware::class)
             ->middleware(FormatDataResponse::class)
-            ->addGroup(
+            ->addRoute(
                 Group::create('/{_language}')
-                    ->routes(...$config->get('routes'))
+                     ->routes(...$config->get('routes'))
             );
 
         if (!str_starts_with(getenv('YII_ENV') ?: '', 'prod')) {
@@ -29,4 +29,5 @@ return [
 
         return new RouteCollection($collector);
     },
+    \Yiisoft\Router\RouteAttributesRegistrarInterface::class => \Yiisoft\Router\RouteAttributesRegistrar::class,
 ];
