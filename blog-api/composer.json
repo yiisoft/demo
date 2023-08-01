@@ -44,8 +44,8 @@
         "yiisoft/config": "^1.0",
         "yiisoft/data": "^1.0",
         "yiisoft/data-response": "^2.0",
-        "yiisoft/definitions": "^3.0",
-        "yiisoft/di": "^1.0",
+        "yiisoft/definitions": "dev-lazy-services as 3.0",
+        "yiisoft/di": "dev-lazy-services as 1.2",
         "yiisoft/error-handler": "^3.0",
         "yiisoft/factory": "^1.0",
         "yiisoft/files": "^2.0",
@@ -91,6 +91,9 @@
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-gii": "dev-master",
         "yiisoft/yii-testing": "dev-master"
+    },
+    "replace": {
+        "yiisoft/definitions": "*"
     },
     "autoload": {
         "psr-4": {
