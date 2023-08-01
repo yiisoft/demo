@@ -19,7 +19,7 @@ return [
             ->middleware(FormatDataResponse::class)
             ->middleware(ExceptionMiddleware::class)
             ->middleware(RequestBodyParser::class)
-            ->addGroup(
+            ->addRoute(
                 Group::create('/{_language}')
                     ->routes(...$config->get('routes'))
             );
