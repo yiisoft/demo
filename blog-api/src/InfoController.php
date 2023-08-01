@@ -58,7 +58,7 @@ class InfoController
         return $responseFactory->createResponse([
             'version' => $this->versionProvider->version,
             'lazy' => $this->versionProvider instanceof \ProxyManager\Proxy\LazyLoadingInterface,
-            'author' => 'yiisoft'
+            'author' => 'yiisoft',
         ]);
     }
 }
