@@ -30,7 +30,11 @@ final class IndexControllerTest extends TestCase
                 'status' => 'success',
                 'error_message' => '',
                 'error_code' => null,
-                'data' => ['version' => '3.0', 'author' => 'yiisoft'],
+                'data' => [
+                    'version' => '3.0',
+                    'author' => 'yiisoft',
+                    'lazy' => true,
+                ],
             ],
             $response->getContentAsJson()
         );
@@ -52,7 +56,11 @@ final class IndexControllerTest extends TestCase
                 'status' => 'success',
                 'error_message' => '',
                 'error_code' => null,
-                'data' => ['version' => '3.0.0', 'author' => 'yiisoft'],
+                'data' => [
+                    'version' => '3.0.0',
+                    'author' => 'yiisoft',
+                    'lazy' => false,
+                ],
             ],
             $response->getContentAsJson()
         );
