@@ -21,6 +21,7 @@ final class SiteCest
                 'error_code' => null,
                 'data' => [
                     'version' => '3.0',
+                    'lazy' => true,
                     'author' => 'yiisoft',
                 ],
             ]

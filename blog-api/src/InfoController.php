@@ -55,6 +55,10 @@ class InfoController
      */
     public function index(DataResponseFactoryInterface $responseFactory): ResponseInterface
     {
-        return $responseFactory->createResponse(['version' => $this->versionProvider->version, 'author' => 'yiisoft']);
+        return $responseFactory->createResponse([
+            'version' => $this->versionProvider->version,
+            'lazy' => $this->versionProvider instanceof \ProxyManager\Proxy\LazyLoadingInterface,
+            'author' => 'yiisoft'
+        ]);
     }
 }
