@@ -39,9 +39,9 @@ use Yiisoft\Yii\RateLimiter\Storage\StorageInterface;
 
 return [
     // Lonely pages of site
-    Route::get('/')
+    /*Route::get('/')
         ->action([SiteController::class, 'index'])
-        ->name('site/index'),
+        ->name('site/index'),*/
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
