@@ -14,7 +14,7 @@ return [
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
             'dispatcher' => DynamicReference::to(static function (Injector $injector) use ($params) {
-                return ($injector->make(MiddlewareDispatcher::class))
+                return $injector->make(MiddlewareDispatcher::class)
                     ->withMiddlewares($params['middlewares']);
             }),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
@@ -22,8 +22,13 @@ return [
     ],
     \Yiisoft\Yii\Middleware\Locale::class => [
         '__construct()' => [
-            'locales' => $params['locale']['locales'],
-            'ignoredRequests' => $params['locale']['ignoredRequests'],
+            'supportedLocales' => $params['locale']['locales'],
+            'ignoredRequestUrlPatterns' => $params['locale']['ignoredRequests'],
+        ],
+    ],
+    \Yiisoft\Yii\Middleware\Subfolder::class => [
+        '__construct()' => [
+            'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
         ],
     ],
 ];

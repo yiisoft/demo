@@ -22,13 +22,17 @@ class InfoController
      *     path="/",
      *     summary="Returns info about the API",
      *     description="",
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\JsonContent(
      *              allOf={
+     *
      *                  @OA\Schema(ref="#/components/schemas/Response"),
      *                  @OA\Schema(
+     *
      *                      @OA\Property(
      *                          property="data",
      *                          type="object",

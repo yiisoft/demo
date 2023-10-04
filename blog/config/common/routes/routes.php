@@ -31,6 +31,7 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Middleware\CorsAllowAll;
 use Yiisoft\Yii\Middleware\HttpCache;
 use Yiisoft\Yii\RateLimiter\Counter;
 use Yiisoft\Yii\RateLimiter\LimitRequestsMiddleware;
@@ -101,7 +102,7 @@ return [
     // Blog routes
     Group::create('/blog')
         ->routes(
-        // Index
+            // Index
             Route::get('[/page{page:\d+}]')
                 ->middleware(
                     fn (HttpCache $httpCache, PostRepository $postRepository) => $httpCache->withLastModified(function (ServerRequestInterface $request, $params) use ($postRepository) {
@@ -144,7 +145,7 @@ return [
             // Archive
             Group::create('/archive')
                 ->routes(
-                // Index page
+                    // Index page
                     Route::get('')
                         ->action([ArchiveController::class, 'index'])
                         ->name('blog/archive/index'),
@@ -174,6 +175,7 @@ return [
                 ->name('swagger/index'),
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->action(SwaggerJson::class),
+                ->middleware(CorsAllowAll::class)
+                ->action([SwaggerJson::class, 'handle']),
         ),
 ];

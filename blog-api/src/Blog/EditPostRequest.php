@@ -7,13 +7,14 @@ namespace App\Blog;
 use OpenApi\Annotations as OA;
 use Yiisoft\RequestModel\RequestModel;
 use Yiisoft\Validator\Result;
-use Yiisoft\Validator\Rule\HasLength;
+use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
 /**
  * @OA\Schema(
  *      schema="EditPostRequest",
+ *
  *      @OA\Property(example="Title post", property="title", format="string"),
  *      @OA\Property(example="Text post", property="text", format="string"),
  *      @OA\Property(example=1, property="status", format="int"),
@@ -46,11 +47,11 @@ final class EditPostRequest extends RequestModel implements RulesProviderInterfa
         return [
             'body.title' => [
                 new Required(),
-                new HasLength(min: 5, max: 255),
+                new Length(min: 5, max: 255),
             ],
             'body.text' => [
                 new Required(),
-                new HasLength(min: 5, max: 1000),
+                new Length(min: 5, max: 1000),
             ],
             'body.status' => [
                 new Required(),
