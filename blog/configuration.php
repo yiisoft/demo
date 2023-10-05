@@ -44,7 +44,7 @@ return [
             '$events',
             'console/events.php',
         ],
-        'routes' => [
+        'app-routes' => [
             'common/routes/*.php',
         ],
         'bootstrap' => [
