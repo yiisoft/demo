@@ -25,7 +25,7 @@ final class UserController
 
     public function index(
         UserRepository $userRepository,
-        #[Body] array $body,
+        #[Body] ?array $body,
         #[Query] array $sortOrder,
         #[Route('page')] int $page = 1,
         #[Route('pagesize')] int $pageSize = null,

@@ -5,10 +5,12 @@ declare(strict_types=1);
 use Yiisoft\Config\Config;
 use Yiisoft\Csrf\CsrfMiddleware;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
+use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollectionInterface;
 use Yiisoft\Router\RouteCollectorInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\Debug\Viewer\Middleware\ToolbarMiddleware;
 
 /**
@@ -17,6 +19,15 @@ use Yiisoft\Yii\Debug\Viewer\Middleware\ToolbarMiddleware;
  */
 
 return [
+    UrlGeneratorInterface::class => [
+        'class' => UrlGenerator::class,
+        'setEncodeRaw()' => [$params['yiisoft/router-fastroute']['encodeRaw']],
+        'setDefaultArgument()' => ['_language', 'en'],
+        'reset' => function () {
+            $this->defaultArguments = ['_language', 'en'];
+        },
+    ],
+
     RouteCollectionInterface::class => static function (RouteCollectorInterface $collector) use ($config) {
         $collector
             ->middleware(CsrfMiddleware::class)
