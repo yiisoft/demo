@@ -15,3 +15,6 @@ npm:
 	docker-compose run php npm $(filter-out $@, $(MAKECMDGOALS))
 npm-update:
 	docker-compose run php npm update
+
+yii3:
+	docker-compose run php ./yii $(filter-out $@, $(MAKECMDGOALS))
