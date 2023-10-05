@@ -14,6 +14,7 @@ on:
       - 'blog/psalm.xml'
 
   push:
+    branches: ['master']
     paths-ignore:
       - 'blog/docs/**'
       - 'blog/README.md'
