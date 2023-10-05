@@ -1,18 +1,10 @@
 {
-  "name": "app",
-  "version": "1.0.0",
-  "description": "<p align=\"center\">     <a href=\"https://www.yiiframework.com/\" target=\"_blank\">         <img src=\"https://www.yiiframework.com/image/yii_logo_light.png\" width=\"400\" alt=\"Yii Framework\" />     </a>     <h1 align=\"center\">Yii Framework Demo Project</h1>     <br> </p>",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "bootstrap": "^5.3.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "yii3-demo-blog",
+    "version": "1.0.0",
+    "description": "Yii3 Demo Blog",
+    "dependencies": {
+        "bootstrap": "^5.3.1"
+    },
+    "devDependencies": {},
+    "license": "BSD-3-Clause"
 }
