@@ -13,5 +13,5 @@ return [
     ],
     SetLocaleEvent::class => [
         static fn(TranslatorInterface $translator, SetLocaleEvent $event) => $translator->setLocale($event->getLocale()),
-    ]
+    ],
 ];
