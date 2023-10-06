@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\User;
 
 use Yiisoft\Auth\Middleware\Authentication;
-use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\Input\Http\Attribute\Parameter\Request;
+use Yiisoft\Input\Http\RequestInputInterface;
 
-final class UserRequest extends RequestModel
+final class UserRequest implements RequestInputInterface
 {
+    #[Request(Authentication::class)]
+    private User $user;
+
     public function getUser(): User
     {
-        /**
-         * @var User $identity
-         */
-        return $this->getAttributeValue('attributes.' . Authentication::class);
+        return $this->user;
     }
 }

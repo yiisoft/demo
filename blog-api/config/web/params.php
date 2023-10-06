@@ -2,4 +2,10 @@
 
 declare(strict_types=1);
 
-return [];
+return [
+    'yiisoft/input-http' => [
+        'requestInputParametersResolver' => [
+            'throwInputValidationException' => true,
+        ],
+    ],
+];
