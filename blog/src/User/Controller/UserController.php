@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\RequestModel\Attribute\Body;
-use Yiisoft\RequestModel\Attribute\Query;
-use Yiisoft\RequestModel\Attribute\Route;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\Attribute\Parameter\Query;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
@@ -26,14 +26,14 @@ final class UserController
     public function index(
         UserRepository $userRepository,
         #[Body] ?array $body,
-        #[Query] array $sortOrder,
-        #[Route('page')] int $page = 1,
-        #[Route('pagesize')] int $pageSize = null,
+        #[Query('sort')] ?string $sortOrder = null,
+        #[RouteArgument('page')] int $page = 1,
+        #[RouteArgument('pagesize')] int $pageSize = null,
     ): Response {
         $dataReader = $userRepository
             ->findAll()
             ->withSort(Sort::only(['id', 'login'])
-            ->withOrderString($sortOrder['sort'] ?? 'id'));
+            ->withOrderString($sortOrder ?? 'id'));
 
         if ($pageSize === null) {
             $pageSize = (int) ($body['pageSize'] ?? OffSetPaginator::DEFAULT_PAGE_SIZE);
@@ -46,7 +46,7 @@ final class UserController
     }
 
     public function profile(
-        #[Route('login')] string $login,
+        #[RouteArgument('login')] string $login,
         ResponseFactoryInterface $responseFactory,
         UserRepository $userRepository
     ): Response {

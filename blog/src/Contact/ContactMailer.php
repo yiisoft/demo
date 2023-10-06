@@ -28,7 +28,7 @@ final class ContactMailer
         $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
-    public function send(FormModelInterface $form, ServerRequestInterface $request): void
+    public function send(ContactForm $form): void
     {
         $message = $this->mailer
             ->compose(
@@ -42,8 +42,7 @@ final class ContactMailer
             ->withSender($this->sender)
             ->withTo($this->to);
 
-        $attachFiles = $request->getUploadedFiles();
-        foreach ($attachFiles as $attachFile) {
+        foreach ($form->getAttributeValue('attachFiles') as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(

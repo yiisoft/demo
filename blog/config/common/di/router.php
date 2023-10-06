@@ -32,13 +32,9 @@ return [
         $collector
             ->middleware(CsrfMiddleware::class)
             ->middleware(FormatDataResponse::class)
-            ->addGroup(
-                Group::create()
-                    ->routes(...$config->get('routes'))
-            )
-            ->addGroup(
-                Group::create('/{_language}')
-                    ->routes(...$config->get('app-routes'))
+            ->addRoute(
+                Group::create('/{_language}')->routes(...$config->get('app-routes')),
+                ...$config->get('routes'),
             );
 
         if (!str_starts_with(getenv('YII_ENV') ?: '', 'prod')) {
