@@ -23,8 +23,12 @@ final class UserRepository extends Select\Repository implements IdentityWithToke
         parent::__construct($select);
     }
 
+    /**
+     * @psalm-return EntityReader<array-key, User>
+     */
     public function findAllOrderByLogin(): EntityReader
     {
+        /** @psalm-var EntityReader<array-key, User> */
         return (new EntityReader($this->select()))
             ->withSort(
                 Sort::only(['login'])->withOrderString('login')

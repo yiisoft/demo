@@ -1,4 +1,4 @@
-init: composer-update npm-update up
+init: composer-update up
 
 up:
 	docker-compose up -d
@@ -10,10 +10,10 @@ composer:
 composer-update:
 	docker-compose run php composer update
 
-npm:
-	docker-compose run php npm $(filter-out $@, $(MAKECMDGOALS))
-npm-update:
-	docker-compose run php npm update
-
 yii3:
 	docker-compose run php ./yii $(filter-out $@, $(MAKECMDGOALS))
+
+test:
+	docker-compose run php ./vendor/bin/codecept run
+psalm:
+	docker-compose run php ./vendor/bin/psalm
