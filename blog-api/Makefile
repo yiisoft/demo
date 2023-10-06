@@ -15,3 +15,5 @@ yii3:
 
 test:
 	docker-compose run php ./vendor/bin/codecept run
+psalm:
+	docker-compose run php ./vendor/bin/psalm

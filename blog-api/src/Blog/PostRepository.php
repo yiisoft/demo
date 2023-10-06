@@ -19,8 +19,12 @@ final class PostRepository extends Select\Repository
         parent::__construct($select);
     }
 
+    /**
+     * @psalm-return EntityReader<array-key, Post>
+     */
     public function findAll(array $scope = [], array $orderBy = []): EntityReader
     {
+        /** @psalm-var EntityReader<array-key, Post> */
         return new EntityReader(
             $this
                 ->select()
