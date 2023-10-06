@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Contact;
 
 use Exception;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyTemplate;
