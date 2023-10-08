@@ -9,6 +9,7 @@ use App\Service\WebControllerService;
 use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\Form\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Validator\ValidatorInterface;
@@ -37,7 +38,7 @@ final class PostController
         return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
-    public function add(Request $request, ValidatorInterface $validator): Response
+    public function add(Request $request, FormHydrator $formHydrator): Response
     {
         $parameters = [
             'title' => 'Add post',
@@ -48,15 +49,13 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
-            if ($form->load($parameters['body']) && $validator
-                    ->validate($form)
-                    ->isValid()) {
+            if ($formHydrator->populate($form, $parameters['body']) && $form->isValid()) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
 
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
-            $parameters['errors'] = $form->getFormErrors();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByAttribute();
         }
 
         return $this->viewRenderer->render('__form', $parameters);

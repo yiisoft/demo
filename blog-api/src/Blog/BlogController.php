@@ -9,8 +9,8 @@ use App\User\UserRequest;
 use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\RequestModel\Attribute\Query;
-use Yiisoft\RequestModel\Attribute\Route;
+use Yiisoft\Input\Http\Attribute\Parameter\Query;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 
 /**
  * @OA\Tag(
@@ -165,7 +165,7 @@ final class BlogController
      *    ),
      * )
      */
-    public function view(#[Route('id')] int $id): Response
+    public function view(#[RouteArgument('id')] int $id): Response
     {
         return $this->responseFactory->createResponse(
             [
@@ -250,7 +250,7 @@ final class BlogController
      *     )
      * )
      */
-    public function update(EditPostRequest $postRequest, #[Route('id')] int $id): Response
+    public function update(EditPostRequest $postRequest, #[RouteArgument('id')] int $id): Response
     {
         $post = $this->postBuilder->build(
             $this->blogService->getPost($id),

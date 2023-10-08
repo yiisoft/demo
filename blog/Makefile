@@ -17,3 +17,8 @@ npm-update:
 
 yii3:
 	docker-compose run php ./yii $(filter-out $@, $(MAKECMDGOALS))
+
+test:
+	docker-compose run php ./vendor/bin/codecept run
+psalm:
+	docker-compose run php ./vendor/bin/psalm

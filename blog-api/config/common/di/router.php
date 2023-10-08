@@ -34,12 +34,10 @@ return [
             ->middleware(ExceptionMiddleware::class)
             ->middleware(RequestBodyParser::class)
             ->addGroup(
-                Group::create()
-                    ->routes(...$config->get('routes'))
+                Group::create('/{_language}')->routes(...$config->get('app-routes')),
             )
             ->addGroup(
-                Group::create('/{_language}')
-                    ->routes(...$config->get('app-routes'))
+                Group::create()->routes(...$config->get('routes')),
             );
 
         return new RouteCollection($collector);

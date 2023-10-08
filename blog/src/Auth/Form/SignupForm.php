@@ -13,7 +13,6 @@ use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
-use Yiisoft\Validator\ValidatorInterface;
 
 final class SignupForm extends FormModel implements RulesProviderInterface
 {
@@ -22,11 +21,9 @@ final class SignupForm extends FormModel implements RulesProviderInterface
     private string $passwordVerify = '';
 
     public function __construct(
-        private ValidatorInterface $validator,
         private TranslatorInterface $translator,
         private UserRepository $userRepository,
     ) {
-        parent::__construct();
     }
 
     public function getAttributeLabels(): array
@@ -55,7 +52,7 @@ final class SignupForm extends FormModel implements RulesProviderInterface
 
     public function signup(): false|User
     {
-        if ($this->validator->validate($this)->isValid()) {
+        if ($this->isValid()) {
             $user = new User($this->getLogin(), $this->getPassword());
             $this->userRepository->save($user);
 

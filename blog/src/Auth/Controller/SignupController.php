@@ -9,6 +9,7 @@ use App\Auth\Form\SignupForm;
 use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Form\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -22,6 +23,7 @@ final class SignupController
     public function signup(
         AuthService $authService,
         ServerRequestInterface $request,
+        FormHydrator $formHydrator,
         SignupForm $signupForm
     ): ResponseInterface {
         if (!$authService->isGuest()) {
@@ -29,7 +31,7 @@ final class SignupController
         }
 
         if ($request->getMethod() === Method::POST
-            && $signupForm->load($request->getParsedBody())
+            && $formHydrator->populate($signupForm, $request->getParsedBody())
             && $signupForm->signup()
         ) {
             return $this->redirectToMain();
