@@ -9,7 +9,7 @@ use App\RestControllerTrait;
 use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 
 /**
  * @OA\Tag(

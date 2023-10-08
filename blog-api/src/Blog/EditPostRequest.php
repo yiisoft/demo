@@ -8,7 +8,7 @@ use OpenApi\Annotations as OA;
 use Yiisoft\Hydrator\Validator\Attribute\Validate;
 use Yiisoft\Input\Http\AbstractInput;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;

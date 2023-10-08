@@ -10,7 +10,7 @@ use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 
 /**
  * @OA\Tag(

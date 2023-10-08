@@ -7,7 +7,7 @@ namespace App\Blog;
 use App\Blog\Comment\CommentService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class CommentController

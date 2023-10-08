@@ -56,7 +56,7 @@
         "yiisoft/log-target-file": "^3.0",
         "yiisoft/middleware-dispatcher": "^5.1",
         "yiisoft/request-body-parser": "^1.1",
-        "yiisoft/router": "dev-route-attr as 3.0",
+        "yiisoft/router": "^3.0",
         "yiisoft/router-fastroute": "^3.0",
         "yiisoft/security": "^1.0",
         "yiisoft/translator": "^3.0",

@@ -11,7 +11,7 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
+use Yiisoft\Hydrator\Temp\RouteArgument;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
