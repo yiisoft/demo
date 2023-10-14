@@ -107,11 +107,11 @@
     "scripts": {
         "serve": "./yii serve",
         "post-update-cmd": [
-            "App\\Installer::postUpdate",
-            "App\\Installer::copyEnvFile"
+            "App\\Infrastructure\\Installer::postUpdate",
+            "App\\Infrastructure\\Installer::copyEnvFile"
         ],
         "post-create-project-cmd": [
-            "App\\Installer::copyEnvFile"
+            "App\\Infrastructure\\Installer::copyEnvFile"
         ],
         "test": "codecept run",
         "test-watch": "phpunit-watcher watch"
