@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Queue\LoggingAuthorizationHandler;
+use App\Infrastructure\Queue\LoggingAuthorizationHandler;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;

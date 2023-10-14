@@ -6,8 +6,8 @@ namespace App\Application\User\Service;
 
 use App\Application\Exception\BadRequestException;
 use App\Application\User\Entity\User;
-use App\Queue\LoggingAuthorizationHandler;
-use App\Queue\UserLoggedInMessage;
+use App\Infrastructure\Queue\LoggingAuthorizationHandler;
+use App\Infrastructure\Queue\UserLoggedInMessage;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
@@ -16,28 +16,21 @@ use Yiisoft\Yii\Queue\QueueFactoryInterface;
 
 final class UserService
 {
-    private IdentityRepositoryInterface $identityRepository;
-    private CurrentUser $currentUser;
-    private QueueFactoryInterface $queueFactory;
-
     public function __construct(
-        CurrentUser $currentUser,
-        IdentityRepositoryInterface $identityRepository,
-        QueueFactoryInterface $queueFactory
+        private IdentityRepositoryInterface $identityRepository,
+        private CurrentUser $currentUser,
+        private QueueFactoryInterface $queueFactory,
     ) {
-        $this->currentUser = $currentUser;
-        $this->identityRepository = $identityRepository;
-        $this->queueFactory = $queueFactory;
     }
 
     /**
      * @param string $login
      * @param string $password
      *
-     * @throws InvalidConfigException
+     * @return IdentityInterface
      * @throws BadRequestException
      *
-     * @return IdentityInterface
+     * @throws InvalidConfigException
      */
     public function login(string $login, string $password): IdentityInterface
     {

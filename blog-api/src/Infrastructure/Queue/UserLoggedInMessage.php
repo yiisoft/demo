@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Queue;
+namespace App\Infrastructure\Queue;
 
 use Yiisoft\Yii\Queue\Message\MessageInterface;
 
