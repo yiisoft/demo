@@ -74,7 +74,7 @@ final class Request extends AbstractInput
     {
         $result = new Result();
         if (!PostStatus::isValid($value)) {
-            $result->addError('Incorrect status: ' . ($value));
+            $result->addError('Incorrect status: ' . $value);
         }
         return $result;
     }
