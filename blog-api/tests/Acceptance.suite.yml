@@ -19,7 +19,7 @@ modules:
   step_decorators: ~
   config:
     PhpBrowser:
-      url: http://127.0.0.1:8881
+      url: http://127.0.0.1:8881%BASE_URL%
       headers:
         Accept: application/json
         Content-Type: application/json

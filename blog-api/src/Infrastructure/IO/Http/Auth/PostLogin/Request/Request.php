@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\IO\Http\Auth\PostLogin\Request;
 
 use OpenApi\Annotations as OA;
-use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\RequestInputInterface;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
@@ -16,25 +17,31 @@ use Yiisoft\Validator\RulesProviderInterface;
  *      @OA\Property(example="Opal1144", property="password", format="string"),
  * )
  */
-final class Request extends RequestModel implements RulesProviderInterface
+final class Request implements RequestInputInterface, RulesProviderInterface
 {
+    #[Body('login')]
+    private string $login = '';
+
+    #[Body('password')]
+    private string $password = '';
+
     public function getLogin(): string
     {
-        return (string)$this->getAttributeValue('body.login');
+        return $this->login;
     }
 
     public function getPassword(): string
     {
-        return (string)$this->getAttributeValue('body.password');
+        return $this->password;
     }
 
     public function getRules(): array
     {
         return [
-            'body.login' => [
+            'login' => [
                 new Required(),
             ],
-            'body.password' => [
+            'password' => [
                 new Required(),
             ],
         ];

@@ -12,7 +12,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Http\Status;
-use Yiisoft\RequestModel\RequestValidationException;
+use Yiisoft\Input\Http\InputValidationException;
 
 final class ExceptionMiddleware implements MiddlewareInterface
 {
@@ -30,8 +30,8 @@ final class ExceptionMiddleware implements MiddlewareInterface
             $code = $this->httpExceptionMapper->getCode($e);
 
             return $this->dataResponseFactory->createResponse($e->getMessage(), $code);
-        } catch (RequestValidationException $e) {
-            return $this->dataResponseFactory->createResponse($e->getFirstError(), Status::BAD_REQUEST);
+        } catch (InputValidationException $e) {
+            return $this->dataResponseFactory->createResponse($e->getResult()->getErrorMessages()[0], Status::BAD_REQUEST);
         }
     }
 }

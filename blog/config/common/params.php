@@ -30,7 +30,7 @@ return [
             '@root' => dirname(__DIR__, 2),
             '@assets' => '@root/public/assets',
             '@assetsUrl' => '@baseUrl/assets',
-            '@baseUrl' => $_ENV['BASE_URL'],
+            '@baseUrl' => '',
             '@messages' => '@resources/messages',
             '@npm' => '@root/node_modules',
             '@public' => '@root/public',

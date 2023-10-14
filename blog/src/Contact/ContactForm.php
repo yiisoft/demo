@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace App\Contact;
 
 use Yiisoft\Form\FormModel;
+use Yiisoft\Input\Http\Attribute\Parameter\UploadedFiles;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class ContactForm extends FormModel
+final class ContactForm extends FormModel implements RulesProviderInterface
 {
     private string $name = '';
     private string $email = '';
     private string $subject = '';
     private string $body = '';
-    private ?array $attachFiles = null;
+
+    #[UploadedFiles('ContactForm.attachFiles')]
+    private array $attachFiles = [];
 
     public function getAttributeLabels(): array
     {

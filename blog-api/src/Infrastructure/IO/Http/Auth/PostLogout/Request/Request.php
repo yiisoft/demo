@@ -6,15 +6,16 @@ namespace App\Infrastructure\IO\Http\Auth\PostLogout\Request;
 
 use App\Application\User\Entity\User;
 use Yiisoft\Auth\Middleware\Authentication;
-use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\Input\Http\Attribute\Parameter\Request as RequestParameter;
+use Yiisoft\Input\Http\RequestInputInterface;
 
-final class Request extends RequestModel
+final class Request implements RequestInputInterface
 {
+    #[RequestParameter(Authentication::class)]
+    private User $user;
+
     public function getUser(): User
     {
-        /**
-         * @var User $identity
-         */
-        return $this->getAttributeValue('attributes.' . Authentication::class);
+        return $this->user;
     }
 }

@@ -11,6 +11,7 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Middleware\CorsAllowAll;
 
 return [
     Route::get('/')
@@ -64,6 +65,7 @@ return [
                 }),
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->action(SwaggerJson::class),
+                ->middleware(CorsAllowAll::class)
+                ->action([SwaggerJson::class, 'handle']),
         ),
 ];

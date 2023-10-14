@@ -15,6 +15,7 @@ use OpenApi\Annotations as OA;
  *      allOf={
  *          @OA\Schema(ref="#/components/schemas/Response"),
  *          @OA\Schema(
+ *
  *              @OA\Property(
  *                  property="status",
  *                  example="failed",
