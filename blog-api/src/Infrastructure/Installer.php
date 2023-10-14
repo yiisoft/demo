@@ -16,6 +16,7 @@ final class Installer
      */
     public static function postUpdate(Event $event = null): void
     {
+        self::copyEnvFile();
         self::chmodRecursive('runtime', 0777);
         self::chmodRecursive('public/assets', 0777);
     }
