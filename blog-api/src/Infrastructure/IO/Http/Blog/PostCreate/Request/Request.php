@@ -8,11 +8,15 @@ use App\Application\Blog\Entity\Post\PostStatus;
 use App\Application\User\Entity\User;
 use OpenApi\Annotations as OA;
 use Yiisoft\Auth\Middleware\Authentication;
-use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Hydrator\Validator\Attribute\Validate;
+use Yiisoft\Input\Http\AbstractInput;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
+use Yiisoft\Input\Http\Attribute\Parameter\Request as RequestParameter;
 use Yiisoft\Validator\Result;
+use Yiisoft\Validator\Rule\Callback;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
-use Yiisoft\Validator\RulesProviderInterface;
 
 /**
  * @OA\Schema(
@@ -22,57 +26,56 @@ use Yiisoft\Validator\RulesProviderInterface;
  *      @OA\Property(example=1, property="status", format="int"),
  * )
  */
-final class Request extends RequestModel implements RulesProviderInterface
+final class Request extends AbstractInput
 {
+    #[RouteArgument('id')]
+    private int $id;
+    #[Body('title')]
+    #[Validate(new Required())]
+    #[Validate(new Length(min: 5, max: 255))]
+    private string $title;
+    #[Body('text')]
+    #[Validate(new Required())]
+    #[Validate(new Length(min: 5, max: 1000))]
+    private string $text;
+    #[Body('status')]
+    #[Validate(new Required())]
+    #[Validate(new Callback([self::class, 'validateStatus']))]
+    private int $status;
+    #[RequestParameter(Authentication::class)]
+    private User $user;
+
     public function getId(): int
     {
-        return (int) $this->getAttributeValue('router.id');
+        return $this->id;
     }
 
     public function getTitle(): string
     {
-        return (string) $this->getAttributeValue('body.title');
+        return $this->title;
     }
 
     public function getText(): string
     {
-        return (string) $this->getAttributeValue('body.text');
+        return $this->text;
     }
 
     public function getStatus(): PostStatus
     {
-        return PostStatus::from($this->getAttributeValue('body.status'));
+        return PostStatus::from($this->status);
     }
 
     public function getUser(): User
     {
-        /**
-         * @var User $identity
-         */
-        return $this->getAttributeValue('attributes.' . Authentication::class);
+        return $this->user;
     }
 
-    public function getRules(): array
+    public static function validateStatus($value): Result
     {
-        return [
-            'body.title' => [
-                new Required(),
-                new Length(min: 5, max: 255),
-            ],
-            'body.text' => [
-                new Required(),
-                new Length(min: 5, max: 1000),
-            ],
-            'body.status' => [
-                new Required(),
-                static function ($value): Result {
-                    $result = new Result();
-                    if (!PostStatus::isValid($value)) {
-                        $result->addError('Incorrect status');
-                    }
-                    return $result;
-                },
-            ],
-        ];
+        $result = new Result();
+        if (!PostStatus::isValid($value)) {
+            $result->addError('Incorrect status: ' . ($value));
+        }
+        return $result;
     }
 }

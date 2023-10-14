@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\IO\Http\Blog\GetIndex\Request;
 
 use OpenApi\Annotations as OA;
-use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\Input\Http\AbstractInput;
+use Yiisoft\Input\Http\Attribute\Parameter\Query;
 
 /**
  * @OA\Parameter(
@@ -18,16 +19,15 @@ use Yiisoft\RequestModel\RequestModel;
  *      parameter="BlogIndexRequest"
  * )
  */
-final class Request extends RequestModel
+final class Request extends AbstractInput
 {
+    #[Query('page')]
+    private ?int $page = null;
+
     private const DEFAULT_PAGE_PARAM = 1;
 
     public function getPage(): int
     {
-        if ($this->hasAttribute('query.page')) {
-            return (int)$this->getAttributeValue('query.page');
-        }
-
-        return self::DEFAULT_PAGE_PARAM;
+        return $this->page ?? self::DEFAULT_PAGE_PARAM;
     }
 }
