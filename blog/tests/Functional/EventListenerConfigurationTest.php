@@ -24,7 +24,7 @@ class EventListenerConfigurationTest extends TestCase
                 ReverseMerge::groups('events', 'events-web', 'events-console'),
                 RecursiveMerge::groups('params', 'params-web', 'params-console', 'events', 'events-web', 'events-console'),
             ],
-            'params',
+            'params-console',
         );
 
         $container = new Container(
