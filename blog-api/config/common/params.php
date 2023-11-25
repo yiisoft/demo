@@ -17,7 +17,7 @@ use Yiisoft\Yii\Queue\Adapter\SynchronousAdapter;
 
 return [
     'locale' => [
-        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU'],
+        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'de' => 'de-DE'],
         'ignoredRequests' => [
             '/debug**',
             '/inspect**',

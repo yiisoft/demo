@@ -24,7 +24,7 @@ return [
     ],
 
     'locale' => [
-        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK'],
+        'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'id' => 'id-ID', 'sk' => 'sk-SK', 'de' => 'de-DE'],
         'ignoredRequests' => [
             '/debug**',
             '/inspect**',
