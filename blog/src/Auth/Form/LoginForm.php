@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Auth\Form;
 
 use App\Auth\AuthService;
-use Yiisoft\Form\FormModel;
+use Yiisoft\FormModel\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Callback;

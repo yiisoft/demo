@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Contact\ContactForm;
 use App\Widget\FlashMessage;
-use Yiisoft\Form\Field;
+use Yiisoft\FormModel\Field;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Form;
 use Yiisoft\Router\UrlGeneratorInterface;

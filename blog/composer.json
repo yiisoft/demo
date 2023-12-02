@@ -51,6 +51,7 @@
         "yiisoft/error-handler": "^3.0",
         "yiisoft/factory": "^1.0",
         "yiisoft/form": "dev-master",
+        "yiisoft/form-model": "dev-master",
         "yiisoft/html": "^3.0",
         "yiisoft/http": "^1.2",
         "yiisoft/injector": "^1.0",
