@@ -32,15 +32,15 @@ final class ContactMailer
             ->compose(
                 'contact-email',
                 [
-                    'content' => $form->getAttributeValue('body'),
+                    'content' => $form->getPropertyValue('body'),
                 ]
             )
-            ->withSubject($form->getAttributeValue('subject'))
-            ->withFrom([$form->getAttributeValue('email') => $form->getAttributeValue('name')])
+            ->withSubject($form->getPropertyValue('subject'))
+            ->withFrom([$form->getPropertyValue('email') => $form->getPropertyValue('name')])
             ->withSender($this->sender)
             ->withTo($this->to);
 
-        foreach ($form->getAttributeValue('attachFiles') as $attachFile) {
+        foreach ($form->getPropertyValue('attachFiles') as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file[0]?->getError() === UPLOAD_ERR_OK) {
                     $message = $message->withAttached(

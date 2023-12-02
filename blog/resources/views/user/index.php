@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\User\User;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\A;
@@ -86,48 +87,49 @@ $toolbar = Div::tag();
 
 <?= GridView::widget()
     ->columns(
-        DataColumn::create()
-            ->attribute('id')
-            ->value(static fn (object $data) => $data->getId()),
-        DataColumn::create()
-            ->attribute('login')
-            ->label($translator->translate('gridview.login'))
-            ->value(static fn (object $data) => $data->getLogin()),
-        DataColumn::create()
-            ->attribute('create_at')
-            ->label($translator->translate('gridview.create.at'))
-            ->value(static fn (object $data) => $data->getCreatedAt()->format('r')),
-        DataColumn::create()
-            ->attribute('api')
-            ->label($translator->translate('gridview.api'))
-            ->value(
-                static function (object $data) use ($urlGenerator): string {
-                    return Html::a(
-                        'API User Data',
-                        $urlGenerator->generate('api/user/profile', ['login' => $data->getLogin()]),
-                        ['target' => '_blank'],
-                    )->render();
-                },
-            ),
-        DataColumn::create()
-            ->attribute('profile')
-            ->label($translator->translate('gridview.profile'))
-            ->value(
-                static function (object $data) use ($urlGenerator): string {
-                    return Html::a(
-                        Html::tag('i', '', [
-                            'class' => 'bi bi-person-fill ms-1',
-                            'style' => 'font-size: 1.5em;',
-                        ]),
-                        $urlGenerator->generate('user/profile', ['login' => $data->getLogin()]),
-                        ['class' => 'btn btn-link'],
-                    )->render();
-                },
-            ),
+        new DataColumn(
+            'id',
+            content: static fn (User $user) => $user->getId(),
+        ),
+        new DataColumn(
+            'login',
+            content: static fn (User $user) => $user->getLogin(),
+            header: $translator->translate('gridview.login'),
+        ),
+        new DataColumn(
+            'login',
+            content: static fn (User $user) => $user->getCreatedAt()->format('r'),
+            header: $translator->translate('gridview.create.at'),
+        ),
+        new DataColumn(
+            'api',
+            content: static function (User $user) use ($urlGenerator): string {
+                return Html::a(
+                    'API User Data',
+                    $urlGenerator->generate('api/user/profile', ['login' => $user->getLogin()]),
+                    ['target' => '_blank'],
+                )->render();
+            },
+            header: $translator->translate('gridview.api'),
+        ),
+        new DataColumn(
+            'profile',
+            content:  static function (User $user) use ($urlGenerator): string {
+                return Html::a(
+                    Html::tag('i', '', [
+                        'class' => 'bi bi-person-fill ms-1',
+                        'style' => 'font-size: 1.5em;',
+                    ]),
+                    $urlGenerator->generate('user/profile', ['login' => $user->getLogin()]),
+                    ['class' => 'btn btn-link'],
+                )->render();
+            },
+            header: $translator->translate('gridview.profile'),
+        ),
     )
     ->header($header)
     ->id('w1-grid')
-    ->paginator($paginator)
+    ->dataReader($paginator)
     ->pagination(
         OffsetPagination::widget()
             ->menuClass('pagination justify-content-center')

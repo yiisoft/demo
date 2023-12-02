@@ -9,7 +9,7 @@ use App\Service\WebControllerService;
 use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\Form\FormHydrator;
+use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Validator\ValidatorInterface;

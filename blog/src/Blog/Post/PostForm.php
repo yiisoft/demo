@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Blog\Post;
 
-use Yiisoft\Form\FormModel;
+use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Rule\Required;
 
 final class PostForm extends FormModel
