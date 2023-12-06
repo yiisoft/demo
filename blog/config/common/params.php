@@ -44,7 +44,7 @@ return [
     ],
 
     'yiisoft/form' => [
-        'configs' => [
+        'themes' => [
             'default' => [
                 'containerClass' => 'form-floating mb-3',
                 'inputClass' => 'form-control',
