@@ -137,7 +137,7 @@ return [
         ],
     ],
 
-    'yiisoft/yii-queue' => [
+    'yiisoft/queue' => [
         'handlers' => [
             LoggingAuthorizationHandler::NAME => [LoggingAuthorizationHandler::class, 'handle'],
         ],
