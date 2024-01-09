@@ -69,7 +69,7 @@
         "yiisoft/yii-event": "^2.0",
         "yiisoft/yii-http": "^1.0",
         "yiisoft/yii-middleware": "^1.0",
-        "yiisoft/yii-queue": "3.0.x-dev",
+        "yiisoft/queue": "3.0.x-dev",
         "yiisoft/yii-runner-console": "^2.0",
         "yiisoft/yii-runner-http": "^2.0",
         "yiisoft/yii-swagger": "^2.0"
