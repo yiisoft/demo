@@ -12,9 +12,8 @@ final class AuthCest
 {
     public function testAuth(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
-            '/auth/',
+            '/auth/login',
             [
                 'login' => 'Opal1144',
                 'password' => 'Opal1144',
@@ -48,7 +47,7 @@ final class AuthCest
         );
 
         $I->sendPOST(
-            '/logout/'
+            '/auth/logout'
         );
 
         $I->seeResponseCodeIs(HttpCode::OK);
@@ -77,13 +76,8 @@ final class AuthCest
             'bad-token'
         );
 
-        $I->haveHttpHeader(
-            'Accept',
-            'application/json'
-        );
-
         $I->sendPOST(
-            '/logout/'
+            '/auth/logout'
         );
 
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);

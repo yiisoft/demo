@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Middleware\ExceptionMiddleware;
+use App\Infrastructure\Http\Middleware\ExceptionMiddleware;
 use Yiisoft\Config\Config;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Request\Body\RequestBodyParser;

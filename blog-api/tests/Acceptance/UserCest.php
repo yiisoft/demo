@@ -27,7 +27,7 @@ final class UserCest
                     'users' => [
                         [
                             'login' => 'Athena7928',
-                            'created_at' => '26.07.2020 20:18:11',
+                            'created_at' => '2020-07-26T20:18:11+00:00',
                         ],
                     ],
                 ],
@@ -52,7 +52,7 @@ final class UserCest
                 'data' => [
                     'user' => [
                         'login' => 'Opal1144',
-                        'created_at' => '26.07.2020 20:18:11',
+                        'created_at' => '2020-07-26T20:18:11+00:00',
                     ],
                 ],
             ]
@@ -78,6 +78,9 @@ final class UserCest
         );
     }
 
+    /**
+     * @incomplete Response with 405 status does not contain any body yet
+     */
     public function notAllowedMethod(AcceptanceTester $I): void
     {
         $I->haveHttpHeader(

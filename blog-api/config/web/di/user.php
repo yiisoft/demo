@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Auth\AuthRequestErrorHandler;
-use App\User\UserRepository;
+use App\Application\User\Entity\UserRepository;
+use App\Infrastructure\Http\Handler\AuthRequestErrorHandler;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;

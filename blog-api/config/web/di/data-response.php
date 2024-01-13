@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Formatter\ApiResponseFormatter;
+use App\Infrastructure\Http\Formatter\ApiResponseFormatter;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\DataResponse\DataResponseFormatterInterface;

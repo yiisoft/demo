@@ -15,7 +15,14 @@ return [
         '__construct()' => [
             'targets' => ReferencesArray::from([
                 FileTarget::class,
+                'logger.target.stdout',
             ]),
+        ],
+    ],
+    'logger.target.stdout' => [
+        'class' => FileTarget::class,
+        '__construct()' => [
+            'php://stdout',
         ],
     ],
 ];
