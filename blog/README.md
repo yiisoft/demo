@@ -54,7 +54,7 @@ More routes could be added by editing `src/Factory/AppRouterFactory`.
 The template comes with a  ready to use [Codeception](https://codeception.com/) configuration.
 In order to execute tests run the following command:
 
-```
+```bash
 composer run serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
 vendor/bin/codecept run
 ```
