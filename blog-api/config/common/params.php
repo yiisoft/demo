@@ -5,12 +5,13 @@ declare(strict_types=1);
 use App\Queue\LoggingAuthorizationHandler;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
+use Cycle\Schema\Provider\SchemaProviderInterface;
+use Cycle\Schema\Provider\PhpFileSchemaProvider;
+use Cycle\Schema\Provider\Support\SchemaProviderPipeline;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
-use Yiisoft\Yii\Cycle\Schema\Provider\PhpFileSchemaProvider;
-use Yiisoft\Yii\Cycle\Schema\SchemaProviderInterface;
 use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Middleware\Subfolder;
 use Yiisoft\Yii\Queue\Adapter\SynchronousAdapter;
@@ -87,7 +88,7 @@ return [
         ],
 
         /**
-         * SchemaProvider list for {@see \Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline}
+         * SchemaProvider list for {@see SchemaProviderPipeline}
          * Array of classname and {@see SchemaProviderInterface} object.
          * You can configure providers if you pass classname as key and parameters as array:
          * [
@@ -106,7 +107,7 @@ return [
          */
         'schema-providers' => [
             // Uncomment next line to enable a Schema caching in the common cache
-            // \Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
+            // \Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => ['key' => 'cycle-orm-cache-key'],
 
             // Store generated Schema in the file
             PhpFileSchemaProvider::class => [
