@@ -49,7 +49,7 @@
         "yiisoft/factory": "^1.0",
         "yiisoft/files": "^2.0",
         "yiisoft/http": "^1.2",
-        "yiisoft/hydrator-validator": "dev-master",
+        "yiisoft/hydrator-validator": "^1.0",
         "yiisoft/injector": "^1.0",
         "yiisoft/input-http": "dev-master",
         "yiisoft/log": "^2.0",
