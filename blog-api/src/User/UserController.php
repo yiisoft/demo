@@ -9,7 +9,7 @@ use App\RestControllerTrait;
 use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
 #[OA\Tag(name: "user", description: "User")]
 final class UserController

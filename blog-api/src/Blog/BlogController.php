@@ -10,7 +10,7 @@ use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
 #[OA\Tag(name: "blog", description: "Blog")]
 #[OA\Parameter(parameter: "PageRequest", name: "page", in: "query", schema: new OA\Schema(type: "int", example: "2"))]
