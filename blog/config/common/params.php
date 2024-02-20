@@ -181,6 +181,7 @@ return [
     'yiisoft/yii-swagger' => [
         'annotation-paths' => [
             '@src/Controller',
+            '@src/Middleware',
             '@src/User/Controller',
         ],
     ],
