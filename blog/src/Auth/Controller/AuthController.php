@@ -46,7 +46,7 @@ final class AuthController
         ) {
             $identity = $this->authService->getIdentity();
 
-            if ($identity instanceof CookieLoginIdentityInterface && $loginForm->getAttributeValue('rememberMe')) {
+            if ($identity instanceof CookieLoginIdentityInterface && $loginForm->getPropertyValue('rememberMe')) {
                 return $cookieLogin->addCookie($identity, $this->redirectToMain());
             }
 

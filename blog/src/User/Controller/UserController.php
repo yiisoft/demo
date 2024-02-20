@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\User\Controller;
 
 use App\User\UserRepository;
+use Yiisoft\Data\Paginator\PageToken;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
@@ -16,8 +17,6 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
 {
-    private const PAGINATION_INDEX = 5;
-
     public function __construct(private ViewRenderer $viewRenderer)
     {
         $this->viewRenderer = $viewRenderer->withControllerName('user');
@@ -40,7 +39,7 @@ final class UserController
         }
 
         $paginator = (new OffsetPaginator($dataReader));
-        $paginator = $paginator->withNextPageToken((string) $page)->withPageSize($pageSize);
+        $paginator = $paginator->withToken(PageToken::next((string) $page))->withPageSize($pageSize);
 
         return $this->viewRenderer->render('index', ['paginator' => $paginator]);
     }
