@@ -66,7 +66,7 @@ final class LoginAcceptanceCest
     }
 
     /**
-     * @depends \App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
+     * @depends App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
      */
     public function testLoginUsernameSubmitFormSuccessData(AcceptanceTester $I): void
     {
