@@ -17,7 +17,6 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class UserController
 {
-
     public function __construct(private ViewRenderer $viewRenderer)
     {
         $this->viewRenderer = $viewRenderer->withControllerName('user');
