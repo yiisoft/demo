@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
-#[OA\Tag(name: "user", description: "User")]
+#[OA\Tag(name: 'user', description: 'User')]
 final class UserController
 {
     use RestControllerTrait;
@@ -31,31 +31,33 @@ final class UserController
     }
 
     #[OA\Get(
-        path: "/users/",
-        description: "",
-        summary: "Returns paginated users",
+        path: '/users/',
+        description: '',
+        summary: 'Returns paginated users',
         security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
-        tags: ["user"],
+        tags: ['user'],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
+                response: '200',
+                description: 'Success',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
                             new OA\Property(
-                                property: "data",
+                                property: 'data',
                                 properties: [
                                     new OA\Property(
-                                        property: "user",
-                                        type: "array",
-                                        items: new OA\Items(ref: "#/components/schemas/User")
-                                    )
+                                        property: 'user',
+                                        type: 'array',
+                                        items: new OA\Items(ref: '#/components/schemas/User')
+                                    ),
                                 ],
-                                type: "object"),
+                                type: 'object'
+                            ),
                         ]),
-                    ])
+                    ]
+                )
             ),
         ]
     )]
@@ -75,30 +77,32 @@ final class UserController
     }
 
     #[OA\Get(
-        path: "/users/{id}",
-        description: "",
-        summary: "Returns a user with a given ID",
+        path: '/users/{id}',
+        description: '',
+        summary: 'Returns a user with a given ID',
         security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
-        tags: ["user"],
+        tags: ['user'],
         parameters: [
-            new OA\Parameter(parameter: "id", name: "id", in: "path", example: 2)
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', example: 2),
         ],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
+                response: '200',
+                description: 'Success',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
                             new OA\Property(
-                                property: "data",
+                                property: 'data',
                                 properties: [
-                                    new OA\Property(property: "user", ref: "#/components/schemas/User", type: "object")
+                                    new OA\Property(property: 'user', ref: '#/components/schemas/User', type: 'object'),
                                 ],
-                                type: "object"),
+                                type: 'object'
+                            ),
                         ]),
-                    ])
+                    ]
+                )
             ),
         ]
     )]

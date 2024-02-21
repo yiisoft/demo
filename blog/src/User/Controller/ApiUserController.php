@@ -12,7 +12,7 @@ use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Router\CurrentRoute;
 use OpenApi\Attributes as OA;
 
-#[OA\Tag(name: "user", description: "User")]
+#[OA\Tag(name: 'user', description: 'User')]
 final class ApiUserController
 {
     public function __construct(private DataResponseFactoryInterface $responseFactory)
@@ -20,29 +20,30 @@ final class ApiUserController
     }
 
     #[OA\Get(
-        path: "/api/user",
-        description: "",
-        summary: "Get users list",
-        tags: ["user"],
+        path: '/api/user',
+        description: '',
+        summary: 'Get users list',
+        tags: ['user'],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
+                response: '200',
+                description: 'Success',
                 content: new OA\XmlContent(
-                    xml: new OA\Xml(name: "response"),
+                    xml: new OA\Xml(name: 'response'),
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
                             new OA\Property(
-                                property: "data",
-                                type: "array",
+                                property: 'data',
+                                type: 'array',
                                 items: new OA\Items(properties: [
-                                    new OA\Property(property: "login", type: "string", example: "exampleLogin"),
-                                    new OA\Property(property: "created_at", type: "string", example: "13.12.2020 00:04:20"),
+                                    new OA\Property(property: 'login', type: 'string', example: 'exampleLogin'),
+                                    new OA\Property(property: 'created_at', type: 'string', example: '13.12.2020 00:04:20'),
                                 ])
                             ),
                         ]),
-                    ])
+                    ]
+                )
             ),
         ]
     )]
@@ -64,25 +65,25 @@ final class ApiUserController
     }
 
     #[OA\Get(
-        path: "/api/user/{login}",
-        description: "",
-        summary: "Get user info",
-        tags: ["user"],
+        path: '/api/user/{login}',
+        description: '',
+        summary: 'Get user info',
+        tags: ['user'],
         parameters: [
-            new OA\Parameter(parameter: "login", name: "Login", in: "path")
+            new OA\Parameter(parameter: 'login', name: 'Login', in: 'path'),
         ],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
+                response: '200',
+                description: 'Success',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
-                            new OA\Property(property: "data", properties: [
-                                new OA\Property(property: "login", type: "string", example: "exampleLogin"),
-                                new OA\Property(property: "created_at", type: "string", example: "13.12.2020 00:04:20"),
-                            ], type: "object"),
+                            new OA\Property(property: 'data', properties: [
+                                new OA\Property(property: 'login', type: 'string', example: 'exampleLogin'),
+                                new OA\Property(property: 'created_at', type: 'string', example: '13.12.2020 00:04:20'),
+                            ], type: 'object'),
                         ]),
                     ]
                 ),

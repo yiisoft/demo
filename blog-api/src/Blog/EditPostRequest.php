@@ -15,12 +15,13 @@ use Yiisoft\Validator\RulesProviderInterface;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "EditPostRequest",
+    schema: 'EditPostRequest',
     properties: [
-        new OA\Property(property: 'title', type: "string", example: 'Title post'),
-        new OA\Property(property: 'text', type: "string", example: 'Text post'),
-        new OA\Property(property: 'status', type: "int", example: '1'),
-    ])]
+        new OA\Property(property: 'title', type: 'string', example: 'Title post'),
+        new OA\Property(property: 'text', type: 'string', example: 'Text post'),
+        new OA\Property(property: 'status', type: 'int', example: '1'),
+    ]
+)]
 final class EditPostRequest extends AbstractInput implements RulesProviderInterface
 {
     #[RouteArgument('id')]

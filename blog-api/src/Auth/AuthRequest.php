@@ -11,11 +11,12 @@ use Yiisoft\Validator\RulesProviderInterface;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: "AuthRequest",
+    schema: 'AuthRequest',
     properties: [
-        new OA\Property(property: 'login', type: "string", example: 'Opal1144'),
-        new OA\Property(property: 'password', type: "string", example: 'Opal1144'),
-    ])]
+        new OA\Property(property: 'login', type: 'string', example: 'Opal1144'),
+        new OA\Property(property: 'password', type: 'string', example: 'Opal1144'),
+    ]
+)]
 final class AuthRequest implements RequestInputInterface, RulesProviderInterface
 {
     #[Body('login')]

@@ -12,8 +12,8 @@ use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
-#[OA\Tag(name: "blog", description: "Blog")]
-#[OA\Parameter(parameter: "PageRequest", name: "page", in: "query", schema: new OA\Schema(type: "int", example: "2"))]
+#[OA\Tag(name: 'blog', description: 'Blog')]
+#[OA\Parameter(parameter: 'PageRequest', name: 'page', in: 'query', schema: new OA\Schema(type: 'int', example: '2'))]
 final class BlogController
 {
     private DataResponseFactoryInterface $responseFactory;
@@ -37,27 +37,29 @@ final class BlogController
     }
 
     #[OA\Get(
-        path: "/blog/",
-        description: "",
-        summary: "Returns paginated blog posts",
-        tags: ["blog"],
+        path: '/blog/',
+        description: '',
+        summary: 'Returns paginated blog posts',
+        tags: ['blog'],
         parameters: [
-            new OA\Parameter(ref: '#/components/parameters/PageRequest')
+            new OA\Parameter(ref: '#/components/parameters/PageRequest'),
         ],
         responses: [
             new OA\Response(
-                response:"200",
-                description:"Success",
+                response:'200',
+                description:'Success',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
                             new OA\Property(
-                                property: "data",
+                                property: 'data',
                                 properties: [
-                                new OA\Property(property: "posts", type: "array", items: new OA\Items(ref:"#/components/schemas/Post")),
-                                new OA\Property(property: "paginator", ref: "#/components/schemas/Paginator", type: "object"),
-                            ], type: "object"),
+                                    new OA\Property(property: 'posts', type: 'array', items: new OA\Items(ref:'#/components/schemas/Post')),
+                                    new OA\Property(property: 'paginator', ref: '#/components/schemas/Paginator', type: 'object'),
+                                ],
+                                type: 'object'
+                            ),
                         ]),
                     ]
                 ),
@@ -81,39 +83,41 @@ final class BlogController
     }
 
     #[OA\Get(
-        path: "/blog/{id}",
-        description: "",
-        summary: "Returns a post with a given ID",
-        tags: ["blog"],
+        path: '/blog/{id}',
+        description: '',
+        summary: 'Returns a post with a given ID',
+        tags: ['blog'],
         parameters: [
-            new OA\Parameter(parameter: "id", name: "id", in: "path", schema: new OA\Schema(type: "int", example: "2"))
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', schema: new OA\Schema(type: 'int', example: '2')),
         ],
         responses: [
             new OA\Response(
-                response:"200",
-                description:"Success",
+                response:'200',
+                description:'Success',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/Response"),
+                        new OA\Schema(ref: '#/components/schemas/Response'),
                         new OA\Schema(properties: [
                             new OA\Property(
-                                property: "data",
+                                property: 'data',
                                 properties: [
-                                    new OA\Property(property: "post", ref: "#/components/schemas/Post", type: "object")
-                                ], type: "object"),
+                                    new OA\Property(property: 'post', ref: '#/components/schemas/Post', type: 'object'),
+                                ],
+                                type: 'object'
+                            ),
                         ]),
                     ]
                 ),
             ),
             new OA\Response(
-                response: "404",
-                description: "Not found",
+                response: '404',
+                description: 'Not found',
                 content: new OA\JsonContent(allOf: [
-                    new OA\Schema(ref:  "#/components/schemas/BadResponse"),
+                    new OA\Schema(ref:  '#/components/schemas/BadResponse'),
                     new OA\Schema(properties: [
-                        new OA\Property(property:"error_message", example:"Entity not found"),
-                        new OA\Property(property: "error_code", example: 404, nullable: true)
-                    ])
+                        new OA\Property(property:'error_message', example:'Entity not found'),
+                        new OA\Property(property: 'error_code', example: 404, nullable: true),
+                    ]),
                 ])
             ),
         ]
@@ -130,26 +134,26 @@ final class BlogController
     }
 
     #[OA\Post(
-        path: "/blog/",
-        description: "",
-        summary: "Creates a blog post",
+        path: '/blog/',
+        description: '',
+        summary: 'Creates a blog post',
         security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
         requestBody: new OA\RequestBody(required: true, content: new OA\JsonContent(
             allOf: [
-                new OA\Schema(ref: "#/components/schemas/EditPostRequest"),
+                new OA\Schema(ref: '#/components/schemas/EditPostRequest'),
             ]
         )),
-        tags: ["blog"],
+        tags: ['blog'],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
-                content: new OA\JsonContent(ref: "#/components/schemas/Response")
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(ref: '#/components/schemas/Response')
             ),
             new OA\Response(
-                response: "400",
-                description: "Bad request",
-                content: new OA\JsonContent(ref:  "#/components/schemas/BadResponse")
+                response: '400',
+                description: 'Bad request',
+                content: new OA\JsonContent(ref:  '#/components/schemas/BadResponse')
             ),
         ]
     )]
@@ -164,29 +168,29 @@ final class BlogController
     }
 
     #[OA\Put(
-        path: "/blog/{id}",
-        description: "",
-        summary: "Updates a blog post with a given ID",
+        path: '/blog/{id}',
+        description: '',
+        summary: 'Updates a blog post with a given ID',
         security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
         requestBody: new OA\RequestBody(required: true, content: new OA\JsonContent(
             allOf: [
-                new OA\Schema(ref: "#/components/schemas/EditPostRequest"),
+                new OA\Schema(ref: '#/components/schemas/EditPostRequest'),
             ]
         )),
-        tags: ["blog"],
+        tags: ['blog'],
         parameters: [
-            new OA\Parameter(parameter: "id", name: "id", in: "path", schema: new OA\Schema(type: "int", example: "2"))
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', schema: new OA\Schema(type: 'int', example: '2')),
         ],
         responses: [
             new OA\Response(
-                response: "200",
-                description: "Success",
-                content: new OA\JsonContent(ref: "#/components/schemas/Response")
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(ref: '#/components/schemas/Response')
             ),
             new OA\Response(
-                response: "400",
-                description: "Bad request",
-                content: new OA\JsonContent(ref:  "#/components/schemas/BadResponse")
+                response: '400',
+                description: 'Bad request',
+                content: new OA\JsonContent(ref:  '#/components/schemas/BadResponse')
             ),
         ]
     )]
