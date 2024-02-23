@@ -30,10 +30,8 @@ final class SignupController
             return $this->redirectToMain();
         }
 
-        if ($request->getMethod() === Method::POST
-            && $formHydrator->populate($signupForm, $request->getParsedBody())
-            && $signupForm->signup()
-        ) {
+        if ($formHydrator->populateFromPostAndValidate($signupForm, $request)) {
+            $signupForm->signup();
             return $this->redirectToMain();
         }
 

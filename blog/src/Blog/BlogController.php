@@ -36,7 +36,7 @@ final class BlogController
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)
-            ->withCurrentPage($pageNum);
+            ->withCurrentPage((int)$pageNum);
 
         $data = [
             'paginator' => $paginator,
