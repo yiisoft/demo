@@ -18,6 +18,7 @@ final class BlogPageCest
     {
         $I->expectTo('see blog page.');
         $I->see('Blog');
-        $I->see('No records');
+        $I->see('Popular tags');
+        $I->see('Archive');
     }
 }

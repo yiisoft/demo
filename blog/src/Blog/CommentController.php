@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Paginator\PageToken;
+use Yiisoft\Input\Http\Attribute\Parameter\Body;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Yii\View\ViewRenderer;
@@ -26,6 +27,7 @@ final class CommentController
     public function index(
         Request $request,
         CommentRepository $repository,
+        #[Body] ?array $body,
         #[Query('sort')] ?string $sortOrder = null,
         #[RouteArgument('page')] int $page = 1,
         #[RouteArgument('pagesize')] int $pageSize = null,
