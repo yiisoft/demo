@@ -10,7 +10,6 @@ use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
-use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController

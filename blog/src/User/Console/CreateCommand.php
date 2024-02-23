@@ -21,11 +21,10 @@ final class CreateCommand extends Command
     protected static $defaultName = 'user/create';
 
     public function __construct(
-        private readonly SignupForm   $signupForm,
-        private readonly Manager      $manager,
+        private readonly SignupForm $signupForm,
+        private readonly Manager $manager,
         private readonly FormHydrator $formHydrator
-    )
-    {
+    ) {
         parent::__construct();
     }
 

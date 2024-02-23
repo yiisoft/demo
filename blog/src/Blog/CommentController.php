@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Blog;
 
 use App\Blog\Comment\CommentRepository;
-use App\Blog\Comment\CommentService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Data\Paginator\OffsetPaginator;
@@ -24,12 +23,13 @@ final class CommentController
         $this->viewRenderer = $viewRenderer->withControllerName('blog/comments');
     }
 
-    public function index(Request                          $request, CommentRepository $repository,
-                          #[Query('sort')] ?string         $sortOrder = null,
-                          #[RouteArgument('page')] int     $page = 1,
-                          #[RouteArgument('pagesize')] int $pageSize = null,
-    ): Response
-    {
+    public function index(
+        Request $request,
+        CommentRepository $repository,
+        #[Query('sort')] ?string $sortOrder = null,
+        #[RouteArgument('page')] int $page = 1,
+        #[RouteArgument('pagesize')] int $pageSize = null,
+    ): Response {
         $dataReader = $repository
             ->findAll()
             ->withSort($repository->getSort()

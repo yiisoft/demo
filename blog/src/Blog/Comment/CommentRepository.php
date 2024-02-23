@@ -9,14 +9,14 @@ use Cycle\ORM\Select;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
-use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class CommentRepository extends Select\Repository
 {
-    public function __construct( Select $select)
+    public function __construct(Select $select)
     {
         parent::__construct($select);
     }
+
     /**
      * @psalm-return DataReaderInterface<int, Comment>
      */

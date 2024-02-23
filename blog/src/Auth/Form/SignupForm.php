@@ -55,7 +55,6 @@ final class SignupForm extends FormModel implements RulesProviderInterface
         $user = new User($this->getLogin(), $this->getPassword());
         $this->userRepository->save($user);
         return $user;
-
     }
 
     public function getRules(): array

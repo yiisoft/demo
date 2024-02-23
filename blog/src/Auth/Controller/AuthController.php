@@ -10,7 +10,6 @@ use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
-use Yiisoft\Http\Method;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
@@ -19,9 +18,9 @@ use Yiisoft\Yii\View\ViewRenderer;
 final class AuthController
 {
     public function __construct(
-        private readonly AuthService          $authService,
+        private readonly AuthService $authService,
         private readonly WebControllerService $webService,
-        private ViewRenderer                  $viewRenderer,
+        private ViewRenderer $viewRenderer,
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
     }
@@ -50,7 +49,6 @@ final class AuthController
 
         return $this->viewRenderer->render('login', ['formModel' => $loginForm]);
     }
-
 
     public function logout(): ResponseInterface
     {
