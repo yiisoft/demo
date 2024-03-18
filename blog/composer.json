@@ -62,6 +62,7 @@
         "yiisoft/mailer-symfony": "^3.0",
         "yiisoft/middleware-dispatcher": "^5.2",
         "yiisoft/rate-limiter": "dev-master",
+        "yiisoft/request-provider": "^1.0",
         "yiisoft/rbac": "^1.0",
         "yiisoft/rbac-php": "^1.0",
         "yiisoft/rbac-rules-container": "^2.0",
