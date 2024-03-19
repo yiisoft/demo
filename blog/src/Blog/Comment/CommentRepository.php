@@ -8,7 +8,7 @@ use App\Blog\Entity\Comment;
 use Cycle\ORM\Select;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
 
 final class CommentRepository extends Select\Repository
 {
