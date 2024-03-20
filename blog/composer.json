@@ -45,7 +45,7 @@
         "yiisoft/cookies": "^1.2",
         "yiisoft/csrf": "^2.0",
         "yiisoft/data": "dev-master as 1.0.1",
-        "yiisoft/data-cycle": "dev-master",
+        "yiisoft/data-cycle": "dev-data-2",
         "yiisoft/data-response": "^2.0",
         "yiisoft/definitions": "^3.0",
         "yiisoft/di": "^1.2",
