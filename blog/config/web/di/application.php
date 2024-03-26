@@ -33,5 +33,4 @@ return [
             'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
         ],
     ],
-    RequestCatcherMiddleware::class => [],
 ];
