@@ -21,9 +21,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
+use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Yii\Console\ExitCode;
 use Yiisoft\Yii\Cycle\Command\CycleDependencyProxy;
-use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class AddCommand extends Command
 {
