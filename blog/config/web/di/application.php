@@ -6,7 +6,6 @@ use App\Handler\NotFoundHandler;
 use Yiisoft\Definitions\DynamicReference;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
-use Yiisoft\RequestProvider\RequestCatcherMiddleware;
 use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Middleware\Subfolder;
 
