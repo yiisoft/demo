@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Debug\CacheCollector\CacheCollector;
+use App\Debug\CacheCollector\SimpleCacheInterfaceProxy;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\LinkTagsViewInjection;
 use App\ViewInjection\MetaTagsViewInjection;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
+use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Form\Field\SubmitButton;
@@ -198,5 +201,15 @@ return [
 
     'yiisoft/yii-debug-api' => [
         'allowedIPs' => ['172.0.0.1/10'],
+    ],
+
+    'yiisoft/yii-debug' => [
+        'enabled' => true,
+        'collectors' => [
+            CacheCollector::class,
+        ],
+        'trackedServices' => [
+            CacheInterface::class => [SimpleCacheInterfaceProxy::class, CacheCollector::class],
+        ],
     ],
 ];
