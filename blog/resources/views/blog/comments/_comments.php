@@ -33,7 +33,7 @@ use Yiisoft\Translator\TranslatorInterface;
     <div class="row load-more-comment-container">
         <div class="col-sm-12">
             <a class="load-more-comment btn btn-primary btn-lg btn-block"
-               href="<?= $urlGenerator->generate('blog/comment/index', ['next' => $data->getNextPageToken()]) ?>">
+               href="<?= $urlGenerator->generate('blog/comment/index', ['next' => $data->getToken()->value]) ?>">
                 <?= $translator->translate('layout.show-more') ?>
             </a>
         </div>

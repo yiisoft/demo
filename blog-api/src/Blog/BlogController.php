@@ -6,29 +6,14 @@ namespace App\Blog;
 
 use App\Formatter\PaginatorFormatter;
 use App\User\UserRequest;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Input\Http\Attribute\Parameter\Query;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
-/**
- * @OA\Tag(
- *     name="blog",
- *     description="Blog"
- * )
- *
- * @OA\Parameter(
- *
- *      @OA\Schema(
- *          type="int",
- *          example="2"
- *      ),
- *      in="query",
- *      name="page",
- *      parameter="PageRequest"
- * )
- */
+#[OA\Tag(name: 'blog', description: 'Blog')]
+#[OA\Parameter(parameter: 'PageRequest', name: 'page', in: 'query', schema: new OA\Schema(type: 'int', example: '2'))]
 final class BlogController
 {
     private DataResponseFactoryInterface $responseFactory;
@@ -51,47 +36,36 @@ final class BlogController
         $this->blogService = $blogService;
     }
 
-    /**
-     * @OA\Get(
-     *     tags={"blog"},
-     *     path="/blog/",
-     *     summary="Returns paginated blog posts",
-     *     description="",
-     *
-     *     @OA\Parameter(ref="#/components/parameters/PageRequest"),
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              allOf={
-     *
-     *                  @OA\Schema(ref="#/components/schemas/Response"),
-     *                  @OA\Schema(
-     *
-     *                      @OA\Property(
-     *                          property="data",
-     *                          type="object",
-     *                          @OA\Property(
-     *                              property="posts",
-     *                              type="array",
-     *
-     *                              @OA\Items(ref="#/components/schemas/Post")
-     *                          ),
-     *
-     *                          @OA\Property(
-     *                              property="paginator",
-     *                              type="object",
-     *                              ref="#/components/schemas/Paginator"
-     *                          ),
-     *                      ),
-     *                  ),
-     *              },
-     *          )
-     *    ),
-     * )
-     */
+    #[OA\Get(
+        path: '/blog/',
+        description: '',
+        summary: 'Returns paginated blog posts',
+        tags: ['blog'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/PageRequest'),
+        ],
+        responses: [
+            new OA\Response(
+                response:'200',
+                description:'Success',
+                content: new OA\JsonContent(
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(
+                                property: 'data',
+                                properties: [
+                                    new OA\Property(property: 'posts', type: 'array', items: new OA\Items(ref:'#/components/schemas/Post')),
+                                    new OA\Property(property: 'paginator', ref: '#/components/schemas/Paginator', type: 'object'),
+                                ],
+                                type: 'object'
+                            ),
+                        ]),
+                    ]
+                ),
+            ),
+        ]
+    )]
     public function index(PaginatorFormatter $paginatorFormatter, #[Query('page')] int $page = 1): Response
     {
         $paginator = $this->blogService->getPosts($page);
@@ -108,63 +82,46 @@ final class BlogController
         );
     }
 
-    /**
-     * @OA\Get(
-     *     tags={"blog"},
-     *     path="/blog/{id}",
-     *     summary="Returns a post with a given ID",
-     *     description="",
-     *
-     *     @OA\Parameter(
-     *
-     *          @OA\Schema(type="int", example="2"),
-     *          in="path",
-     *          name="id",
-     *          parameter="id"
-     *     ),
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              allOf={
-     *
-     *                  @OA\Schema(ref="#/components/schemas/Response"),
-     *                  @OA\Schema(
-     *
-     *                      @OA\Property(
-     *                          property="data",
-     *                          type="object",
-     *                          @OA\Property(
-     *                              property="post",
-     *                              type="object",
-     *                              ref="#/components/schemas/Post"
-     *                          ),
-     *                      ),
-     *                  ),
-     *              },
-     *          )
-     *    ),
-     *
-     *    @OA\Response(
-     *          response="404",
-     *          description="Not found",
-     *
-     *          @OA\JsonContent(
-     *              allOf={
-     *
-     *                  @OA\Schema(ref="#/components/schemas/BadResponse"),
-     *                  @OA\Schema(
-     *
-     *                      @OA\Property(property="error_message", example="Entity not found"),
-     *                      @OA\Property(property="error_code", nullable=true, example=404)
-     *                  ),
-     *              },
-     *          )
-     *    ),
-     * )
-     */
+    #[OA\Get(
+        path: '/blog/{id}',
+        description: '',
+        summary: 'Returns a post with a given ID',
+        tags: ['blog'],
+        parameters: [
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', schema: new OA\Schema(type: 'int', example: '2')),
+        ],
+        responses: [
+            new OA\Response(
+                response:'200',
+                description:'Success',
+                content: new OA\JsonContent(
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(
+                                property: 'data',
+                                properties: [
+                                    new OA\Property(property: 'post', ref: '#/components/schemas/Post', type: 'object'),
+                                ],
+                                type: 'object'
+                            ),
+                        ]),
+                    ]
+                ),
+            ),
+            new OA\Response(
+                response: '404',
+                description: 'Not found',
+                content: new OA\JsonContent(allOf: [
+                    new OA\Schema(ref:  '#/components/schemas/BadResponse'),
+                    new OA\Schema(properties: [
+                        new OA\Property(property:'error_message', example:'Entity not found'),
+                        new OA\Property(property: 'error_code', example: 404, nullable: true),
+                    ]),
+                ])
+            ),
+        ]
+    )]
     public function view(#[RouteArgument('id')] int $id): Response
     {
         return $this->responseFactory->createResponse(
@@ -176,34 +133,30 @@ final class BlogController
         );
     }
 
-    /**
-     * @OA\Post(
-     *     tags={"blog"},
-     *     path="/blog",
-     *     summary="Creates a blog post",
-     *     description="",
-     *     security={{"ApiKey": {}}},
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              ref="#/components/schemas/Response"
-     *          )
-     *    ),
-     *
-     *     @OA\RequestBody(
-     *          required=true,
-     *
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *
-     *              @OA\Schema(ref="#/components/schemas/EditPostRequest"),
-     *          ),
-     *     ),
-     * )
-     */
+    #[OA\Post(
+        path: '/blog/',
+        description: '',
+        summary: 'Creates a blog post',
+        security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
+        requestBody: new OA\RequestBody(required: true, content: new OA\JsonContent(
+            allOf: [
+                new OA\Schema(ref: '#/components/schemas/EditPostRequest'),
+            ]
+        )),
+        tags: ['blog'],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(ref: '#/components/schemas/Response')
+            ),
+            new OA\Response(
+                response: '400',
+                description: 'Bad request',
+                content: new OA\JsonContent(ref:  '#/components/schemas/BadResponse')
+            ),
+        ]
+    )]
     public function create(EditPostRequest $postRequest, UserRequest $userRequest): Response
     {
         $post = $this->postBuilder->build(new Post(), $postRequest);
@@ -214,42 +167,33 @@ final class BlogController
         return $this->responseFactory->createResponse();
     }
 
-    /**
-     * @OA\Put(
-     *     tags={"blog"},
-     *     path="/blog/{id}",
-     *     summary="Updates a blog post with a given ID",
-     *     description="",
-     *     security={{"ApiKey": {}}},
-     *
-     *     @OA\Parameter(
-     *
-     *          @OA\Schema(type="int", example="2"),
-     *          in="path",
-     *          name="id",
-     *          parameter="id"
-     *     ),
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              ref="#/components/schemas/Response"
-     *          )
-     *    ),
-     *
-     *     @OA\RequestBody(
-     *          required=true,
-     *
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *
-     *              @OA\Schema(ref="#/components/schemas/EditPostRequest"),
-     *          ),
-     *     )
-     * )
-     */
+    #[OA\Put(
+        path: '/blog/{id}',
+        description: '',
+        summary: 'Updates a blog post with a given ID',
+        security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
+        requestBody: new OA\RequestBody(required: true, content: new OA\JsonContent(
+            allOf: [
+                new OA\Schema(ref: '#/components/schemas/EditPostRequest'),
+            ]
+        )),
+        tags: ['blog'],
+        parameters: [
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', schema: new OA\Schema(type: 'int', example: '2')),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(ref: '#/components/schemas/Response')
+            ),
+            new OA\Response(
+                response: '400',
+                description: 'Bad request',
+                content: new OA\JsonContent(ref:  '#/components/schemas/BadResponse')
+            ),
+        ]
+    )]
     public function update(EditPostRequest $postRequest, #[RouteArgument('id')] int $id): Response
     {
         $post = $this->postBuilder->build(

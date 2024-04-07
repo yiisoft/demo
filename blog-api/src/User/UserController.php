@@ -6,17 +6,12 @@ namespace App\User;
 
 use App\Exception\NotFoundException;
 use App\RestControllerTrait;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 
-/**
- * @OA\Tag(
- *     name="user",
- *     description="Users"
- * )
- */
+#[OA\Tag(name: 'user', description: 'User')]
 final class UserController
 {
     use RestControllerTrait;
@@ -35,40 +30,37 @@ final class UserController
         $this->userFormatter = $userFormatter;
     }
 
-    /**
-     * @OA\Get(
-     *     tags={"user"},
-     *     path="/users",
-     *     summary="Returns paginated users",
-     *     description="",
-     *     security={{"ApiKey": {}}},
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              allOf={
-     *
-     *                  @OA\Schema(ref="#/components/schemas/Response"),
-     *                  @OA\Schema(
-     *
-     *                      @OA\Property(
-     *                          property="data",
-     *                          type="object",
-     *                          @OA\Property(
-     *                              property="users",
-     *                              type="array",
-     *
-     *                              @OA\Items(ref="#/components/schemas/User")
-     *                          ),
-     *                      ),
-     *                  ),
-     *              },
-     *          )
-     *    ),
-     * )
-     */
+    #[OA\Get(
+        path: '/users/',
+        description: '',
+        summary: 'Returns paginated users',
+        security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
+        tags: ['user'],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(
+                                property: 'data',
+                                properties: [
+                                    new OA\Property(
+                                        property: 'user',
+                                        type: 'array',
+                                        items: new OA\Items(ref: '#/components/schemas/User')
+                                    ),
+                                ],
+                                type: 'object'
+                            ),
+                        ]),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function list(): ResponseInterface
     {
         $dataReader = $this->userRepository->findAllOrderByLogin();
@@ -84,47 +76,36 @@ final class UserController
         );
     }
 
-    /**
-     * @OA\Get(
-     *     tags={"user"},
-     *     path="/users/{id}",
-     *     summary="Returns a user with a given ID",
-     *     description="",
-     *     security={{"ApiKey": {}}},
-     *
-     *     @OA\Parameter(
-     *
-     *          @OA\Schema(type="int", example="2"),
-     *          in="path",
-     *          name="id",
-     *          parameter="id"
-     *     ),
-     *
-     *     @OA\Response(
-     *          response="200",
-     *          description="Success",
-     *
-     *          @OA\JsonContent(
-     *              allOf={
-     *
-     *                  @OA\Schema(ref="#/components/schemas/Response"),
-     *                  @OA\Schema(
-     *
-     *                      @OA\Property(
-     *                          property="data",
-     *                          type="object",
-     *                          @OA\Property(
-     *                              property="user",
-     *                              type="object",
-     *                              ref="#/components/schemas/User"
-     *                          ),
-     *                      ),
-     *                  ),
-     *              },
-     *          )
-     *    ),
-     * )
-     */
+    #[OA\Get(
+        path: '/users/{id}',
+        description: '',
+        summary: 'Returns a user with a given ID',
+        security: [new OA\SecurityScheme(ref: '#/components/securitySchemes/ApiKey')],
+        tags: ['user'],
+        parameters: [
+            new OA\Parameter(parameter: 'id', name: 'id', in: 'path', example: 2),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(
+                                property: 'data',
+                                properties: [
+                                    new OA\Property(property: 'user', ref: '#/components/schemas/User', type: 'object'),
+                                ],
+                                type: 'object'
+                            ),
+                        ]),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function get(#[RouteArgument('id')] int $id): ResponseInterface
     {
         /**

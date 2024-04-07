@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use OpenApi\Annotations as OA;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
 use Yiisoft\Input\Http\RequestInputInterface;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *      schema="AuthRequest",
- *
- *      @OA\Property(example="Opal1144", property="login", format="string"),
- *      @OA\Property(example="Opal1144", property="password", format="string"),
- * )
- */
+#[OA\Schema(
+    schema: 'AuthRequest',
+    properties: [
+        new OA\Property(property: 'login', type: 'string', example: 'Opal1144'),
+        new OA\Property(property: 'password', type: 'string', example: 'Opal1144'),
+    ]
+)]
 final class AuthRequest implements RequestInputInterface, RulesProviderInterface
 {
     #[Body('login')]

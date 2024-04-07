@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-use OpenApi\Annotations as OA;
 use Yiisoft\Hydrator\Validator\Attribute\Validate;
 use Yiisoft\Input\Http\AbstractInput;
 use Yiisoft\Input\Http\Attribute\Parameter\Body;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *      schema="EditPostRequest",
- *
- *      @OA\Property(example="Title post", property="title", format="string"),
- *      @OA\Property(example="Text post", property="text", format="string"),
- *      @OA\Property(example=1, property="status", format="int"),
- * )
- */
+#[OA\Schema(
+    schema: 'EditPostRequest',
+    properties: [
+        new OA\Property(property: 'title', type: 'string', example: 'Title post'),
+        new OA\Property(property: 'text', type: 'string', example: 'Text post'),
+        new OA\Property(property: 'status', type: 'int', example: '1'),
+    ]
+)]
 final class EditPostRequest extends AbstractInput implements RulesProviderInterface
 {
     #[RouteArgument('id')]

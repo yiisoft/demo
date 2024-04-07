@@ -49,7 +49,7 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
-            if ($formHydrator->populate($form, $parameters['body']) && $form->isValid()) {
+            if ($formHydrator->populateAndValidate($form, $parameters['body'])) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
 
                 return $this->webService->getRedirectResponse('blog/index');
@@ -65,7 +65,8 @@ final class PostController
         Request $request,
         PostRepository $postRepository,
         ValidatorInterface $validator,
-        CurrentRoute $currentRoute
+        CurrentRoute $currentRoute,
+        FormHydrator $formHydrator
     ): Response {
         $slug = $currentRoute->getArgument('slug');
         $post = $postRepository->fullPostPage($slug);
@@ -87,16 +88,13 @@ final class PostController
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
             $body = $request->getParsedBody();
-            if ($form->load($body) && $validator
-                    ->validate($form)
-                    ->isValid()) {
+            if ($formHydrator->populateAndValidate($form, $body)) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
-
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFormErrors();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByAttribute();
         }
 
         return $this->viewRenderer->render('__form', $parameters);

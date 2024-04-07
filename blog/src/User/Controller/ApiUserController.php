@@ -6,32 +6,47 @@ namespace App\User\Controller;
 
 use App\User\User;
 use App\User\UserRepository;
-use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Router\CurrentRoute;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Tag(
- *     name="user",
- *     description="User"
- * )
- */
+#[OA\Tag(name: 'user', description: 'User')]
 final class ApiUserController
 {
     public function __construct(private DataResponseFactoryInterface $responseFactory)
     {
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/user",
-     *     tags={"user"},
-     *
-     *     @OA\Response(response="200", description="Get users list")
-     * )
-     */
+    #[OA\Get(
+        path: '/api/user',
+        description: '',
+        summary: 'Get users list',
+        tags: ['user'],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\XmlContent(
+                    xml: new OA\Xml(name: 'response'),
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(
+                                property: 'data',
+                                type: 'array',
+                                items: new OA\Items(properties: [
+                                    new OA\Property(property: 'login', type: 'string', example: 'exampleLogin'),
+                                    new OA\Property(property: 'created_at', type: 'string', example: '13.12.2020 00:04:20'),
+                                ])
+                            ),
+                        ]),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function index(UserRepository $userRepository): ResponseInterface
     {
         $dataReader = $userRepository
@@ -49,22 +64,32 @@ final class ApiUserController
         return $this->responseFactory->createResponse($items);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/user/{login}",
-     *     tags={"user"},
-     *
-     *     @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="path",
-     *     name="login",
-     *     parameter="login"
-     *     ),
-     *
-     *     @OA\Response(response="200", description="Get user info")
-     * )
-     */
+    #[OA\Get(
+        path: '/api/user/{login}',
+        description: '',
+        summary: 'Get user info',
+        tags: ['user'],
+        parameters: [
+            new OA\Parameter(parameter: 'login', name: 'Login', in: 'path'),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'Success',
+                content: new OA\JsonContent(
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/Response'),
+                        new OA\Schema(properties: [
+                            new OA\Property(property: 'data', properties: [
+                                new OA\Property(property: 'login', type: 'string', example: 'exampleLogin'),
+                                new OA\Property(property: 'created_at', type: 'string', example: '13.12.2020 00:04:20'),
+                            ], type: 'object'),
+                        ]),
+                    ]
+                ),
+            ),
+        ]
+    )]
     public function profile(UserRepository $userRepository, CurrentRoute $currentRoute): ResponseInterface
     {
         $login = $currentRoute->getArgument('login');

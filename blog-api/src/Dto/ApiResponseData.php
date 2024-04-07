@@ -4,70 +4,53 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *      schema="Response",
- * )
- * @OA\Schema(
- *      schema="BadResponse",
- *      allOf={
- *          @OA\Schema(ref="#/components/schemas/Response"),
- *          @OA\Schema(
- *
- *              @OA\Property(
- *                  property="status",
- *                  example="failed",
- *              ),
- *              @OA\Property(property="error_message", example="Error description message"),
- *              @OA\Property(property="error_code", nullable=true, example=400),
- *              @OA\Property(
- *                  property="data",
- *                  example=null
- *              ),
- *          )
- *      }
- * )
- */
+#[OA\Schema(
+    schema: 'Response'
+)]
+#[OA\Schema(
+    schema: 'BadResponse',
+    allOf: [
+        new OA\Schema(ref: '#/components/schemas/Response'),
+        new OA\Schema(properties: [
+            new OA\Property(property: 'status', example: 'failed'),
+            new OA\Property(property: 'error_message', example: 'Error description message'),
+            new OA\Property(property: 'error_code', example: '400', nullable: true),
+            new OA\Property(property: 'data', example: null),
+        ]),
+    ]
+)]
 final class ApiResponseData
 {
-    /**
-     * @OA\Property(
-     *      property="status",
-     *      format="string",
-     *      example="success",
-     *      enum={"success", "failed"}
-     * )
-     */
+    #[OA\Property(
+        property: 'status',
+        format: 'string',
+        enum: ['success', 'failed'],
+        example: 'success'
+    )]
     private string $status = '';
 
-    /**
-     * @OA\Property(
-     *     property="error_message",
-     *     format="string",
-     *     example=""
-     * )
-     */
+    #[OA\Property(
+        property: 'error_message',
+        format: 'string',
+        example: ''
+    )]
     private string $errorMessage = '';
 
-    /**
-     * @OA\Property(
-     *     property="error_code",
-     *     format="integer",
-     *     nullable=true,
-     *     example=null
-     * )
-     */
+    #[OA\Property(
+        property: 'error_code',
+        format: 'integer',
+        example: null,
+        nullable: true
+    )]
     private ?int $errorCode = null;
 
-    /**
-     * @OA\Property(
-     *      property="data",
-     *      type="object",
-     *      nullable=true,
-     * )
-     */
+    #[OA\Property(
+        property: 'data',
+        type: 'object',
+        nullable: true
+    )]
     private ?array $data = null;
 
     public function getStatus(): string

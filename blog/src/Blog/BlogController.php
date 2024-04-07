@@ -9,7 +9,7 @@ use App\Blog\Post\PostRepository;
 use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
-use Yiisoft\Hydrator\Temp\RouteArgument;
+use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\ViewRenderer;
 
@@ -36,7 +36,7 @@ final class BlogController
         $dataReader = $postRepository->findAllPreloaded();
         $paginator = (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)
-            ->withCurrentPage($pageNum);
+            ->withCurrentPage((int)$pageNum);
 
         $data = [
             'paginator' => $paginator,

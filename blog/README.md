@@ -22,13 +22,21 @@ It's intended to show and test all Yii features.
 You'll need at least PHP 8.1.
 
 1. Clone this repository.
-2. Run `composer install` in your project root directory.
+2. Run command in your project root directory.
+```bash
+composer install
+```
 3. Run `./yii serve` (on Windows `yii serve`). The application will be started on http://localhost:8080/.
+```bash
+./yii serve 
+```
 4. Go to the index page. Cycle ORM will create tables, indexes and relations automatically in the configured DB for you.
    If you want to disable this behavior then comment out the line with the `Generator\SyncTables::class` in the `config/packges/yiisoft/yii-cycle/params.php`.
    In this case you should create migrations to sync changes that you have made to entities with the DB.
-5. Run `./yii fixture/add 20` to create some random data.
-
+5. Run command to create some random data.
+```bash
+./yii fixture/add 20
+```
 ## Console
 
 Console works out of the box and could be executed with `./yii`.
@@ -36,16 +44,19 @@ Console works out of the box and could be executed with `./yii`.
 Some commands:
 
 ```bash
-user/create <login> <password>
-fixture/add [count]
+./yii user/create login password
+./yii fixture/add 10
 ```
 
 In order to register your own commands, add them to `console/params.php`, `console` → `commands` section.
 
 ## Web application
 
-In order to run the web application, you can either use the built-in web server by running `./yii serve` or you could use a
-real web server by pointing it to `/public/index.php`.
+In order to run the web application, you can either use the built-in web server by running 
+```bash 
+./yii serve
+``` 
+ or you could use a real web server by pointing it to `/public/index.php`.
 
 More routes could be added by editing `src/Factory/AppRouterFactory`.
 
@@ -54,7 +65,7 @@ More routes could be added by editing `src/Factory/AppRouterFactory`.
 The template comes with a  ready to use [Codeception](https://codeception.com/) configuration.
 In order to execute tests run the following command:
 
-```
+```bash
 composer run serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
 vendor/bin/codecept run
 ```

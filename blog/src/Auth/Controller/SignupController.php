@@ -10,7 +10,6 @@ use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
-use Yiisoft\Http\Method;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class SignupController
@@ -30,10 +29,8 @@ final class SignupController
             return $this->redirectToMain();
         }
 
-        if ($request->getMethod() === Method::POST
-            && $formHydrator->populate($signupForm, $request->getParsedBody())
-            && $signupForm->signup()
-        ) {
+        if ($formHydrator->populateFromPostAndValidate($signupForm, $request)) {
+            $signupForm->signup();
             return $this->redirectToMain();
         }
 

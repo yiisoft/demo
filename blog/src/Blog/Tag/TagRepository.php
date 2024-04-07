@@ -11,9 +11,9 @@ use App\Blog\Post\PostRepository;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class TagRepository extends Repository
 {

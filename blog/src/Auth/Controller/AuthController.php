@@ -10,7 +10,6 @@ use App\Service\WebControllerService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
-use Yiisoft\Http\Method;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
@@ -19,8 +18,8 @@ use Yiisoft\Yii\View\ViewRenderer;
 final class AuthController
 {
     public function __construct(
-        private AuthService $authService,
-        private WebControllerService $webService,
+        private readonly AuthService $authService,
+        private readonly WebControllerService $webService,
         private ViewRenderer $viewRenderer,
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('auth');
@@ -36,17 +35,12 @@ final class AuthController
             return $this->redirectToMain();
         }
 
-        $body = $request->getParsedBody();
         $loginForm = new LoginForm($this->authService, $translator);
 
-        if (
-            $request->getMethod() === Method::POST
-            && $formHydrator->populate($loginForm, $body)
-            && $loginForm->isValid()
-        ) {
+        if ($formHydrator->populateFromPostAndValidate($loginForm, $request)) {
             $identity = $this->authService->getIdentity();
 
-            if ($identity instanceof CookieLoginIdentityInterface && $loginForm->getAttributeValue('rememberMe')) {
+            if ($identity instanceof CookieLoginIdentityInterface && $loginForm->getPropertyValue('rememberMe')) {
                 return $cookieLogin->addCookie($identity, $this->redirectToMain());
             }
 
