@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px">
+        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
     <h1 align="center">Yii Framework API Demo Project</h1>
     <br>
@@ -40,7 +40,7 @@ Change ownership of the app directory to web group:
 chown -R :www-data .
 ```
 
-Usually the application is available at http://localhost:8080.
+Usually the application is available at <http://localhost:8080>.
 
 Authorization is performed via the `X-Api-Key` header.
 
@@ -55,7 +55,6 @@ on how to annotate your code.
 ```php
 ./vendor/bin/codecept run
 ```
-
 
 ## Static analysis
 
