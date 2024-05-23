@@ -6,7 +6,7 @@
     <br>
 </p>
 
-[Yii Framework] is a modern framework designed to be a solid foundation for your PHP application.
+[Yii Framework](https://www.yiiframework.com/) is a modern framework designed to be a solid foundation for your PHP application.
 
 It's intended to show and test all Yii features.
 
