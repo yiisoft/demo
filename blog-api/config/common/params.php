@@ -20,6 +20,7 @@ return [
     'locale' => [
         'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'de' => 'de-DE'],
         'ignoredRequests' => [
+            '/gii**',
             '/debug**',
             '/inspect**',
         ],
