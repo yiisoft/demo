@@ -9,7 +9,13 @@ use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\Php\AssignmentsStorage;
 use Yiisoft\Rbac\Php\ItemsStorage;
 
-/** @var array $params */
+/** 
+ * @var array $params
+ * @var array $params['yiisoft/aliases']
+ * @var array $params['yiisoft/aliases']['aliases']
+ * @var string $params['yiisoft/aliases']['aliases']['@root'] 
+ */
+
 
 return [
     ItemsStorageInterface::class => [

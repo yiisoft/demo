@@ -19,6 +19,7 @@ return [
     'layout.archive' => 'Archive',
     'layout.blog' => 'Blog',
     'layout.change-language' => 'Change language',
+    'layout.change-password' => 'Change password',
     'layout.console' => 'Console',
     'layout.content' => 'Content',
     'layout.create.new-user' => 'Create new user',

@@ -18,4 +18,16 @@ return [
         'updatedAt' => 1599036348,
         'createdAt' => 1599036348,
     ],
+    
+    /**
+     * Purpose: Effects read-only status of Login text box 
+     * @see Auth/Controller/ChangePasswordController 'canChangePasswordForAnyUser'
+     * @see views/changepassword/change $canChangePasswordForAnyUser
+     */
+    'canChangePasswordForAnyUser' => [
+        'name' => 'canChangePasswordForAnyUser',
+        'type' => 'permission',
+        'updatedAt' => 1599036348,
+        'createdAt' => 1599036348,
+    ],
 ];

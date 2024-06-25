@@ -9,8 +9,13 @@ use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Middleware\Subfolder;
 
-/** @var array $params */
-
+/** 
+ * @var array $params
+ * @var array $params['locale']
+ * @var array $params['locale']['locales']
+ * @var array $params['locale']['ignoredRequests']
+ * @var string|null $_ENV['BASE_URL']
+ */
 return [
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [

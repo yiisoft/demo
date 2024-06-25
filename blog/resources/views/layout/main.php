@@ -141,6 +141,12 @@ $this->beginPage();
                         'url' => $urlGenerator->generate('auth/signup'),
                         'visible' => $isGuest,
                     ],
+                    [
+                        'label' => $translator->translate('layout.change-password'),
+                        'url' => $urlGenerator->generate('auth/change'),
+                        // Only make visible if NOT a guest i.e. authenticated and/or authorized
+                        'visible' => !$isGuest,
+                    ],
                     $isGuest ? '' : Form::tag()
                             ->post($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
