@@ -64,7 +64,6 @@ final class PostController
     public function edit(
         Request $request,
         PostRepository $postRepository,
-        ValidatorInterface $validator,
         CurrentRoute $currentRoute,
         FormHydrator $formHydrator
     ): Response {
