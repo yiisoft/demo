@@ -8,7 +8,7 @@ use App\Blog\Tag\TagRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class ArchiveController
 {
