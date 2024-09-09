@@ -11,8 +11,6 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Header;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Session\Flash\Flash;
-use Yiisoft\Session\SessionInterface;
 use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class ContactController

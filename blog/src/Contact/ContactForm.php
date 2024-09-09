@@ -48,7 +48,6 @@ final class ContactForm extends FormModel implements RulesProviderInterface, Pro
         ];
     }
 
-
     public function getPropertyTranslator(): ?PropertyTranslatorInterface
     {
         return new ArrayPropertyTranslator($this->getPropertyLabels());
