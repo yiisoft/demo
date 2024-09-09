@@ -73,7 +73,8 @@
         "yiisoft/queue": "3.0.x-dev",
         "yiisoft/yii-runner-console": "^2.0",
         "yiisoft/yii-runner-http": "^2.0",
-        "yiisoft/yii-swagger": "^2.0"
+        "yiisoft/yii-swagger": "^2.0",
+        "zircote/swagger-php": "^4.0"
     },
     "require-dev": {
         "codeception/c3": "^2.6",
