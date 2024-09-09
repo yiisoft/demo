@@ -91,7 +91,8 @@
         "yiisoft/yii-runner-http": "^2.0",
         "yiisoft/yii-sentry": "^2.0.1",
         "yiisoft/yii-swagger": "^2.1.1",
-        "yiisoft/yii-view-renderer": "^7.1"
+        "yiisoft/yii-view-renderer": "^7.1",
+        "zircote/swagger-php": "^4.0"
     },
     "require-dev": {
         "codeception/c3": "^2.6",
