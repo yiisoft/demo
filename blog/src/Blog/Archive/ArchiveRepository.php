@@ -107,10 +107,10 @@ final class ArchiveRepository
         if ($driver instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
 
-            return new Fragment("strftime('{$str}', post.published_at) {$wrappedField}");
+            return new Fragment("strftime('$str', post.published_at) $wrappedField");
         }
 
-        return new Fragment("extract({$attr} from post.published_at) {$wrappedField}");
+        return new Fragment("extract($attr from post.published_at) $wrappedField");
     }
 
     private function getDriver(): DriverInterface

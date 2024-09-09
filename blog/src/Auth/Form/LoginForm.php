@@ -24,7 +24,7 @@ final class LoginForm extends FormModel implements RulesProviderInterface
     ) {
     }
 
-    public function getAttributeLabels(): array
+    public function getPropertyLabels(): array
     {
         return [
             'login' => $this->translator->translate('layout.login'),

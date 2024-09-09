@@ -20,7 +20,7 @@ final class ContactForm extends FormModel implements RulesProviderInterface
     #[UploadedFiles('ContactForm.attachFiles')]
     private array $attachFiles = [];
 
-    public function getAttributeLabels(): array
+    public function getPropertyLabels(): array
     {
         return [
             'name' => 'Name',

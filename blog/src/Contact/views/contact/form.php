@@ -12,7 +12,7 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 
 /**
- * @var Yiisoft\Yii\View\Csrf $csrf
+ * @var Yiisoft\Yii\View\Renderer\Csrf $csrf
  * @var ContactForm           $form
  * @var UrlGeneratorInterface $url
  * @var WebView               $this
