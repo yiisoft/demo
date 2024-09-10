@@ -14,15 +14,10 @@ use Yiisoft\DataResponse\DataResponseFactoryInterface as ResponseFactory;
 #[OA\SecurityScheme(securityScheme: 'ApiKey', type: 'apiKey', name: 'X-Api-Key', in: 'header')]
 final class AuthController
 {
-    private ResponseFactory $responseFactory;
-    private UserService $userService;
-
     public function __construct(
-        ResponseFactory $responseFactory,
-        UserService $userService
+        private ResponseFactory $responseFactory,
+        private UserService $userService,
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->userService = $userService;
     }
 
     #[OA\Post(

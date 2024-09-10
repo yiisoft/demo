@@ -10,7 +10,6 @@ return [
         'enabled' => false,
     ],
     'yiisoft/yii-cycle' => [
-        // DBAL config
         'dbal' => [
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
