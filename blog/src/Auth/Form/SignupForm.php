@@ -8,13 +8,16 @@ use App\User\User;
 use App\User\UserRepository;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\PropertyTranslator\ArrayPropertyTranslator;
+use Yiisoft\Validator\PropertyTranslatorInterface;
+use Yiisoft\Validator\PropertyTranslatorProviderInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
-final class SignupForm extends FormModel implements RulesProviderInterface
+final class SignupForm extends FormModel implements RulesProviderInterface, PropertyTranslatorProviderInterface
 {
     private string $login = '';
     private string $password = '';
@@ -84,5 +87,10 @@ final class SignupForm extends FormModel implements RulesProviderInterface
                 ),
             ],
         ];
+    }
+
+    public function getPropertyTranslator(): ?PropertyTranslatorInterface
+    {
+        return new ArrayPropertyTranslator($this->getPropertyLabels());
     }
 }

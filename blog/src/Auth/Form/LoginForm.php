@@ -7,12 +7,15 @@ namespace App\Auth\Form;
 use App\Auth\AuthService;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\PropertyTranslator\ArrayPropertyTranslator;
+use Yiisoft\Validator\PropertyTranslatorInterface;
+use Yiisoft\Validator\PropertyTranslatorProviderInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Callback;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
-final class LoginForm extends FormModel implements RulesProviderInterface
+final class LoginForm extends FormModel implements RulesProviderInterface, PropertyTranslatorProviderInterface
 {
     private string $login = '';
     private string $password = '';
@@ -63,5 +66,10 @@ final class LoginForm extends FormModel implements RulesProviderInterface
                 skipOnEmpty: true,
             ),
         ];
+    }
+
+    public function getPropertyTranslator(): ?PropertyTranslatorInterface
+    {
+        return new ArrayPropertyTranslator($this->getPropertyLabels());
     }
 }

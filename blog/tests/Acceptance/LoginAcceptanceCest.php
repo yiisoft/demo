@@ -28,8 +28,8 @@ final class LoginAcceptanceCest
         $I->click('Submit', '#loginForm');
 
         $I->expectTo('see validations errors.');
-        $I->see('Value cannot be blank');
-        $I->see('Value cannot be blank');
+        $I->see('Login cannot be blank.');
+        $I->see('Password cannot be blank.');
         $I->seeElement('button', ['name' => 'login-button']);
     }
 

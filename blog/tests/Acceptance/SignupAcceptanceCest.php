@@ -44,9 +44,10 @@ final class SignupAcceptanceCest
         $I->click('Submit', '#signupForm');
 
         $I->expectTo('see registration register validation.');
-        $I->see('Value cannot be blank');
-        $I->see('Value cannot be blank');
-        $I->see('Value cannot be blank');
+        $I->see('Login cannot be blank.');
+        $I->see('Password cannot be blank.');
+        $I->see('Password must contain at least 8 characters.');
+        $I->see('Confirm password cannot be blank.');
         $I->seeElement('button', ['name' => 'register-button']);
     }
 
