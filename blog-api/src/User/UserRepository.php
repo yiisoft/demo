@@ -19,8 +19,7 @@ final class UserRepository extends Select\Repository implements IdentityWithToke
         Select $select,
         private ORMInterface $orm,
         private EntityWriter $entityWriter,
-    )
-    {
+    ) {
         parent::__construct($select);
     }
 
