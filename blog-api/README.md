@@ -9,7 +9,6 @@
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/demo-api/v/stable.png)](https://packagist.org/packages/yiisoft/demo-api)
 [![Total Downloads](https://poser.pugx.org/yiisoft/demo-api/downloads.png)](https://packagist.org/packages/yiisoft/demo-api)
 [![Build status](https://github.com/yiisoft/demo-api/workflows/build/badge.svg)](https://github.com/yiisoft/demo-api/actions?query=workflow%3Abuild)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/demo-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/demo-api/?branch=master)
 [![static analysis](https://github.com/yiisoft/demo-api/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/demo-api/actions?query=workflow%3A%22static+analysis%22)
 
 API Demo application for Yii 3.
