@@ -27,7 +27,6 @@ return [
     ],
     'supportEmail' => 'support@example.com',
     'middlewares' => [
-        RequestCatcherMiddleware::class,
         ErrorCatcher::class,
         Subfolder::class,
         Locale::class,
