@@ -35,7 +35,6 @@
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "psr/log": "^3.0",
-        "symfony/string": "^6.4.11",
         "vlucas/phpdotenv": "^5.3",
         "yiisoft/access": "^1.0",
         "yiisoft/auth": "^3.0",
@@ -96,6 +95,9 @@
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-gii": "dev-master",
         "yiisoft/yii-testing": "dev-master"
+    },
+    "conflict": {
+        "symfony/string": ">6"
     },
     "autoload": {
         "psr-4": {
