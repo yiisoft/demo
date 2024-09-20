@@ -112,6 +112,7 @@
     },
     "conflict": {
         "symfony/event-dispatcher": ">6",
+        "symfony/http-client": ">6",
         "symfony/mime": ">6",
         "symfony/options-resolver": ">6",
         "symfony/string": ">6"
