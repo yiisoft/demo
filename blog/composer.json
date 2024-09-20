@@ -113,6 +113,7 @@
     "conflict": {
         "symfony/css-selector": ">6",
         "symfony/event-dispatcher": ">6",
+        "symfony/filesystem": ">6",
         "symfony/http-client": ">6",
         "symfony/mime": ">6",
         "symfony/options-resolver": ">6",
