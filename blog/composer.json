@@ -34,6 +34,7 @@
         "psr/http-server-middleware": "^1.0",
         "psr/log": "^3.0",
         "symfony/console": "^6.0",
+        "symfony/string": "^6.4.11",
         "vlucas/phpdotenv": "^5.3",
         "yiisoft/access": "^1.0",
         "yiisoft/aliases": "^3.0",
