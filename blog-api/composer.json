@@ -99,6 +99,7 @@
     "conflict": {
         "symfony/css-selector": ">6",
         "symfony/event-dispatcher": ">6",
+        "symfony/filesystem": ">6",
         "symfony/string": ">6"
     },
     "autoload": {
