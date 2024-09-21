@@ -97,6 +97,7 @@
         "yiisoft/yii-testing": "dev-master"
     },
     "conflict": {
+        "symfony/event-dispatcher": ">6",
         "symfony/string": ">6"
     },
     "autoload": {
