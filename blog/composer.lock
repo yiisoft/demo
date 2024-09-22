@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3834521052370ec894215c15e588c2af",
+    "content-hash": "628abcc3114cb9c57125ac8e1459634b",
     "packages": [
         {
             "name": "alexkart/curl-builder",
@@ -3498,7 +3498,7 @@
         },
         {
             "name": "spiral/core",
-            "version": "3.14.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
@@ -3522,6 +3522,7 @@
                 "phpunit/phpunit": "^10.1",
                 "vimeo/psalm": "^5.9"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -3640,22 +3641,22 @@
         },
         {
             "name": "spiral/logger",
-            "version": "3.14.1",
+            "version": "3.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "c832f1038aed009f6cd1f5194ca7a14bb533723a"
+                "reference": "146fbf7fb320ea4708f5158e21f8fd4d48aa5b0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/c832f1038aed009f6cd1f5194ca7a14bb533723a",
-                "reference": "c832f1038aed009f6cd1f5194ca7a14bb533723a",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/146fbf7fb320ea4708f5158e21f8fd4d48aa5b0e",
+                "reference": "146fbf7fb320ea4708f5158e21f8fd4d48aa5b0e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/log": "1 - 3",
-                "spiral/core": "^3.14.1"
+                "spiral/core": "^3.14.3"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -3707,7 +3708,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-04T10:56:14+00:00"
+            "time": "2024-09-11T17:40:26+00:00"
         },
         {
             "name": "spiral/pagination",
@@ -3853,31 +3854,31 @@
         },
         {
             "name": "spiral/tokenizer",
-            "version": "3.14.1",
+            "version": "3.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "0526f2b73725d002278b786ad7b16f27968aef63"
+                "reference": "b5bf2ed89880d91c228bf1e3ebfda2b508c008ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/0526f2b73725d002278b786ad7b16f27968aef63",
-                "reference": "0526f2b73725d002278b786ad7b16f27968aef63",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/b5bf2ed89880d91c228bf1e3ebfda2b508c008ff",
+                "reference": "b5bf2ed89880d91c228bf1e3ebfda2b508c008ff",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=8.1",
-                "spiral/core": "^3.14.1",
-                "spiral/logger": "^3.14.1",
+                "spiral/core": "^3.14.3",
+                "spiral/logger": "^3.14.3",
                 "symfony/finder": "^5.3.7 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
                 "phpunit/phpunit": "^10.1",
                 "spiral/attributes": "^2.8|^3.0",
-                "spiral/boot": "^3.14.1",
-                "spiral/files": "^3.14.1",
+                "spiral/boot": "^3.14.3",
+                "spiral/files": "^3.14.3",
                 "vimeo/psalm": "^5.9"
             },
             "type": "library",
@@ -3925,7 +3926,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-04T10:56:34+00:00"
+            "time": "2024-09-11T17:40:38+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",

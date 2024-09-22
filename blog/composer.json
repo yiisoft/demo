@@ -20,6 +20,7 @@
         "ext-mbstring": "*",
         "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
+        "cycle/annotated": "^3.5",
         "cycle/database": "^2.0",
         "cycle/entity-behavior": "^1.0",
         "cycle/orm": "^2.0",
