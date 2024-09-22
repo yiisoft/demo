@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
+        "php": ">=8.3 <8.4",
         "ext-mbstring": "*",
         "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
@@ -109,15 +109,6 @@
         "yiisoft/yii-debug-viewer": "dev-master",
         "yiisoft/yii-gii": "dev-master",
         "yiisoft/yii-testing": "dev-master"
-    },
-    "conflict": {
-        "symfony/css-selector": ">6",
-        "symfony/event-dispatcher": ">6",
-        "symfony/filesystem": ">6",
-        "symfony/http-client": ">6",
-        "symfony/mime": ">6",
-        "symfony/options-resolver": ">6",
-        "symfony/string": ">6"
     },
     "autoload": {
         "psr-4": {
