@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3 <8.4",
+        "php": "8.3.*",
         "ext-mbstring": "*",
         "ext-pdo_sqlite": "*",
         "cebe/markdown": "^1.2@dev",
