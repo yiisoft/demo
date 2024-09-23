@@ -20,9 +20,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
+        "php": "8.3.*",
         "ext-intl": "*",
         "cebe/markdown": "^1.2@dev",
+        "cycle/annotated": "^3.5",
         "cycle/database": "^2.0",
         "cycle/entity-behavior": "^1.0",
         "cycle/orm": "^2.0",
@@ -95,12 +96,6 @@
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-gii": "dev-master",
         "yiisoft/yii-testing": "dev-master"
-    },
-    "conflict": {
-        "symfony/css-selector": ">6",
-        "symfony/event-dispatcher": ">6",
-        "symfony/filesystem": ">6",
-        "symfony/string": ">6"
     },
     "autoload": {
         "psr-4": {
