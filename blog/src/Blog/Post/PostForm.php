@@ -9,8 +9,12 @@ use Yiisoft\Validator\Rule\Required;
 
 final class PostForm extends FormModel
 {
+    #[Required]
     private ?string $title = null;
+
+    #[Required]
     private ?string $content = null;
+
     private array $tags = [];
 
     public function getTitle(): string
@@ -31,13 +35,5 @@ final class PostForm extends FormModel
     public function getTags(): array
     {
         return $this->tags;
-    }
-
-    public function getRules(): array
-    {
-        return [
-            'title' => [new Required()],
-            'content' => [new Required()],
-        ];
     }
 }
