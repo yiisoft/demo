@@ -1,9 +1,7 @@
-version: '3'
-
 services:
   php:
     container_name: yii-php
-    image: yiisoftware/yii-php:8.1-fpm
+    image: yiisoftware/yii-php:8.3-fpm
     working_dir: /app
     volumes:
       - ./:/app
@@ -11,8 +9,8 @@ services:
     image: nginx:alpine
     container_name: yii-nginx
     ports:
-      - 8080:80
-      - 8081:81
+      - "8080:80"
+      - "8081:81"
     volumes:
       - ./:/app
       - ./data/nginx/:/etc/nginx/conf.d/
