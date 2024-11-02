@@ -58,7 +58,7 @@ return [
         ->middleware(fn (
             ResponseFactoryInterface $responseFactory,
             StorageInterface $storage
-        ) => new LimitRequestsMiddleware(new Counter($storage, 5, 5), $responseFactory))
+        ) => new LimitRequestsMiddleware(new Counter($storage, 10, 10), $responseFactory))
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
@@ -176,6 +176,6 @@ return [
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
                 ->middleware(CorsAllowAll::class)
-                ->action([SwaggerJson::class, 'handle']),
+                ->action([SwaggerJson::class, 'process']),
         ),
 ];

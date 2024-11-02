@@ -1,0 +1,10 @@
+{
+    "name": "yii3-demo-blog",
+    "version": "1.0.0",
+    "description": "Yii3 Demo Blog",
+    "dependencies": {
+        "bootstrap": "^5.3.1"
+    },
+    "devDependencies": {},
+    "license": "BSD-3-Clause"
+}

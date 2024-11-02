@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\User;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *      schema="User",
- *
- *      @OA\Property(example="UserName", property="login", format="string"),
- *      @OA\Property(example="13.12.2020 00:04:20", property="created_at", format="string"),
- * )
- */
+#[OA\Schema(
+    schema: 'User',
+    properties: [
+        new OA\Property(property: 'login', type: 'string', example: 'UserName'),
+        new OA\Property(property: 'created_at', type: 'string', example: '13.12.2020 00:04:20'),
+    ]
+)]
 final class UserFormatter
 {
     public function format(User $user): array

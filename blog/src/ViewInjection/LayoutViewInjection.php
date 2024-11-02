@@ -6,7 +6,7 @@ namespace App\ViewInjection;
 
 use App\Auth\Identity;
 use Yiisoft\User\CurrentUser;
-use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
+use Yiisoft\Yii\View\Renderer\LayoutParametersInjectionInterface;
 
 final class LayoutViewInjection implements LayoutParametersInjectionInterface
 {

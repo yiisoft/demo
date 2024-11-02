@@ -125,6 +125,10 @@ $this->beginPage();
                                 'label' => 'Indonesia',
                                 'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
                             ],
+                            [
+                                'label' => 'German',
+                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'de'], fallbackRouteName: 'site/index'),
+                            ],
                         ],
                     ],
                     [
@@ -193,4 +197,4 @@ $this->beginPage();
     </body>
     </html>
 <?php
-$this->endPage(true);
+$this->endPage();
