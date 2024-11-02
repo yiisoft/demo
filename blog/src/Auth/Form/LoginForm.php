@@ -5,24 +5,29 @@ declare(strict_types=1);
 namespace App\Auth\Form;
 
 use App\Auth\AuthService;
-use Yiisoft\Form\FormModel;
+use Yiisoft\FormModel\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\PropertyTranslator\ArrayPropertyTranslator;
+use Yiisoft\Validator\PropertyTranslatorInterface;
+use Yiisoft\Validator\PropertyTranslatorProviderInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Callback;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class LoginForm extends FormModel
+final class LoginForm extends FormModel implements RulesProviderInterface, PropertyTranslatorProviderInterface
 {
     private string $login = '';
     private string $password = '';
     private bool $rememberMe = false;
 
-    public function __construct(private AuthService $authService, private TranslatorInterface $translator)
-    {
-        parent::__construct();
+    public function __construct(
+        private AuthService $authService,
+        private TranslatorInterface $translator,
+    ) {
     }
 
-    public function getAttributeLabels(): array
+    public function getPropertyLabels(): array
     {
         return [
             'login' => $this->translator->translate('layout.login'),
@@ -53,9 +58,6 @@ final class LoginForm extends FormModel
                     $result = new Result();
 
                     if (!$this->authService->login($this->login, $this->password)) {
-                        $this
-                            ->getFormErrors()
-                            ->addError('login', '');
                         $result->addError($this->translator->translate('validator.invalid.login.password'));
                     }
 
@@ -64,5 +66,10 @@ final class LoginForm extends FormModel
                 skipOnEmpty: true,
             ),
         ];
+    }
+
+    public function getPropertyTranslator(): ?PropertyTranslatorInterface
+    {
+        return new ArrayPropertyTranslator($this->getPropertyLabels());
     }
 }

@@ -7,12 +7,11 @@ namespace App\Contact;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Header;
-use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class ContactController
 {
@@ -28,21 +27,18 @@ final class ContactController
     }
 
     public function contact(
-        ValidatorInterface $validator,
-        ServerRequestInterface $request
+        FormHydrator $formHydrator,
+        ServerRequestInterface $request,
     ): ResponseInterface {
-        $body = $request->getParsedBody();
         $form = new ContactForm();
-        if (($request->getMethod() === Method::POST) && $form->load((array) $body) && $validator
-                ->validate($form)
-                ->isValid()) {
-            $this->mailer->send($form, $request);
-
-            return $this->responseFactory
-                ->createResponse(Status::FOUND)
-                ->withHeader(Header::LOCATION, $this->url->generate('site/contact'));
+        if (!$formHydrator->populateFromPostAndValidate($form, $request)) {
+            return $this->viewRenderer->render('form', ['form' => $form]);
         }
 
-        return $this->viewRenderer->render('form', ['form' => $form]);
+        $this->mailer->send($form);
+
+        return $this->responseFactory
+            ->createResponse(Status::FOUND)
+            ->withHeader(Header::LOCATION, $this->url->generate('site/contact'));
     }
 }

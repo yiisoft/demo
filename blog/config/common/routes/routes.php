@@ -32,6 +32,7 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Middleware\CorsAllowAll;
 use Yiisoft\Yii\Middleware\HttpCache;
 use Yiisoft\Yii\RateLimiter\Counter;
 use Yiisoft\Yii\RateLimiter\LimitRequestsMiddleware;
@@ -69,7 +70,7 @@ return [
         ->middleware(fn (
             ResponseFactoryInterface $responseFactory,
             StorageInterface $storage
-        ) => new LimitRequestsMiddleware(new Counter($storage, 5, 5), $responseFactory))
+        ) => new LimitRequestsMiddleware(new Counter($storage, 10, 10), $responseFactory))
         ->action([SignupController::class, 'signup'])
         ->name('auth/signup'),
 
@@ -186,6 +187,7 @@ return [
                 ->name('swagger/index'),
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->action(SwaggerJson::class),
+                ->middleware(CorsAllowAll::class)
+                ->action([SwaggerJson::class, 'process']),
         ),
 ];

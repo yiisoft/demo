@@ -18,10 +18,14 @@ final class BlogService
         $this->postRepository = $postRepository;
     }
 
+    /**
+     * @psalm-return PaginatorInterface<array-key, Post>
+     */
     public function getPosts(int $page): PaginatorInterface
     {
         $dataReader = $this->postRepository->findAll();
 
+        /** @psalm-var PaginatorInterface<array-key, Post> */
         return (new OffsetPaginator($dataReader))
             ->withPageSize(self::POSTS_PER_PAGE)
             ->withCurrentPage($page);

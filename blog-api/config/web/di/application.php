@@ -22,11 +22,11 @@ return [
     ],
     \Yiisoft\Yii\Middleware\Locale::class => [
         '__construct()' => [
-            'locales' => $params['locale']['locales'],
-            'ignoredRequests' => $params['locale']['ignoredRequests'],
+            'supportedLocales' => $params['locale']['locales'],
+            'ignoredRequestUrlPatterns' => $params['locale']['ignoredRequests'],
         ],
     ],
-    \Yiisoft\Yii\Middleware\SubFolder::class => [
+    \Yiisoft\Yii\Middleware\Subfolder::class => [
         '__construct()' => [
             'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
         ],

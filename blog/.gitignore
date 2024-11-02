@@ -23,7 +23,6 @@ phpunit.phar
 
 # evolving files
 /vendor
-/composer.lock
 /node_modules
 
 # Codeception

@@ -10,11 +10,13 @@ use App\User\UserController;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
+use Yiisoft\RequestProvider\RequestCatcherMiddleware;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Middleware\CorsAllowAll;
 
 return [
     Route::get('/')
@@ -22,6 +24,7 @@ return [
         ->name('api/info'),
 
     Route::get('/blog/')
+        ->middleware(RequestCatcherMiddleware::class)
         ->action([BlogController::class, 'index'])
         ->name('blog/index'),
 
@@ -31,11 +34,13 @@ return [
 
     Route::post('/blog/')
         ->middleware(Authentication::class)
+        ->middleware(RequestCatcherMiddleware::class)
         ->action([BlogController::class, 'create'])
         ->name('blog/create'),
 
     Route::put('/blog/{id:\d+}')
         ->middleware(Authentication::class)
+        ->middleware(RequestCatcherMiddleware::class)
         ->action([BlogController::class, 'update'])
         ->name('blog/update'),
 
@@ -43,11 +48,13 @@ return [
         ->prependMiddleware(Authentication::class),
 
     Route::post('/auth/')
+        ->middleware(RequestCatcherMiddleware::class)
         ->action([AuthController::class, 'login'])
         ->name('auth'),
 
     Route::post('/logout/')
         ->middleware(Authentication::class)
+        ->middleware(RequestCatcherMiddleware::class)
         ->action([AuthController::class, 'logout'])
         ->name('logout'),
 
@@ -61,6 +68,7 @@ return [
                 }),
             Route::get('/openapi.json')
                 ->middleware(FormatDataResponseAsJson::class)
-                ->action(SwaggerJson::class),
+                ->middleware(CorsAllowAll::class)
+                ->action([SwaggerJson::class, 'process']),
         ),
 ];

@@ -6,25 +6,29 @@ namespace App\User;
 
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
-use Cycle\ORM\Transaction;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 final class UserRepository extends Select\Repository implements IdentityWithTokenRepositoryInterface, IdentityRepositoryInterface
 {
-    private ORMInterface $orm;
-
-    public function __construct(Select $select, ORMInterface $orm)
-    {
-        $this->orm = $orm;
+    public function __construct(
+        Select $select,
+        private ORMInterface $orm,
+        private EntityWriter $entityWriter,
+    ) {
         parent::__construct($select);
     }
 
+    /**
+     * @psalm-return EntityReader<array-key, User>
+     */
     public function findAllOrderByLogin(): EntityReader
     {
+        /** @psalm-var EntityReader<array-key, User> */
         return (new EntityReader($this->select()))
             ->withSort(
                 Sort::only(['login'])->withOrderString('login')
@@ -48,9 +52,7 @@ final class UserRepository extends Select\Repository implements IdentityWithToke
 
     public function save(IdentityInterface $user): void
     {
-        $transaction = new Transaction($this->orm);
-        $transaction->persist($user);
-        $transaction->run();
+        $this->entityWriter->write([$user]);
     }
 
     private function findIdentityBy(string $field, string $value): ?IdentityInterface

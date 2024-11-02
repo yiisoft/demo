@@ -8,8 +8,8 @@ use App\Middleware\ApiDataWrapper;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsXml;
-use Yiisoft\Yii\View\ViewRenderer;
 use Yiisoft\Router\Route;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class SiteController
 {

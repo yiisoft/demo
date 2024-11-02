@@ -28,8 +28,8 @@ final class LoginAcceptanceCest
         $I->click('Submit', '#loginForm');
 
         $I->expectTo('see validations errors.');
-        $I->see('Value cannot be blank');
-        $I->see('Value cannot be blank');
+        $I->see('Login cannot be blank.');
+        $I->see('Password cannot be blank.');
         $I->seeElement('button', ['name' => 'login-button']);
     }
 
@@ -66,7 +66,7 @@ final class LoginAcceptanceCest
     }
 
     /**
-     * @depends \App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
+     * @depends App\Tests\Acceptance\SignupAcceptanceCest:testRegisterSuccess
      */
     public function testLoginUsernameSubmitFormSuccessData(AcceptanceTester $I): void
     {

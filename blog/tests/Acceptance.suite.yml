@@ -7,6 +7,6 @@ extensions:
 modules:
   enabled:
     - PhpBrowser:
-        url: http://127.0.0.1:8881
+        url: http://127.0.0.1:8881%BASE_URL%
     - \App\Tests\Support\Helper\Acceptance
   step_decorators: ~

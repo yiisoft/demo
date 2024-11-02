@@ -6,29 +6,30 @@ namespace App\Auth\Form;
 
 use App\User\User;
 use App\User\UserRepository;
-use Yiisoft\Form\FormModel;
+use Yiisoft\FormModel\FormModel;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Validator\PropertyTranslator\ArrayPropertyTranslator;
+use Yiisoft\Validator\PropertyTranslatorInterface;
+use Yiisoft\Validator\PropertyTranslatorProviderInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
-use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class SignupForm extends FormModel
+final class SignupForm extends FormModel implements RulesProviderInterface, PropertyTranslatorProviderInterface
 {
     private string $login = '';
     private string $password = '';
     private string $passwordVerify = '';
 
     public function __construct(
-        private ValidatorInterface $validator,
-        private TranslatorInterface $translator,
-        private UserRepository $userRepository,
+        private readonly TranslatorInterface $translator,
+        private readonly UserRepository $userRepository,
     ) {
-        parent::__construct();
     }
 
-    public function getAttributeLabels(): array
+    public function getPropertyLabels(): array
     {
         return [
             'login' => $this->translator->translate('layout.login'),
@@ -52,16 +53,11 @@ final class SignupForm extends FormModel
         return $this->password;
     }
 
-    public function signup(): false|User
+    public function signup(): User
     {
-        if ($this->validator->validate($this)->isValid()) {
-            $user = new User($this->getLogin(), $this->getPassword());
-            $this->userRepository->save($user);
-
-            return $user;
-        }
-
-        return false;
+        $user = new User($this->getLogin(), $this->getPassword());
+        $this->userRepository->save($user);
+        return $user;
     }
 
     public function getRules(): array
@@ -91,5 +87,10 @@ final class SignupForm extends FormModel
                 ),
             ],
         ];
+    }
+
+    public function getPropertyTranslator(): ?PropertyTranslatorInterface
+    {
+        return new ArrayPropertyTranslator($this->getPropertyLabels());
     }
 }

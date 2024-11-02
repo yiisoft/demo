@@ -9,7 +9,16 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponse;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'Response',
+    properties: [
+        new OA\Property(property: 'status', type: 'string', enum: ['success', 'failed']),
+        new OA\Property(property: 'error', type:'object', nullable: true),
+        new OA\Property(property: 'data', type: 'object', nullable: true),
+    ]
+)]
 final class ApiDataWrapper implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

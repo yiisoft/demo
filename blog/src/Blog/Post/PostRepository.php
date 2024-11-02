@@ -9,10 +9,10 @@ use Cycle\ORM\Select;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
-use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 final class PostRepository extends Select\Repository
 {

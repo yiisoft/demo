@@ -24,7 +24,11 @@ final class ContactCest
     {
         $I->submitForm('#form-contact', []);
         $I->expectTo('see validations errors');
-        $I->see('Value cannot be blank.');
+        $I->see('Name cannot be blank.');
+        $I->see('Email cannot be blank.');
+        $I->see('Email is not a valid email address.');
+        $I->see('Subject cannot be blank.');
+        $I->see('Body cannot be blank.');
     }
 
     public function submitFormWithIncorrectEmail(FunctionalTester $I)
@@ -37,7 +41,7 @@ final class ContactCest
             'ContactForm[verifyCode]' => 'testme',
         ]);
         $I->expectTo('see that email address is wrong');
-        $I->see('This value is not a valid email address.');
+        $I->see('Email is not a valid email address.');
     }
 
     public function submitFormSuccessfully(FunctionalTester $I)

@@ -1,12 +1,10 @@
-version: '3'
-
 services:
-    php:
-        image: yiisoftware/yii-php:8.1-apache
-        working_dir: /app
-        volumes:
-            - ./:/app
-            # host-volume for composer cache
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
-        ports:
-            - '30080:80'
+  php:
+    image: yiisoftware/yii-php:8.3-apache
+    working_dir: /app
+    volumes:
+      - ./:/app
+      # host-volume for composer cache
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+    ports:
+      - "30080:80"

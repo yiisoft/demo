@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
-use Yiisoft\Form\FormModel;
+use Yiisoft\FormModel\FormModel;
+use Yiisoft\Input\Http\Attribute\Parameter\UploadedFiles;
+use Yiisoft\Validator\PropertyTranslator\ArrayPropertyTranslator;
+use Yiisoft\Validator\PropertyTranslatorInterface;
+use Yiisoft\Validator\PropertyTranslatorProviderInterface;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\RulesProviderInterface;
 
-final class ContactForm extends FormModel
+final class ContactForm extends FormModel implements RulesProviderInterface, PropertyTranslatorProviderInterface
 {
     private string $name = '';
     private string $email = '';
     private string $subject = '';
     private string $body = '';
-    private ?array $attachFiles = null;
 
-    public function getAttributeLabels(): array
+    #[UploadedFiles('ContactForm.attachFiles')]
+    private array $attachFiles = [];
+
+    public function getPropertyLabels(): array
     {
         return [
             'name' => 'Name',
@@ -39,5 +46,10 @@ final class ContactForm extends FormModel
             'subject' => [new Required()],
             'body' => [new Required()],
         ];
+    }
+
+    public function getPropertyTranslator(): ?PropertyTranslatorInterface
+    {
+        return new ArrayPropertyTranslator($this->getPropertyLabels());
     }
 }

@@ -14,6 +14,7 @@ on:
       - 'blog-api/psalm.xml'
 
   push:
+    branches: ['master']
     paths-ignore:
       - 'blog-api/docs/**'
       - 'blog-api/README.md'
@@ -34,7 +35,7 @@ jobs:
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     env:
-      extensions: fileinfo, pdo, pdo_sqlite, intl
+      extensions: fileinfo, pdo, pdo_sqlite, intl, pcntl
       key: cache-v1
       YII_C3: true
       working_directory: blog-api
@@ -48,8 +49,7 @@ jobs:
           - windows-latest
 
         php:
-          - 8.1
-          - 8.2
+          - 8.3
 
     steps:
       - name: Checkout
@@ -95,18 +95,5 @@ jobs:
         working-directory: ${{ env.working_directory }}
 
       - name: Run tests codeception
-        if: matrix.os != 'ubuntu-latest' || matrix.php != '8.0'
         run: vendor/bin/codecept run
         working-directory: ${{ env.working_directory }}
-
-      - name: Run tests codeception with coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
-        run: vendor/bin/codecept run --coverage-xml
-        working-directory: ${{ env.working_directory }}
-
-      - name: Upload coverage to codecov
-        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
-        uses: codecov/codecov-action@v3
-        with:
-          file: tests/_output/coverage.xml
-          working-directory: ${{ env.working_directory }}

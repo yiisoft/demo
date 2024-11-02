@@ -15,9 +15,9 @@ use Cycle\Database\Query\SelectQuery;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 use DateTimeImmutable;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 /**
  * This repository is not associated with Post entity.
@@ -107,10 +107,10 @@ final class ArchiveRepository
         if ($driver instanceof SQLiteDriver) {
             $str = ['year' => '%Y', 'month' => '%m', 'day' => '%d'][$attr];
 
-            return new Fragment("strftime('{$str}', post.published_at) {$wrappedField}");
+            return new Fragment("strftime('$str', post.published_at) $wrappedField");
         }
 
-        return new Fragment("extract({$attr} from post.published_at) {$wrappedField}");
+        return new Fragment("extract($attr from post.published_at) $wrappedField");
     }
 
     private function getDriver(): DriverInterface

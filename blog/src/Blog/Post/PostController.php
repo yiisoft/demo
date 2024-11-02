@@ -9,10 +9,10 @@ use App\Service\WebControllerService;
 use App\User\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
-use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class PostController
 {
@@ -37,7 +37,7 @@ final class PostController
         return $this->viewRenderer->render('index', ['item' => $item, 'canEdit' => $canEdit, 'slug' => $slug]);
     }
 
-    public function add(Request $request, ValidatorInterface $validator): Response
+    public function add(Request $request, FormHydrator $formHydrator): Response
     {
         $parameters = [
             'title' => 'Add post',
@@ -48,15 +48,13 @@ final class PostController
 
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
-            if ($form->load($parameters['body']) && $validator
-                    ->validate($form)
-                    ->isValid()) {
+            if ($formHydrator->populateAndValidate($form, $parameters['body'])) {
                 $this->postService->savePost($this->userService->getUser(), new Post(), $form);
 
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
-            $parameters['errors'] = $form->getFormErrors();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByProperty();
         }
 
         return $this->viewRenderer->render('__form', $parameters);
@@ -65,8 +63,8 @@ final class PostController
     public function edit(
         Request $request,
         PostRepository $postRepository,
-        ValidatorInterface $validator,
-        CurrentRoute $currentRoute
+        CurrentRoute $currentRoute,
+        FormHydrator $formHydrator
     ): Response {
         $slug = $currentRoute->getArgument('slug');
         $post = $postRepository->fullPostPage($slug);
@@ -88,16 +86,13 @@ final class PostController
         if ($request->getMethod() === Method::POST) {
             $form = new PostForm();
             $body = $request->getParsedBody();
-            if ($form->load($body) && $validator
-                    ->validate($form)
-                    ->isValid()) {
+            if ($formHydrator->populateAndValidate($form, $body)) {
                 $this->postService->savePost($this->userService->getUser(), $post, $form);
-
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getFormErrors();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByProperty();
         }
 
         return $this->viewRenderer->render('__form', $parameters);

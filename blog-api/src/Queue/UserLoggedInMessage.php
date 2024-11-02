@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queue;
 
-use Yiisoft\Yii\Queue\Message\MessageInterface;
+use Yiisoft\Queue\Message\MessageInterface;
 
 final class UserLoggedInMessage implements MessageInterface
 {

@@ -30,6 +30,13 @@ final class ConsoleCest
         $I->seeResultCodeIs(ExitCode::OK);
     }
 
+    public function testCommandUserCreateSuccessCommand(CliTester $I): void
+    {
+        $command = dirname(__DIR__, 2) . '/yii';
+        $I->runShellCommand($command . ' user/create user create123456');
+        $I->seeResultCodeIs(ExitCode::OK);
+    }
+
     /**
      * Clear all data created with testCommandFixtureAdd().
      * Clearing database prevents from getting errors during multiple continuous testing with other test,
