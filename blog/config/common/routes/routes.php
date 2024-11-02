@@ -17,6 +17,7 @@ use App\Middleware\AccessChecker;
 use App\Middleware\ApiDataWrapper;
 use App\User\Controller\ApiUserController;
 use App\User\Controller\UserController;
+use olvlvl\ComposerAttributeCollector\Attributes;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Middleware\Authentication;
@@ -37,11 +38,22 @@ use Yiisoft\Yii\RateLimiter\Counter;
 use Yiisoft\Yii\RateLimiter\LimitRequestsMiddleware;
 use Yiisoft\Yii\RateLimiter\Storage\StorageInterface;
 
+$routes = [];
+foreach (Attributes::findTargetMethods(Route::class) as $method) {
+    /**
+     * @var $attribute Route
+     */
+    $attribute = $method->attribute;
+    $routes[] = $attribute
+        ->action([$method->class, $method->name]);
+}
+
 return [
+    ...$routes,
     // Lonely pages of site
-    Route::get('/')
-        ->action([SiteController::class, 'index'])
-        ->name('site/index'),
+    //Route::get('/')
+    //    ->action([SiteController::class, 'index'])
+    //    ->name('site/index'),
     Route::methods([Method::GET, Method::POST], '/contact')
         ->action([ContactController::class, 'contact'])
         ->name('site/contact'),
