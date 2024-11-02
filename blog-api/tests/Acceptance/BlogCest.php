@@ -66,7 +66,7 @@ final class BlogCest
         $I->seeResponseContainsJson(
             [
                 'status' => 'failed',
-                'error_message' => 'Value not passed.',
+                'error_message' => 'Text not passed.',
                 'error_code' => 400,
                 'data' => null,
             ]

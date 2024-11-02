@@ -12,8 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
-use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class PostController
 {
@@ -55,7 +54,7 @@ final class PostController
                 return $this->webService->getRedirectResponse('blog/index');
             }
 
-            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByAttribute();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByProperty();
         }
 
         return $this->viewRenderer->render('__form', $parameters);
@@ -64,7 +63,6 @@ final class PostController
     public function edit(
         Request $request,
         PostRepository $postRepository,
-        ValidatorInterface $validator,
         CurrentRoute $currentRoute,
         FormHydrator $formHydrator
     ): Response {
@@ -94,7 +92,7 @@ final class PostController
             }
 
             $parameters['body'] = $body;
-            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByAttribute();
+            $parameters['errors'] = $form->getValidationResult()->getErrorMessagesIndexedByProperty();
         }
 
         return $this->viewRenderer->render('__form', $parameters);

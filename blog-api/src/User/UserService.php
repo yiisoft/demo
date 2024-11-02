@@ -15,18 +15,11 @@ use Yiisoft\Queue\QueueFactoryInterface;
 
 final class UserService
 {
-    private IdentityRepositoryInterface $identityRepository;
-    private CurrentUser $currentUser;
-    private QueueFactoryInterface $queueFactory;
-
     public function __construct(
-        CurrentUser $currentUser,
-        IdentityRepositoryInterface $identityRepository,
-        QueueFactoryInterface $queueFactory
+        private CurrentUser $currentUser,
+        private IdentityRepositoryInterface $identityRepository,
+        private QueueFactoryInterface $queueFactory,
     ) {
-        $this->currentUser = $currentUser;
-        $this->identityRepository = $identityRepository;
-        $this->queueFactory = $queueFactory;
     }
 
     /**
@@ -40,7 +33,9 @@ final class UserService
      */
     public function login(string $login, string $password): IdentityInterface
     {
-        $identity = $this->identityRepository->findByLogin($login);
+        /** @var UserRepository $identityRepository */
+        $identityRepository = $this->identityRepository;
+        $identity = $identityRepository->findByLogin($login);
         if ($identity === null) {
             throw new BadRequestException('No such user.');
         }

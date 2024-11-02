@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class NotFoundHandler implements RequestHandlerInterface
 {
