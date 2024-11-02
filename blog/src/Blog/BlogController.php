@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\User\CurrentUser;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class BlogController
 {

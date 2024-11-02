@@ -7,7 +7,6 @@ use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Cycle\Schema\Provider\PhpFileSchemaProvider;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
-use Yiisoft\RequestProvider\RequestCatcherMiddleware;
 use Yiisoft\Router\Middleware\Router;
 use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
@@ -20,13 +19,13 @@ return [
     'locale' => [
         'locales' => ['en' => 'en-US', 'ru' => 'ru-RU', 'de' => 'de-DE'],
         'ignoredRequests' => [
+            '/gii**',
             '/debug**',
             '/inspect**',
         ],
     ],
     'supportEmail' => 'support@example.com',
     'middlewares' => [
-        RequestCatcherMiddleware::class,
         ErrorCatcher::class,
         Subfolder::class,
         Locale::class,

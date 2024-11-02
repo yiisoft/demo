@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px">
+        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
     <h1 align="center">Yii Framework API Demo Project</h1>
     <br>
@@ -9,7 +9,6 @@
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/demo-api/v/stable.png)](https://packagist.org/packages/yiisoft/demo-api)
 [![Total Downloads](https://poser.pugx.org/yiisoft/demo-api/downloads.png)](https://packagist.org/packages/yiisoft/demo-api)
 [![Build status](https://github.com/yiisoft/demo-api/workflows/build/badge.svg)](https://github.com/yiisoft/demo-api/actions?query=workflow%3Abuild)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/demo-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/demo-api/?branch=master)
 [![static analysis](https://github.com/yiisoft/demo-api/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/demo-api/actions?query=workflow%3A%22static+analysis%22)
 
 API Demo application for Yii 3.
@@ -40,7 +39,7 @@ Change ownership of the app directory to web group:
 chown -R :www-data .
 ```
 
-Usually the application is available at http://localhost:8080.
+Usually the application is available at <http://localhost:8080>.
 
 Authorization is performed via the `X-Api-Key` header.
 
@@ -55,7 +54,6 @@ on how to annotate your code.
 ```php
 ./vendor/bin/codecept run
 ```
-
 
 ## Static analysis
 

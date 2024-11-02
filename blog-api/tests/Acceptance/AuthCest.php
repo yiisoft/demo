@@ -12,7 +12,6 @@ final class AuthCest
 {
     public function testAuth(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/auth/',
             [

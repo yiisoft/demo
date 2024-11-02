@@ -58,7 +58,7 @@ final class CreateCommand extends Command
         }
 
         if ($user === false) {
-            $errors = $this->signupForm->getValidationResult()?->getErrorMessagesIndexedByAttribute();
+            $errors = $this->signupForm->getValidationResult()?->getErrorMessagesIndexedByProperty();
             array_walk($errors, fn($error, $attribute) => $io->error("$attribute: " . implode("\n", (array) $error)));
             return ExitCode::DATAERR;
         }
