@@ -1,0 +1,38 @@
+---
+- name: Up docker services
+  become: true
+  become_user: deploy
+  args:
+    chdir: /home/deploy/demo.yiiframework.com
+  shell: docker-compose -f docker-compose.yml up certbot
+  register: output
+
+- debug:
+    var: output.stdout_lines
+
+- name: Reload nginx service
+  become: true
+  become_user: deploy
+  args:
+    chdir: /home/deploy/demo.yiiframework.com
+  shell: docker-compose -f docker-compose.yml exec gateway nginx -t && docker-compose -f docker-compose.yml exec gateway nginx -s reload
+
+# Crontab file location is /var/spool/cron/crontabs/deploy
+# Every 2nd month on 15th day of month
+# See https://crontab.guru/#0_0_15_*/2_*
+- name: Set periodic certificates update
+  cron:
+    name: certbot-renew
+    user: deploy
+    minute: '0'
+    hour: '0'
+    day: '15'
+    month: '*/2'
+    job: >
+      /bin/bash -c "
+      cd /home/deploy/demo.yiiframework.com &&
+      docker-compose -f docker-compose.yml up certbot &&
+      sleep 180 &&
+      docker-compose -f docker-compose.yml exec -T gateway nginx -t &&
+      docker-compose -f docker-compose.yml exec -T gateway nginx -s reload
+      "

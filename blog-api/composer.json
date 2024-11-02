@@ -1,0 +1,138 @@
+{
+    "name": "yiisoft/demo-api",
+    "type": "project",
+    "description": "Yii Framework API project template",
+    "keywords": [
+        "yii3",
+        "app",
+        "api",
+        "rest"
+    ],
+    "homepage": "https://github.com/yiisoft/demo-api/",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/yiisoft/demo-api/issues?state=open",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
+        "irc": "ircs://irc.libera.chat:6697/yii",
+        "source": "https://github.com/yiisoft/demo-api"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "8.3.*",
+        "ext-intl": "*",
+        "cebe/markdown": "^1.2@dev",
+        "cycle/annotated": "^3.5",
+        "cycle/database": "^2.0",
+        "cycle/entity-behavior": "^1.0",
+        "cycle/orm": "^2.0",
+        "doctrine/collections": "^2.0",
+        "httpsoft/http-message": "^1.1",
+        "myclabs/php-enum": "^1.7",
+        "psr/container": "^1.0|^2.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1|^2.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "psr/log": "^3.0",
+        "vlucas/phpdotenv": "^5.3",
+        "yiisoft/access": "^1.0",
+        "yiisoft/auth": "^3.0",
+        "yiisoft/cache": "^3.0",
+        "yiisoft/cache-file": "^3.0",
+        "yiisoft/config": "^1.0",
+        "yiisoft/data": "dev-master",
+        "yiisoft/data-cycle": "dev-master",
+        "yiisoft/data-response": "^2.0",
+        "yiisoft/definitions": "^3.0",
+        "yiisoft/di": "^1.0",
+        "yiisoft/error-handler": "^3.0",
+        "yiisoft/factory": "^1.0",
+        "yiisoft/files": "^2.0",
+        "yiisoft/http": "^1.2",
+        "yiisoft/hydrator-validator": "^2.0",
+        "yiisoft/injector": "^1.0",
+        "yiisoft/input-http": "^1.0",
+        "yiisoft/log": "^2.0",
+        "yiisoft/log-target-file": "^3.0",
+        "yiisoft/middleware-dispatcher": "^5.1",
+        "yiisoft/request-body-parser": "^1.1",
+        "yiisoft/router": "^3.0",
+        "yiisoft/router-fastroute": "^3.0",
+        "yiisoft/security": "^1.0",
+        "yiisoft/translator": "^3.0",
+        "yiisoft/translator-message-php": "^1.1",
+        "yiisoft/user": "^2.0",
+        "yiisoft/validator": "^2.0",
+        "yiisoft/yii-console": "^2.0",
+        "yiisoft/yii-cycle": "^1.0",
+        "yiisoft/yii-debug": "dev-master",
+        "yiisoft/yii-event": "^2.0",
+        "yiisoft/yii-http": "^1.0",
+        "yiisoft/yii-middleware": "^1.0",
+        "yiisoft/queue": "3.0.x-dev",
+        "yiisoft/yii-runner-console": "^2.0",
+        "yiisoft/yii-runner-http": "^2.0",
+        "yiisoft/yii-swagger": "^2.0",
+        "zircote/swagger-php": "^4.0"
+    },
+    "require-dev": {
+        "codeception/c3": "^2.6",
+        "codeception/codeception": "^5.0",
+        "codeception/lib-innerbrowser": "^3.1",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-cli": "^2.0",
+        "codeception/module-db": "^3.0",
+        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-rest": "^3.1",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.16",
+        "roave/security-advisories": "dev-latest",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^4.18",
+        "yiisoft/json": "^1.0",
+        "yiisoft/yii-debug-api": "^3.0@dev",
+        "yiisoft/yii-debug-viewer": "^3.0@dev",
+        "yiisoft/yii-gii": "dev-master",
+        "yiisoft/yii-testing": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/",
+            "App\\Tests\\Acceptance\\": "tests/acceptance/"
+        }
+    },
+    "scripts": {
+        "serve": "./yii serve",
+        "post-update-cmd": [
+            "App\\Installer::postUpdate",
+            "App\\Installer::copyEnvFile"
+        ],
+        "post-create-project-cmd": [
+            "App\\Installer::copyEnvFile"
+        ],
+        "test": "codecept run",
+        "test-watch": "phpunit-watcher watch"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
+        "config-plugin-file": "configuration.php"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "codeception/c3": true,
+            "infection/extension-installer": true,
+            "composer/package-versions-deprecated": true,
+            "yiisoft/config": true
+        }
+    }
+}

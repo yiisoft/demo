@@ -1,0 +1,12 @@
+---
+- name: Install `passlib` for Python
+  pip:
+    name:
+      - passlib
+    state: present
+
+- name: Install `composer` into system
+  apt:
+    name:
+      - composer
+    state: present

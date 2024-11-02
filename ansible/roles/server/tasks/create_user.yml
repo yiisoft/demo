@@ -1,0 +1,14 @@
+---
+- name: Create deploy user
+  vars:
+    newpassword: "SomEP@$$w0rd"
+  user:
+    name: deploy
+    password: "{{ newpassword }}"
+    update_password: always
+    groups:
+      - docker
+      - www-data
+    state: present
+    shell: /bin/bash
+

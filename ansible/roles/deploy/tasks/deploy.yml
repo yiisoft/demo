@@ -1,0 +1,17 @@
+---
+- name: Chown
+  file:
+    path: "{{ item }}"
+    recurse: true
+    owner: deploy
+    group: deploy
+  loop:
+    - /home/deploy/demo.yiiframework.com/blog
+    - /home/deploy/demo.yiiframework.com/blog-api
+
+- name: Run `docker-compose up`
+  become: true
+  become_user: deploy
+  args:
+    chdir: ~/demo.yiiframework.com
+  shell: docker-compose -f docker-compose.yml up -d --build

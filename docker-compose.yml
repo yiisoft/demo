@@ -1,12 +1,102 @@
-version: '3'
+version: "3.4"
 
 services:
-    php:
-        image: yiisoftware/yii-php:8.1-apache
-        working_dir: /app
-        volumes:
-            - ./:/app
-            # host-volume for composer cache
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
-        ports:
-            - '30080:80'
+  blog-backend:
+    restart: unless-stopped
+    image: ${REGISTRY}/blog-backend:${IMAGE_TAG}
+    build:
+      context: blog
+      dockerfile: docker/prod/php/Dockerfile
+      target: stage
+    environment:
+      YII_ENV: prod
+      YII_DEBUG: "false"
+    healthcheck:
+      disable: true
+    volumes:
+      - /etc/group:/etc/group:r
+      - /etc/passwd:/etc/passwd:r
+      - blog-assets:/app/public/assets:delegated
+
+  blog-nginx:
+    restart: unless-stopped
+    image: ${REGISTRY}/blog-nginx:${IMAGE_TAG}
+    build:
+      context: blog
+      dockerfile: docker/prod/nginx/Dockerfile
+    depends_on:
+      - blog-backend
+    volumes:
+      - blog-assets:/app/public/assets:ro
+
+  blog-api-backend:
+    restart: unless-stopped
+    image: ${REGISTRY}/blog-api-backend:${IMAGE_TAG}
+    build:
+      context: blog-api
+      dockerfile: docker/prod/php/Dockerfile
+      target: stage
+    environment:
+      YII_ENV: prod
+      YII_DEBUG: "false"
+    healthcheck:
+      disable: true
+    volumes:
+      - /etc/group:/etc/group:r
+      - /etc/passwd:/etc/passwd:r
+      - blog-api-assets:/app/public/assets:delegated
+
+  blog-api-nginx:
+    restart: unless-stopped
+    image: ${REGISTRY}/blog-api-nginx:${IMAGE_TAG}
+    build:
+      context: blog-api
+      dockerfile: docker/prod/nginx/Dockerfile
+    depends_on:
+      - blog-api-backend
+    volumes:
+      - blog-api-assets:/app/public/assets:ro
+
+  demo:
+    restart: unless-stopped
+    image: ${REGISTRY}/demo-nginx:${IMAGE_TAG}
+    build:
+      context: demo
+      dockerfile: Dockerfile
+
+  gateway:
+    restart: unless-stopped
+    image: ${REGISTRY}/gateway-nginx:${IMAGE_TAG}
+    build:
+      context: gateway/nginx
+      dockerfile: prod/Dockerfile
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./var/ssl:/etc/letsencrypt:r
+    depends_on:
+      - demo
+      - blog-nginx
+      - blog-api-nginx
+    ports:
+      - 80:80
+      - 443:443
+
+  certbot:
+    restart: "no"
+    image: certbot/certbot
+    volumes:
+      - ./var/ssl:/etc/letsencrypt:rw
+    command: >
+      certonly --webroot --webroot-path=/etc/letsencrypt/www 
+      --email ${SUPPORT_EMAIL} --agree-tos --no-eff-email 
+      --force-renewal -d ${DOMAIN} -v
+    #      --dry-run
+    #      --preferred-challenges dns
+    #      --force-renewal -d *.${DOMAIN} -v
+
+volumes:
+  blog-assets:
+    driver: local
+  blog-api-assets:
+    driver: local

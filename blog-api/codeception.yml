@@ -1,0 +1,24 @@
+namespace: App\Tests
+support_namespace: Support
+paths:
+  tests: tests
+  output: runtime/tests/_output
+  data: tests/Support/Data
+  support: tests/Support
+  envs: tests/Support/Envs
+actor_suffix: Tester
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+settings:
+  suite_class: \PHPUnit_Framework_TestSuite
+  memory_limit: 1024M
+  colors: true
+coverage:
+  enabled: true
+  whitelist:
+    include:
+      - src/*
+params:
+  - .env
+  - .env.test

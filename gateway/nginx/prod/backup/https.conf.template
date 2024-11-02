@@ -1,0 +1,94 @@
+server {
+    server_name ${DOMAIN};
+    listen 80;
+    server_tokens off;
+    error_log /var/log/nginx/error.log debug;
+
+    location /.well-known/acme-challenge/  {
+        alias /etc/letsencrypt/www/.well-known/acme-challenge/;
+    }
+
+    location /health {
+        add_header Content-Type text/plain;
+        access_log off;
+        return 200 'alive';
+    }
+
+    location / {
+        rewrite ^ https://$host$request_uri?; #permanent;
+    }
+}
+
+server {
+    server_name ${DOMAIN};
+    listen 443 ssl;
+    client_max_body_size 15m;
+    server_tokens off;
+    root /app/public;
+    resolver 127.0.0.11 ipv6=off;
+    error_log /var/log/nginx/error.log debug;
+
+    # add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+
+    ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    ssl_buffer_size 8k;
+    ssl_dhparam /etc/letsencrypt/dhparam/dhparam-2048.pem;
+    ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
+    ssl_ecdh_curve secp384r1;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    # To allow special characters in headers
+    ignore_invalid_headers off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied expired no-cache no-store private auth;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml;
+    gzip_disable "MSIE [1-6]\.";
+
+    location /.well-known/acme-challenge/  {
+        alias /etc/letsencrypt/www/.well-known/acme-challenge/;
+    }
+
+    location ~ ^/blog(/.*) {
+        set $upstream http://blog-nginx;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+
+    location ~ ^/blog-api(/.*) {
+        set $upstream http://blog-api-nginx;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+
+    location / {
+        set $upstream http://demo;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header Upgrade         $http_upgrade;
+        proxy_set_header Connection      "upgrade";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_pass       $upstream$1$is_args$args;
+    }
+}

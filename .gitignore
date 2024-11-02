@@ -7,24 +7,4 @@
 .settings
 Thumbs.db
 nbproject
-
-# Binaries
-chkipper.phar
-composer.phar
-ocular.phar
-php-cs-fixer.phar
-phpstan.phar
-phpunit-skelgen.phar
-phpunit.phar
-
-# local config
-/.env
-/docker-compose.override.yml
-
-# evolving files
-/vendor
-/composer.lock
-/node_modules
-
-# Codeception
-c3.php
+.env

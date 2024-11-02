@@ -1,0 +1,56 @@
+---
+- name: Install `docker` dependencies
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+    update_cache: yes
+
+- name: Add GPG key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Verify fingerprint
+  apt_key:
+    id: 0EBFCD88
+    state: present
+
+- name: Set up the repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+    state: present
+    filename: docker
+    update_cache: yes
+
+- name: Install `docker`
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: yes
+  notify: Start docker on boot
+
+- name: Install `docker-compose`
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+    dest: /usr/local/bin/docker-compose
+    group: docker
+    mode: 'u+x,g+x'
+
+- name: Set periodic Docker prune
+  cron:
+    name: docker-prune
+    job: 'docker system prune -af --filter "until=$((30*24))h"'
+    minute: '0'
+    hour: '1'
+
+- name: Remove useless packages
+  apt:
+    autoclean: yes
+
+- name: Remove useless dependencies
+  apt:
+    autoremove: yes
