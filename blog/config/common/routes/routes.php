@@ -30,7 +30,7 @@ use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Swagger\Middleware\SwaggerJson;
+use Yiisoft\Swagger\Action\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Yii\Middleware\CorsAllowAll;
 use Yiisoft\Yii\Middleware\HttpCache;
