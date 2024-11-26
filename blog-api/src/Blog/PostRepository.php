@@ -9,6 +9,9 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Transaction;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 
+/**
+ * @extends Select\Repository<Post>
+ */
 final class PostRepository extends Select\Repository
 {
     private ORMInterface $orm;
