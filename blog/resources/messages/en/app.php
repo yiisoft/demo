@@ -9,7 +9,7 @@ return [
     'gridview.profile' => 'Profile',
     'gridview.title' => 'List of users',
     'home.caption.slide1' => 'Hello, everyone!',
-    'home.caption.placeholder1' => 'A great day to try Yii 3, right?',
+    'home.caption.placeholder1' => 'A great day to try Yii3, right?',
     'home.caption.slide2' => 'Code awaits!',
     'home.caption.placeholder2' => 'Check the project code. It\'s not ideal since it\'s a development sandbox as well, but gives a so-so overview of Yii 3 capabilities.',
     'home.caption.slide3' => 'We need feedback!',
