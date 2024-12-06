@@ -18,7 +18,7 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\DataView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView;
-use Yiisoft\Yii\DataView\OffsetPagination;
+use Yiisoft\Yii\DataView\Pagination\OffsetPagination;
 
 /**
  * @var string                $csrf
@@ -135,7 +135,7 @@ $toolbar = Div::tag();
             ->paginator($paginator)
             ->render(),
     )
-    ->rowAttributes(['class' => 'align-middle'])
+    ->headerRowAttributes(['class' => 'align-middle'])
     ->summaryAttributes(['class' => 'summary text-end mb-5'])
     ->tableAttributes(['class' => 'table table-hover'])
     ->toolbar(
