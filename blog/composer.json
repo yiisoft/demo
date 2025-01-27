@@ -107,7 +107,7 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.18",
         "yiisoft/translator-extractor": "^2.0",
-        "yiisoft/yii-debug-viewer": "dev-master",
+        "yiisoft/yii-debug-viewer": "dev-new-toolbar",
         "yiisoft/yii-gii": "dev-master",
         "yiisoft/yii-testing": "dev-master"
     },
