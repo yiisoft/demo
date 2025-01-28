@@ -17,19 +17,19 @@ $this->setTitle('Home');
 echo Carousel::widget()
     ->captionTagName('h2')
     ->items(
-        new CarouselItem(
+        CarouselItem::to(
             Div::tag()->addAttributes(['style' => 'height: 200px'])->addClass('d-block w-100 bg-info'),
             $translator->translate('home.caption.slide1'),
             $translator->translate('home.caption.placeholder1'),
             captionAttributes: ['class' => ['d-none', 'd-md-block']],
         ),
-        new CarouselItem(
+        CarouselItem::to(
             Div::tag()->addAttributes(['style' => 'height: 200px'])->addClass('d-block w-100 bg-secondary'),
             $translator->translate('home.caption.slide2'),
             $translator->translate('home.caption.placeholder2'),
             captionAttributes: ['class' => ['d-none', 'd-md-block']],
         ),
-        new CarouselItem(
+        CarouselItem::to(
             Div::tag()->addAttributes(['style' => 'height: 200px'])->addClass('d-block w-100 bg-dark'),
             $translator->translate('home.caption.slide3'),
             $translator->translate('home.caption.placeholder3'),

@@ -33,4 +33,8 @@ return [
             '/inspect**',
         ],
     ],
+
+    'yiisoft/widget' => [
+        'defaultTheme' => 'bootstrap5',
+    ],
 ];

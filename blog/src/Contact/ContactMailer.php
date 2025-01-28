@@ -8,8 +8,9 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
-use Yiisoft\Mailer\MessageBodyTemplate;
+use Yiisoft\Mailer\Message;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\View\View;
 
 /**
  * ContactMailer sends an email from the contact form.
@@ -23,27 +24,24 @@ final class ContactMailer
         private string $sender,
         private string $to
     ) {
-        $this->mailer = $this->mailer->withTemplate(new MessageBodyTemplate(__DIR__ . '/mail/'));
     }
 
     public function send(ContactForm $form): void
     {
-        $message = $this->mailer
-            ->compose(
-                'contact-email',
-                [
-                    'content' => $form->getPropertyValue('body'),
-                ]
-            )
-            ->withSubject($form->getPropertyValue('subject'))
-            ->withFrom([$form->getPropertyValue('email') => $form->getPropertyValue('name')])
-            ->withSender($this->sender)
-            ->withTo($this->to);
+        $message = new Message(
+            from: [$form->getPropertyValue('email') => $form->getPropertyValue('name')],
+            to: $this->to,
+            subject: $form->getPropertyValue('subject'),
+            sender: $this->sender,
+            htmlBody: (new View())->render(__DIR__ . '/mail/contact-email.php', [
+                'content' => $form->getPropertyValue('body'),
+            ])
+        );
 
         foreach ($form->getPropertyValue('attachFiles') as $attachFile) {
             foreach ($attachFile as $file) {
                 if ($file[0]?->getError() === UPLOAD_ERR_OK) {
-                    $message = $message->withAttached(
+                    $message = $message->withAddedAttachments(
                         File::fromContent(
                             (string) $file->getStream(),
                             $file->getClientFilename(),

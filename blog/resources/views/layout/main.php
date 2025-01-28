@@ -11,11 +11,13 @@ use Yiisoft\Html\Tag\Button;
 use Yiisoft\Html\Tag\Form;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Strings\StringHelper;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
+use Yiisoft\Yii\Bootstrap5\Dropdown;
+use Yiisoft\Yii\Bootstrap5\DropdownItem;
 use Yiisoft\Yii\Bootstrap5\Nav;
 use Yiisoft\Yii\Bootstrap5\NavBar;
+use Yiisoft\Yii\Bootstrap5\NavLink;
 
 /**
  * @var UrlGeneratorInterface $urlGenerator
@@ -60,99 +62,87 @@ $this->beginPage();
         <?= NavBar::widget()
             ->brandText($brandLabel)
             ->brandUrl($urlGenerator->generate('site/index'))
-            ->options(['class' => 'navbar navbar-light bg-light navbar-expand-sm text-white'])
             ->begin() ?>
 
         <?= Nav::widget()
-            ->currentPath($currentRoute
-                ->getUri()
-                ->getPath())
-            ->options(['class' => 'navbar-nav mx-auto'])
+            ->addClass('navbar-nav mx-auto')
+            ->currentPath($currentRoute->getUri()->getPath())
             ->items(
-                [
-                    [
-                        'label' => $translator->translate('menu.blog'),
-                        'url' => $urlGenerator->generate('blog/index'),
-                        'active' => StringHelper::startsWith(
-                            $currentRouteName,
-                            'blog/'
-                        ) && $currentRouteName !== 'blog/comment/index',
-                    ],
-                    [
-                        'label' => $translator->translate('menu.comments-feed'),
-                        'url' => $urlGenerator->generate('blog/comment/index'),
-                    ],
-                    [
-                        'label' => $translator->translate('menu.users'),
-                        'url' => $urlGenerator->generate('user/index'),
-                        'active' => StringHelper::startsWith($currentRouteName, 'user/'),
-                    ],
-                    [
-                        'label' => $translator->translate('menu.contact'),
-                        'url' => $urlGenerator->generate('site/contact'),
-                    ],
-                    [
-                        'label' => $translator->translate('menu.swagger'),
-                        'url' => $urlGenerator->generate('swagger/index'),
-                    ],
-                ]
+                NavLink::to(
+                    $translator->translate('menu.blog'),
+                    $urlGenerator->generate('blog/index', ['_language' => $translator->getLocale()]),
+                ),
+                NavLink::to(
+                    $translator->translate('menu.comments-feed'),
+                    $urlGenerator->generate('blog/comment/index', ['_language' => $translator->getLocale()]),
+                ),
+                NavLink::to(
+                    $translator->translate('menu.users'),
+                    $urlGenerator->generate('user/index', ['_language' => $translator->getLocale()]),
+                ),
+                NavLink::to(
+                    $translator->translate('menu.contact'),
+                    $urlGenerator->generate('site/contact', ['_language' => $translator->getLocale()]),
+                ),
+                NavLink::to(
+                    $translator->translate('menu.swagger'),
+                    $urlGenerator->generate('swagger/index'),
+                ),
             ) ?>
 
         <?= Nav::widget()
-            ->currentPath($currentRoute
-                ->getUri()
-                ->getPath())
-            ->options(['class' => 'navbar-nav'])
+            ->currentPath($currentRoute->getUri()->getPath())
             ->items(
-                [
-                    [
-                        'label' => $translator->translate('menu.language'),
-                        'url' => '#',
-                        'items' => [
-                            [
-                                'label' => 'English',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
-                            ],
-                            [
-                                'label' => 'Русский',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
-                            ],
-                            [
-                                'label' => 'Slovenský',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
-                            ],
-                            [
-                                'label' => 'Indonesia',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
-                            ],
-                            [
-                                'label' => 'German',
-                                'url' => $urlGenerator->generateFromCurrent(['_language' => 'de'], fallbackRouteName: 'site/index'),
-                            ],
-                        ],
-                    ],
-                    [
-                        'label' => $translator->translate('menu.login'),
-                        'url' => $urlGenerator->generate('auth/login'),
-                        'visible' => $isGuest,
-                    ],
-                    [
-                        'label' => $translator->translate('menu.signup'),
-                        'url' => $urlGenerator->generate('auth/signup'),
-                        'visible' => $isGuest,
-                    ],
-                    $isGuest ? '' : Form::tag()
+                Dropdown::widget()
+                    ->items(
+                        DropdownItem::link(
+                            'English',
+                            $urlGenerator->generateFromCurrent(['_language' => 'en'], fallbackRouteName: 'site/index'),
+                        ),
+                        DropdownItem::link(
+                            'Русский',
+                            $urlGenerator->generateFromCurrent(['_language' => 'ru'], fallbackRouteName: 'site/index'),
+                        ),
+                        DropdownItem::link(
+                            'Slovenský',
+                            $urlGenerator->generateFromCurrent(['_language' => 'sk'], fallbackRouteName: 'site/index'),
+                        ),
+                        DropdownItem::link(
+                            'Indonesia',
+                            $urlGenerator->generateFromCurrent(['_language' => 'id'], fallbackRouteName: 'site/index'),
+                        ),
+                        DropdownItem::link(
+                            'German',
+                            $urlGenerator->generateFromCurrent(['_language' => 'de'], fallbackRouteName: 'site/index'),
+                        ),
+                    )
+                    ->toggleContent($translator->translate('menu.language')),
+                NavLink::to(
+                    $translator->translate('menu.login'),
+                    $urlGenerator->generate('auth/login'),
+                    visible: $isGuest,
+                ),
+                NavLink::to(
+                    $translator->translate('menu.signup'),
+                    $urlGenerator->generate('auth/signup'),
+                    visible: $isGuest,
+                ),
+                NavLink::to(
+                    $isGuest
+                        ? ''
+                        : Form::tag()
                             ->post($urlGenerator->generate('auth/logout'))
                             ->csrf($csrf)
                             ->open()
-                        . '<div class="mb-1">'
-                        . Button::submit(
-                            $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
-                        )
+                            . '<div class="mb-1">'
+                            . Button::submit(
+                                $translator->translate('menu.logout', ['login' => Html::encode($user->getLogin())])
+                            )
                             ->class('btn btn-primary')
-                        . '</div>'
-                        . Form::tag()->close(),
-                ],
+                            . '</div>'
+                            . Form::tag()->close(),
+                        encodeLabel: false,
+                ),
             ) ?>
         <?= NavBar::end() ?>
     </header>
