@@ -18,7 +18,6 @@ use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\DataView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView;
-use Yiisoft\Yii\DataView\Pagination\OffsetPagination;
 
 /**
  * @var string                $csrf
@@ -130,11 +129,6 @@ $toolbar = Div::tag();
     ->header($header)
     ->id('w1-grid')
     ->dataReader($paginator)
-    ->pagination(
-        OffsetPagination::widget()
-            ->paginator($paginator)
-            ->render(),
-    )
     ->headerRowAttributes(['class' => 'align-middle'])
     ->summaryAttributes(['class' => 'summary text-end mb-5'])
     ->tableAttributes(['class' => 'table table-hover'])

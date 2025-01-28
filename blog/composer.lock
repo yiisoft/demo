@@ -10040,12 +10040,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii-bootstrap5.git",
-                "reference": "0282f97f0f54db3cbcde2a886dabae3f1116ae1f"
+                "reference": "e164db2c619a55a02c757e49eb8106855e70b985"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii-bootstrap5/zipball/0282f97f0f54db3cbcde2a886dabae3f1116ae1f",
-                "reference": "0282f97f0f54db3cbcde2a886dabae3f1116ae1f",
+                "url": "https://api.github.com/repos/yiisoft/yii-bootstrap5/zipball/e164db2c619a55a02c757e49eb8106855e70b985",
+                "reference": "e164db2c619a55a02c757e49eb8106855e70b985",
                 "shasum": ""
             },
             "require": {
@@ -10109,7 +10109,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-01-21T19:59:57+00:00"
+            "time": "2025-01-28T11:11:03+00:00"
         },
         {
             "name": "yiisoft/yii-console",
