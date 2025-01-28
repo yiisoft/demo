@@ -33,7 +33,7 @@ final class ContactMailer
             to: $this->to,
             subject: $form->getPropertyValue('subject'),
             sender: $this->sender,
-            htmlBody: (new View())->render(__DIR__.'/mail/contact-email.php', [
+            htmlBody: (new View())->render(__DIR__ . '/mail/contact-email.php', [
                 'content' => $form->getPropertyValue('body'),
             ])
         );
