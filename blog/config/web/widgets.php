@@ -10,10 +10,10 @@ use Yiisoft\Yii\DataView\YiiRouter\UrlParameterProvider;
 return [
     GridView::class => [
         'urlParameterProvider()' => [
-            Reference::to(UrlParameterProvider::class)
+            Reference::to(UrlParameterProvider::class),
         ],
         'urlCreator()' => [
-            Reference::to(UrlCreator::class)
+            Reference::to(UrlCreator::class),
         ],
         'ignoreMissingPage()' => [true],
     ],
