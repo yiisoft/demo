@@ -11,6 +11,9 @@ use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 /** @var array $params */
 
 return [
+    \App\VersionProvider::class => [
+        'lazy' => true,
+    ],
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
             'dispatcher' => DynamicReference::to(static function (Injector $injector) use ($params) {
