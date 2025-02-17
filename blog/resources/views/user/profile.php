@@ -35,7 +35,7 @@ $title = Html::encode($this->getTitle());
             ->label($translator->translate('gridview.create.at'))
             ->value($item->getCreatedAt()->format('H:i:s d.m.Y')),
     )
-    ->header(H2::tag()->content("<strong>$title</strong>")->encode(false)->render())
+    ->header(H2::tag()->class('text-center')->content("<strong>$title</strong>")->encode(false)->render())
     ->itemTemplate("\n{label}\n{value}\n")
-    ->labelAttributes(['class' => 'col-sm-3'])
-    ->valueAttributes(['class' => 'col-sm-9']);
+    ->labelAttributes(['class' => 'col-sm-3 p-3 mb-2 text-lg-end'])
+    ->valueAttributes(['class' => 'col-sm-7 p-3 mb-2 bg-info-subtle text-info-emphasis']);
