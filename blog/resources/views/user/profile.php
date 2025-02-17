@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @var User $item
- * @var WebView $this
- * @var $translator TranslatorInterface
+ * @var \App\User\User $item
+ * @var \Yiisoft\View\WebView $this
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
  */
 
 use Yiisoft\Html\Html;
