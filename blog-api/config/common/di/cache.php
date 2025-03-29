@@ -7,6 +7,6 @@ use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\File\FileCache;
 
 return [
-    \Yiisoft\Cache\CacheInterface::class => Cache::class,
+    Yiisoft\Cache\CacheInterface::class => Cache::class,
     CacheInterface::class => FileCache::class,
 ];

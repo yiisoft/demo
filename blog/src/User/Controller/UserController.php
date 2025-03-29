@@ -35,7 +35,7 @@ final class UserController
             ->withOrderString($sortOrder ?? 'id'));
 
         if ($pageSize === null) {
-            $pageSize = (int) ($body['pageSize'] ?? OffSetPaginator::DEFAULT_PAGE_SIZE);
+            $pageSize = (int) ($body['pageSize'] ?? OffsetPaginator::DEFAULT_PAGE_SIZE);
         }
 
         $paginator = (new OffsetPaginator($dataReader));

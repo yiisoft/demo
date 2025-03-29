@@ -20,13 +20,13 @@ return [
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],
-    \Yiisoft\Yii\Middleware\Locale::class => [
+    Yiisoft\Yii\Middleware\Locale::class => [
         '__construct()' => [
             'supportedLocales' => $params['locale']['locales'],
             'ignoredRequestUrlPatterns' => $params['locale']['ignoredRequests'],
         ],
     ],
-    \Yiisoft\Yii\Middleware\Subfolder::class => [
+    Yiisoft\Yii\Middleware\Subfolder::class => [
         '__construct()' => [
             'prefix' => !empty(trim($_ENV['BASE_URL'] ?? '', '/')) ? $_ENV['BASE_URL'] : null,
         ],
