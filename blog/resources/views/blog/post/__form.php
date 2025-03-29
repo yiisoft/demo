@@ -13,11 +13,11 @@ declare(strict_types=1);
  * @var string                $title
  */
 
+use Yiisoft\Bootstrap5\Alert;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\View;
-use Yiisoft\Yii\Bootstrap5\Alert;
 
 if (!empty($errors)) {
     foreach ($errors as $field => $error) {

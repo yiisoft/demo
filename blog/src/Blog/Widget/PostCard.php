@@ -7,7 +7,7 @@ namespace App\Blog\Widget;
 use App\Blog\Entity\Post;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Yii\Bootstrap5\Widget;
+use Yiisoft\Widget\Widget;
 
 final class PostCard extends Widget
 {
