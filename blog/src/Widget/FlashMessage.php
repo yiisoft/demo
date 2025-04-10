@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Widget;
 
+use Yiisoft\Bootstrap5\Alert;
 use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\Widget\Widget;
-use Yiisoft\Yii\Bootstrap5\Alert;
 
 final class FlashMessage extends Widget
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Bootstrap5\Carousel;
+use Yiisoft\Bootstrap5\CarouselItem;
 use Yiisoft\Html\Tag\Div;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Bootstrap5\Carousel;
-use Yiisoft\Yii\Bootstrap5\CarouselItem;
 
 /**
  * @var TranslatorInterface $translator

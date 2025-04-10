@@ -6,6 +6,11 @@ use App\Asset\AppAsset;
 use App\User\User;
 use App\Widget\PerformanceMetrics;
 use Yiisoft\Assets\AssetManager;
+use Yiisoft\Bootstrap5\Dropdown;
+use Yiisoft\Bootstrap5\DropdownItem;
+use Yiisoft\Bootstrap5\Nav;
+use Yiisoft\Bootstrap5\NavBar;
+use Yiisoft\Bootstrap5\NavLink;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Button;
 use Yiisoft\Html\Tag\Form;
@@ -13,11 +18,6 @@ use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\Bootstrap5\Dropdown;
-use Yiisoft\Yii\Bootstrap5\DropdownItem;
-use Yiisoft\Yii\Bootstrap5\Nav;
-use Yiisoft\Yii\Bootstrap5\NavBar;
-use Yiisoft\Yii\Bootstrap5\NavLink;
 
 /**
  * @var UrlGeneratorInterface $urlGenerator
@@ -116,7 +116,7 @@ $this->beginPage();
                             $urlGenerator->generateFromCurrent(['_language' => 'de'], fallbackRouteName: 'site/index'),
                         ),
                     )
-                    ->toggleContent($translator->translate('menu.language')),
+                    ->togglerContent($translator->translate('menu.language')),
                 NavLink::to(
                     $translator->translate('menu.login'),
                     $urlGenerator->generate('auth/login'),
