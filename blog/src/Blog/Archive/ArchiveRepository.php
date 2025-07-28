@@ -21,6 +21,8 @@ use Yiisoft\Data\Reader\Sort;
 
 /**
  * This repository is not associated with Post entity.
+ *
+ * @extends Select\Repository<Post>
  */
 final class ArchiveRepository
 {
