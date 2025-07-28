@@ -11,7 +11,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\User\CurrentUser;
-use Yiisoft\Queue\QueueFactoryInterface;
+use Yiisoft\Queue\Provider\QueueProviderInterface as QueueFactoryInterface;
 
 final class UserService
 {

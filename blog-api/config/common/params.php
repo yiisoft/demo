@@ -6,11 +6,10 @@ use App\Queue\LoggingAuthorizationHandler;
 use Cycle\Database\Config\SQLite\FileConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Cycle\Schema\Provider\PhpFileSchemaProvider;
+use Cycle\Schema\Provider\SchemaProviderInterface;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Router\Middleware\Router;
-use Yiisoft\Yii\Cycle\Schema\Conveyor\AttributedSchemaConveyor;
 use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
-use Yiisoft\Yii\Cycle\Schema\SchemaProviderInterface;
 use Yiisoft\Yii\Middleware\Locale;
 use Yiisoft\Yii\Middleware\Subfolder;
 use Yiisoft\Queue\Adapter\SynchronousAdapter;
@@ -88,7 +87,7 @@ return [
         ],
 
         /**
-         * SchemaProvider list for {@see \Yiisoft\Yii\Cycle\Schema\Provider\Support\SchemaProviderPipeline}
+         * SchemaProvider list for {@see \Cycle\Schema\Provider\Support\SchemaProviderPipeline}
          * Array of classname and {@see SchemaProviderInterface} object.
          * You can configure providers if you pass classname as key and parameters as array:
          * [
@@ -123,14 +122,13 @@ return [
         ],
 
         /**
-         * Config for {@see \Yiisoft\Yii\Cycle\Schema\Conveyor\AnnotatedSchemaConveyor}
+         * Config for {@see \Yiisoft\Yii\Cycle\Schema\Conveyor\MetadataSchemaConveyor}
          * Annotated entity directories list.
          * {@see \Yiisoft\Aliases\Aliases} are also supported.
          */
         'entity-paths' => [
             '@src',
         ],
-        'conveyor' => AttributedSchemaConveyor::class,
     ],
     'yiisoft/yii-swagger' => [
         'annotation-paths' => [
@@ -142,7 +140,7 @@ return [
         'handlers' => [
             LoggingAuthorizationHandler::NAME => [LoggingAuthorizationHandler::class, 'handle'],
         ],
-        'channel-definitions' => [
+        'channels' => [
             LoggingAuthorizationHandler::CHANNEL => SynchronousAdapter::class,
         ],
     ],
