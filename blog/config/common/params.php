@@ -109,7 +109,7 @@ return [
         'dbal' => [
             // SQL query logger. Definition of Psr\Log\LoggerInterface
             // For example, \Yiisoft\Yii\Cycle\Logger\StdoutQueryLogger::class
-            'query-logging' => true,
+            'query-logger' => null,
             // Default database
             'default' => 'default',
             'aliases' => [],
