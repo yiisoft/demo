@@ -30,8 +30,8 @@ class Tag
     /**
      * @var PivotedCollection<array-key, Post, PostTag>
      */
-    #[ManyToMany(target: Post::class, though: PostTag::class, fkAction: 'CASCADE', indexCreate: false)]
-    private PivotedCollection $posts;
+    #[ManyToMany(Post::class, PostTag::class, fkAction: 'CASCADE', indexCreate: false)]
+    protected PivotedCollection $posts;
 
     public function __construct(string $label)
     {

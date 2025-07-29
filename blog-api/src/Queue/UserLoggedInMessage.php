@@ -41,4 +41,9 @@ final class UserLoggedInMessage implements MessageInterface
     {
         return [];
     }
+
+    public static function fromData(string $handlerName, mixed $data, array $metadata = []): MessageInterface
+    {
+        return new self(...$data);
+    }
 }

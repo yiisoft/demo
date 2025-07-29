@@ -33,10 +33,10 @@ return [
             ->middleware(FormatDataResponse::class)
             ->middleware(ExceptionMiddleware::class)
             ->middleware(RequestBodyParser::class)
-            ->addGroup(
+            ->addRoute(
                 Group::create('/{_language}')->routes(...$config->get('app-routes')),
             )
-            ->addGroup(
+            ->addRoute(
                 Group::create()->routes(...$config->get('routes')),
             );
 

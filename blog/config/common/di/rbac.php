@@ -15,13 +15,13 @@ return [
     ItemsStorageInterface::class => [
         'class' => ItemsStorage::class,
         '__construct()' => [
-            'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
+            'filePath' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac' . DIRECTORY_SEPARATOR . 'items.php',
         ],
     ],
     AssignmentsStorageInterface::class => [
         'class' => AssignmentsStorage::class,
         '__construct()' => [
-            'directory' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
+            'filePath' => $params['yiisoft/aliases']['aliases']['@root'] . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'rbac',
         ],
     ],
     AccessCheckerInterface::class => Manager::class,

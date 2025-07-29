@@ -12,6 +12,7 @@ use MyCLabs\Enum\Enum;
  * @method static PostStatus DELETED()
  *
  * @psalm-immutable
+ * @template-extends Enum<int>
  */
 final class PostStatus extends Enum
 {

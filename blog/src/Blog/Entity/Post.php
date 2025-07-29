@@ -63,7 +63,7 @@ class Post
     /**
      * @var PivotedCollection<array-key, Tag, PostTag>
      */
-    #[ManyToMany(target: Tag::class, though: PostTag::class, fkAction: 'CASCADE')]
+    #[ManyToMany(Tag::class, PostTag::class, fkAction: 'CASCADE')]
     private PivotedCollection $tags;
 
     /**

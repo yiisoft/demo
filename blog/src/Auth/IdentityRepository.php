@@ -9,6 +9,9 @@ use Throwable;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
 
+/**
+ * @extends Select\Repository<Identity>
+ */
 final class IdentityRepository extends Select\Repository implements IdentityRepositoryInterface
 {
     public function __construct(private EntityWriter $entityWriter, Select $select)

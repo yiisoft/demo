@@ -13,6 +13,9 @@ use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Reader\Sort;
 
+/**
+ * @extends Select\Repository<User>
+ */
 final class UserRepository extends Select\Repository implements IdentityWithTokenRepositoryInterface, IdentityRepositoryInterface
 {
     public function __construct(
