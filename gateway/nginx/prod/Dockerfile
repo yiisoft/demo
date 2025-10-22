@@ -1,4 +1,4 @@
-FROM nginx:1.21.1-alpine AS nginx
+FROM nginx:1.26.3-alpine AS nginx
 
 RUN apk add --no-cache curl nano
 
