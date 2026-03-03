@@ -1,3 +1,16 @@
+<p align="center">
+    <b>
+        This demo is abandoned and will not be updated anymore.
+        <br>
+        See actual demo applications <a href="https://yiisoft.github.io/docs/guide/start/demo-apps.html">here</a>.
+    </b>
+</p>
+<p align="center">
+    ❌
+</p>
+
+---
+
 Yii 3 Demo Code
 ===============
 
