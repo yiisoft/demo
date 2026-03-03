@@ -1,4 +1,17 @@
 <p align="center">
+    <b>
+        This demo is abandoned and will not be updated anymore.
+        <br>
+        See actual demo applications <a href="https://yiisoft.github.io/docs/guide/start/demo-apps.html">here</a>.
+    </b>
+</p>
+<p align="center">
+    ❌
+</p>
+
+---
+
+<p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
