@@ -4,7 +4,7 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-FROM php:8.1-fpm-alpine as stage
+FROM php:8.4.13RC1-fpm-alpine as stage
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
