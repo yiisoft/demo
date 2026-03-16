@@ -1,0 +1,47 @@
+# Rich config example you may look at here
+# https://github.com/roadrunner-server/roadrunner/blob/master/.rr.yaml
+
+rpc:
+  listen: tcp://0.0.0.0:6001
+
+server:
+  command: "php -dxdebug.mode=debug public/index.php"
+  # command: "php public/index.php"
+
+http:
+  address: 0.0.0.0:8080
+  middleware: [ "static", "gzip" ]
+  pool:
+    num_workers: 2
+  uploads:
+    forbid: [ ".php", ".exe", ".bat" ]
+  static:
+    dir: "public"
+    forbid: [ ".php", ".htaccess" ]
+
+temporal:
+  address: 0.0.0.0:7233
+  activities:
+    num_workers: 5
+
+logs:
+  mode: development
+  channels:
+    http:
+      level: debug # Log all http requests, set to info to disable
+    server:
+      level: info # Everything written to worker stderr is logged
+      mode: raw
+    metrics:
+      level: debug
+    temporal:
+      level: info
+
+reload:
+  enabled: true
+  interval: 1s
+  patterns: [".php", ".yaml"]
+  services:
+    http:
+      dirs: ["."]
+      recursive: true
